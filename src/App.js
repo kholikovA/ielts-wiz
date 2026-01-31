@@ -101,6 +101,207 @@ const AuthProvider = ({ children }) => {
   );
 };
 
+// ==================== CUSTOM AUDIO PLAYER ====================
+const AudioPlayer = ({ testId }) => {
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+  const [playbackRate, setPlaybackRate] = useState(1);
+  const [showSpeedMenu, setShowSpeedMenu] = useState(false);
+  const [volume, setVolume] = useState(1);
+  const [showVolumeSlider, setShowVolumeSlider] = useState(false);
+  const audioRef = useRef(null);
+
+  const audioUrl = `https://kholikova.github.io/80-listening-audios/TEST%20${testId}.mp3`;
+  const speeds = [0.5, 0.75, 1, 1.25, 1.5, 2];
+
+  const togglePlay = () => {
+    if (isPlaying) {
+      audioRef.current.pause();
+    } else {
+      audioRef.current.play();
+    }
+    setIsPlaying(!isPlaying);
+  };
+
+  const handleTimeUpdate = () => {
+    setCurrentTime(audioRef.current.currentTime);
+  };
+
+  const handleLoadedMetadata = () => {
+    setDuration(audioRef.current.duration);
+  };
+
+  const handleSeek = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const percent = (e.clientX - rect.left) / rect.width;
+    const newTime = percent * duration;
+    audioRef.current.currentTime = newTime;
+    setCurrentTime(newTime);
+  };
+
+  const changeSpeed = (speed) => {
+    audioRef.current.playbackRate = speed;
+    setPlaybackRate(speed);
+    setShowSpeedMenu(false);
+  };
+
+  const formatTime = (time) => {
+    if (isNaN(time)) return '0:00';
+    const mins = Math.floor(time / 60);
+    const secs = Math.floor(time % 60);
+    return `${mins}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const progressPercent = duration ? (currentTime / duration) * 100 : 0;
+
+  return (
+    <div style={{
+      padding: '1.25rem 1.5rem',
+      borderRadius: '16px',
+      background: 'linear-gradient(135deg, var(--purple-600), var(--purple-700))',
+      marginBottom: '1.5rem',
+    }}>
+      <audio
+        ref={audioRef}
+        src={audioUrl}
+        onTimeUpdate={handleTimeUpdate}
+        onLoadedMetadata={handleLoadedMetadata}
+        onEnded={() => setIsPlaying(false)}
+        controlsList="nodownload nofullscreen noremoteplayback"
+        preload="metadata"
+        style={{ display: 'none' }}
+      />
+      
+      <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+        {/* Play/Pause Button */}
+        <button
+          onClick={togglePlay}
+          style={{
+            width: '48px',
+            height: '48px',
+            borderRadius: '50%',
+            border: 'none',
+            background: 'rgba(255,255,255,0.2)',
+            color: 'white',
+            cursor: 'pointer',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            fontSize: '1.25rem',
+            flexShrink: 0,
+          }}
+        >
+          {isPlaying ? '⏸' : '▶'}
+        </button>
+
+        {/* Time & Progress */}
+        <div style={{ flex: 1 }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
+            <span style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.9)', minWidth: '45px' }}>
+              {formatTime(currentTime)}
+            </span>
+            
+            {/* Progress Bar */}
+            <div
+              onClick={handleSeek}
+              style={{
+                flex: 1,
+                height: '6px',
+                background: 'rgba(255,255,255,0.3)',
+                borderRadius: '3px',
+                cursor: 'pointer',
+                position: 'relative',
+              }}
+            >
+              <div style={{
+                width: `${progressPercent}%`,
+                height: '100%',
+                background: 'white',
+                borderRadius: '3px',
+                transition: 'width 0.1s linear',
+              }} />
+              <div style={{
+                position: 'absolute',
+                left: `${progressPercent}%`,
+                top: '50%',
+                transform: 'translate(-50%, -50%)',
+                width: '14px',
+                height: '14px',
+                background: 'white',
+                borderRadius: '50%',
+                boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
+              }} />
+            </div>
+            
+            <span style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.9)', minWidth: '45px', textAlign: 'right' }}>
+              {formatTime(duration)}
+            </span>
+          </div>
+        </div>
+
+        {/* Speed Control */}
+        <div style={{ position: 'relative' }}>
+          <button
+            onClick={() => setShowSpeedMenu(!showSpeedMenu)}
+            style={{
+              padding: '0.4rem 0.75rem',
+              borderRadius: '8px',
+              border: '1px solid rgba(255,255,255,0.3)',
+              background: 'rgba(255,255,255,0.1)',
+              color: 'white',
+              cursor: 'pointer',
+              fontSize: '0.8rem',
+              fontWeight: '600',
+            }}
+          >
+            {playbackRate}x
+          </button>
+          
+          {showSpeedMenu && (
+            <div style={{
+              position: 'absolute',
+              bottom: '100%',
+              right: 0,
+              marginBottom: '0.5rem',
+              background: 'var(--card-bg)',
+              borderRadius: '10px',
+              border: '1px solid var(--border-color)',
+              overflow: 'hidden',
+              boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
+              zIndex: 10,
+            }}>
+              {speeds.map(speed => (
+                <button
+                  key={speed}
+                  onClick={() => changeSpeed(speed)}
+                  style={{
+                    display: 'block',
+                    width: '100%',
+                    padding: '0.5rem 1rem',
+                    border: 'none',
+                    background: playbackRate === speed ? 'var(--purple-600)' : 'transparent',
+                    color: playbackRate === speed ? 'white' : 'var(--text-primary)',
+                    cursor: 'pointer',
+                    fontSize: '0.85rem',
+                    textAlign: 'left',
+                  }}
+                >
+                  {speed}x
+                </button>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+      
+      <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.7)', marginTop: '0.75rem', textAlign: 'center' }}>
+        🎧 Listen carefully – you will hear the recording only once in the real test
+      </p>
+    </div>
+  );
+};
+
 // ==================== TOOLTIP COMPONENT ====================
 const Vocab = ({ word, meaning, children }) => {
   const [show, setShow] = useState(false);
@@ -168,6 +369,334 @@ const Vocab = ({ word, meaning, children }) => {
       )}
     </span>
   );
+};
+
+// ==================== VOCABULARY DEFINITIONS ====================
+const vocabDefinitions = {
+  // Part 2 & 3 vocabulary - High-band expressions
+  "adaptability": "ability to adjust to new conditions",
+  "digital literacy": "skills needed to use digital technology",
+  "paramount": "more important than anything else",
+  "pivot": "change direction or strategy",
+  "replicate": "copy or reproduce exactly",
+  "psychological barriers": "mental obstacles that limit progress",
+  "fixed mindsets": "beliefs that abilities cannot change",
+  "hands-on approaches": "practical, active learning methods",
+  "disconnect": "a lack of connection between things",
+  "prioritise": "treat something as most important",
+  "self-directed": "managed by oneself without external control",
+  "motivated learners": "people eager to learn",
+  "foundational knowledge": "basic understanding of a subject",
+  "deepen expertise": "increase one's knowledge level",
+  "extroverts": "outgoing, socially energetic people",
+  "introverts": "people who prefer solitary activities",
+  "tolerance": "ability to accept something difficult",
+  "decentralisation": "distributing power away from central point",
+  "vertical expansion": "building upwards, adding height",
+  "pedestrian": "relating to people walking",
+  "elevates stress hormones": "increases chemicals causing anxiety",
+  "coping mechanisms": "strategies for dealing with difficulties",
+  "per capita": "for each person; per individual",
+  "carbon footprint": "total greenhouse gas emissions",
+  "intrinsic": "belonging naturally; essential",
+  "extrinsic motivations": "external rewards driving behaviour",
+  "social capital": "networks and relationships that benefit people",
+  "contentious": "causing disagreement or argument",
+  "safety nets": "systems protecting against hardship",
+  "empowerment": "giving someone confidence or power",
+  "self-sufficiency": "ability to provide for oneself",
+  "moral development": "growth of ethical understanding",
+  "slacktivism": "supporting causes through minimal effort online",
+  "sustained engagement": "continued focused attention",
+  "fragmented": "broken into small parts",
+  "consumption": "the act of using or receiving",
+  "comprehension": "understanding of something",
+  "retention": "ability to remember information",
+  "tactile experience": "relating to the sense of touch",
+  "modelling": "demonstrating behaviour for others to copy",
+  "autonomy": "freedom to make own choices",
+  "evolve": "develop gradually over time",
+  "experiential": "based on experience rather than theory",
+  "curation": "careful selection and organization",
+  "correlated": "having a connection or relationship",
+  "persist": "continue despite difficulties",
+  "subjective": "based on personal feelings or opinions",
+  "perpetually": "constantly; continuously",
+  "dissatisfied": "not content or happy",
+  "defer gratification": "delay reward for better outcome",
+  "fixating": "focusing obsessively on something",
+  "drawn to": "attracted to or interested in something",
+  "qualified instructor": "a person with official credentials to teach",
+  "invaluable": "extremely useful; indispensable",
+  "extravagant": "excessive or expensive beyond necessity",
+  "weighted keys": "piano keys that simulate the feel of real piano",
+  "simultaneously": "at the same time",
+  "demanding": "requiring much skill or effort",
+  "consistent": "regular and unchanging in practice",
+  "personal fulfilment": "a sense of satisfaction from achieving goals",
+  "decompress": "relax and relieve stress",
+  "in hindsight": "looking back at a past event with new understanding",
+  "covered market": "a market with a roof over the stalls",
+  "weave between": "move in and out among things",
+  "haggling": "negotiating a price with a seller",
+  "enthusiastically": "with great excitement and interest",
+  "negotiating": "discussing to reach an agreement",
+  "claustrophobic": "uncomfortably enclosed or crowded",
+  "exhilarating": "making one feel very happy and excited",
+  "immersed": "deeply involved or absorbed in something",
+  "infectious": "spreading easily to others (of emotions)",
+  "authenticity": "the quality of being genuine or real",
+  "sanitised": "made overly clean or artificially safe",
+  "harsh cold spell": "a period of extremely cold weather",
+  "distressed": "suffering from anxiety or pain",
+  "jammed": "stuck and unable to move",
+  "gentle persuasion": "soft encouragement without force",
+  "navigating the bureaucracy": "dealing with complex official procedures",
+  "commit to": "dedicate oneself to something",
+  "accompanied": "went somewhere with someone",
+  "sorted properly": "organized or dealt with correctly",
+  "token of appreciation": "a small gift showing gratitude",
+  "conscious of": "aware of something",
+  "profound impact": "a deep and significant effect",
+  "introspective": "examining one's own thoughts and feelings",
+  "traces": "follows the history or development of",
+  "through the lens of": "from the perspective of",
+  "cognitive revolution": "a major change in human thinking ability",
+  "take for granted": "fail to appreciate something properly",
+  "shared fictions": "collective beliefs or stories",
+  "large-scale cooperation": "working together in big groups",
+  "sparked": "started or triggered",
+  "zoom out": "look at something from a broader perspective",
+  "fundamentally": "at the most basic level",
+  "sedentary": "involving much sitting and little exercise",
+  "concerning indicators": "worrying signs or symptoms",
+  "cardiovascular": "relating to the heart and blood vessels",
+  "concrete": "specific and definite; not vague",
+  "methodical": "done in a systematic, organized way",
+  "mileage": "distance traveled, especially running",
+  "accountability": "responsibility for one's actions",
+  "overhauling": "thoroughly examining and improving",
+  "off guard": "unprepared or surprised",
+  "self-efficacy": "belief in one's ability to succeed",
+  "spilled over": "extended beyond the original area",
+  "enrolled": "officially registered for a course",
+  "infectious passion": "enthusiasm that spreads to others",
+  "fieldwork": "practical research done outside a lab",
+  "evident concern": "clearly visible worry",
+  "translate into": "result in or lead to",
+  "coordinated": "organized and working together",
+  "compelled": "felt strongly urged to do something",
+  "transformative": "causing a major change",
+  "tangible": "real and measurable; concrete",
+  "invasive plants": "non-native plants that spread harmfully",
+  "ripple effects": "consequences that spread outward",
+  "first-choice": "preferred above all other options",
+  "outstanding reputation": "an excellent public image",
+  "world-class": "among the best in the world",
+  "aligned with": "matching or agreeing with",
+  "mundane": "ordinary and lacking excitement",
+  "pop up": "appear suddenly or unexpectedly",
+  "trembling": "shaking, usually from emotion",
+  "sank in": "became fully understood or realized",
+  "elation": "great happiness and excitement",
+  "gruelling": "extremely tiring and demanding",
+  "amplified": "increased or made stronger",
+  "trajectory": "the path or direction of development",
+  "long-haul flight": "a flight covering a great distance",
+  "polite small talk": "light, casual conversation",
+  "captivating": "holding attention completely",
+  "relocated": "moved to a new place",
+  "remarkable clarity": "unusual clearness of thought",
+  "bitterness": "feelings of anger and resentment",
+  "resilience": "ability to recover from difficulties",
+  "dramatically": "in a sudden and striking way",
+  "vivid pictures": "clear and detailed mental images",
+  "immediate": "happening without delay",
+  "optimistic outlook": "a positive view of the future",
+  "openness": "willingness to accept new ideas",
+  "wholeheartedly": "with complete enthusiasm",
+  "renowned": "famous and respected",
+  "breathtaking": "astonishing or awe-inspiring",
+  "stunning": "extremely beautiful or impressive",
+  "magnificent": "impressively beautiful or grand",
+  "necropolis": "a large ancient cemetery",
+  "mausoleum": "a building housing a tomb",
+  "vibrant": "full of energy and life",
+  "authentic": "genuine and original",
+  "craftsmanship": "skill in making things by hand",
+  "undiscovered": "not yet found or known about",
+  "unforgettable": "impossible to forget",
+  "rivals": "matches or equals in quality",
+  "financing": "providing money for something",
+  "conscious decision": "a deliberate, intentional choice",
+  "postpone": "delay to a later time",
+  "diligently": "with careful and persistent effort",
+  "outright": "completely and immediately",
+  "burdened": "weighed down by problems",
+  "non-negotiable": "not open to discussion or change",
+  "tested my patience": "made it hard to stay calm",
+  "decline": "politely refuse",
+  "dealership": "a business selling vehicles",
+  "delayed gratification": "waiting for a reward instead of getting it immediately",
+  "collared shirt": "a shirt with a folded collar",
+  "emblem embroidered": "a symbol sewn onto fabric",
+  "breast pocket": "a pocket on the chest of a shirt",
+  "prohibited": "officially forbidden",
+  "ritual": "a routine or ceremony",
+  "spot checks": "random inspections",
+  "detentions": "punishments requiring staying after school",
+  "violations": "actions breaking rules",
+  "adolescence": "the period of teenage years",
+  "resenting": "feeling bitter about",
+  "rigid": "strict and inflexible",
+  "merits": "advantages or good qualities",
+  "suppress": "hold back or restrain",
+  "portable": "easily carried or moved",
+  "sophisticated": "highly developed and complex",
+  "revolutionary": "involving dramatic change",
+  "integration": "combining into a single system",
+  "condensed": "made shorter or more compact",
+  "far-reaching": "having widespread effects",
+  "instantaneous": "happening immediately",
+  "unprecedented": "never happened before",
+  "democratised": "made available to everyone",
+  "legitimate concerns": "valid worries",
+  "erosion": "gradual destruction or weakening",
+  "significant": "important and meaningful",
+  "assigned seats": "places given to specific people",
+  "struck by": "impressed or surprised by",
+  "gradually": "slowly over time",
+  "inseparable": "unable to be separated",
+  "elaborate": "detailed and complex",
+  "makeshift": "temporary and improvised",
+  "fascination": "intense interest",
+  "crucial": "extremely important",
+  "resolve conflicts": "settle disagreements",
+  "unwavering": "steady and unchanging",
+  "formative": "having a lasting influence on development",
+  "stable": "not likely to change",
+  "progression opportunities": "chances for advancement",
+  "stifled": "held back or restricted",
+  "unfulfilled": "not satisfied or completed",
+  "portfolio": "a collection of work samples",
+  "leap": "a big, risky move",
+  "minimal obligations": "few responsibilities",
+  "sporadic": "occurring irregularly",
+  "relentlessly": "without stopping or giving up",
+  "exceeded expectations": "performed better than expected",
+  "calculated": "carefully planned",
+  "leaps of faith": "acts of trust despite uncertainty",
+  "undertook": "took on or committed to",
+  "paediatric ward": "hospital section for children",
+  "undertaking": "a task or project",
+  "coordinate": "organize and bring together",
+  "permits": "official permissions",
+  "secure sponsorships": "obtain financial support",
+  "pull it off": "succeed in doing something difficult",
+  "atmosphere": "the mood or feeling of a place",
+  "meaningful cause": "a purpose that matters",
+  "delegate": "assign tasks to others",
+  "inspire": "motivate or encourage",
+  "gratifying": "giving satisfaction",
+  "pharmaceutical": "relating to medicines",
+  "vague understanding": "unclear or incomplete knowledge",
+  "jumped at the opportunity": "eagerly accepted a chance",
+  "strict security protocols": "rigid safety procedures",
+  "donning": "putting on clothing",
+  "high-tech equipment": "advanced technological devices",
+  "sterile rooms": "completely clean, germ-free spaces",
+  "controlled conditions": "carefully managed environments",
+  "drug delivery systems": "methods of administering medicine",
+  "commanding respect": "inspiring admiration",
+  "newfound appreciation": "recently developed gratitude",
+  "subsequently": "afterwards; as a result",
+  "renowned primatologist": "famous expert on primates",
+  "groundbreaking research": "innovative, pioneering study",
+  "advocating": "publicly supporting a cause",
+  "youth empowerment": "enabling young people to act",
+  "community-centred": "focused on local communities",
+  "holistic approach": "considering all aspects together",
+  "legendary": "famous and admired",
+  "persistence": "continuing despite difficulties",
+  "scepticism": "doubt or questioning attitude",
+  "absorb": "take in and understand fully",
+  "rigorous": "extremely thorough and careful",
+  "mutually exclusive": "cannot exist together",
+  "embodies": "represents or expresses",
+  "resonates": "has meaning or importance",
+  "escape room": "a game where players solve puzzles to exit",
+  "team-building": "activities to improve group cooperation",
+  "interconnected puzzles": "puzzles that link together",
+  "fictional": "imaginary; not real",
+  "hierarchy": "a ranking system",
+  "dissolved": "disappeared or broke down",
+  "spotting hidden patterns": "noticing concealed connections",
+  "step back": "pause to get perspective",
+  "to spare": "remaining; left over",
+  "revealed": "showed or uncovered",
+  "team dynamics": "how a group works together",
+  "inside jokes": "humor understood only by a group",
+  "formal": "official and serious",
+  "substantial": "large and significant",
+  "monetary gift": "a gift of money",
+  "cheque": "a written order to pay money",
+  "transition into": "change or move into",
+  "deliberated": "thought carefully about",
+  "instinct": "natural, automatic response",
+  "portion": "a part of something",
+  "reasoned": "thought logically about",
+  "set aside": "save for later use",
+  "emergency fund": "money saved for unexpected costs",
+  "impractical": "not sensible or realistic",
+  "tremendously": "extremely; greatly",
+  "empowered": "given confidence or power",
+  "hesitant": "uncertain or reluctant",
+  "conservative": "traditional; resistant to change",
+  "off-putting": "unpleasant or discouraging",
+  "culturally closed-minded": "unwilling to accept other cultures",
+  "intimate establishment": "a small, cozy place",
+  "remarkable precision": "exceptional accuracy",
+  "melted on my tongue": "was extremely tender and delicious",
+  "delicate": "subtle and refined",
+  "complemented": "went well together with",
+  "associated with": "connected to or linked with",
+  "preconceived notions": "opinions formed beforehand",
+  "consumed": "completely occupied or absorbed",
+  "scale models": "small replicas built to proportion",
+  "assembly": "putting parts together",
+  "converted": "changed into something different",
+  "dedicated workbench": "a special table for a hobby",
+  "absorbed": "deeply focused and engaged",
+  "meticulous": "extremely careful and precise",
+  "genuine accomplishment": "a real achievement",
+  "one-on-one time": "personal time with someone",
+  "fondest memories": "most cherished recollections",
+  "laid the foundation": "created the basis for",
+  "nostalgic": "feeling sentimental about the past",
+};
+
+// Helper function to highlight vocabulary words in text
+const HighlightedAnswer = ({ text, vocabList }) => {
+  if (!vocabList || vocabList.length === 0) return text;
+  
+  // Create regex pattern from vocab list (escape special characters)
+  const escapeRegex = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const pattern = vocabList
+    .sort((a, b) => b.length - a.length) // Sort by length (longest first) to match longer phrases first
+    .map(escapeRegex)
+    .join('|');
+  
+  const regex = new RegExp(`(${pattern})`, 'gi');
+  const parts = text.split(regex);
+  
+  return parts.map((part, i) => {
+    const lowerPart = part.toLowerCase();
+    const matchedVocab = vocabList.find(v => v.toLowerCase() === lowerPart);
+    if (matchedVocab && vocabDefinitions[matchedVocab.toLowerCase()]) {
+      return <Vocab key={i} word={matchedVocab} meaning={vocabDefinitions[matchedVocab.toLowerCase()]}>{part}</Vocab>;
+    }
+    return part;
+  });
 };
 
 // ==================== SPEAKING QUESTIONS DATA (Jan-Aug 2026) ====================
@@ -2283,21 +2812,11 @@ const SpeakingPage = ({ subPage, setSubPage }) => {
                         <div style={{ padding: '1.25rem', borderRadius: '12px', background: 'var(--answer-bg)', border: '1px solid var(--purple-500-30)' }}>
                           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
                             <span style={{ padding: '0.2rem 0.5rem', borderRadius: '4px', background: 'linear-gradient(135deg, #fbbf24, #f59e0b)', fontSize: '0.7rem', fontWeight: '700', color: '#1a1a1a' }}>BAND 9</span>
-                            <span style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)' }}>Sample Answer (1-2 minutes)</span>
+                            <span style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)' }}>Sample Answer (1-2 minutes) • Hover highlighted words for definitions</span>
                           </div>
-                          <p style={{ fontSize: '0.95rem', lineHeight: '1.9', color: 'var(--text-primary)', whiteSpace: 'pre-line' }}>{topic.answer}</p>
-                          
-                          {/* Key Vocabulary */}
-                          {topic.keyVocab && (
-                            <div style={{ marginTop: '1.25rem', paddingTop: '1rem', borderTop: '1px solid var(--border-color)' }}>
-                              <p style={{ fontSize: '0.85rem', fontWeight: '600', color: 'var(--purple-400)', marginBottom: '0.5rem' }}>🔤 Key Vocabulary:</p>
-                              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.375rem' }}>
-                                {topic.keyVocab.slice(0, 12).map((word, i) => (
-                                  <span key={i} style={{ padding: '0.25rem 0.625rem', borderRadius: '6px', background: 'var(--purple-600-20)', fontSize: '0.8rem', color: 'var(--purple-300)' }}>{word}</span>
-                                ))}
-                              </div>
-                            </div>
-                          )}
+                          <p style={{ fontSize: '0.95rem', lineHeight: '1.9', color: 'var(--text-primary)' }}>
+                            <HighlightedAnswer text={topic.answer} vocabList={topic.keyVocab} />
+                          </p>
                         </div>
                       )}
 
@@ -2355,9 +2874,11 @@ const SpeakingPage = ({ subPage, setSubPage }) => {
                             <div style={{ marginTop: '1rem', padding: '1.25rem', borderRadius: '12px', background: 'var(--answer-bg)', border: '1px solid var(--purple-500-30)' }}>
                               <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
                                 <span style={{ padding: '0.2rem 0.5rem', borderRadius: '4px', background: 'linear-gradient(135deg, #fbbf24, #f59e0b)', fontSize: '0.7rem', fontWeight: '700', color: '#1a1a1a' }}>BAND 9</span>
-                                <span style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)' }}>Sample Answer (20-30 seconds)</span>
+                                <span style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)' }}>Sample Answer (20-30 seconds) • Hover highlighted words for definitions</span>
                               </div>
-                              <p style={{ fontSize: '0.95rem', lineHeight: '1.9', color: 'var(--text-primary)' }}>{item.answer}</p>
+                              <p style={{ fontSize: '0.95rem', lineHeight: '1.9', color: 'var(--text-primary)' }}>
+                                <HighlightedAnswer text={item.answer} vocabList={Object.keys(vocabDefinitions)} />
+                              </p>
                             </div>
                           )}
                         </div>
@@ -3022,7 +3543,7 @@ const listeningTestsData = {
     },
     {
       id: 5,
-      title: "City Transport Lost Property Enquiry",
+      title: "City Transport Lost Property",
       questions: [
         { num: 1, type: "fill", text: "Description of main item: black with thin _______ stripes", instruction: "Write ONE WORD AND/OR A NUMBER" },
         { num: 2, type: "fill", text: "Other items: a set of _______ keys", instruction: "Write ONE WORD AND/OR A NUMBER" },
@@ -3036,25 +3557,88 @@ const listeningTestsData = {
         { num: 10, type: "fill", text: "Phone number: _______", instruction: "Write ONE WORD AND/OR A NUMBER" },
       ]
     },
-    { id: 6, title: "Accommodation Form: Rental Properties", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Complete the notes" })) },
-    { id: 7, title: "Hostel Accommodation in Darwin", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Complete the notes" })) },
-    { id: 8, title: "Hilary Lodge Retirement Home", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Complete the notes" })) },
-    { id: 9, title: "Transport from Airport to Milton", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Complete the notes" })) },
-    { id: 10, title: "Car Insurance", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Complete the notes" })) },
-    { id: 11, title: "Test 11", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Complete the notes" })) },
-    { id: 12, title: "Test 12", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Complete the notes" })) },
-    { id: 13, title: "Test 13", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Complete the notes" })) },
-    { id: 14, title: "Test 14", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Complete the notes" })) },
-    { id: 15, title: "Test 15", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Complete the notes" })) },
-    { id: 16, title: "Test 16", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Complete the notes" })) },
-    { id: 17, title: "Test 17", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Complete the notes" })) },
-    { id: 18, title: "Test 18", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Complete the notes" })) },
-    { id: 19, title: "Test 19", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Complete the notes" })) },
-    { id: 20, title: "Test 20", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Complete the notes" })) },
+    { id: 6, title: "Accommodation Form: Rental Properties", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD AND/OR A NUMBER" })) },
+    { id: 7, title: "Hostel Accommodation in Darwin", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD AND/OR A NUMBER" })) },
+    { id: 8, title: "Hilary Lodge Retirement Home", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN TWO WORDS" })) },
+    { id: 9, title: "Transport from Airport to Milton", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD AND/OR A NUMBER" })) },
+    { id: 10, title: "Car Insurance", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD AND/OR A NUMBER" })) },
+    { id: 11, title: "Holiday Rental Enquiry", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD AND/OR A NUMBER" })) },
+    { id: 12, title: "Homestay Application", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD AND/OR A NUMBER" })) },
+    { id: 13, title: "Hotel Booking", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD AND/OR A NUMBER" })) },
+    { id: 14, title: "Total Insurance Incident Report", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN THREE WORDS" })) },
+    { id: 15, title: "Rented Properties Requirements", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD AND/OR A NUMBER" })) },
+    { id: 16, title: "West Bay Hotel Job", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN TWO WORDS" })) },
+    { id: 17, title: "Restaurant Job Enquiry", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN THREE WORDS" })) },
+    { id: 18, title: "Student Accommodation Form", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD AND/OR A NUMBER" })) },
+    { id: 19, title: "Holiday Apartments Comparison", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD AND/OR A NUMBER" })) },
+    { id: 20, title: "Health Centres Information", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD ONLY" })) },
   ],
-  part2: Array(20).fill(null).map((_, i) => ({ id: i+21, title: `Test ${i+21}`, questions: Array(10).fill(null).map((_, j) => ({ num: j+1, type: "fill", text: `Question ${j+1}`, instruction: "Complete the notes" })) })),
-  part3: Array(20).fill(null).map((_, i) => ({ id: i+41, title: `Test ${i+41}`, questions: Array(10).fill(null).map((_, j) => ({ num: j+1, type: "fill", text: `Question ${j+1}`, instruction: "Complete the notes" })) })),
-  part4: Array(20).fill(null).map((_, i) => ({ id: i+61, title: `Test ${i+61}`, questions: Array(10).fill(null).map((_, j) => ({ num: j+1, type: "fill", text: `Question ${j+1}`, instruction: "Complete the notes" })) })),
+  part2: [
+    { id: 21, title: "Pacton-on-Sea Bus Tour", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN THREE WORDS" })) },
+    { id: 22, title: "Sea Life Centre Information", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN THREE WORDS" })) },
+    { id: 23, title: "Hotel Event Planning", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
+    { id: 24, title: "Volunteer Conservation Work", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose TWO letters" })) },
+    { id: 25, title: "Town Map Directions", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "map", text: `Question ${i+1}`, instruction: "Label the map" })) },
+    { id: 26, title: "Neighbourhood Safety Talk", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN TWO WORDS" })) },
+    { id: 27, title: "Anglia Sculpture Park", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
+    { id: 28, title: "Learning Resource Centre", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "map", text: `Question ${i+1}`, instruction: "Label the plan" })) },
+    { id: 29, title: "PS Camping Holidays", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
+    { id: 30, title: "City Development Plan", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "map", text: `Question ${i+1}`, instruction: "Label the plan" })) },
+    { id: 31, title: "Sponsored Walking Holiday", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
+    { id: 32, title: "City Walking Tour", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
+    { id: 33, title: "The Dinosaur Museum", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN TWO WORDS" })) },
+    { id: 34, title: "Wildlife Park Tour", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
+    { id: 35, title: "The National Arts Centre", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN TWO WORDS" })) },
+    { id: 36, title: "Red Hill Suburb Improvements", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
+    { id: 37, title: "Sports World Store", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD AND/OR A NUMBER" })) },
+    { id: 38, title: "Parks and Open Spaces", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN THREE WORDS" })) },
+    { id: 39, title: "Winridge Forest Railway Park", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
+    { id: 40, title: "Water Heater Instructions", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "diagram", text: `Question ${i+1}`, instruction: "Label the diagram" })) },
+  ],
+  part3: [
+    { id: 41, title: "Computer System Discussion", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
+    { id: 42, title: "University Subject Choices", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose TWO letters" })) },
+    { id: 43, title: "Paper Production & Recycling", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN TWO WORDS" })) },
+    { id: 44, title: "Food Waste Discussion", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
+    { id: 45, title: "Furniture Rossi Case Study", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
+    { id: 46, title: "Biofuels Presentation", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
+    { id: 47, title: "Instant Coffee Marketing", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
+    { id: 48, title: "Museum Training Film", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "matching", text: `Question ${i+1}`, instruction: "Match the correct letter" })) },
+    { id: 49, title: "Individual Differences at Work", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD ONLY" })) },
+    { id: 50, title: "Antarctic Centre Christchurch", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
+    { id: 51, title: "Ocean Research Float Project", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD AND/OR A NUMBER" })) },
+    { id: 52, title: "Geography Presentation", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD AND/OR A NUMBER" })) },
+    { id: 53, title: "Field Trip Proposal", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
+    { id: 54, title: "Honey Bees in Australia", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
+    { id: 55, title: "Latin American Studies", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
+    { id: 56, title: "Course Financing Discussion", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose TWO letters" })) },
+    { id: 57, title: "Marketing Course Feedback", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
+    { id: 58, title: "Self-Access Centre", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
+    { id: 59, title: "Study Skills Tutorial", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN TWO WORDS" })) },
+    { id: 60, title: "International Student Experience", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
+  ],
+  part4: [
+    { id: 61, title: "Ceramics History", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN TWO WORDS" })) },
+    { id: 62, title: "Preparing a Presentation", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN TWO WORDS" })) },
+    { id: 63, title: "Facts About Hair", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD AND/OR A NUMBER" })) },
+    { id: 64, title: "Maori Kite-Making", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD ONLY" })) },
+    { id: 65, title: "Rock Art Research", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD ONLY" })) },
+    { id: 66, title: "Weak-Tie Theory", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD ONLY" })) },
+    { id: 67, title: "History of Fireworks in Europe", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD ONLY" })) },
+    { id: 68, title: "New Caledonian Crows", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD ONLY" })) },
+    { id: 69, title: "Seminar on Rock Art", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD ONLY" })) },
+    { id: 70, title: "Handedness in Sport", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
+    { id: 71, title: "Hotels and Tourism", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
+    { id: 72, title: "Monosodium Glutamate (MSG)", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
+    { id: 73, title: "Geography Lecture", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD ONLY" })) },
+    { id: 74, title: "Research on Doctors", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
+    { id: 75, title: "Repeating Business Success", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
+    { id: 76, title: "Aboriginal Rock Paintings", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "matching", text: `Question ${i+1}`, instruction: "Match the painting style" })) },
+    { id: 77, title: "Mass Strandings of Whales", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN TWO WORDS" })) },
+    { id: 78, title: "Business Cultures", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD ONLY" })) },
+    { id: 79, title: "Underground House Design", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
+    { id: 80, title: "Wildlife in City Gardens", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
+  ],
 };
 
 // ==================== LISTENING PAGE ====================
@@ -3291,24 +3875,8 @@ const ListeningPage = ({ subPage, setSubPage }) => {
                 </div>
               </div>
 
-              {/* Audio Player */}
-              <div style={{
-                padding: '1.25rem',
-                borderRadius: '12px',
-                background: 'var(--tag-bg)',
-                marginBottom: '1.5rem',
-              }}>
-                <audio 
-                  controls 
-                  style={{ width: '100%' }}
-                  src={`https://kholikova.github.io/80-listening-audios/TEST%20${selectedTest.id}.mp3`}
-                >
-                  Your browser does not support the audio element.
-                </audio>
-                <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginTop: '0.5rem', textAlign: 'center' }}>
-                  🎧 Listen carefully - you will hear the recording only once in the real test
-                </p>
-              </div>
+              {/* Custom Audio Player */}
+              <AudioPlayer testId={selectedTest.id} />
 
               {/* Questions */}
               <div>
