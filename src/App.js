@@ -1954,7 +1954,7 @@ const Logo = ({ onClick }) => (
       src="/logo.png" 
       alt="IELTS Wiz" 
       style={{
-        height: '48px',
+        height: '80px',
         width: 'auto',
         objectFit: 'contain',
       }}
