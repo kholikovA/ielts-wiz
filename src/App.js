@@ -2264,9 +2264,9 @@ const SpeakingPage = ({ subPage, setSubPage }) => {
                         <h4 style={{ fontSize: '1rem', fontWeight: '600', color: 'var(--purple-400)', marginBottom: '1rem' }}>📋 Cue Card</h4>
                         <p style={{ fontSize: '1rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '1rem' }}>{topic.cueCard.title}</p>
                         <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>You should say:</p>
-                        <ul style={{ paddingLeft: '1.25rem', marginBottom: '0' }}>
+                        <ul style={{ paddingLeft: '1.25rem', marginBottom: '0', listStyle: 'none' }}>
                           {topic.cueCard.points.map((point, i) => (
-                            <li key={i} style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '0.25rem' }}>• {point}</li>
+                            <li key={i} style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '0.25rem' }}>{point}</li>
                           ))}
                         </ul>
                       </div>
@@ -2567,7 +2567,17 @@ const GrammarPage = () => {
                     📚 Theory & Explanation
                   </h3>
                   <div style={{ whiteSpace: 'pre-line', color: 'var(--text-secondary)', lineHeight: '1.7', fontSize: '0.95rem' }}>
-                    {selectedLessonData.content.explanation}
+                    {selectedLessonData.content.explanation.split('\n').map((line, i) => {
+                      // Handle **bold** text
+                      const parts = line.split(/\*\*(.*?)\*\*/g);
+                      return (
+                        <div key={i} style={{ marginBottom: line.startsWith('•') ? '0.25rem' : '0.5rem' }}>
+                          {parts.map((part, j) => 
+                            j % 2 === 1 ? <strong key={j} style={{ color: 'var(--text-primary)' }}>{part}</strong> : part
+                          )}
+                        </div>
+                      );
+                    })}
                   </div>
                   
                   <h4 style={{ fontSize: '1rem', fontWeight: '600', marginTop: '1.5rem', marginBottom: '1rem', color: 'var(--text-primary)' }}>
@@ -3281,34 +3291,23 @@ const ListeningPage = ({ subPage, setSubPage }) => {
                 </div>
               </div>
 
-              {/* Audio Player Placeholder */}
+              {/* Audio Player */}
               <div style={{
                 padding: '1.25rem',
                 borderRadius: '12px',
                 background: 'var(--tag-bg)',
                 marginBottom: '1.5rem',
-                display: 'flex',
-                alignItems: 'center',
-                gap: '1rem',
               }}>
-                <div style={{
-                  width: '48px',
-                  height: '48px',
-                  borderRadius: '50%',
-                  background: 'var(--purple-600)',
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  cursor: 'pointer',
-                }}>
-                  <span style={{ fontSize: '1.25rem', marginLeft: '3px' }}>▶</span>
-                </div>
-                <div style={{ flex: 1 }}>
-                  <div style={{ height: '4px', background: 'var(--border-color)', borderRadius: '2px', marginBottom: '0.5rem' }}>
-                    <div style={{ width: '0%', height: '100%', background: 'var(--purple-500)', borderRadius: '2px' }} />
-                  </div>
-                  <p style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)' }}>Audio coming soon</p>
-                </div>
+                <audio 
+                  controls 
+                  style={{ width: '100%' }}
+                  src={`https://kholikova.github.io/80-listening-audios/TEST%20${selectedTest.id}.mp3`}
+                >
+                  Your browser does not support the audio element.
+                </audio>
+                <p style={{ fontSize: '0.75rem', color: 'var(--text-tertiary)', marginTop: '0.5rem', textAlign: 'center' }}>
+                  🎧 Listen carefully - you will hear the recording only once in the real test
+                </p>
               </div>
 
               {/* Questions */}
