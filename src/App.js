@@ -68,6 +68,24 @@ const AuthProvider = ({ children }) => {
     }
   };
 
+  const updateProfile = async (updates) => {
+    if (!user) return { error: 'No user logged in' };
+    try {
+      const { data, error } = await supabase
+        .from('profiles')
+        .update(updates)
+        .eq('id', user.id)
+        .select()
+        .single();
+      if (error) throw error;
+      setProfile(data);
+      return { data, error: null };
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      return { data: null, error };
+    }
+  };
+
   const signUp = async (email, password, name, additionalInfo = {}) => {
     const { data, error } = await supabase.auth.signUp({
       email, password, options: { 
@@ -80,6 +98,19 @@ const AuthProvider = ({ children }) => {
         } 
       }
     });
+    // If signup successful, also create profile directly
+    if (data?.user && !error) {
+      await supabase.from('profiles').upsert({
+        id: data.user.id,
+        email: email,
+        name: name,
+        target_score: additionalInfo.target_score || 7.0,
+        prep_duration: additionalInfo.prep_duration,
+        referral_source: additionalInfo.referral_source,
+        goals: additionalInfo.goals,
+        created_at: new Date().toISOString()
+      });
+    }
     return { data, error };
   };
 
@@ -95,7 +126,7 @@ const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ user, profile, loading, signUp, signIn, signOut }}>
+    <AuthContext.Provider value={{ user, profile, loading, signUp, signIn, signOut, updateProfile, fetchProfile }}>
       {children}
     </AuthContext.Provider>
   );
@@ -1762,10 +1793,10 @@ const speakingPart3Data = [
     topic: "Learning New Skills",
     relatedPart2: 1,
     questions: [
-      { q: "What skills do you think will be most important in the future?", answer: "I believe adaptability and digital literacy will be paramount. Technology is reshaping every industry so rapidly that the ability to continuously learn and pivot will matter more than specific technical knowledge. Critical thinking skills will also be crucial as artificial intelligence handles routine tasks, leaving humans to focus on complex problem-solving, creativity, and ethical decision-making that machines cannot replicate." },
-      { q: "Why do some people find it harder to learn new skills than others?", answer: "There are multiple factors at play. Psychological barriers like fear of failure or fixed mindsets can be significant obstacles. Some people genuinely learn differently – they may struggle with traditional teaching methods but excel with hands-on approaches. Life circumstances matter too; someone juggling work and family responsibilities simply has less time and mental energy to dedicate to learning. Additionally, the quality of prior education creates unequal foundations." },
-      { q: "Do you think schools focus enough on practical skills?", answer: "Honestly, I think most educational systems remain overly focused on academic knowledge at the expense of practical competencies. Students often graduate without understanding basic financial literacy, communication skills, or how to navigate workplace dynamics. There's a disconnect between what curricula prioritise and what adult life actually demands. That said, some progressive schools are addressing this with more project-based learning and real-world applications." },
-      { q: "Is it better to learn skills formally through courses or informally by yourself?", answer: "It depends entirely on the skill and the individual. Self-directed learning offers flexibility and can be incredibly effective for motivated learners, especially with the wealth of resources available online. However, formal instruction provides structure, expert feedback, and credentials that employers recognise. The ideal approach is probably a combination – using formal education for foundational knowledge and self-study to deepen expertise in areas of personal interest." }
+      { q: "What skills do you think will be most important in the future?", answer: "That's a great question. I'd say adaptability is probably the biggest one – you know, being able to learn new things quickly because technology keeps changing everything. And honestly, I think critical thinking will matter a lot too. Like, with AI doing more routine work, humans need to focus on creative problem-solving." },
+      { q: "Why do some people find it harder to learn new skills than others?", answer: "Well, there are a few reasons. Some people have this fear of failing which holds them back. Others might've had bad experiences in school. And let's be honest – if you're working full-time and have kids, finding time to learn something new is really tough." },
+      { q: "Do you think schools focus enough on practical skills?", answer: "Mm, not really, in my opinion. I left school not knowing how to do taxes or manage money properly. Schools teach lots of theory, but there's definitely a gap when it comes to real-world stuff like communication skills or working with other people." },
+      { q: "Is it better to learn skills formally through courses or informally by yourself?", answer: "I think it depends on what you're learning. For something like coding, you can totally teach yourself online. But for other things – medicine, obviously – you need proper training. Personally, I like a mix. Get the basics from a course, then practice on your own." }
     ]
   },
   {
@@ -1773,10 +1804,10 @@ const speakingPart3Data = [
     topic: "Crowded Places",
     relatedPart2: 2,
     questions: [
-      { q: "Why do some people enjoy being in crowded places while others don't?", answer: "It largely comes down to personality and psychological makeup. Extroverts often draw energy from social environments and find crowds stimulating. Introverts, conversely, may find the same situations draining and overwhelming. Cultural background plays a role too – people raised in densely populated areas develop higher tolerance for crowds. Personal experiences matter as well; someone who's had a negative experience in a crowd may develop lasting discomfort." },
-      { q: "How do you think cities can deal with overcrowding?", answer: "There's no single solution, but a combination of approaches seems necessary. Improving public transportation reduces the need for personal vehicles and makes space more efficient. Decentralisation – encouraging business development outside city centres – can distribute populations more evenly. Urban planning that prioritises vertical rather than horizontal expansion helps. Technology also offers solutions, like remote work reducing commuter density and smart systems managing pedestrian and traffic flows more efficiently." },
-      { q: "Do you think overcrowding affects people's mental health?", answer: "Research strongly suggests it does. Constant exposure to crowded conditions elevates stress hormones, and the lack of personal space can trigger anxiety. Studies show higher rates of psychological disorders in very densely populated areas. People in overcrowded housing report feeling helpless and irritable. That said, humans are adaptable – many city dwellers develop coping mechanisms and find ways to create psychological space even in physically cramped environments." },
-      { q: "Are there benefits to living in densely populated areas?", answer: "Absolutely. Dense populations make public services more efficient – better public transport, more cultural amenities, greater variety in shops and restaurants. Economic opportunities tend to concentrate where people cluster. Social diversity is another benefit; exposure to different perspectives and lifestyles broadens minds. There's also an environmental argument – per capita, dense urban living often has a smaller carbon footprint than suburban sprawl requiring car dependency and individual infrastructure." }
+      { q: "Why do some people enjoy being in crowded places while others don't?", answer: "I think it's mostly about personality. Some people – extroverts – get energised by busy environments. They love the buzz. Others find it draining. I'm somewhere in between, actually. It also depends on the situation – a concert crowd feels different from being stuck in a packed train." },
+      { q: "How do you think cities can deal with overcrowding?", answer: "There's no easy fix, is there? But better public transport would help massively. And encouraging people to work from home – that's already made a difference. Some places are trying to spread things out more, so not everything's crammed into one central area." },
+      { q: "Do you think overcrowding affects people's mental health?", answer: "Yeah, I think it definitely can. When you never get personal space, it's bound to stress you out. I've read that people in really crowded housing feel more anxious. Though humans are pretty adaptable – city dwellers seem to find ways to cope." },
+      { q: "Are there benefits to living in densely populated areas?", answer: "Oh, absolutely. More people means more restaurants, more shops, better transport. And there's the social side – you meet all sorts of different people. Plus, funnily enough, it can be more environmentally friendly because you don't need a car." }
     ]
   },
   {
@@ -1784,10 +1815,10 @@ const speakingPart3Data = [
     topic: "Helping Others",
     relatedPart2: 3,
     questions: [
-      { q: "Why do some people like helping others?", answer: "There are both intrinsic and extrinsic motivations. Many people experience genuine psychological rewards from helping – it releases feel-good chemicals and boosts self-esteem. Some are driven by empathy, having experienced difficulties themselves. Cultural and religious values often emphasise service to others. There's also social capital to consider; helping builds relationships and community standing. Interestingly, research shows helping others actually improves the helper's wellbeing more than receiving help." },
-      { q: "Do you think governments should do more to help people in need?", answer: "This is genuinely contentious. I believe there's a fundamental role for government in providing safety nets for those who cannot help themselves – the elderly, disabled, or those facing circumstances beyond their control. Markets alone won't address certain social needs. However, the mechanism matters enormously. Government assistance can sometimes create dependency rather than empowerment if poorly designed. The best approaches combine material support with pathways to self-sufficiency." },
-      { q: "Is it important to teach children to help others?", answer: "I would argue it's essential. Children who learn to help others develop empathy, social awareness, and a sense of responsibility that benefit them throughout life. Early experiences of helping shape moral development and create patterns that persist into adulthood. Practically, helping others is a skill – recognising need, knowing how to respond appropriately, offering assistance without condescension – that improves with practice. Schools and families that model and encourage helping behaviour raise better citizens." },
-      { q: "How has technology changed the way people help each other?", answer: "Technology has fundamentally transformed charitable giving and mutual aid. Crowdfunding platforms allow individuals to directly support specific causes or people in need across the globe. Social media mobilises responses to crises with unprecedented speed. Apps connect volunteers with local opportunities. Online communities provide emotional support across distances. However, there's a downside – technology can also create superficial 'slacktivism' where clicking 'share' replaces meaningful action, and digital divides exclude those most in need from these networks." }
+      { q: "Why do some people like helping others?", answer: "Well, honestly, it just feels good, doesn't it? There's that warm feeling you get when you help someone out. For some people it's religious or cultural values. And people who've struggled themselves are often more likely to help others in similar situations." },
+      { q: "Do you think governments should do more to help people in need?", answer: "That's tricky because it depends where you draw the line. I mean, yes, there should be a safety net – for people who genuinely can't help themselves. But you don't want to create dependency either. The best programs help people get back on their feet." },
+      { q: "Is it important to teach children to help others?", answer: "Definitely. Kids who learn to think about others tend to grow into more empathetic adults. It's best learned by doing – volunteering together as a family, that sort of thing. Schools can help too, but I think it starts at home really." },
+      { q: "How has technology changed the way people help each other?", answer: "Massively! Think about crowdfunding – you can help someone on the other side of the world. Social media spreads awareness quickly. Though I do worry sometimes that people just share things and feel like they've done their bit, when nothing much has changed." }
     ]
   },
   {
@@ -1795,10 +1826,10 @@ const speakingPart3Data = [
     topic: "Reading and Books",
     relatedPart2: 4,
     questions: [
-      { q: "Do you think people read less now than in the past?", answer: "It's complicated. People certainly read fewer physical books and long-form content, but we're actually reading more text overall than any previous generation – emails, social media, articles, messages. What's changed is the nature and depth of reading. Sustained engagement with complex texts has declined, replaced by fragmented consumption of shorter pieces. Whether this represents a net loss depends on what you value about reading – if it's volume of words, we're doing well; if it's depth of understanding, there's genuine cause for concern." },
-      { q: "Why do some people prefer e-books while others prefer physical books?", answer: "E-book enthusiasts typically value convenience – carrying hundreds of books on one device, adjustable font sizes, instant purchases, built-in dictionaries. Those who prefer physical books often cite the tactile experience, easier focus without digital distractions, and the pleasure of building a visible collection. There's also research suggesting comprehension and retention may be slightly better with physical pages. Interestingly, many readers use both formats depending on context – e-books for travel, physical for home." },
-      { q: "How can parents encourage children to read more?", answer: "Modelling is crucial – children who see parents reading develop positive associations with books. Creating a book-rich environment where reading materials are accessible helps. Reading aloud together, even beyond early childhood, builds positive memories. Letting children choose their own reading material, even if it's not 'literary,' respects their autonomy. Limiting screen time creates space for reading. Most importantly, framing reading as pleasure rather than duty makes a significant difference – forced reading often backfires by creating negative associations." },
-      { q: "Do you think bookshops will survive in the future?", answer: "I'm cautiously optimistic. Traditional bookshops selling only books at full price will continue struggling against online competition. However, those that evolve into experiential spaces – combining book sales with cafés, events, community gathering functions, and expert curation – can offer something e-commerce cannot. The survivors will be those that understand they're selling not just books but an experience, a relationship, and a sense of community. Independent bookshops with strong local identities seem better positioned than generic chains." }
+      { q: "Do you think people read less now than in the past?", answer: "It's interesting, actually. People probably read fewer books, but we're constantly reading – texts, emails, social media, articles. The difference is the depth. We skim a lot more than we used to. Whether that's worse depends on how you look at it." },
+      { q: "Why do some people prefer e-books while others prefer physical books?", answer: "E-books are just so convenient – you can carry hundreds on one device. But there's something about holding a real book, isn't there? The feel of it, seeing how far you've got. I use both – e-books when travelling, real books at home." },
+      { q: "How can parents encourage children to read more?", answer: "The biggest thing is leading by example – if kids see parents reading, they're more likely to pick it up. Making books accessible, letting them choose what they want. And limiting screen time helps too, obviously." },
+      { q: "Do you think bookshops will survive in the future?", answer: "I hope so! The ones doing well seem to create an experience – nice café, author events, helpful staff. You can't get that from Amazon. Big chains might struggle, but local independent bookshops with loyal customers should be alright." }
     ]
   },
   {
@@ -1806,10 +1837,10 @@ const speakingPart3Data = [
     topic: "Goals and Ambitions",
     relatedPart2: 5,
     questions: [
-      { q: "Do you think ambitious people are more likely to succeed?", answer: "Ambition is certainly correlated with certain types of success, particularly material and career achievements. Ambitious people tend to set higher targets, work harder, and persist through obstacles. However, success is subjective – someone with modest ambitions who achieves contentment might be more successful in meaningful terms than a driven achiever who's perpetually dissatisfied. There's also the question of ethics; ambition without moral constraints can lead to success at others' expense, which I wouldn't call truly successful." },
-      { q: "Why do some people give up on their goals easily?", answer: "Multiple factors contribute. Unrealistic goal-setting creates inevitable failure when expectations meet reality. Poor planning means people don't anticipate obstacles or create actionable steps. External pressures – financial constraints, family obligations, unsupportive environments – genuinely limit options. Some people lack the resilience to push through inevitable setbacks. Fear of failure can paradoxically cause people to give up before they can fail. Sometimes, abandoning goals is actually rational – recognising something isn't worth pursuing is wisdom, not weakness." },
-      { q: "How important is it to have long-term goals in life?", answer: "I believe long-term goals provide direction and meaning, helping us make coherent decisions rather than drifting aimlessly. They create motivation to defer gratification and invest in our futures. However, excessive focus on distant goals can cause us to miss present opportunities or become rigid when circumstances change. The healthiest approach might be holding long-term goals loosely – having a direction while remaining flexible about specific destinations and enjoying the journey rather than fixating solely on arrivals." },
-      { q: "Should parents set goals for their children?", answer: "There's a balance to strike. Parents should help children develop goal-setting skills and support their aspirations. However, imposing specific goals that reflect parents' unfulfilled ambitions rather than children's interests is problematic. Research shows intrinsic motivation – pursuing goals you've chosen – is more sustainable than extrinsic motivation. The parent's role is perhaps to expose children to possibilities, help them discover their interests, teach them how to set and work toward goals, and support the goals children choose for themselves." }
+      { q: "Do you think ambitious people are more likely to succeed?", answer: "Generally yes, but it depends how you define success. Ambitious people set bigger goals and work harder. But someone with modest goals who achieves them and is happy – isn't that success too? Plus, extreme ambition without principles can lead to harmful things." },
+      { q: "Why do some people give up on their goals easily?", answer: "Often it's because they set unrealistic goals to begin with. Or they didn't plan properly – big dream but no actual steps. Life gets in the way too. Sometimes giving up isn't failure though – it's just realising something isn't right for you." },
+      { q: "How important is it to have long-term goals in life?", answer: "I think having some direction is important – otherwise you're just drifting. But holding on too rigidly can be a problem. Life changes, you change. Having a general direction but being flexible about how you get there seems best." },
+      { q: "Should parents set goals for their children?", answer: "They should help children develop goal-setting skills, definitely. But imposing specific goals – like 'you must be a doctor' – that's problematic. Kids need to find their own path. Parents can support whatever interests emerge, but goals should come from the child." }
     ]
   },
   {
@@ -1817,244 +1848,245 @@ const speakingPart3Data = [
     topic: "Inspiration and Role Models",
     relatedPart2: 6,
     questions: [
-      { q: "Do you think celebrities make good role models?", answer: "It's highly variable. Some celebrities use their platforms responsibly, modelling values like hard work, charitable giving, or overcoming adversity. However, celebrity culture often promotes superficial values – appearance, wealth, fame – as measures of worth. The curated nature of celebrity public personas means we rarely see authentic struggles or failures. Children especially may develop unrealistic expectations. I think better role models are often people we can actually know – teachers, mentors, family members – whose full humanity, including flaws and growth, is visible." },
-      { q: "Why do people need role models?", answer: "Humans are fundamentally social learners; we evolved to learn by observing others. Role models provide concrete examples of how values translate into action. They demonstrate that success is possible, which is particularly important for people from disadvantaged backgrounds who may not see achievement around them. Psychologically, role models help us envision our future selves and provide templates for navigating challenges. They also offer shortcuts – we can learn from their mistakes and successes without making every error ourselves." },
-      { q: "How has social media changed the way we think about inspiration?", answer: "Social media has democratised inspiration in some ways – ordinary people sharing authentic journeys can reach millions. However, it's also created problems. Highlight-reel culture means we see only successes, not struggles, creating unrealistic comparisons. The volume of inspiring content can cause inspiration fatigue or substitute for actual action – consuming inspirational posts feels productive without requiring real effort. Algorithmic curation creates echo chambers. At its worst, social media turns inspiration into performance rather than genuine motivation for change." },
-      { q: "Can people be inspired by failure as well as success?", answer: "Absolutely, and I'd argue failure is often more instructive than success. Witnessing how people respond to failure – with resilience, learning, and eventual recovery – provides more useful lessons than watching effortless achievement. Many inspiring figures are those who failed publicly and rebuilt. Failure humanises role models, making their success seem attainable. Understanding that failure is part of any meaningful pursuit helps people persist through their own setbacks. The most dangerous role models might be those whose failures remain hidden." }
+      { q: "Do you think celebrities make good role models?", answer: "Some do, some don't. There are celebrities who use their fame for good. But celebrity culture often promotes shallow values – looks, money, fame. I think better role models are usually people you actually know, who you can see dealing with real life." },
+      { q: "Why do people need role models?", answer: "We're social creatures – we learn by watching others. Role models show us what's possible and give us something to aspire to. They're especially important for young people or anyone trying to achieve something in a field where they don't see people like themselves." },
+      { q: "How has social media changed the way we think about inspiration?", answer: "It's a double-edged sword. You can find inspiration from ordinary people sharing their journeys. But there's so much fake perfection – highlight reels that make everyone feel inadequate. Sometimes people scroll through inspirational content instead of actually doing anything." },
+      { q: "Can people be inspired by failure as well as success?", answer: "Absolutely – maybe even more so. Seeing how someone bounces back from failure is way more useful than watching someone succeed effortlessly. Failure stories are relatable. They show the path isn't straight and setbacks aren't the end." }
     ]
   },
   {
     id: 7,
-    topic: "News and Information",
+    topic: "News and Media",
     relatedPart2: 7,
     questions: [
-      { q: "How has the way people get news changed in recent years?", answer: "The transformation has been dramatic. Traditional gatekeepers – newspapers, broadcast networks – have lost their monopoly as social media and digital platforms become primary news sources for many, especially younger people. News consumption has become more fragmented, personalised by algorithms, and continuous rather than scheduled. The line between news and opinion has blurred considerably. Citizen journalism has emerged, with ordinary people breaking stories. Trust has declined across all sources, and misinformation has become a serious challenge." },
-      { q: "Do you think social media is a reliable source of news?", answer: "Generally, no. Social media platforms are designed for engagement, not accuracy, so sensational and emotional content spreads faster than nuanced truth. There's no editorial oversight or verification process. Algorithms create filter bubbles reinforcing existing beliefs. Deliberate misinformation campaigns exploit these platforms. That said, social media can surface important stories mainstream media ignores and provide diverse perspectives. The key is treating social media as a starting point for awareness, then verifying through reputable sources before accepting claims." },
-      { q: "Is it important for people to keep up with current events?", answer: "I believe civic engagement requires some awareness of what's happening in the world. Informed citizens make better decisions at elections and in daily life. Complete disengagement enables others to make decisions affecting your life without your input. However, there's a point of diminishing returns – excessive news consumption, particularly negative news, demonstrably harms mental health without proportionally improving decision-making. The goal should be sufficient awareness for responsible citizenship, not compulsive consumption of every development." },
-      { q: "How can people identify fake news?", answer: "Several strategies help. Check the source – is it a recognised news organisation with editorial standards? Look for corroboration – do other reputable outlets report the same facts? Be suspicious of emotional reactions – misinformation is designed to provoke outrage or fear. Check dates and context – old stories often recirculate as 'news.' Examine evidence – are claims supported by verifiable sources? Be aware of your own biases – we're more likely to accept uncritically things that confirm existing beliefs. When in doubt, specialised fact-checking websites can help verify specific claims." }
+      { q: "How has the way people get news changed in recent years?", answer: "Dramatically! People used to wait for the evening news. Now it's constant – on your phone, social media, everywhere. The sources have multiplied too. Anyone can become a news source now, which has good and bad sides." },
+      { q: "Do you think social media is a reliable source of news?", answer: "Generally, no. Things spread because they're sensational, not because they're accurate. There's no fact-checking before something goes viral. Social media can surface stories media ignores though. The key is verifying things before believing them." },
+      { q: "Is it important for people to keep up with current events?", answer: "To some extent – you need to know enough to vote sensibly. But constantly following news, especially negative news, isn't healthy. I try to stay informed without becoming obsessed with checking headlines every hour." },
+      { q: "How can people identify fake news?", answer: "Check the source – is it reputable? Look for the same story elsewhere. Be suspicious of anything that makes you really emotional – fake news is designed to provoke. And honestly, just slow down before sharing." }
     ]
   },
   {
     id: 8,
-    topic: "Elderly People in Society",
+    topic: "Elderly People",
     relatedPart2: 8,
     questions: [
-      { q: "How should society treat elderly people?", answer: "Society should treat elderly people with dignity, respect, and care while also recognising their continuing potential contributions. This means ensuring adequate healthcare, housing, and financial security. But it goes beyond material provision – combating loneliness, providing opportunities for social engagement and purpose, and valuing their perspectives. We should avoid both neglect and infantilisation. The goal should be supporting independence as long as possible while providing dignified care when needed. Importantly, treatment of the elderly reflects a society's fundamental values." },
-      { q: "Why do some cultures respect the elderly more than others?", answer: "Cultural attitudes toward aging are shaped by various factors. Agricultural societies traditionally valued elders as repositories of knowledge essential for survival. Religions like Confucianism explicitly mandate respect for elders. Extended family structures common in some cultures keep generations connected. In contrast, youth-focused cultures that prize innovation and rapid change may view old age as obsolescence. Economic factors matter too – where elderly remain economically productive or control resources, respect follows. Urbanisation and nuclear families often weaken traditional respect patterns." },
-      { q: "Do you think life is better for old people now than in the past?", answer: "In material terms, certainly – medical advances mean longer, healthier lives; pension systems and social security provide financial stability unknown to previous generations. However, other dimensions are more mixed. Traditional societies often integrated elders into extended families with clear roles and respect. Modern elderly people may enjoy better physical health but experience more loneliness, purposelessness, and the feeling of being burdensome. The answer really depends on which aspects of life you prioritise and which past era you compare with." },
-      { q: "What problems do elderly people face in modern society?", answer: "The challenges are numerous. Loneliness and social isolation affect millions, with devastating health consequences. Financial insecurity remains common despite social systems. Healthcare systems often fail to address complex needs of aging bodies. Age discrimination in employment persists. Technology creates new barriers as digital literacy becomes essential. Finding meaning and purpose after career roles end is psychologically challenging. Inadequate care options – either unaffordable or poor quality – leave many families struggling. Family structures provide less support as people live further apart and women enter the workforce." }
+      { q: "How should society treat elderly people?", answer: "With respect and dignity, obviously. But also recognising they still have lots to contribute. It's about balance between providing care and not treating them like children. Loneliness is huge for older people, so including them in society matters." },
+      { q: "Why do some cultures respect the elderly more than others?", answer: "In traditional societies, older people held valuable knowledge. In fast-changing modern cultures, there's this attitude that older people are out of touch. Religious and family values play a role too. Extended families naturally keep generations connected." },
+      { q: "Do you think life is better for old people now than in the past?", answer: "In some ways – healthcare is better, people live longer and healthier. But there's more isolation now. Older people used to live with families; now many live alone. So physically better off, perhaps, but socially more complicated." },
+      { q: "What problems do elderly people face in modern society?", answer: "Loneliness is a big one – it can literally make you sick. Technology can be a barrier too; everything's online but not everyone can keep up. Financial worries, inadequate care options, age discrimination... it's quite a long list unfortunately." }
     ]
   },
   {
     id: 9,
-    topic: "Tourism",
+    topic: "Tourism and Travel",
     relatedPart2: 9,
     questions: [
-      { q: "What are the advantages and disadvantages of tourism for a country?", answer: "The advantages include significant economic benefits – job creation, foreign currency, development of infrastructure that also serves locals. Tourism incentivises preservation of cultural heritage and natural environments. It promotes cross-cultural understanding. However, disadvantages can be substantial. Environmental damage, from carbon emissions to habitat destruction, is serious. Over-tourism can make cities unliveable for residents while commodifying culture. Economic benefits often leak to foreign-owned companies rather than local communities. Seasonal employment creates instability. Finding balance is challenging but essential." },
-      { q: "How has tourism changed over the past few decades?", answer: "Tourism has become dramatically more accessible and democratised. Budget airlines opened international travel to the middle class. Technology transformed booking and planning – what once required travel agents now happens on smartphones. Social media has made certain destinations viral phenomena, sometimes overwhelmingly so. There's been diversification from traditional beach holidays toward experiences – adventure travel, culinary tourism, wellness retreats. Sustainable and responsible tourism has emerged as a movement, though its practice often lags behind its rhetoric. The pandemic caused a fundamental, possibly lasting, reassessment." },
-      { q: "Do you think tourism will change in the future?", answer: "Almost certainly. Climate concerns will increasingly shape travel choices and policies – carbon taxes on flights may reduce long-haul travel, while slower, lower-impact tourism gains popularity. Technology will enhance experiences through virtual and augmented reality, though I doubt it will replace physical travel. Overtourism will force stricter management of popular destinations. Authentic, meaningful experiences will be valued over superficial sight-seeing. Post-pandemic, people seem to want more purposeful travel with longer stays rather than rushed itineraries. Space tourism will eventually become accessible to more than billionaires." },
-      { q: "Is ecotourism really good for the environment?", answer: "It depends entirely on implementation. Genuine ecotourism – small-scale, locally owned, educating visitors, directly funding conservation, minimising impact – can create economic incentives to protect environments that might otherwise be exploited. However, the term is frequently misused for marketing purposes, a practice called 'greenwashing.' Large-scale operations calling themselves ecotourism may cause significant damage despite the label. The infrastructure required to bring tourists to pristine areas inevitably has some impact. True ecotourism exists but is the exception rather than the rule among operations claiming the title." }
+      { q: "What are the advantages and disadvantages of tourism for a country?", answer: "The advantages are obvious – jobs, money, infrastructure development. But over-tourism can ruin the very places people want to see. Local prices go up, traditional communities get displaced. It's about finding a balance." },
+      { q: "How has tourism changed over the past few decades?", answer: "It's become so much more accessible. Budget airlines, online booking – travel used to be for the wealthy, now ordinary families can go abroad. Social media changed things too – places become famous overnight because of Instagram." },
+      { q: "Do you think tourism will change in the future?", answer: "Probably. Climate concerns might make people think twice about long flights. Sustainable tourism is growing – people want authentic experiences, not just ticking off famous sites. Virtual reality might play a role, though I'm not sure it could replace actually being somewhere." },
+      { q: "Is ecotourism really good for the environment?", answer: "In theory, yes – if done properly. Real ecotourism funds conservation and educates visitors. But the term gets used as marketing when reality doesn't match. Getting tourists to pristine areas inevitably has some impact, even with good intentions." }
     ]
   },
   {
     id: 10,
-    topic: "Patience and Waiting",
+    topic: "Patience",
     relatedPart2: 10,
     questions: [
-      { q: "Why do some people find it difficult to be patient?", answer: "Several factors contribute. Our brains are wired to prefer immediate rewards over delayed ones – this served evolutionary purposes but creates problems in modern contexts requiring patience. Contemporary society reinforces impatience through instant gratification – fast food, streaming, same-day delivery. Some people have personality traits or neurological conditions that make waiting particularly difficult. Lack of trust that waiting will actually pay off reduces patience. High-stress environments deplete self-control resources needed for patience. Cultural conditioning matters too – some societies value speed more than others." },
-      { q: "Do you think patience is a skill that can be learned?", answer: "Research strongly suggests it can. Mindfulness meditation demonstrably improves ability to tolerate discomfort and delay gratification. Cognitive strategies like reframing waiting periods or focusing on long-term goals help. Repeated practice builds tolerance – people become more patient through experience of waiting paying off. Understanding the neuroscience behind impatience helps people recognise and manage impulses. However, like any skill, some people have more natural aptitude than others. Developing patience requires motivation, since the immediate experience of learning it is, ironically, uncomfortable." },
-      { q: "Has technology made people less patient?", answer: "There's considerable evidence it has. We've become accustomed to instantaneous access to information, entertainment, and communication. Studies show average attention spans have shortened. The dopamine-reward cycle of social media conditions us to expect constant stimulation. Even minor delays that previous generations took for granted now feel frustrating. However, this isn't necessarily permanent – the brain adapts both ways. Some technologies actually require patience, like slow-building games or meditation apps. The question is whether we choose technologies that build or erode patience." },
-      { q: "Are there situations where being impatient is actually a good thing?", answer: "Absolutely. Impatience with injustice drives social progress – patient acceptance of discrimination or abuse enables its continuation. In emergencies, quick action matters more than careful deliberation. Innovation often comes from impatience with existing solutions. In competitive environments, speed can be decisive. Impatience can protect against exploitation – accepting unreasonable delays may signal you'll tolerate poor treatment. The key is distinguishing productive impatience that demands improvement from destructive impatience that sacrifices long-term gains for short-term satisfaction." }
+      { q: "Why do some people find it difficult to be patient?", answer: "We're kind of wired for instant gratification, aren't we? And modern life makes it worse – we can get almost anything immediately. Fast food, streaming, same-day delivery. Some people naturally have more patience than others too." },
+      { q: "Do you think patience is a skill that can be learned?", answer: "Yeah, I think so. Meditation seems to help people become more patient. Even just practising waiting – putting your phone away instead of checking it constantly – can build tolerance. It's uncomfortable at first but you get better." },
+      { q: "Has technology made people less patient?", answer: "Almost certainly. When you can Google anything instantly, waiting even a few seconds feels annoying. Social media conditions us to expect constant stimulation. Though some apps try to help with patience – meditation apps, for example." },
+      { q: "Are there situations where being impatient is actually a good thing?", answer: "Definitely. Impatience with injustice drives social change. In emergencies, you need to act fast. And in competitive situations, being too patient means missing opportunities. It's about knowing when patience is a virtue and when it's not." }
     ]
   },
   {
     id: 11,
-    topic: "Uniforms",
+    topic: "Success and Achievement",
     relatedPart2: 11,
     questions: [
-      { q: "What are the advantages and disadvantages of wearing uniforms?", answer: "Advantages include creating equality by reducing visible economic differences, building group identity and belonging, simplifying daily decisions about clothing, and representing an organisation professionally. For workplaces, uniforms aid customer identification of staff. Disadvantages centre on suppressing individual expression, which some argue harms personal development. The financial burden on families buying specific items can be significant. Uniforms may be uncomfortable or impractical for certain body types or activities. There's also the philosophical question of whether institutions should control something as personal as clothing." },
-      { q: "Do you think uniforms help students focus on their studies?", answer: "The evidence is actually mixed. Proponents argue uniforms remove distractions of fashion competition and create a more academic atmosphere. Some studies show marginal improvements in discipline and attendance. However, other research finds no significant academic impact. The assumption that how students dress directly affects their learning is questionable. What probably matters more is the overall school culture of which uniforms are just one element. A uniform policy in an otherwise chaotic school won't transform outcomes, while excellent schools exist without uniforms." },
-      { q: "Should employees be required to wear uniforms at work?", answer: "It depends significantly on the context. For safety reasons in industrial settings, or identification purposes in customer-facing roles, uniforms serve clear functional purposes. In highly professional contexts like healthcare or aviation, uniforms convey competence and inspire trust. However, mandatory uniforms in creative industries might signal distrust and suppress the individuality that's valued there. The key considerations should be practical necessity, employee comfort, whether the policy applies equally across hierarchies, and whether the organisation provides uniforms or expects employees to bear the cost." },
-      { q: "Why do some people choose jobs that require uniforms?", answer: "Various motivations exist. Some people genuinely prefer the simplicity – not deciding what to wear saves time and mental energy. Uniforms can provide a sense of belonging and professional identity. For those from lower-income backgrounds, not needing a wardrobe of work clothes reduces financial pressure. Certain uniforms carry prestige and respect – military or medical uniforms, for instance. Some people prefer the clear boundary uniforms create between work and personal life. Others simply prioritise other aspects of a job more than dress code considerations." }
+      { q: "How do people measure success in your country?", answer: "Money, mostly, if I'm honest. Career status, property ownership, that kind of thing. Though younger generations seem to value work-life balance more. There's still pressure from older generations though, and success tends to be materialistically defined." },
+      { q: "What factors contribute to people achieving their goals?", answer: "Hard work matters, obviously, but so does luck and circumstance – where you're born, what opportunities you have. Support systems help too – having people who believe in you. And setting realistic goals with clear steps rather than vague dreams." },
+      { q: "Do you think successful people have a responsibility to help others?", answer: "I think there's something to that, yeah. If you've benefited from society or luck, giving something back seems right. But it shouldn't be forced. The best help comes from genuinely wanting to, not from obligation." },
+      { q: "Is it possible to be successful without working hard?", answer: "Some people get lucky – inherit money, win the lottery. But usually, even 'overnight successes' have years of hard work behind them. Sustainable success almost always involves effort. Whether pure luck counts as real success is another question." }
     ]
   },
   {
     id: 12,
-    topic: "Inventions and Technology",
+    topic: "Working Together",
     relatedPart2: 12,
     questions: [
-      { q: "What invention do you think has been most important in the last century?", answer: "While many candidates exist – computers, the internet, antibiotics – I would argue the transistor, invented in 1947, deserves recognition as the foundational invention enabling most others. Every digital device, from smartphones to medical equipment to the systems running modern infrastructure, depends on transistors. Without them, computers would still be room-sized, impractical machines. The information revolution that's transformed nearly every aspect of modern life rests on this single, unassuming invention. It's less famous than its descendants but more consequential than any of them individually." },
-      { q: "Do you think technology always improves people's lives?", answer: "Not automatically or universally. Technology is a tool that can be used well or badly. The same technologies enabling global communication also enable surveillance and manipulation. Medical advances that save lives may also extend suffering. Automation that increases productivity also displaces workers. Social media connects people but also spreads misinformation and harms mental health. The impact depends on how technologies are designed, regulated, and used. What's clear is that technology alone doesn't guarantee improvement – wise governance, ethical consideration, and equitable distribution determine whether benefits are realised." },
-      { q: "Should governments control new technologies?", answer: "Some regulation is necessary – uncontrolled deployment of powerful technologies can cause significant harm before markets or social norms adapt. Safety standards, privacy protections, and competition rules serve legitimate purposes. However, excessive or poorly designed regulation can stifle innovation and entrench incumbents. The challenge is timing – regulate too early and you may kill beneficial developments; too late and harms become entrenched. The ideal is flexible, principles-based regulation that adapts as technologies evolve, developed with input from technologists, ethicists, and affected communities." },
-      { q: "What technologies do you think will be developed in the future?", answer: "Several trajectories seem likely. Artificial intelligence will become increasingly sophisticated and integrated into daily life and work. Biotechnology, including gene editing and personalised medicine, will transform healthcare. Clean energy technologies will improve as necessity drives investment. Autonomous vehicles will eventually become commonplace. Brain-computer interfaces are advancing rapidly. Quantum computing will unlock currently impossible calculations. What's harder to predict are entirely novel technologies – history shows the most transformative inventions often weren't anticipated. The convergence of multiple technologies will likely produce innovations we can't currently imagine." }
+      { q: "What are the benefits of people working together as a team?", answer: "You get different perspectives and skills coming together. One person's weakness might be another's strength. And honestly, working with others is often more enjoyable – you can bounce ideas around, share the load when things get tough." },
+      { q: "How can conflicts be resolved when people work together?", answer: "Communication is key – talking things through before they escalate. Trying to understand where the other person's coming from rather than just defending your position. Sometimes you need someone neutral to help see the issue differently." },
+      { q: "Are some people naturally better at teamwork than others?", answer: "Probably. Some people just find it easier to collaborate, to let others take credit. But I think teamwork skills can be learned too. Someone quite individualistic can become better at teamwork with practice and the right environment." },
+      { q: "Do you think schools prepare students well for working in teams?", answer: "There's more group work now, which is good. But often one person ends up doing all the work, which defeats the purpose. Good team projects need structure and accountability. Some schools do it well, others not so much." }
     ]
   },
   {
     id: 13,
-    topic: "Friendship",
+    topic: "Money and Spending",
     relatedPart2: 13,
     questions: [
-      { q: "What qualities do you think are important in a friend?", answer: "Reliability and trustworthiness are fundamental – you need to know a friend will keep confidences and be there when needed. Honesty matters, including the willingness to tell uncomfortable truths kindly. Genuine interest in your wellbeing, not just what you can provide, distinguishes real friends from acquaintances. Good friends offer support without judgement during difficult times. Shared values help, though not necessarily identical opinions. The ability to enjoy time together, whether through shared interests or simply comfortable conversation, is essential. Finally, reciprocity – friendship requires balanced investment from both sides." },
-      { q: "Do you think it's harder to make friends as an adult?", answer: "Generally, yes. Childhood and student life provide ready-made contexts for meeting potential friends – shared classrooms, activities, and unstructured time. Adults have less free time, more competing obligations, and fewer natural opportunities for the repeated, low-stakes interactions that build friendships. Geographic mobility means people move away from existing networks. Established relationships often take priority over forming new ones. There's also awkwardness – approaching new potential friends feels uncomfortable in ways it didn't as children. However, adult friendships, when formed, often have more depth and intentionality precisely because they require more effort." },
-      { q: "Is it possible to maintain friendships online?", answer: "Absolutely, though with limitations. Online communication sustains existing friendships across distances – regular contact, shared experiences through calls or games, and emotional support are all possible digitally. However, starting friendships entirely online is different from maintaining established ones. Something is lost without physical presence – body language, shared physical activities, the particular connection of being in the same space. Online friendships may remain shallower or develop more slowly. The ideal for most people is probably online maintenance supplemented by occasional in-person connection." },
-      { q: "How has the concept of friendship changed over time?", answer: "Several shifts are evident. Traditional friendships were often limited by geography – your friends were essentially your neighbours. Modern transportation and communication removed that constraint. Historically, friendships were more gendered and class-bound; contemporary friendships cross more boundaries. The concept of 'chosen family' – friends taking roles traditionally held by blood relatives – has become more accepted. Social media has introduced 'friendship' as a category including very casual connections. Work-life changes mean people invest more in friendships and less in extended family than previous generations. What remains constant is the human need for connection and belonging." }
+      { q: "Do you think people spend too much money on unnecessary things?", answer: "A lot of people do, yeah. Advertising is so good at making you feel like you need stuff. And social media creates pressure to have the latest things. But what's 'unnecessary' is subjective – one person's waste might be another's joy." },
+      { q: "Should parents give children money as pocket money?", answer: "I think so. It's a good way to teach money management. Kids can learn about saving, making choices, dealing with consequences. The amount matters less than having consistency and talking about money openly." },
+      { q: "Why do some people save money while others prefer to spend it immediately?", answer: "Some of it's personality – some people are naturally cautious. Upbringing plays a role too – if your parents were savers, you probably picked that up. And your financial situation matters – it's easier to save when basics are covered." },
+      { q: "Do you think attitudes towards money differ between generations?", answer: "Definitely. Older generations tend to be more careful, having lived through tougher times perhaps. Younger people are accused of being frivolous, but they face different challenges – house prices, job security. Priorities shift." }
     ]
   },
   {
     id: 14,
-    topic: "Risk-Taking",
+    topic: "Nature and Environment",
     relatedPart2: 14,
     questions: [
-      { q: "Why do some people enjoy taking risks while others avoid them?", answer: "Neuroscience shows individual differences in how brains process risk and reward. Some people's brains release more dopamine in response to uncertain outcomes, making risk inherently pleasurable. Personality traits like sensation-seeking vary naturally. Life experiences shape risk attitudes – people who've seen risks pay off become more comfortable taking them, while those burned by bad outcomes become cautious. Cultural conditioning matters too – some societies celebrate risk-takers while others value security. Economic circumstances influence how much you can afford to lose. There's no objectively 'right' level of risk tolerance." },
-      { q: "Do you think young people take more risks than older people?", answer: "Generally yes, and there are biological reasons. The prefrontal cortex, responsible for evaluating consequences, doesn't fully develop until the mid-twenties, while the reward-seeking parts of the brain mature earlier. Young people also have less to lose – fewer dependents, more time to recover from setbacks, less accumulated wealth. Social factors contribute too – peer pressure is stronger among the young, and proving oneself often involves risky behaviour. However, this varies individually, and some young people are extremely cautious while some older people remain adventurous throughout life." },
-      { q: "Are there benefits to taking risks?", answer: "Substantial benefits, when risks are calculated. Risk-taking enables innovation – entrepreneurship, scientific discovery, and artistic creation all require accepting uncertainty. Personal growth often comes through challenging ourselves beyond comfortable limits. Risk-takers may seize opportunities others miss. Career advancement often requires risking current security for potential improvement. Relationships require the emotional risk of vulnerability. A life without any risks might feel safe but also stagnant and unfulfilling. The key distinction is between thoughtful risks with acceptable downsides and reckless gambles with potentially catastrophic consequences." },
-      { q: "How can people learn to make better decisions about risks?", answer: "Several strategies help. Understanding probability and statistics improves assessment of actual risk levels versus perceived ones – we often fear dramatic but unlikely dangers while ignoring mundane but probable ones. Considering not just downsides but also the risk of inaction – not taking opportunities has costs too. Seeking diverse perspectives challenges personal blind spots. Small experiments test ideas with limited downside before full commitment. Post-decision analysis – honestly evaluating outcomes – builds better intuitions over time. Distinguishing between reversible and irreversible decisions appropriately calibrates caution. Emotional awareness prevents fear or excitement from distorting judgement." }
+      { q: "Why is it important for people to spend time in nature?", answer: "There's loads of research showing it reduces stress and improves mental health. Being around trees and greenery calms people down. And I think there's something deeper – we evolved in nature, and modern life can feel very artificial." },
+      { q: "Do you think enough is being done to protect the environment?", answer: "Honestly, no. There's lots of talk and some action, but the scale of the problem is huge and responses feel slow. Individual efforts help, but without big changes from governments and corporations, it's not enough." },
+      { q: "How can we encourage people to be more environmentally conscious?", answer: "Making it easy helps – good recycling systems, affordable public transport. Education from a young age. And honestly, seeing consequences makes people care more. When people experience extreme weather, they start taking climate change seriously." },
+      { q: "What are the main environmental problems facing your country?", answer: "Air pollution in cities is big. Waste management – too much going to landfill. Water quality in some areas. And like everywhere, we're contributing to climate change. There's been progress but plenty more to do." }
     ]
   },
   {
     id: 15,
-    topic: "Pride and Achievement",
+    topic: "Change and Progress",
     relatedPart2: 15,
     questions: [
-      { q: "Is it good for people to feel proud of their achievements?", answer: "In moderation, absolutely. Healthy pride reinforces behaviours that led to achievement, motivating further effort. It builds self-esteem and confidence, which enable tackling new challenges. Acknowledging our achievements is honest – false modesty that denies genuine accomplishment is its own distortion. However, excessive pride that dismisses others' contributions, refuses to acknowledge luck or privilege, or creates complacency becomes problematic. The healthiest pride focuses on the process and effort rather than comparing oneself favourably to others. Pride should inspire continued growth, not satisfied stagnation." },
-      { q: "Do you think people today care too much about success?", answer: "There's a strong argument that contemporary culture has developed an unhealthy obsession with certain narrow definitions of success – particularly wealth, status, and visible achievement. Social media amplifies this by creating constant comparison with others' highlight reels. This pressure contributes to mental health problems, particularly among young people. However, I'd distinguish between caring about meaningful accomplishment – which serves genuine human needs for purpose and contribution – and chasing external markers of success that don't actually bring fulfillment. The problem isn't caring about success; it's how we define it." },
-      { q: "What factors contribute to people achieving their goals?", answer: "Multiple factors interact. Individual attributes matter – persistence, discipline, ability to delay gratification, resilience after setbacks. Clear goal-setting with specific, measurable milestones helps. Support systems – mentors, family, encouraging friends – make significant differences. Resources including education, financial stability, and connections create unequal starting points. Environmental factors like living in a society with opportunity and stability versus one plagued by conflict or corruption. Luck, while uncomfortable to acknowledge, genuinely plays a role. The most successful people typically benefit from favourable conditions in multiple categories, not just personal merit." },
-      { q: "Should parents praise their children for every achievement?", answer: "Research actually suggests this can be counterproductive. Constant praise, especially for innate qualities like being 'smart' rather than effort, can create fragility – children become afraid of challenges that might reveal they're not as capable as praise suggested. They may become dependent on external validation rather than developing internal motivation. More effective is specific, process-focused praise that acknowledges genuine effort and improvement rather than generic congratulation. Children also benefit from learning to handle disappointment and failure constructively, which excessive praise prevents. Balance and authenticity matter more than volume of praise." }
+      { q: "Why do some people resist change?", answer: "Change is uncomfortable – it means leaving familiar territory. Some people are naturally more risk-averse. And sometimes resistance is sensible – not all change is good. People often push back when change is imposed rather than chosen." },
+      { q: "Do you think all changes in society have been positive?", answer: "Definitely not. Some changes bring problems we didn't anticipate. Social media connected us but created new mental health issues. Economic changes lifted many out of poverty but increased inequality. Progress is messy and mixed." },
+      { q: "How do people adapt to major changes in their lives?", answer: "It varies hugely. Some people are naturally adaptable; others struggle more. Support from family and friends helps. Time helps too – even big changes become normal eventually. Having some control over the change makes a difference." },
+      { q: "Is technological progress always beneficial?", answer: "Not always. Every technology can be used well or badly. Nuclear energy can power cities or destroy them. The internet educates but also spreads misinformation. We need to think more carefully about how we use technology." }
     ]
   },
   {
     id: 16,
-    topic: "Workplaces",
+    topic: "Communication",
     relatedPart2: 16,
     questions: [
-      { q: "What makes a good workplace?", answer: "Several elements combine. Fair compensation is foundational – people need to feel their work is appropriately valued. But beyond that, meaningful work that connects to purpose matters enormously. Good relationships with colleagues and management create psychological safety. Opportunities for growth and development signal investment in employees' futures. Reasonable work-life balance prevents burnout. Physical environment affects wellbeing more than often acknowledged. Autonomy and trust, rather than micromanagement, engage people. Clear communication reduces uncertainty and anxiety. Finally, alignment between stated values and actual practices builds or destroys trust." },
-      { q: "How have workplaces changed in recent years?", answer: "The changes have been dramatic. Remote and hybrid work, accelerated by the pandemic, has become normalised in many industries. Hierarchies have flattened, with less formal management structures. Open-plan offices became dominant, though their effectiveness is increasingly questioned. Technology enables constant connectivity, blurring work-life boundaries. Diversity and inclusion have become explicit priorities, at least rhetorically. The gig economy has created new categories of work outside traditional employment. Employee expectations have shifted – younger workers particularly demand meaning, flexibility, and attention to wellbeing that previous generations rarely expected from employers." },
-      { q: "Do you think working from home is better than working in an office?", answer: "It genuinely depends on the person, role, and circumstances. Remote work offers flexibility, eliminates commuting, and provides focused environments for independent tasks. However, offices provide spontaneous collaboration, clearer work-life boundaries, social connection, and easier onboarding for new employees. Creative work often benefits from in-person interaction, while administrative tasks may suit remote environments. Personal circumstances matter – someone with a comfortable home office, reliable childcare, and good self-discipline will thrive remotely, while others may struggle with isolation or distractions. The ideal for many is probably hybrid arrangements." },
-      { q: "What challenges do young people face when they start working?", answer: "The transition is significant. Adapting from academic schedules to full-time work rhythms is tiring. Understanding unwritten workplace norms – office politics, communication styles, professional boundaries – takes time. Building credibility when lacking experience creates frustration. Managing finances independently, often while repaying student debt, causes stress. Many entry-level positions don't match educational credentials, creating disappointment. Finding mentorship in organisations less structured than universities can be difficult. Proving oneself while simultaneously learning is exhausting. The current generation also faces particular challenges – gig economy instability, housing costs, climate anxiety – that previous generations didn't navigate at the same stage." }
+      { q: "How has technology changed the way people communicate?", answer: "Massively. We can reach anyone anywhere instantly now. But communication is often shorter, more visual, more public. Face-to-face conversations might be declining. Whether that's better or worse is debatable." },
+      { q: "Do you think face-to-face communication is still important?", answer: "Absolutely. You miss so much without it – body language, tone, real presence. Deep relationships are hard to build through screens alone. Most people feel this, which is why we still meet up despite being able to video call." },
+      { q: "Why do some people find it difficult to express themselves?", answer: "Confidence is a big factor – fear of being judged or misunderstood. Some people just process internally rather than externally. Cultural and family backgrounds matter too – if you were discouraged from speaking up as a child, it's hard to start as an adult." },
+      { q: "Is there too much communication in modern life?", answer: "Sometimes it feels like it, yeah. Constant pings and notifications can be exhausting. We're always reachable, which sounds good but can feel overwhelming. Learning to disconnect is becoming an important skill." }
     ]
   },
   {
     id: 17,
-    topic: "Working and Studying Together",
+    topic: "Science and Discovery",
     relatedPart2: 17,
     questions: [
-      { q: "Is it better to study alone or in a group?", answer: "Both have distinct advantages for different purposes. Solitary study allows complete focus, self-paced progress, and is essential for deep understanding of complex material. Group study offers different perspectives, explanation practice that reinforces learning, accountability, and social support. Research suggests initial learning is often more effective alone, while consolidation and application benefit from group discussion. Individual preferences matter – some people think better while talking, others need silence. The ideal approach probably combines both: independent study to build understanding, group work to test and apply it." },
-      { q: "What makes a good team member?", answer: "Reliability is fundamental – delivering what you commit to when you commit to it. Communication skills matter enormously – both expressing ideas clearly and listening genuinely to others. Flexibility to take on different roles as situations require shows maturity. The ability to give and receive constructive feedback respectfully enables improvement. Good team members contribute ideas but don't dominate, support colleagues without enabling underperformance, and manage their own emotions. They focus on team success rather than individual credit. Perhaps most importantly, they're trustworthy – team members need confidence that you'll act in the team's interest." },
-      { q: "How can conflicts be resolved when people work together?", answer: "Effective conflict resolution starts with addressing issues early before they escalate. Direct, respectful communication between parties is usually preferable to involving third parties unnecessarily. Focusing on interests and goals rather than positions often reveals common ground. Seeking to understand before seeking to be understood reduces defensiveness. Acknowledging that reasonable people can disagree, and that different perspectives have value, prevents zero-sum framing. When resolution seems impossible, compromise or neutral mediation may be necessary. Sometimes organizational processes need to decide when individuals cannot. The goal is workable solutions that preserve relationships." },
-      { q: "Do you think competition or cooperation is more effective in work or study?", answer: "Context determines which is more appropriate. Cooperation produces better outcomes when tasks require diverse skills, when knowledge-sharing benefits everyone, or when innovation comes from combining perspectives. Competition can drive excellence when individual performance is measurable, when improvement comes from striving to outperform peers, or when resources are genuinely limited. The most effective environments often combine both – cooperation within teams competing against each other, or individual competition for recognition within collaborative cultures. Pure competition without cooperation creates toxic environments, while pure cooperation without any competition may lack motivation for excellence." }
+      { q: "Do you think scientific research is important for society?", answer: "Absolutely essential. Vaccines, clean water, electricity, the internet – all from scientific research. Even basic research that doesn't seem useful often leads to breakthroughs later." },
+      { q: "Should governments spend more money on science?", answer: "In my view, yes. Science funding is pretty low. Short-term thinking dominates politics, but science often needs long-term investment. Private companies won't fund everything because some research isn't immediately profitable but is still valuable." },
+      { q: "Are there any areas of scientific research that concern you?", answer: "AI is both exciting and concerning – we're creating something potentially smarter than us without knowing where it leads. Genetic engineering raises ethical questions. Some weapons research is worrying. The problem is, you can't really stop knowledge from advancing." },
+      { q: "Why are some people suspicious of scientists?", answer: "Sometimes scientists have been wrong, or science has been misused. People feel talked down to. And when scientific findings conflict with beliefs or economic interests, there's pushback. Scientists aren't always great at explaining things to non-experts." }
     ]
   },
   {
     id: 18,
-    topic: "Teamwork and Collaboration",
+    topic: "Art and Creativity",
     relatedPart2: 18,
     questions: [
-      { q: "Why is teamwork important?", answer: "Teamwork enables accomplishments impossible for individuals alone. Complex modern challenges – scientific research, business operations, social problems – require diverse expertise that no single person possesses. Teams provide redundancy and resilience when individuals struggle. They offer different perspectives that catch blind spots and generate more creative solutions. Social support within teams sustains motivation through difficulties. The process of articulating ideas to teammates often clarifies thinking. Practically, organisations require coordination among people, making teamwork skills essential for professional success. Well-functioning teams regularly outperform collections of talented individuals working separately." },
-      { q: "What problems can occur when people work in teams?", answer: "Numerous challenges emerge. Social loafing – some members contributing less, relying on others – is common. Groupthink suppresses dissenting opinions, leading to poor decisions. Unclear roles create duplication or gaps. Communication failures cause misunderstandings and wasted effort. Personality conflicts can derail focus on tasks. Uneven power dynamics may silence valuable contributions from lower-status members. Coordinating schedules becomes difficult. Decision-making can be slow and frustrating. Credit allocation causes resentment when perceived as unfair. Managing these challenges requires explicit attention – successful teams don't just happen; they're deliberately cultivated." },
-      { q: "How can technology help people work together?", answer: "Technology has dramatically expanded collaboration possibilities. Communication tools enable instant connection regardless of location. Shared documents allow simultaneous work without version-control chaos. Project management software tracks responsibilities and deadlines. Video conferencing approximates face-to-face interaction across distances. Cloud storage makes information accessible to all team members. Asynchronous tools enable collaboration across time zones. Data visualisation helps teams understand complex information collectively. However, technology also creates challenges – communication overload, screen fatigue, and the loss of informal interactions that build relationships. The key is thoughtful selection and use of tools appropriate to specific collaboration needs." },
-      { q: "Do you think group activities are beneficial for children?", answer: "Research strongly supports their value. Group activities develop social skills essential for life – cooperation, negotiation, conflict resolution, leadership, and followership. Children learn to consider perspectives different from their own. They experience being part of something larger than themselves, building sense of community. Academic benefits come from peer learning and motivation. Emotional intelligence develops through navigating group dynamics. Physical activities in teams build fitness while making exercise enjoyable. However, quality matters – poorly supervised groups can teach negative lessons about bullying or exclusion. Adult guidance helps children process group experiences constructively." }
+      { q: "Do you think art is important in society?", answer: "Very much so. Art challenges us, makes us feel things, helps us understand different perspectives. Life without art would be pretty bleak. Even people who say they're not into art usually enjoy music or films or something." },
+      { q: "Should governments fund the arts?", answer: "Some funding makes sense, especially for things that wouldn't survive commercially but have cultural value. Museums, community arts programs. But art that's popular should probably support itself. It's about balance." },
+      { q: "Why do some people consider themselves not creative?", answer: "Often because school made them feel their creativity wasn't valued. There's this idea that creativity means painting or writing, but it appears in all sorts of ways – problem-solving, cooking, decorating. Most people are more creative than they realise." },
+      { q: "Has technology changed how people create and consume art?", answer: "Definitely. Creating art is more accessible – you can make music on your phone. But consuming art has changed too – streaming, social media, everything's more instant. Some say it's democratised art; others worry about attention spans." }
     ]
   },
   {
     id: 19,
-    topic: "Money and Gifts",
+    topic: "Health and Lifestyle",
     relatedPart2: 19,
     questions: [
-      { q: "Is giving money as a gift appropriate?", answer: "Cultural context heavily influences this. In many Asian cultures, money gifts are traditional and entirely appropriate, especially for occasions like weddings or Chinese New Year. In other contexts, money can feel impersonal or suggest the giver didn't care enough to choose something specific. However, money offers practical advantages – the recipient can choose exactly what they want or need. For circumstances like students starting out or those facing financial hardship, money may be more helpful than physical gifts. The key is matching the gift to the relationship, occasion, and recipient's likely preferences." },
-      { q: "Do expensive gifts show that someone cares more?", answer: "Not necessarily, and assuming so creates unhealthy dynamics. A thoughtful, modest gift that shows genuine attention to someone's interests often means more than an expensive generic one. The person who remembers your offhand mention of a book months ago demonstrates care more than someone who buys expensive but impersonal luxury items. That said, generosity matters, and within one's means, investing in quality shows respect. The most meaningful gifts combine thoughtfulness with appropriate generosity – not showing off wealth, but demonstrating that someone is worth your time, attention, and reasonable expense." },
-      { q: "How do attitudes towards money differ between generations?", answer: "Significant differences exist. Older generations, shaped by economic hardship, often prioritise saving and view debt warily. Younger generations, facing different circumstances – higher education costs, housing unaffordability, climate uncertainty – may see traditional saving as insufficient or futile. Digital payments have changed younger people's relationship with physical money. Attitudes toward ethical spending differ – younger consumers more often consider environmental and social impacts. Work-money trade-offs vary – younger workers may prioritise meaning and flexibility over maximum earnings. However, generalising risks stereotyping; individual variation within generations exceeds differences between them." },
-      { q: "Should parents give children money as pocket money?", answer: "Managed appropriately, pocket money teaches valuable financial skills. Children learn budgeting, saving for goals, making trade-offs, and experiencing consequences of spending decisions – all in a low-stakes environment. However, the approach matters enormously. Simply handing over money without any framework teaches little. More effective is combining regular allowances with conversations about money, expectations about what children should fund themselves, encouragement of saving, and perhaps matching contributions to teach the value of deferred gratification. The amount matters less than consistent, thoughtful implementation that builds financial capability." }
+      { q: "Why do you think many people lead unhealthy lifestyles?", answer: "Modern life makes it hard to be healthy. We sit at desks, healthy food is expensive and takes time to prepare, we're stressed. Unhealthy options are convenient and cheap and engineered to be addictive. It's not just about willpower – the environment matters." },
+      { q: "Should governments do more to promote healthy living?", answer: "There's a role for government – making healthy choices easier and cheaper. But where's the line? People should have freedom to make their own choices. Maybe education and environment rather than banning things." },
+      { q: "Do you think people are more health-conscious now than in the past?", answer: "In some ways, yes. More awareness of nutrition, more people exercising, fewer smokers. But we have new problems – screen time, sedentary jobs, mental health issues. So more conscious perhaps, but not necessarily healthier overall." },
+      { q: "How has technology affected people's health?", answer: "Mixed impact. Medical technology has obviously improved health massively. But everyday technology – sitting at computers, looking at phones – creates problems. Mental health and social media is a big topic. Sleep disruption from screens. It's a trade-off." }
     ]
   },
   {
     id: 20,
-    topic: "Food and Trying New Things",
+    topic: "History and Traditions",
     relatedPart2: 20,
     questions: [
-      { q: "Why are some people unwilling to try new foods?", answer: "Multiple factors contribute. Evolutionary psychology suggests neophobia – fear of new foods – protected our ancestors from potential poisons. Some people have more sensitive palates, experiencing flavours more intensely. Childhood eating experiences shape adult preferences; children exposed to variety develop broader tastes. Cultural background influences what seems 'normal' versus threatening. Previous negative experiences with unfamiliar foods create lasting aversions. Anxiety disorders sometimes manifest as food avoidance. Social factors matter too – trying new foods often requires vulnerability, which some find uncomfortable. Importantly, food preferences can change; many adults come to enjoy what they rejected as children." },
-      { q: "How has globalisation affected the food people eat?", answer: "The impact has been profound. Cuisines that were once exotic are now mainstream in most cities – sushi, tacos, curry, and pizza are globally ubiquitous. Ingredients previously unavailable except locally – tropical fruits, specialty spices, ethnic vegetables – stock ordinary supermarkets. Fusion cuisines blend traditions in novel ways. However, globalisation also threatens local food cultures as standardised fast food replaces traditional dishes. Industrial food systems have negative environmental and health consequences. There's tension between celebrating culinary diversity and the appropriation and distortion of traditional cuisines. Food globalisation reflects broader patterns of cultural exchange with similar opportunities and concerns." },
-      { q: "Do you think people's eating habits are getting better or worse?", answer: "Evidence points in both directions. Positive trends include increased awareness of nutrition, growth of organic and sustainable food movements, and greater variety and access to healthy ingredients. However, ultra-processed food consumption has increased dramatically, contributing to obesity and related diseases. Eating has become faster and less social, with fewer family meals. Despite knowledge, translating awareness into behaviour remains challenging. The picture varies enormously by socioeconomic status – healthy eating often requires resources, time, and access that not everyone possesses. Overall, knowledge has improved but practice hasn't necessarily followed." },
-      { q: "What role does food play in culture and traditions?", answer: "Food is absolutely central to cultural identity. Traditional dishes connect people to ancestors and heritage. Festive foods mark celebrations and create shared memories. Dietary laws and restrictions encode religious values. Offering food expresses hospitality and strengthens social bonds. Regional cuisines distinguish places and create local pride. Cooking techniques and recipes pass between generations, carrying history. Food rituals – whether Japanese tea ceremonies or family Sunday dinners – structure social life. Immigrant communities often maintain cultural identity partly through cuisine, even as other traditions fade. When people describe their culture, food is typically among the first elements mentioned." }
+      { q: "Why is it important to learn about history?", answer: "To avoid repeating mistakes, mainly. History shows us where things came from, why societies are the way they are. It helps you understand the present and make better decisions. Plus it's just fascinating – human stories across time." },
+      { q: "Should old traditions be preserved or allowed to fade away?", answer: "It depends on the tradition. Some are beautiful and meaningful and worth keeping. Others are harmful or just outdated. We shouldn't preserve things just because they're old. But losing all tradition means losing identity and connection to the past." },
+      { q: "Do you think modern technology helps preserve cultural heritage?", answer: "In some ways, yes. You can digitise old documents, create virtual museum tours, record traditional music. But technology also accelerates cultural change, which can mean traditional practices get abandoned. It's a double-edged sword." },
+      { q: "Are young people less interested in history than previous generations?", answer: "Maybe in traditional academic history. But there's huge interest through other channels – podcasts, YouTube, documentaries. It's just consumed differently. And some topics – social history, forgotten voices – are getting more attention from young people." }
     ]
   },
   {
     id: 21,
-    topic: "Making Complaints",
+    topic: "Social Responsibility",
     relatedPart2: 21,
     questions: [
-      { q: "Why do some people find it difficult to complain?", answer: "Several factors inhibit complaint behaviour. Cultural conditioning teaches many people, particularly women, to be accommodating and avoid conflict. Fear of confrontation or of being perceived as difficult stops many. Previous negative experiences where complaints weren't resolved or caused backlash create reluctance. Some people doubt whether their concerns are legitimate or worry they're being unreasonable. Power imbalances make complaining to authority figures feel risky. Low expectations – believing nothing will change anyway – reduce motivation. The emotional labour required to complain sometimes exceeds the expected benefit. These barriers mean problems often go unreported, enabling their continuation." },
-      { q: "How should businesses respond to customer complaints?", answer: "Effective complaint handling follows predictable patterns. Acknowledge the complaint promptly – delays signal disregard. Listen fully before responding; customers want to feel heard. Apologise sincerely when the business is at fault, without defensive excuses. Offer concrete resolution matching the severity of the problem. Follow through on promises made. Learn from complaints to prevent recurrence – they're valuable feedback. Empower frontline staff to resolve issues without escalation. Thank customers for bringing problems to attention. Research shows customers whose complaints are well-handled often become more loyal than those who never had problems, demonstrating that complaint handling is an opportunity rather than just damage control." },
-      { q: "Do you think social media has changed how people complain?", answer: "Dramatically so. Social media gives individual consumers unprecedented power – a single viral complaint can cause significant reputational damage to large companies. This shifts power toward consumers, incentivising better service. Public complaints create pressure to respond quickly and visibly. However, there are downsides. Some complaints are unfair or uninformed but still cause harm. The performative aspect of public complaints can prioritise attention over resolution. Businesses may focus more on managing perception than fixing problems. Pile-on dynamics can escalate beyond proportionate response. The best companies use social media as one channel among several, while consumers should consider whether public complaints serve their actual interests." },
-      { q: "Is complaining always negative, or can it lead to positive outcomes?", answer: "Complaining definitely has positive potential. Legitimate complaints identify problems that need fixing – they're essential feedback mechanisms. When complaints lead to improvements, everyone benefits. The act of complaining asserts dignity and standards that silent acceptance would erode. Collective complaining drives social change – movements for rights begin with articulating grievances. However, complaining becomes counterproductive when it's chronic venting without seeking solutions, when it poisons relationships through constant negativity, or when it focuses on unchangeable circumstances. The distinction is between constructive complaints aimed at improvement and unproductive complaints that simply express dissatisfaction without purpose." }
+      { q: "Do you think individuals can make a difference to social problems?", answer: "Small differences, yes. Individual actions add up. But for big problems – poverty, climate change – we need collective action and systemic change. It's not fair to put all responsibility on individuals when governments and corporations have more power." },
+      { q: "Should businesses be required to help their local communities?", answer: "There's something appealing about that, but required gets complicated. I think businesses that give back tend to do better anyway – good reputation, loyal employees. Maybe incentives rather than requirements work better." },
+      { q: "Why do some people volunteer while others don't?", answer: "Time is the big barrier – not everyone has spare hours. Some volunteer because of values or because they enjoy the social side. People who've been helped often want to help others. Some just never thought about it or don't know how to start." },
+      { q: "Do you think wealthy people have more responsibility to help society?", answer: "In a way, yes – they have more capacity. And often their wealth came from using shared resources. But I'm not sure about moral obligation – it's better when giving comes from wanting to. Expecting the wealthy to solve everything lets governments off the hook." }
     ]
   },
   {
     id: 22,
-    topic: "Leisure Activities",
+    topic: "Local Area and Community",
     relatedPart2: 22,
     questions: [
-      { q: "How have leisure activities changed over the years?", answer: "The transformation has been substantial. Technology has created entirely new categories of leisure – video gaming, social media, streaming entertainment – that didn't exist for previous generations. Simultaneously, traditional activities like reading physical books have declined. Leisure has become more individualised and screen-based, less communal and physical. Commercial entertainment has expanded enormously, but so has awareness of its downsides, driving interest in experiences and outdoor activities. The boundary between work and leisure has blurred as devices keep us constantly connected. There's also greater variety available – niche interests can find communities online that couldn't exist locally." },
-      { q: "Do you think people have enough free time today?", answer: "Despite productivity gains that should theoretically increase leisure, many people feel more time-pressured than ever. Several factors contribute. Work hours haven't decreased proportionally with productivity. Commuting consumes significant time in many countries. Domestic labour, though reduced by technology, remains substantial. The attention economy fills any available moment with demands. Childcare responsibilities, particularly for women, limit free time. However, objective data shows leisure time has actually increased modestly in developed countries – the perception of busyness may exceed reality. The question is partly about how time is experienced; fragmented, interrupted time feels less leisurely than consolidated periods, even if total hours are similar." },
-      { q: "Are traditional leisure activities still popular?", answer: "Many maintain surprising resilience. Reading continues despite digital competition. Board games have experienced a renaissance, partly as reaction against screens. Gardening, crafts, and cooking remain popular, perhaps increasingly so as they offer tangible, analogue experiences contrasting with digital life. Outdoor activities like hiking have grown. Sports participation remains strong, though shifting between specific activities. However, the context has changed – traditional activities now compete for attention with powerful alternatives designed to capture engagement. People often feel nostalgic for traditional leisure while actually spending time on digital activities. The traditional activities that thrive tend to offer something screens cannot – physical engagement, social presence, or creative accomplishment." },
-      { q: "Should children spend more time on educational activities or leisure?", answer: "This presents a false dichotomy. Play is educational – children develop social skills, creativity, problem-solving, and physical coordination through unstructured activities. Overscheduling children with formal education and organised activities can be counterproductive, creating stress and preventing self-directed learning. However, pure leisure without any structure may not develop specific skills effectively. The ideal balance varies by child, age, and context. Younger children generally benefit from more play; as children mature, more structured learning becomes appropriate. The quality of both educational activities and leisure matters more than quantity. Children who develop intrinsic motivation to learn through engaging experiences do better than those drilled in academic content while resenting it." }
+      { q: "What makes a good neighbourhood?", answer: "Safety's important. Friendly neighbours who look out for each other. Good local amenities – shops, parks, transport. A mix of people but with community spirit. Clean streets. It's harder to define than you'd think – you know a good neighbourhood when you feel it." },
+      { q: "How can communities become closer?", answer: "Shared spaces help – parks, community centres, local events. When people have reasons to interact, relationships form. Social media groups for local areas can help too. But it takes effort and someone willing to organise things." },
+      { q: "Do you think community spirit has declined in recent years?", answer: "In some ways, maybe. People are busier, more mobile, spend time online. Fewer people know their neighbours well. But community can form differently now – online groups, interest-based rather than location-based. It's changing rather than just declining." },
+      { q: "Should people be involved in local decision-making?", answer: "Definitely. Decisions affect people's daily lives, so they should have a say. Local knowledge is valuable – councils don't always understand what areas need. Though getting people engaged is challenging – most are too busy until something directly affects them." }
     ]
   },
   {
     id: 23,
-    topic: "History and Society",
+    topic: "Sports and Exercise",
     relatedPart2: 23,
     questions: [
-      { q: "Why is it important to learn about history?", answer: "Understanding history provides essential context for the present – current institutions, conflicts, and cultures become comprehensible only through their development over time. History offers cautionary lessons; patterns repeat, and knowing how past decisions led to catastrophe can prevent recurrence. It develops critical thinking by requiring evaluation of evidence and multiple perspectives. History builds identity, connecting individuals to larger narratives and communities. It demonstrates that change is possible – things haven't always been this way and needn't remain so. Perhaps most importantly, historical perspective cultivates humility about our own certainties, recognising that contemporary assumptions will eventually seem as dated as those of the past." },
-      { q: "Do you think people should learn about other countries' history?", answer: "Absolutely. National history alone creates distorted understanding; events occur in international contexts that parochial accounts ignore. Learning others' history builds empathy and reduces xenophobia by humanising people often reduced to stereotypes. It provides different perspectives on shared events – every war, for example, looks different from each side. Comparative history reveals what's universal and what's culturally specific about one's own society. In an interconnected world, ignorance of others' histories creates practical problems in diplomacy, business, and social interaction. However, teaching others' history must be done thoughtfully, with genuine engagement rather than superficial coverage that reinforces rather than challenges simplistic narratives." },
-      { q: "How can history be made more interesting for students?", answer: "Several approaches help. Connecting history to present concerns makes relevance apparent – students engage more when they see how past events shaped their current lives. Narrative approaches that tell compelling stories with vivid characters work better than dry recitations of dates and facts. Primary sources let students experience historical voices directly rather than through textbook filters. Counterfactual questions – what if things had happened differently? – develop analytical thinking while engaging imagination. Local history connects abstract concepts to familiar places. Diverse perspectives, including previously marginalised voices, reveal more complete and interesting pictures. Interactive methods – simulations, debates, research projects – engage students more actively than passive learning." },
-      { q: "Should historical monuments to controversial figures be removed?", answer: "This genuinely complex question defies simple answers. Monuments aren't merely historical records – they're expressions of values, deliberately placed to honour certain figures and signal what a society celebrates. When those values change, continued celebration becomes uncomfortable. However, removal can feel like erasing history or imposing contemporary judgements on different eras. Context matters enormously – a statue honouring a slave trader in a public square differs from one in a museum or cemetery. Better approaches might include recontextualization through additional information, relocation to appropriate settings, or commissioning new monuments that provide balance. Communities should make these decisions through inclusive democratic processes rather than either defending all monuments or removing all problematic figures." }
+      { q: "Why do some people prefer watching sports rather than playing them?", answer: "It's easier, for one thing. You can enjoy the skill and drama without effort or injury risk. Some love the social aspect – watching with friends. And not everyone is athletic, but they can still appreciate sport." },
+      { q: "Do you think professional athletes are paid too much?", answer: "It seems excessive sometimes, but they're paid what the market supports. Fans pay for tickets, sponsors pay for exposure. It's supply and demand. Whether society should value athletes over nurses... that's a bigger question." },
+      { q: "Should schools focus more on physical education?", answer: "I think so, yes. Many kids don't get enough exercise, and habits form young. PE shouldn't just be about competition though – finding activities kids actually enjoy matters. Not everyone likes team sports, so variety is important." },
+      { q: "How has technology changed the way people exercise?", answer: "Apps tracking everything, home workouts on YouTube, virtual cycling – so many options now. Wearables make people more aware of how much they move. But technology can also make us more sedentary, so it cuts both ways." }
     ]
   },
   {
     id: 24,
-    topic: "Health and Fitness",
+    topic: "Language Learning",
     relatedPart2: 24,
     questions: [
-      { q: "What are the main health problems in modern society?", answer: "Chronic non-communicable diseases dominate: cardiovascular conditions, diabetes, cancer, and respiratory diseases. Mental health problems – depression, anxiety, addiction – have reached epidemic proportions. Obesity affects growing portions of populations, particularly in developed countries. Despite medical advances, inequality means many lack access to basic healthcare. Sedentary lifestyles, processed diets, and chronic stress underlie many problems. Aging populations create increasing dementia prevalence. New challenges emerge – antimicrobial resistance threatens to make treatable infections deadly again. Social isolation has physical health consequences often underestimated. The pandemic revealed how fragile even advanced health systems can be when confronting novel threats." },
-      { q: "Why do some people not take care of their health?", answer: "Multiple barriers exist. Health knowledge doesn't automatically translate to behaviour – people often know what's healthy but fail to act on it. Immediate pleasures compete with long-term benefits that feel abstract. Unhealthy options are often more convenient, cheaper, and aggressively marketed. Addiction hijacks decision-making around substances and behaviours. Time and energy constraints make healthy choices difficult. Mental health problems reduce motivation for self-care. Social environments either support or undermine individual choices. Economic precarity prioritises survival over optimal health. Some people simply don't believe health advice, having seen contradictory messages over time. Addressing this requires systemic changes beyond individual willpower – making healthy choices the default rather than requiring constant effort." },
-      { q: "Do you think governments should do more to encourage healthy lifestyles?", answer: "I believe governments have legitimate roles in public health, though the appropriate extent is debatable. Infrastructure that enables activity – parks, cycling lanes, sports facilities – clearly serves public interest. Regulation of harmful products – tobacco, ultra-processed foods, addictive substances – has proven effective. Public education campaigns raise awareness. Healthcare systems should emphasise prevention alongside treatment. However, excessive intervention feels paternalistic – adults arguably have the right to make unhealthy choices if fully informed. The most defensible approach focuses on enabling healthy choices without mandating them, while protecting children and addressing commercial interests that profit from harming health." },
-      { q: "How has technology affected people's health?", answer: "The impact is decidedly mixed. Medical technology has revolutionised diagnosis and treatment, extending and improving lives. Fitness trackers and health apps help many people monitor and improve their behaviours. Telemedicine increases healthcare access. However, technology also enables sedentary lifestyles – screens keep people sitting for extended periods. Social media contributes to mental health problems, particularly among young people. Sleep suffers from device use. Eye strain, repetitive injuries, and poor posture create new conditions. Food technology has made unhealthy options more appealing and accessible. The balance depends on how technology is used – it can support or undermine health depending on individual choices and societal regulation." }
+      { q: "Why is learning English important in many countries?", answer: "It's the global language of business, science, the internet. Like it or not, English opens doors. Films, music, research papers – so much is in English. Countries where people speak English well tend to have economic advantages." },
+      { q: "What is the best age to start learning a foreign language?", answer: "Younger is generally better – children's brains are more plastic, they pick up pronunciation easily. But adults can learn effectively too, especially if motivated. The best age to start is really just as soon as possible." },
+      { q: "Do you think translation technology will make language learning unnecessary?", answer: "For basic communication, maybe it already has. But for real connection, for working deeply in another culture, machines aren't enough. There are nuances that don't translate. Languages won't become unnecessary, but reasons to learn them might shift." },
+      { q: "How can languages be preserved in a globalised world?", answer: "Teaching them to children is crucial. Documentation and recording help. Making speakers proud of their heritage language. Government support for minority language education. Technology can actually help – apps for endangered languages, online communities." }
     ]
   },
   {
     id: 25,
-    topic: "Films and Entertainment",
+    topic: "Music and Culture",
     relatedPart2: 25,
     questions: [
-      { q: "How has the film industry changed in recent years?", answer: "Transformation has been dramatic. Streaming platforms have disrupted theatrical distribution, with many films now premiering digitally. Franchise films and sequels dominate cinema, reducing space for original stories. International markets, particularly China, increasingly influence production decisions. Digital effects enable previously impossible visuals but also homogenise aesthetics. Independent filmmaking has paradoxically both struggled against corporate consolidation and thrived through lower production costs and streaming opportunities. The pandemic accelerated industry restructuring. Diversity in front of and behind cameras has improved, though progress remains uneven. Traditional studios face existential questions about their relevance in the streaming era." },
-      { q: "Do you think films can influence people's behaviour?", answer: "Research suggests they can, though the mechanism is subtle rather than direct. Films shape cultural conversations, normalising or stigmatising behaviours. Repeated exposure to certain portrayals influences what seems acceptable or desirable. Characters provide models for emulation. However, the relationship isn't simple – audiences actively interpret rather than passively absorb messages, and existing attitudes filter reception. Individual films rarely cause behavioural change, but cumulative exposure to patterns across many films gradually shifts norms. The influence is perhaps strongest on unfamiliar topics where viewers lack other reference points. Concerns about violence, substance use, or stereotypes in film reflect genuine recognition of this influence." },
-      { q: "Should governments regulate what films can be shown?", answer: "Some regulation seems appropriate, particularly protecting children from harmful content through rating systems. Preventing demonstrably harmful material – genuinely illegal content like child exploitation – is uncontroversial. However, beyond clear limits, regulation becomes problematic. Government control of artistic expression easily becomes political censorship. Who decides what's acceptable? Public standards vary across cultures and time periods. Adults generally should be able to choose what they watch. Rating systems that inform without prohibiting adult access represent reasonable middle ground. The most effective approach combines light government oversight with industry self-regulation and empowered consumers who can make informed choices." },
-      { q: "Do you think streaming services will replace cinemas?", answer: "Complete replacement seems unlikely, though cinemas will certainly continue evolving. Theatrical releases offer something streaming cannot – the immersive experience of large screens, powerful sound, and communal viewing. Major event films benefit from theatrical release; seeing a film with an enthusiastic audience differs qualitatively from home viewing. However, mid-budget films that don't require theatrical presentation may migrate primarily to streaming. Cinemas will probably become more experience-focused – premium formats, improved comfort, food and drink options – to justify attendance. The pandemic demonstrated that cinemas aren't essential for film consumption, but also that many people missed them. A hybrid ecosystem seems more likely than winner-take-all outcomes." }
+      { q: "What role does music play in different cultures?", answer: "Huge role. Music marks celebrations, rituals, mourning. It preserves stories and history. It brings people together. Every culture has music because it's so fundamental – it crosses language barriers and touches people emotionally in ways words can't." },
+      { q: "Do you think music preferences are influenced by where you grow up?", answer: "Definitely. You absorb the music around you as a child. If your parents played classical or hip hop or folk, that shapes your taste. Though with streaming, people are exposed to more variety, so preferences might be less geographically determined now." },
+      { q: "Has technology changed how people experience music?", answer: "Completely. We've gone from live only, to records, to CDs, to streaming anything instantly. Music is everywhere, which is amazing but also less special maybe. Going to concerts feels more valuable because it's a genuine experience." },
+      { q: "Why do some music styles become popular worldwide while others remain local?", answer: "Catchy beats and simple melodies travel well. English language helps. Marketing and platforms matter – if Spotify pushes something, it spreads. Some music is tied to specific cultural contexts and doesn't translate well without that background." }
     ]
   },
   {
     id: 26,
-    topic: "Business and Entrepreneurship",
+    topic: "Food and Culture",
     relatedPart2: 26,
     questions: [
-      { q: "What qualities do successful entrepreneurs have?", answer: "Several characteristics recur. Resilience matters enormously – startups face constant rejection and setbacks, requiring ability to persist through failure. Risk tolerance is necessary since entrepreneurship involves significant uncertainty. Vision and ability to inspire others to share it enables building teams. Adaptability allows pivoting when initial plans prove flawed, which they invariably do. Problem-solving orientation focuses on creating value rather than just identifying issues. Financial understanding, even if not expertise, prevents avoidable mistakes. Network-building provides resources, advice, and opportunities. However, survivor bias means we overweight successful entrepreneurs' traits – many with identical qualities fail due to timing, luck, or circumstances beyond their control." },
-      { q: "Do you think small businesses are important for the economy?", answer: "Vital. Small businesses create the majority of new jobs in most economies. They provide essential goods and services in communities that large corporations often neglect. They drive innovation – many transformative ideas emerge from small, agile companies rather than corporate bureaucracies. Small businesses create economic diversity and competition that prevents monopolistic concentration. They keep wealth circulating locally rather than extracting it to distant headquarters. The entrepreneurial opportunity they represent enables social mobility. Their struggles matter politically, representing widely shared interests against concentrated corporate power. However, romanticising small business shouldn't obscure that employees often face worse conditions than in larger organisations with more resources and oversight." },
-      { q: "Why do some businesses fail?", answer: "Multiple factors contribute, often in combination. Insufficient market demand – building products nobody actually wants – is common. Running out of cash before becoming profitable kills promising ventures. Poor management decisions compound over time. Inability to adapt to changing circumstances leaves businesses behind. Founders' skill gaps – strong in product development but weak in finance, or vice versa – create vulnerabilities. Competition, both expected and unforeseen, can overwhelm advantages. Scaling too quickly strains operations, while scaling too slowly misses market windows. Partnership conflicts distract from business priorities. External factors like economic downturns, regulatory changes, or technological disruption can doom even well-run businesses. Success requires navigating multiple challenges; failure requires only one fatal mistake." },
-      { q: "Is it better to start your own business or work for someone else?", answer: "Neither is universally better – it depends on individual circumstances and preferences. Self-employment offers autonomy, potentially unlimited upside, and the satisfaction of building something. However, it involves significant risk, unstable income, long hours, and constant responsibility. Employment provides security, benefits, structured advancement, and freedom from administrative burdens. The choice depends on risk tolerance, financial situation, personality, family obligations, and industry context. Some people thrive on entrepreneurial challenge; others flourish in organisational environments. The calculus changes over a lifetime – security may matter more with dependents, while risk tolerance might be higher when young. Neither path guarantees satisfaction or success." }
+      { q: "Why is food such an important part of culture?", answer: "It's tied to identity, memory, tradition. Family recipes passed down, festival dishes, everyday meals. Food rituals bring people together. And honestly, we all have to eat, so it's natural it becomes meaningful. Food tells you a lot about a place." },
+      { q: "Do you think globalisation has affected traditional cuisines?", answer: "Definitely. You can get almost any cuisine anywhere now, which is great for variety but maybe dilutes what's local. Some traditional dishes are disappearing as younger generations prefer international options. Though there's a counter-movement valuing local food too." },
+      { q: "Should parents teach their children how to cook?", answer: "Absolutely. Cooking is a basic life skill. It's healthier and cheaper than ready meals. And there's the cultural aspect – recipes and traditions passed down. Plus cooking together is a nice way to spend time with kids." },
+      { q: "Why are some people willing to spend a lot of money on food?", answer: "For some it's about quality – genuinely better ingredients and skill. Social status plays a role too. The experience matters – ambiance, service, novelty. And for food enthusiasts, it's a hobby they're willing to invest in." }
     ]
   },
   {
     id: 27,
-    topic: "Laws and Society",
+    topic: "Technology and Daily Life",
     relatedPart2: 27,
     questions: [
-      { q: "Should all laws be the same for everyone?", answer: "In principle, equality before the law is fundamental to justice – no one should be above the law, and similar cases should be treated similarly. However, genuine equality sometimes requires recognising differences. Children cannot be held to adult standards. People with certain disabilities may need accommodations that others don't. Genuine need might justify treating the poor differently from the wealthy regarding fines. The distinction is between unjust discrimination – arbitrary differences based on irrelevant characteristics – and justified differentiation that promotes substantive equality. Laws should treat everyone equally in their fundamental rights while recognising that identical treatment sometimes produces unequal outcomes." },
-      { q: "Why do people break laws?", answer: "Motivations are diverse. Economic necessity drives some crime – desperate people make desperate choices. Some laws are widely viewed as unjust, reducing compliance. Impulsivity and poor decision-making, sometimes linked to age, substances, or mental health, lead to law-breaking. Criminal subcultures normalise illegal behaviour within certain communities. Opportunity combined with low likelihood of consequences encourages violation. Some people simply miscalculate, believing they won't be caught. Certain personalities are genuinely antisocial. However, understanding motivations shouldn't excuse harmful behaviour – it should inform prevention and rehabilitation strategies that address root causes rather than only punishing symptoms." },
-      { q: "How can society encourage people to obey laws?", answer: "Multiple approaches work together. Effective enforcement with appropriate consequences creates deterrence, though severity matters less than certainty of being caught. Legitimate laws that citizens perceive as fair generate more compliance than those seen as unjust. Education about laws and their purposes builds understanding. Social norms that reinforce legal compliance create informal pressure. Reducing inequality and desperation removes some motivations for law-breaking. Rehabilitation and reintegration programs prevent recidivism more effectively than purely punitive approaches. Ultimately, people obey laws most reliably when they feel part of the society those laws protect – alienation breeds disregard for rules made by perceived outsiders." },
-      { q: "Do you think punishment for crimes should be more or less severe?", answer: "Research suggests the relationship between severity and deterrence is weaker than intuition suggests. Certainty of punishment matters more than severity – potential offenders don't typically calculate sentences carefully. Excessive sentences create injustice and enormous costs without proportionate benefits. However, inadequate consequences fail to express society's condemnation of serious wrongs and may leave victims feeling justice wasn't served. The most effective approaches combine appropriate accountability with rehabilitation, restitution, and reintegration. Focusing on outcomes rather than retribution – reducing future crime, repairing harm, restoring offenders to productive citizenship – should guide policy. Different crimes warrant different responses; violence requires different treatment than property crimes or regulatory violations." }
+      { q: "How dependent are people on technology nowadays?", answer: "Very. Try living without your phone for a day – most people would struggle. We rely on technology for communication, navigation, work, entertainment, shopping... everything really. Whether that dependency is good or bad is debatable, but it's definitely real." },
+      { q: "Do you think technology has made life better or worse?", answer: "Both, honestly. Medical advances, access to information, connecting with people worldwide – clearly better. But mental health issues from social media, privacy concerns, job losses to automation – real downsides. Technology is neutral; it's how we use it that matters." },
+      { q: "Are there any technologies you think we would be better off without?", answer: "That's hard because most have good and bad uses. Maybe some social media features that are deliberately addictive? Weapons of mass destruction, obviously. But even then... the knowledge can't be unlearned. It's about how we choose to use technology." },
+      { q: "How do you think technology will change daily life in the future?", answer: "AI will be everywhere – assistants, automation, maybe companions. Probably more virtual and augmented reality. Working from anywhere will be normal. But I hope we keep some tech-free spaces too. The trend seems to be more integration of technology into everything." }
     ]
   }
 ];
+
 
 const grammarLessons = [
   {
@@ -3511,180 +3543,761 @@ const listeningTestsData = {
       id: 1,
       title: "Preston Park Run",
       formTitle: "PRESTON PARK RUN",
-      formSubtitle: "Details of run",
+      formSubtitle: "Registration Details",
       instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "Start of run: in front of the", answer: "café" },
-        { num: 2, text: "Time of start:", answer: "9 am" },
-        { num: 3, text: "Length of run:", answer: "5 km" },
-        { num: 4, text: "At end of run: volunteer scans", answer: "barcode" },
-        { num: 5, text: "Best way to register: on the", answer: "website" },
-        { num: 6, text: "Cost of run:", answer: "free" },
-        { num: 7, text: "Contact name: Pete", answer: "Maughan" },
-        { num: 8, text: "Phone number:", answer: "07732 445901" },
-        { num: 9, text: "Activities: setting up course,", answer: "guiding" },
-        { num: 10, text: "_______ for the weekly report", answer: "photography" },
+        { num: 1, text: "Location: meet in front of the", answer: "café" },
+        { num: 2, text: "Day of the week:", answer: "Saturday" },
+        { num: 3, text: "Start time:", answer: "9 am" },
+        { num: 4, text: "Distance:", answer: "5 km" },
+        { num: 5, text: "At finish: volunteers will scan your", answer: "barcode" },
+        { num: 6, text: "Registration: best done on the", answer: "website" },
+        { num: 7, text: "Participation fee: £", answer: "0/free" },
+        { num: 8, text: "Volunteer contact name: Pete", answer: "Maughan" },
+        { num: 9, text: "Phone number:", answer: "07732 445901" },
+        { num: 10, text: "Help needed with: photography for the", answer: "weekly report" }
       ]
     },
     {
       id: 2,
       title: "Short Story Competition",
       formTitle: "SHORT STORY COMPETITION",
-      formSubtitle: "Entry Details",
+      formSubtitle: "Entry Requirements",
       instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "Length of story: approximately", answer: "2000 words" },
+        { num: 1, text: "Maximum word count:", answer: "2000 words" },
         { num: 2, text: "Story must include: a", answer: "journey" },
-        { num: 3, text: "Minimum age:", answer: "18" },
-        { num: 4, text: "Last entry date: 1st", answer: "September" },
-        { num: 5, text: "Web address: www.______.com", answer: "shortstory" },
-        { num: 6, text: "Don't _______ the story to the organisers", answer: "email" },
-        { num: 7, text: "The competition is judged by", answer: "professional writers" },
-        { num: 8, text: "The top five stories will be available", answer: "online" },
-        { num: 9, text: "The top story will be chosen by the", answer: "public" },
-        { num: 10, text: "The first prize is a place at a writers' workshop in", answer: "Paris" },
+        { num: 3, text: "Minimum age of entrants:", answer: "18" },
+        { num: 4, text: "Closing date: 1st", answer: "September" },
+        { num: 5, text: "Submit entries at: www.______.com", answer: "shortstory" },
+        { num: 6, text: "Don't ______ your story directly", answer: "email" },
+        { num: 7, text: "Judging panel: professional", answer: "writers" },
+        { num: 8, text: "Top five will be published", answer: "online" },
+        { num: 9, text: "Winner chosen by: the", answer: "public" },
+        { num: 10, text: "First prize: workshop in", answer: "Paris" }
       ]
     },
     {
       id: 3,
-      title: "Sarah's Health & Fitness Club",
-      formTitle: "SARAH'S HEALTH & FITNESS CLUB",
-      formSubtitle: "Membership Application",
+      title: "Health & Fitness Club Membership",
+      formTitle: "HEALTH & FITNESS CLUB",
+      formSubtitle: "New Member Registration",
       instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "Last name:", answer: "Symonds" },
-        { num: 2, text: "Year of birth:", answer: "1996" },
-        { num: 3, text: "Type of Membership:", answer: "gold" },
-        { num: 4, text: "Activities: Badminton and", answer: "swimming" },
-        { num: 5, text: "To be paid", answer: "monthly" },
-        { num: 6, text: "What exercise do you do regularly?", answer: "jogging" },
-        { num: 7, text: "Do you have any injuries? has a", answer: "bad ankle" },
-        { num: 8, text: "What is your goal? a better", answer: "fitness level" },
-        { num: 9, text: "What is your occupation? a", answer: "charity worker" },
-        { num: 10, text: "How did you hear about the club?", answer: "friend" },
+        { num: 1, text: "Surname:", answer: "Symonds" },
+        { num: 2, text: "Date of birth: 14th March", answer: "1996" },
+        { num: 3, text: "Membership type:", answer: "gold" },
+        { num: 4, text: "Main activities: badminton and", answer: "swimming" },
+        { num: 5, text: "Payment frequency:", answer: "monthly" },
+        { num: 6, text: "Current exercise:", answer: "jogging" },
+        { num: 7, text: "Medical issue: problem with", answer: "ankle" },
+        { num: 8, text: "Fitness goal: improve", answer: "stamina" },
+        { num: 9, text: "Occupation:", answer: "nurse" },
+        { num: 10, text: "How did you hear about us: through a", answer: "friend" }
       ]
     },
     {
       id: 4,
-      title: "Community Centre Evening Classes",
+      title: "Community Centre Classes",
       formTitle: "COMMUNITY CENTRE",
-      formSubtitle: "Evening Classes Information",
+      formSubtitle: "Evening Class Information",
       instruction: "Write NO MORE THAN ONE WORD AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "Painting: at _______ pm on Tuesdays", answer: "7" },
-        { num: 2, text: "What to bring: water jar and set of", answer: "brushes" },
-        { num: 3, text: "Maori: in the small room at the _______ of the building", answer: "back" },
-        { num: 4, text: "Maori language: starts in", answer: "October" },
-        { num: 5, text: "Photography: the _______ for the camera", answer: "manual" },
-        { num: 6, text: "Photography cost: £_______ – eight classes", answer: "" },
-        { num: 7, text: "The watercolours class suits people who are", answer: "beginners" },
-        { num: 8, text: "To find out about the Maori class, contact Jason", answer: "Woodhouse" },
-        { num: 9, text: "For photography, check the _______ for the camera", answer: "settings" },
-        { num: 10, text: "There is a trip to a local _______ in the final week", answer: "gallery" },
+        { num: 1, text: "Watercolour painting: Tuesdays at ______ pm", answer: "7" },
+        { num: 2, text: "Materials: bring brushes and water", answer: "jar" },
+        { num: 3, text: "Photography: room at ______ of building", answer: "back" },
+        { num: 4, text: "Photography starts in:", answer: "October" },
+        { num: 5, text: "Bring your camera", answer: "manual" },
+        { num: 6, text: "Photography course fee: £", answer: "" },
+        { num: 7, text: "Art class suits:", answer: "beginners" },
+        { num: 8, text: "Contact for language class: Jason", answer: "Woodhouse" },
+        { num: 9, text: "Check camera", answer: "settings" },
+        { num: 10, text: "Final week trip to local", answer: "gallery" }
       ]
     },
     {
       id: 5,
-      title: "City Transport Lost Property",
-      formTitle: "CITY TRANSPORT LOST PROPERTY",
-      formSubtitle: "Enquiry Form",
+      title: "Lost Property Enquiry",
+      formTitle: "LOST PROPERTY OFFICE",
+      formSubtitle: "Item Report Form",
       instruction: "Write ONE WORD AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "Description: black with thin _______ stripes", answer: "white" },
-        { num: 2, text: "Other items: a set of _______ keys", answer: "office" },
-        { num: 3, text: "a _______ in a box", answer: "camera" },
-        { num: 4, text: "a blue", answer: "umbrella" },
-        { num: 5, text: "Date and time: 2.00-2.30 pm on", answer: "13th May" },
-        { num: 6, text: "Basic route: from the _______ to Highbury", answer: "airport" },
-        { num: 7, text: "Mode of travel: left the suitcase in a", answer: "taxi" },
+        { num: 1, text: "Item: suitcase – black with ______ stripes", answer: "white" },
+        { num: 2, text: "Contents: ______ keys", answer: "office" },
+        { num: 3, text: "Also contains: ______ in a box", answer: "camera" },
+        { num: 4, text: "And a blue", answer: "umbrella" },
+        { num: 5, text: "Date lost:", answer: "13th May" },
+        { num: 6, text: "Journey from:", answer: "airport" },
+        { num: 7, text: "Lost in a:", answer: "taxi" },
         { num: 8, text: "Name: Lisa", answer: "Docherty" },
-        { num: 9, text: "Address: 15A _______ Rd, Highbury", answer: "River" },
-        { num: 10, text: "Phone number:", answer: "" },
+        { num: 9, text: "Street name: ______ Road", answer: "River" },
+        { num: 10, text: "Best contact time:", answer: "evening" }
       ]
     },
-    { id: 6, title: "Accommodation Form: Rental Properties", formTitle: "RENTAL PROPERTIES", formSubtitle: "Client Requirements", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 7, title: "Hostel Accommodation in Darwin", formTitle: "DARWIN HOSTEL BOOKING", formSubtitle: "Reservation Details", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 8, title: "Hilary Lodge Retirement Home", formTitle: "HILARY LODGE", formSubtitle: "Enquiry Form", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 9, title: "Transport from Airport to Milton", formTitle: "AIRPORT TRANSFER SERVICE", formSubtitle: "Booking Information", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 10, title: "Car Insurance", formTitle: "CAR INSURANCE QUOTE", formSubtitle: "Application Details", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 11, title: "Holiday Rental Enquiry", formTitle: "HOLIDAY RENTAL ENQUIRY", formSubtitle: "Property Details", instruction: "Write ONE WORD AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 12, title: "Homestay Application", formTitle: "HOMESTAY APPLICATION", formSubtitle: "Student Information", instruction: "Write ONE WORD AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 13, title: "Hotel Booking", formTitle: "HOTEL RESERVATION", formSubtitle: "Booking Details", instruction: "Write ONE WORD AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 14, title: "Total Insurance Incident Report", formTitle: "INCIDENT REPORT", formSubtitle: "Claim Details", instruction: "Write NO MORE THAN THREE WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 15, title: "Rented Properties Requirements", formTitle: "RENTAL REQUIREMENTS", formSubtitle: "Client Preferences", instruction: "Write ONE WORD AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 16, title: "West Bay Hotel Job", formTitle: "JOB APPLICATION", formSubtitle: "West Bay Hotel", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 17, title: "Restaurant Job Enquiry", formTitle: "RESTAURANT VACANCY", formSubtitle: "Position Details", instruction: "Write NO MORE THAN THREE WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 18, title: "Student Accommodation Form", formTitle: "STUDENT HOUSING", formSubtitle: "Application Form", instruction: "Write ONE WORD AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 19, title: "Holiday Apartments Comparison", formTitle: "APARTMENT COMPARISON", formSubtitle: "Feature Summary", instruction: "Write ONE WORD AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 20, title: "Health Centres Information", formTitle: "HEALTH CENTRES", formSubtitle: "Service Information", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    {
+      id: 6,
+      title: "Apartment Rental Enquiry",
+      formTitle: "RENTAL AGENCY",
+      formSubtitle: "Property Search Requirements",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
+      questions: [
+        { num: 1, text: "Property type:", answer: "apartment" },
+        { num: 2, text: "Maximum monthly rent: £", answer: "" },
+        { num: 3, text: "Preferred location:", answer: "city centre" },
+        { num: 4, text: "Must have:", answer: "parking" },
+        { num: 5, text: "Number of bedrooms:", answer: "2" },
+        { num: 6, text: "Move-in date: 1st", answer: "December" },
+        { num: 7, text: "Current postcode:", answer: "SW1 4PT" },
+        { num: 8, text: "Reason for moving: new", answer: "job" },
+        { num: 9, text: "Contact phone:", answer: "07855 441290" },
+        { num: 10, text: "Best time to call:", answer: "afternoon" }
+      ]
+    },
+    {
+      id: 7,
+      title: "Hostel Booking",
+      formTitle: "BACKPACKER HOSTEL",
+      formSubtitle: "Reservation Form",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
+      questions: [
+        { num: 1, text: "Room type:", answer: "dormitory" },
+        { num: 2, text: "Number of nights:", answer: "5" },
+        { num: 3, text: "Arrival date:", answer: "23rd June" },
+        { num: 4, text: "Guest name:", answer: "Thompson" },
+        { num: 5, text: "Nationality:", answer: "British" },
+        { num: 6, text: "Price per night: $", answer: "" },
+        { num: 7, text: "Breakfast:", answer: "included" },
+        { num: 8, text: "Airport pickup required:", answer: "yes" },
+        { num: 9, text: "Flight arrives at:", answer: "10.30 am" },
+        { num: 10, text: "Special request:", answer: "vegetarian" }
+      ]
+    },
+    {
+      id: 8,
+      title: "Retirement Home Enquiry",
+      formTitle: "HILLCREST LODGE",
+      formSubtitle: "Information Request",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
+      questions: [
+        { num: 1, text: "Type of room:", answer: "single" },
+        { num: 2, text: "Building has ______ floors", answer: "3" },
+        { num: 3, text: "Monthly fee: £", answer: "" },
+        { num: 4, text: "Meals: all", answer: "included" },
+        { num: 5, text: "Activities: gardening and", answer: "crafts" },
+        { num: 6, text: "Medical: nurse available", answer: "daily" },
+        { num: 7, text: "Visiting hours: ______ to 8pm", answer: "10 am" },
+        { num: 8, text: "Nearest bus stop: ______ Street", answer: "Oak" },
+        { num: 9, text: "Contact: Mrs", answer: "Patterson" },
+        { num: 10, text: "Open day:", answer: "Sunday" }
+      ]
+    },
+    {
+      id: 9,
+      title: "Airport Transfer Booking",
+      formTitle: "AIRPORT SHUTTLE",
+      formSubtitle: "Booking Details",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
+      questions: [
+        { num: 1, text: "Destination:", answer: "Milton" },
+        { num: 2, text: "Number of passengers:", answer: "3" },
+        { num: 3, text: "Pickup time:", answer: "2.30 pm" },
+        { num: 4, text: "Terminal:", answer: "2" },
+        { num: 5, text: "Vehicle type:", answer: "minivan" },
+        { num: 6, text: "Total cost: £", answer: "" },
+        { num: 7, text: "Payment: by", answer: "card" },
+        { num: 8, text: "Driver name:", answer: "Collins" },
+        { num: 9, text: "Company phone:", answer: "0800 567890" },
+        { num: 10, text: "Meeting point: arrivals", answer: "hall" }
+      ]
+    },
+    {
+      id: 10,
+      title: "Car Insurance Quote",
+      formTitle: "VEHICLE INSURANCE",
+      formSubtitle: "Quote Application",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
+      questions: [
+        { num: 1, text: "Cover type:", answer: "comprehensive" },
+        { num: 2, text: "Car make:", answer: "Toyota" },
+        { num: 3, text: "Year:", answer: "2019" },
+        { num: 4, text: "Annual mileage:", answer: "10000" },
+        { num: 5, text: "Driver age:", answer: "28" },
+        { num: 6, text: "Years driving:", answer: "6" },
+        { num: 7, text: "Previous claims:", answer: "none" },
+        { num: 8, text: "Job:", answer: "teacher" },
+        { num: 9, text: "Postcode:", answer: "M15 6AA" },
+        { num: 10, text: "Annual quote: £", answer: "" }
+      ]
+    },
+    {
+      id: 11,
+      title: "Holiday Rental Enquiry",
+      formTitle: "HOLIDAY RENTAL ENQUIRY",
+      formSubtitle: "Application Form",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 12,
+      title: "Homestay Application",
+      formTitle: "HOMESTAY APPLICATION",
+      formSubtitle: "Application Form",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 13,
+      title: "Hotel Booking",
+      formTitle: "HOTEL BOOKING",
+      formSubtitle: "Application Form",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 14,
+      title: "Insurance Claim Report",
+      formTitle: "INSURANCE CLAIM REPORT",
+      formSubtitle: "Application Form",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 15,
+      title: "Property Requirements",
+      formTitle: "PROPERTY REQUIREMENTS",
+      formSubtitle: "Application Form",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 16,
+      title: "Hotel Job Application",
+      formTitle: "HOTEL JOB APPLICATION",
+      formSubtitle: "Application Form",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 17,
+      title: "Restaurant Staff Enquiry",
+      formTitle: "RESTAURANT STAFF ENQUIRY",
+      formSubtitle: "Application Form",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 18,
+      title: "Student Housing Form",
+      formTitle: "STUDENT HOUSING FORM",
+      formSubtitle: "Application Form",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 19,
+      title: "Apartment Comparison",
+      formTitle: "APARTMENT COMPARISON",
+      formSubtitle: "Application Form",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 20,
+      title: "Medical Centre Registration",
+      formTitle: "MEDICAL CENTRE REGISTRATION",
+      formSubtitle: "Application Form",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
   ],
   part2: [
-    { id: 21, title: "Pacton-on-Sea Bus Tour", formTitle: "BUS TOUR", formSubtitle: "Tour Information", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 22, title: "Sea Life Centre Information", formTitle: "SEA LIFE CENTRE", formSubtitle: "Visitor Information", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 23, title: "Hotel Event Planning", formTitle: "HOTEL EVENT", formSubtitle: "Planning Details", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 24, title: "Volunteer Conservation Work", formTitle: "CONSERVATION WORK", formSubtitle: "Volunteer Programme", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 25, title: "Town Map Directions", formTitle: "TOWN MAP", formSubtitle: "Location Guide", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 26, title: "Neighbourhood Safety Talk", formTitle: "NEIGHBOURHOOD SAFETY", formSubtitle: "Community Meeting", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 27, title: "Anglia Sculpture Park", formTitle: "SCULPTURE PARK", formSubtitle: "Visitor Guide", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 28, title: "Learning Resource Centre", formTitle: "RESOURCE CENTRE", formSubtitle: "Floor Plan", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 29, title: "PS Camping Holidays", formTitle: "CAMPING HOLIDAYS", formSubtitle: "Package Details", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 30, title: "City Development Plan", formTitle: "CITY DEVELOPMENT", formSubtitle: "Planning Proposal", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 31, title: "Sponsored Walking Holiday", formTitle: "WALKING HOLIDAY", formSubtitle: "Tour Details", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 32, title: "City Walking Tour", formTitle: "CITY TOUR", formSubtitle: "Walking Route", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 33, title: "The Dinosaur Museum", formTitle: "DINOSAUR MUSEUM", formSubtitle: "Exhibition Guide", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 34, title: "Wildlife Park Tour", formTitle: "WILDLIFE PARK", formSubtitle: "Tour Information", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 35, title: "The National Arts Centre", formTitle: "ARTS CENTRE", formSubtitle: "Programme Information", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 36, title: "Red Hill Suburb Improvements", formTitle: "SUBURB IMPROVEMENTS", formSubtitle: "Development Plan", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 37, title: "Sports World Store", formTitle: "SPORTS WORLD", formSubtitle: "Store Layout", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 38, title: "Parks and Open Spaces", formTitle: "PARKS & OPEN SPACES", formSubtitle: "Area Guide", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 39, title: "Winridge Forest Railway Park", formTitle: "RAILWAY PARK", formSubtitle: "Visitor Information", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 40, title: "Water Heater Instructions", formTitle: "WATER HEATER", formSubtitle: "Operating Instructions", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    {
+      id: 21,
+      title: "Pacton-on-Sea Bus Tour",
+      formTitle: "PACTON-ON-SEA BUS TOUR",
+      formSubtitle: "Information Guide",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 22,
+      title: "Sea Life Centre",
+      formTitle: "SEA LIFE CENTRE",
+      formSubtitle: "Information Guide",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 23,
+      title: "Hotel Events",
+      formTitle: "HOTEL EVENTS",
+      formSubtitle: "Information Guide",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 24,
+      title: "Conservation Volunteering",
+      formTitle: "CONSERVATION VOLUNTEERING",
+      formSubtitle: "Information Guide",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 25,
+      title: "Town Map Tour",
+      formTitle: "TOWN MAP TOUR",
+      formSubtitle: "Information Guide",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 26,
+      title: "Neighbourhood Watch",
+      formTitle: "NEIGHBOURHOOD WATCH",
+      formSubtitle: "Information Guide",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 27,
+      title: "Sculpture Park Guide",
+      formTitle: "SCULPTURE PARK GUIDE",
+      formSubtitle: "Information Guide",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 28,
+      title: "Learning Centre Layout",
+      formTitle: "LEARNING CENTRE LAYOUT",
+      formSubtitle: "Information Guide",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 29,
+      title: "Camping Holidays",
+      formTitle: "CAMPING HOLIDAYS",
+      formSubtitle: "Information Guide",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 30,
+      title: "City Development Plan",
+      formTitle: "CITY DEVELOPMENT PLAN",
+      formSubtitle: "Information Guide",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 31,
+      title: "Walking Holiday",
+      formTitle: "WALKING HOLIDAY",
+      formSubtitle: "Information Guide",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 32,
+      title: "City Walking Tour",
+      formTitle: "CITY WALKING TOUR",
+      formSubtitle: "Information Guide",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 33,
+      title: "Dinosaur Museum",
+      formTitle: "DINOSAUR MUSEUM",
+      formSubtitle: "Information Guide",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 34,
+      title: "Wildlife Park",
+      formTitle: "WILDLIFE PARK",
+      formSubtitle: "Information Guide",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 35,
+      title: "Arts Centre Programme",
+      formTitle: "ARTS CENTRE PROGRAMME",
+      formSubtitle: "Information Guide",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 36,
+      title: "Suburb Development",
+      formTitle: "SUBURB DEVELOPMENT",
+      formSubtitle: "Information Guide",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 37,
+      title: "Sports World Store",
+      formTitle: "SPORTS WORLD STORE",
+      formSubtitle: "Information Guide",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 38,
+      title: "Parks Guide",
+      formTitle: "PARKS GUIDE",
+      formSubtitle: "Information Guide",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 39,
+      title: "Railway Park Information",
+      formTitle: "RAILWAY PARK INFORMATION",
+      formSubtitle: "Information Guide",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 40,
+      title: "Water Heater Guide",
+      formTitle: "WATER HEATER GUIDE",
+      formSubtitle: "Information Guide",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
   ],
   part3: [
-    { id: 41, title: "Computer System Discussion", formTitle: "COMPUTER SYSTEM", formSubtitle: "Discussion Notes", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 42, title: "University Subject Choices", formTitle: "SUBJECT CHOICES", formSubtitle: "Discussion", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 43, title: "Paper Production & Recycling", formTitle: "PAPER RECYCLING", formSubtitle: "Process Notes", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 44, title: "Food Waste Discussion", formTitle: "FOOD WASTE", formSubtitle: "Discussion Points", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 45, title: "Furniture Rossi Case Study", formTitle: "CASE STUDY", formSubtitle: "Business Analysis", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 46, title: "Biofuels Presentation", formTitle: "BIOFUELS", formSubtitle: "Presentation Notes", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 47, title: "Instant Coffee Marketing", formTitle: "COFFEE MARKETING", formSubtitle: "Case Study", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 48, title: "Museum Training Film", formTitle: "MUSEUM TRAINING", formSubtitle: "Film Discussion", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 49, title: "Individual Differences at Work", formTitle: "WORKPLACE DIFFERENCES", formSubtitle: "Lecture Notes", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 50, title: "Antarctic Centre Christchurch", formTitle: "ANTARCTIC CENTRE", formSubtitle: "Discussion", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 51, title: "Ocean Research Float Project", formTitle: "OCEAN RESEARCH", formSubtitle: "Project Discussion", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 52, title: "Geography Presentation", formTitle: "GEOGRAPHY", formSubtitle: "Presentation Notes", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 53, title: "Field Trip Proposal", formTitle: "FIELD TRIP", formSubtitle: "Planning Discussion", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 54, title: "Honey Bees in Australia", formTitle: "HONEY BEES", formSubtitle: "Research Discussion", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 55, title: "Latin American Studies", formTitle: "LATIN AMERICAN STUDIES", formSubtitle: "Course Discussion", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 56, title: "Course Financing Discussion", formTitle: "COURSE FINANCING", formSubtitle: "Student Discussion", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 57, title: "Marketing Course Feedback", formTitle: "MARKETING COURSE", formSubtitle: "Feedback Session", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 58, title: "Self-Access Centre", formTitle: "SELF-ACCESS CENTRE", formSubtitle: "Orientation", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 59, title: "Study Skills Tutorial", formTitle: "STUDY SKILLS", formSubtitle: "Tutorial Notes", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 60, title: "International Student Experience", formTitle: "STUDENT EXPERIENCE", formSubtitle: "Discussion", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    {
+      id: 41,
+      title: "Computer System Discussion",
+      formTitle: "COMPUTER SYSTEM DISCUSSION",
+      formSubtitle: "Discussion Notes",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 42,
+      title: "Subject Choice Talk",
+      formTitle: "SUBJECT CHOICE TALK",
+      formSubtitle: "Discussion Notes",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 43,
+      title: "Paper Recycling Discussion",
+      formTitle: "PAPER RECYCLING DISCUSSION",
+      formSubtitle: "Discussion Notes",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 44,
+      title: "Food Waste Seminar",
+      formTitle: "FOOD WASTE SEMINAR",
+      formSubtitle: "Discussion Notes",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 45,
+      title: "Business Case Study",
+      formTitle: "BUSINESS CASE STUDY",
+      formSubtitle: "Discussion Notes",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 46,
+      title: "Biofuels Presentation",
+      formTitle: "BIOFUELS PRESENTATION",
+      formSubtitle: "Discussion Notes",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 47,
+      title: "Coffee Marketing",
+      formTitle: "COFFEE MARKETING",
+      formSubtitle: "Discussion Notes",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 48,
+      title: "Museum Training",
+      formTitle: "MUSEUM TRAINING",
+      formSubtitle: "Discussion Notes",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 49,
+      title: "Workplace Differences",
+      formTitle: "WORKPLACE DIFFERENCES",
+      formSubtitle: "Discussion Notes",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 50,
+      title: "Antarctic Research",
+      formTitle: "ANTARCTIC RESEARCH",
+      formSubtitle: "Discussion Notes",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 51,
+      title: "Ocean Float Project",
+      formTitle: "OCEAN FLOAT PROJECT",
+      formSubtitle: "Discussion Notes",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 52,
+      title: "Geography Project",
+      formTitle: "GEOGRAPHY PROJECT",
+      formSubtitle: "Discussion Notes",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 53,
+      title: "Field Trip Planning",
+      formTitle: "FIELD TRIP PLANNING",
+      formSubtitle: "Discussion Notes",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 54,
+      title: "Honey Bee Study",
+      formTitle: "HONEY BEE STUDY",
+      formSubtitle: "Discussion Notes",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 55,
+      title: "Latin American Course",
+      formTitle: "LATIN AMERICAN COURSE",
+      formSubtitle: "Discussion Notes",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 56,
+      title: "Course Financing",
+      formTitle: "COURSE FINANCING",
+      formSubtitle: "Discussion Notes",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 57,
+      title: "Marketing Feedback",
+      formTitle: "MARKETING FEEDBACK",
+      formSubtitle: "Discussion Notes",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 58,
+      title: "Self-Access Centre",
+      formTitle: "SELF-ACCESS CENTRE",
+      formSubtitle: "Discussion Notes",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 59,
+      title: "Study Skills Session",
+      formTitle: "STUDY SKILLS SESSION",
+      formSubtitle: "Discussion Notes",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 60,
+      title: "Student Experience Survey",
+      formTitle: "STUDENT EXPERIENCE SURVEY",
+      formSubtitle: "Discussion Notes",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
   ],
   part4: [
-    { id: 61, title: "Ceramics History", formTitle: "CERAMICS HISTORY", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 62, title: "Preparing a Presentation", formTitle: "PRESENTATION SKILLS", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 63, title: "Facts About Hair", formTitle: "HAIR FACTS", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 64, title: "Maori Kite-Making", formTitle: "KITE-MAKING", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 65, title: "Rock Art Research", formTitle: "ROCK ART", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 66, title: "Weak-Tie Theory", formTitle: "WEAK-TIE THEORY", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 67, title: "History of Fireworks in Europe", formTitle: "FIREWORKS HISTORY", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 68, title: "New Caledonian Crows", formTitle: "CROW RESEARCH", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 69, title: "Seminar on Rock Art", formTitle: "ROCK ART SEMINAR", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 70, title: "Handedness in Sport", formTitle: "HANDEDNESS", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 71, title: "Hotels and Tourism", formTitle: "TOURISM INDUSTRY", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 72, title: "Monosodium Glutamate (MSG)", formTitle: "MSG RESEARCH", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 73, title: "Geography Lecture", formTitle: "GEOGRAPHY LECTURE", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 74, title: "Research on Doctors", formTitle: "MEDICAL RESEARCH", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 75, title: "Repeating Business Success", formTitle: "BUSINESS SUCCESS", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 76, title: "Aboriginal Rock Paintings", formTitle: "ROCK PAINTINGS", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 77, title: "Mass Strandings of Whales", formTitle: "WHALE STRANDINGS", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 78, title: "Business Cultures", formTitle: "BUSINESS CULTURES", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 79, title: "Underground House Design", formTitle: "UNDERGROUND HOUSES", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
-    { id: 80, title: "Wildlife in City Gardens", formTitle: "URBAN WILDLIFE", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    {
+      id: 61,
+      title: "Ceramics History",
+      formTitle: "CERAMICS HISTORY",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 62,
+      title: "Presentation Skills",
+      formTitle: "PRESENTATION SKILLS",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 63,
+      title: "Hair Science",
+      formTitle: "HAIR SCIENCE",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 64,
+      title: "Kite Making History",
+      formTitle: "KITE MAKING HISTORY",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 65,
+      title: "Rock Art Analysis",
+      formTitle: "ROCK ART ANALYSIS",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 66,
+      title: "Social Networks Theory",
+      formTitle: "SOCIAL NETWORKS THEORY",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 67,
+      title: "Fireworks History",
+      formTitle: "FIREWORKS HISTORY",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 68,
+      title: "Crow Intelligence",
+      formTitle: "CROW INTELLIGENCE",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 69,
+      title: "Rock Art Seminar",
+      formTitle: "ROCK ART SEMINAR",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 70,
+      title: "Handedness Research",
+      formTitle: "HANDEDNESS RESEARCH",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 71,
+      title: "Tourism Industry",
+      formTitle: "TOURISM INDUSTRY",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 72,
+      title: "MSG Research",
+      formTitle: "MSG RESEARCH",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 73,
+      title: "Geographical Features",
+      formTitle: "GEOGRAPHICAL FEATURES",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 74,
+      title: "Medical Research",
+      formTitle: "MEDICAL RESEARCH",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 75,
+      title: "Business Success Factors",
+      formTitle: "BUSINESS SUCCESS FACTORS",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 76,
+      title: "Aboriginal Art",
+      formTitle: "ABORIGINAL ART",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 77,
+      title: "Whale Behaviour",
+      formTitle: "WHALE BEHAVIOUR",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 78,
+      title: "Business Culture",
+      formTitle: "BUSINESS CULTURE",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 79,
+      title: "Underground Housing",
+      formTitle: "UNDERGROUND HOUSING",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
+    {
+      id: 80,
+      title: "Urban Wildlife",
+      formTitle: "URBAN WILDLIFE",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: Array(10).fill(null).map((_, idx) => ({ num: idx+1, text: "Question " + (idx+1), answer: "" }))
+    },
   ]
 };
+
 
 // ==================== LISTENING PAGE ====================
 const ListeningPage = ({ subPage, setSubPage }) => {
@@ -4422,27 +5035,156 @@ const AuthPage = ({ type, setCurrentPage }) => {
 
 // ==================== DASHBOARD ====================
 const Dashboard = ({ setCurrentPage }) => {
-  const { user, profile, signOut } = useAuth();
+  const { user, profile, signOut, updateProfile } = useAuth();
+  const [isEditing, setIsEditing] = useState(false);
+  const [editTarget, setEditTarget] = useState(profile?.target_score || '7.0');
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (profile?.target_score) {
+      setEditTarget(profile.target_score.toString());
+    }
+  }, [profile]);
+
+  const handleSaveTarget = async () => {
+    setSaving(true);
+    const { error } = await updateProfile({ target_score: parseFloat(editTarget) });
+    setSaving(false);
+    if (!error) {
+      setIsEditing(false);
+    }
+  };
+
   if (!user) return null;
+  
   return (
     <div style={{ paddingTop: '100px', minHeight: '100vh' }}>
       <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '2rem' }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '3rem', flexWrap: 'wrap', gap: '1rem' }}>
+        {/* Header */}
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
           <div>
-            <h1 style={{ fontSize: '2rem', fontWeight: '700', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>Welcome, <span style={{ color: 'var(--purple-400)' }}>{profile?.name || 'Student'}</span></h1>
-            <p style={{ color: 'var(--text-secondary)' }}>Target: Band {profile?.target_score || 7.0}</p>
+            <h1 style={{ fontSize: '2rem', fontWeight: '700', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
+              Welcome back, <span style={{ color: 'var(--purple-400)' }}>{profile?.name || 'Student'}</span>
+            </h1>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>
+              {profile?.email}
+            </p>
           </div>
-          <button onClick={() => signOut().then(() => setCurrentPage('home'))} style={{ padding: '0.625rem 1.25rem', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'transparent', color: 'var(--text-secondary)', cursor: 'pointer' }}>Sign Out</button>
+          <button 
+            onClick={() => signOut().then(() => setCurrentPage('home'))} 
+            style={{ padding: '0.625rem 1.25rem', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'transparent', color: 'var(--text-secondary)', cursor: 'pointer', fontSize: '0.9rem' }}
+          >
+            Sign Out
+          </button>
         </div>
-        <div style={{ padding: '2rem', borderRadius: '20px', background: 'var(--card-bg)', border: '1px solid var(--border-color)' }}>
-          <h2 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '1.5rem', color: 'var(--text-primary)' }}>Continue Learning</h2>
+
+        {/* Target Score Card */}
+        <div style={{ padding: '1.5rem', borderRadius: '16px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', marginBottom: '1.5rem' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
+            <h2 style={{ fontSize: '1.1rem', fontWeight: '600', color: 'var(--text-primary)' }}>🎯 Target Band Score</h2>
+            {!isEditing ? (
+              <button 
+                onClick={() => setIsEditing(true)}
+                style={{ padding: '0.4rem 0.8rem', borderRadius: '6px', border: '1px solid var(--purple-500)', background: 'transparent', color: 'var(--purple-400)', fontSize: '0.8rem', cursor: 'pointer' }}
+              >
+                Edit
+              </button>
+            ) : (
+              <div style={{ display: 'flex', gap: '0.5rem' }}>
+                <button 
+                  onClick={() => { setIsEditing(false); setEditTarget(profile?.target_score?.toString() || '7.0'); }}
+                  style={{ padding: '0.4rem 0.8rem', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'transparent', color: 'var(--text-secondary)', fontSize: '0.8rem', cursor: 'pointer' }}
+                >
+                  Cancel
+                </button>
+                <button 
+                  onClick={handleSaveTarget}
+                  disabled={saving}
+                  style={{ padding: '0.4rem 0.8rem', borderRadius: '6px', border: 'none', background: 'var(--purple-600)', color: 'white', fontSize: '0.8rem', cursor: saving ? 'wait' : 'pointer', opacity: saving ? 0.7 : 1 }}
+                >
+                  {saving ? 'Saving...' : 'Save'}
+                </button>
+              </div>
+            )}
+          </div>
+          
+          {!isEditing ? (
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem' }}>
+              <span style={{ fontSize: '3rem', fontWeight: '700', color: 'var(--purple-400)' }}>{profile?.target_score || '7.0'}</span>
+              <span style={{ color: 'var(--text-tertiary)', fontSize: '1rem' }}>/ 9.0</span>
+            </div>
+          ) : (
+            <select 
+              value={editTarget} 
+              onChange={(e) => setEditTarget(e.target.value)}
+              style={{ 
+                padding: '0.75rem 1rem', 
+                borderRadius: '8px', 
+                border: '1px solid var(--border-color)', 
+                background: 'var(--input-bg)', 
+                color: 'var(--text-primary)', 
+                fontSize: '1.5rem', 
+                fontWeight: '600',
+                cursor: 'pointer',
+                width: '120px'
+              }}
+            >
+              {['5.0', '5.5', '6.0', '6.5', '7.0', '7.5', '8.0', '8.5', '9.0'].map(score => (
+                <option key={score} value={score}>{score}</option>
+              ))}
+            </select>
+          )}
+          
+          <div style={{ marginTop: '1rem', padding: '0.75rem', borderRadius: '8px', background: 'var(--tag-bg)' }}>
+            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+              {parseFloat(profile?.target_score || 7) >= 7.5 
+                ? '🌟 Aiming high! Focus on advanced vocabulary and complex grammar structures.'
+                : parseFloat(profile?.target_score || 7) >= 6.5
+                ? '📈 Solid goal! Build fluency and work on extending your answers.'
+                : '💪 Great starting point! Focus on accuracy and common topic vocabulary.'}
+            </p>
+          </div>
+        </div>
+
+        {/* Study Sections */}
+        <div style={{ padding: '2rem', borderRadius: '20px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', marginBottom: '1.5rem' }}>
+          <h2 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '1.5rem', color: 'var(--text-primary)' }}>📚 Continue Learning</h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
-            {[{ label: 'Listening', page: 'listening', icon: '🎧' }, { label: 'Reading', page: 'reading', icon: '📖' }, { label: 'Writing', page: 'writing', icon: '✍️' }, { label: 'Speaking', page: 'speaking', icon: '🎤' }].map((action) => (
-              <button key={action.page} onClick={() => setCurrentPage(action.page)} style={{ padding: '1.5rem', borderRadius: '12px', border: '1px solid var(--border-color)', background: 'transparent', color: 'var(--text-primary)', cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-                <span style={{ fontSize: '1.5rem' }}>{action.icon}</span><span style={{ fontWeight: '500' }}>{action.label}</span>
+            {[
+              { label: 'Speaking', page: 'speaking', icon: '🎤', desc: 'Part 1, 2, 3 Practice' },
+              { label: 'Listening', page: 'listening', icon: '🎧', desc: '80 Practice Tests' },
+              { label: 'Grammar', page: 'grammar', icon: '📝', desc: '6 Essential Lessons' },
+              { label: 'Reading', page: 'reading', icon: '📖', desc: 'Coming Soon' },
+              { label: 'Writing', page: 'writing', icon: '✍️', desc: 'Coming Soon' }
+            ].map((action) => (
+              <button 
+                key={action.page} 
+                onClick={() => setCurrentPage(action.page)} 
+                style={{ 
+                  padding: '1.25rem', 
+                  borderRadius: '12px', 
+                  border: '1px solid var(--border-color)', 
+                  background: 'transparent', 
+                  color: 'var(--text-primary)', 
+                  cursor: 'pointer', 
+                  textAlign: 'left',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                <span style={{ fontSize: '1.75rem', display: 'block', marginBottom: '0.5rem' }}>{action.icon}</span>
+                <span style={{ fontWeight: '600', display: 'block', marginBottom: '0.25rem' }}>{action.label}</span>
+                <span style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)' }}>{action.desc}</span>
               </button>
             ))}
           </div>
+        </div>
+
+        {/* Quick Tips */}
+        <div style={{ padding: '1.5rem', borderRadius: '16px', background: 'linear-gradient(135deg, var(--purple-600-20), var(--purple-700-20))', border: '1px solid var(--purple-500-30)' }}>
+          <h3 style={{ fontSize: '1rem', fontWeight: '600', marginBottom: '0.75rem', color: 'var(--text-primary)' }}>💡 Today's Tip</h3>
+          <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.6' }}>
+            In Speaking Part 2, use the one minute preparation time wisely. Jot down 2-3 key points for each bullet on the cue card, then speak for the full 2 minutes by expanding on each point with examples and details.
+          </p>
         </div>
       </div>
     </div>
