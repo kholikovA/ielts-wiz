@@ -2810,13 +2810,43 @@ const SpeakingPage = ({ subPage, setSubPage }) => {
 
                       {showAnswers[`p2-${topic.id}-0`] && (
                         <div style={{ padding: '1.25rem', borderRadius: '12px', background: 'var(--answer-bg)', border: '1px solid var(--purple-500-30)' }}>
-                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.75rem' }}>
+                          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '1rem' }}>
                             <span style={{ padding: '0.2rem 0.5rem', borderRadius: '4px', background: 'linear-gradient(135deg, #fbbf24, #f59e0b)', fontSize: '0.7rem', fontWeight: '700', color: '#1a1a1a' }}>BAND 9</span>
                             <span style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)' }}>Sample Answer (1-2 minutes) • Hover highlighted words for definitions</span>
                           </div>
-                          <p style={{ fontSize: '0.95rem', lineHeight: '1.9', color: 'var(--text-primary)' }}>
-                            <HighlightedAnswer text={topic.answer} vocabList={topic.keyVocab} />
-                          </p>
+                          {/* Split answer into paragraphs matching bullet points */}
+                          {topic.answer.split('\n\n').map((paragraph, pIndex) => (
+                            <div key={pIndex} style={{ marginBottom: pIndex < topic.answer.split('\n\n').length - 1 ? '1rem' : 0 }}>
+                              <div style={{ display: 'flex', gap: '0.75rem' }}>
+                                <span style={{ 
+                                  minWidth: '24px', 
+                                  height: '24px', 
+                                  borderRadius: '50%', 
+                                  background: 'var(--purple-600)', 
+                                  color: 'white', 
+                                  display: 'flex', 
+                                  alignItems: 'center', 
+                                  justifyContent: 'center', 
+                                  fontSize: '0.75rem', 
+                                  fontWeight: '600',
+                                  flexShrink: 0,
+                                  marginTop: '2px'
+                                }}>
+                                  {pIndex + 1}
+                                </span>
+                                <div>
+                                  {topic.cueCard.points[pIndex] && (
+                                    <p style={{ fontSize: '0.8rem', color: 'var(--purple-400)', marginBottom: '0.35rem', fontWeight: '500', textTransform: 'capitalize' }}>
+                                      {topic.cueCard.points[pIndex].replace('and explain ', '')}
+                                    </p>
+                                  )}
+                                  <p style={{ fontSize: '0.95rem', lineHeight: '1.8', color: 'var(--text-primary)' }}>
+                                    <HighlightedAnswer text={paragraph} vocabList={topic.keyVocab} />
+                                  </p>
+                                </div>
+                              </div>
+                            </div>
+                          ))}
                         </div>
                       )}
 
@@ -3480,171 +3510,213 @@ const listeningTestsData = {
     {
       id: 1,
       title: "Preston Park Run",
+      formTitle: "PRESTON PARK RUN",
+      formSubtitle: "Details of run",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, type: "fill", text: "Start of run: in front of the _______", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER" },
-        { num: 2, type: "fill", text: "Time of start: _______", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER" },
-        { num: 3, type: "fill", text: "Length of run: _______", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER" },
-        { num: 4, type: "fill", text: "At end of run: volunteer scans _______", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER" },
-        { num: 5, type: "fill", text: "Best way to register: on the _______", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER" },
-        { num: 6, type: "fill", text: "Cost of run: £ _______", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER" },
-        { num: 7, type: "fill", text: "Contact name: Pete _______", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER" },
-        { num: 8, type: "fill", text: "Phone number: _______", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER" },
-        { num: 9, type: "fill", text: "Activities: setting up course, _______ the runners", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER" },
-        { num: 10, type: "fill", text: "_______ for the weekly report", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER" },
+        { num: 1, text: "Start of run: in front of the", answer: "café" },
+        { num: 2, text: "Time of start:", answer: "9 am" },
+        { num: 3, text: "Length of run:", answer: "5 km" },
+        { num: 4, text: "At end of run: volunteer scans", answer: "barcode" },
+        { num: 5, text: "Best way to register: on the", answer: "website" },
+        { num: 6, text: "Cost of run:", answer: "free" },
+        { num: 7, text: "Contact name: Pete", answer: "Maughan" },
+        { num: 8, text: "Phone number:", answer: "07732 445901" },
+        { num: 9, text: "Activities: setting up course,", answer: "guiding" },
+        { num: 10, text: "_______ for the weekly report", answer: "photography" },
       ]
     },
     {
       id: 2,
       title: "Short Story Competition",
+      formTitle: "SHORT STORY COMPETITION",
+      formSubtitle: "Entry Details",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, type: "fill", text: "Length of story: approximately _______", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER" },
-        { num: 2, type: "fill", text: "Story must include: a _______", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER" },
-        { num: 3, type: "fill", text: "Minimum age: _______", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER" },
-        { num: 4, type: "fill", text: "Last entry date: 1st _______", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER" },
-        { num: 5, type: "fill", text: "Web address: www._______.com", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER" },
-        { num: 6, type: "fill", text: "Don't: _______ the story to the organisers", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER" },
-        { num: 7, type: "fill", text: "The competition is judged by _______", instruction: "Write NO MORE THAN TWO WORDS" },
-        { num: 8, type: "fill", text: "The top five stories will be available _______", instruction: "Write NO MORE THAN TWO WORDS" },
-        { num: 9, type: "fill", text: "The top story will be chosen by the _______", instruction: "Write NO MORE THAN TWO WORDS" },
-        { num: 10, type: "fill", text: "The first prize is a place at a writers' workshop in _______", instruction: "Write NO MORE THAN TWO WORDS" },
+        { num: 1, text: "Length of story: approximately", answer: "2000 words" },
+        { num: 2, text: "Story must include: a", answer: "journey" },
+        { num: 3, text: "Minimum age:", answer: "18" },
+        { num: 4, text: "Last entry date: 1st", answer: "September" },
+        { num: 5, text: "Web address: www.______.com", answer: "shortstory" },
+        { num: 6, text: "Don't _______ the story to the organisers", answer: "email" },
+        { num: 7, text: "The competition is judged by", answer: "professional writers" },
+        { num: 8, text: "The top five stories will be available", answer: "online" },
+        { num: 9, text: "The top story will be chosen by the", answer: "public" },
+        { num: 10, text: "The first prize is a place at a writers' workshop in", answer: "Paris" },
       ]
     },
     {
       id: 3,
       title: "Sarah's Health & Fitness Club",
+      formTitle: "SARAH'S HEALTH & FITNESS CLUB",
+      formSubtitle: "Membership Application",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, type: "fill", text: "Last name: _______", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER" },
-        { num: 2, type: "fill", text: "Year: _______", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER" },
-        { num: 3, type: "fill", text: "Type of Membership: _______", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER" },
-        { num: 4, type: "fill", text: "Activities: Badminton and _______", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER" },
-        { num: 5, type: "fill", text: "To be paid _______", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER" },
-        { num: 6, type: "fill", text: "What exercise do you do regularly? _______", instruction: "Write NO MORE THAN TWO WORDS" },
-        { num: 7, type: "fill", text: "Do you have any injuries? has a _______", instruction: "Write NO MORE THAN TWO WORDS" },
-        { num: 8, type: "fill", text: "What is your goal or target? a better _______", instruction: "Write NO MORE THAN TWO WORDS" },
-        { num: 9, type: "fill", text: "What is your occupation? a _______", instruction: "Write NO MORE THAN TWO WORDS" },
-        { num: 10, type: "fill", text: "How did you hear about the club? _______", instruction: "Write NO MORE THAN TWO WORDS" },
+        { num: 1, text: "Last name:", answer: "Symonds" },
+        { num: 2, text: "Year of birth:", answer: "1996" },
+        { num: 3, text: "Type of Membership:", answer: "gold" },
+        { num: 4, text: "Activities: Badminton and", answer: "swimming" },
+        { num: 5, text: "To be paid", answer: "monthly" },
+        { num: 6, text: "What exercise do you do regularly?", answer: "jogging" },
+        { num: 7, text: "Do you have any injuries? has a", answer: "bad ankle" },
+        { num: 8, text: "What is your goal? a better", answer: "fitness level" },
+        { num: 9, text: "What is your occupation? a", answer: "charity worker" },
+        { num: 10, text: "How did you hear about the club?", answer: "friend" },
       ]
     },
     {
       id: 4,
       title: "Community Centre Evening Classes",
+      formTitle: "COMMUNITY CENTRE",
+      formSubtitle: "Evening Classes Information",
+      instruction: "Write NO MORE THAN ONE WORD AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, type: "fill", text: "Painting with watercolours: at _______ pm on Tuesdays", instruction: "Write NO MORE THAN ONE WORD AND/OR A NUMBER" },
-        { num: 2, type: "fill", text: "What to bring: water jar and set of _______", instruction: "Write NO MORE THAN ONE WORD AND/OR A NUMBER" },
-        { num: 3, type: "fill", text: "Maori language: in the small room at the _______ of the building", instruction: "Write NO MORE THAN ONE WORD AND/OR A NUMBER" },
-        { num: 4, type: "fill", text: "Maori language: starts in _______", instruction: "Write NO MORE THAN ONE WORD AND/OR A NUMBER" },
-        { num: 5, type: "fill", text: "Digital photography: the _______ for the camera", instruction: "Write NO MORE THAN ONE WORD AND/OR A NUMBER" },
-        { num: 6, type: "fill", text: "Digital photography cost: £ _______ – eight classes", instruction: "Write NO MORE THAN ONE WORD AND/OR A NUMBER" },
-        { num: 7, type: "fill", text: "The watercolours class suits people who are _______", instruction: "Write ONE WORD ONLY" },
-        { num: 8, type: "fill", text: "To find out about the Maori language class, contact Jason _______", instruction: "Write ONE WORD ONLY" },
-        { num: 9, type: "fill", text: "For the photography class, check the _______ for the camera", instruction: "Write ONE WORD ONLY" },
-        { num: 10, type: "fill", text: "There is a trip to a local _______ in the final week", instruction: "Write ONE WORD ONLY" },
+        { num: 1, text: "Painting: at _______ pm on Tuesdays", answer: "7" },
+        { num: 2, text: "What to bring: water jar and set of", answer: "brushes" },
+        { num: 3, text: "Maori: in the small room at the _______ of the building", answer: "back" },
+        { num: 4, text: "Maori language: starts in", answer: "October" },
+        { num: 5, text: "Photography: the _______ for the camera", answer: "manual" },
+        { num: 6, text: "Photography cost: £_______ – eight classes", answer: "" },
+        { num: 7, text: "The watercolours class suits people who are", answer: "beginners" },
+        { num: 8, text: "To find out about the Maori class, contact Jason", answer: "Woodhouse" },
+        { num: 9, text: "For photography, check the _______ for the camera", answer: "settings" },
+        { num: 10, text: "There is a trip to a local _______ in the final week", answer: "gallery" },
       ]
     },
     {
       id: 5,
       title: "City Transport Lost Property",
+      formTitle: "CITY TRANSPORT LOST PROPERTY",
+      formSubtitle: "Enquiry Form",
+      instruction: "Write ONE WORD AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, type: "fill", text: "Description of main item: black with thin _______ stripes", instruction: "Write ONE WORD AND/OR A NUMBER" },
-        { num: 2, type: "fill", text: "Other items: a set of _______ keys", instruction: "Write ONE WORD AND/OR A NUMBER" },
-        { num: 3, type: "fill", text: "a _______ in a box", instruction: "Write ONE WORD AND/OR A NUMBER" },
-        { num: 4, type: "fill", text: "a blue _______", instruction: "Write ONE WORD AND/OR A NUMBER" },
-        { num: 5, type: "fill", text: "Date and time: 2.00 -2.30 pm on _______", instruction: "Write ONE WORD AND/OR A NUMBER" },
-        { num: 6, type: "fill", text: "Basic route: caller travelled from the _______ to Highbury", instruction: "Write ONE WORD AND/OR A NUMBER" },
-        { num: 7, type: "fill", text: "Mode of travel: caller thinks she left the suitcase in a _______", instruction: "Write ONE WORD AND/OR A NUMBER" },
-        { num: 8, type: "fill", text: "Name: Lisa _______", instruction: "Write ONE WORD AND/OR A NUMBER" },
-        { num: 9, type: "fill", text: "Address: 15A _______ Rd, Highbury", instruction: "Write ONE WORD AND/OR A NUMBER" },
-        { num: 10, type: "fill", text: "Phone number: _______", instruction: "Write ONE WORD AND/OR A NUMBER" },
+        { num: 1, text: "Description: black with thin _______ stripes", answer: "white" },
+        { num: 2, text: "Other items: a set of _______ keys", answer: "office" },
+        { num: 3, text: "a _______ in a box", answer: "camera" },
+        { num: 4, text: "a blue", answer: "umbrella" },
+        { num: 5, text: "Date and time: 2.00-2.30 pm on", answer: "13th May" },
+        { num: 6, text: "Basic route: from the _______ to Highbury", answer: "airport" },
+        { num: 7, text: "Mode of travel: left the suitcase in a", answer: "taxi" },
+        { num: 8, text: "Name: Lisa", answer: "Docherty" },
+        { num: 9, text: "Address: 15A _______ Rd, Highbury", answer: "River" },
+        { num: 10, text: "Phone number:", answer: "" },
       ]
     },
-    { id: 6, title: "Accommodation Form: Rental Properties", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD AND/OR A NUMBER" })) },
-    { id: 7, title: "Hostel Accommodation in Darwin", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD AND/OR A NUMBER" })) },
-    { id: 8, title: "Hilary Lodge Retirement Home", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN TWO WORDS" })) },
-    { id: 9, title: "Transport from Airport to Milton", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD AND/OR A NUMBER" })) },
-    { id: 10, title: "Car Insurance", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD AND/OR A NUMBER" })) },
-    { id: 11, title: "Holiday Rental Enquiry", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD AND/OR A NUMBER" })) },
-    { id: 12, title: "Homestay Application", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD AND/OR A NUMBER" })) },
-    { id: 13, title: "Hotel Booking", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD AND/OR A NUMBER" })) },
-    { id: 14, title: "Total Insurance Incident Report", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN THREE WORDS" })) },
-    { id: 15, title: "Rented Properties Requirements", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD AND/OR A NUMBER" })) },
-    { id: 16, title: "West Bay Hotel Job", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN TWO WORDS" })) },
-    { id: 17, title: "Restaurant Job Enquiry", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN THREE WORDS" })) },
-    { id: 18, title: "Student Accommodation Form", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD AND/OR A NUMBER" })) },
-    { id: 19, title: "Holiday Apartments Comparison", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD AND/OR A NUMBER" })) },
-    { id: 20, title: "Health Centres Information", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD ONLY" })) },
+    { id: 6, title: "Accommodation Form: Rental Properties", formTitle: "RENTAL PROPERTIES", formSubtitle: "Client Requirements", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 7, title: "Hostel Accommodation in Darwin", formTitle: "DARWIN HOSTEL BOOKING", formSubtitle: "Reservation Details", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 8, title: "Hilary Lodge Retirement Home", formTitle: "HILARY LODGE", formSubtitle: "Enquiry Form", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 9, title: "Transport from Airport to Milton", formTitle: "AIRPORT TRANSFER SERVICE", formSubtitle: "Booking Information", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 10, title: "Car Insurance", formTitle: "CAR INSURANCE QUOTE", formSubtitle: "Application Details", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 11, title: "Holiday Rental Enquiry", formTitle: "HOLIDAY RENTAL ENQUIRY", formSubtitle: "Property Details", instruction: "Write ONE WORD AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 12, title: "Homestay Application", formTitle: "HOMESTAY APPLICATION", formSubtitle: "Student Information", instruction: "Write ONE WORD AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 13, title: "Hotel Booking", formTitle: "HOTEL RESERVATION", formSubtitle: "Booking Details", instruction: "Write ONE WORD AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 14, title: "Total Insurance Incident Report", formTitle: "INCIDENT REPORT", formSubtitle: "Claim Details", instruction: "Write NO MORE THAN THREE WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 15, title: "Rented Properties Requirements", formTitle: "RENTAL REQUIREMENTS", formSubtitle: "Client Preferences", instruction: "Write ONE WORD AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 16, title: "West Bay Hotel Job", formTitle: "JOB APPLICATION", formSubtitle: "West Bay Hotel", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 17, title: "Restaurant Job Enquiry", formTitle: "RESTAURANT VACANCY", formSubtitle: "Position Details", instruction: "Write NO MORE THAN THREE WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 18, title: "Student Accommodation Form", formTitle: "STUDENT HOUSING", formSubtitle: "Application Form", instruction: "Write ONE WORD AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 19, title: "Holiday Apartments Comparison", formTitle: "APARTMENT COMPARISON", formSubtitle: "Feature Summary", instruction: "Write ONE WORD AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 20, title: "Health Centres Information", formTitle: "HEALTH CENTRES", formSubtitle: "Service Information", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
   ],
   part2: [
-    { id: 21, title: "Pacton-on-Sea Bus Tour", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN THREE WORDS" })) },
-    { id: 22, title: "Sea Life Centre Information", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN THREE WORDS" })) },
-    { id: 23, title: "Hotel Event Planning", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
-    { id: 24, title: "Volunteer Conservation Work", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose TWO letters" })) },
-    { id: 25, title: "Town Map Directions", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "map", text: `Question ${i+1}`, instruction: "Label the map" })) },
-    { id: 26, title: "Neighbourhood Safety Talk", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN TWO WORDS" })) },
-    { id: 27, title: "Anglia Sculpture Park", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
-    { id: 28, title: "Learning Resource Centre", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "map", text: `Question ${i+1}`, instruction: "Label the plan" })) },
-    { id: 29, title: "PS Camping Holidays", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
-    { id: 30, title: "City Development Plan", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "map", text: `Question ${i+1}`, instruction: "Label the plan" })) },
-    { id: 31, title: "Sponsored Walking Holiday", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
-    { id: 32, title: "City Walking Tour", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
-    { id: 33, title: "The Dinosaur Museum", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN TWO WORDS" })) },
-    { id: 34, title: "Wildlife Park Tour", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
-    { id: 35, title: "The National Arts Centre", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN TWO WORDS" })) },
-    { id: 36, title: "Red Hill Suburb Improvements", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
-    { id: 37, title: "Sports World Store", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD AND/OR A NUMBER" })) },
-    { id: 38, title: "Parks and Open Spaces", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN THREE WORDS" })) },
-    { id: 39, title: "Winridge Forest Railway Park", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
-    { id: 40, title: "Water Heater Instructions", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "diagram", text: `Question ${i+1}`, instruction: "Label the diagram" })) },
+    { id: 21, title: "Pacton-on-Sea Bus Tour", formTitle: "BUS TOUR", formSubtitle: "Tour Information", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 22, title: "Sea Life Centre Information", formTitle: "SEA LIFE CENTRE", formSubtitle: "Visitor Information", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 23, title: "Hotel Event Planning", formTitle: "HOTEL EVENT", formSubtitle: "Planning Details", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 24, title: "Volunteer Conservation Work", formTitle: "CONSERVATION WORK", formSubtitle: "Volunteer Programme", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 25, title: "Town Map Directions", formTitle: "TOWN MAP", formSubtitle: "Location Guide", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 26, title: "Neighbourhood Safety Talk", formTitle: "NEIGHBOURHOOD SAFETY", formSubtitle: "Community Meeting", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 27, title: "Anglia Sculpture Park", formTitle: "SCULPTURE PARK", formSubtitle: "Visitor Guide", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 28, title: "Learning Resource Centre", formTitle: "RESOURCE CENTRE", formSubtitle: "Floor Plan", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 29, title: "PS Camping Holidays", formTitle: "CAMPING HOLIDAYS", formSubtitle: "Package Details", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 30, title: "City Development Plan", formTitle: "CITY DEVELOPMENT", formSubtitle: "Planning Proposal", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 31, title: "Sponsored Walking Holiday", formTitle: "WALKING HOLIDAY", formSubtitle: "Tour Details", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 32, title: "City Walking Tour", formTitle: "CITY TOUR", formSubtitle: "Walking Route", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 33, title: "The Dinosaur Museum", formTitle: "DINOSAUR MUSEUM", formSubtitle: "Exhibition Guide", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 34, title: "Wildlife Park Tour", formTitle: "WILDLIFE PARK", formSubtitle: "Tour Information", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 35, title: "The National Arts Centre", formTitle: "ARTS CENTRE", formSubtitle: "Programme Information", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 36, title: "Red Hill Suburb Improvements", formTitle: "SUBURB IMPROVEMENTS", formSubtitle: "Development Plan", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 37, title: "Sports World Store", formTitle: "SPORTS WORLD", formSubtitle: "Store Layout", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 38, title: "Parks and Open Spaces", formTitle: "PARKS & OPEN SPACES", formSubtitle: "Area Guide", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 39, title: "Winridge Forest Railway Park", formTitle: "RAILWAY PARK", formSubtitle: "Visitor Information", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 40, title: "Water Heater Instructions", formTitle: "WATER HEATER", formSubtitle: "Operating Instructions", instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
   ],
   part3: [
-    { id: 41, title: "Computer System Discussion", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
-    { id: 42, title: "University Subject Choices", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose TWO letters" })) },
-    { id: 43, title: "Paper Production & Recycling", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN TWO WORDS" })) },
-    { id: 44, title: "Food Waste Discussion", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
-    { id: 45, title: "Furniture Rossi Case Study", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
-    { id: 46, title: "Biofuels Presentation", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
-    { id: 47, title: "Instant Coffee Marketing", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
-    { id: 48, title: "Museum Training Film", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "matching", text: `Question ${i+1}`, instruction: "Match the correct letter" })) },
-    { id: 49, title: "Individual Differences at Work", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD ONLY" })) },
-    { id: 50, title: "Antarctic Centre Christchurch", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
-    { id: 51, title: "Ocean Research Float Project", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD AND/OR A NUMBER" })) },
-    { id: 52, title: "Geography Presentation", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD AND/OR A NUMBER" })) },
-    { id: 53, title: "Field Trip Proposal", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
-    { id: 54, title: "Honey Bees in Australia", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
-    { id: 55, title: "Latin American Studies", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
-    { id: 56, title: "Course Financing Discussion", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose TWO letters" })) },
-    { id: 57, title: "Marketing Course Feedback", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
-    { id: 58, title: "Self-Access Centre", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
-    { id: 59, title: "Study Skills Tutorial", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN TWO WORDS" })) },
-    { id: 60, title: "International Student Experience", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
+    { id: 41, title: "Computer System Discussion", formTitle: "COMPUTER SYSTEM", formSubtitle: "Discussion Notes", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 42, title: "University Subject Choices", formTitle: "SUBJECT CHOICES", formSubtitle: "Discussion", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 43, title: "Paper Production & Recycling", formTitle: "PAPER RECYCLING", formSubtitle: "Process Notes", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 44, title: "Food Waste Discussion", formTitle: "FOOD WASTE", formSubtitle: "Discussion Points", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 45, title: "Furniture Rossi Case Study", formTitle: "CASE STUDY", formSubtitle: "Business Analysis", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 46, title: "Biofuels Presentation", formTitle: "BIOFUELS", formSubtitle: "Presentation Notes", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 47, title: "Instant Coffee Marketing", formTitle: "COFFEE MARKETING", formSubtitle: "Case Study", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 48, title: "Museum Training Film", formTitle: "MUSEUM TRAINING", formSubtitle: "Film Discussion", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 49, title: "Individual Differences at Work", formTitle: "WORKPLACE DIFFERENCES", formSubtitle: "Lecture Notes", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 50, title: "Antarctic Centre Christchurch", formTitle: "ANTARCTIC CENTRE", formSubtitle: "Discussion", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 51, title: "Ocean Research Float Project", formTitle: "OCEAN RESEARCH", formSubtitle: "Project Discussion", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 52, title: "Geography Presentation", formTitle: "GEOGRAPHY", formSubtitle: "Presentation Notes", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 53, title: "Field Trip Proposal", formTitle: "FIELD TRIP", formSubtitle: "Planning Discussion", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 54, title: "Honey Bees in Australia", formTitle: "HONEY BEES", formSubtitle: "Research Discussion", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 55, title: "Latin American Studies", formTitle: "LATIN AMERICAN STUDIES", formSubtitle: "Course Discussion", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 56, title: "Course Financing Discussion", formTitle: "COURSE FINANCING", formSubtitle: "Student Discussion", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 57, title: "Marketing Course Feedback", formTitle: "MARKETING COURSE", formSubtitle: "Feedback Session", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 58, title: "Self-Access Centre", formTitle: "SELF-ACCESS CENTRE", formSubtitle: "Orientation", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 59, title: "Study Skills Tutorial", formTitle: "STUDY SKILLS", formSubtitle: "Tutorial Notes", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 60, title: "International Student Experience", formTitle: "STUDENT EXPERIENCE", formSubtitle: "Discussion", instruction: "Write NO MORE THAN TWO WORDS for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
   ],
   part4: [
-    { id: 61, title: "Ceramics History", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN TWO WORDS" })) },
-    { id: 62, title: "Preparing a Presentation", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN TWO WORDS" })) },
-    { id: 63, title: "Facts About Hair", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD AND/OR A NUMBER" })) },
-    { id: 64, title: "Maori Kite-Making", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD ONLY" })) },
-    { id: 65, title: "Rock Art Research", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD ONLY" })) },
-    { id: 66, title: "Weak-Tie Theory", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD ONLY" })) },
-    { id: 67, title: "History of Fireworks in Europe", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD ONLY" })) },
-    { id: 68, title: "New Caledonian Crows", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD ONLY" })) },
-    { id: 69, title: "Seminar on Rock Art", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD ONLY" })) },
-    { id: 70, title: "Handedness in Sport", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
-    { id: 71, title: "Hotels and Tourism", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
-    { id: 72, title: "Monosodium Glutamate (MSG)", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
-    { id: 73, title: "Geography Lecture", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD ONLY" })) },
-    { id: 74, title: "Research on Doctors", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
-    { id: 75, title: "Repeating Business Success", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
-    { id: 76, title: "Aboriginal Rock Paintings", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "matching", text: `Question ${i+1}`, instruction: "Match the painting style" })) },
-    { id: 77, title: "Mass Strandings of Whales", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write NO MORE THAN TWO WORDS" })) },
-    { id: 78, title: "Business Cultures", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "fill", text: `Question ${i+1}`, instruction: "Write ONE WORD ONLY" })) },
-    { id: 79, title: "Underground House Design", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
-    { id: 80, title: "Wildlife in City Gardens", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, type: "mcq", text: `Question ${i+1}`, instruction: "Choose the correct letter" })) },
-  ],
+    { id: 61, title: "Ceramics History", formTitle: "CERAMICS HISTORY", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 62, title: "Preparing a Presentation", formTitle: "PRESENTATION SKILLS", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 63, title: "Facts About Hair", formTitle: "HAIR FACTS", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 64, title: "Maori Kite-Making", formTitle: "KITE-MAKING", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 65, title: "Rock Art Research", formTitle: "ROCK ART", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 66, title: "Weak-Tie Theory", formTitle: "WEAK-TIE THEORY", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 67, title: "History of Fireworks in Europe", formTitle: "FIREWORKS HISTORY", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 68, title: "New Caledonian Crows", formTitle: "CROW RESEARCH", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 69, title: "Seminar on Rock Art", formTitle: "ROCK ART SEMINAR", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 70, title: "Handedness in Sport", formTitle: "HANDEDNESS", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 71, title: "Hotels and Tourism", formTitle: "TOURISM INDUSTRY", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 72, title: "Monosodium Glutamate (MSG)", formTitle: "MSG RESEARCH", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 73, title: "Geography Lecture", formTitle: "GEOGRAPHY LECTURE", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 74, title: "Research on Doctors", formTitle: "MEDICAL RESEARCH", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 75, title: "Repeating Business Success", formTitle: "BUSINESS SUCCESS", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 76, title: "Aboriginal Rock Paintings", formTitle: "ROCK PAINTINGS", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 77, title: "Mass Strandings of Whales", formTitle: "WHALE STRANDINGS", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 78, title: "Business Cultures", formTitle: "BUSINESS CULTURES", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 79, title: "Underground House Design", formTitle: "UNDERGROUND HOUSES", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+    { id: 80, title: "Wildlife in City Gardens", formTitle: "URBAN WILDLIFE", formSubtitle: "Lecture Notes", instruction: "Write ONE WORD ONLY for each answer.", questions: Array(10).fill(null).map((_, i) => ({ num: i+1, text: "Question " + (i+1), answer: "" })) },
+  ]
 };
 
 // ==================== LISTENING PAGE ====================
 const ListeningPage = ({ subPage, setSubPage }) => {
   const [selectedTest, setSelectedTest] = useState(null);
   const [selectedPart, setSelectedPart] = useState('part1');
+  const [userAnswers, setUserAnswers] = useState({});
+  const [showResults, setShowResults] = useState(false);
+  const [score, setScore] = useState(0);
+
+  const handleAnswerChange = (questionNum, value) => {
+    setUserAnswers(prev => ({ ...prev, [questionNum]: value }));
+  };
+
+  const checkAnswers = () => {
+    if (!selectedTest) return;
+    let correct = 0;
+    selectedTest.questions.forEach(q => {
+      const userAns = (userAnswers[q.num] || '').toLowerCase().trim();
+      const correctAns = (q.answer || '').toLowerCase().trim();
+      if (correctAns && userAns === correctAns) {
+        correct++;
+      }
+    });
+    setScore(correct);
+    setShowResults(true);
+  };
+
+  const resetTest = () => {
+    setUserAnswers({});
+    setShowResults(false);
+    setScore(0);
+  };
 
   const listeningSubNav = [
     { id: 'overview', label: 'Overview' },
@@ -3827,7 +3899,7 @@ const ListeningPage = ({ subPage, setSubPage }) => {
         {subPage === '80-tests' && selectedTest && (
           <div>
             <button
-              onClick={() => setSelectedTest(null)}
+              onClick={() => { setSelectedTest(null); resetTest(); }}
               style={{
                 display: 'flex',
                 alignItems: 'center',
@@ -3850,6 +3922,7 @@ const ListeningPage = ({ subPage, setSubPage }) => {
               background: 'var(--card-bg)',
               border: '1px solid var(--border-color)',
             }}>
+              {/* Test Header */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', marginBottom: '1.5rem' }}>
                 <div style={{
                   width: '56px',
@@ -3878,70 +3951,215 @@ const ListeningPage = ({ subPage, setSubPage }) => {
               {/* Custom Audio Player */}
               <AudioPlayer testId={selectedTest.id} />
 
-              {/* Questions */}
-              <div>
-                <h3 style={{ fontSize: '1.1rem', fontWeight: '600', marginBottom: '1rem', color: 'var(--text-primary)' }}>
-                  Questions 1-10
-                </h3>
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-tertiary)', marginBottom: '1rem', fontStyle: 'italic' }}>
-                  {selectedTest.questions[0]?.instruction || 'Complete the notes below.'}
-                </p>
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
-                  {selectedTest.questions.map((q, i) => (
-                    <div key={i} style={{
-                      display: 'flex',
-                      alignItems: 'center',
-                      gap: '1rem',
-                      padding: '1rem',
-                      borderRadius: '10px',
-                      background: 'var(--tag-bg)',
-                    }}>
-                      <span style={{
-                        width: '28px',
-                        height: '28px',
-                        borderRadius: '6px',
-                        background: 'var(--purple-600-20)',
+              {/* Score Display */}
+              {showResults && (
+                <div style={{
+                  padding: '1rem 1.5rem',
+                  borderRadius: '12px',
+                  background: score >= 7 ? 'rgba(34, 197, 94, 0.1)' : score >= 5 ? 'rgba(251, 191, 36, 0.1)' : 'rgba(239, 68, 68, 0.1)',
+                  border: `1px solid ${score >= 7 ? 'rgba(34, 197, 94, 0.3)' : score >= 5 ? 'rgba(251, 191, 36, 0.3)' : 'rgba(239, 68, 68, 0.3)'}`,
+                  marginBottom: '1.5rem',
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                }}>
+                  <div>
+                    <h3 style={{ fontSize: '1.1rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
+                      Your Score: {score}/10
+                    </h3>
+                    <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                      {score >= 8 ? 'Excellent!' : score >= 6 ? 'Good job!' : score >= 4 ? 'Keep practicing!' : 'Review the answers below'}
+                    </p>
+                  </div>
+                  <button
+                    onClick={resetTest}
+                    style={{
+                      padding: '0.5rem 1rem',
+                      borderRadius: '8px',
+                      border: '1px solid var(--border-color)',
+                      background: 'transparent',
+                      color: 'var(--text-secondary)',
+                      fontSize: '0.85rem',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    Try Again
+                  </button>
+                </div>
+              )}
+
+              {/* IELTS-Style Form/Note Layout */}
+              <div style={{
+                border: '2px solid var(--border-color)',
+                borderRadius: '12px',
+                overflow: 'hidden',
+                marginBottom: '1.5rem',
+              }}>
+                {/* Form Title Header */}
+                <div style={{
+                  background: 'var(--purple-600)',
+                  padding: '1rem 1.5rem',
+                  textAlign: 'center',
+                }}>
+                  <h3 style={{ 
+                    color: 'white', 
+                    fontSize: '1.1rem', 
+                    fontWeight: '700',
+                    textTransform: 'uppercase',
+                    letterSpacing: '1px',
+                  }}>
+                    {selectedTest.formTitle || selectedTest.title}
+                  </h3>
+                  {selectedTest.formSubtitle && (
+                    <p style={{ color: 'rgba(255,255,255,0.8)', fontSize: '0.85rem', marginTop: '0.25rem' }}>
+                      {selectedTest.formSubtitle}
+                    </p>
+                  )}
+                </div>
+
+                {/* Instruction */}
+                <div style={{
+                  padding: '0.75rem 1.5rem',
+                  background: 'var(--tag-bg)',
+                  borderBottom: '1px solid var(--border-color)',
+                }}>
+                  <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', fontStyle: 'italic' }}>
+                    {selectedTest.instruction || 'Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.'}
+                  </p>
+                </div>
+
+                {/* Questions as Form Fields */}
+                <div style={{ padding: '1.5rem' }}>
+                  {selectedTest.questions.map((q, i) => {
+                    const userAns = userAnswers[q.num] || '';
+                    const correctAns = q.answer || '';
+                    const isCorrect = showResults && correctAns && userAns.toLowerCase().trim() === correctAns.toLowerCase().trim();
+                    const isWrong = showResults && correctAns && userAns && !isCorrect;
+                    
+                    return (
+                      <div key={i} style={{
                         display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        fontSize: '0.85rem',
-                        fontWeight: '600',
-                        color: 'var(--purple-400)',
+                        alignItems: 'flex-start',
+                        gap: '0.75rem',
+                        padding: '0.875rem 0',
+                        borderBottom: i < selectedTest.questions.length - 1 ? '1px solid var(--border-color)' : 'none',
                       }}>
-                        {q.num}
-                      </span>
-                      <p style={{ flex: 1, color: 'var(--text-primary)', fontSize: '0.95rem' }}>{q.text}</p>
-                      <input
-                        type="text"
-                        placeholder="Your answer"
-                        style={{
-                          padding: '0.5rem 0.75rem',
-                          borderRadius: '6px',
-                          border: '1px solid var(--border-color)',
-                          background: 'var(--input-bg)',
-                          color: 'var(--text-primary)',
-                          fontSize: '0.9rem',
-                          width: '150px',
-                        }}
-                      />
-                    </div>
-                  ))}
+                        {/* Question Number */}
+                        <span style={{
+                          minWidth: '28px',
+                          height: '28px',
+                          borderRadius: '50%',
+                          background: showResults 
+                            ? (isCorrect ? 'rgba(34, 197, 94, 0.2)' : isWrong ? 'rgba(239, 68, 68, 0.2)' : 'var(--purple-600-20)')
+                            : 'var(--purple-600-20)',
+                          border: showResults
+                            ? (isCorrect ? '2px solid #22c55e' : isWrong ? '2px solid #ef4444' : 'none')
+                            : 'none',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          fontSize: '0.8rem',
+                          fontWeight: '600',
+                          color: showResults 
+                            ? (isCorrect ? '#22c55e' : isWrong ? '#ef4444' : 'var(--purple-400)')
+                            : 'var(--purple-400)',
+                          flexShrink: 0,
+                        }}>
+                          {showResults ? (isCorrect ? '✓' : isWrong ? '✗' : q.num) : q.num}
+                        </span>
+
+                        {/* Question Text with Inline Input */}
+                        <div style={{ flex: 1 }}>
+                          <div style={{ 
+                            display: 'flex', 
+                            flexWrap: 'wrap', 
+                            alignItems: 'center', 
+                            gap: '0.5rem',
+                            fontSize: '0.95rem',
+                            color: 'var(--text-primary)',
+                            lineHeight: '1.8',
+                          }}>
+                            <span>{q.text}</span>
+                            <input
+                              type="text"
+                              value={userAns}
+                              onChange={(e) => handleAnswerChange(q.num, e.target.value)}
+                              disabled={showResults}
+                              placeholder="________"
+                              style={{
+                                padding: '0.4rem 0.6rem',
+                                borderRadius: '4px',
+                                border: showResults 
+                                  ? (isCorrect ? '2px solid #22c55e' : isWrong ? '2px solid #ef4444' : '1px solid var(--border-color)')
+                                  : '1px solid var(--border-color)',
+                                background: showResults
+                                  ? (isCorrect ? 'rgba(34, 197, 94, 0.1)' : isWrong ? 'rgba(239, 68, 68, 0.1)' : 'var(--input-bg)')
+                                  : 'var(--input-bg)',
+                                color: 'var(--text-primary)',
+                                fontSize: '0.9rem',
+                                width: '140px',
+                                textAlign: 'center',
+                                fontWeight: '500',
+                              }}
+                            />
+                          </div>
+                          
+                          {/* Show correct answer if wrong */}
+                          {isWrong && correctAns && (
+                            <p style={{ 
+                              marginTop: '0.5rem', 
+                              fontSize: '0.85rem', 
+                              color: '#22c55e',
+                              display: 'flex',
+                              alignItems: 'center',
+                              gap: '0.35rem',
+                            }}>
+                              <span style={{ fontWeight: '500' }}>Correct answer:</span> {correctAns}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
 
-              <button style={{
-                marginTop: '1.5rem',
-                padding: '0.875rem 2rem',
-                borderRadius: '10px',
-                border: 'none',
-                background: 'linear-gradient(135deg, var(--purple-600), var(--purple-700))',
-                color: 'white',
-                fontWeight: '600',
-                cursor: 'pointer',
-                width: '100%',
-              }}>
-                Check Answers
-              </button>
+              {/* Check Answers Button */}
+              {!showResults ? (
+                <button 
+                  onClick={checkAnswers}
+                  style={{
+                    padding: '0.875rem 2rem',
+                    borderRadius: '10px',
+                    border: 'none',
+                    background: 'linear-gradient(135deg, var(--purple-600), var(--purple-700))',
+                    color: 'white',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    width: '100%',
+                    fontSize: '1rem',
+                  }}
+                >
+                  Check Answers
+                </button>
+              ) : (
+                <button 
+                  onClick={resetTest}
+                  style={{
+                    padding: '0.875rem 2rem',
+                    borderRadius: '10px',
+                    border: '1px solid var(--purple-500)',
+                    background: 'transparent',
+                    color: 'var(--purple-400)',
+                    fontWeight: '600',
+                    cursor: 'pointer',
+                    width: '100%',
+                    fontSize: '1rem',
+                  }}
+                >
+                  Reset & Try Again
+                </button>
+              )}
             </div>
           </div>
         )}
