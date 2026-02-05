@@ -3537,11 +3537,7 @@ const GrammarPage = () => {
 };
 
 // ==================== 80 LISTENING TESTS DATA ====================
-
-// IELTS Listening Tests Data - 80 Tests
-// Corrected to match PDF source material
-// Note: "cafe" used instead of "café"
-
+// ==================== PART 1: TESTS 1-20 (Questions 1-10) ====================
 const listeningTestsData = {
   part1: [
     // TEST 1: Preston Park Run
@@ -3549,7 +3545,7 @@ const listeningTestsData = {
       id: 1,
       title: "Preston Park Run",
       formTitle: "PRESTON PARK RUN",
-      formSubtitle: "Details of Run",
+      formSubtitle: "Details of run",
       instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
       questions: [
         { num: 1, text: "Start of run: in front of the", answer: "cafe" },
@@ -3558,10 +3554,10 @@ const listeningTestsData = {
         { num: 4, text: "At end of run: volunteer scans", answer: "barcode" },
         { num: 5, text: "Best way to register: on the", answer: "website" },
         { num: 6, text: "Cost of run: £", answer: "1.50" },
-        { num: 7, text: "Volunteering - Contact name: Pete", answer: "Maughan" },
+        { num: 7, text: "Volunteering — Contact name: Pete", answer: "Maughan" },
         { num: 8, text: "Phone number:", answer: "01444 732900" },
-        { num: 9, text: "Activities: setting up course, _______ the runners", answer: "guiding" },
-        { num: 10, text: "_______ for the weekly report", answer: "taking photos" }
+        { num: 9, text: "Activities: setting up course,", answer: "guiding", afterText: "the runners" },
+        { num: 10, text: "Activities:", answer: "taking photos", afterText: "for the weekly report" }
       ]
     },
     // TEST 2: Short Story Competition
@@ -3576,8 +3572,8 @@ const listeningTestsData = {
         { num: 2, text: "Story must include: a", answer: "surprise ending" },
         { num: 3, text: "Minimum age:", answer: "16" },
         { num: 4, text: "Last entry date: 1st", answer: "August" },
-        { num: 5, text: "Web address: www. _______ .com", answer: "COMP4SS" },
-        { num: 6, text: "Don't: _______ the story to the organisers", answer: "post" },
+        { num: 5, text: "Web address: www.", answer: "COMP4SS", afterText: ".com" },
+        { num: 6, text: "Don't:", answer: "post", afterText: "the story to the organisers" },
         { num: 7, text: "The competition is judged by", answer: "famous authors" },
         { num: 8, text: "The top five stories will be available", answer: "online" },
         { num: 9, text: "The top story will be chosen by the", answer: "public" },
@@ -3587,16 +3583,16 @@ const listeningTestsData = {
     // TEST 3: Sarah's Health & Fitness Club
     {
       id: 3,
-      title: "Fitness Club Membership",
+      title: "Health & Fitness Club Membership",
       formTitle: "SARAH'S HEALTH & FITNESS CLUB",
       formSubtitle: "Membership Form",
       instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
       questions: [
         { num: 1, text: "Last name:", answer: "Symonds" },
-        { num: 2, text: "Date of Birth - Year:", answer: "1996" },
+        { num: 2, text: "Date of Birth: Day: 11th; Month: December; Year:", answer: "1996" },
         { num: 3, text: "Type of Membership:", answer: "full-time" },
         { num: 4, text: "Activities: Badminton and", answer: "swimming" },
-        { num: 5, text: "Payment: To be paid", answer: "monthly" },
+        { num: 5, text: "Payment details: Total: £450. To be paid", answer: "monthly" },
         { num: 6, text: "What exercise do you do regularly?", answer: "jogging" },
         { num: 7, text: "Do you have any injuries? has a", answer: "bad ankle" },
         { num: 8, text: "What is your goal or target? a better", answer: "fitness level" },
@@ -3607,118 +3603,118 @@ const listeningTestsData = {
     // TEST 4: Community Centre Evening Classes
     {
       id: 4,
-      title: "Community Centre Classes",
+      title: "Community Centre Evening Classes",
       formTitle: "COMMUNITY CENTRE EVENING CLASSES",
       formSubtitle: "Class Information",
       instruction: "Write NO MORE THAN ONE WORD AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "Painting with watercolours: at _______ pm on Tuesdays", answer: "7.30" },
+        { num: 1, text: "Painting with watercolours — When: at", answer: "7.30", afterText: "pm on Tuesdays" },
         { num: 2, text: "What to bring: water jar and set of", answer: "pencils" },
-        { num: 3, text: "Maori language: the small room at the _______ of the building", answer: "top" },
-        { num: 4, text: "Maori language starts in", answer: "August" },
-        { num: 5, text: "Digital photography: bring the _______ for the camera", answer: "instructions" },
-        { num: 6, text: "Digital photography cost: £ _______ - eight classes", answer: "55" },
+        { num: 3, text: "Maori language — Where: at the", answer: "top", afterText: "of the building" },
+        { num: 4, text: "Maori language starts in:", answer: "August" },
+        { num: 5, text: "Digital photography — What to bring: the", answer: "instructions", afterText: "for the camera" },
+        { num: 6, text: "Digital photography — Cost: £", answer: "55", afterText: "– eight classes" },
         { num: 7, text: "The watercolours class suits people who are", answer: "beginners" },
         { num: 8, text: "To find out about the Maori language class, contact Jason", answer: "Kahui" },
-        { num: 9, text: "For the photography class, check the _______ for the camera", answer: "battery" },
-        { num: 10, text: "There is a trip to a local _______ in the final week", answer: "show" }
+        { num: 9, text: "For the photography class, check the", answer: "battery", afterText: "for the camera" },
+        { num: 10, text: "There is a trip to a local", answer: "show", afterText: "in the final week of the photography class" }
       ]
     },
-    // TEST 5: City Transport Lost Property Enquiry
+    // TEST 5: City Transport Lost Property
     {
       id: 5,
-      title: "Lost Property Enquiry",
+      title: "City Transport Lost Property",
       formTitle: "CITY TRANSPORT LOST PROPERTY ENQUIRY",
-      formSubtitle: "Item Report",
+      formSubtitle: "Item Description",
       instruction: "Write ONE WORD AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "Description of main item: black with thin _______ stripes", answer: "white" },
-        { num: 2, text: "Other items: a set of _______ keys", answer: "office" },
-        { num: 3, text: "Other items: a _______ in a box", answer: "camera" },
+        { num: 1, text: "Description of main item: black with thin", answer: "white", afterText: "stripes" },
+        { num: 2, text: "Other items: a set of", answer: "office", afterText: "keys" },
+        { num: 3, text: "Other items: a", answer: "camera", afterText: "in a box" },
         { num: 4, text: "Other items: a blue", answer: "umbrella" },
-        { num: 5, text: "Date and time: 2.00-2.30 pm on", answer: "13th May" },
-        { num: 6, text: "Basic route: caller travelled from the _______ to Highbury", answer: "airport" },
+        { num: 5, text: "Journey details — Date and time: 2.00-2.30 pm on", answer: "13th May" },
+        { num: 6, text: "Basic route: caller travelled from the", answer: "airport", afterText: "to Highbury" },
         { num: 7, text: "Mode of travel: caller thinks she left the suitcase in a", answer: "taxi" },
-        { num: 8, text: "Name: Lisa", answer: "Docherty" },
-        { num: 9, text: "Address: 15A _______ Rd, Highbury", answer: "River" },
+        { num: 8, text: "Personal details — Name: Lisa", answer: "Docherty" },
+        { num: 9, text: "Address: 15A", answer: "River", afterText: "Rd, Highbury" },
         { num: 10, text: "Phone number:", answer: "07979605437" }
       ]
     },
     // TEST 6: Accommodation Form
     {
       id: 6,
-      title: "Apartment Rental",
+      title: "Rental Properties Form",
       formTitle: "ACCOMMODATION FORM: RENTAL PROPERTIES",
       formSubtitle: "Tenant Requirements",
       instruction: "Write ONE WORD AND/OR A NUMBER for each answer.",
       questions: [
         { num: 1, text: "Contact phone number: (0044)", answer: "208 613 2978" },
-        { num: 2, text: "Email address: richard@ _______ .co.uk", answer: "visiontech" },
+        { num: 2, text: "Email address: richard@", answer: "visiontech", afterText: ".co.uk" },
         { num: 3, text: "Occupation: a local", answer: "doctor" },
-        { num: 4, text: "Type of accommodation: must have its own", answer: "garage" },
-        { num: 5, text: "No _______ required (family bringing theirs)", answer: "furniture" },
-        { num: 6, text: "A _______ in the kitchen is preferable", answer: "fridge" },
+        { num: 4, text: "Type of accommodation: a 2-bedroom apartment wanted (must have its own", answer: "garage", afterText: ")" },
+        { num: 5, text: "No", answer: "furniture", afterText: "required (family bringing theirs)" },
+        { num: 6, text: "A", answer: "fridge", afterText: "in the kitchen is preferable" },
         { num: 7, text: "Preferred location: near a", answer: "school" },
-        { num: 8, text: "Maximum rent: _______ per month", answer: "950" },
-        { num: 9, text: "The accommodation has to be _______ in the daytime", answer: "quiet" },
+        { num: 8, text: "Maximum rent:", answer: "950", afterText: "per month" },
+        { num: 9, text: "Other requests: the accommodation has to be", answer: "quiet", afterText: "in the daytime" },
         { num: 10, text: "How did you first hear about us? through a", answer: "friend" }
       ]
     },
     // TEST 7: Hostel Accommodation in Darwin
     {
       id: 7,
-      title: "Hostel Accommodation",
+      title: "Hostel Accommodation in Darwin",
       formTitle: "HOSTEL ACCOMMODATION IN DARWIN",
-      formSubtitle: "Comparison Details",
+      formSubtitle: "Hostel Reviews",
       instruction: "Write NO MORE THAN ONE WORD AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "Top End Backpackers: staff are", answer: "unfriendly" },
-        { num: 2, text: "Top End Backpackers: air-conditioning is too", answer: "noisy" },
-        { num: 3, text: "Gum Tree Lodge: Price per person $", answer: "23.50" },
-        { num: 4, text: "Gum Tree Lodge: _______ in the dormitories", answer: "insects" },
-        { num: 5, text: "Kangaroo Lodge: the _______ are very clean", answer: "bathrooms" },
-        { num: 6, text: "Kangaroo Lodge: seems to be a _______ every night", answer: "party" },
-        { num: 7, text: "Kangaroo Lodge Address: on _______ Lane", answer: "Shadforth" },
+        { num: 1, text: "Top End Backpackers — Comments: parking available, staff are", answer: "unfriendly" },
+        { num: 2, text: "Gum Tree Lodge — Comments: nice pool, air-conditioning is too", answer: "noisy" },
+        { num: 3, text: "Gum Tree Lodge — Price per person: $", answer: "23.50" },
+        { num: 4, text: "Gum Tree Lodge — Comments:", answer: "insects", afterText: "in the dormitories" },
+        { num: 5, text: "Kangaroo Lodge — Comments: the", answer: "bathrooms", afterText: "are very clean" },
+        { num: 6, text: "Kangaroo Lodge — Comments: seems to be a", answer: "party", afterText: "every night" },
+        { num: 7, text: "Kangaroo Lodge — Address: on", answer: "Shadforth", afterText: "Lane" },
         { num: 8, text: "General information: can hire a", answer: "towel" },
-        { num: 9, text: "_______ is included", answer: "breakfast" },
-        { num: 10, text: "A shared _______ is available", answer: "kitchen" }
+        { num: 9, text: "General information:", answer: "breakfast", afterText: "is included" },
+        { num: 10, text: "General information: a shared", answer: "kitchen", afterText: "is available" }
       ]
     },
     // TEST 8: Hilary Lodge Retirement Home
     {
       id: 8,
-      title: "Retirement Home Volunteering",
+      title: "Hilary Lodge Retirement Home",
       formTitle: "HILARY LODGE RETIREMENT HOME",
-      formSubtitle: "Volunteer Information",
+      formSubtitle: "Volunteer Activities",
       instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "Monday evenings computer training: Training needed in how to produce", answer: "documents" },
-        { num: 2, text: "Tuesday afternoons singing: The home has a _______ and someone to play it", answer: "keyboard" },
+        { num: 1, text: "Monday evenings: computer training — Training needed in how to produce", answer: "documents" },
+        { num: 2, text: "Tuesday afternoons: singing — The home has a", answer: "keyboard", afterText: "and someone to play it" },
         { num: 3, text: "Thursday mornings: growing", answer: "flowers" },
-        { num: 4, text: "The home doesn't have many _______ for gardening", answer: "tools" },
-        { num: 5, text: "Interview: Go in on _______ , any time", answer: "Saturday" },
+        { num: 4, text: "The home doesn't have many", answer: "tools", afterText: "for gardening" },
+        { num: 5, text: "Interview — Go in on", answer: "Saturday", afterText: ", any time" },
         { num: 6, text: "Interview with assistant called", answer: "Mairead" },
-        { num: 7, text: "Address of home: 73 _______ Road", answer: "Bridge" },
-        { num: 8, text: "Open house days: Agreed to help on", answer: "14th May" },
+        { num: 7, text: "Address of home: 73", answer: "Bridge", afterText: "Road" },
+        { num: 8, text: "'Open house' days — Agreed to help on", answer: "14th May" },
         { num: 9, text: "Will show visitors where to", answer: "park" },
-        { num: 10, text: "Possibility of talking to a _______ reporter", answer: "newspaper" }
+        { num: 10, text: "Possibility of talking to a", answer: "newspaper", afterText: "reporter" }
       ]
     },
     // TEST 9: Transport from Airport to Milton
     {
       id: 9,
-      title: "Airport Transport",
+      title: "Transport from Airport to Milton",
       formTitle: "TRANSPORT FROM AIRPORT TO MILTON",
-      formSubtitle: "Booking Details",
+      formSubtitle: "Travel Options",
       instruction: "Write NO MORE THAN THREE WORDS for each answer.",
       questions: [
-        { num: 1, text: "Option: _______ - expensive", answer: "taxi" },
-        { num: 2, text: "Greyhound bus: direct to the", answer: "city centre" },
-        { num: 3, text: "Greyhound bus: long", answer: "wait" },
-        { num: 4, text: "Airport Shuttle: _______ service", answer: "door-to-door" },
-        { num: 5, text: "Airport Shuttle: need to", answer: "reserve a seat" },
-        { num: 6, text: "Booking Form - Date:", answer: "17th October" },
-        { num: 7, text: "Bus Time: _______ pm", answer: "12.30" },
+        { num: 1, text: "Options: Car hire - don't want to drive;", answer: "taxi", afterText: "- expensive" },
+        { num: 2, text: "Greyhound bus — direct to the", answer: "city centre" },
+        { num: 3, text: "Greyhound bus — long", answer: "wait" },
+        { num: 4, text: "Airport Shuttle —", answer: "door-to-door", afterText: "service" },
+        { num: 5, text: "Airport Shuttle — need to", answer: "reserve a seat" },
+        { num: 6, text: "AIRPORT SHUTTLE BOOKING FORM — Date:", answer: "17th October" },
+        { num: 7, text: "Bus Time:", answer: "12.30", afterText: "pm" },
         { num: 8, text: "Name: Janet", answer: "Thomson" },
         { num: 9, text: "Flight No:", answer: "AC 936" },
         { num: 10, text: "Credit Card No: (Visa)", answer: "3303 8450 2045 6837" }
@@ -3727,41 +3723,41 @@ const listeningTestsData = {
     // TEST 10: Car Insurance
     {
       id: 10,
-      title: "Car Insurance",
+      title: "Car Insurance Form",
       formTitle: "CAR INSURANCE",
-      formSubtitle: "Application Form",
+      formSubtitle: "Policy Details",
       instruction: "Write NO MORE THAN THREE WORDS AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "Address: _______ , Greendale", answer: "27 Bank Road" },
-        { num: 2, text: "Occupation:", answer: "dentist" },
-        { num: 3, text: "Type of car - Model:", answer: "Sable" },
+        { num: 1, text: "Address:", answer: "27 Bank Road", afterText: ", Greendale" },
+        { num: 2, text: "Occupation: a", answer: "dentist" },
+        { num: 3, text: "Type of car: Manufacturer: Hewton; Model:", answer: "Sable" },
         { num: 4, text: "Previous insurance company:", answer: "Northern Star" },
-        { num: 5, text: "If yes, give brief details: Car was _______ in 1999", answer: "stolen" },
+        { num: 5, text: "Any claims in last five years? If yes: Car was", answer: "stolen", afterText: "in 1999" },
         { num: 6, text: "Name(s) of other driver(s): Simon", answer: "Paynter" },
         { num: 7, text: "Relationship to main driver:", answer: "brother-in-law" },
-        { num: 8, text: "Uses of car: social and", answer: "travel to work" },
-        { num: 9, text: "Recommended Insurance - Name of company:", answer: "Red Flag" },
+        { num: 8, text: "Uses of car: - social -", answer: "travel to work" },
+        { num: 9, text: "Recommended Insurance — Name of company:", answer: "Red Flag" },
         { num: 10, text: "Annual cost: $", answer: "450" }
       ]
     },
-    // TEST 11: Student Job Application
+    // TEST 11: Student Job Enquiry
     {
       id: 11,
-      title: "Student Job Application",
+      title: "Student Job Enquiry",
       formTitle: "STUDENT JOB APPLICATION",
-      formSubtitle: "Employment Services",
+      formSubtitle: "Part-time Work",
       instruction: "Write NO MORE THAN THREE WORDS AND/OR A NUMBER for each answer.",
       questions: [
         { num: 1, text: "Student is studying", answer: "business" },
-        { num: 2, text: "Student is in the _______ year of the course", answer: "third" },
-        { num: 3, text: "Position Available - Receptionist: in the", answer: "Sports Centre" },
-        { num: 4, text: "Position Available - Problem at Child Care Centre:", answer: "cleaner" },
-        { num: 5, text: "Clerical Assistant: in the", answer: "Library" },
-        { num: 6, text: "Student Address:", answer: "International House" },
+        { num: 2, text: "Student is in the", answer: "third", afterText: "year of the course" },
+        { num: 3, text: "Position: Receptionist — Where: in the", answer: "Sports Centre", afterText: "— Problem: evening lectures" },
+        { num: 4, text: "Position:", answer: "cleaner", afterText: "— Where: in the Child Care Centre — Problem: too early" },
+        { num: 5, text: "Position: Clerical Assistant — Where: in the", answer: "Library", afterText: "— Problem: evening lectures" },
+        { num: 6, text: "STUDENT DETAILS — Address:", answer: "International House" },
         { num: 7, text: "Room No.", answer: "B659" },
-        { num: 8, text: "Position available: _______ at the English Language Centre", answer: "office assistant" },
-        { num: 9, text: "Duties: Respond to enquiries and", answer: "answer phone" },
-        { num: 10, text: "Time of interview: Friday at _______ a.m.", answer: "11.30" }
+        { num: 8, text: "Position available:", answer: "office assistant", afterText: "at the English Language Centre" },
+        { num: 9, text: "Duties: Respond to enquiries and", answer: "answer the phone" },
+        { num: 10, text: "Time of interview: Friday at", answer: "11.30", afterText: "a.m." }
       ]
     },
     // TEST 12: Homestay Application
@@ -3769,7 +3765,7 @@ const listeningTestsData = {
       id: 12,
       title: "Homestay Application",
       formTitle: "HOMESTAY APPLICATION",
-      formSubtitle: "Student Details",
+      formSubtitle: "Student Information",
       instruction: "Write NO MORE THAN THREE WORDS AND/OR A NUMBER for each answer.",
       questions: [
         { num: 1, text: "First name:", answer: "Keiko" },
@@ -3777,7 +3773,7 @@ const listeningTestsData = {
         { num: 3, text: "Length of homestay: Approx", answer: "4 months" },
         { num: 4, text: "Course enrolled in:", answer: "Advanced English" },
         { num: 5, text: "Family preferences: no", answer: "young children" },
-        { num: 6, text: "No objection to", answer: "pets" },
+        { num: 6, text: "Family preferences: no objection to", answer: "pets" },
         { num: 7, text: "What does the student particularly like to eat?", answer: "seafood" },
         { num: 8, text: "What sport does the student play?", answer: "tennis" },
         { num: 9, text: "What mode of transport does the student prefer?", answer: "trains" },
@@ -3787,84 +3783,86 @@ const listeningTestsData = {
     // TEST 13: Summer Music Festival
     {
       id: 13,
-      title: "Summer Music Festival",
+      title: "Summer Music Festival Booking",
       formTitle: "SUMMER MUSIC FESTIVAL",
       formSubtitle: "Booking Form",
-      instruction: "Choose the correct letter or write NO MORE THAN TWO WORDS AND/OR A NUMBER.",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
+      questionType: "mixed",
       questions: [
-        { num: 1, text: "In the lobby of the library George saw: A) a group playing music B) a display of instruments C) a video about the festival", answer: "C" },
-        { num: 2, text: "George wants to sit at the back so they can: A) see well B) hear clearly C) pay less", answer: "B" },
-        { num: 3, text: "Address: _______ , Westsea", answer: "48 North Avenue" },
-        { num: 4, text: "Postcode:", answer: "WS6 2YH" },
-        { num: 5, text: "Telephone:", answer: "01onal 553242" },
-        { num: 6, text: "17 June Singer: price includes _______ in the garden", answer: "drinks" },
-        { num: 7, text: "22 June: _______ (Anna Ventura)", answer: "pianist" },
-        { num: 8, text: "23 June Spanish Dance & Guitar Concert: £", answer: "10.50" },
-        { num: 9, text: "Number of tickets for Spanish Dance Concert:", answer: "4" },
-        { num: 10, text: "Children/Students/Senior Citizens have _______ discount", answer: "50%" }
+        { num: 1, text: "In the lobby of the library George saw", answer: "C", type: "multipleChoice", options: ["a group playing music", "a display of instruments", "a video about the festival"] },
+        { num: 2, text: "George wants to sit at the back so they can", answer: "B", type: "multipleChoice", options: ["see well", "hear clearly", "pay less"] },
+        { num: 3, text: "ADDRESS:", answer: "48 North Avenue", afterText: ", Westsea" },
+        { num: 4, text: "POSTCODE:", answer: "WS6 2YH" },
+        { num: 5, text: "TELEPHONE:", answer: "01674 553242" },
+        { num: 6, text: "17 June: Singer (price includes", answer: "free drinks", afterText: "in the garden)" },
+        { num: 7, text: "22 June: Event:", answer: "pianist", afterText: "(Anna Ventura)" },
+        { num: 8, text: "23 June: Spanish Dance & Guitar Concert — Price: £", answer: "10.50" },
+        { num: 9, text: "23 June: No. of tickets:", answer: "4" },
+        { num: 10, text: "NB Children/Students/Senior Citizens have", answer: "50%", afterText: "discount on all tickets" }
       ]
     },
-    // TEST 14: Insurance Incident Report
+    // TEST 14: Total Insurance Incident Report
     {
       id: 14,
       title: "Insurance Incident Report",
       formTitle: "TOTAL INSURANCE INCIDENT REPORT",
-      formSubtitle: "Damage Claim",
-      instruction: "Write NO MORE THAN THREE WORDS AND/OR A NUMBER for each answer.",
+      formSubtitle: "Shipping Damage Claim",
+      instruction: "Write ONE WORD AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "Address: 24 Manly Street, _______ , Sydney", answer: "Milperra" },
+        { num: 1, text: "Address: 24 Manly Street,", answer: "Milperra", afterText: ", Sydney" },
         { num: 2, text: "Shipping agent:", answer: "First Class Movers" },
         { num: 3, text: "Date of arrival:", answer: "28 November" },
-        { num: 4, text: "Television: The _______ needs to be replaced", answer: "screen" },
-        { num: 5, text: "The _______ cabinet", answer: "bathroom" },
-        { num: 6, text: "The _______ of the cabinet is damaged", answer: "door" },
-        { num: 7, text: "Cost to repair cabinet: $", answer: "140" },
-        { num: 8, text: "Dining room table: A _______ is split", answer: "leg" },
-        { num: 9, text: "Set of China: Six _______ were broken", answer: "plates" },
-        { num: 10, text: "China cost: About $ _______ in total", answer: "60" }
+        { num: 4, text: "Television — Damage: The", answer: "screen", afterText: "needs to be replaced" },
+        { num: 5, text: "The", answer: "bathroom", afterText: "cabinet — The door or the cabinet is damaged" },
+        { num: 6, text: "The bathroom cabinet — Damage: The", answer: "door", afterText: "of the cabinet is damaged" },
+        { num: 7, text: "The bathroom cabinet — Cost to repair/replace: $", answer: "140" },
+        { num: 8, text: "Dining room table — Damage: A", answer: "leg", afterText: "is split" },
+        { num: 9, text: "Set of China — Damage: Six", answer: "plates", afterText: "were broken" },
+        { num: 10, text: "Set of China — Cost: About $", answer: "60", afterText: "in total" }
       ]
     },
     // TEST 15: Rented Properties
     {
       id: 15,
-      title: "Rented Properties",
-      formTitle: "RENTED PROPERTIES",
-      formSubtitle: "Customer Requirements",
+      title: "Rented Properties Requirements",
+      formTitle: "RENTED PROPERTIES CUSTOMER'S REQUIREMENTS",
+      formSubtitle: "Property Search",
       instruction: "Write ONE WORD AND/OR A NUMBER for each answer.",
+      questionType: "mixed",
       questions: [
-        { num: 1, text: "Preferred location: in the _______ area of town", answer: "central" },
+        { num: 1, text: "Preferred location: in the", answer: "central", afterText: "area of town" },
         { num: 2, text: "Maximum monthly rent: £", answer: "600" },
         { num: 3, text: "Length of let required:", answer: "2 years" },
-        { num: 4, text: "Oakington Avenue problem: no", answer: "garage" },
-        { num: 5, text: "Mead Street problem: the _______ is too large", answer: "garden" },
-        { num: 6, text: "Hamilton Road: living room, kitchen-diner, and a", answer: "study" },
-        { num: 7, text: "Hamilton Road problem: too", answer: "noisy" },
-        { num: 8, text: "Devon Close monthly rent: £", answer: "595" },
-        { num: 9, text: "Which TWO facilities are open? (First)", answer: "B" },
-        { num: 10, text: "Which TWO facilities are open? (Second)", answer: "E" }
+        { num: 4, text: "Oakington Avenue — Problem: no", answer: "garage" },
+        { num: 5, text: "Mead Street — Problem: the", answer: "garden", afterText: "is too large" },
+        { num: 6, text: "Hamilton Road — Rooms: living room, kitchen-diner, and a", answer: "study" },
+        { num: 7, text: "Hamilton Road — Problem: too", answer: "noisy" },
+        { num: 8, text: "Devon Close — Monthly rent: £", answer: "595" },
+        { num: 9, text: "Which TWO facilities in the district of Devon Close are open to the public at the moment?", answer: "B,E", type: "multiSelect", note: "Choose TWO letters, A-E", options: ["museum", "concert hall", "cinema", "sport center", "swimming pool"] },
+        { num: 10, text: "Second facility open:", answer: "E", type: "hidden" }
       ]
     },
     // TEST 16: West Bay Hotel Job
     {
       id: 16,
-      title: "Hotel Job Application",
-      formTitle: "WEST BAY HOTEL",
-      formSubtitle: "Job Details",
+      title: "West Bay Hotel Job Details",
+      formTitle: "WEST BAY HOTEL – DETAILS OF JOB",
+      formSubtitle: "Temporary Staff Position",
       instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
       questions: [
         { num: 1, text: "Vacancies for", answer: "waiters" },
-        { num: 2, text: "Can choose your _______ (must be the same each week)", answer: "day off" },
+        { num: 2, text: "Can choose your", answer: "day off", afterText: "(must be the same each week)" },
         { num: 3, text: "Pay: £5.50 per hour, including a", answer: "break" },
-        { num: 4, text: "A _______ is provided in the hotel", answer: "meal" },
-        { num: 5, text: "Dress: a white shirt and _______ trousers", answer: "dark" },
-        { num: 6, text: "A _______ (supplied)", answer: "jacket" },
+        { num: 4, text: "A", answer: "free meal", afterText: "is provided in the hotel" },
+        { num: 5, text: "Dress: a white shirt and", answer: "dark", afterText: "trousers (not supplied)" },
+        { num: 6, text: "Also required: a", answer: "jacket", afterText: "(supplied)" },
         { num: 7, text: "Starting date:", answer: "28 June" },
-        { num: 8, text: "Call Jane _______ (Service Manager)", answer: "Urwin" },
-        { num: 9, text: "Call before _______ tomorrow", answer: "12.00" },
+        { num: 8, text: "Call Jane", answer: "Urwin", afterText: "(Service Manager) before 9 tomorrow" },
+        { num: 9, text: "Call before", answer: "12.00", afterText: "tomorrow (Tel: 832009)" },
         { num: 10, text: "She'll require a", answer: "reference" }
       ]
     },
-    // TEST 17: Job Enquiry - Restaurant
+    // TEST 17: Restaurant Job Enquiry
     {
       id: 17,
       title: "Restaurant Job Enquiry",
@@ -3872,36 +3870,36 @@ const listeningTestsData = {
       formSubtitle: "Restaurant Position",
       instruction: "Write NO MORE THAN THREE WORDS AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "Type of work:", answer: "answering phone" },
-        { num: 2, text: "Work in the _______ branch", answer: "Hillsdunne Road" },
+        { num: 1, text: "Type of work:", answer: "answering the phone" },
+        { num: 2, text: "Work in the", answer: "Hillsdunne Road", afterText: "branch" },
         { num: 3, text: "Nearest bus stop: next to", answer: "library" },
-        { num: 4, text: "Pay: £ _______ an hour", answer: "4.45" },
-        { num: 5, text: "Extra pay when you work on", answer: "national holidays" },
+        { num: 4, text: "Pay: £", answer: "4.45", afterText: "an hour" },
+        { num: 5, text: "Extra benefits: extra pay when you work on", answer: "national holidays" },
         { num: 6, text: "Transport home when you work", answer: "after 11" },
         { num: 7, text: "Qualities required:", answer: "clear voice" },
-        { num: 8, text: "Ability to", answer: "think quickly" },
-        { num: 9, text: "Interview arranged for: Thursday _______ at 6 p.m.", answer: "22 October" },
+        { num: 8, text: "Qualities required: ability to", answer: "think quickly" },
+        { num: 9, text: "Interview arranged for: Thursday", answer: "22 October", afterText: "at 6 p.m." },
         { num: 10, text: "Ask for: Samira", answer: "Manuja" }
       ]
     },
-    // TEST 18: Accommodation Form - Student
+    // TEST 18: Hall of Residence Accommodation
     {
       id: 18,
-      title: "Student Accommodation",
-      formTitle: "ACCOMMODATION FORM",
-      formSubtitle: "Student Information",
+      title: "Hall of Residence Form",
+      formTitle: "ACCOMMODATION FORM – STUDENT INFORMATION",
+      formSubtitle: "Hall of Residence Application",
       instruction: "Write ONE WORD AND/OR A NUMBER for each answer.",
       questions: [
         { num: 1, text: "Name: Anu", answer: "Bhatt" },
         { num: 2, text: "Date of birth:", answer: "31 March" },
         { num: 3, text: "Course of study:", answer: "nursing" },
         { num: 4, text: "Number of years planned in hall:", answer: "2" },
-        { num: 5, text: "Special dietary requirements: no _______ (red)", answer: "meat" },
+        { num: 5, text: "Special dietary requirements: no", answer: "meat", afterText: "(red)" },
         { num: 6, text: "Preferred room type: a single", answer: "bedsit" },
-        { num: 7, text: "Interests: the", answer: "theatre" },
-        { num: 8, text: "Priorities: to be with other students who are", answer: "mature" },
+        { num: 7, text: "Interests: the", answer: "theatre", afterText: ", badminton" },
+        { num: 8, text: "Priorities in choice of hall: to be with other students who are", answer: "mature" },
         { num: 9, text: "To live outside the", answer: "town" },
-        { num: 10, text: "To have a _______ area for socialising", answer: "shared" }
+        { num: 10, text: "To have a", answer: "shared", afterText: "area for socialising" }
       ]
     },
     // TEST 19: Greek Island Holidays
@@ -3909,1250 +3907,511 @@ const listeningTestsData = {
       id: 19,
       title: "Greek Island Holidays",
       formTitle: "GREEK ISLAND HOLIDAYS",
-      formSubtitle: "Apartment & Insurance Details",
+      formSubtitle: "Apartment Options & Insurance",
       instruction: "Write ONE WORD AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "Blue Bay Apartments: Just _______ metres from beach", answer: "300" },
-        { num: 2, text: "Blue Bay Apartments:", answer: "Sunshade" },
-        { num: 3, text: "The Grand: _______ terrace", answer: "balcony" },
-        { num: 4, text: "The Grand: overlooking", answer: "forests" },
-        { num: 5, text: "The Grand cost: £", answer: "319" },
-        { num: 6, text: "Insurance - Cancellation: Maximum £", answer: "10000" },
-        { num: 7, text: "Hospital: Additional benefit allows a _______ to travel to resort", answer: "relative" },
-        { num: 8, text: "_______ departure: Up to £1000", answer: "missed" },
-        { num: 9, text: "Personal belongings: £500 for one", answer: "item" },
+        { num: 1, text: "Blue Bay Apartments — Facilities: Large salt-water swimming pool — Just", answer: "300", afterText: "metres from beach" },
+        { num: 2, text: "Sunshade Apartments — Name:", answer: "Sunshade" },
+        { num: 3, text: "Sunshade Apartments — Facilities: terrace,", answer: "balcony", afterText: ", watersports" },
+        { num: 4, text: "The Grand — Other Information: overlooking", answer: "forest" },
+        { num: 5, text: "The Grand — Cost: £", answer: "319" },
+        { num: 6, text: "Insurance Benefits — Cancellation: Maximum Amount: £", answer: "10,000" },
+        { num: 7, text: "Hospital: £600. Additional benefit allows a", answer: "relative", afterText: "to travel to resort" },
+        { num: 8, text: "Insurance Benefits:", answer: "missed", afterText: "departure — Up to £1000" },
+        { num: 9, text: "Personal belongings: Up to £3000; £500 for one", answer: "item" },
         { num: 10, text: "Name of Assistant Manager: Ben", answer: "Ludlow" }
       ]
     },
-    // TEST 20: Paws Dog Walking Service
+    // TEST 20: Health Centres
     {
       id: 20,
-      title: "Dog Walking Service",
-      formTitle: "PAWS DOG WALKING SERVICE",
-      formSubtitle: "Service Information",
-      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
+      title: "Health Centres Information",
+      formTitle: "HEALTH CENTRES",
+      formSubtitle: "Local Medical Services",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questionType: "mixed",
       questions: [
-        { num: 1, text: "Special feature: they don't accept", answer: "babies" },
-        { num: 2, text: "Name of manager:", answer: "Eshcol" },
-        { num: 3, text: "Best time to meet: in the", answer: "evening" },
-        { num: 4, text: "Surname:", answer: "Gormley" },
-        { num: 5, text: "What TWO types of identification are required? (First)", answer: "B" },
-        { num: 6, text: "What TWO types of identification are required? (Second)", answer: "E" },
-        { num: 7, text: "Dog's health: problems with", answer: "heart" },
-        { num: 8, text: "Where should the dog be walked?", answer: "primary school" },
-        { num: 9, text: "What time should the dog be collected?", answer: "4.30" },
-        { num: 10, text: "What other information will they require?", answer: "ages" }
+        { num: 1, text: "The Harvey Clinic (Dr Green) — Advantage: especially good with", answer: "babies" },
+        { num: 2, text: "The", answer: "Eshcol", afterText: "Health Practice (Dr Fuller)" },
+        { num: 3, text: "The Eshcol Health Practice — Advantage: offers", answer: "evening", afterText: "appointments" },
+        { num: 4, text: "The Shore Lane Health Centre — Doctor's name: Dr", answer: "Gormley" },
+        { num: 5, text: "Which TWO are offered free at Shore Lane Health Centre? (Choose TWO)", answer: "B,E", type: "multiSelect", note: "Choose A-E", options: ["acupuncture", "employment medicals", "sports injury therapy", "travel advice", "vaccinations"] },
+        { num: 6, text: "Second free service:", answer: "E", type: "hidden" },
+        { num: 7, text: "Talks — Giving up smoking: useful for people with asthma or", answer: "heart", afterText: "problems" },
+        { num: 8, text: "Healthy eating — Location: the", answer: "primary school", afterText: "(Shore Lane)" },
+        { num: 9, text: "Avoiding injuries during exercise — Date/Time: 9th March at", answer: "4.30" },
+        { num: 10, text: "Avoiding injuries during exercise — Notes: for all", answer: "ages" }
       ]
     }
   ],
+  // ==================== PART 2: TESTS 21-40 (Questions 11-20) ====================
   part2: [
     // TEST 21: Pacton-on-Sea Bus Tour
     {
       id: 21,
-      title: "Pacton Bus Tour",
+      title: "Pacton-on-Sea Bus Tour",
       formTitle: "PACTON-ON-SEA BUS TOUR",
       formSubtitle: "Tour Information",
-      instruction: "Write NO MORE THAN THREE WORDS AND/OR A NUMBER for each answer.",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "Bus stop 2 - the aquarium: dolphins and", answer: "sharks" },
-        { num: 2, text: "Bus stop 3 location:", answer: "old fishing village" },
-        { num: 3, text: "Bus stop 4 location: _______ centre", answer: "shopping" },
-        { num: 4, text: "Bus stop 4 - things to see: very old", answer: "fountain" },
-        { num: 5, text: "You need to have a _______ to buy a ticket for £10", answer: "student card" },
-        { num: 6, text: "The bus tour lasts _______ in total", answer: "50 minutes" },
-        { num: 7, text: "The cost of the bus ticket includes entrance to the", answer: "museum" },
-        { num: 8, text: "Audio commentary has been made by the", answer: "tourist office" },
-        { num: 9, text: "If the weather is wet, bring", answer: "rainwear" },
-        { num: 10, text: "Don't forget to bring your _______ when you book online", answer: "e-ticket" }
+        { num: 11, text: "Bus stop 2 (the aquarium) — Things to see: dolphins and", answer: "sharks" },
+        { num: 12, text: "Bus stop 3 — Location:", answer: "old fishing village", afterText: "— Things to see: yachts and power boats" },
+        { num: 13, text: "Bus stop 4 — Location:", answer: "shopping", afterText: "centre" },
+        { num: 14, text: "Bus stop 4 — Things to see: very old", answer: "water fountain" },
+        { num: 15, text: "You need to have a", answer: "student card", afterText: "to buy a ticket for £10" },
+        { num: 16, text: "The bus tour lasts", answer: "50 minutes", afterText: "in total" },
+        { num: 17, text: "The cost of the bus ticket includes entrance to the", answer: "museum" },
+        { num: 18, text: "You can listen to an audio commentary which has been made by the", answer: "tourist office" },
+        { num: 19, text: "If the weather is wet, it is a good idea to bring", answer: "rainwear" },
+        { num: 20, text: "Don't forget to bring your", answer: "e-ticket", afterText: "when you book online" }
       ]
     },
     // TEST 22: Sea Life Centre
     {
       id: 22,
-      title: "Sea Life Centre",
+      title: "Sea Life Centre Information",
       formTitle: "SEA LIFE CENTRE",
-      formSubtitle: "Information",
+      formSubtitle: "Visitor Information",
       instruction: "Write NO MORE THAN THREE WORDS for each answer.",
+      questionType: "mixed",
       questions: [
-        { num: 1, text: "What was the Sea Life Centre previously called?", answer: "World of Water" },
-        { num: 2, text: "What is the newest attraction called?", answer: "splash ride" },
-        { num: 3, text: "When is the main feeding time?", answer: "noon" },
-        { num: 4, text: "What can you do with a VIP ticket?", answer: "feed sharks" },
-        { num: 5, text: "What special event will they arrange for you?", answer: "birthday party" },
-        { num: 6, text: "Where will the petition be sent to?", answer: "government" },
-        { num: 7, text: "What can you use to test what you have learnt?", answer: "quiz" },
-        { num: 8, text: "Which attraction must not miss?", answer: "E" },
-        { num: 9, text: "Which attraction is temporarily closed?", answer: "C" },
-        { num: 10, text: "Which attraction has large queues?", answer: "B" }
+        { num: 11, text: "What was the Sea Life Centre previously called?", answer: "World of Water" },
+        { num: 12, text: "What is the newest attraction called?", answer: "the splash ride" },
+        { num: 13, text: "When is the main feeding time?", answer: "noon" },
+        { num: 14, text: "What can you do with a VIP ticket?", answer: "feed the sharks" },
+        { num: 15, text: "What special event will the Sea Life Centre arrange for you?", answer: "birthday party" },
+        { num: 16, text: "Where will the petition for animal conservation be sent to?", answer: "the government" },
+        { num: 17, text: "What can you use to test what you have learnt?", answer: "quiz" },
+        { num: 18, text: "Match attractions: must not miss", answer: "E", type: "matching", note: "A-Aquarium, B-Crocodile Cave, C-Penguin Park, D-Seal Centre, E-Turtle Town" },
+        { num: 19, text: "Match attractions: temporarily closed", answer: "C", type: "matching" },
+        { num: 20, text: "Match attractions: large queues", answer: "B", type: "matching" }
       ]
     },
-    // TEST 23: Hotel Event
+    // TEST 23: Hotel Event Planning
     {
       id: 23,
-      title: "Hotel Event",
-      formTitle: "HOTEL EVENT PLANNING",
-      formSubtitle: "Staff Instructions",
-      instruction: "Choose the correct letter or write NO MORE THAN THREE WORDS.",
+      title: "Hotel Event Planning",
+      formTitle: "HOTEL EVENT BRIEFING",
+      formSubtitle: "Party Organisation",
+      instruction: "Write NO MORE THAN THREE WORDS for each answer.",
+      questionType: "mixed",
       questions: [
-        { num: 1, text: "The next event at the hotel will be a: A) trade fair B) wedding C) party", answer: "C" },
-        { num: 2, text: "The number of guests will be: A) less than 50 B) from 50 to 100 C) more than 100", answer: "B" },
-        { num: 3, text: "Guests will start arriving at: A) 7.15 B) 7.30 C) 7.45", answer: "A" },
-        { num: 4, text: "The entertainment will be a: A) live band B) comedian C) magician", answer: "B" },
-        { num: 5, text: "Who will offer drinks to guests?", answer: "C" },
-        { num: 6, text: "Who will take guests' coats and hats?", answer: "E" },
-        { num: 7, text: "Who will show guests where to go?", answer: "A" },
-        { num: 8, text: "To get guests to move to the restaurant, the manager will", answer: "ring a bell" },
-        { num: 9, text: "Seating plans will be placed on each table and also in the", answer: "lounge" },
-        { num: 10, text: "There will be a total of three", answer: "speeches" }
+        { num: 11, text: "The next event at the hotel will be a", answer: "C", type: "multipleChoice", options: ["trade fair", "wedding", "party"] },
+        { num: 12, text: "The number of guests will be", answer: "B", type: "multipleChoice", options: ["less than 50", "from 50 to 100", "more than 100"] },
+        { num: 13, text: "Guests will start arriving at", answer: "A", type: "multipleChoice", options: ["7.15", "7.30", "7.45"] },
+        { num: 14, text: "The entertainment will be a", answer: "B", type: "multipleChoice", options: ["live band", "comedian", "magician"] },
+        { num: 15, text: "Who will offer drinks to guests?", answer: "C", type: "matching", note: "A-Susan, B-Ahmed, C-Gary, D-Olav, E-Monica" },
+        { num: 16, text: "Who will take guests' coats and hats?", answer: "E", type: "matching" },
+        { num: 17, text: "Who will show guests where to go?", answer: "A", type: "matching" },
+        { num: 18, text: "To get the guests to move to the restaurant the hotel manager will", answer: "ring a bell" },
+        { num: 19, text: "Seating plans will be placed on each table and also in the", answer: "lounge" },
+        { num: 20, text: "There will be a total of three", answer: "speeches" }
       ]
     },
-    // TEST 24: Volunteer Park Work
+    // TEST 24: Park Volunteer Work
     {
       id: 24,
-      title: "Volunteer Park Work",
-      formTitle: "VOLUNTEER PARK WORK",
-      formSubtitle: "Activity Plan",
-      instruction: "Choose TWO letters or write the correct letter A-I.",
+      title: "Park Volunteer Work",
+      formTitle: "VOLUNTEER CONSERVATION PROJECT",
+      formSubtitle: "Park Improvement Plan",
+      instruction: "Choose the correct letters or label the plan.",
+      questionType: "mixed",
       questions: [
-        { num: 1, text: "Which TWO tasks will Group A be responsible for? (First)", answer: "B" },
-        { num: 2, text: "Which TWO tasks will Group A be responsible for? (Second)", answer: "E" },
-        { num: 3, text: "Which TWO items should volunteers bring? (First)", answer: "B" },
-        { num: 4, text: "Which TWO items should volunteers bring? (Second)", answer: "C" },
-        { num: 5, text: "Vegetable beds location:", answer: "G" },
-        { num: 6, text: "Bee hives location:", answer: "I" },
-        { num: 7, text: "Seating location:", answer: "B" },
-        { num: 8, text: "Adventure playground location:", answer: "E" },
-        { num: 9, text: "Sand area location:", answer: "C" },
-        { num: 10, text: "Pond location:", answer: "A" }
+        { num: 11, text: "Which TWO tasks will Group A be responsible for? (First task)", answer: "B", type: "multiSelect", note: "Choose TWO: A-widening pathways, B-planting trees, C-picking up rubbish, D-putting up signs, E-building fences" },
+        { num: 12, text: "Which TWO tasks will Group A be responsible for? (Second task)", answer: "E", type: "multiSelect" },
+        { num: 13, text: "Which TWO items should volunteers bring? (First item)", answer: "B", type: "multiSelect", note: "Choose TWO: A-food and water, B-boots, C-gloves, D-raincoats, E-their own tools" },
+        { num: 14, text: "Which TWO items should volunteers bring? (Second item)", answer: "C", type: "multiSelect" },
+        { num: 15, text: "Label the plan: Vegetable beds", answer: "G", type: "mapLabeling" },
+        { num: 16, text: "Label the plan: Bee hives", answer: "I", type: "mapLabeling" },
+        { num: 17, text: "Label the plan: Seating", answer: "B", type: "mapLabeling" },
+        { num: 18, text: "Label the plan: Adventure playground", answer: "E", type: "mapLabeling" },
+        { num: 19, text: "Label the plan: Sand area", answer: "C", type: "mapLabeling" },
+        { num: 20, text: "Label the plan: Pond", answer: "A", type: "mapLabeling" }
       ]
     },
-    // TEST 25: Town Map
+    // TEST 25: Town Facilities Map
     {
       id: 25,
-      title: "Town Map",
-      formTitle: "TOWN FACILITIES",
-      formSubtitle: "Map Labels",
-      instruction: "Write the correct letter A-H or A, B, C.",
+      title: "Town Facilities Map",
+      formTitle: "CRAIGFORD TOWN FACILITIES",
+      formSubtitle: "Map Labeling & Track Information",
+      instruction: "Label the map with the correct letter.",
+      questionType: "mixed",
       questions: [
-        { num: 1, text: "Supermarket location:", answer: "G" },
-        { num: 2, text: "Climbing supplies store location:", answer: "D" },
-        { num: 3, text: "Museum location:", answer: "A" },
-        { num: 4, text: "Bike hire location:", answer: "E" },
-        { num: 5, text: "Cafe location:", answer: "C" },
-        { num: 6, text: "North Point track comment:", answer: "B" },
-        { num: 7, text: "Silver River track comment:", answer: "A" },
-        { num: 8, text: "Valley Crossing track comment:", answer: "C" },
-        { num: 9, text: "Stonebridge track comment:", answer: "C" },
-        { num: 10, text: "Henderson Ridge track comment:", answer: "A" }
+        { num: 11, text: "Label the map: supermarket", answer: "G", type: "mapLabeling" },
+        { num: 12, text: "Label the map: climbing supplies store", answer: "D", type: "mapLabeling" },
+        { num: 13, text: "Label the map: museum", answer: "A", type: "mapLabeling" },
+        { num: 14, text: "Label the map: bike hire", answer: "E", type: "mapLabeling" },
+        { num: 15, text: "Label the map: cafe", answer: "C", type: "mapLabeling" },
+        { num: 16, text: "North Point track comment (A-lost, B-basic accommodation, C-physical strength)", answer: "B", type: "matching" },
+        { num: 17, text: "Silver River track comment", answer: "A", type: "matching" },
+        { num: 18, text: "Valley Crossing track comment", answer: "C", type: "matching" },
+        { num: 19, text: "Stonebridge track comment", answer: "C", type: "matching" },
+        { num: 20, text: "Henderson Ridge track comment", answer: "A", type: "matching" }
       ]
     },
-    // TEST 26: Crime Prevention
+    // TEST 26: Crime Prevention Talk
     {
       id: 26,
-      title: "Crime Prevention",
+      title: "Crime Prevention Talk",
       formTitle: "NEIGHBOURHOOD WATCH",
-      formSubtitle: "Crime Prevention Advice",
-      instruction: "Write NO MORE THAN TWO WORDS or the correct letter A-G.",
+      formSubtitle: "Crime Prevention Measures",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questionType: "mixed",
       questions: [
-        { num: 1, text: "The police officer suggests neighbours give each other their", answer: "contact details" },
-        { num: 2, text: "Neighbours should discuss what to do if there's any kind of", answer: "emergency" },
-        { num: 3, text: "It's a good idea to leave on the", answer: "radio" },
-        { num: 4, text: "Think carefully about where you put any", answer: "keys" },
-        { num: 5, text: "It's a good idea to buy good-quality", answer: "window locks" },
-        { num: 6, text: "Skate park - proposed crime prevention measure:", answer: "C" },
-        { num: 7, text: "Local primary schools - proposed measure:", answer: "D" },
-        { num: 8, text: "Abbotsford Street - proposed measure:", answer: "F" },
-        { num: 9, text: "Shops on Victoria Street - proposed measure:", answer: "G" },
-        { num: 10, text: "Supermarket car park - proposed measure:", answer: "E" }
+        { num: 11, text: "The police officer suggests neighbours give each other their", answer: "contact details" },
+        { num: 12, text: "Neighbours should discuss what to do if there's any kind of", answer: "emergency" },
+        { num: 13, text: "It's a good idea to leave on the", answer: "radio" },
+        { num: 14, text: "Think carefully about where you put any", answer: "spare keys" },
+        { num: 15, text: "It's a good idea to buy good-quality", answer: "window locks" },
+        { num: 16, text: "Crime prevention for skate park (A-lighting, B-police patrol, C-remove vegetation, D-contact police, E-fix damage, F-road design, G-security cameras)", answer: "C", type: "matching" },
+        { num: 17, text: "Crime prevention for local primary schools", answer: "D", type: "matching" },
+        { num: 18, text: "Crime prevention for Abbotsford Street", answer: "F", type: "matching" },
+        { num: 19, text: "Crime prevention for shops on Victoria Street", answer: "G", type: "matching" },
+        { num: 20, text: "Crime prevention for supermarket car park", answer: "E", type: "matching" }
       ]
     },
     // TEST 27: Anglia Sculpture Park
     {
       id: 27,
-      title: "Sculpture Park",
+      title: "Anglia Sculpture Park",
       formTitle: "ANGLIA SCULPTURE PARK",
       formSubtitle: "Visitor Information",
-      instruction: "Choose the correct letter A, B or C or write the correct letter A-F.",
+      instruction: "Choose the correct letter, A, B or C.",
+      questionType: "multipleChoice",
       questions: [
-        { num: 1, text: "Q11: When did the__(check PDF)", answer: "B" },
-        { num: 2, text: "Q12:", answer: "A" },
-        { num: 3, text: "Q13:", answer: "C" },
-        { num: 4, text: "Q14:", answer: "B" },
-        { num: 5, text: "Q15:", answer: "A" },
-        { num: 6, text: "Q16:", answer: "A" },
-        { num: 7, text: "Lake area feature:", answer: "E" },
-        { num: 8, text: "The__(check PDF):", answer: "C" },
-        { num: 9, text: "Forest__(check PDF):", answer: "F" },
-        { num: 10, text: "__(check PDF):", answer: "A" }
+        { num: 11, text: "The land where the Sculpture Park is located was previously", answer: "B", type: "multipleChoice", options: ["completely covered by forest", "the site of a private house", "occupied by a factory"] },
+        { num: 12, text: "What is unusual about the Anglia Sculpture Park?", answer: "A", type: "multipleChoice", options: ["Artists have made sculptures especially for it", "Some sculptures were donated by the artists", "It only shows contemporary sculptures"] },
+        { num: 13, text: "What is the theme of Joe Tremain's 'burnt' sculptures?", answer: "C", type: "multipleChoice", options: ["the contrast between nature and urban life", "the effect of man on the environment", "the violence of nature"] },
+        { num: 14, text: "The path by the Lower Lake", answer: "B", type: "multipleChoice", options: ["is rather wet in some places", "has recently been repaired", "is difficult to walk on"] },
+        { num: 15, text: "What does the speaker say about the Visitor Centre?", answer: "A", type: "multipleChoice", options: ["It is being enlarged at present", "It has received an international award", "It was designed by a Canadian architect"] },
+        { num: 16, text: "Today, visitors can buy snacks and sandwiches", answer: "A", type: "multipleChoice", options: ["at the kiosk", "in the Terrace Room", "at the Lower Lake Café"] },
+        { num: 17, text: "Label the map: Joe Tremain sculptures", answer: "E", type: "mapLabeling" },
+        { num: 18, text: "Label the map: Giorgio Catalucci bird sculptures", answer: "C", type: "mapLabeling" },
+        { num: 19, text: "Label the map: Garden Gallery", answer: "F", type: "mapLabeling" },
+        { num: 20, text: "Label the map: Long House", answer: "A", type: "mapLabeling" }
       ]
     },
-    // TEST 28: Community Project
+    // TEST 28: Learning Resource Centre
     {
       id: 28,
-      title: "Community Project",
-      formTitle: "COMMUNITY PROJECT",
-      formSubtitle: "Local Area Information",
-      instruction: "Choose the correct letter or write NO MORE THAN TWO WORDS.",
+      title: "Learning Resource Centre",
+      formTitle: "LEARNING RESOURCE CENTRE",
+      formSubtitle: "Floor Plan & Staff Responsibilities",
+      instruction: "Label the plan with the correct letter.",
+      questionType: "mixed",
       questions: [
-        { num: 1, text: "Q11:", answer: "C" },
-        { num: 2, text: "Q12:", answer: "B" },
-        { num: 3, text: "Q13:", answer: "A" },
-        { num: 4, text: "Q14:", answer: "H" },
-        { num: 5, text: "Q15:", answer: "G" },
-        { num: 6, text: "Entertainment includes:", answer: "films" },
-        { num: 7, text: "What type of writing:", answer: "reports" },
-        { num: 8, text: "Topic about:", answer: "region" },
-        { num: 9, text: "Related to:", answer: "job" },
-        { num: 10, text: "About:", answer: "housing" }
+        { num: 11, text: "Label the plan: Newspapers", answer: "C", type: "mapLabeling" },
+        { num: 12, text: "Label the plan: Computers", answer: "B", type: "mapLabeling" },
+        { num: 13, text: "Label the plan: Photocopier", answer: "A", type: "mapLabeling" },
+        { num: 14, text: "Label the plan: Café", answer: "H", type: "mapLabeling" },
+        { num: 15, text: "Label the plan: Sports books", answer: "G", type: "mapLabeling" },
+        { num: 16, text: "Jenny Reed's new responsibility: Buying", answer: "films", afterText: "for the Centre" },
+        { num: 17, text: "Phil Penshurst: Help with writing", answer: "reports", afterText: "for courses" },
+        { num: 18, text: "Tom Salisbury: Information on topics related to the", answer: "region" },
+        { num: 19, text: "Saeed Aktar: Finding a", answer: "job" },
+        { num: 20, text: "Shilpa Desai: Help with", answer: "housing" }
       ]
     },
-    // TEST 29: Walking Tours
+    // TEST 29: PS Camping Holidays
     {
       id: 29,
-      title: "Walking Tours",
-      formTitle: "WALKING TOURS",
-      formSubtitle: "Tour Details",
-      instruction: "Choose the correct letter A, B or C.",
+      title: "PS Camping Holidays",
+      formTitle: "PS CAMPING",
+      formSubtitle: "Holiday Information",
+      instruction: "Choose the correct letter, A, B or C.",
+      questionType: "multipleChoice",
       questions: [
-        { num: 1, text: "Q11:", answer: "B" },
-        { num: 2, text: "Q12:", answer: "A" },
-        { num: 3, text: "Q13:", answer: "B" },
-        { num: 4, text: "Q14:", answer: "C" },
-        { num: 5, text: "Q15:", answer: "C" },
-        { num: 6, text: "Q16:", answer: "A" },
-        { num: 7, text: "Q17:", answer: "C" },
-        { num: 8, text: "Q18:", answer: "A" },
-        { num: 9, text: "Q19:", answer: "C" },
-        { num: 10, text: "Q20:", answer: "B" }
+        { num: 11, text: "PS Camping has been organising holidays for", answer: "B", type: "multipleChoice", options: ["15 years", "20 years", "25 years"] },
+        { num: 12, text: "The company has most camping sites in", answer: "A", type: "multipleChoice", options: ["France", "Italy", "Switzerland"] },
+        { num: 13, text: "Which organised activity can children do every day of the week?", answer: "B", type: "multipleChoice", options: ["football", "drama", "model making"] },
+        { num: 14, text: "Some areas of the sites have a 'no noise' rule after", answer: "C", type: "multipleChoice", options: ["9.30 p.m.", "10.00 p.m.", "10.30 p.m."] },
+        { num: 15, text: "The holiday insurance that is offered by PS Camping", answer: "C", type: "multipleChoice", options: ["can be charged on an annual basis", "is included in the price of the holiday", "must be taken out at the time of booking"] },
+        { num: 16, text: "Customers who recommend PS Camping to friends will receive", answer: "A", type: "multipleChoice", options: ["a free gift", "an upgrade to a luxury tent", "a discount"] },
+        { num: 17, text: "Barbecues (A-provided in all tents, B-central areas, C-available on request)", answer: "C", type: "matching" },
+        { num: 18, text: "Toys", answer: "A", type: "matching" },
+        { num: 19, text: "Cool boxes", answer: "C", type: "matching" },
+        { num: 20, text: "Mops and buckets", answer: "B", type: "matching" }
       ]
     },
-    // TEST 30: City Tour
+    // TEST 30: Top Bus Company Tours
     {
       id: 30,
-      title: "City Tour",
-      formTitle: "CITY TOUR",
-      formSubtitle: "Tour Information",
-      instruction: "Write NO MORE THAN THREE WORDS AND/OR A NUMBER for each answer.",
+      title: "Top Bus Company Tours",
+      formTitle: "TOP BUS COMPANY TOURS",
+      formSubtitle: "River Cruise & Sightseeing",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "Start location:", answer: "City Bridge" },
-        { num: 2, text: "Stop location:", answer: "Newtown" },
-        { num: 3, text: "Time:", answer: "6.30" },
-        { num: 4, text: "See the _______ gardens", answer: "formal" },
-        { num: 5, text: "Lunch at the _______ Restaurant", answer: "Tower" },
-        { num: 6, text: "Special feature:", answer: "views" },
-        { num: 7, text: "Learn about:", answer: "history" },
-        { num: 8, text: "Cinema has _______ screen", answer: "7" },
-        { num: 9, text: "Bus frequency:", answer: "every 20 minutes" },
-        { num: 10, text: "Depart from:", answer: "Central Station" }
+        { num: 11, text: "Label the plan: Bridge name", answer: "City Bridge" },
+        { num: 12, text: "Label the plan: District name", answer: "Newtown" },
+        { num: 13, text: "Stop A (Main Booking Office) — Last boat:", answer: "6.30", afterText: "p.m." },
+        { num: 14, text: "Stop B (Palace) — has lovely", answer: "formal gardens" },
+        { num: 15, text: "Stop B attraction name:", answer: "Tower Restaurant" },
+        { num: 16, text: "Stop C (Museum) — has good", answer: "views", afterText: "of city centre" },
+        { num: 17, text: "Museum — bookshop specialising in the", answer: "history", afterText: "of the local area" },
+        { num: 18, text: "Museum features a", answer: "7 screen", afterText: "cinema" },
+        { num: 19, text: "How often do the Top Bus Company tours run?", answer: "every 20 minutes" },
+        { num: 20, text: "Where can you catch a Number One Sightseeing Tour from?", answer: "Central Station" }
       ]
     },
-    // TEST 31: Wildlife Tour
+    // TEST 31: Sponsored Walking Holiday
     {
       id: 31,
-      title: "Wildlife Tour",
-      formTitle: "WILDLIFE TOUR",
-      formSubtitle: "Tour Information",
-      instruction: "Choose the correct letter or write ONE WORD ONLY.",
+      title: "Sponsored Walking Holiday",
+      formTitle: "SPONSORED WALKING HOLIDAY",
+      formSubtitle: "Trek Information",
+      instruction: "Choose the correct letter, A, B or C.",
+      questionType: "mixed",
       questions: [
-        { num: 1, text: "Q11:", answer: "B" },
-        { num: 2, text: "Q12:", answer: "C" },
-        { num: 3, text: "Q13:", answer: "A" },
-        { num: 4, text: "Q14:", answer: "C" },
-        { num: 5, text: "Q15:", answer: "B" },
-        { num: 6, text: "Q16:", answer: "A" },
-        { num: 7, text: "See:", answer: "forest" },
-        { num: 8, text: "Visit:", answer: "temple" },
-        { num: 9, text: "View:", answer: "waterfall" },
-        { num: 10, text: "Stop at:", answer: "village" }
+        { num: 11, text: "On the holiday, you will be walking for", answer: "B", type: "multipleChoice", options: ["6 days", "8 days", "10 days"] },
+        { num: 12, text: "What proportion of the sponsorship money goes to charity?", answer: "C", type: "multipleChoice", options: ["all of it", "90 percent", "half"] },
+        { num: 13, text: "Each walker's sponsorship money goes to one", answer: "A", type: "multipleChoice", options: ["student", "teacher", "school"] },
+        { num: 14, text: "When you start the trek you must be", answer: "C", type: "multipleChoice", options: ["interested in getting fit", "already quite fit", "already very fit"] },
+        { num: 15, text: "As you walk you will carry", answer: "B", type: "multipleChoice", options: ["all of your belongings", "some of your belongings", "none of your belongings"] },
+        { num: 16, text: "The Semira Region has a long tradition of", answer: "A", type: "multipleChoice", options: ["making carpets", "weaving blankets", "carving wood"] },
+        { num: 17, text: "Day 3: spend all day in a", answer: "forest" },
+        { num: 18, text: "Day 6: see a", answer: "temple", afterText: "with old carvings" },
+        { num: 19, text: "Day 8: swim in a", answer: "waterfall" },
+        { num: 20, text: "Day 9: visit a", answer: "village" }
       ]
     },
-    // TEST 32: Nature Reserve
+    // TEST 32: Bicentennial Park Tour
     {
       id: 32,
-      title: "Nature Reserve",
-      formTitle: "NATURE RESERVE",
-      formSubtitle: "Visitor Information",
-      instruction: "Choose the correct letter or write NO MORE THAN TWO WORDS.",
+      title: "Bicentennial Park Tour",
+      formTitle: "BICENTENNIAL PARK",
+      formSubtitle: "Walking Tour & Nature Reserve",
+      instruction: "Choose the correct letter or complete the notes.",
+      questionType: "mixed",
       questions: [
-        { num: 1, text: "Q11:", answer: "C" },
-        { num: 2, text: "Q12:", answer: "B" },
-        { num: 3, text: "Q13:", answer: "A" },
-        { num: 4, text: "Q14:", answer: "B" },
-        { num: 5, text: "Location:", answer: "car park" },
-        { num: 6, text: "Feature:", answer: "rose garden" },
-        { num: 7, text: "Refreshments at:", answer: "cafe" },
-        { num: 8, text: "Activity:", answer: "cycling" },
-        { num: 9, text: "Educational:", answer: "biology lesson" },
-        { num: 10, text: "Shelter:", answer: "viewing shelter" }
+        { num: 11, text: "What kind of tour is Sally leading?", answer: "C", type: "multipleChoice", options: ["a bus tour", "a train tour", "a walking tour"] },
+        { num: 12, text: "The original buildings on the site were", answer: "B", type: "multipleChoice", options: ["houses", "industrial buildings", "shops"] },
+        { num: 13, text: "The local residents wanted to use the site for", answer: "A", type: "multipleChoice", options: ["leisure", "apartment blocks", "a sports centre"] },
+        { num: 14, text: "The Tower is at the centre of the", answer: "B", type: "multipleChoice", options: ["nature reserve", "formal gardens", "Bicentennial Park"] },
+        { num: 15, text: "Label the plan: area near Tower", answer: "car park" },
+        { num: 16, text: "Label the plan: garden type", answer: "rose garden" },
+        { num: 17, text: "Label the plan: refreshment area", answer: "cafe" },
+        { num: 18, text: "The Mangroves — Activity:", answer: "cycling" },
+        { num: 19, text: "Frog Pond — Activity:", answer: "biology lesson" },
+        { num: 20, text: "The Waterbird Refuge — Facility:", answer: "viewing shelter" }
       ]
     },
-    // TEST 33: Sports Centre
+    // TEST 33: Dinosaur Museum
     {
       id: 33,
-      title: "Sports Centre",
-      formTitle: "SPORTS CENTRE",
-      formSubtitle: "Facility Information",
-      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER or choose letter.",
+      title: "Dinosaur Museum",
+      formTitle: "THE DINOSAUR MUSEUM",
+      formSubtitle: "Visitor Information",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
+      questionType: "mixed",
       questions: [
-        { num: 1, text: "Opening time:", answer: "1.30" },
-        { num: 2, text: "Closed on:", answer: "25 December" },
-        { num: 3, text: "Park in:", answer: "car-park" },
-        { num: 4, text: "Number of:", answer: "45" },
-        { num: 5, text: "Bring:", answer: "tables" },
-        { num: 6, text: "Q16-18 (First):", answer: "C" },
-        { num: 7, text: "Q16-18 (Second):", answer: "F" },
-        { num: 8, text: "Q16-18 (Third):", answer: "G" },
-        { num: 9, text: "Q19-20 (First):", answer: "B" },
-        { num: 10, text: "Q19-20 (Second):", answer: "E" }
+        { num: 11, text: "The museum closes at", answer: "1.30", afterText: "p.m. on Mondays" },
+        { num: 12, text: "The museum is not open on", answer: "25 December" },
+        { num: 13, text: "School groups are met by tour guides in the", answer: "car park" },
+        { num: 14, text: "The whole visit takes 90 minutes, including", answer: "45", afterText: "minutes for the guided tour" },
+        { num: 15, text: "There are", answer: "some tables", afterText: "behind the museum where students can have lunch" },
+        { num: 16, text: "Which THREE items can students have with them? (First)", answer: "C", type: "multiSelect", note: "Choose THREE from: A-food, B-water, C-cameras, D-books, E-bags, F-pens, G-worksheets" },
+        { num: 17, text: "Which THREE items can students have with them? (Second)", answer: "F", type: "multiSelect" },
+        { num: 18, text: "Which THREE items can students have with them? (Third)", answer: "G", type: "multiSelect" },
+        { num: 19, text: "Which TWO activities can students do after the tour? (First)", answer: "B", type: "multiSelect", note: "Choose TWO from: A-build model dinosaurs, B-watch films, C-draw dinosaurs, D-find dinosaur eggs, E-play computer games" },
+        { num: 20, text: "Which TWO activities can students do after the tour? (Second)", answer: "E", type: "multiSelect" }
       ]
     },
-    // TEST 34: Farm Visit
+    // TEST 34: Agricultural Park
     {
       id: 34,
-      title: "Farm Visit",
-      formTitle: "FARM VISIT",
-      formSubtitle: "Tour Details",
-      instruction: "Choose the correct letter or write ONE WORD ONLY.",
+      title: "Agricultural Park",
+      formTitle: "NATIONAL AGRICULTURAL PARK",
+      formSubtitle: "Park Information",
+      instruction: "Complete the plan or choose the correct answer.",
+      questionType: "mixed",
       questions: [
-        { num: 1, text: "Q11:", answer: "B" },
-        { num: 2, text: "Location:", answer: "Forest" },
-        { num: 3, text: "See:", answer: "Fish Farm" },
-        { num: 4, text: "Visit:", answer: "Market Garden" },
-        { num: 5, text: "Q15:", answer: "C" },
-        { num: 6, text: "Q16:", answer: "A" },
-        { num: 7, text: "Q17:", answer: "C" },
-        { num: 8, text: "Q18:", answer: "B" },
-        { num: 9, text: "Q19:", answer: "C" },
-        { num: 10, text: "Q20:", answer: "A" }
+        { num: 11, text: "The main purposes of the park are", answer: "B", type: "multipleChoice", options: ["education and entertainment", "research and education", "research and entertainment"] },
+        { num: 12, text: "Label the plan: wooded area", answer: "Forest" },
+        { num: 13, text: "Label the plan: water feature", answer: "Fish Farm" },
+        { num: 14, text: "Label the plan: growing area", answer: "Market Garden" },
+        { num: 15, text: "When are the experimental areas closed to the public?", answer: "C", type: "multipleChoice", options: ["all the year round", "almost all the year", "a short time every year"] },
+        { num: 16, text: "How can you move around the park?", answer: "A", type: "multipleChoice", options: ["by tram, walking or bicycle", "by solar car or bicycle", "by bicycle, walking or bus"] },
+        { num: 17, text: "The rare breed animals kept in the park include", answer: "C", type: "multipleChoice", options: ["hens and horses", "goats and cows", "goats and hens"] },
+        { num: 18, text: "What is the main purpose of having the Rare Breeds Section?", answer: "B", type: "multipleChoice", options: ["to save unusual animals", "to keep a variety of breeds", "to educate the public"] },
+        { num: 19, text: "What can you see in the park at the present time?", answer: "C", type: "multipleChoice", options: ["the arrival of wild birds", "fruit tree blossom", "a demonstration of fishing"] },
+        { num: 20, text: "The shop contains books about", answer: "A", type: "multipleChoice", options: ["animals", "local traditions", "the history of the park"] }
       ]
     },
-    // TEST 35: Theatre
+    // TEST 35: National Arts Centre
     {
       id: 35,
-      title: "Theatre Information",
-      formTitle: "THEATRE INFORMATION",
-      formSubtitle: "Venue Details",
+      title: "National Arts Centre",
+      formTitle: "THE NATIONAL ARTS CENTRE",
+      formSubtitle: "Venue Information & Events",
       instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "Type of events:", answer: "classical music" },
-        { num: 2, text: "Facility:", answer: "bookshop" },
-        { num: 3, text: "Tours:", answer: "planned" },
-        { num: 4, text: "Year:", answer: "1983" },
-        { num: 5, text: "Funded by:", answer: "City Council" },
-        { num: 6, text: "Seats:", answer: "363" },
-        { num: 7, text: "Location:", answer: "Garden Hall" },
-        { num: 8, text: "Show:", answer: "Three Lives" },
-        { num: 9, text: "Price: £", answer: "4.50" },
-        { num: 10, text: "Exhibition:", answer: "Faces of China" }
+        { num: 11, text: "Well known for:", answer: "classical music" },
+        { num: 12, text: "Complex consists of: concert rooms, theatres, cinemas, art galleries, public library, restaurants, a", answer: "bookshop" },
+        { num: 13, text: "Historical background: 1960s-1970s – Centre was", answer: "planned", afterText: "and built" },
+        { num: 14, text: "Centre opened to public in", answer: "1983" },
+        { num: 15, text: "Managed by: the", answer: "City Council" },
+        { num: 16, text: "Open:", answer: "363", afterText: "days per year" },
+        { num: 17, text: "Monday and Tuesday: 'The Magic Flute' — Venue:", answer: "Garden Hall" },
+        { num: 18, text: "Wednesday: Film title:", answer: "Three Lives" },
+        { num: 19, text: "Wednesday film — Ticket price: £", answer: "4.50" },
+        { num: 20, text: "Saturday and Sunday: Art exhibition title:", answer: "Faces of China" }
       ]
     },
-    // TEST 36: Museum Tour
+    // TEST 36: Red Hill Improvement Plan
     {
       id: 36,
-      title: "Museum Tour",
-      formTitle: "MUSEUM TOUR",
-      formSubtitle: "Tour Information",
-      instruction: "Choose the correct letter A, B, or C, or A-G.",
+      title: "Red Hill Suburb Improvements",
+      formTitle: "RED HILL IMPROVEMENT PLAN",
+      formSubtitle: "Suburb Development",
+      instruction: "Choose the correct letter or label the map.",
+      questionType: "mixed",
       questions: [
-        { num: 1, text: "Q11:", answer: "A" },
-        { num: 2, text: "Q12:", answer: "B" },
-        { num: 3, text: "Q13:", answer: "B" },
-        { num: 4, text: "Q14:", answer: "C" },
-        { num: 5, text: "Q15:", answer: "D" },
-        { num: 6, text: "Q16:", answer: "G" },
-        { num: 7, text: "Q17:", answer: "B" },
-        { num: 8, text: "Q18:", answer: "F" },
-        { num: 9, text: "Q19:", answer: "A" },
-        { num: 10, text: "Q20:", answer: "E" }
+        { num: 11, text: "Community groups are mainly concerned about", answer: "A", type: "multipleChoice", options: ["pedestrian safety", "traffic jams", "increased pollution"] },
+        { num: 12, text: "It has been decided that the overhead power lines will be", answer: "B", type: "multipleChoice", options: ["extended", "buried", "repaired"] },
+        { num: 13, text: "The expenses related to the power lines will be paid for by", answer: "B", type: "multipleChoice", options: ["the council", "the power company", "local businesses"] },
+        { num: 14, text: "Label the map: trees", answer: "C", type: "mapLabeling" },
+        { num: 15, text: "Label the map: wider footpaths", answer: "D", type: "mapLabeling" },
+        { num: 16, text: "Label the map: coloured road surface", answer: "G", type: "mapLabeling" },
+        { num: 17, text: "Label the map: new sign", answer: "B", type: "mapLabeling" },
+        { num: 18, text: "Label the map: traffic lights", answer: "F", type: "mapLabeling" },
+        { num: 19, text: "Label the map: artwork", answer: "A", type: "mapLabeling" },
+        { num: 20, text: "Label the map: children's playground", answer: "E", type: "mapLabeling" }
       ]
     },
-    // TEST 37: Shopping Centre
+    // TEST 37: Sports World Store
     {
       id: 37,
-      title: "Shopping Centre",
-      formTitle: "SHOPPING CENTRE",
-      formSubtitle: "Store Information",
-      instruction: "Write NO MORE THAN TWO WORDS or choose correct letter.",
+      title: "Sports World Store",
+      formTitle: "SPORTS WORLD",
+      formSubtitle: "New Store Information",
+      instruction: "Write ONE WORD AND/OR A NUMBER for each answer.",
+      questionType: "mixed",
       questions: [
-        { num: 1, text: "Type:", answer: "branch" },
-        { num: 2, text: "Location:", answer: "west" },
-        { num: 3, text: "Department:", answer: "clothing" },
-        { num: 4, text: "Floor:", answer: "10" },
-        { num: 5, text: "Activity:", answer: "running" },
-        { num: 6, text: "Item:", answer: "bags" },
-        { num: 7, text: "Q17:", answer: "A" },
-        { num: 8, text: "Q18:", answer: "A" },
-        { num: 9, text: "Q19-20 (First):", answer: "A" },
-        { num: 10, text: "Q19-20 (Second):", answer: "E" }
+        { num: 11, text: "A new", answer: "branch", afterText: "of an international sports goods company" },
+        { num: 12, text: "Located in the shopping centre to the", answer: "west", afterText: "of Bradcaster" },
+        { num: 13, text: "Has sports", answer: "clothing", afterText: "and equipment on floors 1-3" },
+        { num: 14, text: "Can get you any item within", answer: "10", afterText: "days" },
+        { num: 15, text: "Shop specializes in equipment for", answer: "running" },
+        { num: 16, text: "Has a special section which just sells", answer: "bags" },
+        { num: 17, text: "A champion athlete will be in the shop", answer: "A", type: "multipleChoice", note: "A-Saturday morning only, B-all day Saturday, C-whole weekend" },
+        { num: 18, text: "First person to answer 20 quiz questions wins", answer: "A", type: "multipleChoice", note: "A-gym membership, B-video, C-calendar" },
+        { num: 19, text: "Fitness test info - First feature", answer: "A", type: "multiSelect", note: "Choose TWO: A-reserve place, B-free to holders, C-get advice, D-special clinic, E-cheaper this month" },
+        { num: 20, text: "Fitness test info - Second feature", answer: "E", type: "multiSelect" }
       ]
     },
-    // TEST 38: Garden Centre
+    // TEST 38: Parks and Open Spaces
     {
       id: 38,
-      title: "Garden Centre",
-      formTitle: "GARDEN CENTRE",
-      formSubtitle: "Information",
-      instruction: "Write ONE WORD ONLY or choose correct letter.",
+      title: "Parks and Open Spaces",
+      formTitle: "PARKS AND OPEN SPACES",
+      formSubtitle: "Visitor Information",
+      instruction: "Write NO MORE THAN THREE WORDS for each answer.",
+      questionType: "mixed",
       questions: [
-        { num: 1, text: "Plant:", answer: "trees" },
-        { num: 2, text: "Day:", answer: "Friday" },
-        { num: 3, text: "Visit:", answer: "farm" },
-        { num: 4, text: "Q14:", answer: "C" },
-        { num: 5, text: "Q15:", answer: "B" },
-        { num: 6, text: "Q16:", answer: "A" },
-        { num: 7, text: "Q17:", answer: "A" },
-        { num: 8, text: "Q18:", answer: "I" },
-        { num: 9, text: "Q19:", answer: "F" },
-        { num: 10, text: "Q20:", answer: "E" }
+        { num: 11, text: "Holt Island - Of particular interest:", answer: "trees" },
+        { num: 12, text: "Holt Island - Open between Friday and", answer: "Sunday" },
+        { num: 13, text: "Longfield Country Park - reconstruction of a 2,000-year-old", answer: "farm" },
+        { num: 14, text: "Monday activity - visitors will", answer: "C", type: "multipleChoice", note: "A-prepare food with herbs, B-meet herbalist, C-dye cloth" },
+        { num: 15, text: "For Wednesday activity", answer: "B", type: "multipleChoice", note: "A-group bookings only, B-book in advance, C-free" },
+        { num: 16, text: "For Saturday activity, visitors should", answer: "A", type: "multipleChoice", note: "A-suitable clothing, B-stay whole day, C-tell rangers" },
+        { num: 17, text: "Label the map: bird hide", answer: "A", type: "mapLabeling" },
+        { num: 18, text: "Label the map: dog-walking area", answer: "I", type: "mapLabeling" },
+        { num: 19, text: "Label the map: flower garden", answer: "F", type: "mapLabeling" },
+        { num: 20, text: "Label the map: wooded area", answer: "E", type: "mapLabeling" }
       ]
     },
-    // TEST 39: Activity Centre
+    // TEST 39: Winridge Forest Railway Park
     {
       id: 39,
-      title: "Activity Centre",
-      formTitle: "ACTIVITY CENTRE",
-      formSubtitle: "Programme Information",
-      instruction: "Choose correct letter or write number.",
+      title: "Winridge Forest Railway Park",
+      formTitle: "WINRIDGE FOREST RAILWAY PARK",
+      formSubtitle: "Theme Park Information",
+      instruction: "Choose the correct answer or complete the notes.",
+      questionType: "mixed",
       questions: [
-        { num: 1, text: "Q11:", answer: "C" },
-        { num: 2, text: "Q12:", answer: "A" },
-        { num: 3, text: "Q13:", answer: "C" },
-        { num: 4, text: "Q14:", answer: "E" },
-        { num: 5, text: "Q15:", answer: "H" },
-        { num: 6, text: "Q16:", answer: "F" },
-        { num: 7, text: "Q17:", answer: "C" },
-        { num: 8, text: "Q18:", answer: "G" },
-        { num: 9, text: "Number:", answer: "120" },
-        { num: 10, text: "Age range:", answer: "5 to 12" }
+        { num: 11, text: "Simon's idea for a theme park came from", answer: "C", type: "multipleChoice", note: "A-childhood hobby, B-landscape design, C-visit to another park" },
+        { num: 12, text: "Family decided to open park only when", answer: "A", type: "multipleChoice", note: "A-good weather expected, B-children not at school, C-fewer farming duties" },
+        { num: 13, text: "Since opening, the park has had visitors:", answer: "C", type: "multipleChoice", note: "A-50,000, B-1,000,000, C-1,500,000" },
+        { num: 14, text: "Simon's main area of work", answer: "E", type: "matching", note: "A-advertising, B-animal care, C-building, D-education, E-engine, F-food, G-sales, H-staffing" },
+        { num: 15, text: "Liz's main area of work", answer: "H", type: "matching" },
+        { num: 16, text: "Sarah's main area of work", answer: "F", type: "matching" },
+        { num: 17, text: "Duncan's main area of work", answer: "C", type: "matching" },
+        { num: 18, text: "Judith's main area of work", answer: "G", type: "matching" },
+        { num: 19, text: "Go-Kart arena - Size:", answer: "120", afterText: "m squared" },
+        { num: 20, text: "Target age group:", answer: "5 to 12", afterText: "year-olds" }
       ]
     },
-    // TEST 40: Recreation Park
+    // TEST 40: Water Heater Instructions
     {
       id: 40,
-      title: "Recreation Park",
-      formTitle: "RECREATION PARK",
-      formSubtitle: "Facilities Information",
-      instruction: "Choose correct letter or write number/word.",
+      title: "Water Heater Instructions",
+      formTitle: "WATER HEATER",
+      formSubtitle: "Appliance Controls Diagram",
+      instruction: "Label the diagram or complete the notes.",
+      questionType: "mixed",
       questions: [
-        { num: 1, text: "Q11:", answer: "B" },
-        { num: 2, text: "Q12:", answer: "C" },
-        { num: 3, text: "Q13:", answer: "E" },
-        { num: 4, text: "Q14:", answer: "B" },
-        { num: 5, text: "Q15:", answer: "E" },
-        { num: 6, text: "Q16:", answer: "D" },
-        { num: 7, text: "Q17:", answer: "A" },
-        { num: 8, text: "Q18:", answer: "C" },
-        { num: 9, text: "Phone:", answer: "732281" },
-        { num: 10, text: "Day:", answer: "Thursday" }
+        { num: 11, text: "Label diagram position 11", answer: "B", type: "matching", note: "A-electricity indicator, B-on/off switch, C-reset button, D-time control, E-warning indicator" },
+        { num: 12, text: "Label diagram position 12", answer: "C", type: "matching" },
+        { num: 13, text: "Label diagram position 13", answer: "E", type: "matching" },
+        { num: 14, text: "Power control feature", answer: "B", type: "matching" },
+        { num: 15, text: "Safety feature location", answer: "E", type: "matching" },
+        { num: 16, text: "Timer function location", answer: "D", type: "matching" },
+        { num: 17, text: "Power indicator location", answer: "A", type: "matching" },
+        { num: 18, text: "Reset function location", answer: "C", type: "matching" },
+        { num: 19, text: "Customer service phone number:", answer: "732281" },
+        { num: 20, text: "Maintenance check day:", answer: "Thursday" }
       ]
     }
   ],
+  // ==================== PART 3: TESTS 41-60 (Questions 21-30) - PLACEHOLDER ====================
   part3: [
-    // TEST 41: Computer System Discussion
-    {
-      id: 41,
-      title: "Computer System Discussion",
-      formTitle: "COMPUTER SYSTEM DISCUSSION",
-      formSubtitle: "Discussion Notes",
-      instruction: "Choose the correct letter A, B or C or write NO MORE THAN TWO WORDS.",
-      questions: [
-        { num: 1, text: "Dave says the computer system has: A) too many users B) never worked well C) become outdated", answer: "C" },
-        { num: 2, text: "The main problem is that it: A) is too slow B) stops working C) displays incorrect data", answer: "A" },
-        { num: 3, text: "Timetabling issue: A) not enough time B) doesn't handle options C) courses changing", answer: "B" },
-        { num: 4, text: "To solve timetabling, Randhir suggests: A) students create own B) Dave gets help C) reduce courses", answer: "A" },
-        { num: 5, text: "A new system may: A) need trialling B) still have problems C) be more economical", answer: "C" },
-        { num: 6, text: "Initial approval comes from: A) IT B) finance C) management", answer: "B" },
-        { num: 7, text: "Dave needs to get approval from", answer: "management" },
-        { num: 8, text: "He needs to write a", answer: "project request" },
-        { num: 9, text: "They will arrange a", answer: "meeting" },
-        { num: 10, text: "They will have a", answer: "conference call" }
-      ]
-    },
-    // TEST 42: Student Project Discussion
-    {
-      id: 42,
-      title: "Student Project Discussion",
-      formTitle: "STUDENT PROJECT DISCUSSION",
-      formSubtitle: "Assignment Planning",
-      instruction: "Choose correct letters or write NO MORE THAN TWO WORDS.",
-      questions: [
-        { num: 1, text: "Q21-22: Which TWO sources of ideas? (First)", answer: "D" },
-        { num: 2, text: "Q21-22: Which TWO sources of ideas? (Second)", answer: "B" },
-        { num: 3, text: "The subject is", answer: "mathematics" },
-        { num: 4, text: "Focus on:", answer: "theory" },
-        { num: 5, text: "Application to:", answer: "jet engines" },
-        { num: 6, text: "They will attend:", answer: "seminars" },
-        { num: 7, text: "Q27:", answer: "A" },
-        { num: 8, text: "Q28:", answer: "D" },
-        { num: 9, text: "Q29:", answer: "C" },
-        { num: 10, text: "Q30:", answer: "E" }
-      ]
-    },
-    // TEST 43: Paper Recycling Discussion
-    {
-      id: 43,
-      title: "Paper Recycling Discussion",
-      formTitle: "PAPER RECYCLING DISCUSSION",
-      formSubtitle: "Discussion Notes",
-      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
-      questions: [
-        { num: 1, text: "Paper comes from", answer: "pine forests" },
-        { num: 2, text: "Uses large amounts of", answer: "water" },
-        { num: 3, text: "Process to", answer: "print" },
-        { num: 4, text: "First step is to", answer: "sort" },
-        { num: 5, text: "Chemical treatment to", answer: "remove ink" },
-        { num: 6, text: "They will write", answer: "introduction" },
-        { num: 7, text: "Get information from", answer: "council" },
-        { num: 8, text: "They need", answer: "data" },
-        { num: 9, text: "Complete the", answer: "first draft" },
-        { num: 10, text: "Submit to their", answer: "tutor" }
-      ]
-    },
-    // TEST 44: Engineering Course Discussion
-    {
-      id: 44,
-      title: "Engineering Course Discussion",
-      formTitle: "ENGINEERING COURSE",
-      formSubtitle: "Discussion Notes",
-      instruction: "Choose the correct letter or write NO MORE THAN TWO WORDS.",
-      questions: [
-        { num: 1, text: "Q21:", answer: "C" },
-        { num: 2, text: "Q22:", answer: "A" },
-        { num: 3, text: "Q23:", answer: "B" },
-        { num: 4, text: "Q24:", answer: "C" },
-        { num: 5, text: "Q25:", answer: "A" },
-        { num: 6, text: "Q26:", answer: "G" },
-        { num: 7, text: "Q27:", answer: "A" },
-        { num: 8, text: "Q28:", answer: "B" },
-        { num: 9, text: "Q29:", answer: "C" },
-        { num: 10, text: "Q30:", answer: "C" }
-      ]
-    },
-    // TEST 45: Assignment Discussion
-    {
-      id: 45,
-      title: "Assignment Discussion",
-      formTitle: "ASSIGNMENT DISCUSSION",
-      formSubtitle: "Planning Notes",
-      instruction: "Choose the correct letter or write the correct letter A-G.",
-      questions: [
-        { num: 1, text: "Q21:", answer: "B" },
-        { num: 2, text: "Q22:", answer: "A" },
-        { num: 3, text: "Q23:", answer: "A" },
-        { num: 4, text: "Q24:", answer: "C" },
-        { num: 5, text: "Q25:", answer: "B" },
-        { num: 6, text: "Q26:", answer: "E" },
-        { num: 7, text: "Q27:", answer: "B" },
-        { num: 8, text: "Q28:", answer: "G" },
-        { num: 9, text: "Q29:", answer: "A" },
-        { num: 10, text: "Q30:", answer: "F" }
-      ]
-    },
-    // TEST 46: Group Project Discussion
-    {
-      id: 46,
-      title: "Group Project",
-      formTitle: "GROUP PROJECT",
-      formSubtitle: "Discussion Notes",
-      instruction: "Choose the correct letter or write NO MORE THAN TWO WORDS.",
-      questions: [
-        { num: 1, text: "Q21:", answer: "B" },
-        { num: 2, text: "Q22:", answer: "C" },
-        { num: 3, text: "Q23:", answer: "B" },
-        { num: 4, text: "Q24:", answer: "A" },
-        { num: 5, text: "Q25:", answer: "C" },
-        { num: 6, text: "Q26:", answer: "C" },
-        { num: 7, text: "Topic:", answer: "hunger" },
-        { num: 8, text: "Problem:", answer: "pollution" },
-        { num: 9, text: "Material:", answer: "wood" },
-        { num: 10, text: "Type:", answer: "grasses" }
-      ]
-    },
-    // TEST 47: Research Discussion
-    {
-      id: 47,
-      title: "Research Discussion",
-      formTitle: "RESEARCH DISCUSSION",
-      formSubtitle: "Study Notes",
-      instruction: "Choose the correct letter or write ONE WORD ONLY.",
-      questions: [
-        { num: 1, text: "Q21:", answer: "A" },
-        { num: 2, text: "Q22:", answer: "B" },
-        { num: 3, text: "Q23:", answer: "A" },
-        { num: 4, text: "Q24:", answer: "B" },
-        { num: 5, text: "Q25:", answer: "A" },
-        { num: 6, text: "Q26:", answer: "A" },
-        { num: 7, text: "Need more:", answer: "background" },
-        { num: 8, text: "Study:", answer: "theory" },
-        { num: 9, text: "Consider:", answer: "costs" },
-        { num: 10, text: "Save:", answer: "time" }
-      ]
-    },
-    // TEST 48: Tutorial Discussion
-    {
-      id: 48,
-      title: "Tutorial Discussion",
-      formTitle: "TUTORIAL DISCUSSION",
-      formSubtitle: "Notes",
-      instruction: "Write the correct letter A-I or ONE WORD ONLY.",
-      questions: [
-        { num: 1, text: "Q21:", answer: "E" },
-        { num: 2, text: "Q22:", answer: "I" },
-        { num: 3, text: "Q23:", answer: "C" },
-        { num: 4, text: "Q24:", answer: "G" },
-        { num: 5, text: "Q25:", answer: "B" },
-        { num: 6, text: "Q26:", answer: "D" },
-        { num: 7, text: "Q27:", answer: "A" },
-        { num: 8, text: "Discussion:", answer: "aims" },
-        { num: 9, text: "Involve:", answer: "staff" },
-        { num: 10, text: "Get:", answer: "feedback" }
-      ]
-    },
-    // TEST 49: Course Discussion
-    {
-      id: 49,
-      title: "Course Discussion",
-      formTitle: "COURSE DISCUSSION",
-      formSubtitle: "Notes",
-      instruction: "Write ONE WORD ONLY or choose the correct letter.",
-      questions: [
-        { num: 1, text: "Study:", answer: "attitudes" },
-        { num: 2, text: "Factor:", answer: "gender" },
-        { num: 3, text: "Develop:", answer: "creativity" },
-        { num: 4, text: "Q24:", answer: "A" },
-        { num: 5, text: "Q25:", answer: "B" },
-        { num: 6, text: "Q26:", answer: "A" },
-        { num: 7, text: "Q27:", answer: "B" },
-        { num: 8, text: "Consider:", answer: "culture" },
-        { num: 9, text: "Improve:", answer: "profits" },
-        { num: 10, text: "Reduce:", answer: "stress" }
-      ]
-    },
-    // TEST 50: Academic Discussion
-    {
-      id: 50,
-      title: "Academic Discussion",
-      formTitle: "ACADEMIC DISCUSSION",
-      formSubtitle: "Notes",
-      instruction: "Choose the correct letter or write the correct letters.",
-      questions: [
-        { num: 1, text: "Q21:", answer: "B" },
-        { num: 2, text: "Q22:", answer: "A" },
-        { num: 3, text: "Q23:", answer: "C" },
-        { num: 4, text: "Q24:", answer: "B" },
-        { num: 5, text: "Q25:", answer: "A" },
-        { num: 6, text: "Q26:", answer: "B" },
-        { num: 7, text: "Year:", answer: "1882" },
-        { num: 8, text: "Type:", answer: "Signed" },
-        { num: 9, text: "Q29-30 (First):", answer: "A" },
-        { num: 10, text: "Q29-30 (Second):", answer: "D" }
-      ]
-    },
-    // TEST 51: Science Discussion
-    {
-      id: 51,
-      title: "Science Discussion",
-      formTitle: "SCIENCE DISCUSSION",
-      formSubtitle: "Notes",
-      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER or choose letter.",
-      questions: [
-        { num: 1, text: "Origin:", answer: "cigar" },
-        { num: 2, text: "Found in:", answer: "13 countries" },
-        { num: 3, text: "How:", answer: "activated" },
-        { num: 4, text: "Distance:", answer: "50 km" },
-        { num: 5, text: "Factor:", answer: "temperature" },
-        { num: 6, text: "Q26:", answer: "A" },
-        { num: 7, text: "Q27:", answer: "C" },
-        { num: 8, text: "Q28:", answer: "A" },
-        { num: 9, text: "Q29:", answer: "B" },
-        { num: 10, text: "Q30:", answer: "C" }
-      ]
-    },
-    // TEST 52: Campus Discussion
-    {
-      id: 52,
-      title: "Campus Discussion",
-      formTitle: "CAMPUS DISCUSSION",
-      formSubtitle: "Notes",
-      instruction: "Write ONE WORD ONLY or choose the correct letter.",
-      questions: [
-        { num: 1, text: "Number:", answer: "5" },
-        { num: 2, text: "Method:", answer: "assessed" },
-        { num: 3, text: "Q23:", answer: "A" },
-        { num: 4, text: "Q24:", answer: "B" },
-        { num: 5, text: "Q25:", answer: "A" },
-        { num: 6, text: "Q26:", answer: "C" },
-        { num: 7, text: "Location:", answer: "media room" },
-        { num: 8, text: "Place:", answer: "resources room" },
-        { num: 9, text: "Contact:", answer: "embassy" },
-        { num: 10, text: "Use:", answer: "statistics" }
-      ]
-    },
-    // TEST 53: Research Methods
-    {
-      id: 53,
-      title: "Research Methods",
-      formTitle: "RESEARCH METHODS",
-      formSubtitle: "Discussion Notes",
-      instruction: "Choose the correct letter or write NO MORE THAN TWO WORDS.",
-      questions: [
-        { num: 1, text: "Q21:", answer: "A" },
-        { num: 2, text: "Q22:", answer: "C" },
-        { num: 3, text: "Q23:", answer: "A" },
-        { num: 4, text: "Q24:", answer: "B" },
-        { num: 5, text: "Q25-27 (First):", answer: "B" },
-        { num: 6, text: "Q25-27 (Second):", answer: "C" },
-        { num: 7, text: "Q25-27 (Third):", answer: "F" },
-        { num: 8, text: "Number:", answer: "12000" },
-        { num: 9, text: "Animal:", answer: "horses" },
-        { num: 10, text: "Location:", answer: "caves" }
-      ]
-    },
-    // TEST 54: Study Discussion
-    {
-      id: 54,
-      title: "Study Discussion",
-      formTitle: "STUDY DISCUSSION",
-      formSubtitle: "Notes",
-      instruction: "Choose the correct letter or write ONE WORD ONLY.",
-      questions: [
-        { num: 1, text: "Q21:", answer: "A" },
-        { num: 2, text: "Q22:", answer: "B" },
-        { num: 3, text: "Q23:", answer: "C" },
-        { num: 4, text: "Q24:", answer: "A" },
-        { num: 5, text: "Q25:", answer: "B" },
-        { num: 6, text: "Q26:", answer: "C" },
-        { num: 7, text: "Set:", answer: "priorities" },
-        { num: 8, text: "Create:", answer: "timetable" },
-        { num: 9, text: "Complete:", answer: "tasks" },
-        { num: 10, text: "Write:", answer: "paragraph" }
-      ]
-    },
-    // TEST 55: Project Planning
-    {
-      id: 55,
-      title: "Project Planning",
-      formTitle: "PROJECT PLANNING",
-      formSubtitle: "Discussion Notes",
-      instruction: "Choose the correct letter.",
-      questions: [
-        { num: 1, text: "Q21:", answer: "C" },
-        { num: 2, text: "Q22:", answer: "C" },
-        { num: 3, text: "Q23:", answer: "A" },
-        { num: 4, text: "Q24:", answer: "B" },
-        { num: 5, text: "Q25:", answer: "C" },
-        { num: 6, text: "Q26:", answer: "A" },
-        { num: 7, text: "Q27:", answer: "C" },
-        { num: 8, text: "Q28:", answer: "A" },
-        { num: 9, text: "Q29:", answer: "B" },
-        { num: 10, text: "Q30:", answer: "C" }
-      ]
-    },
-    // TEST 56: Biology Discussion
-    {
-      id: 56,
-      title: "Biology Discussion",
-      formTitle: "BIOLOGY DISCUSSION",
-      formSubtitle: "Notes",
-      instruction: "Choose the correct letters or write ONE WORD ONLY.",
-      questions: [
-        { num: 1, text: "Q21-22 (First):", answer: "B" },
-        { num: 2, text: "Q21-22 (Second):", answer: "E" },
-        { num: 3, text: "Q23-24 (First):", answer: "A" },
-        { num: 4, text: "Q23-24 (Second):", answer: "C" },
-        { num: 5, text: "Food:", answer: "insects" },
-        { num: 6, text: "Process:", answer: "feeding" },
-        { num: 7, text: "Location:", answer: "laboratory" },
-        { num: 8, text: "Need:", answer: "water" },
-        { num: 9, text: "Study:", answer: "wings" },
-        { num: 10, text: "Data:", answer: "reliable" }
-      ]
-    },
-    // TEST 57: Lecture Discussion
-    {
-      id: 57,
-      title: "Lecture Discussion",
-      formTitle: "LECTURE DISCUSSION",
-      formSubtitle: "Notes",
-      instruction: "Choose the correct letter A, B or C.",
-      questions: [
-        { num: 1, text: "Q21:", answer: "B" },
-        { num: 2, text: "Q22:", answer: "C" },
-        { num: 3, text: "Q23:", answer: "B" },
-        { num: 4, text: "Q24:", answer: "A" },
-        { num: 5, text: "Q25:", answer: "C" },
-        { num: 6, text: "Q26:", answer: "B" },
-        { num: 7, text: "Q27:", answer: "A" },
-        { num: 8, text: "Q28:", answer: "B" },
-        { num: 9, text: "Q29:", answer: "C" },
-        { num: 10, text: "Q30:", answer: "B" }
-      ]
-    },
-    // TEST 58: Course Planning
-    {
-      id: 58,
-      title: "Course Planning",
-      formTitle: "COURSE PLANNING",
-      formSubtitle: "Discussion Notes",
-      instruction: "Choose the correct letter or write ONE WORD ONLY.",
-      questions: [
-        { num: 1, text: "Q21:", answer: "C" },
-        { num: 2, text: "Q22:", answer: "B" },
-        { num: 3, text: "Q23:", answer: "B" },
-        { num: 4, text: "Q24:", answer: "C" },
-        { num: 5, text: "Skill:", answer: "reading" },
-        { num: 6, text: "Use:", answer: "CD" },
-        { num: 7, text: "Complete:", answer: "workbooks" },
-        { num: 8, text: "Follow:", answer: "timetable" },
-        { num: 9, text: "Set:", answer: "alarm" },
-        { num: 10, text: "Send:", answer: "emails" }
-      ]
-    },
-    // TEST 59: Academic Skills
-    {
-      id: 59,
-      title: "Academic Skills",
-      formTitle: "ACADEMIC SKILLS",
-      formSubtitle: "Discussion Notes",
-      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
-      questions: [
-        { num: 1, text: "Topic:", answer: "fishing industry" },
-        { num: 2, text: "Use:", answer: "statistics" },
-        { num: 3, text: "Skill:", answer: "note-taking" },
-        { num: 4, text: "Build:", answer: "confidence" },
-        { num: 5, text: "Share:", answer: "ideas" },
-        { num: 6, text: "Visit:", answer: "student support" },
-        { num: 7, text: "Number of:", answer: "places" },
-        { num: 8, text: "Type:", answer: "general" },
-        { num: 9, text: "Frequency:", answer: "3 times" },
-        { num: 10, text: "Percentage:", answer: "25" }
-      ]
-    },
-    // TEST 60: Education Discussion
-    {
-      id: 60,
-      title: "Education Discussion",
-      formTitle: "EDUCATION DISCUSSION",
-      formSubtitle: "Notes",
-      instruction: "Choose the correct letter or write NO MORE THAN TWO WORDS.",
-      questions: [
-        { num: 1, text: "Q21:", answer: "A" },
-        { num: 2, text: "Q22:", answer: "C" },
-        { num: 3, text: "Method:", answer: "approach" },
-        { num: 4, text: "Type:", answer: "mature" },
-        { num: 5, text: "Show:", answer: "interest" },
-        { num: 6, text: "Work in:", answer: "groups" },
-        { num: 7, text: "Review:", answer: "every 2 days" },
-        { num: 8, text: "Duration:", answer: "2 weeks" },
-        { num: 9, text: "Become:", answer: "confident" },
-        { num: 10, text: "Understand:", answer: "education system" }
-      ]
-    }
+    { id: 41, title: "Academic Discussion", formTitle: "ACADEMIC DISCUSSION", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
+    { id: 42, title: "Research Project", formTitle: "RESEARCH PROJECT", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
+    { id: 43, title: "Study Discussion", formTitle: "STUDY DISCUSSION", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
+    { id: 44, title: "Tutorial Session", formTitle: "TUTORIAL SESSION", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
+    { id: 45, title: "Group Assignment", formTitle: "GROUP ASSIGNMENT", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
+    { id: 46, title: "Library Research", formTitle: "LIBRARY RESEARCH", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
+    { id: 47, title: "Course Discussion", formTitle: "COURSE DISCUSSION", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
+    { id: 48, title: "Field Trip Planning", formTitle: "FIELD TRIP PLANNING", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
+    { id: 49, title: "Seminar Discussion", formTitle: "SEMINAR DISCUSSION", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
+    { id: 50, title: "Academic Consultation", formTitle: "ACADEMIC CONSULTATION", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
+    { id: 51, title: "Project Meeting", formTitle: "PROJECT MEETING", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
+    { id: 52, title: "Study Group", formTitle: "STUDY GROUP", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
+    { id: 53, title: "Lab Discussion", formTitle: "LAB DISCUSSION", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
+    { id: 54, title: "Essay Feedback", formTitle: "ESSAY FEEDBACK", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
+    { id: 55, title: "Exam Preparation", formTitle: "EXAM PREPARATION", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
+    { id: 56, title: "Research Methods", formTitle: "RESEARCH METHODS", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
+    { id: 57, title: "Presentation Practice", formTitle: "PRESENTATION PRACTICE", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
+    { id: 58, title: "Thesis Discussion", formTitle: "THESIS DISCUSSION", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
+    { id: 59, title: "Academic Writing", formTitle: "ACADEMIC WRITING", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
+    { id: 60, title: "Course Evaluation", formTitle: "COURSE EVALUATION", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) }
   ],
+
+  // ==================== PART 4: TESTS 61-80 (Questions 31-40) - PLACEHOLDER ====================
   part4: [
-    // TEST 61: Ceramics Lecture
-    {
-      id: 61,
-      title: "Ceramics Lecture",
-      formTitle: "CERAMICS LECTURE",
-      formSubtitle: "Lecture Notes",
-      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
-      questions: [
-        { num: 1, text: "History:", answer: "29000 years" },
-        { num: 2, text: "Origin:", answer: "southern Europe" },
-        { num: 3, text: "Needed:", answer: "water" },
-        { num: 4, text: "Contains:", answer: "minerals" },
-        { num: 5, text: "Called:", answer: "white gold" },
-        { num: 6, text: "Material:", answer: "china stone" },
-        { num: 7, text: "Process:", answer: "cooling" },
-        { num: 8, text: "Used for:", answer: "windows" },
-        { num: 9, text: "Made from:", answer: "volcanic ash" },
-        { num: 10, text: "Built:", answer: "harbours" }
-      ]
-    },
-    // TEST 62: Presentation Skills
-    {
-      id: 62,
-      title: "Presentation Skills",
-      formTitle: "PRESENTATION SKILLS",
-      formSubtitle: "Lecture Notes",
-      instruction: "Write ONE WORD ONLY for each answer.",
-      questions: [
-        { num: 1, text: "Be:", answer: "supportive" },
-        { num: 2, text: "Audience should:", answer: "pay attention" },
-        { num: 3, text: "Explain:", answer: "next steps" },
-        { num: 4, text: "Be:", answer: "consistent" },
-        { num: 5, text: "Use:", answer: "graphics" },
-        { num: 6, text: "Vary:", answer: "tone" },
-        { num: 7, text: "Include:", answer: "silence" },
-        { num: 8, text: "Avoid:", answer: "weak verbs" },
-        { num: 9, text: "Ask to:", answer: "repeat it" },
-        { num: 10, text: "Practice:", answer: "predicting" }
-      ]
-    },
-    // TEST 63: Animal Adaptations
-    {
-      id: 63,
-      title: "Animal Adaptations",
-      formTitle: "ANIMAL ADAPTATIONS",
-      formSubtitle: "Lecture Notes",
-      instruction: "Write ONE WORD ONLY for each answer.",
-      questions: [
-        { num: 1, text: "Need:", answer: "protection" },
-        { num: 2, text: "Must be:", answer: "flexible" },
-        { num: 3, text: "Example:", answer: "elephants" },
-        { num: 4, text: "Number:", answer: "100000" },
-        { num: 5, text: "Make:", answer: "products" },
-        { num: 6, text: "Type:", answer: "cap" },
-        { num: 7, text: "Produce:", answer: "oil" },
-        { num: 8, text: "Stay:", answer: "active" },
-        { num: 9, text: "Protect:", answer: "skin" },
-        { num: 10, text: "Eat:", answer: "blueberries" }
-      ]
-    },
-    // TEST 64: Animal Behaviour
-    {
-      id: 64,
-      title: "Animal Behaviour",
-      formTitle: "ANIMAL BEHAVIOUR",
-      formSubtitle: "Lecture Notes",
-      instruction: "Write ONE WORD ONLY for each answer.",
-      questions: [
-        { num: 1, text: "Find:", answer: "food" },
-        { num: 2, text: "Become:", answer: "hero" },
-        { num: 3, text: "Use:", answer: "feathers" },
-        { num: 4, text: "Collect:", answer: "shells" },
-        { num: 5, text: "Like:", answer: "diamond" },
-        { num: 6, text: "Fear:", answer: "shark" },
-        { num: 7, text: "Show:", answer: "teeth" },
-        { num: 8, text: "Send:", answer: "messages" },
-        { num: 9, text: "Have:", answer: "meeting" },
-        { num: 10, text: "Plan:", answer: "escape" }
-      ]
-    },
-    // TEST 65: Migration Patterns
-    {
-      id: 65,
-      title: "Migration Patterns",
-      formTitle: "MIGRATION PATTERNS",
-      formSubtitle: "Lecture Notes",
-      instruction: "Write ONE WORD ONLY for each answer.",
-      questions: [
-        { num: 1, text: "Study:", answer: "migration" },
-        { num: 2, text: "Use:", answer: "eyes" },
-        { num: 3, text: "Example:", answer: "lizard" },
-        { num: 4, text: "For:", answer: "trade" },
-        { num: 5, text: "Ensure:", answer: "survival" },
-        { num: 6, text: "Type:", answer: "political" },
-        { num: 7, text: "Q37-38 (First):", answer: "ships" },
-        { num: 8, text: "Q37-38 (Second):", answer: "horses" },
-        { num: 9, text: "Q39-40 (First):", answer: "industry" },
-        { num: 10, text: "Q39-40 (Second):", answer: "tourism" }
-      ]
-    },
-    // TEST 66: Marketing Lecture
-    {
-      id: 66,
-      title: "Marketing Lecture",
-      formTitle: "MARKETING LECTURE",
-      formSubtitle: "Lecture Notes",
-      instruction: "Write ONE WORD ONLY or choose the correct letters.",
-      questions: [
-        { num: 1, text: "Field:", answer: "marketing" },
-        { num: 2, text: "Study:", answer: "interests" },
-        { num: 3, text: "Create:", answer: "jobs" },
-        { num: 4, text: "Improve:", answer: "health" },
-        { num: 5, text: "Q35-36 (First):", answer: "C" },
-        { num: 6, text: "Q35-36 (Second):", answer: "E" },
-        { num: 7, text: "Q37-38 (First):", answer: "A" },
-        { num: 8, text: "Q37-38 (Second):", answer: "D" },
-        { num: 9, text: "Q39-40 (First):", answer: "A" },
-        { num: 10, text: "Q39-40 (Second):", answer: "C" }
-      ]
-    },
-    // TEST 67: History of Aviation
-    {
-      id: 67,
-      title: "History of Aviation",
-      formTitle: "HISTORY OF AVIATION",
-      formSubtitle: "Lecture Notes",
-      instruction: "Write ONE WORD ONLY for each answer.",
-      questions: [
-        { num: 1, text: "Interest in:", answer: "religion" },
-        { num: 2, text: "Observe:", answer: "nature" },
-        { num: 3, text: "Dream of:", answer: "flight" },
-        { num: 4, text: "Navigate by:", answer: "stars" },
-        { num: 5, text: "Purpose:", answer: "practical" },
-        { num: 6, text: "Importance of:", answer: "education" },
-        { num: 7, text: "Supported by:", answer: "king" },
-        { num: 8, text: "Q38: Check PDF", answer: "entertainment" },
-        { num: 9, text: "Development of:", answer: "opera" },
-        { num: 10, text: "Introduction of:", answer: "electricity" }
-      ]
-    },
-    // TEST 68: Play Behaviour
-    {
-      id: 68,
-      title: "Play Behaviour",
-      formTitle: "PLAY BEHAVIOUR",
-      formSubtitle: "Lecture Notes",
-      instruction: "Write ONE WORD ONLY for each answer.",
-      questions: [
-        { num: 1, text: "Use:", answer: "hook" },
-        { num: 2, text: "Attach:", answer: "string" },
-        { num: 3, text: "Aware of:", answer: "danger" },
-        { num: 4, text: "Made of:", answer: "rubber" },
-        { num: 5, text: "Feature:", answer: "light" },
-        { num: 6, text: "Show:", answer: "intelligence" },
-        { num: 7, text: "Study:", answer: "tails" },
-        { num: 8, text: "Save:", answer: "energy" },
-        { num: 9, text: "Release:", answer: "chemical" },
-        { num: 10, text: "Change:", answer: "diet" }
-      ]
-    },
-    // TEST 69: Folklore Studies
-    {
-      id: 69,
-      title: "Folklore Studies",
-      formTitle: "FOLKLORE STUDIES",
-      formSubtitle: "Lecture Notes",
-      instruction: "Write ONE WORD ONLY for each answer.",
-      questions: [
-        { num: 1, text: "Month:", answer: "April" },
-        { num: 2, text: "For:", answer: "children" },
-        { num: 3, text: "Story:", answer: "repeated" },
-        { num: 4, text: "About:", answer: "human" },
-        { num: 5, text: "Include:", answer: "magic" },
-        { num: 6, text: "Concept of:", answer: "distance" },
-        { num: 7, text: "Study:", answer: "culture" },
-        { num: 8, text: "Feature:", answer: "fires" },
-        { num: 9, text: "Avoid:", answer: "touching" },
-        { num: 10, text: "Keep:", answer: "intact" }
-      ]
-    },
-    // TEST 70: Brain Research
-    {
-      id: 70,
-      title: "Brain Research",
-      formTitle: "BRAIN RESEARCH",
-      formSubtitle: "Lecture Notes",
-      instruction: "Choose the correct letter or write ONE WORD ONLY.",
-      questions: [
-        { num: 1, text: "Q31:", answer: "C" },
-        { num: 2, text: "Q32:", answer: "B" },
-        { num: 3, text: "Q33:", answer: "C" },
-        { num: 4, text: "Q34:", answer: "A" },
-        { num: 5, text: "Q35:", answer: "A" },
-        { num: 6, text: "In:", answer: "2 directions" },
-        { num: 7, text: "Feel:", answer: "confident" },
-        { num: 8, text: "Improve:", answer: "vision" },
-        { num: 9, text: "Make:", answer: "corrections" },
-        { num: 10, text: "Keep:", answer: "balance" }
-      ]
-    },
-    // TEST 71: Business Development
-    {
-      id: 71,
-      title: "Business Development",
-      formTitle: "BUSINESS DEVELOPMENT",
-      formSubtitle: "Lecture Notes",
-      instruction: "Choose the correct letter or write ONE WORD ONLY.",
-      questions: [
-        { num: 1, text: "Q31:", answer: "B" },
-        { num: 2, text: "Q32:", answer: "B" },
-        { num: 3, text: "Q33:", answer: "A" },
-        { num: 4, text: "Q34:", answer: "C" },
-        { num: 5, text: "Type:", answer: "business" },
-        { num: 6, text: "Location:", answer: "kitchen" },
-        { num: 7, text: "Expand:", answer: "world" },
-        { num: 8, text: "Plan:", answer: "escape" },
-        { num: 9, text: "Product:", answer: "baby" },
-        { num: 10, text: "Flavor:", answer: "chocolate" }
-      ]
-    },
-    // TEST 72: Taste Research
-    {
-      id: 72,
-      title: "Taste Research",
-      formTitle: "TASTE RESEARCH",
-      formSubtitle: "Lecture Notes",
-      instruction: "Choose the correct letter or write ONE WORD ONLY.",
-      questions: [
-        { num: 1, text: "Q31:", answer: "B" },
-        { num: 2, text: "Q32:", answer: "C" },
-        { num: 3, text: "Q33:", answer: "A" },
-        { num: 4, text: "Factor:", answer: "water" },
-        { num: 5, text: "Q35-36 (First):", answer: "meat" },
-        { num: 6, text: "Q35-36 (Second):", answer: "cheese" },
-        { num: 7, text: "Called:", answer: "5th taste" },
-        { num: 8, text: "Is:", answer: "common" },
-        { num: 9, text: "Sense:", answer: "bitterness" },
-        { num: 10, text: "Need:", answer: "minerals" }
-      ]
-    },
-    // TEST 73: Urban Planning
-    {
-      id: 73,
-      title: "Urban Planning",
-      formTitle: "URBAN PLANNING",
-      formSubtitle: "Lecture Notes",
-      instruction: "Write ONE WORD ONLY for each answer.",
-      questions: [
-        { num: 1, text: "Cover:", answer: "surface" },
-        { num: 2, text: "Protect:", answer: "environment" },
-        { num: 3, text: "Study:", answer: "impacts" },
-        { num: 4, text: "Type:", answer: "urban" },
-        { num: 5, text: "Cause:", answer: "problems" },
-        { num: 6, text: "Use:", answer: "images" },
-        { num: 7, text: "Identify:", answer: "patterns" },
-        { num: 8, text: "Measure:", answer: "distortions" },
-        { num: 9, text: "Monitor:", answer: "traffic" },
-        { num: 10, text: "Predict:", answer: "weather" }
-      ]
-    },
-    // TEST 74: Archaeology Lecture
-    {
-      id: 74,
-      title: "Archaeology Lecture",
-      formTitle: "ARCHAEOLOGY LECTURE",
-      formSubtitle: "Lecture Notes",
-      instruction: "Choose the correct letter or write the correct letter A-F.",
-      questions: [
-        { num: 1, text: "Q31:", answer: "B" },
-        { num: 2, text: "Q32:", answer: "B" },
-        { num: 3, text: "Q33:", answer: "A" },
-        { num: 4, text: "Q34:", answer: "A" },
-        { num: 5, text: "Q35:", answer: "C" },
-        { num: 6, text: "Q36:", answer: "C" },
-        { num: 7, text: "Q37:", answer: "B" },
-        { num: 8, text: "Q38:", answer: "F" },
-        { num: 9, text: "Q39:", answer: "D" },
-        { num: 10, text: "Q40:", answer: "C" }
-      ]
-    },
-    // TEST 75: Manufacturing
-    {
-      id: 75,
-      title: "Manufacturing",
-      formTitle: "MANUFACTURING",
-      formSubtitle: "Lecture Notes",
-      instruction: "Choose the correct letter or write ONE WORD ONLY.",
-      questions: [
-        { num: 1, text: "Q31:", answer: "B" },
-        { num: 2, text: "Q32:", answer: "B" },
-        { num: 3, text: "Q33:", answer: "B" },
-        { num: 4, text: "Q34:", answer: "A" },
-        { num: 5, text: "Type:", answer: "combination" },
-        { num: 6, text: "Priority:", answer: "safety" },
-        { num: 7, text: "Change:", answer: "attitudes" },
-        { num: 8, text: "Improve:", answer: "controls" },
-        { num: 9, text: "Location:", answer: "factory" },
-        { num: 10, text: "Develop:", answer: "skills" }
-      ]
-    },
-    // TEST 76: Environmental Science
-    {
-      id: 76,
-      title: "Environmental Science",
-      formTitle: "ENVIRONMENTAL SCIENCE",
-      formSubtitle: "Lecture Notes",
-      instruction: "Choose the correct letter or write NO MORE THAN TWO WORDS.",
-      questions: [
-        { num: 1, text: "Q31:", answer: "C" },
-        { num: 2, text: "Q32:", answer: "B" },
-        { num: 3, text: "Q33:", answer: "C" },
-        { num: 4, text: "Q34:", answer: "A" },
-        { num: 5, text: "Q35:", answer: "B" },
-        { num: 6, text: "Q36:", answer: "B" },
-        { num: 7, text: "Type:", answer: "animal" },
-        { num: 8, text: "Rise in:", answer: "sea level" },
-        { num: 9, text: "Activity:", answer: "hunting" },
-        { num: 10, text: "Process:", answer: "creation" }
-      ]
-    },
-    // TEST 77: Ocean Studies
-    {
-      id: 77,
-      title: "Ocean Studies",
-      formTitle: "OCEAN STUDIES",
-      formSubtitle: "Lecture Notes",
-      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
-      questions: [
-        { num: 1, text: "Affect:", answer: "tides" },
-        { num: 2, text: "Sense of:", answer: "hearing" },
-        { num: 3, text: "Q33: Check PDF", answer: "C" },
-        { num: 4, text: "Q34: Check PDF", answer: "B" },
-        { num: 5, text: "Q35: Check PDF", answer: "A" },
-        { num: 6, text: "Q36: Check PDF", answer: "C" },
-        { num: 7, text: "Q37: Check PDF", answer: "B" },
-        { num: 8, text: "Q38: Check PDF", answer: "A" },
-        { num: 9, text: "Q39: Check PDF", answer: "C" },
-        { num: 10, text: "Q40: Check PDF", answer: "B" }
-      ]
-    },
-    // TEST 78: History Lecture
-    {
-      id: 78,
-      title: "History Lecture",
-      formTitle: "HISTORY LECTURE",
-      formSubtitle: "Lecture Notes",
-      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
-      questions: [
-        { num: 1, text: "Q31: Check PDF", answer: "B" },
-        { num: 2, text: "Q32: Check PDF", answer: "C" },
-        { num: 3, text: "Q33: Check PDF", answer: "A" },
-        { num: 4, text: "Q34: Check PDF", answer: "B" },
-        { num: 5, text: "Q35: Check PDF", answer: "C" },
-        { num: 6, text: "Q36: Check PDF", answer: "A" },
-        { num: 7, text: "Q37: Check PDF", answer: "B" },
-        { num: 8, text: "Q38: Check PDF", answer: "C" },
-        { num: 9, text: "Q39: Check PDF", answer: "A" },
-        { num: 10, text: "Q40: Check PDF", answer: "B" }
-      ]
-    },
-    // TEST 79: Science Lecture
-    {
-      id: 79,
-      title: "Science Lecture",
-      formTitle: "SCIENCE LECTURE",
-      formSubtitle: "Lecture Notes",
-      instruction: "Choose the correct letter or write ONE WORD ONLY.",
-      questions: [
-        { num: 1, text: "Q31:", answer: "B" },
-        { num: 2, text: "Q32:", answer: "A" },
-        { num: 3, text: "Material:", answer: "glass" },
-        { num: 4, text: "Q34: Check PDF", answer: "C" },
-        { num: 5, text: "Q35: Check PDF", answer: "B" },
-        { num: 6, text: "Q36: Check PDF", answer: "A" },
-        { num: 7, text: "Q37: Check PDF", answer: "C" },
-        { num: 8, text: "Q38: Check PDF", answer: "B" },
-        { num: 9, text: "Q39: Check PDF", answer: "A" },
-        { num: 10, text: "Q40: Check PDF", answer: "C" }
-      ]
-    },
-    // TEST 80: Wildlife Conservation
-    {
-      id: 80,
-      title: "Wildlife Conservation",
-      formTitle: "WILDLIFE CONSERVATION",
-      formSubtitle: "Lecture Notes",
-      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
-      questions: [
-        { num: 1, text: "Q31: Check PDF", answer: "C" },
-        { num: 2, text: "Q32: Check PDF", answer: "A" },
-        { num: 3, text: "Q33: Check PDF", answer: "B" },
-        { num: 4, text: "Q34: Check PDF", answer: "A" },
-        { num: 5, text: "Q35: Check PDF", answer: "C" },
-        { num: 6, text: "Q36: Check PDF", answer: "B" },
-        { num: 7, text: "Q37: Check PDF", answer: "A" },
-        { num: 8, text: "Q38: Check PDF", answer: "C" },
-        { num: 9, text: "Q39: Check PDF", answer: "B" },
-        { num: 10, text: "Q40: Check PDF", answer: "A" }
-      ]
-    }
+    { id: 61, title: "History of Ceramics", formTitle: "HISTORY OF CERAMICS", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
+    { id: 62, title: "Public Speaking", formTitle: "PUBLIC SPEAKING", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
+    { id: 63, title: "Ivory Industry", formTitle: "IVORY INDUSTRY", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
+    { id: 64, title: "Animal Behaviour", formTitle: "ANIMAL BEHAVIOUR", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
+    { id: 65, title: "Bird Migration", formTitle: "BIRD MIGRATION", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
+    { id: 66, title: "Career Development", formTitle: "CAREER DEVELOPMENT", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
+    { id: 67, title: "Hot Air Balloons", formTitle: "HOT AIR BALLOONS", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
+    { id: 68, title: "Yo-yo History", formTitle: "YO-YO HISTORY", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
+    { id: 69, title: "Sleep Research", formTitle: "SLEEP RESEARCH", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
+    { id: 70, title: "Language Learning", formTitle: "LANGUAGE LEARNING", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
+    { id: 71, title: "Urban Planning", formTitle: "URBAN PLANNING", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
+    { id: 72, title: "Climate Change", formTitle: "CLIMATE CHANGE", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
+    { id: 73, title: "Marine Biology", formTitle: "MARINE BIOLOGY", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
+    { id: 74, title: "Economics Lecture", formTitle: "ECONOMICS LECTURE", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
+    { id: 75, title: "Psychology Study", formTitle: "PSYCHOLOGY STUDY", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
+    { id: 76, title: "Architecture History", formTitle: "ARCHITECTURE HISTORY", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
+    { id: 77, title: "Music Development", formTitle: "MUSIC DEVELOPMENT", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
+    { id: 78, title: "Medical Research", formTitle: "MEDICAL RESEARCH", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
+    { id: 79, title: "Environmental Science", formTitle: "ENVIRONMENTAL SCIENCE", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
+    { id: 80, title: "Technology Trends", formTitle: "TECHNOLOGY TRENDS", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) }
   ]
 };
-
 
 
 // ==================== LISTENING PAGE ====================
