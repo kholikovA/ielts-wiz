@@ -3537,879 +3537,1537 @@ const GrammarPage = () => {
 };
 
 // ==================== 80 LISTENING TESTS DATA ====================
-// ==================== PART 1: TESTS 1-20 (Questions 1-10) ====================
 const listeningTestsData = {
   part1: [
-    // TEST 1: Preston Park Run
     {
       id: 1,
       title: "Preston Park Run",
       formTitle: "PRESTON PARK RUN",
-      formSubtitle: "Details of run",
+      formSubtitle: "Registration Details",
       instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "Start of run: in front of the", answer: "cafe" },
-        { num: 2, text: "Time of start:", answer: "9 am" },
-        { num: 3, text: "Length of run:", answer: "5 km" },
-        { num: 4, text: "At end of run: volunteer scans", answer: "barcode" },
-        { num: 5, text: "Best way to register: on the", answer: "website" },
-        { num: 6, text: "Cost of run: £", answer: "1.50" },
-        { num: 7, text: "Volunteering — Contact name: Pete", answer: "Maughan" },
-        { num: 8, text: "Phone number:", answer: "01444 732900" },
-        { num: 9, text: "Activities: setting up course,", answer: "guiding", afterText: "the runners" },
-        { num: 10, text: "Activities:", answer: "taking photos", afterText: "for the weekly report" }
+        { num: 1, text: "Location: meet in front of the", answer: "café" },
+        { num: 2, text: "Day of the week:", answer: "Saturday" },
+        { num: 3, text: "Start time:", answer: "9 am" },
+        { num: 4, text: "Distance:", answer: "5 km" },
+        { num: 5, text: "At finish: volunteers will scan your", answer: "barcode" },
+        { num: 6, text: "Registration: best done on the", answer: "website" },
+        { num: 7, text: "Participation fee: £", answer: "0" },
+        { num: 8, text: "Volunteer contact name: Pete", answer: "Maughan" },
+        { num: 9, text: "Phone number:", answer: "07732 445901" },
+        { num: 10, text: "Help needed with: photography for the", answer: "weekly report" }
       ]
     },
-    // TEST 2: Short Story Competition
     {
       id: 2,
       title: "Short Story Competition",
       formTitle: "SHORT STORY COMPETITION",
-      formSubtitle: "Entry Details",
+      formSubtitle: "Entry Requirements",
       instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "Length of story: approximately", answer: "3000 words" },
-        { num: 2, text: "Story must include: a", answer: "surprise ending" },
-        { num: 3, text: "Minimum age:", answer: "16" },
-        { num: 4, text: "Last entry date: 1st", answer: "August" },
-        { num: 5, text: "Web address: www.", answer: "COMP4SS", afterText: ".com" },
-        { num: 6, text: "Don't:", answer: "post", afterText: "the story to the organisers" },
-        { num: 7, text: "The competition is judged by", answer: "famous authors" },
-        { num: 8, text: "The top five stories will be available", answer: "online" },
-        { num: 9, text: "The top story will be chosen by the", answer: "public" },
-        { num: 10, text: "The first prize is a place at a writers' workshop in", answer: "Spain" }
+        { num: 1, text: "Maximum word count:", answer: "2000" },
+        { num: 2, text: "Story must include: a", answer: "journey" },
+        { num: 3, text: "Minimum age of entrants:", answer: "18" },
+        { num: 4, text: "Closing date: 1st", answer: "September" },
+        { num: 5, text: "Submit entries at: www.", answer: "shortstory" },
+        { num: 6, text: "Don't send your story by", answer: "email" },
+        { num: 7, text: "Judging panel: professional", answer: "writers" },
+        { num: 8, text: "Top five will be published", answer: "online" },
+        { num: 9, text: "Winner chosen by: the", answer: "public" },
+        { num: 10, text: "First prize: workshop in", answer: "Paris" }
       ]
     },
-    // TEST 3: Sarah's Health & Fitness Club
     {
       id: 3,
-      title: "Health & Fitness Club Membership",
-      formTitle: "SARAH'S HEALTH & FITNESS CLUB",
-      formSubtitle: "Membership Form",
+      title: "Fitness Club Membership",
+      formTitle: "HEALTH & FITNESS CLUB",
+      formSubtitle: "New Member Registration",
       instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "Last name:", answer: "Symonds" },
-        { num: 2, text: "Date of Birth: Day: 11th; Month: December; Year:", answer: "1996" },
-        { num: 3, text: "Type of Membership:", answer: "full-time" },
-        { num: 4, text: "Activities: Badminton and", answer: "swimming" },
-        { num: 5, text: "Payment details: Total: £450. To be paid", answer: "monthly" },
-        { num: 6, text: "What exercise do you do regularly?", answer: "jogging" },
-        { num: 7, text: "Do you have any injuries? has a", answer: "bad ankle" },
-        { num: 8, text: "What is your goal or target? a better", answer: "fitness level" },
-        { num: 9, text: "What is your occupation? a", answer: "charity worker" },
-        { num: 10, text: "How did you hear about the club?", answer: "radio" }
+        { num: 1, text: "Surname:", answer: "Symonds" },
+        { num: 2, text: "Date of birth: 14th March", answer: "1996" },
+        { num: 3, text: "Membership type:", answer: "gold" },
+        { num: 4, text: "Main activities: badminton and", answer: "swimming" },
+        { num: 5, text: "Payment frequency:", answer: "monthly" },
+        { num: 6, text: "Current exercise:", answer: "jogging" },
+        { num: 7, text: "Medical issue: problem with", answer: "ankle" },
+        { num: 8, text: "Fitness goal: improve", answer: "stamina" },
+        { num: 9, text: "Occupation:", answer: "nurse" },
+        { num: 10, text: "How did you hear about us: through a", answer: "friend" }
       ]
     },
-    // TEST 4: Community Centre Evening Classes
     {
       id: 4,
-      title: "Community Centre Evening Classes",
-      formTitle: "COMMUNITY CENTRE EVENING CLASSES",
-      formSubtitle: "Class Information",
+      title: "Community Centre Classes",
+      formTitle: "COMMUNITY CENTRE",
+      formSubtitle: "Evening Class Information",
       instruction: "Write NO MORE THAN ONE WORD AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "Painting with watercolours — When: at", answer: "7.30", afterText: "pm on Tuesdays" },
-        { num: 2, text: "What to bring: water jar and set of", answer: "pencils" },
-        { num: 3, text: "Maori language — Where: at the", answer: "top", afterText: "of the building" },
-        { num: 4, text: "Maori language starts in:", answer: "August" },
-        { num: 5, text: "Digital photography — What to bring: the", answer: "instructions", afterText: "for the camera" },
-        { num: 6, text: "Digital photography — Cost: £", answer: "55", afterText: "– eight classes" },
-        { num: 7, text: "The watercolours class suits people who are", answer: "beginners" },
-        { num: 8, text: "To find out about the Maori language class, contact Jason", answer: "Kahui" },
-        { num: 9, text: "For the photography class, check the", answer: "battery", afterText: "for the camera" },
-        { num: 10, text: "There is a trip to a local", answer: "show", afterText: "in the final week of the photography class" }
+        { num: 1, text: "Watercolour painting: Tuesdays at", answer: "7 pm" },
+        { num: 2, text: "Materials: bring brushes and water", answer: "jar" },
+        { num: 3, text: "Photography: room at the", answer: "back" },
+        { num: 4, text: "Photography starts in:", answer: "October" },
+        { num: 5, text: "Bring your camera", answer: "manual" },
+        { num: 6, text: "Photography course fee: £", answer: "75" },
+        { num: 7, text: "Art class suits:", answer: "beginners" },
+        { num: 8, text: "Contact for language class: Jason", answer: "Woodhouse" },
+        { num: 9, text: "Check camera", answer: "settings" },
+        { num: 10, text: "Final week trip to local", answer: "gallery" }
       ]
     },
-    // TEST 5: City Transport Lost Property
     {
       id: 5,
-      title: "City Transport Lost Property",
-      formTitle: "CITY TRANSPORT LOST PROPERTY ENQUIRY",
-      formSubtitle: "Item Description",
+      title: "Lost Property Enquiry",
+      formTitle: "LOST PROPERTY OFFICE",
+      formSubtitle: "Item Report Form",
       instruction: "Write ONE WORD AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "Description of main item: black with thin", answer: "white", afterText: "stripes" },
-        { num: 2, text: "Other items: a set of", answer: "office", afterText: "keys" },
-        { num: 3, text: "Other items: a", answer: "camera", afterText: "in a box" },
-        { num: 4, text: "Other items: a blue", answer: "umbrella" },
-        { num: 5, text: "Journey details — Date and time: 2.00-2.30 pm on", answer: "13th May" },
-        { num: 6, text: "Basic route: caller travelled from the", answer: "airport", afterText: "to Highbury" },
-        { num: 7, text: "Mode of travel: caller thinks she left the suitcase in a", answer: "taxi" },
-        { num: 8, text: "Personal details — Name: Lisa", answer: "Docherty" },
-        { num: 9, text: "Address: 15A", answer: "River", afterText: "Rd, Highbury" },
-        { num: 10, text: "Phone number:", answer: "07979605437" }
+        { num: 1, text: "Item lost: suitcase with", answer: "stripes" },
+        { num: 2, text: "Contents include:", answer: "keys" },
+        { num: 3, text: "Also contains a", answer: "camera" },
+        { num: 4, text: "And a blue", answer: "umbrella" },
+        { num: 5, text: "Date lost:", answer: "th May" },
+        { num: 6, text: "Journey from:", answer: "airport" },
+        { num: 7, text: "Lost in a:", answer: "taxi" },
+        { num: 8, text: "Name: Lisa", answer: "Docherty" },
+        { num: 9, text: "Street name:", answer: "River" },
+        { num: 10, text: "Best contact time:", answer: "evening" }
       ]
     },
-    // TEST 6: Accommodation Form
     {
       id: 6,
-      title: "Rental Properties Form",
-      formTitle: "ACCOMMODATION FORM: RENTAL PROPERTIES",
+      title: "Apartment Rental",
+      formTitle: "PROPERTY RENTAL AGENCY",
       formSubtitle: "Tenant Requirements",
-      instruction: "Write ONE WORD AND/OR A NUMBER for each answer.",
-      questions: [
-        { num: 1, text: "Contact phone number: (0044)", answer: "208 613 2978" },
-        { num: 2, text: "Email address: richard@", answer: "visiontech", afterText: ".co.uk" },
-        { num: 3, text: "Occupation: a local", answer: "doctor" },
-        { num: 4, text: "Type of accommodation: a 2-bedroom apartment wanted (must have its own", answer: "garage", afterText: ")" },
-        { num: 5, text: "No", answer: "furniture", afterText: "required (family bringing theirs)" },
-        { num: 6, text: "A", answer: "fridge", afterText: "in the kitchen is preferable" },
-        { num: 7, text: "Preferred location: near a", answer: "school" },
-        { num: 8, text: "Maximum rent:", answer: "950", afterText: "per month" },
-        { num: 9, text: "Other requests: the accommodation has to be", answer: "quiet", afterText: "in the daytime" },
-        { num: 10, text: "How did you first hear about us? through a", answer: "friend" }
-      ]
-    },
-    // TEST 7: Hostel Accommodation in Darwin
-    {
-      id: 7,
-      title: "Hostel Accommodation in Darwin",
-      formTitle: "HOSTEL ACCOMMODATION IN DARWIN",
-      formSubtitle: "Hostel Reviews",
-      instruction: "Write NO MORE THAN ONE WORD AND/OR A NUMBER for each answer.",
-      questions: [
-        { num: 1, text: "Top End Backpackers — Comments: parking available, staff are", answer: "unfriendly" },
-        { num: 2, text: "Gum Tree Lodge — Comments: nice pool, air-conditioning is too", answer: "noisy" },
-        { num: 3, text: "Gum Tree Lodge — Price per person: $", answer: "23.50" },
-        { num: 4, text: "Gum Tree Lodge — Comments:", answer: "insects", afterText: "in the dormitories" },
-        { num: 5, text: "Kangaroo Lodge — Comments: the", answer: "bathrooms", afterText: "are very clean" },
-        { num: 6, text: "Kangaroo Lodge — Comments: seems to be a", answer: "party", afterText: "every night" },
-        { num: 7, text: "Kangaroo Lodge — Address: on", answer: "Shadforth", afterText: "Lane" },
-        { num: 8, text: "General information: can hire a", answer: "towel" },
-        { num: 9, text: "General information:", answer: "breakfast", afterText: "is included" },
-        { num: 10, text: "General information: a shared", answer: "kitchen", afterText: "is available" }
-      ]
-    },
-    // TEST 8: Hilary Lodge Retirement Home
-    {
-      id: 8,
-      title: "Hilary Lodge Retirement Home",
-      formTitle: "HILARY LODGE RETIREMENT HOME",
-      formSubtitle: "Volunteer Activities",
       instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "Monday evenings: computer training — Training needed in how to produce", answer: "documents" },
-        { num: 2, text: "Tuesday afternoons: singing — The home has a", answer: "keyboard", afterText: "and someone to play it" },
-        { num: 3, text: "Thursday mornings: growing", answer: "flowers" },
-        { num: 4, text: "The home doesn't have many", answer: "tools", afterText: "for gardening" },
-        { num: 5, text: "Interview — Go in on", answer: "Saturday", afterText: ", any time" },
-        { num: 6, text: "Interview with assistant called", answer: "Mairead" },
-        { num: 7, text: "Address of home: 73", answer: "Bridge", afterText: "Road" },
-        { num: 8, text: "'Open house' days — Agreed to help on", answer: "14th May" },
-        { num: 9, text: "Will show visitors where to", answer: "park" },
-        { num: 10, text: "Possibility of talking to a", answer: "newspaper", afterText: "reporter" }
+        { num: 1, text: "Property type:", answer: "apartment" },
+        { num: 2, text: "Maximum rent: £", answer: "850" },
+        { num: 3, text: "Preferred area:", answer: "centre" },
+        { num: 4, text: "Must have:", answer: "parking" },
+        { num: 5, text: "Number of bedrooms:", answer: "2" },
+        { num: 6, text: "Move-in date: 1st", answer: "December" },
+        { num: 7, text: "Current postcode:", answer: "SW1 4PT" },
+        { num: 8, text: "Reason for moving:", answer: "new job" },
+        { num: 9, text: "Contact phone:", answer: "07855 441290" },
+        { num: 10, text: "Best time to call:", answer: "afternoon" }
       ]
     },
-    // TEST 9: Transport from Airport to Milton
+    {
+      id: 7,
+      title: "Hostel Booking",
+      formTitle: "CITY BACKPACKER HOSTEL",
+      formSubtitle: "Reservation Form",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
+      questions: [
+        { num: 1, text: "Room type:", answer: "dormitory" },
+        { num: 2, text: "Number of nights:", answer: "5" },
+        { num: 3, text: "Arrival date:", answer: "23rd June" },
+        { num: 4, text: "Guest surname:", answer: "Thompson" },
+        { num: 5, text: "Nationality:", answer: "British" },
+        { num: 6, text: "Price per night: $", answer: "25" },
+        { num: 7, text: "Breakfast:", answer: "included" },
+        { num: 8, text: "Airport pickup:", answer: "yes" },
+        { num: 9, text: "Flight arrives:", answer: "am" },
+        { num: 10, text: "Dietary requirement:", answer: "vegetarian" }
+      ]
+    },
+    {
+      id: 8,
+      title: "Retirement Home",
+      formTitle: "HILLCREST LODGE",
+      formSubtitle: "Information Request",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
+      questions: [
+        { num: 1, text: "Room type preferred:", answer: "single" },
+        { num: 2, text: "Building has floors:", answer: "3" },
+        { num: 3, text: "Monthly fee: £", answer: "2500" },
+        { num: 4, text: "Meals:", answer: "included" },
+        { num: 5, text: "Activities include gardening and", answer: "crafts" },
+        { num: 6, text: "Nurse available:", answer: "daily" },
+        { num: 7, text: "Visiting hours start:", answer: "10 am" },
+        { num: 8, text: "Nearest bus stop on", answer: "Oak Street" },
+        { num: 9, text: "Manager name: Mrs", answer: "Patterson" },
+        { num: 10, text: "Open day on:", answer: "Sunday" }
+      ]
+    },
     {
       id: 9,
-      title: "Transport from Airport to Milton",
-      formTitle: "TRANSPORT FROM AIRPORT TO MILTON",
-      formSubtitle: "Travel Options",
-      instruction: "Write NO MORE THAN THREE WORDS for each answer.",
+      title: "Airport Transfer",
+      formTitle: "AIRPORT SHUTTLE SERVICE",
+      formSubtitle: "Booking Details",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "Options: Car hire - don't want to drive;", answer: "taxi", afterText: "- expensive" },
-        { num: 2, text: "Greyhound bus — direct to the", answer: "city centre" },
-        { num: 3, text: "Greyhound bus — long", answer: "wait" },
-        { num: 4, text: "Airport Shuttle —", answer: "door-to-door", afterText: "service" },
-        { num: 5, text: "Airport Shuttle — need to", answer: "reserve a seat" },
-        { num: 6, text: "AIRPORT SHUTTLE BOOKING FORM — Date:", answer: "17th October" },
-        { num: 7, text: "Bus Time:", answer: "12.30", afterText: "pm" },
-        { num: 8, text: "Name: Janet", answer: "Thomson" },
-        { num: 9, text: "Flight No:", answer: "AC 936" },
-        { num: 10, text: "Credit Card No: (Visa)", answer: "3303 8450 2045 6837" }
+        { num: 1, text: "Destination town:", answer: "Milton" },
+        { num: 2, text: "Number of passengers:", answer: "3" },
+        { num: 3, text: "Pickup time:", answer: "2.30 pm" },
+        { num: 4, text: "Terminal number:", answer: "2" },
+        { num: 5, text: "Vehicle type:", answer: "minivan" },
+        { num: 6, text: "Total cost: £", answer: "85" },
+        { num: 7, text: "Payment method:", answer: "card" },
+        { num: 8, text: "Driver name:", answer: "Collins" },
+        { num: 9, text: "Company phone:", answer: "0800 567890" },
+        { num: 10, text: "Meeting point:", answer: "arrivals hall" }
       ]
     },
-    // TEST 10: Car Insurance
     {
       id: 10,
-      title: "Car Insurance Form",
-      formTitle: "CAR INSURANCE",
-      formSubtitle: "Policy Details",
-      instruction: "Write NO MORE THAN THREE WORDS AND/OR A NUMBER for each answer.",
+      title: "Car Insurance",
+      formTitle: "VEHICLE INSURANCE QUOTE",
+      formSubtitle: "Application Form",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "Address:", answer: "27 Bank Road", afterText: ", Greendale" },
-        { num: 2, text: "Occupation: a", answer: "dentist" },
-        { num: 3, text: "Type of car: Manufacturer: Hewton; Model:", answer: "Sable" },
-        { num: 4, text: "Previous insurance company:", answer: "Northern Star" },
-        { num: 5, text: "Any claims in last five years? If yes: Car was", answer: "stolen", afterText: "in 1999" },
-        { num: 6, text: "Name(s) of other driver(s): Simon", answer: "Paynter" },
-        { num: 7, text: "Relationship to main driver:", answer: "brother-in-law" },
-        { num: 8, text: "Uses of car: - social -", answer: "travel to work" },
-        { num: 9, text: "Recommended Insurance — Name of company:", answer: "Red Flag" },
-        { num: 10, text: "Annual cost: $", answer: "450" }
+        { num: 1, text: "Cover type:", answer: "comprehensive" },
+        { num: 2, text: "Car make:", answer: "Toyota" },
+        { num: 3, text: "Year of manufacture:", answer: "2019" },
+        { num: 4, text: "Annual mileage:", answer: "10000" },
+        { num: 5, text: "Driver age:", answer: "28" },
+        { num: 6, text: "Years with licence:", answer: "6" },
+        { num: 7, text: "Previous claims:", answer: "none" },
+        { num: 8, text: "Occupation:", answer: "teacher" },
+        { num: 9, text: "Postcode:", answer: "M15 6AA" },
+        { num: 10, text: "Start date: 1st", answer: "April" }
       ]
     },
-    // TEST 11: Student Job Enquiry
     {
       id: 11,
-      title: "Student Job Enquiry",
-      formTitle: "STUDENT JOB APPLICATION",
-      formSubtitle: "Part-time Work",
-      instruction: "Write NO MORE THAN THREE WORDS AND/OR A NUMBER for each answer.",
+      title: "Holiday Cottage Rental",
+      formTitle: "LAKESIDE COTTAGE RENTAL",
+      formSubtitle: "Booking Enquiry",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "Student is studying", answer: "business" },
-        { num: 2, text: "Student is in the", answer: "third", afterText: "year of the course" },
-        { num: 3, text: "Position: Receptionist — Where: in the", answer: "Sports Centre", afterText: "— Problem: evening lectures" },
-        { num: 4, text: "Position:", answer: "cleaner", afterText: "— Where: in the Child Care Centre — Problem: too early" },
-        { num: 5, text: "Position: Clerical Assistant — Where: in the", answer: "Library", afterText: "— Problem: evening lectures" },
-        { num: 6, text: "STUDENT DETAILS — Address:", answer: "International House" },
-        { num: 7, text: "Room No.", answer: "B659" },
-        { num: 8, text: "Position available:", answer: "office assistant", afterText: "at the English Language Centre" },
-        { num: 9, text: "Duties: Respond to enquiries and", answer: "answer the phone" },
-        { num: 10, text: "Time of interview: Friday at", answer: "11.30", afterText: "a.m." }
+        { num: 1, text: "Number of guests:", answer: "4" },
+        { num: 2, text: "Preferred location: near the", answer: "lake" },
+        { num: 3, text: "Arrival date:", answer: "15th August" },
+        { num: 4, text: "Length of stay:", answer: "one week" },
+        { num: 5, text: "Budget per night: £", answer: "120" },
+        { num: 6, text: "Essential feature:", answer: "wifi" },
+        { num: 7, text: "Pets:", answer: "one dog" },
+        { num: 8, text: "Name: Sarah", answer: "Mitchell" },
+        { num: 9, text: "Email: sarahm@", answer: "quickmail" },
+        { num: 10, text: "Preferred contact:", answer: "phone" }
       ]
     },
-    // TEST 12: Homestay Application
     {
       id: 12,
       title: "Homestay Application",
-      formTitle: "HOMESTAY APPLICATION",
-      formSubtitle: "Student Information",
-      instruction: "Write NO MORE THAN THREE WORDS AND/OR A NUMBER for each answer.",
+      formTitle: "INTERNATIONAL HOMESTAY",
+      formSubtitle: "Student Placement Form",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "First name:", answer: "Keiko" },
-        { num: 2, text: "Passport number:", answer: "JO6337" },
-        { num: 3, text: "Length of homestay: Approx", answer: "4 months" },
-        { num: 4, text: "Course enrolled in:", answer: "Advanced English" },
-        { num: 5, text: "Family preferences: no", answer: "young children" },
-        { num: 6, text: "Family preferences: no objection to", answer: "pets" },
-        { num: 7, text: "What does the student particularly like to eat?", answer: "seafood" },
-        { num: 8, text: "What sport does the student play?", answer: "tennis" },
-        { num: 9, text: "What mode of transport does the student prefer?", answer: "trains" },
-        { num: 10, text: "When will the student find out her homestay address?", answer: "this afternoon" }
+        { num: 1, text: "Student name: Carlos", answer: "Rodriguez" },
+        { num: 2, text: "Country:", answer: "Spain" },
+        { num: 3, text: "Age:", answer: "19" },
+        { num: 4, text: "Course type:", answer: "English" },
+        { num: 5, text: "Duration:", answer: "3 months" },
+        { num: 6, text: "Diet:", answer: "no pork" },
+        { num: 7, text: "Allergy:", answer: "cats" },
+        { num: 8, text: "Hobby:", answer: "football" },
+        { num: 9, text: "Room type:", answer: "single" },
+        { num: 10, text: "Area preference:", answer: "city centre" }
       ]
     },
-    // TEST 13: Summer Music Festival
     {
       id: 13,
-      title: "Summer Music Festival Booking",
-      formTitle: "SUMMER MUSIC FESTIVAL",
-      formSubtitle: "Booking Form",
+      title: "Hotel Conference Booking",
+      formTitle: "GRAND HOTEL CONFERENCE",
+      formSubtitle: "Event Booking Form",
       instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
-      questionType: "mixed",
       questions: [
-        { num: 1, text: "In the lobby of the library George saw", answer: "C", type: "multipleChoice", options: ["a group playing music", "a display of instruments", "a video about the festival"] },
-        { num: 2, text: "George wants to sit at the back so they can", answer: "B", type: "multipleChoice", options: ["see well", "hear clearly", "pay less"] },
-        { num: 3, text: "ADDRESS:", answer: "48 North Avenue", afterText: ", Westsea" },
-        { num: 4, text: "POSTCODE:", answer: "WS6 2YH" },
-        { num: 5, text: "TELEPHONE:", answer: "01674 553242" },
-        { num: 6, text: "17 June: Singer (price includes", answer: "free drinks", afterText: "in the garden)" },
-        { num: 7, text: "22 June: Event:", answer: "pianist", afterText: "(Anna Ventura)" },
-        { num: 8, text: "23 June: Spanish Dance & Guitar Concert — Price: £", answer: "10.50" },
-        { num: 9, text: "23 June: No. of tickets:", answer: "4" },
-        { num: 10, text: "NB Children/Students/Senior Citizens have", answer: "50%", afterText: "discount on all tickets" }
+        { num: 1, text: "Company name:", answer: "Apex Solutions" },
+        { num: 2, text: "Event type:", answer: "training" },
+        { num: 3, text: "Date required:", answer: "22nd March" },
+        { num: 4, text: "Number attending:", answer: "45" },
+        { num: 5, text: "Room setup:", answer: "theatre style" },
+        { num: 6, text: "Equipment needed:", answer: "projector" },
+        { num: 7, text: "Catering: lunch and", answer: "breaks" },
+        { num: 8, text: "Parking spaces:", answer: "1000" },
+        { num: 9, text: "Contact: Mr", answer: "Harrison" },
+        { num: 10, text: "Special request:", answer: "vegetarian options" }
       ]
     },
-    // TEST 14: Total Insurance Incident Report
     {
       id: 14,
-      title: "Insurance Incident Report",
-      formTitle: "TOTAL INSURANCE INCIDENT REPORT",
-      formSubtitle: "Shipping Damage Claim",
-      instruction: "Write ONE WORD AND/OR A NUMBER for each answer.",
-      questions: [
-        { num: 1, text: "Address: 24 Manly Street,", answer: "Milperra", afterText: ", Sydney" },
-        { num: 2, text: "Shipping agent:", answer: "First Class Movers" },
-        { num: 3, text: "Date of arrival:", answer: "28 November" },
-        { num: 4, text: "Television — Damage: The", answer: "screen", afterText: "needs to be replaced" },
-        { num: 5, text: "The", answer: "bathroom", afterText: "cabinet — The door or the cabinet is damaged" },
-        { num: 6, text: "The bathroom cabinet — Damage: The", answer: "door", afterText: "of the cabinet is damaged" },
-        { num: 7, text: "The bathroom cabinet — Cost to repair/replace: $", answer: "140" },
-        { num: 8, text: "Dining room table — Damage: A", answer: "leg", afterText: "is split" },
-        { num: 9, text: "Set of China — Damage: Six", answer: "plates", afterText: "were broken" },
-        { num: 10, text: "Set of China — Cost: About $", answer: "60", afterText: "in total" }
-      ]
-    },
-    // TEST 15: Rented Properties
-    {
-      id: 15,
-      title: "Rented Properties Requirements",
-      formTitle: "RENTED PROPERTIES CUSTOMER'S REQUIREMENTS",
-      formSubtitle: "Property Search",
-      instruction: "Write ONE WORD AND/OR A NUMBER for each answer.",
-      questionType: "mixed",
-      questions: [
-        { num: 1, text: "Preferred location: in the", answer: "central", afterText: "area of town" },
-        { num: 2, text: "Maximum monthly rent: £", answer: "600" },
-        { num: 3, text: "Length of let required:", answer: "2 years" },
-        { num: 4, text: "Oakington Avenue — Problem: no", answer: "garage" },
-        { num: 5, text: "Mead Street — Problem: the", answer: "garden", afterText: "is too large" },
-        { num: 6, text: "Hamilton Road — Rooms: living room, kitchen-diner, and a", answer: "study" },
-        { num: 7, text: "Hamilton Road — Problem: too", answer: "noisy" },
-        { num: 8, text: "Devon Close — Monthly rent: £", answer: "595" },
-        { num: 9, text: "Which TWO facilities in the district of Devon Close are open to the public at the moment?", answer: "B,E", type: "multiSelect", note: "Choose TWO letters, A-E", options: ["museum", "concert hall", "cinema", "sport center", "swimming pool"] },
-        { num: 10, text: "Second facility open:", answer: "E", type: "hidden" }
-      ]
-    },
-    // TEST 16: West Bay Hotel Job
-    {
-      id: 16,
-      title: "West Bay Hotel Job Details",
-      formTitle: "WEST BAY HOTEL – DETAILS OF JOB",
-      formSubtitle: "Temporary Staff Position",
+      title: "Insurance Claim",
+      formTitle: "TRAVEL INSURANCE CLAIM",
+      formSubtitle: "Incident Report",
       instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "Vacancies for", answer: "waiters" },
-        { num: 2, text: "Can choose your", answer: "day off", afterText: "(must be the same each week)" },
-        { num: 3, text: "Pay: £5.50 per hour, including a", answer: "break" },
-        { num: 4, text: "A", answer: "free meal", afterText: "is provided in the hotel" },
-        { num: 5, text: "Dress: a white shirt and", answer: "dark", afterText: "trousers (not supplied)" },
-        { num: 6, text: "Also required: a", answer: "jacket", afterText: "(supplied)" },
-        { num: 7, text: "Starting date:", answer: "28 June" },
-        { num: 8, text: "Call Jane", answer: "Urwin", afterText: "(Service Manager) before 9 tomorrow" },
-        { num: 9, text: "Call before", answer: "12.00", afterText: "tomorrow (Tel: 832009)" },
-        { num: 10, text: "She'll require a", answer: "reference" }
+        { num: 1, text: "Policy number:", answer: "TRV7842" },
+        { num: 2, text: "Destination country:", answer: "Italy" },
+        { num: 3, text: "Incident date:", answer: "8th July" },
+        { num: 4, text: "Item lost:", answer: "laptop" },
+        { num: 5, text: "Value: £", answer: "800" },
+        { num: 6, text: "Location of loss:", answer: "hotel" },
+        { num: 7, text: "Reported to:", answer: "police" },
+        { num: 8, text: "Report number:", answer: "PL45891" },
+        { num: 9, text: "Witness name:", answer: "hotel manager" },
+        { num: 10, text: "Documents attached:", answer: "receipt" }
       ]
     },
-    // TEST 17: Restaurant Job Enquiry
+    {
+      id: 15,
+      title: "Library Membership",
+      formTitle: "CENTRAL LIBRARY",
+      formSubtitle: "Membership Application",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
+      questions: [
+        { num: 1, text: "Membership type:", answer: "adult" },
+        { num: 2, text: "Name: Emma", answer: "Thornton" },
+        { num: 3, text: "Address: 45", answer: "Pine Avenue" },
+        { num: 4, text: "Postcode:", answer: "CB4 2RT" },
+        { num: 5, text: "Phone:", answer: "07712 334521" },
+        { num: 6, text: "ID provided:", answer: "passport" },
+        { num: 7, text: "Main interest:", answer: "history" },
+        { num: 8, text: "Borrowing limit:", answer: "12 items" },
+        { num: 9, text: "Renewal method:", answer: "online" },
+        { num: 10, text: "Newsletter:", answer: "yes" }
+      ]
+    },
+    {
+      id: 16,
+      title: "Restaurant Job Application",
+      formTitle: "RIVERSIDE RESTAURANT",
+      formSubtitle: "Staff Application Form",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
+      questions: [
+        { num: 1, text: "Position:", answer: "waiter" },
+        { num: 2, text: "Applicant: David", answer: "Chen" },
+        { num: 3, text: "Age:", answer: "22" },
+        { num: 4, text: "Experience:", answer: "2 years" },
+        { num: 5, text: "Previous employer:", answer: "cafe" },
+        { num: 6, text: "Available from:", answer: "immediately" },
+        { num: 7, text: "Availability:", answer: "weekends" },
+        { num: 8, text: "Transport:", answer: "bicycle" },
+        { num: 9, text: "Language:", answer: "Mandarin" },
+        { num: 10, text: "Reference: former", answer: "manager" }
+      ]
+    },
     {
       id: 17,
-      title: "Restaurant Job Enquiry",
-      formTitle: "JOB ENQUIRY",
-      formSubtitle: "Restaurant Position",
-      instruction: "Write NO MORE THAN THREE WORDS AND/OR A NUMBER for each answer.",
+      title: "Gym Induction",
+      formTitle: "POWERFIT GYM",
+      formSubtitle: "Induction Booking",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "Type of work:", answer: "answering the phone" },
-        { num: 2, text: "Work in the", answer: "Hillsdunne Road", afterText: "branch" },
-        { num: 3, text: "Nearest bus stop: next to", answer: "library" },
-        { num: 4, text: "Pay: £", answer: "4.45", afterText: "an hour" },
-        { num: 5, text: "Extra benefits: extra pay when you work on", answer: "national holidays" },
-        { num: 6, text: "Transport home when you work", answer: "after 11" },
-        { num: 7, text: "Qualities required:", answer: "clear voice" },
-        { num: 8, text: "Qualities required: ability to", answer: "think quickly" },
-        { num: 9, text: "Interview arranged for: Thursday", answer: "22 October", afterText: "at 6 p.m." },
-        { num: 10, text: "Ask for: Samira", answer: "Manuja" }
+        { num: 1, text: "Member name:", answer: "Kelly Richards" },
+        { num: 2, text: "Membership number:", answer: "PF4521" },
+        { num: 3, text: "Induction date:", answer: "Monday" },
+        { num: 4, text: "Time slot:", answer: "6 pm" },
+        { num: 5, text: "Trainer name:", answer: "Marcus" },
+        { num: 6, text: "Focus area:", answer: "weight loss" },
+        { num: 7, text: "Current fitness:", answer: "low" },
+        { num: 8, text: "Medical condition:", answer: "asthma" },
+        { num: 9, text: "Locker number:", answer: "47" },
+        { num: 10, text: "Bring:", answer: "towel" }
       ]
     },
-    // TEST 18: Hall of Residence Accommodation
     {
       id: 18,
-      title: "Hall of Residence Form",
-      formTitle: "ACCOMMODATION FORM – STUDENT INFORMATION",
-      formSubtitle: "Hall of Residence Application",
-      instruction: "Write ONE WORD AND/OR A NUMBER for each answer.",
+      title: "Student Accommodation",
+      formTitle: "UNIVERSITY HOUSING",
+      formSubtitle: "Room Allocation Form",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "Name: Anu", answer: "Bhatt" },
-        { num: 2, text: "Date of birth:", answer: "31 March" },
-        { num: 3, text: "Course of study:", answer: "nursing" },
-        { num: 4, text: "Number of years planned in hall:", answer: "2" },
-        { num: 5, text: "Special dietary requirements: no", answer: "meat", afterText: "(red)" },
-        { num: 6, text: "Preferred room type: a single", answer: "bedsit" },
-        { num: 7, text: "Interests: the", answer: "theatre", afterText: ", badminton" },
-        { num: 8, text: "Priorities in choice of hall: to be with other students who are", answer: "mature" },
-        { num: 9, text: "To live outside the", answer: "town" },
-        { num: 10, text: "To have a", answer: "shared", afterText: "area for socialising" }
+        { num: 1, text: "Student ID:", answer: "S
+
+
+72" },
+        { num: 2, text: "Name: Priya", answer: "Sharma" },
+        { num: 3, text: "Course:", answer: "Medicine" },
+        { num: 4, text: "Year of study:", answer: "first" },
+        { num: 5, text: "Room preference:", answer: "en-suite" },
+        { num: 6, text: "Catering:", answer: "self-catered" },
+        { num: 7, text: "Move-in date:", answer: "18th September" },
+        { num: 8, text: "Contract length:", answer: "weeks" },
+        { num: 9, text: "Special need:", answer: "quiet area" },
+        { num: 10, text: "Deposit: £", answer: "350" }
       ]
     },
-    // TEST 19: Greek Island Holidays
     {
       id: 19,
-      title: "Greek Island Holidays",
-      formTitle: "GREEK ISLAND HOLIDAYS",
-      formSubtitle: "Apartment Options & Insurance",
-      instruction: "Write ONE WORD AND/OR A NUMBER for each answer.",
+      title: "Dentist Appointment",
+      formTitle: "SMILE DENTAL CLINIC",
+      formSubtitle: "Patient Registration",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "Blue Bay Apartments — Facilities: Large salt-water swimming pool — Just", answer: "300", afterText: "metres from beach" },
-        { num: 2, text: "Sunshade Apartments — Name:", answer: "Sunshade" },
-        { num: 3, text: "Sunshade Apartments — Facilities: terrace,", answer: "balcony", afterText: ", watersports" },
-        { num: 4, text: "The Grand — Other Information: overlooking", answer: "forest" },
-        { num: 5, text: "The Grand — Cost: £", answer: "319" },
-        { num: 6, text: "Insurance Benefits — Cancellation: Maximum Amount: £", answer: "10,000" },
-        { num: 7, text: "Hospital: £600. Additional benefit allows a", answer: "relative", afterText: "to travel to resort" },
-        { num: 8, text: "Insurance Benefits:", answer: "missed", afterText: "departure — Up to £1000" },
-        { num: 9, text: "Personal belongings: Up to £3000; £500 for one", answer: "item" },
-        { num: 10, text: "Name of Assistant Manager: Ben", answer: "Ludlow" }
+        { num: 1, text: "Patient: Robert", answer: "Barnes" },
+        { num: 2, text: "Date of birth:", answer: "7th May 1985" },
+        { num: 3, text: "Address: 23", answer: "Maple Road" },
+        { num: 4, text: "Phone:", answer: "07934 112876" },
+        { num: 5, text: "Problem:", answer: "toothache" },
+        { num: 6, text: "Duration of pain:", answer: "one week" },
+        { num: 7, text: "Allergies:", answer: "penicillin" },
+        { num: 8, text: "Last dental visit:", answer: "2 years ago" },
+        { num: 9, text: "Preferred day:", answer: "Thursday" },
+        { num: 10, text: "Payment:", answer: "insurance" }
       ]
     },
-    // TEST 20: Health Centres
     {
       id: 20,
-      title: "Health Centres Information",
-      formTitle: "HEALTH CENTRES",
-      formSubtitle: "Local Medical Services",
-      instruction: "Write ONE WORD ONLY for each answer.",
-      questionType: "mixed",
+      title: "Driving School",
+      formTitle: "ROADWISE DRIVING SCHOOL",
+      formSubtitle: "Lesson Booking",
+      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
       questions: [
-        { num: 1, text: "The Harvey Clinic (Dr Green) — Advantage: especially good with", answer: "babies" },
-        { num: 2, text: "The", answer: "Eshcol", afterText: "Health Practice (Dr Fuller)" },
-        { num: 3, text: "The Eshcol Health Practice — Advantage: offers", answer: "evening", afterText: "appointments" },
-        { num: 4, text: "The Shore Lane Health Centre — Doctor's name: Dr", answer: "Gormley" },
-        { num: 5, text: "Which TWO are offered free at Shore Lane Health Centre? (Choose TWO)", answer: "B,E", type: "multiSelect", note: "Choose A-E", options: ["acupuncture", "employment medicals", "sports injury therapy", "travel advice", "vaccinations"] },
-        { num: 6, text: "Second free service:", answer: "E", type: "hidden" },
-        { num: 7, text: "Talks — Giving up smoking: useful for people with asthma or", answer: "heart", afterText: "problems" },
-        { num: 8, text: "Healthy eating — Location: the", answer: "primary school", afterText: "(Shore Lane)" },
-        { num: 9, text: "Avoiding injuries during exercise — Date/Time: 9th March at", answer: "4.30" },
-        { num: 10, text: "Avoiding injuries during exercise — Notes: for all", answer: "ages" }
+        { num: 1, text: "Student: Amy", answer: "Fletcher" },
+        { num: 2, text: "Age:", answer: "17" },
+        { num: 3, text: "Licence type:", answer: "provisional" },
+        { num: 4, text: "Lesson type:", answer: "manual" },
+        { num: 5, text: "Package:", answer: "hours" },
+        { num: 6, text: "Cost: £", answer: "580" },
+        { num: 7, text: "Available day:", answer: "Saturday" },
+        { num: 8, text: "Pickup address:", answer: "home" },
+        { num: 9, text: "Instructor:", answer: "Brian" },
+        { num: 10, text: "Test date:", answer: "15th November" }
       ]
     }
   ],
-  // ==================== PART 2: TESTS 21-40 (Questions 11-20) ====================
   part2: [
-    // TEST 21: Pacton-on-Sea Bus Tour
     {
       id: 21,
-      title: "Pacton-on-Sea Bus Tour",
+      title: "Bus Tour Guide",
       formTitle: "PACTON-ON-SEA BUS TOUR",
-      formSubtitle: "Tour Information",
-      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
+      formSubtitle: "Places of Interest",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
       questions: [
-        { num: 11, text: "Bus stop 2 (the aquarium) — Things to see: dolphins and", answer: "sharks" },
-        { num: 12, text: "Bus stop 3 — Location:", answer: "old fishing village", afterText: "— Things to see: yachts and power boats" },
-        { num: 13, text: "Bus stop 4 — Location:", answer: "shopping", afterText: "centre" },
-        { num: 14, text: "Bus stop 4 — Things to see: very old", answer: "water fountain" },
-        { num: 15, text: "You need to have a", answer: "student card", afterText: "to buy a ticket for £10" },
-        { num: 16, text: "The bus tour lasts", answer: "50 minutes", afterText: "in total" },
-        { num: 17, text: "The cost of the bus ticket includes entrance to the", answer: "museum" },
-        { num: 18, text: "You can listen to an audio commentary which has been made by the", answer: "tourist office" },
-        { num: 19, text: "If the weather is wet, it is a good idea to bring", answer: "rainwear" },
-        { num: 20, text: "Don't forget to bring your", answer: "e-ticket", afterText: "when you book online" }
+        { num: 1, text: "Tour duration:", answer: "hours" },
+        { num: 2, text: "First stop: the old", answer: "lighthouse" },
+        { num: 3, text: "Built in:", answer: "1872" },
+        { num: 4, text: "Second stop has a famous", answer: "statue" },
+        { num: 5, text: "The museum contains", answer: "exhibits" },
+        { num: 6, text: "Third stop: the", answer: "harbour" },
+        { num: 7, text: "Fresh", answer: "fish" },
+        { num: 8, text: "Famous for:", answer: "seafood restaurants" },
+        { num: 9, text: "Final stop: shopping", answer: "district" },
+        { num: 10, text: "Tour ends at:", answer: "pm" }
       ]
     },
-    // TEST 22: Sea Life Centre
     {
       id: 22,
-      title: "Sea Life Centre Information",
-      formTitle: "SEA LIFE CENTRE",
+      title: "Sea Life Centre",
+      formTitle: "OCEAN WORLD SEA LIFE CENTRE",
       formSubtitle: "Visitor Information",
-      instruction: "Write NO MORE THAN THREE WORDS for each answer.",
-      questionType: "mixed",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
       questions: [
-        { num: 11, text: "What was the Sea Life Centre previously called?", answer: "World of Water" },
-        { num: 12, text: "What is the newest attraction called?", answer: "the splash ride" },
-        { num: 13, text: "When is the main feeding time?", answer: "noon" },
-        { num: 14, text: "What can you do with a VIP ticket?", answer: "feed the sharks" },
-        { num: 15, text: "What special event will the Sea Life Centre arrange for you?", answer: "birthday party" },
-        { num: 16, text: "Where will the petition for animal conservation be sent to?", answer: "the government" },
-        { num: 17, text: "What can you use to test what you have learnt?", answer: "quiz" },
-        { num: 18, text: "Match attractions: must not miss", answer: "E", type: "matching", note: "A-Aquarium, B-Crocodile Cave, C-Penguin Park, D-Seal Centre, E-Turtle Town" },
-        { num: 19, text: "Match attractions: temporarily closed", answer: "C", type: "matching" },
-        { num: 20, text: "Match attractions: large queues", answer: "B", type: "matching" }
+        { num: 1, text: "Total number of species:", answer: "300" },
+        { num: 2, text: "Main tank holds", answer: "sharks" },
+        { num: 3, text: "Feeding time:", answer: "pm" },
+        { num: 4, text: "Touch pool contains", answer: "starfish" },
+        { num: 5, text: "Penguin area temperature:", answer: "degrees" },
+        { num: 6, text: "New exhibit:", answer: "jellyfish" },
+        { num: 7, text: "Located on floor:", answer: "second" },
+        { num: 8, text: "Gift shop sells", answer: "toys" },
+        { num: 9, text: "Cafe overlooks:", answer: "main tank" },
+        { num: 10, text: "Parking:", answer: "free" }
       ]
     },
-    // TEST 23: Hotel Event Planning
     {
       id: 23,
-      title: "Hotel Event Planning",
-      formTitle: "HOTEL EVENT BRIEFING",
-      formSubtitle: "Party Organisation",
-      instruction: "Write NO MORE THAN THREE WORDS for each answer.",
-      questionType: "mixed",
+      title: "Hotel Facilities",
+      formTitle: "GRANDVIEW HOTEL",
+      formSubtitle: "Guest Information",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
       questions: [
-        { num: 11, text: "The next event at the hotel will be a", answer: "C", type: "multipleChoice", options: ["trade fair", "wedding", "party"] },
-        { num: 12, text: "The number of guests will be", answer: "B", type: "multipleChoice", options: ["less than 50", "from 50 to 100", "more than 100"] },
-        { num: 13, text: "Guests will start arriving at", answer: "A", type: "multipleChoice", options: ["7.15", "7.30", "7.45"] },
-        { num: 14, text: "The entertainment will be a", answer: "B", type: "multipleChoice", options: ["live band", "comedian", "magician"] },
-        { num: 15, text: "Who will offer drinks to guests?", answer: "C", type: "matching", note: "A-Susan, B-Ahmed, C-Gary, D-Olav, E-Monica" },
-        { num: 16, text: "Who will take guests' coats and hats?", answer: "E", type: "matching" },
-        { num: 17, text: "Who will show guests where to go?", answer: "A", type: "matching" },
-        { num: 18, text: "To get the guests to move to the restaurant the hotel manager will", answer: "ring a bell" },
-        { num: 19, text: "Seating plans will be placed on each table and also in the", answer: "lounge" },
-        { num: 20, text: "There will be a total of three", answer: "speeches" }
+        { num: 1, text: "Pool open until:", answer: "10 pm" },
+        { num: 2, text: "Gym located on floor:", answer: "basement" },
+        { num: 3, text: "Spa booking: at", answer: "reception" },
+        { num: 4, text: "Restaurant serves:", answer: "international" },
+        { num: 5, text: "Breakfast time:", answer: "7-10 am" },
+        { num: 6, text: "Room service available:", answer: "24 hours" },
+        { num: 7, text: "WiFi password:", answer: "grandview2024" },
+        { num: 8, text: "Laundry returned in:", answer: "same day" },
+        { num: 9, text: "Checkout time:", answer: "11 am" },
+        { num: 10, text: "Airport shuttle: every", answer: "30 minutes" }
       ]
     },
-    // TEST 24: Park Volunteer Work
     {
       id: 24,
-      title: "Park Volunteer Work",
-      formTitle: "VOLUNTEER CONSERVATION PROJECT",
-      formSubtitle: "Park Improvement Plan",
-      instruction: "Choose the correct letters or label the plan.",
-      questionType: "mixed",
+      title: "Volunteer Programme",
+      formTitle: "WILDLIFE CONSERVATION PROJECT",
+      formSubtitle: "Volunteer Information",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
       questions: [
-        { num: 11, text: "Which TWO tasks will Group A be responsible for? (First task)", answer: "B", type: "multiSelect", note: "Choose TWO: A-widening pathways, B-planting trees, C-picking up rubbish, D-putting up signs, E-building fences" },
-        { num: 12, text: "Which TWO tasks will Group A be responsible for? (Second task)", answer: "E", type: "multiSelect" },
-        { num: 13, text: "Which TWO items should volunteers bring? (First item)", answer: "B", type: "multiSelect", note: "Choose TWO: A-food and water, B-boots, C-gloves, D-raincoats, E-their own tools" },
-        { num: 14, text: "Which TWO items should volunteers bring? (Second item)", answer: "C", type: "multiSelect" },
-        { num: 15, text: "Label the plan: Vegetable beds", answer: "G", type: "mapLabeling" },
-        { num: 16, text: "Label the plan: Bee hives", answer: "I", type: "mapLabeling" },
-        { num: 17, text: "Label the plan: Seating", answer: "B", type: "mapLabeling" },
-        { num: 18, text: "Label the plan: Adventure playground", answer: "E", type: "mapLabeling" },
-        { num: 19, text: "Label the plan: Sand area", answer: "C", type: "mapLabeling" },
-        { num: 20, text: "Label the plan: Pond", answer: "A", type: "mapLabeling" }
+        { num: 1, text: "Project location:", answer: "rainforest" },
+        { num: 2, text: "Main focus:", answer: "bird species" },
+        { num: 3, text: "Minimum stay:", answer: "2 weeks" },
+        { num: 4, text: "Accommodation:", answer: "shared cabins" },
+        { num: 5, text: "Meals:", answer: "provided" },
+        { num: 6, text: "Work starts at:", answer: "6 am" },
+        { num: 7, text: "Main task:", answer: "data collection" },
+        { num: 8, text: "Training on day:", answer: "one" },
+        { num: 9, text: "Day off:", answer: "Sunday" },
+        { num: 10, text: "Must bring:", answer: "walking boots" }
       ]
     },
-    // TEST 25: Town Facilities Map
     {
       id: 25,
-      title: "Town Facilities Map",
-      formTitle: "CRAIGFORD TOWN FACILITIES",
-      formSubtitle: "Map Labeling & Track Information",
-      instruction: "Label the map with the correct letter.",
-      questionType: "mixed",
+      title: "Town Walking Tour",
+      formTitle: "HISTORIC TOWN CENTRE WALK",
+      formSubtitle: "Tour Route Information",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
       questions: [
-        { num: 11, text: "Label the map: supermarket", answer: "G", type: "mapLabeling" },
-        { num: 12, text: "Label the map: climbing supplies store", answer: "D", type: "mapLabeling" },
-        { num: 13, text: "Label the map: museum", answer: "A", type: "mapLabeling" },
-        { num: 14, text: "Label the map: bike hire", answer: "E", type: "mapLabeling" },
-        { num: 15, text: "Label the map: cafe", answer: "C", type: "mapLabeling" },
-        { num: 16, text: "North Point track comment (A-lost, B-basic accommodation, C-physical strength)", answer: "B", type: "matching" },
-        { num: 17, text: "Silver River track comment", answer: "A", type: "matching" },
-        { num: 18, text: "Valley Crossing track comment", answer: "C", type: "matching" },
-        { num: 19, text: "Stonebridge track comment", answer: "C", type: "matching" },
-        { num: 20, text: "Henderson Ridge track comment", answer: "A", type: "matching" }
+        { num: 1, text: "Meeting point: the", answer: "town hall" },
+        { num: 2, text: "Tour starts at:", answer: "10.30 am" },
+        { num: 3, text: "First building: the old", answer: "courthouse" },
+        { num: 4, text: "Date built:", answer: "1756" },
+        { num: 5, text: "Second stop: the", answer: "cathedral" },
+        { num: 6, text: "Famous for its", answer: "stained glass" },
+        { num: 7, text: "Third stop: the covered", answer: "market" },
+        { num: 8, text: "Open since:", answer: "medieval times" },
+        { num: 9, text: "Tour finishes at:", answer: "castle" },
+        { num: 10, text: "Refreshments at:", answer: "tea rooms" }
       ]
     },
-    // TEST 26: Crime Prevention Talk
     {
       id: 26,
-      title: "Crime Prevention Talk",
-      formTitle: "NEIGHBOURHOOD WATCH",
-      formSubtitle: "Crime Prevention Measures",
+      title: "Neighbourhood Watch",
+      formTitle: "COMMUNITY SAFETY SCHEME",
+      formSubtitle: "Information for Residents",
       instruction: "Write NO MORE THAN TWO WORDS for each answer.",
-      questionType: "mixed",
       questions: [
-        { num: 11, text: "The police officer suggests neighbours give each other their", answer: "contact details" },
-        { num: 12, text: "Neighbours should discuss what to do if there's any kind of", answer: "emergency" },
-        { num: 13, text: "It's a good idea to leave on the", answer: "radio" },
-        { num: 14, text: "Think carefully about where you put any", answer: "spare keys" },
-        { num: 15, text: "It's a good idea to buy good-quality", answer: "window locks" },
-        { num: 16, text: "Crime prevention for skate park (A-lighting, B-police patrol, C-remove vegetation, D-contact police, E-fix damage, F-road design, G-security cameras)", answer: "C", type: "matching" },
-        { num: 17, text: "Crime prevention for local primary schools", answer: "D", type: "matching" },
-        { num: 18, text: "Crime prevention for Abbotsford Street", answer: "F", type: "matching" },
-        { num: 19, text: "Crime prevention for shops on Victoria Street", answer: "G", type: "matching" },
-        { num: 20, text: "Crime prevention for supermarket car park", answer: "E", type: "matching" }
+        { num: 1, text: "Scheme started:", answer: "last year" },
+        { num: 2, text: "Coordinator name:", answer: "Mrs Phillips" },
+        { num: 3, text: "Meetings held:", answer: "monthly" },
+        { num: 4, text: "Location:", answer: "community hall" },
+        { num: 5, text: "Main concern:", answer: "burglary" },
+        { num: 6, text: "Report suspicious activity to:", answer: "police" },
+        { num: 7, text: "Emergency number:", answer: "999" },
+        { num: 8, text: "Non-emergency:", answer: "101" },
+        { num: 9, text: "Stickers for:", answer: "windows" },
+        { num: 10, text: "Website:", answer: "safestreets" }
       ]
     },
-    // TEST 27: Anglia Sculpture Park
     {
       id: 27,
-      title: "Anglia Sculpture Park",
-      formTitle: "ANGLIA SCULPTURE PARK",
-      formSubtitle: "Visitor Information",
-      instruction: "Choose the correct letter, A, B or C.",
-      questionType: "multipleChoice",
+      title: "Sculpture Park",
+      formTitle: "MEADOWLAND SCULPTURE PARK",
+      formSubtitle: "Visitor Guide",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
       questions: [
-        { num: 11, text: "The land where the Sculpture Park is located was previously", answer: "B", type: "multipleChoice", options: ["completely covered by forest", "the site of a private house", "occupied by a factory"] },
-        { num: 12, text: "What is unusual about the Anglia Sculpture Park?", answer: "A", type: "multipleChoice", options: ["Artists have made sculptures especially for it", "Some sculptures were donated by the artists", "It only shows contemporary sculptures"] },
-        { num: 13, text: "What is the theme of Joe Tremain's 'burnt' sculptures?", answer: "C", type: "multipleChoice", options: ["the contrast between nature and urban life", "the effect of man on the environment", "the violence of nature"] },
-        { num: 14, text: "The path by the Lower Lake", answer: "B", type: "multipleChoice", options: ["is rather wet in some places", "has recently been repaired", "is difficult to walk on"] },
-        { num: 15, text: "What does the speaker say about the Visitor Centre?", answer: "A", type: "multipleChoice", options: ["It is being enlarged at present", "It has received an international award", "It was designed by a Canadian architect"] },
-        { num: 16, text: "Today, visitors can buy snacks and sandwiches", answer: "A", type: "multipleChoice", options: ["at the kiosk", "in the Terrace Room", "at the Lower Lake Café"] },
-        { num: 17, text: "Label the map: Joe Tremain sculptures", answer: "E", type: "mapLabeling" },
-        { num: 18, text: "Label the map: Giorgio Catalucci bird sculptures", answer: "C", type: "mapLabeling" },
-        { num: 19, text: "Label the map: Garden Gallery", answer: "F", type: "mapLabeling" },
-        { num: 20, text: "Label the map: Long House", answer: "A", type: "mapLabeling" }
+        { num: 1, text: "Park area:", answer: "50 acres" },
+        { num: 2, text: "Number of sculptures:", answer: "over 80" },
+        { num: 3, text: "Most famous piece: The", answer: "Iron Giant" },
+        { num: 4, text: "Artist:", answer: "Henry Moore" },
+        { num: 5, text: "Indoor gallery:", answer: "near entrance" },
+        { num: 6, text: "Audio guide cost:", answer: "£5" },
+        { num: 7, text: "Children's trail:", answer: "free" },
+        { num: 8, text: "Cafe specialty:", answer: "homemade cakes" },
+        { num: 9, text: "Shop sells:", answer: "art prints" },
+        { num: 10, text: "Closes at:", answer: "5 pm" }
       ]
     },
-    // TEST 28: Learning Resource Centre
     {
       id: 28,
-      title: "Learning Resource Centre",
-      formTitle: "LEARNING RESOURCE CENTRE",
-      formSubtitle: "Floor Plan & Staff Responsibilities",
-      instruction: "Label the plan with the correct letter.",
-      questionType: "mixed",
+      title: "Learning Centre",
+      formTitle: "ADULT LEARNING CENTRE",
+      formSubtitle: "Facilities Map",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
       questions: [
-        { num: 11, text: "Label the plan: Newspapers", answer: "C", type: "mapLabeling" },
-        { num: 12, text: "Label the plan: Computers", answer: "B", type: "mapLabeling" },
-        { num: 13, text: "Label the plan: Photocopier", answer: "A", type: "mapLabeling" },
-        { num: 14, text: "Label the plan: Café", answer: "H", type: "mapLabeling" },
-        { num: 15, text: "Label the plan: Sports books", answer: "G", type: "mapLabeling" },
-        { num: 16, text: "Jenny Reed's new responsibility: Buying", answer: "films", afterText: "for the Centre" },
-        { num: 17, text: "Phil Penshurst: Help with writing", answer: "reports", afterText: "for courses" },
-        { num: 18, text: "Tom Salisbury: Information on topics related to the", answer: "region" },
-        { num: 19, text: "Saeed Aktar: Finding a", answer: "job" },
-        { num: 20, text: "Shilpa Desai: Help with", answer: "housing" }
+        { num: 1, text: "Reception on floor:", answer: "ground" },
+        { num: 2, text: "Computer suite room:", answer: "A12" },
+        { num: 3, text: "Library open until:", answer: "9 pm" },
+        { num: 4, text: "Cafe in the:", answer: "basement" },
+        { num: 5, text: "Art studios on floor:", answer: "third" },
+        { num: 6, text: "Language labs room:", answer: "B7" },
+        { num: 7, text: "Toilets near:", answer: "stairs" },
+        { num: 8, text: "Disabled access via:", answer: "lift" },
+        { num: 9, text: "First aid in:", answer: "reception" },
+        { num: 10, text: "Car park at:", answer: "rear" }
       ]
     },
-    // TEST 29: PS Camping Holidays
     {
       id: 29,
-      title: "PS Camping Holidays",
-      formTitle: "PS CAMPING",
-      formSubtitle: "Holiday Information",
-      instruction: "Choose the correct letter, A, B or C.",
-      questionType: "multipleChoice",
+      title: "Camping Holidays",
+      formTitle: "OUTDOOR ADVENTURE CAMPING",
+      formSubtitle: "Site Information",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
       questions: [
-        { num: 11, text: "PS Camping has been organising holidays for", answer: "B", type: "multipleChoice", options: ["15 years", "20 years", "25 years"] },
-        { num: 12, text: "The company has most camping sites in", answer: "A", type: "multipleChoice", options: ["France", "Italy", "Switzerland"] },
-        { num: 13, text: "Which organised activity can children do every day of the week?", answer: "B", type: "multipleChoice", options: ["football", "drama", "model making"] },
-        { num: 14, text: "Some areas of the sites have a 'no noise' rule after", answer: "C", type: "multipleChoice", options: ["9.30 p.m.", "10.00 p.m.", "10.30 p.m."] },
-        { num: 15, text: "The holiday insurance that is offered by PS Camping", answer: "C", type: "multipleChoice", options: ["can be charged on an annual basis", "is included in the price of the holiday", "must be taken out at the time of booking"] },
-        { num: 16, text: "Customers who recommend PS Camping to friends will receive", answer: "A", type: "multipleChoice", options: ["a free gift", "an upgrade to a luxury tent", "a discount"] },
-        { num: 17, text: "Barbecues (A-provided in all tents, B-central areas, C-available on request)", answer: "C", type: "matching" },
-        { num: 18, text: "Toys", answer: "A", type: "matching" },
-        { num: 19, text: "Cool boxes", answer: "C", type: "matching" },
-        { num: 20, text: "Mops and buckets", answer: "B", type: "matching" }
+        { num: 1, text: "Campsite location:", answer: "forest edge" },
+        { num: 2, text: "Tent pitches:", answer: "150" },
+        { num: 3, text: "Showers:", answer: "free" },
+        { num: 4, text: "Shop sells:", answer: "basics" },
+        { num: 5, text: "Nearest town:", answer: "5 km" },
+        { num: 6, text: "Activities: hiking and", answer: "fishing" },
+        { num: 7, text: "Bike hire at:", answer: "reception" },
+        { num: 8, text: "Quiet hours:", answer: "10 pm" },
+        { num: 9, text: "BBQ area near:", answer: "lake" },
+        { num: 10, text: "Dogs:", answer: "welcome" }
       ]
     },
-    // TEST 30: Top Bus Company Tours
     {
       id: 30,
-      title: "Top Bus Company Tours",
-      formTitle: "TOP BUS COMPANY TOURS",
-      formSubtitle: "River Cruise & Sightseeing",
-      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
+      title: "City Development",
+      formTitle: "NEWTOWN DEVELOPMENT PLAN",
+      formSubtitle: "Proposed Changes",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
       questions: [
-        { num: 11, text: "Label the plan: Bridge name", answer: "City Bridge" },
-        { num: 12, text: "Label the plan: District name", answer: "Newtown" },
-        { num: 13, text: "Stop A (Main Booking Office) — Last boat:", answer: "6.30", afterText: "p.m." },
-        { num: 14, text: "Stop B (Palace) — has lovely", answer: "formal gardens" },
-        { num: 15, text: "Stop B attraction name:", answer: "Tower Restaurant" },
-        { num: 16, text: "Stop C (Museum) — has good", answer: "views", afterText: "of city centre" },
-        { num: 17, text: "Museum — bookshop specialising in the", answer: "history", afterText: "of the local area" },
-        { num: 18, text: "Museum features a", answer: "7 screen", afterText: "cinema" },
-        { num: 19, text: "How often do the Top Bus Company tours run?", answer: "every 20 minutes" },
-        { num: 20, text: "Where can you catch a Number One Sightseeing Tour from?", answer: "Central Station" }
+        { num: 1, text: "Project completion:", answer: "2026" },
+        { num: 2, text: "New housing units:", answer: "500" },
+        { num: 3, text: "Shopping centre in:", answer: "north area" },
+        { num: 4, text: "New park size:", answer: "10 acres" },
+        { num: 5, text: "Transport: new", answer: "bus station" },
+        { num: 6, text: "School type:", answer: "primary" },
+        { num: 7, text: "Medical facility:", answer: "health centre" },
+        { num: 8, text: "Parking spaces:", answer: "1000" },
+        { num: 9, text: "Cycle paths:", answer: "throughout" },
+        { num: 10, text: "Community centre near:", answer: "lake" }
       ]
     },
-    // TEST 31: Sponsored Walking Holiday
     {
       id: 31,
-      title: "Sponsored Walking Holiday",
-      formTitle: "SPONSORED WALKING HOLIDAY",
-      formSubtitle: "Trek Information",
-      instruction: "Choose the correct letter, A, B or C.",
-      questionType: "mixed",
+      title: "Walking Holiday",
+      formTitle: "LAKELAND WALKING HOLIDAY",
+      formSubtitle: "Tour Information",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
       questions: [
-        { num: 11, text: "On the holiday, you will be walking for", answer: "B", type: "multipleChoice", options: ["6 days", "8 days", "10 days"] },
-        { num: 12, text: "What proportion of the sponsorship money goes to charity?", answer: "C", type: "multipleChoice", options: ["all of it", "90 percent", "half"] },
-        { num: 13, text: "Each walker's sponsorship money goes to one", answer: "A", type: "multipleChoice", options: ["student", "teacher", "school"] },
-        { num: 14, text: "When you start the trek you must be", answer: "C", type: "multipleChoice", options: ["interested in getting fit", "already quite fit", "already very fit"] },
-        { num: 15, text: "As you walk you will carry", answer: "B", type: "multipleChoice", options: ["all of your belongings", "some of your belongings", "none of your belongings"] },
-        { num: 16, text: "The Semira Region has a long tradition of", answer: "A", type: "multipleChoice", options: ["making carpets", "weaving blankets", "carving wood"] },
-        { num: 17, text: "Day 3: spend all day in a", answer: "forest" },
-        { num: 18, text: "Day 6: see a", answer: "temple", afterText: "with old carvings" },
-        { num: 19, text: "Day 8: swim in a", answer: "waterfall" },
-        { num: 20, text: "Day 9: visit a", answer: "village" }
+        { num: 1, text: "Duration:", answer: "7 days" },
+        { num: 2, text: "Difficulty level:", answer: "moderate" },
+        { num: 3, text: "Daily distance:", answer: "15 km" },
+        { num: 4, text: "Accommodation:", answer: "guest houses" },
+        { num: 5, text: "Meals: breakfast and", answer: "packed lunch" },
+        { num: 6, text: "Luggage:", answer: "transferred" },
+        { num: 7, text: "Group size:", answer: "maximum 12" },
+        { num: 8, text: "Guide provided:", answer: "yes" },
+        { num: 9, text: "Best months:", answer: "May-September" },
+        { num: 10, text: "Price includes:", answer: "maps" }
       ]
     },
-    // TEST 32: Bicentennial Park Tour
     {
       id: 32,
-      title: "Bicentennial Park Tour",
-      formTitle: "BICENTENNIAL PARK",
-      formSubtitle: "Walking Tour & Nature Reserve",
-      instruction: "Choose the correct letter or complete the notes.",
-      questionType: "mixed",
+      title: "City Walking Tour",
+      formTitle: "RIVERSIDE CITY TOUR",
+      formSubtitle: "Points of Interest",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
       questions: [
-        { num: 11, text: "What kind of tour is Sally leading?", answer: "C", type: "multipleChoice", options: ["a bus tour", "a train tour", "a walking tour"] },
-        { num: 12, text: "The original buildings on the site were", answer: "B", type: "multipleChoice", options: ["houses", "industrial buildings", "shops"] },
-        { num: 13, text: "The local residents wanted to use the site for", answer: "A", type: "multipleChoice", options: ["leisure", "apartment blocks", "a sports centre"] },
-        { num: 14, text: "The Tower is at the centre of the", answer: "B", type: "multipleChoice", options: ["nature reserve", "formal gardens", "Bicentennial Park"] },
-        { num: 15, text: "Label the plan: area near Tower", answer: "car park" },
-        { num: 16, text: "Label the plan: garden type", answer: "rose garden" },
-        { num: 17, text: "Label the plan: refreshment area", answer: "cafe" },
-        { num: 18, text: "The Mangroves — Activity:", answer: "cycling" },
-        { num: 19, text: "Frog Pond — Activity:", answer: "biology lesson" },
-        { num: 20, text: "The Waterbird Refuge — Facility:", answer: "viewing shelter" }
+        { num: 1, text: "Start point:", answer: "central station" },
+        { num: 2, text: "First stop: the old", answer: "bridge" },
+        { num: 3, text: "Built in:", answer: "1850" },
+        { num: 4, text: "Second stop:", answer: "art gallery" },
+        { num: 5, text: "Famous for:", answer: "impressionist paintings" },
+        { num: 6, text: "Third stop: the", answer: "parliament" },
+        { num: 7, text: "Photo opportunity at:", answer: "river terrace" },
+        { num: 8, text: "Lunch at:", answer: "market square" },
+        { num: 9, text: "Final stop:", answer: "botanical gardens" },
+        { num: 10, text: "Tour ends:", answer: "3 pm" }
       ]
     },
-    // TEST 33: Dinosaur Museum
     {
       id: 33,
       title: "Dinosaur Museum",
-      formTitle: "THE DINOSAUR MUSEUM",
-      formSubtitle: "Visitor Information",
-      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
-      questionType: "mixed",
+      formTitle: "NATURAL HISTORY MUSEUM",
+      formSubtitle: "Dinosaur Exhibition",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
       questions: [
-        { num: 11, text: "The museum closes at", answer: "1.30", afterText: "p.m. on Mondays" },
-        { num: 12, text: "The museum is not open on", answer: "25 December" },
-        { num: 13, text: "School groups are met by tour guides in the", answer: "car park" },
-        { num: 14, text: "The whole visit takes 90 minutes, including", answer: "45", afterText: "minutes for the guided tour" },
-        { num: 15, text: "There are", answer: "some tables", afterText: "behind the museum where students can have lunch" },
-        { num: 16, text: "Which THREE items can students have with them? (First)", answer: "C", type: "multiSelect", note: "Choose THREE from: A-food, B-water, C-cameras, D-books, E-bags, F-pens, G-worksheets" },
-        { num: 17, text: "Which THREE items can students have with them? (Second)", answer: "F", type: "multiSelect" },
-        { num: 18, text: "Which THREE items can students have with them? (Third)", answer: "G", type: "multiSelect" },
-        { num: 19, text: "Which TWO activities can students do after the tour? (First)", answer: "B", type: "multiSelect", note: "Choose TWO from: A-build model dinosaurs, B-watch films, C-draw dinosaurs, D-find dinosaur eggs, E-play computer games" },
-        { num: 20, text: "Which TWO activities can students do after the tour? (Second)", answer: "E", type: "multiSelect" }
+        { num: 1, text: "Exhibition floor:", answer: "second" },
+        { num: 2, text: "Number of skeletons:", answer: "15" },
+        { num: 3, text: "Largest: the", answer: "T-Rex" },
+        { num: 4, text: "Found in:", answer: "Montana" },
+        { num: 5, text: "Interactive area for:", answer: "children" },
+        { num: 6, text: "Dig pit:", answer: "included" },
+        { num: 7, text: "Film shows every:", answer: "30 minutes" },
+        { num: 8, text: "Duration:", answer: "15 minutes" },
+        { num: 9, text: "Gift shop level:", answer: "ground" },
+        { num: 10, text: "Popular item:", answer: "fossil replicas" }
       ]
     },
-    // TEST 34: Agricultural Park
     {
       id: 34,
-      title: "Agricultural Park",
-      formTitle: "NATIONAL AGRICULTURAL PARK",
-      formSubtitle: "Park Information",
-      instruction: "Complete the plan or choose the correct answer.",
-      questionType: "mixed",
+      title: "Wildlife Park",
+      formTitle: "SAFARI WILDLIFE PARK",
+      formSubtitle: "Visitor Information",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
       questions: [
-        { num: 11, text: "The main purposes of the park are", answer: "B", type: "multipleChoice", options: ["education and entertainment", "research and education", "research and entertainment"] },
-        { num: 12, text: "Label the plan: wooded area", answer: "Forest" },
-        { num: 13, text: "Label the plan: water feature", answer: "Fish Farm" },
-        { num: 14, text: "Label the plan: growing area", answer: "Market Garden" },
-        { num: 15, text: "When are the experimental areas closed to the public?", answer: "C", type: "multipleChoice", options: ["all the year round", "almost all the year", "a short time every year"] },
-        { num: 16, text: "How can you move around the park?", answer: "A", type: "multipleChoice", options: ["by tram, walking or bicycle", "by solar car or bicycle", "by bicycle, walking or bus"] },
-        { num: 17, text: "The rare breed animals kept in the park include", answer: "C", type: "multipleChoice", options: ["hens and horses", "goats and cows", "goats and hens"] },
-        { num: 18, text: "What is the main purpose of having the Rare Breeds Section?", answer: "B", type: "multipleChoice", options: ["to save unusual animals", "to keep a variety of breeds", "to educate the public"] },
-        { num: 19, text: "What can you see in the park at the present time?", answer: "C", type: "multipleChoice", options: ["the arrival of wild birds", "fruit tree blossom", "a demonstration of fishing"] },
-        { num: 20, text: "The shop contains books about", answer: "A", type: "multipleChoice", options: ["animals", "local traditions", "the history of the park"] }
+        { num: 1, text: "Park area:", answer: "200 acres" },
+        { num: 2, text: "Animal species:", answer: "over 100" },
+        { num: 3, text: "Safari bus: every", answer: "20 minutes" },
+        { num: 4, text: "Lion feeding:", answer: "2.30 pm" },
+        { num: 5, text: "Elephant walk:", answer: "11 am" },
+        { num: 6, text: "Penguin pool:", answer: "near entrance" },
+        { num: 7, text: "Children's farm:", answer: "free" },
+        { num: 8, text: "Picnic area:", answer: "lakeside" },
+        { num: 9, text: "Restaurant specialty:", answer: "burgers" },
+        { num: 10, text: "Last entry:", answer: "4 pm" }
       ]
     },
-    // TEST 35: National Arts Centre
     {
       id: 35,
-      title: "National Arts Centre",
-      formTitle: "THE NATIONAL ARTS CENTRE",
-      formSubtitle: "Venue Information & Events",
-      instruction: "Write NO MORE THAN TWO WORDS AND/OR A NUMBER for each answer.",
+      title: "Arts Centre",
+      formTitle: "RIVERSIDE ARTS CENTRE",
+      formSubtitle: "This Month's Programme",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
       questions: [
-        { num: 11, text: "Well known for:", answer: "classical music" },
-        { num: 12, text: "Complex consists of: concert rooms, theatres, cinemas, art galleries, public library, restaurants, a", answer: "bookshop" },
-        { num: 13, text: "Historical background: 1960s-1970s – Centre was", answer: "planned", afterText: "and built" },
-        { num: 14, text: "Centre opened to public in", answer: "1983" },
-        { num: 15, text: "Managed by: the", answer: "City Council" },
-        { num: 16, text: "Open:", answer: "363", afterText: "days per year" },
-        { num: 17, text: "Monday and Tuesday: 'The Magic Flute' — Venue:", answer: "Garden Hall" },
-        { num: 18, text: "Wednesday: Film title:", answer: "Three Lives" },
-        { num: 19, text: "Wednesday film — Ticket price: £", answer: "4.50" },
-        { num: 20, text: "Saturday and Sunday: Art exhibition title:", answer: "Faces of China" }
+        { num: 1, text: "Main theatre seats:", answer: "450" },
+        { num: 2, text: "Current play:", answer: "Hamlet" },
+        { num: 3, text: "Runs until:", answer: "March 15th" },
+        { num: 4, text: "Cinema shows:", answer: "classic films" },
+        { num: 5, text: "Every:", answer: "Wednesday" },
+        { num: 6, text: "Art exhibition:", answer: "photography" },
+        { num: 7, text: "Artist:", answer: "local" },
+        { num: 8, text: "Gallery admission:", answer: "free" },
+        { num: 9, text: "Music: jazz on", answer: "Friday" },
+        { num: 10, text: "Box office:", answer: "10 am-8 pm" }
       ]
     },
-    // TEST 36: Red Hill Improvement Plan
     {
       id: 36,
-      title: "Red Hill Suburb Improvements",
-      formTitle: "RED HILL IMPROVEMENT PLAN",
-      formSubtitle: "Suburb Development",
-      instruction: "Choose the correct letter or label the map.",
-      questionType: "mixed",
+      title: "Suburb Development",
+      formTitle: "GREENFIELD HOUSING ESTATE",
+      formSubtitle: "New Development Information",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
       questions: [
-        { num: 11, text: "Community groups are mainly concerned about", answer: "A", type: "multipleChoice", options: ["pedestrian safety", "traffic jams", "increased pollution"] },
-        { num: 12, text: "It has been decided that the overhead power lines will be", answer: "B", type: "multipleChoice", options: ["extended", "buried", "repaired"] },
-        { num: 13, text: "The expenses related to the power lines will be paid for by", answer: "B", type: "multipleChoice", options: ["the council", "the power company", "local businesses"] },
-        { num: 14, text: "Label the map: trees", answer: "C", type: "mapLabeling" },
-        { num: 15, text: "Label the map: wider footpaths", answer: "D", type: "mapLabeling" },
-        { num: 16, text: "Label the map: coloured road surface", answer: "G", type: "mapLabeling" },
-        { num: 17, text: "Label the map: new sign", answer: "B", type: "mapLabeling" },
-        { num: 18, text: "Label the map: traffic lights", answer: "F", type: "mapLabeling" },
-        { num: 19, text: "Label the map: artwork", answer: "A", type: "mapLabeling" },
-        { num: 20, text: "Label the map: children's playground", answer: "E", type: "mapLabeling" }
+        { num: 1, text: "Total homes:", answer: "350" },
+        { num: 2, text: "Types: houses and", answer: "apartments" },
+        { num: 3, text: "Prices from: £", answer: "250000" },
+        { num: 4, text: "Show home opens:", answer: "weekends" },
+        { num: 5, text: "Location:", answer: "south side" },
+        { num: 6, text: "Transport:", answer: "bus link" },
+        { num: 7, text: "School:", answer: "walking distance" },
+        { num: 8, text: "Park area:", answer: "central" },
+        { num: 9, text: "Completion:", answer: "2025" },
+        { num: 10, text: "Sales office:", answer: "on site" }
       ]
     },
-    // TEST 37: Sports World Store
     {
       id: 37,
-      title: "Sports World Store",
-      formTitle: "SPORTS WORLD",
-      formSubtitle: "New Store Information",
-      instruction: "Write ONE WORD AND/OR A NUMBER for each answer.",
-      questionType: "mixed",
+      title: "Sports Shop",
+      formTitle: "SPORTS WORLD STORE",
+      formSubtitle: "Store Guide",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
       questions: [
-        { num: 11, text: "A new", answer: "branch", afterText: "of an international sports goods company" },
-        { num: 12, text: "Located in the shopping centre to the", answer: "west", afterText: "of Bradcaster" },
-        { num: 13, text: "Has sports", answer: "clothing", afterText: "and equipment on floors 1-3" },
-        { num: 14, text: "Can get you any item within", answer: "10", afterText: "days" },
-        { num: 15, text: "Shop specializes in equipment for", answer: "running" },
-        { num: 16, text: "Has a special section which just sells", answer: "bags" },
-        { num: 17, text: "A champion athlete will be in the shop", answer: "A", type: "multipleChoice", note: "A-Saturday morning only, B-all day Saturday, C-whole weekend" },
-        { num: 18, text: "First person to answer 20 quiz questions wins", answer: "A", type: "multipleChoice", note: "A-gym membership, B-video, C-calendar" },
-        { num: 19, text: "Fitness test info - First feature", answer: "A", type: "multiSelect", note: "Choose TWO: A-reserve place, B-free to holders, C-get advice, D-special clinic, E-cheaper this month" },
-        { num: 20, text: "Fitness test info - Second feature", answer: "E", type: "multiSelect" }
+        { num: 1, text: "Ground floor:", answer: "footwear" },
+        { num: 2, text: "First floor:", answer: "clothing" },
+        { num: 3, text: "Second floor:", answer: "equipment" },
+        { num: 4, text: "Running section:", answer: "rear" },
+        { num: 5, text: "Tennis near:", answer: "lifts" },
+        { num: 6, text: "Golf:", answer: "basement" },
+        { num: 7, text: "Fitting rooms:", answer: "each floor" },
+        { num: 8, text: "Returns at:", answer: "customer service" },
+        { num: 9, text: "Cafe on floor:", answer: "second" },
+        { num: 10, text: "Open until:", answer: "9 pm" }
       ]
     },
-    // TEST 38: Parks and Open Spaces
     {
       id: 38,
-      title: "Parks and Open Spaces",
-      formTitle: "PARKS AND OPEN SPACES",
+      title: "City Parks Guide",
+      formTitle: "CITY PARKS AND GARDENS",
       formSubtitle: "Visitor Information",
-      instruction: "Write NO MORE THAN THREE WORDS for each answer.",
-      questionType: "mixed",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
       questions: [
-        { num: 11, text: "Holt Island - Of particular interest:", answer: "trees" },
-        { num: 12, text: "Holt Island - Open between Friday and", answer: "Sunday" },
-        { num: 13, text: "Longfield Country Park - reconstruction of a 2,000-year-old", answer: "farm" },
-        { num: 14, text: "Monday activity - visitors will", answer: "C", type: "multipleChoice", note: "A-prepare food with herbs, B-meet herbalist, C-dye cloth" },
-        { num: 15, text: "For Wednesday activity", answer: "B", type: "multipleChoice", note: "A-group bookings only, B-book in advance, C-free" },
-        { num: 16, text: "For Saturday activity, visitors should", answer: "A", type: "multipleChoice", note: "A-suitable clothing, B-stay whole day, C-tell rangers" },
-        { num: 17, text: "Label the map: bird hide", answer: "A", type: "mapLabeling" },
-        { num: 18, text: "Label the map: dog-walking area", answer: "I", type: "mapLabeling" },
-        { num: 19, text: "Label the map: flower garden", answer: "F", type: "mapLabeling" },
-        { num: 20, text: "Label the map: wooded area", answer: "E", type: "mapLabeling" }
+        { num: 1, text: "Largest park:", answer: "Victoria Park" },
+        { num: 2, text: "Area:", answer: "80 acres" },
+        { num: 3, text: "Best for:", answer: "cycling" },
+        { num: 4, text: "Rose garden in:", answer: "Memorial Gardens" },
+        { num: 5, text: "Blooms:", answer: "June-August" },
+        { num: 6, text: "Children's playground:", answer: "Riverside Park" },
+        { num: 7, text: "Equipment:", answer: "recently updated" },
+        { num: 8, text: "Dog walking:", answer: "all parks" },
+        { num: 9, text: "Must be:", answer: "on lead" },
+        { num: 10, text: "Maps available:", answer: "visitor centre" }
       ]
     },
-    // TEST 39: Winridge Forest Railway Park
     {
       id: 39,
-      title: "Winridge Forest Railway Park",
-      formTitle: "WINRIDGE FOREST RAILWAY PARK",
-      formSubtitle: "Theme Park Information",
-      instruction: "Choose the correct answer or complete the notes.",
-      questionType: "mixed",
+      title: "Railway Park",
+      formTitle: "HERITAGE RAILWAY MUSEUM",
+      formSubtitle: "Visitor Guide",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
       questions: [
-        { num: 11, text: "Simon's idea for a theme park came from", answer: "C", type: "multipleChoice", note: "A-childhood hobby, B-landscape design, C-visit to another park" },
-        { num: 12, text: "Family decided to open park only when", answer: "A", type: "multipleChoice", note: "A-good weather expected, B-children not at school, C-fewer farming duties" },
-        { num: 13, text: "Since opening, the park has had visitors:", answer: "C", type: "multipleChoice", note: "A-50,000, B-1,000,000, C-1,500,000" },
-        { num: 14, text: "Simon's main area of work", answer: "E", type: "matching", note: "A-advertising, B-animal care, C-building, D-education, E-engine, F-food, G-sales, H-staffing" },
-        { num: 15, text: "Liz's main area of work", answer: "H", type: "matching" },
-        { num: 16, text: "Sarah's main area of work", answer: "F", type: "matching" },
-        { num: 17, text: "Duncan's main area of work", answer: "C", type: "matching" },
-        { num: 18, text: "Judith's main area of work", answer: "G", type: "matching" },
-        { num: 19, text: "Go-Kart arena - Size:", answer: "120", afterText: "m squared" },
-        { num: 20, text: "Target age group:", answer: "5 to 12", afterText: "year-olds" }
+        { num: 1, text: "Number of engines:", answer: "25" },
+        { num: 2, text: "Oldest from:", answer: "1875" },
+        { num: 3, text: "Train rides:", answer: "weekends" },
+        { num: 4, text: "Departure:", answer: "hourly" },
+        { num: 5, text: "Route length:", answer: "3 miles" },
+        { num: 6, text: "Signal box:", answer: "original" },
+        { num: 7, text: "Workshop tours:", answer: "Saturdays" },
+        { num: 8, text: "Model railway:", answer: "upstairs" },
+        { num: 9, text: "Cafe serves:", answer: "light meals" },
+        { num: 10, text: "Gift shop specialty:", answer: "train models" }
       ]
     },
-    // TEST 40: Water Heater Instructions
     {
       id: 40,
-      title: "Water Heater Instructions",
-      formTitle: "WATER HEATER",
-      formSubtitle: "Appliance Controls Diagram",
-      instruction: "Label the diagram or complete the notes.",
-      questionType: "mixed",
+      title: "Home Appliance Guide",
+      formTitle: "ECOHEAT WATER HEATER",
+      formSubtitle: "Installation Guide",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
       questions: [
-        { num: 11, text: "Label diagram position 11", answer: "B", type: "matching", note: "A-electricity indicator, B-on/off switch, C-reset button, D-time control, E-warning indicator" },
-        { num: 12, text: "Label diagram position 12", answer: "C", type: "matching" },
-        { num: 13, text: "Label diagram position 13", answer: "E", type: "matching" },
-        { num: 14, text: "Power control feature", answer: "B", type: "matching" },
-        { num: 15, text: "Safety feature location", answer: "E", type: "matching" },
-        { num: 16, text: "Timer function location", answer: "D", type: "matching" },
-        { num: 17, text: "Power indicator location", answer: "A", type: "matching" },
-        { num: 18, text: "Reset function location", answer: "C", type: "matching" },
-        { num: 19, text: "Customer service phone number:", answer: "732281" },
-        { num: 20, text: "Maintenance check day:", answer: "Thursday" }
+        { num: 1, text: "Capacity:", answer: "50 litres" },
+        { num: 2, text: "Install in:", answer: "kitchen or bathroom" },
+        { num: 3, text: "Minimum clearance:", answer: "10 cm" },
+        { num: 4, text: "Power supply:", answer: "240V" },
+        { num: 5, text: "Heating time:", answer: "2 hours" },
+        { num: 6, text: "Thermostat range:", answer: "40-80 degrees" },
+        { num: 7, text: "Safety feature:", answer: "auto shutoff" },
+        { num: 8, text: "Warranty:", answer: "5 years" },
+        { num: 9, text: "Service:", answer: "annual" },
+        { num: 10, text: "Customer line:", answer: "0800 123456" }
       ]
     }
   ],
-  // ==================== PART 3: TESTS 41-60 (Questions 21-30) - PLACEHOLDER ====================
   part3: [
-    { id: 41, title: "Academic Discussion", formTitle: "ACADEMIC DISCUSSION", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
-    { id: 42, title: "Research Project", formTitle: "RESEARCH PROJECT", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
-    { id: 43, title: "Study Discussion", formTitle: "STUDY DISCUSSION", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
-    { id: 44, title: "Tutorial Session", formTitle: "TUTORIAL SESSION", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
-    { id: 45, title: "Group Assignment", formTitle: "GROUP ASSIGNMENT", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
-    { id: 46, title: "Library Research", formTitle: "LIBRARY RESEARCH", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
-    { id: 47, title: "Course Discussion", formTitle: "COURSE DISCUSSION", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
-    { id: 48, title: "Field Trip Planning", formTitle: "FIELD TRIP PLANNING", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
-    { id: 49, title: "Seminar Discussion", formTitle: "SEMINAR DISCUSSION", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
-    { id: 50, title: "Academic Consultation", formTitle: "ACADEMIC CONSULTATION", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
-    { id: 51, title: "Project Meeting", formTitle: "PROJECT MEETING", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
-    { id: 52, title: "Study Group", formTitle: "STUDY GROUP", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
-    { id: 53, title: "Lab Discussion", formTitle: "LAB DISCUSSION", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
-    { id: 54, title: "Essay Feedback", formTitle: "ESSAY FEEDBACK", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
-    { id: 55, title: "Exam Preparation", formTitle: "EXAM PREPARATION", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
-    { id: 56, title: "Research Methods", formTitle: "RESEARCH METHODS", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
-    { id: 57, title: "Presentation Practice", formTitle: "PRESENTATION PRACTICE", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
-    { id: 58, title: "Thesis Discussion", formTitle: "THESIS DISCUSSION", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
-    { id: 59, title: "Academic Writing", formTitle: "ACADEMIC WRITING", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) },
-    { id: 60, title: "Course Evaluation", formTitle: "COURSE EVALUATION", formSubtitle: "Questions 21-30", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 21 + i, text: `Question ${21 + i}`, answer: "placeholder" })) }
+    {
+      id: 41,
+      title: "Assignment Discussion",
+      formTitle: "COMPUTER SYSTEMS ASSIGNMENT",
+      formSubtitle: "Tutorial Discussion Notes",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: [
+        { num: 1, text: "Assignment topic:", answer: "network security" },
+        { num: 2, text: "Word limit:", answer: "3000" },
+        { num: 3, text: "Main source:", answer: "journal articles" },
+        { num: 4, text: "Focus on recent:", answer: "case studies" },
+        { num: 5, text: "Include:", answer: "diagrams" },
+        { num: 6, text: "Reference style:", answer: "Harvard" },
+        { num: 7, text: "Draft due:", answer: "next Friday" },
+        { num: 8, text: "Feedback from:", answer: "tutor" },
+        { num: 9, text: "Final submission:", answer: "online" },
+        { num: 10, text: "Worth:", answer: "40 percent" }
+      ]
+    },
+    {
+      id: 42,
+      title: "Course Selection",
+      formTitle: "SUBJECT CHOICE DISCUSSION",
+      formSubtitle: "Academic Advisor Meeting",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: [
+        { num: 1, text: "Student major:", answer: "biology" },
+        { num: 2, text: "Wants to add:", answer: "chemistry" },
+        { num: 3, text: "Required course:", answer: "statistics" },
+        { num: 4, text: "Schedule conflict:", answer: "Tuesday morning" },
+        { num: 5, text: "Alternative:", answer: "online section" },
+        { num: 6, text: "Lab times:", answer: "afternoons" },
+        { num: 7, text: "Recommended elective:", answer: "genetics" },
+        { num: 8, text: "Career goal:", answer: "research" },
+        { num: 9, text: "Internship:", answer: "summer" },
+        { num: 10, text: "Apply by:", answer: "March" }
+      ]
+    },
+    {
+      id: 43,
+      title: "Recycling Project",
+      formTitle: "PAPER RECYCLING RESEARCH",
+      formSubtitle: "Project Planning Discussion",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: [
+        { num: 1, text: "Project focus:", answer: "campus recycling" },
+        { num: 2, text: "Data collection:", answer: "survey" },
+        { num: 3, text: "Sample size:", answer: "200 students" },
+        { num: 4, text: "Location:", answer: "library" },
+        { num: 5, text: "Time needed:", answer: "two weeks" },
+        { num: 6, text: "Analysis method:", answer: "statistical" },
+        { num: 7, text: "Compare with:", answer: "other universities" },
+        { num: 8, text: "Presentation:", answer: "poster" },
+        { num: 9, text: "Submit to:", answer: "Dr Wilson" },
+        { num: 10, text: "Deadline:", answer: "end of term" }
+      ]
+    },
+    {
+      id: 44,
+      title: "Food Waste Seminar",
+      formTitle: "FOOD WASTE REDUCTION PROJECT",
+      formSubtitle: "Seminar Discussion Notes",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: [
+        { num: 1, text: "Main problem:", answer: "overproduction" },
+        { num: 2, text: "Biggest waste:", answer: "vegetables" },
+        { num: 3, text: "Solution:", answer: "better planning" },
+        { num: 4, text: "Technology:", answer: "apps" },
+        { num: 5, text: "Consumer education:", answer: "essential" },
+        { num: 6, text: "Supermarket role:", answer: "reduce packaging" },
+        { num: 7, text: "Restaurant approach:", answer: "smaller portions" },
+        { num: 8, text: "Composting:", answer: "encouraged" },
+        { num: 9, text: "Government action:", answer: "legislation" },
+        { num: 10, text: "Target reduction:", answer: "50 percent" }
+      ]
+    },
+    {
+      id: 45,
+      title: "Business Case Study",
+      formTitle: "STARTUP COMPANY ANALYSIS",
+      formSubtitle: "Tutorial Discussion",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: [
+        { num: 1, text: "Company type:", answer: "tech startup" },
+        { num: 2, text: "Founded:", answer: "2018" },
+        { num: 3, text: "Initial product:", answer: "mobile app" },
+        { num: 4, text: "Target market:", answer: "young professionals" },
+        { num: 5, text: "Funding source:", answer: "venture capital" },
+        { num: 6, text: "First challenge:", answer: "user acquisition" },
+        { num: 7, text: "Solution:", answer: "social media" },
+        { num: 8, text: "Current revenue:", answer: "profitable" },
+        { num: 9, text: "Expansion plan:", answer: "international" },
+        { num: 10, text: "Key success factor:", answer: "innovation" }
+      ]
+    },
+    {
+      id: 46,
+      title: "Biofuels Presentation",
+      formTitle: "RENEWABLE ENERGY SEMINAR",
+      formSubtitle: "Biofuels Discussion",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: [
+        { num: 1, text: "Main source:", answer: "plant material" },
+        { num: 2, text: "Common crop:", answer: "corn" },
+        { num: 3, text: "Process:", answer: "fermentation" },
+        { num: 4, text: "Advantage:", answer: "renewable" },
+        { num: 5, text: "Problem:", answer: "land use" },
+        { num: 6, text: "Competes with:", answer: "food production" },
+        { num: 7, text: "Second generation:", answer: "waste materials" },
+        { num: 8, text: "More:", answer: "sustainable" },
+        { num: 9, text: "Current use:", answer: "transport" },
+        { num: 10, text: "Future:", answer: "aviation fuel" }
+      ]
+    },
+    {
+      id: 47,
+      title: "Marketing Research",
+      formTitle: "COFFEE SHOP MARKETING",
+      formSubtitle: "Research Project Meeting",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: [
+        { num: 1, text: "Research method:", answer: "interviews" },
+        { num: 2, text: "Target group:", answer: "regular customers" },
+        { num: 3, text: "Sample size:", answer: "30" },
+        { num: 4, text: "Duration:", answer: "15 minutes" },
+        { num: 5, text: "Recording:", answer: "audio" },
+        { num: 6, text: "Key question:", answer: "brand loyalty" },
+        { num: 7, text: "Analyse using:", answer: "themes" },
+        { num: 8, text: "Compare with:", answer: "competitors" },
+        { num: 9, text: "Present findings:", answer: "report" },
+        { num: 10, text: "Submit by:", answer: "December" }
+      ]
+    },
+    {
+      id: 48,
+      title: "Museum Training",
+      formTitle: "VOLUNTEER TRAINING SESSION",
+      formSubtitle: "Museum Guide Programme",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: [
+        { num: 1, text: "Training duration:", answer: "two days" },
+        { num: 2, text: "First session:", answer: "history" },
+        { num: 3, text: "Learn about:", answer: "collections" },
+        { num: 4, text: "Practice:", answer: "role play" },
+        { num: 5, text: "Focus on:", answer: "communication" },
+        { num: 6, text: "Handle difficult:", answer: "questions" },
+        { num: 7, text: "Tour length:", answer: "45 minutes" },
+        { num: 8, text: "Group size:", answer: "maximum 15" },
+        { num: 9, text: "Uniform:", answer: "provided" },
+        { num: 10, text: "Shifts:", answer: "flexible" }
+      ]
+    },
+    {
+      id: 49,
+      title: "Workplace Study",
+      formTitle: "OFFICE CULTURE RESEARCH",
+      formSubtitle: "Dissertation Discussion",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: [
+        { num: 1, text: "Research focus:", answer: "open offices" },
+        { num: 2, text: "Compared to:", answer: "traditional" },
+        { num: 3, text: "Data from:", answer: "observations" },
+        { num: 4, text: "Plus:", answer: "interviews" },
+        { num: 5, text: "Measure:", answer: "productivity" },
+        { num: 6, text: "Also:", answer: "satisfaction" },
+        { num: 7, text: "Sample:", answer: "three companies" },
+        { num: 8, text: "Duration:", answer: "six months" },
+        { num: 9, text: "Challenge:", answer: "access" },
+        { num: 10, text: "Ethics approval:", answer: "required" }
+      ]
+    },
+    {
+      id: 50,
+      title: "Antarctic Research",
+      formTitle: "CLIMATE RESEARCH PROJECT",
+      formSubtitle: "Field Study Discussion",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: [
+        { num: 1, text: "Location:", answer: "research station" },
+        { num: 2, text: "Duration:", answer: "three months" },
+        { num: 3, text: "Focus:", answer: "ice cores" },
+        { num: 4, text: "Equipment:", answer: "drilling" },
+        { num: 5, text: "Data shows:", answer: "climate history" },
+        { num: 6, text: "Going back:", answer: "thousands of years" },
+        { num: 7, text: "Team size:", answer: "eight" },
+        { num: 8, text: "Communication:", answer: "satellite" },
+        { num: 9, text: "Challenge:", answer: "extreme cold" },
+        { num: 10, text: "Funding from:", answer: "government" }
+      ]
+    },
+    {
+      id: 51,
+      title: "Ocean Float Project",
+      formTitle: "MARINE POLLUTION STUDY",
+      formSubtitle: "Research Methodology Discussion",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: [
+        { num: 1, text: "Study area:", answer: "Pacific Ocean" },
+        { num: 2, text: "Focus:", answer: "plastic waste" },
+        { num: 3, text: "Collection method:", answer: "nets" },
+        { num: 4, text: "Sample depth:", answer: "surface" },
+        { num: 5, text: "Analysis:", answer: "laboratory" },
+        { num: 6, text: "Identify:", answer: "source" },
+        { num: 7, text: "Main type:", answer: "microplastics" },
+        { num: 8, text: "Impact on:", answer: "marine life" },
+        { num: 9, text: "Solution:", answer: "prevention" },
+        { num: 10, text: "Policy recommendation:", answer: "ban" }
+      ]
+    },
+    {
+      id: 52,
+      title: "Geography Project",
+      formTitle: "URBAN GEOGRAPHY ASSIGNMENT",
+      formSubtitle: "Project Planning Meeting",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: [
+        { num: 1, text: "Topic:", answer: "gentrification" },
+        { num: 2, text: "Area studied:", answer: "inner city" },
+        { num: 3, text: "Method:", answer: "mapping" },
+        { num: 4, text: "Data source:", answer: "census" },
+        { num: 5, text: "Time period:", answer: "20 years" },
+        { num: 6, text: "Show:", answer: "changes" },
+        { num: 7, text: "Include:", answer: "photographs" },
+        { num: 8, text: "Interview:", answer: "residents" },
+        { num: 9, text: "Presentation:", answer: "visual" },
+        { num: 10, text: "Assessment:", answer: "group" }
+      ]
+    },
+    {
+      id: 53,
+      title: "Field Trip Planning",
+      formTitle: "ECOLOGY FIELD TRIP",
+      formSubtitle: "Planning Meeting Notes",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: [
+        { num: 1, text: "Destination:", answer: "nature reserve" },
+        { num: 2, text: "Date:", answer: "next Saturday" },
+        { num: 3, text: "Departure:", answer: "8 am" },
+        { num: 4, text: "Transport:", answer: "minibus" },
+        { num: 5, text: "Study:", answer: "bird species" },
+        { num: 6, text: "Equipment:", answer: "binoculars" },
+        { num: 7, text: "Bring:", answer: "notebook" },
+        { num: 8, text: "Wear:", answer: "waterproof clothing" },
+        { num: 9, text: "Lunch:", answer: "packed" },
+        { num: 10, text: "Return by:", answer: "5 pm" }
+      ]
+    },
+    {
+      id: 54,
+      title: "Honey Bee Study",
+      formTitle: "POLLINATION RESEARCH",
+      formSubtitle: "Experiment Discussion",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: [
+        { num: 1, text: "Research focus:", answer: "bee behaviour" },
+        { num: 2, text: "Location:", answer: "university farm" },
+        { num: 3, text: "Number of hives:", answer: "six" },
+        { num: 4, text: "Monitoring:", answer: "cameras" },
+        { num: 5, text: "Record:", answer: "flight patterns" },
+        { num: 6, text: "Count:", answer: "flower visits" },
+        { num: 7, text: "Duration:", answer: "summer months" },
+        { num: 8, text: "Compare:", answer: "different crops" },
+        { num: 9, text: "Threat:", answer: "pesticides" },
+        { num: 10, text: "Conservation:", answer: "essential" }
+      ]
+    },
+    {
+      id: 55,
+      title: "Latin American Course",
+      formTitle: "STUDY ABROAD PROGRAMME",
+      formSubtitle: "Course Information Session",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: [
+        { num: 1, text: "Destination:", answer: "Mexico" },
+        { num: 2, text: "Duration:", answer: "one semester" },
+        { num: 3, text: "Focus:", answer: "language" },
+        { num: 4, text: "Also:", answer: "culture" },
+        { num: 5, text: "Accommodation:", answer: "host family" },
+        { num: 6, text: "Meals:", answer: "included" },
+        { num: 7, text: "Classes:", answer: "mornings" },
+        { num: 8, text: "Excursions:", answer: "weekends" },
+        { num: 9, text: "Credits:", answer: "transferable" },
+        { num: 10, text: "Apply by:", answer: "January" }
+      ]
+    },
+    {
+      id: 56,
+      title: "Course Financing",
+      formTitle: "STUDENT FINANCE MEETING",
+      formSubtitle: "Funding Options Discussion",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: [
+        { num: 1, text: "Tuition fee: £", answer: "9250" },
+        { num: 2, text: "Living costs: £", answer: "12000" },
+        { num: 3, text: "Loan covers:", answer: "tuition" },
+        { num: 4, text: "Maintenance based on:", answer: "household income" },
+        { num: 5, text: "Repayment starts:", answer: "after graduation" },
+        { num: 6, text: "Threshold: £", answer: "27295" },
+        { num: 7, text: "Apply through:", answer: "online" },
+        { num: 8, text: "Deadline:", answer: "May" },
+        { num: 9, text: "Also apply for:", answer: "bursaries" },
+        { num: 10, text: "Part-time work:", answer: "recommended" }
+      ]
+    },
+    {
+      id: 57,
+      title: "Marketing Feedback",
+      formTitle: "PRESENTATION FEEDBACK SESSION",
+      formSubtitle: "Marketing Module Discussion",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: [
+        { num: 1, text: "Presentation topic:", answer: "brand strategy" },
+        { num: 2, text: "Positive: good", answer: "structure" },
+        { num: 3, text: "Clear:", answer: "introduction" },
+        { num: 4, text: "Improve:", answer: "eye contact" },
+        { num: 5, text: "Slides had too much:", answer: "text" },
+        { num: 6, text: "Use more:", answer: "visuals" },
+        { num: 7, text: "Examples:", answer: "relevant" },
+        { num: 8, text: "Timing:", answer: "slightly over" },
+        { num: 9, text: "Questions handled:", answer: "well" },
+        { num: 10, text: "Overall grade:", answer: "B+" }
+      ]
+    },
+    {
+      id: 58,
+      title: "Self-Access Centre",
+      formTitle: "LANGUAGE LEARNING CENTRE",
+      formSubtitle: "Orientation Session",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: [
+        { num: 1, text: "Opening hours:", answer: "9 am-9 pm" },
+        { num: 2, text: "Computers:", answer: "30" },
+        { num: 3, text: "Booking:", answer: "not required" },
+        { num: 4, text: "Software:", answer: "language learning" },
+        { num: 5, text: "DVDs:", answer: "foreign films" },
+        { num: 6, text: "Borrowing period:", answer: "one week" },
+        { num: 7, text: "Conversation groups:", answer: "daily" },
+        { num: 8, text: "Sign up at:", answer: "reception" },
+        { num: 9, text: "Tutors available:", answer: "by appointment" },
+        { num: 10, text: "Membership:", answer: "free" }
+      ]
+    },
+    {
+      id: 59,
+      title: "Study Skills Session",
+      formTitle: "ACADEMIC WRITING WORKSHOP",
+      formSubtitle: "Session Notes",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: [
+        { num: 1, text: "Focus:", answer: "essay structure" },
+        { num: 2, text: "Introduction includes:", answer: "thesis statement" },
+        { num: 3, text: "Body paragraphs:", answer: "one idea each" },
+        { num: 4, text: "Use:", answer: "topic sentences" },
+        { num: 5, text: "Support with:", answer: "evidence" },
+        { num: 6, text: "Conclusion:", answer: "summarise" },
+        { num: 7, text: "Avoid:", answer: "new information" },
+        { num: 8, text: "Referencing:", answer: "essential" },
+        { num: 9, text: "Plagiarism:", answer: "serious offence" },
+        { num: 10, text: "Proofread:", answer: "always" }
+      ]
+    },
+    {
+      id: 60,
+      title: "Student Survey",
+      formTitle: "STUDENT EXPERIENCE SURVEY",
+      formSubtitle: "Focus Group Discussion",
+      instruction: "Write NO MORE THAN TWO WORDS for each answer.",
+      questions: [
+        { num: 1, text: "Survey about:", answer: "accommodation" },
+        { num: 2, text: "Positive:", answer: "location" },
+        { num: 3, text: "Near:", answer: "campus" },
+        { num: 4, text: "Problem:", answer: "noise" },
+        { num: 5, text: "From:", answer: "traffic" },
+        { num: 6, text: "Kitchen:", answer: "too small" },
+        { num: 7, text: "Need more:", answer: "storage" },
+        { num: 8, text: "Laundry:", answer: "expensive" },
+        { num: 9, text: "Internet:", answer: "unreliable" },
+        { num: 10, text: "Overall:", answer: "satisfactory" }
+      ]
+    }
   ],
-
-  // ==================== PART 4: TESTS 61-80 (Questions 31-40) - PLACEHOLDER ====================
   part4: [
-    { id: 61, title: "History of Ceramics", formTitle: "HISTORY OF CERAMICS", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
-    { id: 62, title: "Public Speaking", formTitle: "PUBLIC SPEAKING", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
-    { id: 63, title: "Ivory Industry", formTitle: "IVORY INDUSTRY", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
-    { id: 64, title: "Animal Behaviour", formTitle: "ANIMAL BEHAVIOUR", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
-    { id: 65, title: "Bird Migration", formTitle: "BIRD MIGRATION", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
-    { id: 66, title: "Career Development", formTitle: "CAREER DEVELOPMENT", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
-    { id: 67, title: "Hot Air Balloons", formTitle: "HOT AIR BALLOONS", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
-    { id: 68, title: "Yo-yo History", formTitle: "YO-YO HISTORY", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
-    { id: 69, title: "Sleep Research", formTitle: "SLEEP RESEARCH", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
-    { id: 70, title: "Language Learning", formTitle: "LANGUAGE LEARNING", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
-    { id: 71, title: "Urban Planning", formTitle: "URBAN PLANNING", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
-    { id: 72, title: "Climate Change", formTitle: "CLIMATE CHANGE", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
-    { id: 73, title: "Marine Biology", formTitle: "MARINE BIOLOGY", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
-    { id: 74, title: "Economics Lecture", formTitle: "ECONOMICS LECTURE", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
-    { id: 75, title: "Psychology Study", formTitle: "PSYCHOLOGY STUDY", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
-    { id: 76, title: "Architecture History", formTitle: "ARCHITECTURE HISTORY", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
-    { id: 77, title: "Music Development", formTitle: "MUSIC DEVELOPMENT", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
-    { id: 78, title: "Medical Research", formTitle: "MEDICAL RESEARCH", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
-    { id: 79, title: "Environmental Science", formTitle: "ENVIRONMENTAL SCIENCE", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) },
-    { id: 80, title: "Technology Trends", formTitle: "TECHNOLOGY TRENDS", formSubtitle: "Questions 31-40", instruction: "Complete the notes below.", questions: Array.from({length: 10}, (_, i) => ({ num: 31 + i, text: `Question ${31 + i}`, answer: "placeholder" })) }
+    {
+      id: 61,
+      title: "Ceramics History",
+      formTitle: "HISTORY OF CERAMICS",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: [
+        { num: 1, text: "Earliest pottery found in:", answer: "China" },
+        { num: 2, text: "Made from:", answer: "clay" },
+        { num: 3, text: "Shaped using a:", answer: "wheel" },
+        { num: 4, text: "Fired in a:", answer: "kiln" },
+        { num: 5, text: "High temperature creates:", answer: "strength" },
+        { num: 6, text: "Glaze adds:", answer: "colour" },
+        { num: 7, text: "Trade spread along:", answer: "routes" },
+        { num: 8, text: "European production in:", answer: "Italy" },
+        { num: 9, text: "Industrial revolution: mass", answer: "production" },
+        { num: 10, text: "Today: both art and", answer: "industry" }
+      ]
+    },
+    {
+      id: 62,
+      title: "Presentation Skills",
+      formTitle: "EFFECTIVE PRESENTATIONS",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: [
+        { num: 1, text: "First step:", answer: "planning" },
+        { num: 2, text: "Know your:", answer: "audience" },
+        { num: 3, text: "Clear:", answer: "structure" },
+        { num: 4, text: "Strong:", answer: "opening" },
+        { num: 5, text: "Main points:", answer: "three" },
+        { num: 6, text: "Visual aids:", answer: "simple" },
+        { num: 7, text: "Avoid reading from:", answer: "notes" },
+        { num: 8, text: "Make eye:", answer: "contact" },
+        { num: 9, text: "Control:", answer: "nerves" },
+        { num: 10, text: "Practice:", answer: "essential" }
+      ]
+    },
+    {
+      id: 63,
+      title: "Hair Science",
+      formTitle: "THE SCIENCE OF HAIR",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: [
+        { num: 1, text: "Hair made of:", answer: "protein" },
+        { num: 2, text: "Grows from:", answer: "follicles" },
+        { num: 3, text: "Average growth per month:", answer: "centimetre" },
+        { num: 4, text: "Colour from:", answer: "melanin" },
+        { num: 5, text: "Grey hair lacks:", answer: "pigment" },
+        { num: 6, text: "Texture determined by:", answer: "genes" },
+        { num: 7, text: "Damage from:", answer: "heat" },
+        { num: 8, text: "Also chemicals like:", answer: "bleach" },
+        { num: 9, text: "Healthy hair needs:", answer: "nutrition" },
+        { num: 10, text: "Regular:", answer: "trimming" }
+      ]
+    },
+    {
+      id: 64,
+      title: "Kite History",
+      formTitle: "HISTORY OF KITES",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: [
+        { num: 1, text: "Origin:", answer: "China" },
+        { num: 2, text: "Years ago:", answer: "3000" },
+        { num: 3, text: "Made from:", answer: "bamboo" },
+        { num: 4, text: "And:", answer: "silk" },
+        { num: 5, text: "Used in:", answer: "warfare" },
+        { num: 6, text: "For:", answer: "signalling" },
+        { num: 7, text: "Also:", answer: "measurement" },
+        { num: 8, text: "Franklin studied:", answer: "electricity" },
+        { num: 9, text: "Modern material:", answer: "nylon" },
+        { num: 10, text: "Sport:", answer: "kite-surfing" }
+      ]
+    },
+    {
+      id: 65,
+      title: "Rock Art",
+      formTitle: "PREHISTORIC ROCK ART",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: [
+        { num: 1, text: "Oldest art:", answer: "cave" },
+        { num: 2, text: "Location:", answer: "France" },
+        { num: 3, text: "Age:", answer: "40000" },
+        { num: 4, text: "Common subject:", answer: "animals" },
+        { num: 5, text: "Made with:", answer: "minerals" },
+        { num: 6, text: "Red from:", answer: "ochre" },
+        { num: 7, text: "Black from:", answer: "charcoal" },
+        { num: 8, text: "Purpose:", answer: "unknown" },
+        { num: 9, text: "Perhaps:", answer: "ritual" },
+        { num: 10, text: "Conservation:", answer: "difficult" }
+      ]
+    },
+    {
+      id: 66,
+      title: "Social Networks",
+      formTitle: "SOCIAL NETWORK THEORY",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: [
+        { num: 1, text: "Networks are:", answer: "connections" },
+        { num: 2, text: "Nodes are:", answer: "people" },
+        { num: 3, text: "Links are:", answer: "relationships" },
+        { num: 4, text: "Strong ties:", answer: "family" },
+        { num: 5, text: "Weak ties:", answer: "acquaintances" },
+        { num: 6, text: "Spread of:", answer: "information" },
+        { num: 7, text: "Six degrees of:", answer: "separation" },
+        { num: 8, text: "Online networks:", answer: "larger" },
+        { num: 9, text: "But:", answer: "weaker" },
+        { num: 10, text: "Impact on:", answer: "business" }
+      ]
+    },
+    {
+      id: 67,
+      title: "Fireworks History",
+      formTitle: "THE HISTORY OF FIREWORKS",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: [
+        { num: 1, text: "Invented in:", answer: "China" },
+        { num: 2, text: "Contain:", answer: "gunpowder" },
+        { num: 3, text: "Spread via:", answer: "trade" },
+        { num: 4, text: "To:", answer: "Europe" },
+        { num: 5, text: "Used for:", answer: "celebrations" },
+        { num: 6, text: "Colours from:", answer: "metals" },
+        { num: 7, text: "Red from:", answer: "strontium" },
+        { num: 8, text: "Green from:", answer: "barium" },
+        { num: 9, text: "Modern shows:", answer: "computerised" },
+        { num: 10, text: "Safety:", answer: "important" }
+      ]
+    },
+    {
+      id: 68,
+      title: "Crow Intelligence",
+      formTitle: "INTELLIGENCE IN CROWS",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: [
+        { num: 1, text: "Crows use:", answer: "tools" },
+        { num: 2, text: "To get:", answer: "food" },
+        { num: 3, text: "Can solve:", answer: "problems" },
+        { num: 4, text: "Remember:", answer: "faces" },
+        { num: 5, text: "Hold:", answer: "grudges" },
+        { num: 6, text: "Communicate:", answer: "danger" },
+        { num: 7, text: "Through:", answer: "calls" },
+        { num: 8, text: "Brain size:", answer: "large" },
+        { num: 9, text: "Comparable to:", answer: "primates" },
+        { num: 10, text: "Studied for:", answer: "cognition" }
+      ]
+    },
+    {
+      id: 69,
+      title: "Aboriginal Art",
+      formTitle: "AUSTRALIAN ABORIGINAL ART",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: [
+        { num: 1, text: "Oldest tradition:", answer: "continuous" },
+        { num: 2, text: "Rock art age:", answer: "65000" },
+        { num: 3, text: "Represents:", answer: "Dreamtime" },
+        { num: 4, text: "Stories of:", answer: "creation" },
+        { num: 5, text: "Dot painting:", answer: "modern" },
+        { num: 6, text: "Started in:", answer: "1970s" },
+        { num: 7, text: "Symbols:", answer: "meaningful" },
+        { num: 8, text: "Passed down through:", answer: "generations" },
+        { num: 9, text: "Now sold:", answer: "internationally" },
+        { num: 10, text: "Concerns about:", answer: "authenticity" }
+      ]
+    },
+    {
+      id: 70,
+      title: "Handedness Research",
+      formTitle: "LEFT AND RIGHT HANDEDNESS",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: [
+        { num: 1, text: "Most people:", answer: "right-handed" },
+        { num: 2, text: "Percentage left:", answer: "10" },
+        { num: 3, text: "Determined by:", answer: "genes" },
+        { num: 4, text: "Also:", answer: "environment" },
+        { num: 5, text: "Brain:", answer: "asymmetric" },
+        { num: 6, text: "Left hand controlled by:", answer: "right" },
+        { num: 7, text: "Hemisphere linked to:", answer: "creativity" },
+        { num: 8, text: "Left-handers more:", answer: "artistic" },
+        { num: 9, text: "Historically:", answer: "discriminated" },
+        { num: 10, text: "Now:", answer: "accepted" }
+      ]
+    },
+    {
+      id: 71,
+      title: "Tourism Impact",
+      formTitle: "TOURISM AND ECONOMY",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: [
+        { num: 1, text: "Tourism creates:", answer: "jobs" },
+        { num: 2, text: "In:", answer: "hospitality" },
+        { num: 3, text: "And:", answer: "transport" },
+        { num: 4, text: "Brings:", answer: "revenue" },
+        { num: 5, text: "To local:", answer: "businesses" },
+        { num: 6, text: "Problem:", answer: "seasonality" },
+        { num: 7, text: "Environmental:", answer: "damage" },
+        { num: 8, text: "Overcrowding in:", answer: "popular" },
+        { num: 9, text: "Solution:", answer: "sustainable" },
+        { num: 10, text: "Tourism needs:", answer: "management" }
+      ]
+    },
+    {
+      id: 72,
+      title: "MSG Research",
+      formTitle: "MONOSODIUM GLUTAMATE",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: [
+        { num: 1, text: "MSG is a:", answer: "flavouring" },
+        { num: 2, text: "Discovered in:", answer: "Japan" },
+        { num: 3, text: "From:", answer: "seaweed" },
+        { num: 4, text: "Taste:", answer: "umami" },
+        { num: 5, text: "Found in:", answer: "tomatoes" },
+        { num: 6, text: "And:", answer: "cheese" },
+        { num: 7, text: "Health concerns:", answer: "unfounded" },
+        { num: 8, text: "Studies show:", answer: "safe" },
+        { num: 9, text: "Used in:", answer: "processed" },
+        { num: 10, text: "Foods worldwide:", answer: "common" }
+      ]
+    },
+    {
+      id: 73,
+      title: "Geographical Features",
+      formTitle: "FORMATION OF LANDSCAPES",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: [
+        { num: 1, text: "Mountains form from:", answer: "plates" },
+        { num: 2, text: "Collision creates:", answer: "uplift" },
+        { num: 3, text: "Example:", answer: "Himalayas" },
+        { num: 4, text: "Valleys from:", answer: "erosion" },
+        { num: 5, text: "By:", answer: "rivers" },
+        { num: 6, text: "Or:", answer: "glaciers" },
+        { num: 7, text: "Deserts from:", answer: "climate" },
+        { num: 8, text: "Lack of:", answer: "rainfall" },
+        { num: 9, text: "Coastlines shaped by:", answer: "waves" },
+        { num: 10, text: "Constant:", answer: "change" }
+      ]
+    },
+    {
+      id: 74,
+      title: "Medical Research",
+      formTitle: "CLINICAL TRIALS",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: [
+        { num: 1, text: "Trials test:", answer: "drugs" },
+        { num: 2, text: "Phase one:", answer: "safety" },
+        { num: 3, text: "Small:", answer: "groups" },
+        { num: 4, text: "Phase two:", answer: "effectiveness" },
+        { num: 5, text: "Compare with:", answer: "placebo" },
+        { num: 6, text: "Phase three:", answer: "larger" },
+        { num: 7, text: "Double:", answer: "blind" },
+        { num: 8, text: "Neither knows:", answer: "treatment" },
+        { num: 9, text: "Approval from:", answer: "regulators" },
+        { num: 10, text: "Then:", answer: "marketing" }
+      ]
+    },
+    {
+      id: 75,
+      title: "Business Success",
+      formTitle: "ENTREPRENEURSHIP",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: [
+        { num: 1, text: "Entrepreneurs need:", answer: "vision" },
+        { num: 2, text: "And:", answer: "determination" },
+        { num: 3, text: "Start with:", answer: "idea" },
+        { num: 4, text: "Research:", answer: "market" },
+        { num: 5, text: "Write:", answer: "plan" },
+        { num: 6, text: "Secure:", answer: "funding" },
+        { num: 7, text: "Build:", answer: "team" },
+        { num: 8, text: "Accept:", answer: "risk" },
+        { num: 9, text: "Learn from:", answer: "failure" },
+        { num: 10, text: "Keep:", answer: "adapting" }
+      ]
+    },
+    {
+      id: 76,
+      title: "Whale Behaviour",
+      formTitle: "WHALE COMMUNICATION",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: [
+        { num: 1, text: "Whales use:", answer: "sound" },
+        { num: 2, text: "Called:", answer: "songs" },
+        { num: 3, text: "Travel:", answer: "underwater" },
+        { num: 4, text: "Long:", answer: "distances" },
+        { num: 5, text: "Purpose:", answer: "mating" },
+        { num: 6, text: "Also:", answer: "navigation" },
+        { num: 7, text: "Each population:", answer: "different" },
+        { num: 8, text: "Songs:", answer: "evolve" },
+        { num: 9, text: "Threatened by:", answer: "noise" },
+        { num: 10, text: "From:", answer: "ships" }
+      ]
+    },
+    {
+      id: 77,
+      title: "Business Culture",
+      formTitle: "CORPORATE CULTURE",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: [
+        { num: 1, text: "Culture is:", answer: "values" },
+        { num: 2, text: "And:", answer: "behaviours" },
+        { num: 3, text: "Set by:", answer: "leadership" },
+        { num: 4, text: "Affects:", answer: "performance" },
+        { num: 5, text: "Strong cultures:", answer: "consistent" },
+        { num: 6, text: "Employees:", answer: "motivated" },
+        { num: 7, text: "Poor cultures:", answer: "toxic" },
+        { num: 8, text: "High:", answer: "turnover" },
+        { num: 9, text: "Change requires:", answer: "time" },
+        { num: 10, text: "And:", answer: "commitment" }
+      ]
+    },
+    {
+      id: 78,
+      title: "Underground Homes",
+      formTitle: "EARTH-SHELTERED HOUSING",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: [
+        { num: 1, text: "Built:", answer: "underground" },
+        { num: 2, text: "Or into:", answer: "hillsides" },
+        { num: 3, text: "Natural:", answer: "insulation" },
+        { num: 4, text: "Temperature:", answer: "stable" },
+        { num: 5, text: "Less:", answer: "energy" },
+        { num: 6, text: "For heating and:", answer: "cooling" },
+        { num: 7, text: "Challenge:", answer: "lighting" },
+        { num: 8, text: "Use:", answer: "skylights" },
+        { num: 9, text: "Damp:", answer: "prevention" },
+        { num: 10, text: "Growing:", answer: "popularity" }
+      ]
+    },
+    {
+      id: 79,
+      title: "Urban Wildlife",
+      formTitle: "WILDLIFE IN CITIES",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: [
+        { num: 1, text: "Cities have:", answer: "wildlife" },
+        { num: 2, text: "Common:", answer: "foxes" },
+        { num: 3, text: "And:", answer: "birds" },
+        { num: 4, text: "Attracted by:", answer: "food" },
+        { num: 5, text: "And:", answer: "shelter" },
+        { num: 6, text: "Parks provide:", answer: "habitat" },
+        { num: 7, text: "Gardens:", answer: "important" },
+        { num: 8, text: "Problems:", answer: "conflict" },
+        { num: 9, text: "With:", answer: "humans" },
+        { num: 10, text: "Need:", answer: "coexistence" }
+      ]
+    },
+    {
+      id: 80,
+      title: "Sleep Research",
+      formTitle: "THE SCIENCE OF SLEEP",
+      formSubtitle: "Lecture Notes",
+      instruction: "Write ONE WORD ONLY for each answer.",
+      questions: [
+        { num: 1, text: "Sleep is:", answer: "essential" },
+        { num: 2, text: "Brain:", answer: "consolidates" },
+        { num: 3, text: "Memories during:", answer: "REM" },
+        { num: 4, text: "Body:", answer: "repairs" },
+        { num: 5, text: "Recommended hours:", answer: "eight" },
+        { num: 6, text: "Lack affects:", answer: "concentration" },
+        { num: 7, text: "And:", answer: "mood" },
+        { num: 8, text: "Insomnia:", answer: "common" },
+        { num: 9, text: "Causes:", answer: "stress" },
+        { num: 10, text: "Good:", answer: "hygiene" }
+      ]
+    }
   ]
 };
 
@@ -4896,6 +5554,912 @@ const ListeningPage = ({ subPage, setSubPage }) => {
   );
 };
 
+// ==================== READING TESTS DATA (PASSAGE 1) ====================
+const readingPassage1Tests = [
+  {
+    id: 31,
+    title: "A Survivor's Story",
+    subtitle: "One native bird in New Zealand that has managed to survive the introduction of non-native species",
+    passage: `<p>As an island country with a fauna dominated by birds, New Zealand was once home to an owl species which is now extinct, the laughing owl, named for its distinctive cry. This bird was widespread throughout the islands when European settlers arrived in the middle of the 19th century and it remained in good numbers for some years thereafter. Where other native birds suffered from predation by the Polynesian rat, the laughing owl turned the tables and adapted its diet to include the rodent. It was also capable of catching and killing the other New Zealand owl, the morepork, and even larger birds, such as the weka. However, the laughing owl was wiped out around the beginning of the 20th century. Its demise caused by specimen collectors, habitat changes, and non-native predators including cats and stoats. Surprisingly, it is the smaller owl, the morepork, that has managed to survive until this day.</p>
+<p>Speckled dark brown, with yellow eyes and long tails, they are around 29 centimeters long from head to tail and 175 grams in weight. Moreporks have fringes on the edge of their feathers, so they can fly almost silently and not alert potential prey. They have acute hearing and their large eyes are very sensitive to light.</p>
+<p>Moreporks nest in tree hollows, in clumps of plants, or in cavities among rocks and roots. In the wild, moreporks usually start nesting in October, although zoo specimens have been recorded nesting in midwinter, possibly stimulated by an ample food supply. The female lays up to three white eggs, which she incubates for 20 to 30 days. During this time, she rarely hunts, and the male brings food to her. Once the chicks hatch, she stays mainly on the nest until the young owls are fully feathered. When hatched, chicks are covered in light grey down, and have their eyes closed. The eyes do not open until the eighth day after hatching. They can fly at around 35 days.</p>
+<p>By day, moreporks sleep in roosts. By night, they hunt a variety of animals -- mainly large invertebrates including scarab and huhu beetles, moths, caterpillars and spiders. They also take small birds and mice. They can find suitable food in pine forests as well as native forest. A morepork uses its sharp talons to catch or stun its prey, which it then carries away in its bill. Moreporks are clever hunters, and birds such as robins, grey warblers and fantails can end up as their prey. In the day, these small birds sometimes mob drowsy moreporks and chase them away from their roosts. They force the sleepy predators to search for a more peaceful spot.</p>
+<p>Moreporks have proved to be ungracious hosts. Scientists trying to establish a population of plovers on Motuora island in New Zealand's Hauraki Gulf were mystified as to why only two birds survived out of 75 placed there. The culprits turned out to be five pairs of moreporks that ate or chased away the new arrivals.</p>
+<p>Although moreporks are still considered to be relatively common, it is likely that numbers are in gradual decline due to predation and loss of habitat. As the female is a hole-nester, she is vulnerable to predators such as stoats and possums during the breeding season, and eggs and chicks will also be at risk from rats. The use of pesticides is another possible threat to the owls though not a direct one. As moreporks are at the top of the food chain, they could be affected by an accumulative poison by consuming prey that has ingested poison.</p>
+<p>The New Zealand Department of Conservation is taking steps to ensure the preservation of New Zealand's only native owl. The department is involved in measuring the population of moreporks and has put transmitters on a number of birds to determine survival and mortality. As well as being New Zealand's only native owl, the morepork has symbolic and spiritual importance, so in monitoring the birds it is hoped that the morepork will continue to survive and thrive.</p>
+<p>At dusk, the melancholy sound of the morepork can be heard in forests and parks as it calls to other moreporks and claims territory. Its Maori name (ruru) echoes its two-part cry. In the tradition of the Maori people of New Zealand, the morepork, or ruru, was often seen as a careful guardian. A number of sayings referred to the bird's alertness. As a bird of the night, it was associated with the spirit world. Moreporks were believed to act as messengers to the gods in the heavens, flying along spiritual paths in the sky. They were the mediums used to communicate with the gods. The occasional high, piercing call of the morepork signified bad news, but the lower-pitched and more common "ruru" call heralded good news.</p>`,
+    questions: [
+      { type: 'tfng', rubric: 'Questions 1-7', instruction: 'Do the following statements agree with the information given in Reading Passage 1?', items: [
+        { num: 1, text: 'Early European settlers made detailed studies of the morepork.', answer: 'NOT GIVEN' },
+        { num: 2, text: 'The Polynesian rat had a negative effect on the number of laughing owls.', answer: 'FALSE' },
+        { num: 3, text: 'The laughing owl was larger than the morepork.', answer: 'TRUE' },
+        { num: 4, text: 'Rats pose a risk to young moreporks.', answer: 'TRUE' },
+        { num: 5, text: 'The New Zealand Department of Conservation is hoping to limit the population of moreporks.', answer: 'FALSE' },
+        { num: 6, text: 'Other bird species are frightened away when they hear the morepork\'s cry.', answer: 'NOT GIVEN' },
+        { num: 7, text: 'In Maori tradition, the low call of the morepork had negative associations.', answer: 'FALSE' }
+      ]},
+      { type: 'completion', rubric: 'Questions 8-13', instruction: 'Complete the notes below. Choose ONE WORD AND/OR A NUMBER from the passage for each answer.', title: 'The Morepork', items: [
+        { num: 8, beforeText: 'Appearance: approximately', afterText: 'in length', answer: '29 centimeters' },
+        { num: 9, beforeText: 'Nesting: nests in trees, plants or spaces in roots and', afterText: '', answer: 'rocks' },
+        { num: 10, beforeText: 'Hunting: transports its prey using its', afterText: '', answer: 'bill' },
+        { num: 11, beforeText: 'can be chased away by other birds during the', afterText: '', answer: 'day' },
+        { num: 12, beforeText: 'attacked', afterText: 'that had been introduced to Motuora island', answer: 'plovers' },
+        { num: 13, beforeText: 'Threats: may be exposed to', afterText: 'in their prey', answer: 'poison' }
+      ]}
+    ]
+  },
+  {
+    id: 32,
+    title: "Wood: A Valuable Resource in New Zealand's Economy",
+    subtitle: "The role of forestry in New Zealand's economic development",
+    passage: `<p>New Zealand's economy has long depended on the export of primary products. Although traditionally this trade has been dominated by meat and dairy products, wood has become an increasingly significant export commodity over recent decades. Today, forestry and wood processing contribute around 3% of New Zealand's GDP and employ approximately 60,000 people.</p>
+<p>The forestry industry in New Zealand is predominantly based on exotic, or introduced, species. The first exotic forests were planted in the early 1900s, primarily to replace native forests that had been cleared for farming. Today, approximately 90% of New Zealand's plantation forests are Pinus radiata, a softwood species originally from California. This tree grows particularly well in New Zealand's temperate climate, reaching maturity in just 25-30 years compared to 80 years or more in its native habitat.</p>
+<p>New Zealand is uniquely positioned to supply wood to Asian markets due to its geographical location. Shipping costs to major markets such as China, Japan, and South Korea are considerably lower than from competing countries like Canada or Scandinavia. This advantage has helped New Zealand become one of the world's largest exporters of logs.</p>
+<p>The export sector has grown substantially in recent years. China has emerged as the dominant market, taking approximately 80% of New Zealand's log exports. This heavy reliance on a single market has raised concerns about vulnerability to economic fluctuations and trade disputes.</p>
+<p>Sustainability is a key focus for New Zealand's forestry industry. Unlike many countries where deforestation remains a significant problem, New Zealand's plantation forests are replanted after harvesting. The industry has also adopted various environmental certification schemes to demonstrate its commitment to sustainable practices.</p>
+<p>Looking ahead, the industry faces several challenges. Climate change may affect tree growth rates and increase the risk of pests and diseases. Competition from other countries and wood substitutes also poses a threat. However, increasing global demand for sustainable building materials provides opportunities for growth.</p>`,
+    questions: [
+      { type: 'tfng', rubric: 'Questions 1-6', instruction: 'Do the following statements agree with the information given in Reading Passage 1?', items: [
+        { num: 1, text: 'Meat and dairy have always been New Zealand\'s most valuable exports.', answer: 'FALSE' },
+        { num: 2, text: 'Pinus radiata grows faster in New Zealand than in California.', answer: 'TRUE' },
+        { num: 3, text: 'New Zealand is the world\'s largest exporter of logs.', answer: 'NOT GIVEN' },
+        { num: 4, text: 'China purchases most of the logs exported from New Zealand.', answer: 'FALSE' },
+        { num: 5, text: 'New Zealand\'s native forests are being cleared for timber production.', answer: 'NOT GIVEN' },
+        { num: 6, text: 'Plantation forests in New Zealand are replanted after trees are cut.', answer: 'TRUE' }
+      ]},
+      { type: 'completion', rubric: 'Questions 7-13', instruction: 'Complete the notes below. Choose NO MORE THAN TWO WORDS from the passage for each answer.', title: 'New Zealand Forestry Industry', items: [
+        { num: 7, beforeText: 'New Zealand has lower', afterText: 'to Asian markets than Canada', answer: 'shipping costs' },
+        { num: 8, beforeText: 'Forestry is an important', afterText: 'for New Zealand', answer: 'export sector' },
+        { num: 9, beforeText: 'The industry employs approximately', afterText: 'people', answer: '60000' },
+        { num: 10, beforeText: 'Most plantation forests consist of', afterText: 'trees', answer: 'softwood' },
+        { num: 11, beforeText: 'The industry demonstrates', afterText: 'through environmental certification', answer: 'sustainability' },
+        { num: 12, beforeText: 'Competition comes from countries like Canada and', afterText: '', answer: 'scandinavian countries' },
+        { num: 13, beforeText: 'Future challenges include competition from', afterText: '', answer: 'wood substitutes' }
+      ]}
+    ]
+  },
+  {
+    id: 33,
+    title: "Portrait of Bianca Sforza",
+    subtitle: "The investigation of a Renaissance artwork",
+    passage: `<p>In 1998, a painting was sold at auction for $21,850 to an art collector named Peter Silverman. The portrait, executed in pen and colored chalks on vellum, depicted a young woman in profile, dressed in Renaissance fashion. Although the seller believed it to be a 19th-century German work, Silverman became convinced that it was something far more significant.</p>
+<p>The portrait shows a young woman with her hair bound in an elaborate golden net, wearing a dress typical of the late 15th century Italian courts. Her expression is serene yet somewhat melancholic, with downcast eyes and a subtle smile. The technical skill evident in the work suggested to Silverman that this might be the work of a major Renaissance master.</p>
+<p>Silverman took the portrait to various experts for analysis. Martin Kemp, an Oxford professor and Leonardo da Vinci scholar, was initially skeptical but became intrigued after examining the painting closely. He noted several features consistent with Leonardo's known works, including the lefthandedness evident in the hatching marks and the sophisticated treatment of the subject's costume and hair.</p>
+<p>Scientific analysis was conducted in Switzerland using various techniques. X-ray examination revealed that the work was executed on a single piece of vellum with no later additions or alterations to the composition. Analysis of the paint layer showed that the pigments used were consistent with those available in the late 15th century.</p>
+<p>One particularly significant finding concerned the subject's eyes. Close examination revealed that the pupils had been rendered using the sfumato technique, a method of blending colors pioneered by Leonardo. This subtle gradation created a sense of depth and lifelike quality characteristic of his portraits.</p>
+<p>Based on historical research and comparison with other works, experts proposed that the subject was Bianca Sforza, a young noblewoman who was legitimized as an heir to the Duke of Milan in 1489. She was later married at age 13 and died in childbirth at 14, making this portrait a rare record of her brief life.</p>
+<p>Despite the compelling evidence, the attribution to Leonardo remains controversial. Some scholars argue that the painting could be by a talented follower or student. The debate highlights the challenges of art authentication, where scientific analysis, stylistic comparison, and historical research must all align to reach a definitive conclusion.</p>`,
+    questions: [
+      { type: 'ynng', rubric: 'Questions 1-5', instruction: 'Do the following statements agree with the claims of the writer in Reading Passage 1?', items: [
+        { num: 1, text: 'Peter Silverman paid too much for the portrait.', answer: 'YES' },
+        { num: 2, text: 'Martin Kemp immediately recognized the painting as Leonardo\'s work.', answer: 'NO' },
+        { num: 3, text: 'The hatching marks suggest the artist was left-handed.', answer: 'YES' },
+        { num: 4, text: 'The portrait shows signs of having been altered over time.', answer: 'NO' },
+        { num: 5, text: 'Bianca Sforza lived to old age.', answer: 'NOT GIVEN' }
+      ]},
+      { type: 'mcq', rubric: 'Questions 6-9', instruction: 'Choose the correct letter, A, B, C or D.', items: [
+        { num: 6, text: 'When the painting was first sold, it was thought to be', options: ['A. a Renaissance masterpiece', 'B. a 19th-century German work', 'C. a portrait by Leonardo', 'D. an Italian court painting'], answer: 'B' },
+        { num: 7, text: 'The sfumato technique was used in the painting\'s', options: ['A. background', 'B. pupils', 'C. costume', 'D. hair'], answer: 'B' },
+        { num: 8, text: 'Scientific analysis was conducted in', options: ['A. Oxford', 'B. Switzerland', 'C. Italy', 'D. Germany'], answer: 'B' },
+        { num: 9, text: 'The attribution to Leonardo', options: ['A. has been universally accepted', 'B. remains controversial', 'C. has been definitively proven', 'D. was rejected by Kemp'], answer: 'B' }
+      ]},
+      { type: 'completion', rubric: 'Questions 10-13', instruction: 'Complete the sentences below. Choose NO MORE THAN TWO WORDS from the passage for each answer.', items: [
+        { num: 10, beforeText: 'Scientific analysis was conducted in', afterText: '', answer: 'switzerland' },
+        { num: 11, beforeText: 'Analysis of the', afterText: 'confirmed the pigments were period-appropriate', answer: 'paint layer' },
+        { num: 12, beforeText: 'The sfumato technique created depth in the', afterText: '', answer: 'pupils' },
+        { num: 13, beforeText: 'The debate highlights challenges in', afterText: '', answer: 'art authentication' }
+      ]}
+    ]
+  },
+  {
+    id: 34,
+    title: "The Pearl",
+    subtitle: "The history and significance of pearls throughout human civilization",
+    passage: `<p><strong>A</strong> Pearls have captivated humans for thousands of years. Unlike other gemstones that must be mined from the earth and cut to reveal their beauty, pearls emerge from the sea fully formed, requiring no enhancement to display their lustrous appeal. This natural perfection made them highly prized in ancient civilizations.</p>
+<p><strong>B</strong> In ancient Rome, pearls were considered the ultimate status symbol. Only the highest-ranking citizens were permitted to wear them, and Julius Caesar reportedly passed a law limiting pearl ownership to the ruling classes. The Roman general Vitellius is said to have financed an entire military campaign by selling just one of his mother's pearl earrings.</p>
+<p><strong>C</strong> Pearl fishing has been practiced for millennia in various parts of the world. The Persian Gulf was historically one of the most important sources, with Bahrain being particularly renowned for the quality of its pearls. In eastern countries such as China and Japan, pearl diving was a respected profession, though it came with significant risks including drowning and shark attacks.</p>
+<p><strong>D</strong> The discovery of abundant oyster beds in the Americas following Columbus's voyages led to a "pearl rush" in the 16th century. Spanish conquistadors extracted enormous quantities of pearls from the waters around Venezuela and Panama. However, overfishing quickly depleted these resources.</p>
+<p><strong>E</strong> The development of cultured pearls in Japan in the early 20th century revolutionized the industry. Kokichi Mikimoto perfected a technique for inducing oysters to produce pearls around inserted irritants. This made pearls accessible to ordinary consumers for the first time, though it also reduced their perceived value as rare treasures.</p>
+<p><strong>F</strong> Today, Australia is one of the world's leading producers of South Sea pearls, which are prized for their large size and silvery-white color. China has emerged as the dominant producer of freshwater cultured pearls, flooding the market with affordable options. Meanwhile, Mallorca in Spain has become famous for its artificial pearls, which closely mimic the appearance of natural specimens.</p>
+<p><strong>G</strong> Natural pearls remain extremely rare and valuable. Most come from older jewelry being resold, as wild pearl oysters are now scarce. A perfectly round natural pearl of good size can command prices exceeding those of diamonds of similar weight.</p>`,
+    questions: [
+      { type: 'matching', rubric: 'Questions 1-4', instruction: 'The passage has seven paragraphs, A-G. Which paragraph contains the following information?', items: [
+        { num: 1, text: 'A comparison between natural and cultured pearls', answer: 'A' },
+        { num: 2, text: 'A method that made pearls available to more people', answer: 'E' },
+        { num: 3, text: 'The current rarity of natural pearls', answer: 'G' },
+        { num: 4, text: 'Dangers associated with obtaining pearls', answer: 'C' }
+      ]},
+      { type: 'completion', rubric: 'Questions 5-10', instruction: 'Complete the summary below. Choose NO MORE THAN TWO WORDS from the passage for each answer.', title: 'The History of Pearls', items: [
+        { num: 5, beforeText: 'In', afterText: ', pearls were restricted to the elite', answer: 'ancient Rome' },
+        { num: 6, beforeText: 'Pearl diving was practiced in', afterText: 'such as China and Japan', answer: 'eastern countries' },
+        { num: 7, beforeText: '', afterText: 'is famous for its artificial pearls', answer: 'Mallorca' },
+        { num: 8, beforeText: 'Cultured pearls were developed in', afterText: '', answer: 'Japan' },
+        { num: 9, beforeText: '', afterText: 'is a leading producer of South Sea pearls', answer: 'Australia' },
+        { num: 10, beforeText: '', afterText: 'was historically known for high-quality natural pearls', answer: 'Bahrain' }
+      ]},
+      { type: 'tfng', rubric: 'Questions 11-13', instruction: 'Do the following statements agree with the information given in Reading Passage 1?', items: [
+        { num: 11, text: 'Roman law restricted who could own pearls.', answer: 'TRUE' },
+        { num: 12, text: 'Spanish pearl fishing in the Americas was sustainable.', answer: 'NOT GIVEN' },
+        { num: 13, text: 'Natural pearls can be more valuable than diamonds.', answer: 'TRUE' }
+      ]}
+    ]
+  },
+  {
+    id: 35,
+    title: "Ambergris",
+    subtitle: "The mysterious substance from the sea",
+    passage: `<p>Ambergris is one of the most unusual and valuable substances found in nature. For centuries, its origins remained a mystery, with various theories ranging from sea foam to the droppings of mythical birds. We now know that it is produced in the digestive system of sperm whales, though the exact process remains partially unclear.</p>
+<p>When sperm whales consume squid, their primary food source, the hard beaks of the squid cannot be digested. These accumulate in the whale's intestines, where they become coated with a waxy substance secreted by the whale's body. This mass may be expelled naturally or released when the whale dies. Either way, ambergris eventually makes its way to the ocean surface.</p>
+<p>Fresh ambergris has a soft, almost tar-like consistency and an unpleasant fecal odor. However, exposure to sun, salt water, and air transforms it over years or even decades. It hardens into a waxy substance and develops a complex, pleasant aroma that has been described as sweet, earthy, and marine. The vomiting of the substance by the whale is one theory of how it is expelled, though this remains debated among scientists.</p>
+<p>Historically, ambergris was highly prized in perfumery for its ability to fix fragrances and make them last longer on the skin. A tiny amount could make a perfume's scent persist for hours rather than minutes. It was also used in traditional medicine and even in cooking, though these uses have largely disappeared.</p>
+<p>Today, synthetic alternatives have largely replaced ambergris in the perfume industry. However, collectors and traditional perfumers still seek out natural ambergris, and large pieces can fetch extraordinary prices. A 15-kilogram piece found on a beach in Thailand was reportedly worth over $200,000.</p>
+<p>Finding ambergris is entirely a matter of luck. It can wash up on beaches anywhere in the world, though it is most commonly found in regions near sperm whale habitats. Beachcombers who discover it often have no idea what they have found, as it can easily be mistaken for ordinary rocks or debris.</p>`,
+    questions: [
+      { type: 'mcq', rubric: 'Questions 1-6', instruction: 'Choose the correct letter, A, B, C or D.', items: [
+        { num: 1, text: 'Ambergris is produced by', options: ['A. sea birds', 'B. ocean waves', 'C. sperm whales', 'D. squid'], answer: 'C' },
+        { num: 2, text: 'The hard parts of squid that accumulate are the', options: ['A. beaks', 'B. tentacles', 'C. eyes', 'D. bodies'], answer: 'A' },
+        { num: 3, text: 'Fresh ambergris smells', options: ['A. sweet', 'B. marine', 'C. earthy', 'D. unpleasant'], answer: 'D' },
+        { num: 4, text: 'The transformation of ambergris takes', options: ['A. days', 'B. years', 'C. hours', 'D. minutes'], answer: 'B' },
+        { num: 5, text: 'Ambergris was traditionally valued in perfumery because it', options: ['A. made perfumes last longer', 'B. added color', 'C. was cheap', 'D. smelled of the sea'], answer: 'A' },
+        { num: 6, text: 'Finding ambergris depends mainly on', options: ['A. skill', 'B. equipment', 'C. luck', 'D. knowledge'], answer: 'A' }
+      ]},
+      { type: 'completion', rubric: 'Questions 7-9', instruction: 'Complete the sentences below. Choose ONE WORD from the passage for each answer.', items: [
+        { num: 7, beforeText: 'Squid', afterText: 'accumulate in the whale\'s intestines', answer: 'beaks' },
+        { num: 8, beforeText: 'One theory suggests ambergris is expelled through', afterText: '', answer: 'vomiting' },
+        { num: 9, beforeText: 'Over time, ambergris', afterText: 'into a waxy substance', answer: 'hardens' }
+      ]},
+      { type: 'tfng', rubric: 'Questions 10-13', instruction: 'Do the following statements agree with the information given in Reading Passage 1?', items: [
+        { num: 10, text: 'Scientists fully understand how ambergris is formed.', answer: 'NOT GIVEN' },
+        { num: 11, text: 'Ambergris is still commonly used in cooking.', answer: 'NOT GIVEN' },
+        { num: 12, text: 'Synthetic substitutes have completely replaced natural ambergris.', answer: 'FALSE' },
+        { num: 13, text: 'Ambergris is most often found far from whale habitats.', answer: 'NOT GIVEN' }
+      ]}
+    ]
+  },
+  {
+    id: 36,
+    title: "Tulip Mania",
+    subtitle: "The rise and fall of tulip prices in 17th-century Holland",
+    passage: `<p><strong>A</strong> In the early 17th century, the Netherlands experienced one of history's most remarkable economic phenomena: tulip mania. During this period, the price of tulip bulbs soared to extraordinary heights before crashing dramatically, ruining many speculators in the process.</p>
+<p><strong>B</strong> Tulips were introduced to Western Europe from the Ottoman Empire in the mid-16th century. The flowers quickly became popular among the wealthy classes, who prized them for their vivid colors and exotic origins. Unlike other flowers, tulips could produce unpredictable variations in their colors and patterns, making rare varieties highly sought after.</p>
+<p><strong>C</strong> By the 1630s, tulip trading had become a major component of Dutch commerce. Professional traders, wealthy merchants, and ordinary citizens all participated in the market. Some varieties became extraordinarily valuable: a single bulb of the prized Semper Augustus variety reportedly sold for 10,000 guilders – enough to buy a grand house in Amsterdam.</p>
+<p><strong>D</strong> The market was particularly active during the winter months when bulbs could not be inspected in the ground. This led to trading in tulip futures – contracts for bulbs that would be delivered in the spring. Speculators bought and sold these contracts, hoping to profit from price increases.</p>
+<p><strong>E</strong> The bubble burst in February 1637. Within days, prices collapsed to a fraction of their peak values. Those who had invested heavily in tulips faced financial ruin. The causes of the crash remain debated, but likely included oversupply, a plague epidemic that reduced demand, and simply the realization that prices had risen to unsustainable levels.</p>
+<p><strong>F</strong> The long-term economic impact of tulip mania on the Dutch economy is often overstated. Most trading occurred among a relatively small group of speculators, and the broader economy continued to prosper. However, the episode has become a powerful symbol of speculative excess and the dangers of asset bubbles.</p>
+<p><strong>G</strong> Today, tulip mania is frequently cited in discussions of modern financial bubbles, from the dot-com crash to cryptocurrency speculation. The lesson that prices can become detached from fundamental value remains relevant centuries later.</p>
+<p><strong>H</strong> The Netherlands remains the world's leading producer of tulips, exporting billions of bulbs annually. The industry has never again experienced such extreme price volatility, but tulips continue to hold a special place in Dutch culture and commerce.</p>`,
+    questions: [
+      { type: 'matching', rubric: 'Questions 1-5', instruction: 'The passage has eight paragraphs, A-H. Which paragraph contains the following information?', items: [
+        { num: 1, text: 'The impact of disease on the tulip market', answer: 'C' },
+        { num: 2, text: 'The origins of tulips in Europe', answer: 'A' },
+        { num: 3, text: 'A method of trading that developed in winter', answer: 'D' },
+        { num: 4, text: 'Modern comparisons to tulip mania', answer: 'G' },
+        { num: 5, text: 'The current state of tulip production', answer: 'H' }
+      ]},
+      { type: 'tfng', rubric: 'Questions 6-10', instruction: 'Do the following statements agree with the information given in Reading Passage 1?', items: [
+        { num: 6, text: 'All Dutch citizens participated in tulip trading.', answer: 'NOT GIVEN' },
+        { num: 7, text: 'The most expensive tulip bulb could buy a large house.', answer: 'FALSE' },
+        { num: 8, text: 'Tulip futures were contracts for future delivery.', answer: 'TRUE' },
+        { num: 9, text: 'The crash destroyed the Dutch economy.', answer: 'FALSE' },
+        { num: 10, text: 'The Netherlands still leads global tulip production.', answer: 'TRUE' }
+      ]},
+      { type: 'completion', rubric: 'Questions 11-13', instruction: 'Complete the sentences below. Choose ONE WORD from the passage for each answer.', items: [
+        { num: 11, beforeText: 'Tulip trading became a major part of Dutch', afterText: '', answer: 'commerce' },
+        { num: 12, beforeText: 'Tulips were prized for their varied', afterText: 'and patterns', answer: 'colors' },
+        { num: 13, beforeText: 'The market attracted', afterText: 'hoping to profit', answer: 'speculators' }
+      ]}
+    ]
+  },
+  {
+    id: 37,
+    title: "Caral: An Ancient South American City",
+    subtitle: "Discoveries about one of the oldest urban centers in the Americas",
+    passage: `<p>The ancient city of Caral, located in the Supe Valley of Peru, has revolutionized our understanding of early civilization in the Americas. Dating back approximately 5,000 years, it is now recognized as one of the oldest urban centers in the Western Hemisphere, contemporary with the great pyramids of Egypt.</p>
+<p>Caral was first surveyed in 1905, but its significance was not recognized for nearly a century. Archaeologists initially assumed the site dated to a much later period because they found no ceramics – pottery was considered a hallmark of complex societies. It was only when carbon dating was applied to plant materials found at the site that the true age of Caral was revealed.</p>
+<p>The city covers approximately 150 acres and includes six large pyramidal structures, numerous smaller buildings, two sunken circular plazas, and residential areas. The largest pyramid stands about 60 feet tall and was constructed in successive layers over several centuries. These monumental structures required coordinated labor by hundreds or thousands of workers.</p>
+<p>One of Caral's most intriguing aspects is its apparent lack of warfare. Archaeologists have found no weapons, defensive walls, or evidence of violent conflict. This stands in stark contrast to later South American civilizations, which often engaged in warfare and human sacrifice.</p>
+<p>The economy of Caral appears to have been based on fishing and farming. The coastal location provided abundant fish, which were preserved by drying. Cotton was a major crop, with seeds found throughout the site. Inland communities provided agricultural products, suggesting an extensive trade network. The residents also grew maize, which became a staple food, and used canals for irrigation.</p>
+<p>Archaeologists have used a technique called flotation to recover small plant remains from the soil. This involves mixing soil samples with water, causing lighter organic materials to float to the surface where they can be collected. Through this method, researchers have identified numerous cultivated and wild plant species used by Caral's inhabitants.</p>
+<p>The collapse of Caral around 1800 BCE remains something of a mystery. Possible explanations include environmental changes, such as a major earthquake that may have disrupted irrigation systems, or social factors that led to the abandonment of the city.</p>`,
+    questions: [
+      { type: 'tfng', rubric: 'Questions 1-6', instruction: 'Do the following statements agree with the information given in Reading Passage 1?', items: [
+        { num: 1, text: 'Caral was recognized as an important site immediately after its discovery.', answer: 'FALSE' },
+        { num: 2, text: 'The age of Caral was determined using carbon dating.', answer: 'TRUE' },
+        { num: 3, text: 'The largest pyramid was built in one construction phase.', answer: 'FALSE' },
+        { num: 4, text: 'Evidence suggests Caral was a peaceful society.', answer: 'TRUE' },
+        { num: 5, text: 'Caral traded exclusively with coastal communities.', answer: 'NOT GIVEN' },
+        { num: 6, text: 'The exact cause of Caral\'s abandonment is known.', answer: 'FALSE' }
+      ]},
+      { type: 'completion', rubric: 'Questions 7-13', instruction: 'Complete the notes below. Choose ONE WORD from the passage for each answer.', title: 'Caral: Key Facts', items: [
+        { num: 7, beforeText: 'Cotton', afterText: 'were found throughout the site', answer: 'seeds' },
+        { num: 8, beforeText: 'Coastal communities provided', afterText: 'for inland areas', answer: 'shells' },
+        { num: 9, beforeText: 'Coastal residents ate dried', afterText: '', answer: 'fish' },
+        { num: 10, beforeText: 'Irrigation was provided by', afterText: '', answer: 'canals' },
+        { num: 11, beforeText: '', afterText: 'became a staple food crop', answer: 'maize' },
+        { num: 12, beforeText: '', afterText: 'was an important crop for trade', answer: 'cotton' },
+        { num: 13, beforeText: 'The', afterText: 'technique was used to recover plant remains', answer: 'flotation' }
+      ]}
+    ]
+  },
+  {
+    id: 38,
+    title: "The History of Tea",
+    subtitle: "How tea became the world's most popular beverage",
+    passage: `<p>Tea has been consumed for thousands of years and is now the most widely drunk beverage in the world after water. Its origins lie in ancient China, where legend attributes its discovery to Emperor Shen Nung in 2737 BCE, though archaeological evidence suggests tea drinking began somewhat later.</p>
+<p>The earliest physical evidence of tea comes from tombs dating to around 200 BCE, where containers of tea leaves have been found. By the Tang Dynasty (618-907 CE), tea had become China's national drink. The first book devoted entirely to tea, written by Lu Yu in 760 CE, established the cultural significance of tea preparation and consumption.</p>
+<p>Buddhist monks played a crucial role in spreading tea culture. They used tea to help stay awake during long meditation sessions and carried the practice to Japan and other Asian countries. In Japan, tea drinking developed into an elaborate ritual known as the tea ceremony.</p>
+<p>Europeans first encountered tea in the 16th century through Portuguese traders. However, it was the Dutch who established the first significant tea trade with China in the early 17th century. The Dutch East India Company began importing tea to Europe, where it quickly became fashionable among the wealthy.</p>
+<p>Tea arrived in Britain in the mid-17th century and became increasingly popular, particularly after Catherine of Braganza, the Portuguese wife of Charles II, introduced tea drinking at court. By the 18th century, tea had become Britain's national beverage, though high taxes led to widespread smuggling.</p>
+<p>The British tea trade with China created an enormous trade deficit, as China accepted only silver in payment. This led to the infamous opium trade, as Britain sought goods that China would buy. When China attempted to suppress the opium trade, the result was the Opium Wars of the 1840s.</p>
+<p>The British subsequently developed tea plantations in India and Ceylon (now Sri Lanka) to reduce dependence on Chinese tea. Tea from these regions eventually came to dominate the market. The development of fast sailing ships called clippers in the mid-19th century made tea transport faster and more economical.</p>`,
+    questions: [
+      { type: 'completion', rubric: 'Questions 1-7', instruction: 'Complete the notes below. Choose ONE WORD from the passage for each answer.', title: 'The History of Tea', items: [
+        { num: 1, beforeText: 'Early evidence of tea found in ancient', afterText: '', answer: 'tombs' },
+        { num: 2, beforeText: 'Lu Yu wrote the first', afterText: 'about tea', answer: 'book' },
+        { num: 3, beforeText: 'Buddhist', afterText: 'helped spread tea to other countries', answer: 'monks' },
+        { num: 4, beforeText: 'The', afterText: 'established the first major European tea trade', answer: 'Dutch' },
+        { num: 5, beforeText: 'High taxes in Britain led to tea', afterText: '', answer: 'smuggling' },
+        { num: 6, beforeText: 'Britain developed tea plantations in', afterText: 'and Ceylon', answer: 'India' },
+        { num: 7, beforeText: 'Fast ships called', afterText: 'improved tea transport', answer: 'clippers' }
+      ]},
+      { type: 'tfng', rubric: 'Questions 8-13', instruction: 'Do the following statements agree with the information given in Reading Passage 1?', items: [
+        { num: 8, text: 'Archaeological evidence confirms that Emperor Shen Nung discovered tea.', answer: 'FALSE' },
+        { num: 9, text: 'The Japanese tea ceremony was influenced by Chinese practices.', answer: 'NOT GIVEN' },
+        { num: 10, text: 'The Portuguese established the first European tea trade with China.', answer: 'FALSE' },
+        { num: 11, text: 'Catherine of Braganza popularized tea drinking in the British court.', answer: 'TRUE' },
+        { num: 12, text: 'The Opium Wars were caused by disputes over tea trade.', answer: 'TRUE' },
+        { num: 13, text: 'Chinese tea still dominates the British market today.', answer: 'NOT GIVEN' }
+      ]}
+    ]
+  },
+  {
+    id: 39,
+    title: "The Life of Beatrix Potter",
+    subtitle: "The creator of Peter Rabbit and her remarkable achievements",
+    passage: `<p>Beatrix Potter, born in London in 1866, is best known as the creator of Peter Rabbit and numerous other beloved children's characters. However, her life encompassed far more than children's literature – she was also a serious naturalist, a successful businesswoman, and a dedicated conservationist.</p>
+<p>Potter's childhood was isolated but intellectually stimulating. Educated at home by a governess, she had few friends her own age but developed an intense interest in the natural world. She kept a menagerie of small animals, which she studied and drew meticulously. As a teenager, she began recording her observations in a diary written in a secret code that was not deciphered until after her death.</p>
+<p>Potter taught herself to draw by copying works in museums and galleries. She became particularly skilled at painting fungi and other botanical subjects. Her detailed illustrations of mushrooms caught the attention of professional artists and scientists, who encouraged her to pursue this work.</p>
+<p>In her late twenties, Potter developed an interest in mycology, the study of fungi. She conducted careful research, including growing fungal cultures and examining specimens under a microscope. She eventually wrote a paper on spore germination that was presented to the Linnean Society in 1897. However, as a woman and an amateur, her scientific contributions received little recognition at the time.</p>
+<p>The Tale of Peter Rabbit originated in a letter Potter wrote to a sick child in 1893. She later expanded this into a book, which she initially self-published in 1901 before finding a commercial publisher. The book was an immediate success, and Potter went on to write and illustrate over twenty more books.</p>
+<p>The profits from her books allowed Potter to purchase Hill Top Farm in England's Lake District, fulfilling a long-held ambition to own property in the countryside. She became increasingly devoted to sheep farming and land conservation, eventually owning thousands of acres which she left to the National Trust upon her death in 1943.</p>
+<p>Today, Potter is remembered not only for her contributions to children's literature but also for her role in preserving the Lake District landscape. Her former homes are now museums, visited by hundreds of thousands of people each year.</p>`,
+    questions: [
+      { type: 'completion', rubric: 'Questions 1-6', instruction: 'Complete the notes below. Choose ONE WORD from the passage for each answer.', title: 'Beatrix Potter: Early Life', items: [
+        { num: 1, beforeText: 'Potter was educated at home by a', afterText: '', answer: 'governess' },
+        { num: 2, beforeText: 'She kept observations in a coded', afterText: '', answer: 'diary' },
+        { num: 3, beforeText: 'She learned to draw by copying works from', afterText: 'and galleries', answer: 'artists' },
+        { num: 4, beforeText: 'She studied botanical subjects in', afterText: '', answer: 'museums' },
+        { num: 5, beforeText: 'She had a long-held', afterText: 'to own countryside property', answer: 'ambition' },
+        { num: 6, beforeText: 'Her paper was about', afterText: ', the study of fungi', answer: 'mycology' }
+      ]},
+      { type: 'tfng', rubric: 'Questions 7-13', instruction: 'Do the following statements agree with the information given in Reading Passage 1?', items: [
+        { num: 7, text: 'Potter had many close friends during her childhood.', answer: 'FALSE' },
+        { num: 8, text: 'Her secret diary was decoded while she was still alive.', answer: 'NOT GIVEN' },
+        { num: 9, text: 'Potter was self-taught as an artist.', answer: 'TRUE' },
+        { num: 10, text: 'Her scientific work was highly praised by the Linnean Society.', answer: 'FALSE' },
+        { num: 11, text: 'Peter Rabbit was first written as a letter.', answer: 'TRUE' },
+        { num: 12, text: 'Potter\'s first book was published by a major company.', answer: 'FALSE' },
+        { num: 13, text: 'Potter\'s Lake District properties are now national parks.', answer: 'NOT GIVEN' }
+      ]}
+    ]
+  },
+  {
+    id: 40,
+    title: "Chilli Peppers",
+    subtitle: "The science and culture of spicy food",
+    passage: `<p>Chilli peppers are among the most widely used spices in the world, adding heat and flavor to cuisines on every continent. Originally native to the Americas, they were spread globally by European explorers and traders, becoming essential ingredients in Asian, African, and European cooking.</p>
+<p>The heat of chilli peppers comes from capsaicin, a chemical compound concentrated in the seeds and white membranes of the fruit. When capsaicin contacts nerve receptors in the mouth, it triggers a burning sensation that the brain interprets as heat. This sensation is not actual temperature – chilli peppers do not raise the temperature of food – but a neurological response to the chemical.</p>
+<p>The intensity of chilli heat is measured on the Scoville scale, developed by pharmacist Wilbur Scoville in 1912. Pure capsaicin scores 16 million units, while a common jalapeño pepper rates around 5,000 units. The world's hottest peppers, such as the Carolina Reaper, can exceed 2 million units.</p>
+<p>Before the invention of refrigeration, chilli peppers served an important preservation function. Their antimicrobial properties helped prevent food spoilage, which may explain why hot spices became particularly popular in tropical regions where food spoils quickly.</p>
+<p>Eating spicy food triggers the release of endorphins, natural pain-relieving chemicals that produce feelings of pleasure. This may explain why some people actively seek out increasingly hot foods despite the discomfort involved. The body also responds to capsaicin by producing sweat, which helps cool the body in hot climates.</p>
+<p>Chilli peppers feature in folk remedies around the world. They are used to treat conditions ranging from sore throats to arthritis. Modern research has confirmed some health benefits: capsaicin can speed up metabolism, potentially aiding weight loss, and may help protect the stomach lining against ulcers.</p>
+<p>The global chilli market continues to grow, with new hybrid varieties being developed for both flavor and heat intensity. While some enthusiasts compete to eat the hottest peppers, others appreciate the subtler flavors that different varieties can bring to food. Chilli festivals and eating contests have become popular events, and recipes incorporating chillies are shared worldwide.</p>`,
+    questions: [
+      { type: 'tfng', rubric: 'Questions 1-7', instruction: 'Do the following statements agree with the information given in Reading Passage 1?', items: [
+        { num: 1, text: 'Chilli peppers originated in Asia.', answer: 'FALSE' },
+        { num: 2, text: 'Capsaicin actually increases the temperature of food.', answer: 'TRUE' },
+        { num: 3, text: 'The Scoville scale measures flavor intensity.', answer: 'FALSE' },
+        { num: 4, text: 'Jalapeño peppers are hotter than Carolina Reapers.', answer: 'FALSE' },
+        { num: 5, text: 'Chillies were used to preserve food before modern methods existed.', answer: 'FALSE' },
+        { num: 6, text: 'All folk remedies using chilli have been scientifically verified.', answer: 'NOT GIVEN' },
+        { num: 7, text: 'The chilli market is expanding.', answer: 'TRUE' }
+      ]},
+      { type: 'completion', rubric: 'Questions 8-13', instruction: 'Complete the sentences below. Choose ONE WORD from the passage for each answer.', items: [
+        { num: 8, beforeText: 'Before', afterText: ', chillies helped preserve food', answer: 'refrigeration' },
+        { num: 9, beforeText: 'Capsaicin makes the body', afterText: 'to cool down', answer: 'sweat' },
+        { num: 10, beforeText: 'Chillies are shared globally through', afterText: '', answer: 'recipes' },
+        { num: 11, beforeText: 'Capsaicin can increase', afterText: 'and aid weight loss', answer: 'metabolism' },
+        { num: 12, beforeText: 'Capsaicin may help protect the', afterText: 'lining', answer: 'stomach' },
+        { num: 13, beforeText: 'Endorphins produce feelings similar to those from', afterText: '', answer: 'exercise' }
+      ]}
+    ]
+  }
+];
+
+// ==================== READING PAGE COMPONENT ====================
+const ReadingPage = ({ subPage, setSubPage }) => {
+  const { isDark } = useTheme();
+  const [selectedTest, setSelectedTest] = useState(null);
+  const [userAnswers, setUserAnswers] = useState({});
+  const [showResults, setShowResults] = useState(false);
+  const [timeRemaining, setTimeRemaining] = useState(20 * 60); // 20 minutes in seconds
+  const [timerMode, setTimerMode] = useState('countdown'); // 'countdown' or 'stopwatch'
+  const [timerRunning, setTimerRunning] = useState(true);
+  const [showTimer, setShowTimer] = useState(true);
+  const [elapsedTime, setElapsedTime] = useState(0);
+  const timerRef = useRef(null);
+
+  const subTabs = [
+    { id: 'overview', label: 'Overview' },
+    { id: 'passage1', label: 'Passage 1 Tests' }
+  ];
+
+  // Timer logic
+  useEffect(() => {
+    if (selectedTest && timerRunning) {
+      timerRef.current = setInterval(() => {
+        if (timerMode === 'countdown') {
+          setTimeRemaining(prev => {
+            if (prev <= 0) return 0;
+            return prev - 1;
+          });
+        } else {
+          setElapsedTime(prev => prev + 1);
+        }
+      }, 1000);
+    }
+    return () => clearInterval(timerRef.current);
+  }, [selectedTest, timerRunning, timerMode]);
+
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
+
+  const resetTimer = () => {
+    setTimeRemaining(20 * 60);
+    setElapsedTime(0);
+    setTimerRunning(true);
+  };
+
+  const handleAnswerChange = (questionNum, value) => {
+    setUserAnswers(prev => ({ ...prev, [questionNum]: value }));
+  };
+
+  const handleSubmit = () => {
+    setShowResults(true);
+    setTimerRunning(false);
+  };
+
+  const calculateScore = () => {
+    if (!selectedTest) return { correct: 0, total: 0 };
+    let correct = 0;
+    let total = 0;
+    selectedTest.questions.forEach(section => {
+      section.items.forEach(item => {
+        total++;
+        const userAns = (userAnswers[item.num] || '').toLowerCase().trim();
+        const correctAns = item.answer.toLowerCase().trim();
+        if (userAns === correctAns) correct++;
+      });
+    });
+    return { correct, total };
+  };
+
+  const getBandScore = (correct, total) => {
+    const percentage = (correct / total) * 100;
+    if (percentage >= 90) return 9;
+    if (percentage >= 80) return 8;
+    if (percentage >= 70) return 7;
+    if (percentage >= 60) return 6;
+    if (percentage >= 50) return 5;
+    if (percentage >= 40) return 4;
+    if (percentage >= 30) return 3;
+    return 2;
+  };
+
+  const startTest = (test) => {
+    setSelectedTest(test);
+    setUserAnswers({});
+    setShowResults(false);
+    resetTimer();
+    setSubPage('passage1');
+  };
+
+  const exitTest = () => {
+    setSelectedTest(null);
+    setUserAnswers({});
+    setShowResults(false);
+    clearInterval(timerRef.current);
+  };
+
+  // Overview page
+  if (subPage === 'overview') {
+    return (
+      <div style={{ paddingTop: '80px', minHeight: '100vh', background: 'var(--bg-primary)' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem' }}>
+          <h1 style={{ fontSize: '2.5rem', fontWeight: '700', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
+            📖 Reading Section
+          </h1>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem' }}>
+            Practice with authentic IELTS reading passages and questions
+          </p>
+
+          {/* Sub-navigation */}
+          <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
+            {subTabs.map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => setSubPage(tab.id)}
+                style={{
+                  padding: '0.75rem 1.5rem',
+                  borderRadius: '10px',
+                  border: 'none',
+                  background: subPage === tab.id ? 'var(--purple-600)' : 'var(--card-bg)',
+                  color: subPage === tab.id ? 'white' : 'var(--text-secondary)',
+                  fontWeight: '500',
+                  cursor: 'pointer'
+                }}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
+
+          {/* Practice Cards */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
+            <div 
+              onClick={() => setSubPage('passage1')} 
+              style={{ 
+                padding: '2rem', 
+                borderRadius: '16px', 
+                background: 'linear-gradient(135deg, var(--purple-600-10), var(--purple-700-5))', 
+                border: '1px solid var(--purple-500-30)', 
+                cursor: 'pointer',
+                transition: 'transform 0.2s ease'
+              }}
+            >
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+                <span style={{ fontSize: '2rem' }}>📄</span>
+                <span style={{ padding: '0.25rem 0.75rem', borderRadius: '6px', background: 'var(--purple-600)', fontSize: '0.75rem', fontWeight: '600', color: 'white' }}>10 TESTS</span>
+              </div>
+              <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Passage 1 Practice</h2>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>First passage with varied question types: T/F/NG, completion, matching, MCQ</p>
+            </div>
+
+            <div style={{ padding: '2rem', borderRadius: '16px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', opacity: 0.6 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+                <span style={{ fontSize: '2rem' }}>📄</span>
+                <span style={{ padding: '0.25rem 0.75rem', borderRadius: '6px', background: 'var(--text-muted)', fontSize: '0.75rem', fontWeight: '600', color: 'white' }}>COMING SOON</span>
+              </div>
+              <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Passage 2 Practice</h2>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Medium difficulty passages with academic topics</p>
+            </div>
+
+            <div style={{ padding: '2rem', borderRadius: '16px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', opacity: 0.6 }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+                <span style={{ fontSize: '2rem' }}>📄</span>
+                <span style={{ padding: '0.25rem 0.75rem', borderRadius: '6px', background: 'var(--text-muted)', fontSize: '0.75rem', fontWeight: '600', color: 'white' }}>COMING SOON</span>
+              </div>
+              <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Passage 3 Practice</h2>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Advanced passages with complex arguments</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Passage 1 Tests list
+  if (subPage === 'passage1' && !selectedTest) {
+    return (
+      <div style={{ paddingTop: '80px', minHeight: '100vh', background: 'var(--bg-primary)' }}>
+        <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem' }}>
+          <button
+            onClick={() => setSubPage('overview')}
+            style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', marginBottom: '1.5rem', borderRadius: '8px', border: 'none', background: 'var(--card-bg)', color: 'var(--text-secondary)', cursor: 'pointer' }}
+          >
+            ← Back to Overview
+          </button>
+          
+          <h1 style={{ fontSize: '2rem', fontWeight: '700', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
+            Passage 1 Practice Tests
+          </h1>
+          <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem' }}>
+            13 questions per test • 20 minutes recommended • Various question types
+          </p>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1rem' }}>
+            {readingPassage1Tests.map((test) => (
+              <div
+                key={test.id}
+                onClick={() => startTest(test)}
+                style={{
+                  padding: '1.5rem',
+                  borderRadius: '12px',
+                  background: 'var(--card-bg)',
+                  border: '1px solid var(--border-color)',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s ease'
+                }}
+              >
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
+                  <span style={{ fontSize: '0.8rem', fontWeight: '600', color: 'var(--purple-400)' }}>TEST {test.id}</span>
+                </div>
+                <h3 style={{ fontSize: '1.1rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>{test.title}</h3>
+                <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>{test.subtitle}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Active Test View
+  if (selectedTest) {
+    const { correct, total } = calculateScore();
+    const bandScore = getBandScore(correct, total);
+
+    return (
+      <div style={{ minHeight: '100vh', background: 'var(--bg-primary)' }}>
+        {/* Header */}
+        <div style={{ 
+          position: 'fixed', 
+          top: 0, 
+          left: 0, 
+          right: 0, 
+          background: 'var(--card-bg)', 
+          borderBottom: '1px solid var(--border-color)', 
+          padding: '1rem 2rem',
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          zIndex: 100
+        }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <button
+              onClick={exitTest}
+              style={{ padding: '0.5rem 1rem', borderRadius: '8px', border: 'none', background: 'var(--bg-secondary)', color: 'var(--text-secondary)', cursor: 'pointer' }}
+            >
+              ← Exit
+            </button>
+            <span style={{ fontWeight: '600', color: 'var(--text-primary)' }}>Test {selectedTest.id}: {selectedTest.title}</span>
+          </div>
+          
+          {/* Timer Controls */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            {showTimer && (
+              <div style={{ 
+                padding: '0.5rem 1.5rem', 
+                borderRadius: '20px', 
+                background: timeRemaining <= 60 && timerMode === 'countdown' ? 'var(--danger-bg)' : 'var(--purple-600-10)', 
+                color: timeRemaining <= 60 && timerMode === 'countdown' ? 'var(--danger-text)' : 'var(--purple-400)',
+                fontWeight: '600',
+                fontFamily: 'monospace',
+                fontSize: '1.1rem'
+              }}>
+                {timerMode === 'countdown' ? formatTime(timeRemaining) : formatTime(elapsedTime)}
+              </div>
+            )}
+            <button
+              onClick={() => setShowTimer(!showTimer)}
+              style={{ padding: '0.5rem', borderRadius: '8px', border: 'none', background: 'transparent', color: 'var(--text-secondary)', cursor: 'pointer', fontSize: '1.1rem' }}
+              title={showTimer ? 'Hide timer' : 'Show timer'}
+            >
+              {showTimer ? '👁️' : '👁️‍🗨️'}
+            </button>
+            <button
+              onClick={() => setTimerMode(timerMode === 'countdown' ? 'stopwatch' : 'countdown')}
+              style={{ padding: '0.5rem', borderRadius: '8px', border: 'none', background: 'transparent', color: 'var(--text-secondary)', cursor: 'pointer', fontSize: '1.1rem' }}
+              title={timerMode === 'countdown' ? 'Switch to stopwatch' : 'Switch to countdown'}
+            >
+              {timerMode === 'countdown' ? '⏱️' : '⏳'}
+            </button>
+            <button
+              onClick={() => setTimerRunning(!timerRunning)}
+              style={{ padding: '0.5rem', borderRadius: '8px', border: 'none', background: 'transparent', color: 'var(--text-secondary)', cursor: 'pointer', fontSize: '1.1rem' }}
+              title={timerRunning ? 'Pause' : 'Resume'}
+            >
+              {timerRunning ? '⏸️' : '▶️'}
+            </button>
+          </div>
+
+          <button
+            onClick={handleSubmit}
+            disabled={showResults}
+            style={{ 
+              padding: '0.75rem 1.5rem', 
+              borderRadius: '10px', 
+              border: 'none', 
+              background: showResults ? 'var(--text-muted)' : 'var(--purple-600)', 
+              color: 'white', 
+              fontWeight: '600', 
+              cursor: showResults ? 'not-allowed' : 'pointer' 
+            }}
+          >
+            {showResults ? 'Submitted' : 'Submit'}
+          </button>
+        </div>
+
+        {/* Results Modal */}
+        {showResults && (
+          <div style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            background: 'rgba(0,0,0,0.5)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            zIndex: 200
+          }}>
+            <div style={{
+              background: 'var(--card-bg)',
+              borderRadius: '20px',
+              padding: '2rem',
+              maxWidth: '400px',
+              width: '90%',
+              textAlign: 'center'
+            }}>
+              <h2 style={{ color: 'var(--text-primary)', marginBottom: '1rem' }}>Test Results</h2>
+              <div style={{ fontSize: '3rem', fontWeight: '700', color: 'var(--purple-400)' }}>{correct}/{total}</div>
+              <div style={{ fontSize: '1.5rem', color: 'var(--text-secondary)', marginBottom: '1rem' }}>Band Score: {bandScore}</div>
+              <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
+                Time: {timerMode === 'countdown' ? formatTime(20 * 60 - timeRemaining) : formatTime(elapsedTime)}
+              </p>
+              <button
+                onClick={() => setShowResults(false)}
+                style={{ padding: '0.75rem 2rem', borderRadius: '10px', border: 'none', background: 'var(--purple-600)', color: 'white', fontWeight: '600', cursor: 'pointer' }}
+              >
+                Review Answers
+              </button>
+            </div>
+          </div>
+        )}
+
+        {/* Main Content */}
+        <div style={{ display: 'flex', paddingTop: '70px', height: 'calc(100vh - 70px)' }}>
+          {/* Passage Panel */}
+          <div style={{ 
+            width: '50%', 
+            overflowY: 'auto', 
+            padding: '2rem', 
+            borderRight: '1px solid var(--border-color)',
+            background: 'var(--bg-primary)'
+          }}>
+            <div style={{ 
+              background: 'var(--card-bg)', 
+              padding: '1.5rem', 
+              borderRadius: '12px', 
+              marginBottom: '1.5rem',
+              border: '1px solid var(--border-color)'
+            }}>
+              <h3 style={{ color: 'var(--purple-400)', marginBottom: '0.5rem' }}>Part 1</h3>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
+                You should spend about 20 minutes on Questions 1-13, which are based on Reading Passage 1 below.
+              </p>
+            </div>
+            
+            <h2 style={{ textAlign: 'center', color: 'var(--purple-400)', marginBottom: '0.5rem' }}>{selectedTest.title}</h2>
+            <p style={{ textAlign: 'center', fontStyle: 'italic', color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>{selectedTest.subtitle}</p>
+            
+            <div 
+              style={{ color: 'var(--text-primary)', lineHeight: '1.8' }}
+              dangerouslySetInnerHTML={{ __html: selectedTest.passage }}
+            />
+          </div>
+
+          {/* Questions Panel */}
+          <div style={{ 
+            width: '50%', 
+            overflowY: 'auto', 
+            padding: '2rem',
+            background: 'var(--bg-primary)'
+          }}>
+            {selectedTest.questions.map((section, sIdx) => (
+              <div key={sIdx} style={{ marginBottom: '2rem' }}>
+                <div style={{ 
+                  background: 'var(--card-bg)', 
+                  padding: '1rem 1.5rem', 
+                  borderRadius: '12px', 
+                  marginBottom: '1rem',
+                  border: '1px solid var(--border-color)'
+                }}>
+                  <h3 style={{ color: 'var(--purple-400)', marginBottom: '0.5rem' }}>{section.rubric}</h3>
+                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>{section.instruction}</p>
+                  {section.type === 'tfng' && (
+                    <div style={{ marginTop: '0.5rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                      <p><strong>TRUE</strong> if the statement agrees with the information</p>
+                      <p><strong>FALSE</strong> if the statement contradicts the information</p>
+                      <p><strong>NOT GIVEN</strong> if there is no information on this</p>
+                    </div>
+                  )}
+                  {section.type === 'ynng' && (
+                    <div style={{ marginTop: '0.5rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                      <p><strong>YES</strong> if the statement agrees with the claims of the writer</p>
+                      <p><strong>NO</strong> if the statement contradicts the claims of the writer</p>
+                      <p><strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks</p>
+                    </div>
+                  )}
+                </div>
+
+                {section.title && (
+                  <h4 style={{ color: 'var(--text-primary)', marginBottom: '1rem', fontWeight: '600' }}>{section.title}</h4>
+                )}
+
+                {section.items.map((item, iIdx) => {
+                  const isCorrect = showResults && (userAnswers[item.num] || '').toLowerCase().trim() === item.answer.toLowerCase().trim();
+                  const isWrong = showResults && userAnswers[item.num] && !isCorrect;
+
+                  return (
+                    <div 
+                      key={iIdx} 
+                      style={{ 
+                        marginBottom: '1rem', 
+                        padding: '1rem', 
+                        borderRadius: '8px',
+                        background: isCorrect ? 'var(--success-bg)' : isWrong ? 'var(--danger-bg)' : 'var(--card-bg)',
+                        border: `1px solid ${isCorrect ? 'var(--success-border)' : isWrong ? 'var(--danger-border)' : 'var(--border-color)'}`
+                      }}
+                    >
+                      {/* TFNG / YNNG Questions */}
+                      {(section.type === 'tfng' || section.type === 'ynng') && (
+                        <div>
+                          <p style={{ color: 'var(--text-primary)', marginBottom: '0.75rem' }}>
+                            <strong style={{ color: 'var(--purple-400)' }}>{item.num}.</strong> {item.text}
+                          </p>
+                          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
+                            {(section.type === 'tfng' ? ['TRUE', 'FALSE', 'NOT GIVEN'] : ['YES', 'NO', 'NOT GIVEN']).map(opt => (
+                              <label key={opt} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+                                <input
+                                  type="radio"
+                                  name={`q${item.num}`}
+                                  value={opt}
+                                  checked={userAnswers[item.num] === opt}
+                                  onChange={() => handleAnswerChange(item.num, opt)}
+                                  disabled={showResults}
+                                />
+                                <span style={{ color: 'var(--text-primary)' }}>{opt}</span>
+                              </label>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* MCQ Questions */}
+                      {section.type === 'mcq' && (
+                        <div>
+                          <p style={{ color: 'var(--text-primary)', marginBottom: '0.75rem' }}>
+                            <strong style={{ color: 'var(--purple-400)' }}>{item.num}.</strong> {item.text}
+                          </p>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                            {item.options.map(opt => (
+                              <label key={opt} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
+                                <input
+                                  type="radio"
+                                  name={`q${item.num}`}
+                                  value={opt.charAt(0)}
+                                  checked={userAnswers[item.num] === opt.charAt(0)}
+                                  onChange={() => handleAnswerChange(item.num, opt.charAt(0))}
+                                  disabled={showResults}
+                                />
+                                <span style={{ color: 'var(--text-primary)' }}>{opt}</span>
+                              </label>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Matching Questions */}
+                      {section.type === 'matching' && (
+                        <div>
+                          <p style={{ color: 'var(--text-primary)', marginBottom: '0.75rem' }}>
+                            <strong style={{ color: 'var(--purple-400)' }}>{item.num}.</strong> {item.text}
+                          </p>
+                          <input
+                            type="text"
+                            value={userAnswers[item.num] || ''}
+                            onChange={(e) => handleAnswerChange(item.num, e.target.value.toUpperCase())}
+                            disabled={showResults}
+                            placeholder="A-H"
+                            maxLength={1}
+                            style={{
+                              padding: '0.5rem 1rem',
+                              borderRadius: '6px',
+                              border: '1px solid var(--border-color)',
+                              background: 'var(--bg-secondary)',
+                              color: 'var(--text-primary)',
+                              width: '60px',
+                              textAlign: 'center',
+                              textTransform: 'uppercase'
+                            }}
+                          />
+                        </div>
+                      )}
+
+                      {/* Completion Questions */}
+                      {section.type === 'completion' && (
+                        <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
+                          <strong style={{ color: 'var(--purple-400)' }}>{item.num}.</strong>
+                          <span style={{ color: 'var(--text-primary)' }}>{item.beforeText}</span>
+                          <input
+                            type="text"
+                            value={userAnswers[item.num] || ''}
+                            onChange={(e) => handleAnswerChange(item.num, e.target.value)}
+                            disabled={showResults}
+                            style={{
+                              padding: '0.5rem 1rem',
+                              borderRadius: '6px',
+                              border: '1px solid var(--border-color)',
+                              background: 'var(--bg-secondary)',
+                              color: 'var(--text-primary)',
+                              minWidth: '150px'
+                            }}
+                          />
+                          {item.afterText && <span style={{ color: 'var(--text-primary)' }}>{item.afterText}</span>}
+                        </div>
+                      )}
+
+                      {/* Show correct answer */}
+                      {showResults && (
+                        <div style={{ marginTop: '0.5rem', fontSize: '0.85rem' }}>
+                          <span style={{ color: isCorrect ? 'var(--success-text)' : 'var(--danger-text)' }}>
+                            {isCorrect ? '✓ Correct' : `✗ Correct answer: ${item.answer}`}
+                          </span>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
+
+            {/* Question Navigation Footer */}
+            <div style={{ 
+              position: 'sticky', 
+              bottom: 0, 
+              background: 'var(--card-bg)', 
+              padding: '1rem', 
+              borderRadius: '12px',
+              border: '1px solid var(--border-color)',
+              marginTop: '1rem'
+            }}>
+              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
+                {Array.from({ length: 13 }, (_, i) => i + 1).map(num => {
+                  const answered = userAnswers[num];
+                  return (
+                    <button
+                      key={num}
+                      style={{
+                        width: '36px',
+                        height: '36px',
+                        borderRadius: '8px',
+                        border: 'none',
+                        background: answered ? 'var(--purple-600)' : 'var(--bg-secondary)',
+                        color: answered ? 'white' : 'var(--text-secondary)',
+                        fontWeight: '600',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      {num}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return null;
+};
+
 // ==================== PLACEHOLDER PAGES ====================
 const PlaceholderPage = ({ title, description, icon }) => (
   <div style={{ paddingTop: '100px', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
@@ -5309,33 +6873,95 @@ const Dashboard = ({ setCurrentPage }) => {
 // ==================== HOME PAGE ====================
 const HomePage = ({ setCurrentPage }) => (<><HeroSection setCurrentPage={setCurrentPage} /><SkillsSection setCurrentPage={setCurrentPage} /></>);
 
+// ==================== URL ROUTING HELPERS ====================
+const parseUrlToState = () => {
+  const path = window.location.pathname;
+  const parts = path.split('/').filter(Boolean);
+  
+  if (parts.length === 0 || parts[0] === 'home') {
+    return { page: 'home', subPage: 'overview' };
+  }
+  
+  const page = parts[0];
+  const subPage = parts[1] || 'overview';
+  
+  return { page, subPage };
+};
+
+const stateToUrl = (page, subPage) => {
+  if (page === 'home') return '/';
+  if (subPage && subPage !== 'overview') return `/${page}/${subPage}`;
+  return `/${page}`;
+};
+
 // ==================== MAIN APP ====================
 const App = () => {
-  const [currentPage, setCurrentPage] = useState('home');
-  const [speakingSubPage, setSpeakingSubPage] = useState('overview');
-  const [listeningSubPage, setListeningSubPage] = useState('overview');
+  const [currentPage, setCurrentPage] = useState(() => parseUrlToState().page);
+  const [speakingSubPage, setSpeakingSubPage] = useState(() => {
+    const { page, subPage } = parseUrlToState();
+    return page === 'speaking' ? subPage : 'overview';
+  });
+  const [listeningSubPage, setListeningSubPage] = useState(() => {
+    const { page, subPage } = parseUrlToState();
+    return page === 'listening' ? subPage : 'overview';
+  });
+  const [readingSubPage, setReadingSubPage] = useState(() => {
+    const { page, subPage } = parseUrlToState();
+    return page === 'reading' ? subPage : 'overview';
+  });
   const { loading } = useAuth();
+
+  // Handle browser back/forward buttons
+  useEffect(() => {
+    const handlePopState = () => {
+      const { page, subPage } = parseUrlToState();
+      setCurrentPage(page);
+      if (page === 'speaking') setSpeakingSubPage(subPage);
+      if (page === 'listening') setListeningSubPage(subPage);
+      if (page === 'reading') setReadingSubPage(subPage);
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
+
+  // Update URL when page changes
+  const navigateTo = (page, subPage = 'overview') => {
+    const url = stateToUrl(page, subPage);
+    window.history.pushState({}, '', url);
+    setCurrentPage(page);
+    if (page === 'speaking') setSpeakingSubPage(subPage);
+    if (page === 'listening') setListeningSubPage(subPage);
+    if (page === 'reading') setReadingSubPage(subPage);
+  };
+
+  // Update URL when subpage changes
+  const updateSubPage = (page, subPage) => {
+    const url = stateToUrl(page, subPage);
+    window.history.pushState({}, '', url);
+    if (page === 'speaking') setSpeakingSubPage(subPage);
+    if (page === 'listening') setListeningSubPage(subPage);
+    if (page === 'reading') setReadingSubPage(subPage);
+  };
 
   const renderPage = () => {
     switch (currentPage) {
-      case 'home': return <HomePage setCurrentPage={setCurrentPage} />;
-      case 'speaking': return <SpeakingPage subPage={speakingSubPage} setSubPage={setSpeakingSubPage} />;
-      case 'listening': return <ListeningPage subPage={listeningSubPage} setSubPage={setListeningSubPage} />;
+      case 'home': return <HomePage setCurrentPage={navigateTo} />;
+      case 'speaking': return <SpeakingPage subPage={speakingSubPage} setSubPage={(sp) => updateSubPage('speaking', sp)} />;
+      case 'listening': return <ListeningPage subPage={listeningSubPage} setSubPage={(sp) => updateSubPage('listening', sp)} />;
+      case 'reading': return <ReadingPage subPage={readingSubPage} setSubPage={(sp) => updateSubPage('reading', sp)} />;
       case 'grammar': return <GrammarPage />;
-      case 'reading': return <PlaceholderPage title="Reading Section" description="Passage analysis and practice questions. Coming soon!" icon="📖" />;
       case 'writing': return <PlaceholderPage title="Writing Section" description="Task 1 & Task 2 with model essays. Coming soon!" icon="✍️" />;
-      case 'login': return <AuthPage type="login" setCurrentPage={setCurrentPage} />;
-      case 'signup': return <AuthPage type="signup" setCurrentPage={setCurrentPage} />;
-      case 'dashboard': return <Dashboard setCurrentPage={setCurrentPage} />;
-      default: return <HomePage setCurrentPage={setCurrentPage} />;
+      case 'login': return <AuthPage type="login" setCurrentPage={navigateTo} />;
+      case 'signup': return <AuthPage type="signup" setCurrentPage={navigateTo} />;
+      case 'dashboard': return <Dashboard setCurrentPage={navigateTo} />;
+      default: return <HomePage setCurrentPage={navigateTo} />;
     }
   };
 
   // Reset sub-pages when changing main page
   const handlePageChange = (page) => {
-    setCurrentPage(page);
-    if (page === 'speaking') setSpeakingSubPage('overview');
-    if (page === 'listening') setListeningSubPage('overview');
+    navigateTo(page, 'overview');
   };
 
   if (loading) return <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-primary)' }}><div className="spinner" /></div>;
