@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef, createContext, useContext } from 'react';
 import { supabase } from './supabaseClient';
+import { Analytics } from '@vercel/analytics/react';
 
 // ==================== THEME CONTEXT ====================
 const ThemeContext = createContext({});
@@ -7753,7 +7754,7 @@ const App = () => {
 
   if (loading) return <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-primary)' }}><div className="spinner" /></div>;
 
-  return <div><Navigation currentPage={currentPage} setCurrentPage={handlePageChange} />{renderPage()}</div>;
+  return <div><Navigation currentPage={currentPage} setCurrentPage={handlePageChange} />{renderPage()}<Analytics /></div>;
 };
 
 const AppWithProviders = () => (<ThemeProvider><AuthProvider><App /></AuthProvider></ThemeProvider>);
