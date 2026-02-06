@@ -5875,18 +5875,24 @@ const readingPassage1Tests = [
 
 // ==================== READING PAGE COMPONENT ====================
 // ==================== READING PAGE COMPONENT ====================
+// ==================== READING PAGE COMPONENT ====================
 const ReadingPage = ({ subPage, setSubPage }) => {
   const { isDark } = useTheme();
   const [selectedTestId, setSelectedTestId] = useState(null);
   const [userAnswers, setUserAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
+  const [showResultsModal, setShowResultsModal] = useState(false);
   const [timerSeconds, setTimerSeconds] = useState(20 * 60);
   const [timerMode, setTimerMode] = useState('countdown');
   const [timerRunning, setTimerRunning] = useState(false);
   const [showTimer, setShowTimer] = useState(true);
   const [panelWidth, setPanelWidth] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
-  const [highlightedRanges, setHighlightedRanges] = useState([]);
+  const [completedTests, setCompletedTests] = useState(() => {
+    const saved = localStorage.getItem('completedReadingTests');
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [highlightPopup, setHighlightPopup] = useState({ show: false, x: 0, y: 0, range: null, isHighlighted: false });
   const timerRef = useRef(null);
   const passageRef = useRef(null);
   const questionsRef = useRef(null);
@@ -5950,34 +5956,96 @@ const ReadingPage = ({ subPage, setSubPage }) => {
     };
   }, [isDragging]);
 
-  // Highlight functionality
+  // Highlight popup on text selection
   useEffect(() => {
-    const handleMouseUp = () => {
-      const selection = window.getSelection();
-      if (selection && selection.toString().trim().length > 0) {
-        const range = selection.getRangeAt(0);
-        const passageEl = passageRef.current;
-        const questionsEl = questionsRef.current;
-        
-        if ((passageEl && passageEl.contains(range.commonAncestorContainer)) ||
-            (questionsEl && questionsEl.contains(range.commonAncestorContainer))) {
-          try {
-            const span = document.createElement('span');
-            span.style.backgroundColor = 'rgba(255, 235, 59, 0.5)';
-            span.style.borderRadius = '2px';
-            span.className = 'user-highlight';
-            range.surroundContents(span);
-            selection.removeAllRanges();
-          } catch (e) {
-            // Cross-element selection, ignore
+    const handleMouseUp = (e) => {
+      // Small delay to let selection complete
+      setTimeout(() => {
+        const selection = window.getSelection();
+        if (selection && selection.toString().trim().length > 0) {
+          const range = selection.getRangeAt(0);
+          const passageEl = passageRef.current;
+          const questionsEl = questionsRef.current;
+          
+          // Check if selection is within our content areas
+          if ((passageEl && passageEl.contains(range.commonAncestorContainer)) ||
+              (questionsEl && questionsEl.contains(range.commonAncestorContainer))) {
+            
+            // Check if selection is inside an existing highlight
+            let parent = range.commonAncestorContainer;
+            while (parent && parent !== document.body) {
+              if (parent.classList && parent.classList.contains('user-highlight')) {
+                setHighlightPopup({
+                  show: true,
+                  x: e.clientX,
+                  y: e.clientY - 50,
+                  range: null,
+                  isHighlighted: true,
+                  highlightEl: parent
+                });
+                return;
+              }
+              parent = parent.parentNode;
+            }
+            
+            setHighlightPopup({
+              show: true,
+              x: e.clientX,
+              y: e.clientY - 50,
+              range: range.cloneRange(),
+              isHighlighted: false,
+              highlightEl: null
+            });
           }
         }
+      }, 10);
+    };
+
+    const handleMouseDown = (e) => {
+      // Hide popup if clicking outside
+      if (!e.target.closest('.highlight-popup')) {
+        setHighlightPopup({ show: false, x: 0, y: 0, range: null, isHighlighted: false });
       }
     };
 
-    document.addEventListener('mouseup', handleMouseUp);
-    return () => document.removeEventListener('mouseup', handleMouseUp);
+    if (selectedTest) {
+      document.addEventListener('mouseup', handleMouseUp);
+      document.addEventListener('mousedown', handleMouseDown);
+    }
+    
+    return () => {
+      document.removeEventListener('mouseup', handleMouseUp);
+      document.removeEventListener('mousedown', handleMouseDown);
+    };
   }, [selectedTest]);
+
+  const applyHighlight = () => {
+    if (highlightPopup.range) {
+      try {
+        const span = document.createElement('span');
+        span.style.backgroundColor = 'rgba(255, 235, 59, 0.6)';
+        span.style.borderRadius = '2px';
+        span.style.padding = '0 2px';
+        span.className = 'user-highlight';
+        highlightPopup.range.surroundContents(span);
+        window.getSelection().removeAllRanges();
+      } catch (e) {
+        // Cross-element selection - ignore
+      }
+    }
+    setHighlightPopup({ show: false, x: 0, y: 0, range: null, isHighlighted: false });
+  };
+
+  const removeHighlight = () => {
+    if (highlightPopup.highlightEl) {
+      const parent = highlightPopup.highlightEl.parentNode;
+      const text = document.createTextNode(highlightPopup.highlightEl.textContent);
+      parent.replaceChild(text, highlightPopup.highlightEl);
+      parent.normalize();
+    }
+    window.getSelection().removeAllRanges();
+    setHighlightPopup({ show: false, x: 0, y: 0, range: null, isHighlighted: false });
+  };
 
   const formatTime = (seconds) => {
     const mins = Math.floor(Math.abs(seconds) / 60);
@@ -5989,6 +6057,7 @@ const ReadingPage = ({ subPage, setSubPage }) => {
     setSelectedTestId(testId);
     setUserAnswers({});
     setShowResults(false);
+    setShowResultsModal(false);
     setTimerSeconds(timerMode === 'countdown' ? 20 * 60 : 0);
     setTimerRunning(true);
     window.history.pushState({}, '', `/reading/passage1/${testId}`);
@@ -5998,6 +6067,7 @@ const ReadingPage = ({ subPage, setSubPage }) => {
     setSelectedTestId(null);
     setUserAnswers({});
     setShowResults(false);
+    setShowResultsModal(false);
     setTimerRunning(false);
     clearInterval(timerRef.current);
     // Remove highlights
@@ -6017,7 +6087,14 @@ const ReadingPage = ({ subPage, setSubPage }) => {
 
   const handleSubmit = () => {
     setShowResults(true);
+    setShowResultsModal(true);
     setTimerRunning(false);
+    // Mark test as completed
+    if (!completedTests.includes(selectedTestId)) {
+      const newCompleted = [...completedTests, selectedTestId];
+      setCompletedTests(newCompleted);
+      localStorage.setItem('completedReadingTests', JSON.stringify(newCompleted));
+    }
   };
 
   const calculateScore = () => {
@@ -6117,36 +6194,96 @@ const ReadingPage = ({ subPage, setSubPage }) => {
           </p>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1rem' }}>
-            {readingPassage1Tests.map((test) => (
-              <div
-                key={test.id}
-                onClick={() => startTest(test.id)}
-                style={{
-                  padding: '1.5rem', borderRadius: '12px', background: 'var(--card-bg)',
-                  border: '1px solid var(--border-color)', cursor: 'pointer', transition: 'all 0.2s ease'
-                }}
-              >
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
-                  <span style={{ fontSize: '0.8rem', fontWeight: '600', color: 'var(--purple-400)' }}>TEST {test.id}</span>
+            {readingPassage1Tests.map((test) => {
+              const isCompleted = completedTests.includes(test.id);
+              return (
+                <div
+                  key={test.id}
+                  onClick={() => startTest(test.id)}
+                  style={{
+                    padding: '1.5rem', borderRadius: '12px', background: 'var(--card-bg)',
+                    border: `1px solid ${isCompleted ? '#22c55e' : 'var(--border-color)'}`, 
+                    cursor: 'pointer', transition: 'all 0.2s ease', position: 'relative'
+                  }}
+                >
+                  {isCompleted && (
+                    <div style={{
+                      position: 'absolute', top: '1rem', right: '1rem',
+                      width: '28px', height: '28px', borderRadius: '50%',
+                      background: '#22c55e', display: 'flex', alignItems: 'center', justifyContent: 'center'
+                    }}>
+                      <span style={{ color: 'white', fontSize: '1rem' }}>✓</span>
+                    </div>
+                  )}
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
+                    <span style={{ fontSize: '0.8rem', fontWeight: '600', color: 'var(--purple-400)' }}>TEST {test.id}</span>
+                  </div>
+                  <h3 style={{ fontSize: '1.1rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem', paddingRight: isCompleted ? '2rem' : 0 }}>{test.title}</h3>
+                  <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>{test.subtitle}</p>
                 </div>
-                <h3 style={{ fontSize: '1.1rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>{test.title}</h3>
-                <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', lineHeight: '1.4' }}>{test.subtitle}</p>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
     );
   }
 
-  // ========== Active Test View ==========
+  // ========== Active Test View (Full Screen - covers navbar) ==========
   if (selectedTest) {
     const { correct, total } = calculateScore();
     const bandScore = getBandScore(correct, total);
     const allQuestionNums = selectedTest.questions.flatMap(s => s.items.map(i => i.num));
 
     return (
-      <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg-primary)', overflow: 'hidden' }}>
+      <div style={{ 
+        position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+        display: 'flex', flexDirection: 'column', background: 'var(--bg-primary)', 
+        zIndex: 1000, overflow: 'hidden'
+      }}>
+        {/* Highlight Popup */}
+        {highlightPopup.show && (
+          <div 
+            className="highlight-popup"
+            style={{
+              position: 'fixed',
+              left: Math.min(highlightPopup.x, window.innerWidth - 150),
+              top: Math.max(highlightPopup.y, 10),
+              background: isDark ? '#374151' : 'white',
+              borderRadius: '8px',
+              boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
+              padding: '0.5rem',
+              display: 'flex',
+              gap: '0.5rem',
+              zIndex: 2000
+            }}
+          >
+            {highlightPopup.isHighlighted ? (
+              <button
+                onClick={removeHighlight}
+                style={{
+                  padding: '0.5rem 0.75rem', borderRadius: '6px', border: 'none',
+                  background: '#ef4444', color: 'white', cursor: 'pointer',
+                  fontSize: '0.85rem', fontWeight: '500'
+                }}
+              >
+                Remove Highlight
+              </button>
+            ) : (
+              <button
+                onClick={applyHighlight}
+                style={{
+                  padding: '0.5rem 0.75rem', borderRadius: '6px', border: 'none',
+                  background: 'rgba(255, 235, 59, 0.8)', color: '#333', cursor: 'pointer',
+                  fontSize: '0.85rem', fontWeight: '500', display: 'flex', alignItems: 'center', gap: '0.25rem'
+                }}
+              >
+                🖍️ Highlight
+              </button>
+            )}
+          </div>
+        )}
+
         {/* ===== FIXED HEADER ===== */}
         <header style={{
           display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -6163,10 +6300,15 @@ const ReadingPage = ({ subPage, setSubPage }) => {
             {showTimer && (
               <div style={{
                 display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem',
-                background: 'var(--bg-secondary)', borderRadius: '8px', border: '1px solid var(--border-color)'
+                background: timerMode === 'countdown' && timerSeconds <= 60 ? 'rgba(239, 68, 68, 0.2)' : 'var(--bg-secondary)', 
+                borderRadius: '8px', border: '1px solid var(--border-color)'
               }}>
                 <span style={{ fontSize: '1.1rem' }}>⏱</span>
-                <span style={{ fontFamily: 'monospace', fontSize: '1.1rem', fontWeight: '600', color: 'var(--text-primary)', minWidth: '60px' }}>
+                <span style={{ 
+                  fontFamily: 'monospace', fontSize: '1.1rem', fontWeight: '600', 
+                  color: timerMode === 'countdown' && timerSeconds <= 60 ? '#ef4444' : 'var(--text-primary)', 
+                  minWidth: '60px' 
+                }}>
                   {formatTime(timerSeconds)}
                 </span>
               </div>
@@ -6195,8 +6337,7 @@ const ReadingPage = ({ subPage, setSubPage }) => {
 
         {/* ===== INSTRUCTION BAR ===== */}
         <div style={{ padding: '0.75rem 1.5rem', background: isDark ? '#1e293b' : '#f1f5f9', borderBottom: '1px solid var(--border-color)', flexShrink: 0 }}>
-          <h3 style={{ fontSize: '1rem', fontWeight: '600', color: 'var(--text-primary)', margin: 0 }}>Part 1</h3>
-          <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', margin: 0 }}>Read the text and answer questions 1-13</p>
+          <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', margin: 0 }}>Read the text and answer questions 1-13</p>
         </div>
 
         {/* ===== MAIN CONTENT AREA ===== */}
@@ -6212,7 +6353,7 @@ const ReadingPage = ({ subPage, setSubPage }) => {
               background: 'var(--bg-primary)'
             }}
           >
-            <h2 style={{ textAlign: 'center', fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>
+            <h2 style={{ textAlign: 'center', fontSize: '1.25rem', fontWeight: '600', color: 'var(--purple-500)', marginBottom: '0.5rem' }}>
               {selectedTest.title}
             </h2>
             <p style={{ textAlign: 'center', fontStyle: 'italic', color: 'var(--text-secondary)', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
@@ -6249,32 +6390,20 @@ const ReadingPage = ({ subPage, setSubPage }) => {
             {selectedTest.questions.map((section, sIdx) => (
               <div key={sIdx} style={{ marginBottom: '2rem' }}>
                 {/* Question rubric */}
-                <div style={{ marginBottom: '1rem', padding: '1rem', background: isDark ? '#1e293b' : '#f8fafc', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                <div style={{ marginBottom: '1.5rem', padding: '1rem', background: isDark ? '#1e293b' : '#f8fafc', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
                   <h4 style={{ fontSize: '1rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>{section.rubric}</h4>
                   <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', margin: 0 }}>{section.instruction}</p>
-                  {(section.type === 'tfng' || section.type === 'ynng') && (
-                    <div style={{ marginTop: '0.5rem', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
-                      {section.type === 'tfng' ? (
-                        <>
-                          <div><strong>TRUE</strong> - if the statement agrees with the information</div>
-                          <div><strong>FALSE</strong> - if the statement contradicts the information</div>
-                          <div><strong>NOT GIVEN</strong> - if there is no information on this</div>
-                        </>
-                      ) : (
-                        <>
-                          <div><strong>YES</strong> - if the statement agrees with the claims of the writer</div>
-                          <div><strong>NO</strong> - if the statement contradicts the claims of the writer</div>
-                          <div><strong>NOT GIVEN</strong> - if it is impossible to say what the writer thinks</div>
-                        </>
-                      )}
-                    </div>
-                  )}
                 </div>
 
-                {section.title && <h4 style={{ fontWeight: '600', color: 'var(--text-primary)', marginBottom: '1rem' }}>{section.title}</h4>}
+                {/* Section title (for completion type) */}
+                {section.title && (
+                  <h3 style={{ fontWeight: '700', fontSize: '1.1rem', color: 'var(--text-primary)', marginBottom: '1.5rem', borderBottom: '2px solid var(--purple-500)', paddingBottom: '0.5rem' }}>
+                    {section.title}
+                  </h3>
+                )}
 
-                {/* Question items */}
-                {section.items.map((item) => {
+                {/* T/F/NG & Y/N/NG Questions */}
+                {(section.type === 'tfng' || section.type === 'ynng') && section.items.map((item) => {
                   const userAns = userAnswers[item.num] || '';
                   const isCorrect = showResults && userAns.toLowerCase().trim() === item.answer.toLowerCase().trim();
                   const isWrong = showResults && userAns && !isCorrect;
@@ -6283,90 +6412,175 @@ const ReadingPage = ({ subPage, setSubPage }) => {
                     <div 
                       key={item.num} 
                       id={`question-${item.num}`}
-                      style={{ 
-                        marginBottom: '1.25rem', padding: '1rem', borderRadius: '8px',
-                        background: showResults ? (isCorrect ? 'rgba(34,197,94,0.1)' : isWrong ? 'rgba(239,68,68,0.1)' : 'var(--card-bg)') : 'var(--card-bg)',
-                        border: `1px solid ${showResults ? (isCorrect ? '#22c55e' : isWrong ? '#ef4444' : 'var(--border-color)') : 'var(--border-color)'}`
-                      }}
+                      style={{ marginBottom: '1.5rem' }}
                     >
-                      {/* T/F/NG or Y/N/NG */}
-                      {(section.type === 'tfng' || section.type === 'ynng') && (
-                        <>
-                          <p style={{ color: 'var(--text-primary)', marginBottom: '0.75rem', fontSize: '0.95rem' }}>
-                            <strong style={{ color: 'var(--purple-400)' }}>{item.num}.</strong> {item.text}
-                          </p>
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                            {(section.type === 'tfng' ? ['TRUE', 'FALSE', 'NOT GIVEN'] : ['YES', 'NO', 'NOT GIVEN']).map(opt => (
-                              <label key={opt} style={{ 
-                                display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.75rem 1rem',
-                                borderRadius: '8px', border: '1px solid var(--border-color)', cursor: showResults ? 'default' : 'pointer',
-                                background: userAns === opt ? (isDark ? 'rgba(139,92,246,0.2)' : 'rgba(139,92,246,0.1)') : 'transparent'
-                              }}>
-                                <input type="radio" name={`q${item.num}`} value={opt} checked={userAns === opt}
-                                  onChange={() => handleAnswerChange(item.num, opt)} disabled={showResults}
-                                  style={{ width: '18px', height: '18px', accentColor: 'var(--purple-500)' }} />
-                                <span style={{ color: 'var(--text-primary)' }}>{opt}</span>
-                              </label>
-                            ))}
-                          </div>
-                        </>
-                      )}
-
-                      {/* MCQ */}
-                      {section.type === 'mcq' && (
-                        <>
-                          <p style={{ color: 'var(--text-primary)', marginBottom: '0.75rem', fontSize: '0.95rem' }}>
-                            <strong style={{ color: 'var(--purple-400)' }}>{item.num}.</strong> {item.text}
-                          </p>
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                            {item.options.map(opt => (
-                              <label key={opt} style={{ 
-                                display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.75rem 1rem',
-                                borderRadius: '8px', border: '1px solid var(--border-color)', cursor: showResults ? 'default' : 'pointer',
-                                background: userAns === opt.charAt(0) ? (isDark ? 'rgba(139,92,246,0.2)' : 'rgba(139,92,246,0.1)') : 'transparent'
-                              }}>
-                                <input type="radio" name={`q${item.num}`} value={opt.charAt(0)} checked={userAns === opt.charAt(0)}
-                                  onChange={() => handleAnswerChange(item.num, opt.charAt(0))} disabled={showResults}
-                                  style={{ width: '18px', height: '18px', accentColor: 'var(--purple-500)' }} />
-                                <span style={{ color: 'var(--text-primary)' }}>{opt}</span>
-                              </label>
-                            ))}
-                          </div>
-                        </>
-                      )}
-
-                      {/* Matching */}
-                      {section.type === 'matching' && (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-                          <strong style={{ color: 'var(--purple-400)' }}>{item.num}.</strong>
-                          <span style={{ color: 'var(--text-primary)', flex: 1 }}>{item.text}</span>
-                          <input type="text" value={userAns} onChange={(e) => handleAnswerChange(item.num, e.target.value.toUpperCase())}
-                            disabled={showResults} maxLength={1} placeholder="A-H"
-                            style={{ width: '50px', padding: '0.5rem', textAlign: 'center', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--input-bg)', color: 'var(--text-primary)', textTransform: 'uppercase', fontWeight: '600' }} />
-                        </div>
-                      )}
-
-                      {/* Completion */}
-                      {section.type === 'completion' && (
-                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap', fontSize: '0.95rem', color: 'var(--text-primary)' }}>
-                          <strong style={{ color: 'var(--purple-400)' }}>{item.num}.</strong>
-                          <span>{item.beforeText}</span>
-                          <input type="text" value={userAns} onChange={(e) => handleAnswerChange(item.num, e.target.value)}
-                            disabled={showResults} placeholder="________"
-                            style={{ padding: '0.5rem 0.75rem', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--input-bg)', color: 'var(--text-primary)', minWidth: '120px' }} />
-                          {item.afterText && <span>{item.afterText}</span>}
-                        </div>
-                      )}
-
-                      {/* Show correct answer after submit */}
-                      {showResults && (
-                        <div style={{ marginTop: '0.5rem', fontSize: '0.85rem', color: isCorrect ? '#22c55e' : '#ef4444' }}>
-                          {isCorrect ? '✓ Correct' : `✗ Correct answer: ${item.answer}`}
-                        </div>
-                      )}
+                      <p style={{ color: 'var(--text-primary)', marginBottom: '0.75rem', fontSize: '0.95rem', lineHeight: '1.6' }}>
+                        <strong style={{ color: 'var(--purple-400)' }}>{item.num}.</strong> {item.text}
+                      </p>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                        {(section.type === 'tfng' ? ['TRUE', 'FALSE', 'NOT GIVEN'] : ['YES', 'NO', 'NOT GIVEN']).map(opt => (
+                          <label key={opt} style={{ 
+                            display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.6rem 1rem',
+                            borderRadius: '8px', cursor: showResults ? 'default' : 'pointer',
+                            border: `1px solid ${showResults && item.answer.toUpperCase() === opt ? '#22c55e' : 'var(--border-color)'}`,
+                            background: showResults 
+                              ? (item.answer.toUpperCase() === opt ? 'rgba(34, 197, 94, 0.1)' : (userAns === opt && !isCorrect ? 'rgba(239, 68, 68, 0.1)' : 'transparent'))
+                              : (userAns === opt ? (isDark ? 'rgba(139,92,246,0.2)' : 'rgba(139,92,246,0.1)') : 'transparent')
+                          }}>
+                            <input type="radio" name={`q${item.num}`} value={opt} checked={userAns === opt}
+                              onChange={() => handleAnswerChange(item.num, opt)} disabled={showResults}
+                              style={{ width: '18px', height: '18px', accentColor: 'var(--purple-500)' }} />
+                            <span style={{ color: 'var(--text-primary)' }}>{opt}</span>
+                            {showResults && item.answer.toUpperCase() === opt && <span style={{ marginLeft: 'auto', color: '#22c55e' }}>✓</span>}
+                            {showResults && userAns === opt && !isCorrect && <span style={{ marginLeft: 'auto', color: '#ef4444' }}>✗</span>}
+                          </label>
+                        ))}
+                      </div>
                     </div>
                   );
                 })}
+
+                {/* MCQ Questions */}
+                {section.type === 'mcq' && section.items.map((item) => {
+                  const userAns = userAnswers[item.num] || '';
+                  const isCorrect = showResults && userAns.toLowerCase().trim() === item.answer.toLowerCase().trim();
+
+                  return (
+                    <div 
+                      key={item.num} 
+                      id={`question-${item.num}`}
+                      style={{ marginBottom: '1.5rem' }}
+                    >
+                      <p style={{ color: 'var(--text-primary)', marginBottom: '0.75rem', fontSize: '0.95rem' }}>
+                        <strong style={{ color: 'var(--purple-400)' }}>{item.num}.</strong> {item.text}
+                      </p>
+                      <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                        {item.options.map(opt => {
+                          const optLetter = opt.charAt(0);
+                          const isCorrectOpt = showResults && item.answer.toUpperCase() === optLetter;
+                          const isUserChoice = userAns.toUpperCase() === optLetter;
+                          
+                          return (
+                            <label key={opt} style={{ 
+                              display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.6rem 1rem',
+                              borderRadius: '8px', cursor: showResults ? 'default' : 'pointer',
+                              border: `1px solid ${isCorrectOpt ? '#22c55e' : 'var(--border-color)'}`,
+                              background: showResults 
+                                ? (isCorrectOpt ? 'rgba(34, 197, 94, 0.1)' : (isUserChoice && !isCorrect ? 'rgba(239, 68, 68, 0.1)' : 'transparent'))
+                                : (isUserChoice ? (isDark ? 'rgba(139,92,246,0.2)' : 'rgba(139,92,246,0.1)') : 'transparent')
+                            }}>
+                              <input type="radio" name={`q${item.num}`} value={optLetter} checked={isUserChoice}
+                                onChange={() => handleAnswerChange(item.num, optLetter)} disabled={showResults}
+                                style={{ width: '18px', height: '18px', accentColor: 'var(--purple-500)' }} />
+                              <span style={{ color: 'var(--text-primary)' }}>{opt}</span>
+                              {isCorrectOpt && <span style={{ marginLeft: 'auto', color: '#22c55e' }}>✓</span>}
+                              {showResults && isUserChoice && !isCorrect && <span style={{ marginLeft: 'auto', color: '#ef4444' }}>✗</span>}
+                            </label>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  );
+                })}
+
+                {/* Matching Questions */}
+                {section.type === 'matching' && (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+                    {section.items.map((item) => {
+                      const userAns = userAnswers[item.num] || '';
+                      const isCorrect = showResults && userAns.toLowerCase().trim() === item.answer.toLowerCase().trim();
+                      const isWrong = showResults && userAns && !isCorrect;
+
+                      return (
+                        <div 
+                          key={item.num} 
+                          id={`question-${item.num}`}
+                          style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}
+                        >
+                          <strong style={{ color: 'var(--purple-400)', minWidth: '30px' }}>{item.num}.</strong>
+                          <span style={{ color: 'var(--text-primary)', flex: 1, minWidth: '200px' }}>{item.text}</span>
+                          <input 
+                            type="text" 
+                            value={userAns} 
+                            onChange={(e) => handleAnswerChange(item.num, e.target.value.toUpperCase())}
+                            disabled={showResults} 
+                            maxLength={1} 
+                            placeholder="_"
+                            style={{ 
+                              width: '45px', padding: '0.5rem', textAlign: 'center', borderRadius: '6px', 
+                              border: `2px solid ${showResults ? (isCorrect ? '#22c55e' : isWrong ? '#ef4444' : 'var(--border-color)') : 'var(--border-color)'}`,
+                              background: showResults ? (isCorrect ? 'rgba(34,197,94,0.1)' : isWrong ? 'rgba(239,68,68,0.1)' : 'var(--input-bg)') : 'var(--input-bg)',
+                              color: 'var(--text-primary)', textTransform: 'uppercase', fontWeight: '600', fontSize: '1rem'
+                            }} 
+                          />
+                          {showResults && isWrong && (
+                            <span style={{ color: '#ef4444', fontSize: '0.85rem' }}>✗ {item.answer}</span>
+                          )}
+                          {showResults && isCorrect && (
+                            <span style={{ color: '#22c55e', fontSize: '0.85rem' }}>✓</span>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+
+                {/* Completion Questions - Styled like the HTML */}
+                {section.type === 'completion' && (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+                    {section.items.map((item) => {
+                      const userAns = userAnswers[item.num] || '';
+                      const isCorrect = showResults && userAns.toLowerCase().trim() === item.answer.toLowerCase().trim();
+                      const isWrong = showResults && userAns && !isCorrect;
+
+                      return (
+                        <div 
+                          key={item.num} 
+                          id={`question-${item.num}`}
+                          style={{ 
+                            display: 'flex', 
+                            alignItems: 'center', 
+                            gap: '0.5rem', 
+                            flexWrap: 'wrap',
+                            fontSize: '0.95rem', 
+                            color: 'var(--text-primary)',
+                            lineHeight: '1.8'
+                          }}
+                        >
+                          <strong style={{ color: 'var(--purple-400)', marginRight: '0.25rem' }}>{item.num}.</strong>
+                          {item.beforeText && <span>{item.beforeText}</span>}
+                          <input 
+                            type="text" 
+                            value={userAns} 
+                            onChange={(e) => handleAnswerChange(item.num, e.target.value)}
+                            disabled={showResults} 
+                            placeholder="____________"
+                            style={{ 
+                              padding: '0.4rem 0.6rem', 
+                              borderRadius: '4px', 
+                              minWidth: '140px',
+                              maxWidth: '200px',
+                              border: `2px dashed ${showResults ? (isCorrect ? '#22c55e' : isWrong ? '#ef4444' : 'var(--border-color)') : 'var(--border-color)'}`,
+                              background: showResults ? (isCorrect ? 'rgba(34,197,94,0.1)' : isWrong ? 'rgba(239,68,68,0.1)' : 'var(--input-bg)') : 'var(--input-bg)',
+                              color: 'var(--text-primary)',
+                              fontSize: '0.95rem'
+                            }} 
+                          />
+                          {item.afterText && <span>{item.afterText}</span>}
+                          {showResults && (
+                            <span style={{ 
+                              color: isCorrect ? '#22c55e' : '#ef4444', 
+                              fontSize: '0.85rem',
+                              marginLeft: '0.5rem'
+                            }}>
+                              {isCorrect ? '✓' : `✗ Correct: ${item.answer}`}
+                            </span>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
             ))}
           </div>
@@ -6380,7 +6594,7 @@ const ReadingPage = ({ subPage, setSubPage }) => {
         }}>
           {/* Question numbers */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
-            <span style={{ fontWeight: '600', color: 'var(--text-primary)', marginRight: '0.5rem', padding: '0.4rem 0.75rem', background: 'var(--purple-600)', borderRadius: '6px', color: 'white', fontSize: '0.85rem' }}>Part 1</span>
+            <span style={{ fontWeight: '600', color: 'white', marginRight: '0.5rem', padding: '0.4rem 0.75rem', background: 'var(--purple-600)', borderRadius: '6px', fontSize: '0.85rem' }}>Part 1</span>
             {allQuestionNums.map(num => {
               const answered = !!userAnswers[num];
               const userAns = userAnswers[num] || '';
@@ -6416,21 +6630,21 @@ const ReadingPage = ({ subPage, setSubPage }) => {
             disabled={showResults}
             style={{
               padding: '0.6rem 1.5rem', borderRadius: '8px', border: 'none',
-              background: showResults ? 'var(--text-muted)' : 'var(--purple-600)',
+              background: showResults ? '#22c55e' : 'var(--purple-600)',
               color: 'white', fontWeight: '600', cursor: showResults ? 'default' : 'pointer',
               display: 'flex', alignItems: 'center', gap: '0.5rem'
             }}
           >
-            {showResults ? `Score: ${correct}/${total} (Band ${bandScore})` : '✓ Submit'}
+            {showResults ? `✓ Score: ${correct}/${total} (Band ${bandScore})` : '✓ Submit'}
           </button>
         </footer>
 
         {/* Results Modal */}
-        {showResults && (
+        {showResultsModal && (
           <div style={{
             position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
-            background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 200
-          }} onClick={() => setShowResults(false)}>
+            background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 2000
+          }} onClick={() => setShowResultsModal(false)}>
             <div style={{
               background: 'var(--card-bg)', borderRadius: '16px', padding: '2rem', maxWidth: '400px', width: '90%', textAlign: 'center'
             }} onClick={e => e.stopPropagation()}>
@@ -6441,7 +6655,7 @@ const ReadingPage = ({ subPage, setSubPage }) => {
                 Time taken: {formatTime(timerMode === 'countdown' ? (20*60 - timerSeconds) : timerSeconds)}
               </p>
               <button
-                onClick={() => setShowResults(false)}
+                onClick={() => setShowResultsModal(false)}
                 style={{ padding: '0.75rem 2rem', borderRadius: '10px', border: 'none', background: 'var(--purple-600)', color: 'white', fontWeight: '600', cursor: 'pointer' }}
               >
                 Review Answers
