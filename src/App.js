@@ -5554,7 +5554,7 @@ const ListeningPage = ({ subPage, setSubPage }) => {
 // ==================== READING TESTS DATA (PASSAGE 1) ====================
 const readingPassage1Tests = [
   {
-    id: 31,
+    id: 1,
     title: "A Survivor's Story",
     subtitle: "One native bird in New Zealand that has managed to survive the introduction of non-native species",
     passage: `<p>As an island country with a fauna dominated by birds, New Zealand was once home to an owl species which is now extinct, the laughing owl, named for its distinctive cry. This bird was widespread throughout the islands when European settlers arrived in the middle of the 19th century and it remained in good numbers for some years thereafter. Where other native birds suffered from predation by the Polynesian rat, the laughing owl turned the tables and adapted its diet to include the rodent. It was also capable of catching and killing the other New Zealand owl, the morepork, and even larger birds, such as the weka. However, the laughing owl was wiped out around the beginning of the 20th century. Its demise caused by specimen collectors, habitat changes, and non-native predators including cats and stoats. Surprisingly, it is the smaller owl, the morepork, that has managed to survive until this day.</p>
@@ -5586,7 +5586,7 @@ const readingPassage1Tests = [
     ]
   },
   {
-    id: 32,
+    id: 2,
     title: "Wood: A Valuable Resource in New Zealand's Economy",
     subtitle: "The role of forestry in New Zealand's economic development",
     passage: `<p>New Zealand's economy has long depended on the export of primary products. Although traditionally this trade has been dominated by meat and dairy products, wood has become an increasingly significant export commodity over recent decades. Today, forestry and wood processing contribute around 3% of New Zealand's GDP and employ approximately 60,000 people.</p>
@@ -5616,7 +5616,7 @@ const readingPassage1Tests = [
     ]
   },
   {
-    id: 33,
+    id: 3,
     title: "Portrait of Bianca Sforza",
     subtitle: "The investigation of a Renaissance artwork",
     passage: `<p>In 1998, a painting was sold at auction for $21,850 to an art collector named Peter Silverman. The portrait, executed in pen and colored chalks on vellum, depicted a young woman in profile, dressed in Renaissance fashion. Although the seller believed it to be a 19th-century German work, Silverman became convinced that it was something far more significant.</p>
@@ -5649,7 +5649,7 @@ const readingPassage1Tests = [
     ]
   },
   {
-    id: 34,
+    id: 4,
     title: "The Pearl",
     subtitle: "The history and significance of pearls throughout human civilization",
     passage: `<p><strong>A</strong> Pearls have captivated humans for thousands of years. Unlike other gemstones that must be mined from the earth and cut to reveal their beauty, pearls emerge from the sea fully formed, requiring no enhancement to display their lustrous appeal. This natural perfection made them highly prized in ancient civilizations.</p>
@@ -5682,7 +5682,7 @@ const readingPassage1Tests = [
     ]
   },
   {
-    id: 35,
+    id: 5,
     title: "Ambergris",
     subtitle: "The mysterious substance from the sea",
     passage: `<p>Ambergris is one of the most unusual and valuable substances found in nature. For centuries, its origins remained a mystery, with various theories ranging from sea foam to the droppings of mythical birds. We now know that it is produced in the digestive system of sperm whales, though the exact process remains partially unclear.</p>
@@ -5714,7 +5714,7 @@ const readingPassage1Tests = [
     ]
   },
   {
-    id: 36,
+    id: 6,
     title: "Tulip Mania",
     subtitle: "The rise and fall of tulip prices in 17th-century Holland",
     passage: `<p><strong>A</strong> In the early 17th century, the Netherlands experienced one of history's most remarkable economic phenomena: tulip mania. During this period, the price of tulip bulbs soared to extraordinary heights before crashing dramatically, ruining many speculators in the process.</p>
@@ -5748,7 +5748,7 @@ const readingPassage1Tests = [
     ]
   },
   {
-    id: 37,
+    id: 7,
     title: "Caral: An Ancient South American City",
     subtitle: "Discoveries about one of the oldest urban centers in the Americas",
     passage: `<p>The ancient city of Caral, located in the Supe Valley of Peru, has revolutionized our understanding of early civilization in the Americas. Dating back approximately 5,000 years, it is now recognized as one of the oldest urban centers in the Western Hemisphere, contemporary with the great pyramids of Egypt.</p>
@@ -5779,7 +5779,7 @@ const readingPassage1Tests = [
     ]
   },
   {
-    id: 38,
+    id: 8,
     title: "The History of Tea",
     subtitle: "How tea became the world's most popular beverage",
     passage: `<p>Tea has been consumed for thousands of years and is now the most widely drunk beverage in the world after water. Its origins lie in ancient China, where legend attributes its discovery to Emperor Shen Nung in 2737 BCE, though archaeological evidence suggests tea drinking began somewhat later.</p>
@@ -5810,7 +5810,7 @@ const readingPassage1Tests = [
     ]
   },
   {
-    id: 39,
+    id: 9,
     title: "The Life of Beatrix Potter",
     subtitle: "The creator of Peter Rabbit and her remarkable achievements",
     passage: `<p>Beatrix Potter, born in London in 1866, is best known as the creator of Peter Rabbit and numerous other beloved children's characters. However, her life encompassed far more than children's literature – she was also a serious naturalist, a successful businesswoman, and a dedicated conservationist.</p>
@@ -5841,7 +5841,7 @@ const readingPassage1Tests = [
     ]
   },
   {
-    id: 40,
+    id: 10,
     title: "Chilli Peppers",
     subtitle: "The science and culture of spicy food",
     passage: `<p>Chilli peppers are among the most widely used spices in the world, adding heat and flavor to cuisines on every continent. Originally native to the Americas, they were spread globally by European explorers and traders, becoming essential ingredients in Asian, African, and European cooking.</p>
