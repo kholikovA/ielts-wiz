@@ -5874,54 +5874,145 @@ const readingPassage1Tests = [
 ];
 
 // ==================== READING PAGE COMPONENT ====================
+// ==================== READING PAGE COMPONENT ====================
 const ReadingPage = ({ subPage, setSubPage }) => {
   const { isDark } = useTheme();
-  const [selectedTest, setSelectedTest] = useState(null);
+  const [selectedTestId, setSelectedTestId] = useState(null);
   const [userAnswers, setUserAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
-  const [timeRemaining, setTimeRemaining] = useState(20 * 60); // 20 minutes in seconds
-  const [timerMode, setTimerMode] = useState('countdown'); // 'countdown' or 'stopwatch'
-  const [timerRunning, setTimerRunning] = useState(true);
+  const [timerSeconds, setTimerSeconds] = useState(20 * 60);
+  const [timerMode, setTimerMode] = useState('countdown');
+  const [timerRunning, setTimerRunning] = useState(false);
   const [showTimer, setShowTimer] = useState(true);
-  const [elapsedTime, setElapsedTime] = useState(0);
+  const [panelWidth, setPanelWidth] = useState(50);
+  const [isDragging, setIsDragging] = useState(false);
+  const [highlightedRanges, setHighlightedRanges] = useState([]);
   const timerRef = useRef(null);
+  const passageRef = useRef(null);
+  const questionsRef = useRef(null);
+  const containerRef = useRef(null);
 
-  const subTabs = [
-    { id: 'overview', label: 'Overview' },
-    { id: 'passage1', label: 'Passage 1 Tests' }
-  ];
+  const selectedTest = selectedTestId ? readingPassage1Tests.find(t => t.id === selectedTestId) : null;
+
+  // Parse URL on mount
+  useEffect(() => {
+    const pathParts = window.location.pathname.split('/').filter(Boolean);
+    if (pathParts[0] === 'reading' && pathParts[1] === 'passage1' && pathParts[2]) {
+      const testId = parseInt(pathParts[2]);
+      if (readingPassage1Tests.find(t => t.id === testId)) {
+        setSelectedTestId(testId);
+        setSubPage('passage1');
+      }
+    }
+  }, []);
 
   // Timer logic
   useEffect(() => {
     if (selectedTest && timerRunning) {
       timerRef.current = setInterval(() => {
-        if (timerMode === 'countdown') {
-          setTimeRemaining(prev => {
-            if (prev <= 0) return 0;
-            return prev - 1;
-          });
-        } else {
-          setElapsedTime(prev => prev + 1);
-        }
+        setTimerSeconds(prev => {
+          if (timerMode === 'countdown') {
+            return prev <= 0 ? 0 : prev - 1;
+          } else {
+            return prev + 1;
+          }
+        });
       }, 1000);
     }
     return () => clearInterval(timerRef.current);
   }, [selectedTest, timerRunning, timerMode]);
 
+  // Handle dragging for panel resize
+  useEffect(() => {
+    const handleMouseMove = (e) => {
+      if (!isDragging || !containerRef.current) return;
+      const containerRect = containerRef.current.getBoundingClientRect();
+      const newWidth = ((e.clientX - containerRect.left) / containerRect.width) * 100;
+      if (newWidth >= 25 && newWidth <= 75) {
+        setPanelWidth(newWidth);
+      }
+    };
+
+    const handleMouseUp = () => setIsDragging(false);
+
+    if (isDragging) {
+      document.addEventListener('mousemove', handleMouseMove);
+      document.addEventListener('mouseup', handleMouseUp);
+      document.body.style.cursor = 'col-resize';
+      document.body.style.userSelect = 'none';
+    }
+
+    return () => {
+      document.removeEventListener('mousemove', handleMouseMove);
+      document.removeEventListener('mouseup', handleMouseUp);
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+    };
+  }, [isDragging]);
+
+  // Highlight functionality
+  useEffect(() => {
+    const handleMouseUp = () => {
+      const selection = window.getSelection();
+      if (selection && selection.toString().trim().length > 0) {
+        const range = selection.getRangeAt(0);
+        const passageEl = passageRef.current;
+        const questionsEl = questionsRef.current;
+        
+        if ((passageEl && passageEl.contains(range.commonAncestorContainer)) ||
+            (questionsEl && questionsEl.contains(range.commonAncestorContainer))) {
+          try {
+            const span = document.createElement('span');
+            span.style.backgroundColor = 'rgba(255, 235, 59, 0.5)';
+            span.style.borderRadius = '2px';
+            span.className = 'user-highlight';
+            range.surroundContents(span);
+            selection.removeAllRanges();
+          } catch (e) {
+            // Cross-element selection, ignore
+          }
+        }
+      }
+    };
+
+    document.addEventListener('mouseup', handleMouseUp);
+    return () => document.removeEventListener('mouseup', handleMouseUp);
+  }, [selectedTest]);
+
   const formatTime = (seconds) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
+    const mins = Math.floor(Math.abs(seconds) / 60);
+    const secs = Math.abs(seconds) % 60;
     return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const resetTimer = () => {
-    setTimeRemaining(20 * 60);
-    setElapsedTime(0);
+  const startTest = (testId) => {
+    setSelectedTestId(testId);
+    setUserAnswers({});
+    setShowResults(false);
+    setTimerSeconds(timerMode === 'countdown' ? 20 * 60 : 0);
     setTimerRunning(true);
+    window.history.pushState({}, '', `/reading/passage1/${testId}`);
+  };
+
+  const exitTest = () => {
+    setSelectedTestId(null);
+    setUserAnswers({});
+    setShowResults(false);
+    setTimerRunning(false);
+    clearInterval(timerRef.current);
+    // Remove highlights
+    document.querySelectorAll('.user-highlight').forEach(el => {
+      const parent = el.parentNode;
+      parent.replaceChild(document.createTextNode(el.textContent), el);
+      parent.normalize();
+    });
+    window.history.pushState({}, '', '/reading/passage1');
   };
 
   const handleAnswerChange = (questionNum, value) => {
-    setUserAnswers(prev => ({ ...prev, [questionNum]: value }));
+    if (!showResults) {
+      setUserAnswers(prev => ({ ...prev, [questionNum]: value }));
+    }
   };
 
   const handleSubmit = () => {
@@ -5945,33 +6036,23 @@ const ReadingPage = ({ subPage, setSubPage }) => {
   };
 
   const getBandScore = (correct, total) => {
-    const percentage = (correct / total) * 100;
-    if (percentage >= 90) return 9;
-    if (percentage >= 80) return 8;
-    if (percentage >= 70) return 7;
-    if (percentage >= 60) return 6;
-    if (percentage >= 50) return 5;
-    if (percentage >= 40) return 4;
-    if (percentage >= 30) return 3;
+    const pct = (correct / total) * 100;
+    if (pct >= 90) return 9;
+    if (pct >= 80) return 8;
+    if (pct >= 70) return 7;
+    if (pct >= 60) return 6;
+    if (pct >= 50) return 5;
+    if (pct >= 40) return 4;
+    if (pct >= 30) return 3;
     return 2;
   };
 
-  const startTest = (test) => {
-    setSelectedTest(test);
-    setUserAnswers({});
-    setShowResults(false);
-    resetTimer();
-    setSubPage('passage1');
+  const scrollToQuestion = (num) => {
+    const el = document.getElementById(`question-${num}`);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
   };
 
-  const exitTest = () => {
-    setSelectedTest(null);
-    setUserAnswers({});
-    setShowResults(false);
-    clearInterval(timerRef.current);
-  };
-
-  // Overview page
+  // ========== Overview Page ==========
   if (subPage === 'overview') {
     return (
       <div style={{ paddingTop: '80px', minHeight: '100vh', background: 'var(--bg-primary)' }}>
@@ -5983,78 +6064,46 @@ const ReadingPage = ({ subPage, setSubPage }) => {
             Practice with authentic IELTS reading passages and questions
           </p>
 
-          {/* Sub-navigation */}
-          <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
-            {subTabs.map(tab => (
-              <button
-                key={tab.id}
-                onClick={() => setSubPage(tab.id)}
-                style={{
-                  padding: '0.75rem 1.5rem',
-                  borderRadius: '10px',
-                  border: 'none',
-                  background: subPage === tab.id ? 'var(--purple-600)' : 'var(--card-bg)',
-                  color: subPage === tab.id ? 'white' : 'var(--text-secondary)',
-                  fontWeight: '500',
-                  cursor: 'pointer'
-                }}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
-
-          {/* Practice Cards */}
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '1.5rem' }}>
             <div 
-              onClick={() => setSubPage('passage1')} 
+              onClick={() => { setSubPage('passage1'); window.history.pushState({}, '', '/reading/passage1'); }}
               style={{ 
-                padding: '2rem', 
-                borderRadius: '16px', 
+                padding: '2rem', borderRadius: '16px', 
                 background: 'linear-gradient(135deg, var(--purple-600-10), var(--purple-700-5))', 
-                border: '1px solid var(--purple-500-30)', 
-                cursor: 'pointer',
-                transition: 'transform 0.2s ease'
+                border: '1px solid var(--purple-500-30)', cursor: 'pointer'
               }}
             >
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
                 <span style={{ fontSize: '2rem' }}>📄</span>
                 <span style={{ padding: '0.25rem 0.75rem', borderRadius: '6px', background: 'var(--purple-600)', fontSize: '0.75rem', fontWeight: '600', color: 'white' }}>10 TESTS</span>
               </div>
               <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Passage 1 Practice</h2>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>First passage with varied question types: T/F/NG, completion, matching, MCQ</p>
+              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>13 questions • T/F/NG, completion, matching, MCQ</p>
             </div>
 
-            <div style={{ padding: '2rem', borderRadius: '16px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', opacity: 0.6 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
-                <span style={{ fontSize: '2rem' }}>📄</span>
-                <span style={{ padding: '0.25rem 0.75rem', borderRadius: '6px', background: 'var(--text-muted)', fontSize: '0.75rem', fontWeight: '600', color: 'white' }}>COMING SOON</span>
+            {['Passage 2', 'Passage 3'].map((name, i) => (
+              <div key={i} style={{ padding: '2rem', borderRadius: '16px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', opacity: 0.6 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
+                  <span style={{ fontSize: '2rem' }}>📄</span>
+                  <span style={{ padding: '0.25rem 0.75rem', borderRadius: '6px', background: 'var(--text-muted)', fontSize: '0.75rem', fontWeight: '600', color: 'white' }}>COMING SOON</span>
+                </div>
+                <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>{name} Practice</h2>
+                <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Coming soon</p>
               </div>
-              <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Passage 2 Practice</h2>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Medium difficulty passages with academic topics</p>
-            </div>
-
-            <div style={{ padding: '2rem', borderRadius: '16px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', opacity: 0.6 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '1rem' }}>
-                <span style={{ fontSize: '2rem' }}>📄</span>
-                <span style={{ padding: '0.25rem 0.75rem', borderRadius: '6px', background: 'var(--text-muted)', fontSize: '0.75rem', fontWeight: '600', color: 'white' }}>COMING SOON</span>
-              </div>
-              <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Passage 3 Practice</h2>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Advanced passages with complex arguments</p>
-            </div>
+            ))}
           </div>
         </div>
       </div>
     );
   }
 
-  // Passage 1 Tests list
-  if (subPage === 'passage1' && !selectedTest) {
+  // ========== Passage 1 Test List ==========
+  if (subPage === 'passage1' && !selectedTestId) {
     return (
       <div style={{ paddingTop: '80px', minHeight: '100vh', background: 'var(--bg-primary)' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '2rem' }}>
           <button
-            onClick={() => setSubPage('overview')}
+            onClick={() => { setSubPage('overview'); window.history.pushState({}, '', '/reading'); }}
             style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem', marginBottom: '1.5rem', borderRadius: '8px', border: 'none', background: 'var(--card-bg)', color: 'var(--text-secondary)', cursor: 'pointer' }}
           >
             ← Back to Overview
@@ -6064,24 +6113,20 @@ const ReadingPage = ({ subPage, setSubPage }) => {
             Passage 1 Practice Tests
           </h1>
           <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem' }}>
-            13 questions per test • 20 minutes recommended • Various question types
+            13 questions per test • 20 minutes recommended
           </p>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1rem' }}>
             {readingPassage1Tests.map((test) => (
               <div
                 key={test.id}
-                onClick={() => startTest(test)}
+                onClick={() => startTest(test.id)}
                 style={{
-                  padding: '1.5rem',
-                  borderRadius: '12px',
-                  background: 'var(--card-bg)',
-                  border: '1px solid var(--border-color)',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease'
+                  padding: '1.5rem', borderRadius: '12px', background: 'var(--card-bg)',
+                  border: '1px solid var(--border-color)', cursor: 'pointer', transition: 'all 0.2s ease'
                 }}
               >
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '0.75rem' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '0.75rem' }}>
                   <span style={{ fontSize: '0.8rem', fontWeight: '600', color: 'var(--purple-400)' }}>TEST {test.id}</span>
                 </div>
                 <h3 style={{ fontSize: '1.1rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>{test.title}</h3>
@@ -6094,119 +6139,306 @@ const ReadingPage = ({ subPage, setSubPage }) => {
     );
   }
 
-  // Active Test View
+  // ========== Active Test View ==========
   if (selectedTest) {
     const { correct, total } = calculateScore();
     const bandScore = getBandScore(correct, total);
+    const allQuestionNums = selectedTest.questions.flatMap(s => s.items.map(i => i.num));
 
     return (
-      <div style={{ minHeight: '100vh', background: 'var(--bg-primary)' }}>
-        {/* Header */}
-        <div style={{ 
-          position: 'fixed', 
-          top: 0, 
-          left: 0, 
-          right: 0, 
-          background: 'var(--card-bg)', 
-          borderBottom: '1px solid var(--border-color)', 
-          padding: '1rem 2rem',
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
-          zIndex: 100
+      <div style={{ height: '100vh', display: 'flex', flexDirection: 'column', background: 'var(--bg-primary)', overflow: 'hidden' }}>
+        {/* ===== FIXED HEADER ===== */}
+        <header style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '0.75rem 1.5rem', background: 'var(--card-bg)', borderBottom: '1px solid var(--border-color)',
+          flexShrink: 0, zIndex: 100
         }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-            <button
-              onClick={exitTest}
-              style={{ padding: '0.5rem 1rem', borderRadius: '8px', border: 'none', background: 'var(--bg-secondary)', color: 'var(--text-secondary)', cursor: 'pointer' }}
-            >
-              ← Exit
-            </button>
-            <span style={{ fontWeight: '600', color: 'var(--text-primary)' }}>Test {selectedTest.id}: {selectedTest.title}</span>
+            <span style={{ fontWeight: '700', fontSize: '1.25rem', color: 'var(--purple-500)' }}>IELTS</span>
+            <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Test {selectedTest.id}</span>
           </div>
-          
-          {/* Timer Controls */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+
+          {/* Timer */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
             {showTimer && (
-              <div style={{ 
-                padding: '0.5rem 1.5rem', 
-                borderRadius: '20px', 
-                background: timeRemaining <= 60 && timerMode === 'countdown' ? 'var(--danger-bg)' : 'var(--purple-600-10)', 
-                color: timeRemaining <= 60 && timerMode === 'countdown' ? 'var(--danger-text)' : 'var(--purple-400)',
-                fontWeight: '600',
-                fontFamily: 'monospace',
-                fontSize: '1.1rem'
+              <div style={{
+                display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem',
+                background: 'var(--bg-secondary)', borderRadius: '8px', border: '1px solid var(--border-color)'
               }}>
-                {timerMode === 'countdown' ? formatTime(timeRemaining) : formatTime(elapsedTime)}
+                <span style={{ fontSize: '1.1rem' }}>⏱</span>
+                <span style={{ fontFamily: 'monospace', fontSize: '1.1rem', fontWeight: '600', color: 'var(--text-primary)', minWidth: '60px' }}>
+                  {formatTime(timerSeconds)}
+                </span>
               </div>
             )}
-            <button
-              onClick={() => setShowTimer(!showTimer)}
-              style={{ padding: '0.5rem', borderRadius: '8px', border: 'none', background: 'transparent', color: 'var(--text-secondary)', cursor: 'pointer', fontSize: '1.1rem' }}
-              title={showTimer ? 'Hide timer' : 'Show timer'}
-            >
-              {showTimer ? '👁️' : '👁️‍🗨️'}
+            <button onClick={() => setShowTimer(!showTimer)} title={showTimer ? 'Hide timer' : 'Show timer'}
+              style={{ padding: '0.5rem', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-secondary)', cursor: 'pointer', color: 'var(--text-secondary)' }}>
+              {showTimer ? '🙈' : '👁️'}
             </button>
-            <button
-              onClick={() => setTimerMode(timerMode === 'countdown' ? 'stopwatch' : 'countdown')}
-              style={{ padding: '0.5rem', borderRadius: '8px', border: 'none', background: 'transparent', color: 'var(--text-secondary)', cursor: 'pointer', fontSize: '1.1rem' }}
-              title={timerMode === 'countdown' ? 'Switch to stopwatch' : 'Switch to countdown'}
-            >
-              {timerMode === 'countdown' ? '⏱️' : '⏳'}
+            <button onClick={() => { setTimerMode(m => m === 'countdown' ? 'stopwatch' : 'countdown'); setTimerSeconds(timerMode === 'countdown' ? 0 : 20*60); }} title="Toggle countdown/stopwatch"
+              style={{ padding: '0.5rem', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-secondary)', cursor: 'pointer', color: 'var(--text-secondary)' }}>
+              {timerMode === 'countdown' ? '⏳' : '⏱'}
             </button>
-            <button
-              onClick={() => setTimerRunning(!timerRunning)}
-              style={{ padding: '0.5rem', borderRadius: '8px', border: 'none', background: 'transparent', color: 'var(--text-secondary)', cursor: 'pointer', fontSize: '1.1rem' }}
-              title={timerRunning ? 'Pause' : 'Resume'}
-            >
-              {timerRunning ? '⏸️' : '▶️'}
+            <button onClick={() => setTimerRunning(!timerRunning)} title={timerRunning ? 'Pause' : 'Resume'}
+              style={{ padding: '0.5rem', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-secondary)', cursor: 'pointer', color: 'var(--text-secondary)' }}>
+              {timerRunning ? '⏸' : '▶️'}
             </button>
           </div>
 
+          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+            <button onClick={exitTest}
+              style={{ padding: '0.5rem 1rem', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'transparent', color: 'var(--text-secondary)', cursor: 'pointer' }}>
+              Exit
+            </button>
+          </div>
+        </header>
+
+        {/* ===== INSTRUCTION BAR ===== */}
+        <div style={{ padding: '0.75rem 1.5rem', background: isDark ? '#1e293b' : '#f1f5f9', borderBottom: '1px solid var(--border-color)', flexShrink: 0 }}>
+          <h3 style={{ fontSize: '1rem', fontWeight: '600', color: 'var(--text-primary)', margin: 0 }}>Part 1</h3>
+          <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', margin: 0 }}>Read the text and answer questions 1-13</p>
+        </div>
+
+        {/* ===== MAIN CONTENT AREA ===== */}
+        <div ref={containerRef} style={{ display: 'flex', flex: 1, overflow: 'hidden', position: 'relative' }}>
+          {/* LEFT PANEL - Passage */}
+          <div 
+            ref={passageRef}
+            style={{ 
+              width: `${panelWidth}%`, 
+              overflowY: 'auto', 
+              padding: '1.5rem',
+              borderRight: '1px solid var(--border-color)',
+              background: 'var(--bg-primary)'
+            }}
+          >
+            <h2 style={{ textAlign: 'center', fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>
+              {selectedTest.title}
+            </h2>
+            <p style={{ textAlign: 'center', fontStyle: 'italic', color: 'var(--text-secondary)', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
+              {selectedTest.subtitle}
+            </p>
+            <div 
+              style={{ color: 'var(--text-primary)', lineHeight: '1.8', fontSize: '0.95rem' }}
+              dangerouslySetInnerHTML={{ __html: selectedTest.passage }}
+            />
+          </div>
+
+          {/* DRAGGABLE DIVIDER */}
+          <div
+            onMouseDown={() => setIsDragging(true)}
+            style={{
+              width: '6px', cursor: 'col-resize', background: isDragging ? 'var(--purple-500)' : 'var(--border-color)',
+              display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0,
+              transition: 'background 0.2s'
+            }}
+          >
+            <div style={{ width: '2px', height: '40px', background: isDragging ? 'white' : 'var(--text-muted)', borderRadius: '2px' }} />
+          </div>
+
+          {/* RIGHT PANEL - Questions */}
+          <div 
+            ref={questionsRef}
+            style={{ 
+              flex: 1, 
+              overflowY: 'auto', 
+              padding: '1.5rem',
+              background: 'var(--bg-primary)'
+            }}
+          >
+            {selectedTest.questions.map((section, sIdx) => (
+              <div key={sIdx} style={{ marginBottom: '2rem' }}>
+                {/* Question rubric */}
+                <div style={{ marginBottom: '1rem', padding: '1rem', background: isDark ? '#1e293b' : '#f8fafc', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
+                  <h4 style={{ fontSize: '1rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>{section.rubric}</h4>
+                  <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', margin: 0 }}>{section.instruction}</p>
+                  {(section.type === 'tfng' || section.type === 'ynng') && (
+                    <div style={{ marginTop: '0.5rem', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                      {section.type === 'tfng' ? (
+                        <>
+                          <div><strong>TRUE</strong> - if the statement agrees with the information</div>
+                          <div><strong>FALSE</strong> - if the statement contradicts the information</div>
+                          <div><strong>NOT GIVEN</strong> - if there is no information on this</div>
+                        </>
+                      ) : (
+                        <>
+                          <div><strong>YES</strong> - if the statement agrees with the claims of the writer</div>
+                          <div><strong>NO</strong> - if the statement contradicts the claims of the writer</div>
+                          <div><strong>NOT GIVEN</strong> - if it is impossible to say what the writer thinks</div>
+                        </>
+                      )}
+                    </div>
+                  )}
+                </div>
+
+                {section.title && <h4 style={{ fontWeight: '600', color: 'var(--text-primary)', marginBottom: '1rem' }}>{section.title}</h4>}
+
+                {/* Question items */}
+                {section.items.map((item) => {
+                  const userAns = userAnswers[item.num] || '';
+                  const isCorrect = showResults && userAns.toLowerCase().trim() === item.answer.toLowerCase().trim();
+                  const isWrong = showResults && userAns && !isCorrect;
+
+                  return (
+                    <div 
+                      key={item.num} 
+                      id={`question-${item.num}`}
+                      style={{ 
+                        marginBottom: '1.25rem', padding: '1rem', borderRadius: '8px',
+                        background: showResults ? (isCorrect ? 'rgba(34,197,94,0.1)' : isWrong ? 'rgba(239,68,68,0.1)' : 'var(--card-bg)') : 'var(--card-bg)',
+                        border: `1px solid ${showResults ? (isCorrect ? '#22c55e' : isWrong ? '#ef4444' : 'var(--border-color)') : 'var(--border-color)'}`
+                      }}
+                    >
+                      {/* T/F/NG or Y/N/NG */}
+                      {(section.type === 'tfng' || section.type === 'ynng') && (
+                        <>
+                          <p style={{ color: 'var(--text-primary)', marginBottom: '0.75rem', fontSize: '0.95rem' }}>
+                            <strong style={{ color: 'var(--purple-400)' }}>{item.num}.</strong> {item.text}
+                          </p>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                            {(section.type === 'tfng' ? ['TRUE', 'FALSE', 'NOT GIVEN'] : ['YES', 'NO', 'NOT GIVEN']).map(opt => (
+                              <label key={opt} style={{ 
+                                display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.75rem 1rem',
+                                borderRadius: '8px', border: '1px solid var(--border-color)', cursor: showResults ? 'default' : 'pointer',
+                                background: userAns === opt ? (isDark ? 'rgba(139,92,246,0.2)' : 'rgba(139,92,246,0.1)') : 'transparent'
+                              }}>
+                                <input type="radio" name={`q${item.num}`} value={opt} checked={userAns === opt}
+                                  onChange={() => handleAnswerChange(item.num, opt)} disabled={showResults}
+                                  style={{ width: '18px', height: '18px', accentColor: 'var(--purple-500)' }} />
+                                <span style={{ color: 'var(--text-primary)' }}>{opt}</span>
+                              </label>
+                            ))}
+                          </div>
+                        </>
+                      )}
+
+                      {/* MCQ */}
+                      {section.type === 'mcq' && (
+                        <>
+                          <p style={{ color: 'var(--text-primary)', marginBottom: '0.75rem', fontSize: '0.95rem' }}>
+                            <strong style={{ color: 'var(--purple-400)' }}>{item.num}.</strong> {item.text}
+                          </p>
+                          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
+                            {item.options.map(opt => (
+                              <label key={opt} style={{ 
+                                display: 'flex', alignItems: 'center', gap: '0.75rem', padding: '0.75rem 1rem',
+                                borderRadius: '8px', border: '1px solid var(--border-color)', cursor: showResults ? 'default' : 'pointer',
+                                background: userAns === opt.charAt(0) ? (isDark ? 'rgba(139,92,246,0.2)' : 'rgba(139,92,246,0.1)') : 'transparent'
+                              }}>
+                                <input type="radio" name={`q${item.num}`} value={opt.charAt(0)} checked={userAns === opt.charAt(0)}
+                                  onChange={() => handleAnswerChange(item.num, opt.charAt(0))} disabled={showResults}
+                                  style={{ width: '18px', height: '18px', accentColor: 'var(--purple-500)' }} />
+                                <span style={{ color: 'var(--text-primary)' }}>{opt}</span>
+                              </label>
+                            ))}
+                          </div>
+                        </>
+                      )}
+
+                      {/* Matching */}
+                      {section.type === 'matching' && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+                          <strong style={{ color: 'var(--purple-400)' }}>{item.num}.</strong>
+                          <span style={{ color: 'var(--text-primary)', flex: 1 }}>{item.text}</span>
+                          <input type="text" value={userAns} onChange={(e) => handleAnswerChange(item.num, e.target.value.toUpperCase())}
+                            disabled={showResults} maxLength={1} placeholder="A-H"
+                            style={{ width: '50px', padding: '0.5rem', textAlign: 'center', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--input-bg)', color: 'var(--text-primary)', textTransform: 'uppercase', fontWeight: '600' }} />
+                        </div>
+                      )}
+
+                      {/* Completion */}
+                      {section.type === 'completion' && (
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap', fontSize: '0.95rem', color: 'var(--text-primary)' }}>
+                          <strong style={{ color: 'var(--purple-400)' }}>{item.num}.</strong>
+                          <span>{item.beforeText}</span>
+                          <input type="text" value={userAns} onChange={(e) => handleAnswerChange(item.num, e.target.value)}
+                            disabled={showResults} placeholder="________"
+                            style={{ padding: '0.5rem 0.75rem', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--input-bg)', color: 'var(--text-primary)', minWidth: '120px' }} />
+                          {item.afterText && <span>{item.afterText}</span>}
+                        </div>
+                      )}
+
+                      {/* Show correct answer after submit */}
+                      {showResults && (
+                        <div style={{ marginTop: '0.5rem', fontSize: '0.85rem', color: isCorrect ? '#22c55e' : '#ef4444' }}>
+                          {isCorrect ? '✓ Correct' : `✗ Correct answer: ${item.answer}`}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* ===== FIXED FOOTER ===== */}
+        <footer style={{
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          padding: '0.75rem 1.5rem', background: 'var(--card-bg)', borderTop: '1px solid var(--border-color)',
+          flexShrink: 0, zIndex: 100
+        }}>
+          {/* Question numbers */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap' }}>
+            <span style={{ fontWeight: '600', color: 'var(--text-primary)', marginRight: '0.5rem', padding: '0.4rem 0.75rem', background: 'var(--purple-600)', borderRadius: '6px', color: 'white', fontSize: '0.85rem' }}>Part 1</span>
+            {allQuestionNums.map(num => {
+              const answered = !!userAnswers[num];
+              const userAns = userAnswers[num] || '';
+              const item = selectedTest.questions.flatMap(s => s.items).find(i => i.num === num);
+              const isCorrect = showResults && item && userAns.toLowerCase().trim() === item.answer.toLowerCase().trim();
+              const isWrong = showResults && answered && !isCorrect;
+              
+              return (
+                <button
+                  key={num}
+                  onClick={() => scrollToQuestion(num)}
+                  style={{
+                    width: '32px', height: '32px', borderRadius: '6px', border: 'none',
+                    background: showResults 
+                      ? (isCorrect ? '#22c55e' : isWrong ? '#ef4444' : 'var(--bg-secondary)')
+                      : (answered ? 'var(--purple-600)' : 'var(--bg-secondary)'),
+                    color: (showResults ? (isCorrect || isWrong) : answered) ? 'white' : 'var(--text-secondary)',
+                    fontWeight: '500', fontSize: '0.85rem', cursor: 'pointer'
+                  }}
+                >
+                  {num}
+                </button>
+              );
+            })}
+            <span style={{ marginLeft: '0.5rem', color: 'var(--text-secondary)', fontSize: '0.85rem' }}>
+              {Object.keys(userAnswers).length} of {allQuestionNums.length}
+            </span>
+          </div>
+
+          {/* Submit button */}
           <button
             onClick={handleSubmit}
             disabled={showResults}
-            style={{ 
-              padding: '0.75rem 1.5rem', 
-              borderRadius: '10px', 
-              border: 'none', 
-              background: showResults ? 'var(--text-muted)' : 'var(--purple-600)', 
-              color: 'white', 
-              fontWeight: '600', 
-              cursor: showResults ? 'not-allowed' : 'pointer' 
+            style={{
+              padding: '0.6rem 1.5rem', borderRadius: '8px', border: 'none',
+              background: showResults ? 'var(--text-muted)' : 'var(--purple-600)',
+              color: 'white', fontWeight: '600', cursor: showResults ? 'default' : 'pointer',
+              display: 'flex', alignItems: 'center', gap: '0.5rem'
             }}
           >
-            {showResults ? 'Submitted' : 'Submit'}
+            {showResults ? `Score: ${correct}/${total} (Band ${bandScore})` : '✓ Submit'}
           </button>
-        </div>
+        </footer>
 
         {/* Results Modal */}
         {showResults && (
           <div style={{
-            position: 'fixed',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            background: 'rgba(0,0,0,0.5)',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            zIndex: 200
-          }}>
+            position: 'fixed', top: 0, left: 0, right: 0, bottom: 0,
+            background: 'rgba(0,0,0,0.5)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 200
+          }} onClick={() => setShowResults(false)}>
             <div style={{
-              background: 'var(--card-bg)',
-              borderRadius: '20px',
-              padding: '2rem',
-              maxWidth: '400px',
-              width: '90%',
-              textAlign: 'center'
-            }}>
-              <h2 style={{ color: 'var(--text-primary)', marginBottom: '1rem' }}>Test Results</h2>
-              <div style={{ fontSize: '3rem', fontWeight: '700', color: 'var(--purple-400)' }}>{correct}/{total}</div>
-              <div style={{ fontSize: '1.5rem', color: 'var(--text-secondary)', marginBottom: '1rem' }}>Band Score: {bandScore}</div>
-              <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>
-                Time: {timerMode === 'countdown' ? formatTime(20 * 60 - timeRemaining) : formatTime(elapsedTime)}
+              background: 'var(--card-bg)', borderRadius: '16px', padding: '2rem', maxWidth: '400px', width: '90%', textAlign: 'center'
+            }} onClick={e => e.stopPropagation()}>
+              <h2 style={{ color: 'var(--text-primary)', marginBottom: '1rem', fontSize: '1.5rem' }}>Test Results</h2>
+              <div style={{ fontSize: '3.5rem', fontWeight: '700', color: 'var(--purple-400)' }}>{correct}/{total}</div>
+              <div style={{ fontSize: '1.25rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>Band Score: {bandScore}</div>
+              <p style={{ color: 'var(--text-secondary)', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
+                Time taken: {formatTime(timerMode === 'countdown' ? (20*60 - timerSeconds) : timerSeconds)}
               </p>
               <button
                 onClick={() => setShowResults(false)}
@@ -6217,239 +6449,6 @@ const ReadingPage = ({ subPage, setSubPage }) => {
             </div>
           </div>
         )}
-
-        {/* Main Content */}
-        <div style={{ display: 'flex', paddingTop: '70px', height: 'calc(100vh - 70px)' }}>
-          {/* Passage Panel */}
-          <div style={{ 
-            width: '50%', 
-            overflowY: 'auto', 
-            padding: '2rem', 
-            borderRight: '1px solid var(--border-color)',
-            background: 'var(--bg-primary)'
-          }}>
-            <div style={{ 
-              background: 'var(--card-bg)', 
-              padding: '1.5rem', 
-              borderRadius: '12px', 
-              marginBottom: '1.5rem',
-              border: '1px solid var(--border-color)'
-            }}>
-              <h3 style={{ color: 'var(--purple-400)', marginBottom: '0.5rem' }}>Part 1</h3>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-                You should spend about 20 minutes on Questions 1-13, which are based on Reading Passage 1 below.
-              </p>
-            </div>
-            
-            <h2 style={{ textAlign: 'center', color: 'var(--purple-400)', marginBottom: '0.5rem' }}>{selectedTest.title}</h2>
-            <p style={{ textAlign: 'center', fontStyle: 'italic', color: 'var(--text-secondary)', marginBottom: '1.5rem' }}>{selectedTest.subtitle}</p>
-            
-            <div 
-              style={{ color: 'var(--text-primary)', lineHeight: '1.8' }}
-              dangerouslySetInnerHTML={{ __html: selectedTest.passage }}
-            />
-          </div>
-
-          {/* Questions Panel */}
-          <div style={{ 
-            width: '50%', 
-            overflowY: 'auto', 
-            padding: '2rem',
-            background: 'var(--bg-primary)'
-          }}>
-            {selectedTest.questions.map((section, sIdx) => (
-              <div key={sIdx} style={{ marginBottom: '2rem' }}>
-                <div style={{ 
-                  background: 'var(--card-bg)', 
-                  padding: '1rem 1.5rem', 
-                  borderRadius: '12px', 
-                  marginBottom: '1rem',
-                  border: '1px solid var(--border-color)'
-                }}>
-                  <h3 style={{ color: 'var(--purple-400)', marginBottom: '0.5rem' }}>{section.rubric}</h3>
-                  <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>{section.instruction}</p>
-                  {section.type === 'tfng' && (
-                    <div style={{ marginTop: '0.5rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-                      <p><strong>TRUE</strong> if the statement agrees with the information</p>
-                      <p><strong>FALSE</strong> if the statement contradicts the information</p>
-                      <p><strong>NOT GIVEN</strong> if there is no information on this</p>
-                    </div>
-                  )}
-                  {section.type === 'ynng' && (
-                    <div style={{ marginTop: '0.5rem', fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-                      <p><strong>YES</strong> if the statement agrees with the claims of the writer</p>
-                      <p><strong>NO</strong> if the statement contradicts the claims of the writer</p>
-                      <p><strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks</p>
-                    </div>
-                  )}
-                </div>
-
-                {section.title && (
-                  <h4 style={{ color: 'var(--text-primary)', marginBottom: '1rem', fontWeight: '600' }}>{section.title}</h4>
-                )}
-
-                {section.items.map((item, iIdx) => {
-                  const isCorrect = showResults && (userAnswers[item.num] || '').toLowerCase().trim() === item.answer.toLowerCase().trim();
-                  const isWrong = showResults && userAnswers[item.num] && !isCorrect;
-
-                  return (
-                    <div 
-                      key={iIdx} 
-                      style={{ 
-                        marginBottom: '1rem', 
-                        padding: '1rem', 
-                        borderRadius: '8px',
-                        background: isCorrect ? 'var(--success-bg)' : isWrong ? 'var(--danger-bg)' : 'var(--card-bg)',
-                        border: `1px solid ${isCorrect ? 'var(--success-border)' : isWrong ? 'var(--danger-border)' : 'var(--border-color)'}`
-                      }}
-                    >
-                      {/* TFNG / YNNG Questions */}
-                      {(section.type === 'tfng' || section.type === 'ynng') && (
-                        <div>
-                          <p style={{ color: 'var(--text-primary)', marginBottom: '0.75rem' }}>
-                            <strong style={{ color: 'var(--purple-400)' }}>{item.num}.</strong> {item.text}
-                          </p>
-                          <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap' }}>
-                            {(section.type === 'tfng' ? ['TRUE', 'FALSE', 'NOT GIVEN'] : ['YES', 'NO', 'NOT GIVEN']).map(opt => (
-                              <label key={opt} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
-                                <input
-                                  type="radio"
-                                  name={`q${item.num}`}
-                                  value={opt}
-                                  checked={userAnswers[item.num] === opt}
-                                  onChange={() => handleAnswerChange(item.num, opt)}
-                                  disabled={showResults}
-                                />
-                                <span style={{ color: 'var(--text-primary)' }}>{opt}</span>
-                              </label>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* MCQ Questions */}
-                      {section.type === 'mcq' && (
-                        <div>
-                          <p style={{ color: 'var(--text-primary)', marginBottom: '0.75rem' }}>
-                            <strong style={{ color: 'var(--purple-400)' }}>{item.num}.</strong> {item.text}
-                          </p>
-                          <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
-                            {item.options.map(opt => (
-                              <label key={opt} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', cursor: 'pointer' }}>
-                                <input
-                                  type="radio"
-                                  name={`q${item.num}`}
-                                  value={opt.charAt(0)}
-                                  checked={userAnswers[item.num] === opt.charAt(0)}
-                                  onChange={() => handleAnswerChange(item.num, opt.charAt(0))}
-                                  disabled={showResults}
-                                />
-                                <span style={{ color: 'var(--text-primary)' }}>{opt}</span>
-                              </label>
-                            ))}
-                          </div>
-                        </div>
-                      )}
-
-                      {/* Matching Questions */}
-                      {section.type === 'matching' && (
-                        <div>
-                          <p style={{ color: 'var(--text-primary)', marginBottom: '0.75rem' }}>
-                            <strong style={{ color: 'var(--purple-400)' }}>{item.num}.</strong> {item.text}
-                          </p>
-                          <input
-                            type="text"
-                            value={userAnswers[item.num] || ''}
-                            onChange={(e) => handleAnswerChange(item.num, e.target.value.toUpperCase())}
-                            disabled={showResults}
-                            placeholder="A-H"
-                            maxLength={1}
-                            style={{
-                              padding: '0.5rem 1rem',
-                              borderRadius: '6px',
-                              border: '1px solid var(--border-color)',
-                              background: 'var(--bg-secondary)',
-                              color: 'var(--text-primary)',
-                              width: '60px',
-                              textAlign: 'center',
-                              textTransform: 'uppercase'
-                            }}
-                          />
-                        </div>
-                      )}
-
-                      {/* Completion Questions */}
-                      {section.type === 'completion' && (
-                        <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '0.5rem' }}>
-                          <strong style={{ color: 'var(--purple-400)' }}>{item.num}.</strong>
-                          <span style={{ color: 'var(--text-primary)' }}>{item.beforeText}</span>
-                          <input
-                            type="text"
-                            value={userAnswers[item.num] || ''}
-                            onChange={(e) => handleAnswerChange(item.num, e.target.value)}
-                            disabled={showResults}
-                            style={{
-                              padding: '0.5rem 1rem',
-                              borderRadius: '6px',
-                              border: '1px solid var(--border-color)',
-                              background: 'var(--bg-secondary)',
-                              color: 'var(--text-primary)',
-                              minWidth: '150px'
-                            }}
-                          />
-                          {item.afterText && <span style={{ color: 'var(--text-primary)' }}>{item.afterText}</span>}
-                        </div>
-                      )}
-
-                      {/* Show correct answer */}
-                      {showResults && (
-                        <div style={{ marginTop: '0.5rem', fontSize: '0.85rem' }}>
-                          <span style={{ color: isCorrect ? 'var(--success-text)' : 'var(--danger-text)' }}>
-                            {isCorrect ? '✓ Correct' : `✗ Correct answer: ${item.answer}`}
-                          </span>
-                        </div>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            ))}
-
-            {/* Question Navigation Footer */}
-            <div style={{ 
-              position: 'sticky', 
-              bottom: 0, 
-              background: 'var(--card-bg)', 
-              padding: '1rem', 
-              borderRadius: '12px',
-              border: '1px solid var(--border-color)',
-              marginTop: '1rem'
-            }}>
-              <div style={{ display: 'flex', gap: '0.5rem', flexWrap: 'wrap', justifyContent: 'center' }}>
-                {Array.from({ length: 13 }, (_, i) => i + 1).map(num => {
-                  const answered = userAnswers[num];
-                  return (
-                    <button
-                      key={num}
-                      style={{
-                        width: '36px',
-                        height: '36px',
-                        borderRadius: '8px',
-                        border: 'none',
-                        background: answered ? 'var(--purple-600)' : 'var(--bg-secondary)',
-                        color: answered ? 'white' : 'var(--text-secondary)',
-                        fontWeight: '600',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      {num}
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-          </div>
-        </div>
       </div>
     );
   }
@@ -6457,7 +6456,6 @@ const ReadingPage = ({ subPage, setSubPage }) => {
   return null;
 };
 
-// ==================== PLACEHOLDER PAGES ====================
 const PlaceholderPage = ({ title, description, icon }) => (
   <div style={{ paddingTop: '100px', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
     <div style={{ textAlign: 'center', maxWidth: '500px', padding: '2rem' }}>
