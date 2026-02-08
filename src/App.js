@@ -3422,17 +3422,17 @@ const ReadingPage = ({ subPage, setSubPage }) => {
                   </div>
                 )}
 
-                {/* Completion Questions - Styled like the HTML */}
+                {/* Completion Questions */}
                 {section.type === 'completion' && (
-                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
                     {section.noteLines ? (
-                      /* Structured note/summary completion with headings and context */
+                      /* Note completion: structured with headings, context bullets, and question bullets */
                       section.noteLines.map((line, lIdx) => {
                         if (line.lineType === 'heading') {
                           return <p key={lIdx} style={{ fontWeight: '700', fontSize: '1.05rem', color: 'var(--text-primary)', marginTop: lIdx > 0 ? '1rem' : '0', marginBottom: '0.25rem' }}>{line.text}</p>;
                         }
                         if (line.lineType === 'context') {
-                          return <p key={lIdx} style={{ fontSize: '1.05rem', color: 'var(--text-secondary)', lineHeight: '1.6', paddingLeft: '0.5rem' }}>- {line.text}</p>;
+                          return <p key={lIdx} style={{ fontSize: '1.05rem', color: 'var(--text-primary)', lineHeight: '1.6', paddingLeft: '1rem' }}>• {line.text}</p>;
                         }
                         if (line.lineType === 'question') {
                           const item = section.items.find(it => it.num === line.num);
@@ -3441,9 +3441,8 @@ const ReadingPage = ({ subPage, setSubPage }) => {
                           const isCorrect = showResults && userAns.toLowerCase().trim() === item.answer.toLowerCase().trim();
                           const isWrong = showResults && userAns && !isCorrect;
                           return (
-                            <div key={lIdx} id={`question-${line.num}`} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap', fontSize: '1.05rem', color: 'var(--text-primary)', lineHeight: '1.8', paddingLeft: '0.5rem' }}>
-                              <span>- {line.beforeText}</span>
-                              <strong style={{ color: 'var(--purple-400)' }}>{line.num}</strong>
+                            <div key={lIdx} id={`question-${line.num}`} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap', fontSize: '1.05rem', color: 'var(--text-primary)', lineHeight: '1.8', paddingLeft: '1rem' }}>
+                              <span>• {line.beforeText}</span>
                               <input type="text" value={userAns} onChange={(e) => handleAnswerChange(line.num, e.target.value)} disabled={showResults} placeholder={String(line.num)} className="completion-input"
                                 style={{ padding: '0.4rem 0.6rem', borderRadius: '4px', minWidth: '140px', maxWidth: '200px', border: `2px dashed ${showResults ? (isCorrect ? '#22c55e' : isWrong ? '#ef4444' : 'var(--border-color)') : 'var(--border-color)'}`, background: showResults ? (isCorrect ? 'rgba(34,197,94,0.1)' : isWrong ? 'rgba(239,68,68,0.1)' : 'var(--input-bg)') : 'var(--input-bg)', color: 'var(--text-primary)', fontSize: '1.05rem', fontFamily: 'inherit', textAlign: 'center' }} />
                               {line.afterText && <span>{line.afterText}</span>}
@@ -3458,23 +3457,24 @@ const ReadingPage = ({ subPage, setSubPage }) => {
                         return null;
                       })
                     ) : (
-                      /* Standard completion: beforeText [input] afterText */
+                      /* Sentence/Summary completion: inline text with input boxes, no question numbers shown */
                       section.items.map((item) => {
                         const userAns = userAnswers[item.num] || '';
                         const isCorrect = showResults && userAns.toLowerCase().trim() === item.answer.toLowerCase().trim();
                         const isWrong = showResults && userAns && !isCorrect;
                         return (
-                          <div key={item.num} id={`question-${item.num}`} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap', fontSize: '1.05rem', color: 'var(--text-primary)', lineHeight: '1.8' }}>
-                            <strong style={{ color: 'var(--purple-400)', marginRight: '0.25rem' }}>{item.num}.</strong>
-                            {item.beforeText && <span>{item.beforeText}</span>}
-                            <input type="text" value={userAns} onChange={(e) => handleAnswerChange(item.num, e.target.value)} disabled={showResults} placeholder={String(item.num)} className="completion-input"
-                              style={{ padding: '0.4rem 0.6rem', borderRadius: '4px', minWidth: '140px', maxWidth: '200px', border: `2px dashed ${showResults ? (isCorrect ? '#22c55e' : isWrong ? '#ef4444' : 'var(--border-color)') : 'var(--border-color)'}`, background: showResults ? (isCorrect ? 'rgba(34,197,94,0.1)' : isWrong ? 'rgba(239,68,68,0.1)' : 'var(--input-bg)') : 'var(--input-bg)', color: 'var(--text-primary)', fontSize: '1.05rem', fontFamily: 'inherit', textAlign: 'center' }} />
-                            {item.afterText && <span>{item.afterText}</span>}
-                            {showResults && (
-                              <span style={{ color: isCorrect ? '#22c55e' : '#ef4444', fontSize: '0.85rem', marginLeft: '0.5rem' }}>
-                                {isCorrect ? '✓' : `✗ Correct: ${item.answer}`}
-                              </span>
-                            )}
+                          <div key={item.num} id={`question-${item.num}`} style={{ display: 'inline' }}>
+                            <span style={{ fontSize: '1.05rem', color: 'var(--text-primary)', lineHeight: '2.2' }}>
+                              {item.beforeText && <span>{item.beforeText} </span>}
+                              <input type="text" value={userAns} onChange={(e) => handleAnswerChange(item.num, e.target.value)} disabled={showResults} placeholder={String(item.num)} className="completion-input"
+                                style={{ padding: '0.4rem 0.6rem', borderRadius: '4px', minWidth: '140px', maxWidth: '200px', border: `2px dashed ${showResults ? (isCorrect ? '#22c55e' : isWrong ? '#ef4444' : 'var(--border-color)') : 'var(--border-color)'}`, background: showResults ? (isCorrect ? 'rgba(34,197,94,0.1)' : isWrong ? 'rgba(239,68,68,0.1)' : 'var(--input-bg)') : 'var(--input-bg)', color: 'var(--text-primary)', fontSize: '1.05rem', fontFamily: 'inherit', textAlign: 'center', verticalAlign: 'middle' }} />
+                              {item.afterText && <span> {item.afterText} </span>}
+                              {showResults && (
+                                <span style={{ color: isCorrect ? '#22c55e' : '#ef4444', fontSize: '0.85rem', marginLeft: '0.25rem' }}>
+                                  {isCorrect ? '✓' : `✗ ${item.answer}`}
+                                </span>
+                              )}
+                            </span>
                           </div>
                         );
                       })
