@@ -2550,7 +2550,7 @@ const ListeningPage = ({ subPage, setSubPage }) => {
 // ==================== READING PAGE COMPONENT ====================
 // ==================== READING PAGE COMPONENT ====================
 const ReadingPage = ({ subPage, setSubPage }) => {
-  const { isDark } = useTheme();
+  const { isDark, toggleTheme } = useTheme();
   const [selectedTestId, setSelectedTestId] = useState(null);
   const [userAnswers, setUserAnswers] = useState({});
   const [showResults, setShowResults] = useState(false);
@@ -3140,40 +3140,41 @@ const ReadingPage = ({ subPage, setSubPage }) => {
 
         {/* ===== FIXED HEADER ===== */}
         <header style={{
-          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          display: 'grid', gridTemplateColumns: '1fr auto 1fr', alignItems: 'center',
           padding: '0.75rem 1.5rem', background: 'var(--card-bg)', borderBottom: '1px solid var(--border-color)',
           flexShrink: 0, zIndex: 100
         }}>
+          {/* Left: logo + test name */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
             <span style={{ fontWeight: '700', fontSize: '1.25rem', color: 'var(--purple-500)' }}>IELTS</span>
             <span style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Test {selectedTest.id}</span>
           </div>
 
-          {/* Timer */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-            {/* Hide/Show button - LEFT of timer */}
+          {/* Center: Timer - always centered */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            {/* Hide/Show button */}
             <button onClick={() => setShowTimer(!showTimer)} title={showTimer ? 'Hide timer' : 'Show timer'}
-              style={{ padding: '0.5rem', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-secondary)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              style={{ padding: '0.4rem', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-secondary)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)' }}>
               {showTimer ? (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
                   <line x1="1" y1="1" x2="23" y2="23"/>
                 </svg>
               ) : (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
                   <circle cx="12" cy="12" r="3"/>
                 </svg>
               )}
             </button>
             
-            {/* Timer display - clickable to pause/play */}
+            {/* Timer display */}
             {showTimer && (
               <div 
                 onClick={() => setTimerRunning(!timerRunning)}
                 title={timerRunning ? 'Click to pause' : 'Click to resume'}
                 style={{
-                  display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem',
+                  display: 'flex', alignItems: 'center', padding: '0.35rem 0.75rem',
                   background: (timerMode === 'countdown' && timerSeconds <= 120) || (timerMode === 'stopwatch' && timerSeconds >= 1080) ? 'rgba(239, 68, 68, 0.15)' : 'var(--bg-secondary)', 
                   borderRadius: '8px', border: '1px solid var(--border-color)',
                   cursor: 'pointer',
@@ -3182,39 +3183,54 @@ const ReadingPage = ({ subPage, setSubPage }) => {
                 <span style={{ 
                   fontSize: '1.1rem', fontWeight: '600', 
                   color: (timerMode === 'countdown' && timerSeconds <= 120) || (timerMode === 'stopwatch' && timerSeconds >= 1080) ? '#ef4444' : 'var(--text-primary)', 
-                  minWidth: '60px',
-                  fontFamily: 'inherit'
+                  fontFamily: 'inherit', fontVariantNumeric: 'tabular-nums'
                 }}>
                   {formatTime(timerSeconds)}
                 </span>
               </div>
             )}
             
-            {/* Mode toggle button - RIGHT of timer */}
+            {/* Mode toggle button */}
             <button onClick={() => { setTimerMode(m => m === 'countdown' ? 'stopwatch' : 'countdown'); setTimerSeconds(timerMode === 'countdown' ? 0 : 20*60); }} title={timerMode === 'countdown' ? 'Switch to stopwatch' : 'Switch to countdown'}
-              style={{ padding: '0.5rem', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-secondary)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              style={{ padding: '0.4rem', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-secondary)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)' }}>
               {timerMode === 'countdown' ? (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M6 2v4M18 2v4M6 22v-4M18 22v-4M2 6h4M2 18h4M22 6h-4M22 18h-4"/>
-                  <rect x="6" y="6" width="12" height="12" rx="1"/>
-                  <path d="M12 10v4"/>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="13" r="8"/>
+                  <path d="M12 9v4l2 2"/>
+                  <path d="M5 3L2 6"/>
+                  <path d="M22 6l-3-3"/>
+                  <path d="M9 1h6"/>
+                  <path d="M12 1v3"/>
                 </svg>
               ) : (
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <circle cx="12" cy="14" r="8"/>
-                  <line x1="12" y1="10" x2="12" y2="14"/>
-                  <line x1="12" y1="14" x2="14" y2="14"/>
-                  <line x1="10" y1="2" x2="14" y2="2"/>
-                  <line x1="12" y1="2" x2="12" y2="6"/>
-                  <line x1="20" y1="5" x2="18" y2="7"/>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
                 </svg>
               )}
             </button>
           </div>
 
-          <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
+          {/* Right: theme toggle + exit */}
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', justifyContent: 'flex-end' }}>
+            <button onClick={toggleTheme} title={isDark ? 'Switch to light mode' : 'Switch to dark mode'}
+              style={{ padding: '0.4rem', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-secondary)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)' }}>
+              {isDark ? (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="12" r="5"/>
+                  <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+                  <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+                  <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+                  <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+                </svg>
+              ) : (
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+                </svg>
+              )}
+            </button>
             <button onClick={exitTest}
-              style={{ padding: '0.5rem 1rem', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'transparent', color: 'var(--text-secondary)', cursor: 'pointer' }}>
+              style={{ padding: '0.5rem 1rem', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'transparent', color: 'var(--text-secondary)', cursor: 'pointer', fontSize: '0.9rem' }}>
               Exit
             </button>
           </div>
@@ -3279,7 +3295,7 @@ const ReadingPage = ({ subPage, setSubPage }) => {
                 <div style={{ marginBottom: '1.5rem', padding: '1rem', background: isDark ? '#1e293b' : '#f8fafc', borderRadius: '8px', border: '1px solid var(--border-color)' }}>
                   <h4 style={{ fontSize: '1rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>{section.rubric}</h4>
                   <p 
-                    style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', margin: 0 }}
+                    style={{ fontSize: '1.05rem', color: 'var(--text-secondary)', margin: 0, lineHeight: '1.6' }}
                     dangerouslySetInnerHTML={{ 
                       __html: section.instruction
                         .replace(/(NO MORE THAN [A-Z\s]+WORDS?)/gi, '<strong style="color: var(--text-primary)">$1</strong>')
@@ -3457,24 +3473,22 @@ const ReadingPage = ({ subPage, setSubPage }) => {
                         return null;
                       })
                     ) : (
-                      /* Sentence/Summary completion: inline text with input boxes, no question numbers shown */
+                      /* Sentence/Summary completion: each sentence with inline input */
                       section.items.map((item) => {
                         const userAns = userAnswers[item.num] || '';
                         const isCorrect = showResults && userAns.toLowerCase().trim() === item.answer.toLowerCase().trim();
                         const isWrong = showResults && userAns && !isCorrect;
                         return (
-                          <div key={item.num} id={`question-${item.num}`} style={{ display: 'inline' }}>
-                            <span style={{ fontSize: '1.05rem', color: 'var(--text-primary)', lineHeight: '2.2' }}>
-                              {item.beforeText && <span>{item.beforeText} </span>}
-                              <input type="text" value={userAns} onChange={(e) => handleAnswerChange(item.num, e.target.value)} disabled={showResults} placeholder={String(item.num)} className="completion-input"
-                                style={{ padding: '0.4rem 0.6rem', borderRadius: '4px', minWidth: '140px', maxWidth: '200px', border: `2px dashed ${showResults ? (isCorrect ? '#22c55e' : isWrong ? '#ef4444' : 'var(--border-color)') : 'var(--border-color)'}`, background: showResults ? (isCorrect ? 'rgba(34,197,94,0.1)' : isWrong ? 'rgba(239,68,68,0.1)' : 'var(--input-bg)') : 'var(--input-bg)', color: 'var(--text-primary)', fontSize: '1.05rem', fontFamily: 'inherit', textAlign: 'center', verticalAlign: 'middle' }} />
-                              {item.afterText && <span> {item.afterText} </span>}
-                              {showResults && (
-                                <span style={{ color: isCorrect ? '#22c55e' : '#ef4444', fontSize: '0.85rem', marginLeft: '0.25rem' }}>
-                                  {isCorrect ? '✓' : `✗ ${item.answer}`}
-                                </span>
-                              )}
-                            </span>
+                          <div key={item.num} id={`question-${item.num}`} style={{ fontSize: '1.05rem', color: 'var(--text-primary)', lineHeight: '2.2', marginBottom: '0.75rem' }}>
+                            {item.beforeText && <span>{item.beforeText} </span>}
+                            <input type="text" value={userAns} onChange={(e) => handleAnswerChange(item.num, e.target.value)} disabled={showResults} placeholder={String(item.num)} className="completion-input"
+                              style={{ padding: '0.4rem 0.6rem', borderRadius: '4px', minWidth: '140px', maxWidth: '200px', border: `2px dashed ${showResults ? (isCorrect ? '#22c55e' : isWrong ? '#ef4444' : 'var(--border-color)') : 'var(--border-color)'}`, background: showResults ? (isCorrect ? 'rgba(34,197,94,0.1)' : isWrong ? 'rgba(239,68,68,0.1)' : 'var(--input-bg)') : 'var(--input-bg)', color: 'var(--text-primary)', fontSize: '1.05rem', fontFamily: 'inherit', textAlign: 'center', verticalAlign: 'middle' }} />
+                            {item.afterText && <span> {item.afterText}</span>}
+                            {showResults && (
+                              <span style={{ color: isCorrect ? '#22c55e' : '#ef4444', fontSize: '0.85rem', marginLeft: '0.5rem' }}>
+                                {isCorrect ? '✓' : `✗ ${item.answer}`}
+                              </span>
+                            )}
                           </div>
                         );
                       })
