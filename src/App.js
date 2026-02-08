@@ -2247,7 +2247,7 @@ const ListeningPage = ({ subPage, setSubPage, setCurrentPage }) => {
             </p>
 
             {/* Tests Grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(140px, 1fr))', gap: '1rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '1rem' }}>
               {currentTests.map((test, index) => (
                 <div
                   key={test.id}
@@ -2909,8 +2909,8 @@ const ReadingPage = ({ subPage, setSubPage, setCurrentPage }) => {
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
-                <span style={{ fontSize: '2.4rem' }}>📄</span>
-                <span style={{ padding: '0.25rem 0.6rem', borderRadius: '8px', background: 'var(--purple-600)', fontSize: '1.2rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1', alignSelf: 'flex-start' }}>40 TESTS</span>
+                <span style={{ fontSize: '2rem' }}>📄</span>
+                <span style={{ padding: '0.2rem 0.5rem', borderRadius: '6px', background: 'var(--purple-600)', fontSize: '0.65rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1', alignSelf: 'flex-start' }}>40 TESTS</span>
               </div>
               <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Passage 1 Practice</h2>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>13 questions • T/F/NG, completion, matching, MCQ</p>
@@ -2925,8 +2925,8 @@ const ReadingPage = ({ subPage, setSubPage, setCurrentPage }) => {
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
-                <span style={{ fontSize: '2.4rem' }}>📄</span>
-                <span style={{ padding: '0.25rem 0.6rem', borderRadius: '8px', background: '#3b82f6', fontSize: '1.2rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1', alignSelf: 'flex-start' }}>10 TESTS</span>
+                <span style={{ fontSize: '2rem' }}>📄</span>
+                <span style={{ padding: '0.2rem 0.5rem', borderRadius: '6px', background: '#3b82f6', fontSize: '0.65rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1', alignSelf: 'flex-start' }}>10 TESTS</span>
               </div>
               <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Passage 2 Practice</h2>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>13 questions • Matching headings, MCQ, T/F/NG, completion</p>
@@ -2940,8 +2940,8 @@ const ReadingPage = ({ subPage, setSubPage, setCurrentPage }) => {
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
-                <span style={{ fontSize: '2.4rem' }}>📄</span>
-                <span style={{ padding: '0.25rem 0.6rem', borderRadius: '8px', background: '#10b981', fontSize: '1.2rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1', alignSelf: 'flex-start' }}>9 TESTS</span>
+                <span style={{ fontSize: '2rem' }}>📄</span>
+                <span style={{ padding: '0.2rem 0.5rem', borderRadius: '6px', background: '#10b981', fontSize: '0.65rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1', alignSelf: 'flex-start' }}>9 TESTS</span>
               </div>
               <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Passage 3 Practice</h2>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>14 questions • Advanced difficulty • Matching, MCQ, T/F/NG</p>
