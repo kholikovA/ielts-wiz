@@ -2509,18 +2509,21 @@ const ThemeToggle = () => {
 };
 
 // ==================== LOGO ====================
-const Logo = ({ onClick }) => (
-  <div onClick={onClick} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-    <img
-      src={isDarkMode ? "/logo-dark.svg" : "/logo-light.svg"}
-      alt="IELTS Wiz"
-      style={{
-        height: '40px',
-        objectFit: 'contain',
-      }}
-    />
-  </div>
-);
+const Logo = ({ onClick }) => {
+  const { isDark } = useTheme();
+  return (
+    <div onClick={onClick} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+      <img
+        src={isDark ? "/logo-dark.svg" : "/logo-light.svg"}
+        alt="IELTS Wiz"
+        style={{
+          height: '36px',
+          objectFit: 'contain',
+        }}
+      />
+    </div>
+  );
+};
 
 // ==================== NAVIGATION ====================
 const Navigation = ({ currentPage, setCurrentPage }) => {
