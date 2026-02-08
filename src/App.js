@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef, createContext, useContext } from 'react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import { supabase } from './supabaseClient';
 import { vocabDefinitions } from './data/vocab-definitions';
 import { speakingPart2Data } from './data/speaking-part2';
@@ -4229,7 +4230,13 @@ const App = () => {
 
   if (loading) return <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-primary)' }}><div className="spinner" /></div>;
 
-  return <div><Navigation currentPage={currentPage} setCurrentPage={handlePageChange} />{renderPage()}</div>;
+  return (
+    <div>
+      <Navigation currentPage={currentPage} setCurrentPage={handlePageChange} />
+      {renderPage()}
+      <SpeedInsights />
+    </div>
+  );
 };
 
 const AppWithProviders = () => (<ThemeProvider><AuthProvider><App /></AuthProvider></ThemeProvider>);
