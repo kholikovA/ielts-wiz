@@ -5557,7 +5557,7 @@ const ListeningPage = ({ subPage, setSubPage }) => {
 const readingPassage1Tests = [
   {
     id: 31,
-    title: 'A survivor\'s story',
+    title: 'A Survivor\'s Story',
     subtitle: 'One native bird in New Zealand that has managed to survive the introduction of non-native species',
     passage: `<p>As an island country with a fauna dominated by birds, New Zealand was once home to an owl species which is now extinct, the laughing owl, named for its distinctive cry. This bird was widespread throughout the islands when European settlers arrived in the middle of the 19th century and it remained in good numbers for some years thereafter. Where other native birds suffered from predation by the Polynesian rat, the laughing owl turned the tables and adapted its diet to include the rodent. It was also capable of catching and killing the other New Zealand owl, the morepork, and even larger birds, such as the weka. However, the laughing owl was wiped out around the beginning of the 20th century. Its demise caused by specimen collectors, habitat changes, and non-native predators including cats and stoats. Surprisingly, it is the smaller owl, the morepork, that has managed to survive until this day.</p>
 <p>Speckled dark brown, with yellow eyes and long tails, they are around 29 centimeters long from head to tail and 175 grams in weight. Moreporks have fringes on the edge of their feathers, so they can fly almost silently and not alert potential prey. They have acute hearing and their large eyes are very sensitive to light.</p>
@@ -5575,32 +5575,46 @@ const readingPassage1Tests = [
         { num: 4, text: 'Rats pose a risk to young moreporks.', answer: 'TRUE' },
         { num: 5, text: 'The New Zealand Department of Conservation is hoping to limit the population of moreporks.', answer: 'FALSE' },
         { num: 6, text: 'Other bird species are frightened away when they hear the morepork\'s cry.', answer: 'NOT GIVEN' },
-        { num: 7, text: 'In Maori tradition, the low call of the morepork had negative associations.', answer: 'FALSE' },
-      ]},
-      { type: 'completion', rubric: 'Questions 8-13', instruction: 'Complete the notes below. Choose ONE WORD AND/OR A NUMBER from the passage for each answer. Write your answers in boxes 8-13 on your answer sheet.', items: [
-        { num: 8, beforeText: '- approximately', afterText: 'in length', answer: '29 centimeters' },
-        { num: 9, beforeText: '- nests in trees, plants or spaces in roots and', afterText: '', answer: 'rocks' },
-        { num: 10, beforeText: '- transports its prey using its', afterText: '', answer: 'bill' },
-        { num: 11, beforeText: '- can be chased away by other birds during the', afterText: '', answer: 'day' },
-        { num: 12, beforeText: '- attacked', afterText: 'that had been introduced to Motuora island', answer: 'plovers' },
-        { num: 13, beforeText: '- may be exposed to', afterText: 'in their prey', answer: 'poison' },
-      ]},
+        { num: 7, text: 'In Maori tradition, the low call of the morepork had negative associations.', answer: 'FALSE' }
+      ] },
+      { type: 'completion', rubric: 'Questions 8-13', instruction: 'Complete the notes below. Choose ONE WORD AND/OR A NUMBER from the passage for each answer. Write your answers in boxes 8-13 on your answer sheet.', noteLines: [
+          { lineType: 'heading', text: 'The Morepork' },
+          { lineType: 'heading', text: 'Appearance' },
+          { lineType: 'question', num: 8, beforeText: 'approximately', afterText: 'in length' },
+          { lineType: 'context', text: 'feathers with fringes to enable quiet flight' },
+          { lineType: 'heading', text: 'Nesting' },
+          { lineType: 'question', num: 9, beforeText: 'nests in trees, plants or spaces in roots and', afterText: '' },
+          { lineType: 'context', text: 'after about 35 days, baby moreporks are capable of leaving the nest' },
+          { lineType: 'heading', text: 'Hunting' },
+          { lineType: 'question', num: 10, beforeText: 'transports its prey using its', afterText: '' },
+          { lineType: 'question', num: 11, beforeText: 'can be chased away by other birds during the', afterText: '' },
+          { lineType: 'question', num: 12, beforeText: 'attacked', afterText: 'that had been introduced to Motuora island' },
+          { lineType: 'heading', text: 'Threats' },
+          { lineType: 'question', num: 13, beforeText: 'may be exposed to', afterText: 'in their prey' }
+        ], items: [
+        { num: 8, beforeText: 'approximately', afterText: 'in length', answer: '29 centimeters' },
+        { num: 9, beforeText: 'nests in trees, plants or spaces in roots and', afterText: '', answer: 'rocks' },
+        { num: 10, beforeText: 'transports its prey using its', afterText: '', answer: 'bill' },
+        { num: 11, beforeText: 'can be chased away by other birds during the', afterText: '', answer: 'day' },
+        { num: 12, beforeText: 'attacked', afterText: 'that had been introduced to Motuora island', answer: 'plovers' },
+        { num: 13, beforeText: 'may be exposed to', afterText: 'in their prey', answer: 'poison' }
+      ] },
     ]
   },
   {
     id: 32,
-    title: 'Wood: a valuable resource in New Zealand\'s economy',
+    title: 'Wood: a Valuable Resource in New Zealand\'s Economy',
     subtitle: '',
-    passage: `<p><strong>A</strong> During the settlement of New Zealand by European immigrants, natural timbers played a major role. Wood was easily accessible and relatively cheap. A tradition of wooden houses arose, supported by the recognition that they were less likely to collapse suddenly during earthquakes, a not infrequent event in this part of the world. But in addition to demand from the domestic market, there was also a demand for forest products from overseas.</p>
-<p><strong>B</strong> Early explorers recognised the suitability of the tall, straight trunks of the kauri for constructing sailing vessels. The kauri is a species of coniferous tree found only in small areas of the southern hemisphere. So from the early 1800s, huge amounts of this type of wood were sold to Australia and the UK for that purpose. For a period, the forestry industry was the country's major export earner, but the rate of harvest was unsustainable and, by the beginning of the 20th century, indigenous timber exports were rapidly declining.</p>
-<p><strong>C</strong> From the 1940s, newly established plantations of an imported species of tree called radiata pine supplied timber and other wood products in increasing quantities. By the 1960s, plantation-grown timber was providing most of the country's sawn timber needs, especially for construction. Today, less than two percent of timber is cut from indigenous forests, and almost all of that is used for higher-value end uses, such as furniture and fittings. As the pine industry developed, it became apparent that this type of wood was also well suited for many uses. It makes excellent pulp*, and is frequently used for posts, poles, furnishings and mouldings, particleboard, fibreboard, and for plywood and 'engineered' wood products. Pine by-products are used in the chemical and pharmaceutical industries and residues are consumed for fuel. This amazing versatility has encouraged the development of an integrated forest-products industry which is almost unique in the world.</p>
-<p><strong>D</strong> Exporters of wood products have largely targeted the rapidly growing markets of South and East Asia and Australia. 80 percent of exports by value go to only five markets: Japan, Korea, China, the United States and Australia. The product mix remains heavily based on raw materials, with logs, sawn wood, pulp and paper comprising 75 percent of export value. However, finished wood products such as panels and furniture components are exported to more than 50 countries.</p>
-<p><strong>E</strong> In New Zealand itself, the construction industry is the principal user of solid wood products, servicing around 20,000 new house starts annually. However, the small size of New Zealand's population (just over four million), plus its small manufacturing and remanufacturing base, limit the forestry industry's domestic opportunities. For the last few years local wood consumption has been around only four million cubic metres. Accordingly, the development of the export market is the key to the industry's growth and contribution to the national economy in decades to come.</p>
-<p><strong>F</strong> In 2004, forestry export receipts were about 11 percent of the country's total export income, their value having increased steadily for ten years, until affected by the exchange fluctuations and shipping costs of recent years. The forestry industry is New Zealand's third largest export sector, generating around $3.3 billion annually from logs and processed wood products. But it is generally agreed that it is operating well below its capacity and, with the domestic market already at its peak, almost all of the extra wood produced in future will have to be marketed overseas. That presents a major marketing challenge for the industry.</p>
-<p><strong>G</strong> Although the export of logs will continue to provide valuable earnings for forest owners, there is broad acceptance that the industry must be based on value-added products in future. So the industry is investigating various processing, infrastructure and investment strategies with a view to increasing the level of local manufacturing before export. The keys to future success will depend on a variety of factors: better international marketing, product innovation, internationally competitive processing, better infrastructure and a suitable political, regulatory and investment environment. The industry claims that, given the right conditions, by 2025 the forestry sector could be the country's biggest export earner, generating $20 billion a year and employing 60,000 people.</p>
-<p><strong>H</strong> One competitive advantage that New Zealand has is its ability to source large quantities of softwood from renewable forests. Consumers in several key wood markets are becoming more worried about sustainability, and the industry is supporting the development of national standards as well as the recognition of these internationally. However, New Zealand is not the only country with a plantation-style forestry industry. Chile, Brazil, Argentina, South Africa and Australia all have extensive plantings of fast-growing species (hardwood and softwood), and in the northern hemisphere, Scandinavian countries have all expanded their forests or controlled their use in the interests of future production.</p>
-<p><strong>I</strong> Finally, in addition to competition from other wood producers, New Zealand faces competition from goods such as wood substitutes. These include steel framing for houses. This further underlines the necessity for globally competitive production and marketing strategies.</p>
-<p><em>pulp*: wood which is crushed until soft enough to form the basis of paper.</em></p>`,
+    passage: `<p><strong>A</strong> During the settlement of New Zealand by European immigrants, natural timbers played a major role. Wood was easily accessible and relatively cheap. A tradition of wooden houses arose, supported by the recognition that they were less likely to collapse suddenly during earthquakes, a not infrequent event in this part of the world. But in addition to demand from the domestic market, there was also a demand for forest products from overseas.</p>
+<p><strong>B</strong> Early explorers recognised the suitability of the tall, straight trunks of the kauri for constructing sailing vessels. The kauri is a species of coniferous tree found only in small areas of the southern hemisphere. So from the early 1800s, huge amounts of this type of wood were sold to Australia and the UK for that purpose. For a period, the forestry industry was the country’s major export earner, but the rate of harvest was unsustainable and, by the beginning of the 20th century, indigenous timber exports were rapidly declining.</p>
+<p><strong>C</strong> From the 1940s, newly established plantations of an imported species of tree called radiata pine supplied timber and other wood products in increasing quantities. By the 1960s, plantation-grown timber was providing most of the country’s sawn timber needs, especially for construction. Today, less than two percent of timber is cut from indigenous forests, and almost all of that is used for higher-value end uses, such as furniture and fittings. As the pine industry developed, it became apparent that this type of wood was also well suited for many uses. It makes excellent pulp*, and is frequently used for posts, poles, furnishings and mouldings, particleboard, fibreboard, and for plywood and 'engineered' wood products. Pine by-products are used in the chemical and pharmaceutical industries and residues are consumed for fuel. This amazing versatility has encouraged the development of an integrated forest-products industry which is almost unique in the world.</p>
+<p><strong>D</strong> Exporters of wood products have largely targeted the rapidly growing markets of South and East Asia and Australia. 80 percent of exports by value go to only five markets: Japan, Korea, China, the United States and Australia. The product mix remains heavily based on raw materials, with logs, sawn wood, pulp and paper comprising 75 percent of export value. However, finished wood products such as panels and furniture components are exported to more than 50 countries.</p>
+<p><strong>E</strong> In New Zealand itself, the construction industry is the principal user of solid wood products, servicing around 20,000 new house starts annually. However, the small size of New Zealand’s population (just over four million), plus its small manufacturing and remanufacturing base, limit the forestry industry’s domestic opportunities. For the last few years local wood consumption has been around only four million cubic metres. Accordingly, the development of the export market is the key to the industry’s growth and contribution to the national economy in decades to come.</p>
+<p><strong>F</strong> In 2004, forestry export receipts were about 11 percent of the country’s total export income, their value having increased steadily for ten years, until affected by the exchange fluctuations and shipping costs of recent years. The forestry industry is New Zealand’s third largest export sector, generating around $3.3 billion annually from logs and processed wood products. But it is generally agreed that it is operating well below its capacity and, with the domestic market already at its peak, almost all of the extra wood produced in future will have to be marketed overseas. That presents a major marketing challenge for the industry.</p>
+<p><strong>G</strong> Although the export of logs will continue to provide valuable earnings for forest owners, there is broad acceptance that the industry must be based on value-added products in future. So the industry is investigating various processing, infrastructure and investment strategies with a view to increasing the level of local manufacturing before export. The keys to future success will depend on a variety of factors: better international marketing, product innovation, internationally competitive processing, better infrastructure and a suitable political, regulatory and investment environment. The industry claims that, given the right conditions, by 2025 the forestry sector could be the country’s biggest export earner, generating $20 billion a year and employing 60,000 people.</p>
+<p><strong>H</strong> One competitive advantage that New Zealand has is its ability to source large quantities of softwood from renewable forests. Consumers in several key wood markets are becoming more worried about sustainability, and the industry is supporting the development of national standards as well as the recognition of these internationally. However, New Zealand is not the only country with a plantation-style forestry industry. Chile, Brazil, Argentina, South Africa and Australia all have extensive plantings of fast-growing species (hardwood and softwood), and in the northern hemisphere, Scandinavian countries have all expanded their forests or controlled their use in the interests of future production.</p>
+<p><strong>I</strong> Finally, in addition to competition from other wood producers, New Zealand faces competition from goods such as wood substitutes. These include steel framing for houses. This further underlines the necessity for globally competitive production and marketing strategies.</p>
+<p><em>pulp*: wood which is crushed until soft enough to form the basis of paper.</em></p>`,
     questions: [
       { type: 'tfng', rubric: 'Questions 1-6', instruction: 'In boxes 1-6 on your answer sheet, write: TRUE - if the statement agrees with the information given in Reading Passage 1 FALSE - if the statement contradicts the information NOT GIVEN - if there is no information on this', items: [
         { num: 1, text: 'Settlers realised that wooden houses were more dangerous than other types of structure.', answer: 'FALSE' },
@@ -5608,17 +5622,17 @@ const readingPassage1Tests = [
         { num: 3, text: 'Plantation-grown wood is generally better for construction than native forest wood.', answer: 'NOT GIVEN' },
         { num: 4, text: 'Compared to other types of wood, pine has a narrow range of uses.', answer: 'FALSE' },
         { num: 5, text: 'Demand for housing in New Zealand is predicted to fall in the next few years.', answer: 'NOT GIVEN' },
-        { num: 6, text: 'In future, the expansion of New Zealand\'s wood industry will depend on its exports.', answer: 'TRUE' },
-      ]},
-      { type: 'completion', rubric: 'Questions 7-13', instruction: 'Answer the questions below. Write NO MORE THAN TWO WORDS AND/OR A NUMBER from the passage for each answer.', items: [
+        { num: 6, text: 'In future, the expansion of New Zealand\'s wood industry will depend on its exports.', answer: 'TRUE' }
+      ] },
+      { type: 'short-answer', rubric: 'Questions 7-13', instruction: 'Answer the questions below. Write NO MORE THAN TWO WORDS AND/OR A NUMBER from the passage for each answer.', items: [
         { num: 7, text: 'Apart from exchange rates, which factor has had a negative impact on New Zealand\'s forestry exports?', answer: 'shipping costs' },
         { num: 8, text: 'Which part of New Zealand\'s economy does the forestry industry rank third in?', answer: 'export sector' },
         { num: 9, text: 'According to the New Zealand forestry industry, what could be the size of its workforce by 2025?', answer: '60000' },
         { num: 10, text: 'What kind of timber product is available in large amounts from renewable forests in New Zealand?', answer: 'softwood' },
         { num: 11, text: 'Which aspect of timber production are New Zealand\'s main customers increasingly concerned about?', answer: 'sustainability' },
         { num: 12, text: 'Outside the southern hemisphere, who are New Zealand forestry\'s main competitors?', answer: 'scandinavian countries' },
-        { num: 13, text: 'Which group of products is New Zealand\'s forestry industry now having to compete with?', answer: 'wood substitutes' },
-      ]},
+        { num: 13, text: 'Which group of products is New Zealand\'s forestry industry now having to compete with?', answer: 'wood substitutes' }
+      ] },
     ]
   },
   {
@@ -5626,8 +5640,8 @@ const readingPassage1Tests = [
     title: 'Portrait of Bianca Sforza',
     subtitle: '',
     passage: `<p>In 2010, a discovery shook the art world. A portrait of a young woman, purchased at a small auction in Switzerland for a modest sum, was identified by some experts as a previously unknown work by Leonardo da Vinci. The painting, known as La Bella Principessa, depicts Bianca Sforza, the illegitimate daughter of Ludovico Sforza, Duke of Milan. If authentic, it would not only expand da Vinci's already extraordinary oeuvre, but also change our understanding of his work during the late 15th century.</p>
-<p>The portrait's journey into the limelight began when Canadian art collector Peter Silverman acquired it. At first glance, the delicate image seemed like a typical Renaissance portrait. However, certain details-the subtle shading of the sitter's face, the exquisite treatment of her hair, and the ethereal quality of the gaze-suggested a hand far more skilled than the German artist to whom it had previously been attributed. Suspecting something greater, Silverman enlisted the help of leading da Vinci expert Martin Kemp.</p>
-<p>Kemp, emeritus professor of art history at Oxford University, had spent decades studying Leonardo's techniques. Upon examining the portrait, he was struck by several features. The sitter's hairstyle and costume matched Milanese fashion of the 1490s, and the fine lines of the drawing displayed Leonardo's characteristic sfumato technique-the subtle blending of tones without abrupt edges. Moreover, the use of vellum-a material made from calfskin-was consistent with Leonardo's known experiments during his Milanese period.</p>
+<p>The portrait's journey into the limelight began when Canadian art collector Peter Silverman acquired it. At first glance, the delicate image seemed like a typical Renaissance portrait. However, certain details—the subtle shading of the sitter's face, the exquisite treatment of her hair, and the ethereal quality of the gaze—suggested a hand far more skilled than the German artist to whom it had previously been attributed. Suspecting something greater, Silverman enlisted the help of leading da Vinci expert Martin Kemp.</p>
+<p>Kemp, emeritus professor of art history at Oxford University, had spent decades studying Leonardo's techniques. Upon examining the portrait, he was struck by several features. The sitter's hairstyle and costume matched Milanese fashion of the 1490s, and the fine lines of the drawing displayed Leonardo's characteristic sfumato technique—the subtle blending of tones without abrupt edges. Moreover, the use of vellum—a material made from calfskin—was consistent with Leonardo's known experiments during his Milanese period.</p>
 <p>To bolster the claim of authenticity, scientific tests were conducted. Multispectral imaging revealed a series of faint fingerprint marks on the surface of the portrait. These prints, made in the paint layer before it dried, were compared with known fingerprints from Leonardo's notebooks. Astonishingly, there appeared to be a partial match, suggesting that Leonardo himself might have handled the work. Further analysis of the pigments confirmed that they were consistent with materials available in the late 15th century.</p>
 <p>Nevertheless, the attribution remains controversial. Critics argue that the portrait lacks the dynamism and innovation typical of Leonardo's other works. Carmen Bambach, curator at the Metropolitan Museum of Art, is among those who remain unconvinced. She suggests that, while the portrait is of high quality, it could have been created by one of Leonardo's pupils or a talented contemporary imitator. Such doubts are not uncommon in the world of Old Master attributions, where connoisseurship and scientific evidence often clash.</p>
 <p>Adding to the intrigue is the identity of the sitter. Historical records indicate that Bianca Sforza was married at a young age to Galeazzo Sanseverino, a prominent Milanese courtier. Tragically, she died shortly thereafter at the age of 14, possibly from childbirth complications. The portrait's subtle melancholy, combined with the youthful features of the sitter, supports the theory that it may have been commissioned to commemorate her short life. The debate surrounding La Bella Principessa reflects broader challenges in art authentication. As technology advances, tools such as carbon dating, digital microscopy, and chemical analysis provide new insights. Yet they rarely offer conclusive answers. In the case of this portrait, scientific findings, historical context, and stylistic analysis each tell part of the story, but none can definitively declare Leonardo's authorship.</p>
@@ -5638,20 +5652,20 @@ const readingPassage1Tests = [
         { num: 2, text: 'Martin Kemp was the first person to suggest that the portrait might be by Leonardo da Vinci.', answer: 'NO' },
         { num: 3, text: 'Leonardo da Vinci frequently used vellum for his paintings during his time in Milan.', answer: 'YES' },
         { num: 4, text: 'The fingerprint marks found on the portrait perfectly matched those in Leonardo\'s notebooks.', answer: 'NO' },
-        { num: 5, text: 'Historical records confirm that Bianca Sforza died due to an illness.', answer: 'NOT GIVEN' },
-      ]},
+        { num: 5, text: 'Historical records confirm that Bianca Sforza died due to an illness.', answer: 'NOT GIVEN' }
+      ] },
       { type: 'mcq', rubric: 'Questions 6-9', instruction: 'Choose the correct letter, A, B, C, or D.', items: [
         { num: 6, text: 'What first made Peter Silverman suspect that the portrait might be a Leonardo da Vinci?', options: ['A. The high price paid at the auction', 'B. The exceptional quality of shading and details', 'C. A signature found on the back of the painting', 'D. The subject\'s resemblance to other da Vinci works'], answer: 'B' },
         { num: 7, text: 'According to Martin Kemp, what technique in the portrait is characteristic of Leonardo?', options: ['A. The use of bright, contrasting colors', 'B. The sfumato blending of tones', 'C. The precise outlines of facial features', 'D. The heavy application of paint'], answer: 'B' },
         { num: 8, text: 'Why do some experts doubt that the portrait is by Leonardo?', options: ['A. It was painted on paper instead of wood.', 'B. It lacks the innovation seen in his other works.', 'C. The pigments used were not available in the 15th century.', 'D. The subject was not a member of the Sforza family.'], answer: 'B' },
-        { num: 9, text: 'What does the passage suggest about the portrait\'s connection to Bianca Sforza?', options: ['A. It was definitely painted after her death.', 'B. It may have been a memorial piece.', 'C. It was commissioned by her husband.', 'D. It was hidden for centuries before being discovered.'], answer: 'B' },
-      ]},
+        { num: 9, text: 'What does the passage suggest about the portrait\'s connection to Bianca Sforza?', options: ['A. It was definitely painted after her death.', 'B. It may have been a memorial piece.', 'C. It was commissioned by her husband.', 'D. It was hidden for centuries before being discovered.'], answer: 'B' }
+      ] },
       { type: 'completion', rubric: 'Questions 10-13', instruction: 'Complete the sentences below. Write NO MORE THAN TWO WORDS from the passage for each answer.', items: [
         { num: 10, beforeText: 'The portrait was purchased at an auction in', afterText: 'before being identified as a possible da Vinci', answer: 'switzerland' },
         { num: 11, beforeText: 'Scientific tests revealed fingerprint marks made in the', afterText: 'before it dried', answer: 'paint layer' },
         { num: 12, beforeText: 'Critics argue that the portrait could have been painted by one of Leonardo\'s', afterText: 'or an imitator', answer: 'pupils' },
-        { num: 13, beforeText: 'The debate over the portrait highlights the challenges of', afterText: 'in art history', answer: 'art authentication' },
-      ]},
+        { num: 13, beforeText: 'The debate over the portrait highlights the challenges of', afterText: 'in art history', answer: 'art authentication' }
+      ] },
     ]
   },
   {
@@ -5660,44 +5674,51 @@ const readingPassage1Tests = [
     subtitle: '',
     passage: `<p><strong>A</strong> The pearl has always had a special status in the rich and powerful all through the history. For instance, women from ancient Rome went to bed with pearls on them, so that they could remind themselves how wealthy they were after waking up. Pearls used to have more commercial value than diamonds until jewellers learnt to cut gems. In the eastern countries like Persia, ground pearl powders could be used as a medicine to cure anything including heart diseases and epilepsy.</p>
 <p><strong>B</strong> Pearls can generally be divided into three categories: natural, cultured and imitation. When an irritant (such as a grain of sand) gets inside a certain type of oyster, mussel, or clam, the mollusc will secrete a fluid as a means of defence to coat the irritant. Gradually, layers are accumulated around the irritant until a lustrous natural pearl is formed.</p>
-<p><strong>C</strong> A cultured pearl undergoes the same process. There is only one difference between cultured pearls and natural ones: in cultured pearls, the irritant is a head called 'mother of pearl' and is placed in the oyster through surgical implantation. This results in much larger cores in cultivated pearls than those in natural pearls. As long as there are enough layers of nacre (the secreted fluid covering the irritant) to create a gorgeous, gem-quality pearl; the size of the nucleus wouldn't make a difference to beauty or durability.</p>
-<p><strong>D</strong> Pearls can come from both salt and freshwater sources. Typically, pearls from salt water usually have high quality, although several freshwater pearls are considered high in quality, too. In addition, freshwater pearls often have irregular shapes, with a puffed rice appearance. Nevertheless, it is the individual merits that determine the pearl's value more than the sources of pearls. Saltwater pearl oysters are usually cultivated in protected lagoons or volcanic atolls, while most freshwater cultured pearls sold today come from China. There are a number of options for producing cultured pearls: use fresh water or sea water shells, transplant the graft into the mantle or into the gonad, add a spherical bead or do it nonbeaded.</p>
+<p><strong>C</strong> A cultured pearl undergoes the same process. There is only one difference between cultured pearls and natural ones: in cultured pearls, the irritant is a head called ‘mother of pearl’ and is placed in the oyster through surgical implantation. This results in much larger cores in cultivated pearls than those in natural pearls. As long as there are enough layers of nacre (the secreted fluid covering the irritant) to create a gorgeous, gem-quality pearl; the size of the nucleus wouldn’t make a difference to beauty or durability.</p>
+<p><strong>D</strong> Pearls can come from both salt and freshwater sources. Typically, pearls from salt water usually have high quality, although several freshwater pearls are considered high in quality, too. In addition, freshwater pearls often have irregular shapes, with a puffed rice appearance. Nevertheless, it is the individual merits that determine the pearl’s value more than the sources of pearls. Saltwater pearl oysters are usually cultivated in protected lagoons or volcanic atolls, while most freshwater cultured pearls sold today come from China. There are a number of options for producing cultured pearls: use fresh water or sea water shells, transplant the graft into the mantle or into the gonad, add a spherical bead or do it nonbeaded.</p>
 <p><strong>E</strong> No matter which method is used to get pearls, the process usually takes several years. Mussels must reach a mature age, which may take up almost three years, and then be transplanted an irritant. When the irritant is put in place, it takes approximately another three years for a pearl to reach its full size. Sometimes, the irritant may be rejected. As a result, the pearl may be seriously deformed, or the oyster may directly die from such numerous complications as diseases. At the end of a 5- to 10-year circle, only half of the oysters may have made it through. Among the pearls that are actually produced in the end, only about 5% of them will be high-quality enough for the jewellery makers.</p>
 <p><strong>F</strong> Imitation pearls are of another different story. The Island of Mallorca in Spain is renowned for its imitation pearl industry. In most cases, a bead is dipped into a solution made from fish scales. But this coating is quite thin and often wears off. One way to distinguish the imitation pearls is to have a bite on it. Fake pearls glide through your teeth, while the layers of nacre on the real pearls feel gritty.</p>
-<p><strong>G</strong> Several factors are taken into account to evaluate a pearl: size, shape, Colour, the quality of surface and luster. Generally, the three types of pearls come in such order (with the value decreasing): natural pearls, cultured pearls and imitation pearls (which basically are worthless). For jewellers, one way to tell whether a pearl is natural or cultured is to send it to a gem lab and perform an X-ray on it. High-quality natural pearls are extremely rare. Japan's Akoya pearls are one of the glossiest pearls out there, while the south sea water of Australia is a cradle to bigger pearls.</p>
-<p><strong>H</strong> Historically, the pearls with the highest quality around the globe are found in the Persian Gulf, particularly around Bahrain. These pearls have to be hand-harvested by divers with no advanced equipment. Unfortunately, when the large reserve of oil was discovered in the early 1930s, Persian Gulf's natural pearl industry came to a sudden end because the contaminated water destroyed the once pristine pearls. In the present days, India probably has the largest stock of natural pearls. However, it is quite an irony that a large part of India's stock of natural pearls are originally from Bahrain.</p>`,
+<p><strong>G</strong> Several factors are taken into account to evaluate a pearl: size, shape, Colour, the quality of surface and luster. Generally, the three types of pearls come in such order (with the value decreasing): natural pearls, cultured pearls and imitation pearls (which basically are worthless). For jewellers, one way to tell whether a pearl is natural or cultured is to send it to a gem lab and perform an X-ray on it. High-quality natural pearls are extremely rare. Japan’s Akoya pearls are one of the glossiest pearls out there, while the south sea water of Australia is a cradle to bigger pearls.</p>
+<p><strong>H</strong> Historically, the pearls with the highest quality around the globe are found in the Persian Gulf, particularly around Bahrain. These pearls have to be hand-harvested by divers with no advanced equipment. Unfortunately, when the large reserve of oil was discovered in the early 1930s, Persian Gulf’s natural pearl industry came to a sudden end because the contaminated water destroyed the once pristine pearls. In the present days, India probably has the largest stock of natural pearls. However, it is quite an irony that a large part of India’s stock of natural pearls are originally from Bahrain.</p>`,
     questions: [
       { type: 'matching-info', rubric: 'Questions 1-4', instruction: 'Reading Passage 1 has eight paragraphs, A-H. Which paragraph contains the following information? Write the correct letter, A-H, in boxes 1-4 on your answer sheet.', items: [
         { num: 1, text: 'ancient stories around pearls and its customers', answer: 'A' },
         { num: 2, text: 'difficulties in cultivating process', answer: 'E' },
         { num: 3, text: 'factors which decide the value of natural pearls', answer: 'G' },
-        { num: 4, text: 'a growth mechanism that distinguishes cultured pearls from natural ones', answer: 'C' },
-      ]},
-      { type: 'completion', rubric: 'Questions 5-10', instruction: 'Complete the summary below. Choose NO MORE THAN TWO WORDS from the passage for each answer. Write your answers in boxes 5-10 on your answer sheet.', items: [
+        { num: 4, text: 'a growth mechanism that distinguishes cultured pearls from natural ones', answer: 'C' }
+      ] },
+      { type: 'completion', rubric: 'Questions 5-10', instruction: 'Complete the summary below. Choose NO MORE THAN TWO WORDS from the passage for each answer. Write your answers in boxes 5-10 on your answer sheet.', noteLines: [
+          { lineType: 'question', num: 5, beforeText: 'In history, pearls have had great importance within the men of wealth and power, which were treated as gems for women in', afterText: '. Also, pearls were even used as a medicine for people in .' },
+          { lineType: 'question', num: 7, beforeText: 'There are essentially three types of pearls: natural, cultured and imitation. Most freshwater cultured pearls sold today come from China while', afterText: 'Island is famous for its imitation pearl industry. Good-quality natural pearls are exceedingly unusual. often manufactures some of the glitteriest pearls while produces larger size ones due to the favourable environment along the coastline. In the past, in Persian Gulf produced the world\'s best pearls. Nowadays, the major remaining suppliers of natural pearls belong to India.' },
+          { lineType: 'context', text: 'Do the following statements agree with the information given in Reading Passage 1?' },
+          { lineType: 'heading', text: 'TRUE if the statement is true' },
+          { lineType: 'heading', text: 'FALSE if the statement is false' },
+          { lineType: 'heading', text: 'NOT GIVEN if the information is not given in the passage' }
+        ], items: [
         { num: 5, beforeText: 'In history, pearls have had great importance within the men of wealth and power, which were treated as gems for women in', afterText: '. Also, pearls were even used as a medicine for people in', answer: 'ancient Rome' },
         { num: 6, beforeText: '. Also, pearls were even used as a medicine for people in', afterText: '', answer: 'eastern countries' },
         { num: 7, beforeText: 'There are essentially three types of pearls: natural, cultured and imitation. Most freshwater cultured pearls sold today come from China while', afterText: 'Island is famous for its imitation pearl industry. Good-quality natural pearls are exceedingly unusual', answer: 'Mallorca' },
         { num: 8, beforeText: 'Island is famous for its imitation pearl industry. Good-quality natural pearls are exceedingly unusual.', afterText: 'often manufactures some of the glitteriest pearls while', answer: 'Japan' },
         { num: 9, beforeText: 'often manufactures some of the glitteriest pearls while', afterText: 'produces larger size ones due to the favourable environment along the coastline. In the past,', answer: 'Australia' },
-        { num: 10, beforeText: 'produces larger size ones due to the favourable environment along the coastline. In the past,', afterText: 'in Persian Gulf produced the world\'s best pearls. Nowadays, the major remaining suppliers of natural pearls belong to India', answer: 'Bahrain' },
-      ]},
+        { num: 10, beforeText: 'produces larger size ones due to the favourable environment along the coastline. In the past,', afterText: 'in Persian Gulf produced the world\'s best pearls. Nowadays, the major remaining suppliers of natural pearls belong to India', answer: 'Bahrain' }
+      ] },
       { type: 'tfng', rubric: 'Questions 11-13', instruction: 'Do the following statements agree with the information given in Reading Passage 1? In boxes 11-13 on your answer sheet, write TRUE if the statement is true FALSE if the statement is false NOT GIVEN if the information is not given in the passage', items: [
         { num: 11, text: 'Generally speaking, the centre of cultured pearl is significantly larger than that of a natural pearl.', answer: 'TRUE' },
         { num: 12, text: 'Sometimes, fake pearls can be more expensive.', answer: 'NOT GIVEN' },
-        { num: 13, text: 'The size of the pearls produced in Japan is usually smaller than those in Australia.', answer: 'TRUE' },
-      ]},
+        { num: 13, text: 'The size of the pearls produced in Japan is usually smaller than those in Australia.', answer: 'TRUE' }
+      ] },
     ]
   },
   {
     id: 35,
-    title: 'Ambergris - What is it and where does it come from?',
+    title: 'Ambergris - What is it and Where Does it Come From?',
     subtitle: '',
-    passage: `<p>Ambergris was used to perfume cosmetics in the days of ancient Mesopotamia and almost every civilization on the earth has a brush with Ambergris. Before 1,000 AD, the Chinese names ambergris as lung sien hiang, "dragon's spittle perfume," as they think that it was produced from the drooling of dragons sleeping on rocks at the edge of a sea. The Arabs knew ambergris as anbar who believed that it is produced from springs near seas. It also gets its name from here. For centuries, this substance has also been used as a flavouring for food.</p>
-<p>During the Middle Ages, Europeans used ambergris as a remedy for headaches, colds, epilepsy, and other ailments. In the 1851 whaling novel <em>Moby-Dick</em>, Herman Melville claimed that ambergris was "largely used in perfumery." But nobody ever knew where it really came from. Experts were still guessing its origin thousands of years later, until the long ages of guesswork ended in the 1720's, when Nantucket whalers found gobs of the costly material inside the stomachs of sperm whales. Industrial whaling quickly burgeoned. By 20th century ambergris is mainly recovered from inside the carcasses of sperm whales.</p>
+    passage: `<p>Ambergris was used to perfume cosmetics in the days of ancient Mesopotamia and almost every civilization on the earth has a brush with Ambergris. Before 1,000 AD, the Chinese names ambergris as lung sien hiang, “dragon’s spittle perfume,” as they think that it was produced from the drooling of dragons sleeping on rocks at the edge of a sea. The Arabs knew ambergris as anbar who believed that it is produced from springs near seas. It also gets its name from here. For centuries, this substance has also been used as a flavouring for food.</p>
+<p>During the Middle Ages, Europeans used ambergris as a remedy for headaches, colds, epilepsy, and other ailments. In the 1851 whaling novel <em>Moby-Dick</em>, Herman Melville claimed that ambergris was “largely used in perfumery.” But nobody ever knew where it really came from. Experts were still guessing its origin thousands of years later, until the long ages of guesswork ended in the 1720’s, when Nantucket whalers found gobs of the costly material inside the stomachs of sperm whales. Industrial whaling quickly burgeoned. By 20th century ambergris is mainly recovered from inside the carcasses of sperm whales.</p>
 <p>Through countless ages, people have found pieces of ambergris on sandy beaches. It was named grey amber to distinguish it from golden amber, another rare treasure. Both of them were among the most sought-after substances in the world, almost as valuable as gold. (Ambergris sells for roughly $20 a gram, slightly less than gold at $30 a gram.) Amber floats in salt water, and in old times the origin of both these substances was mysterious. But it turned out that amber and ambergris have little in common. Amber is a fossilized resin from trees that was quite familiar to Europeans long before the discovery of the New World, and prized for jewelry. Although considered a gem, amber is a hard, transparent, wholly-organic material derived from the resin of extinct species of trees, mainly pines.</p>
 <p>To the earliest Western chroniclers, ambergris was variously thought to come from the same bituminous sea founts as amber, from the sperm of fishes or whales, from the droppings of strange sea birds (probably because of confusion over the included beaks of squid) or from the large hives of bees living near the sea. Marco Polo was the first Western chronicler who correctly attribute ambergris to sperm whales and its vomit.</p>
-<p>As sperm whales navigate in the oceans, they often dive down to 2 km or more below the sea level to prey on squid, most famously the Giant Squid. It's commonly accepted that ambergris forms in the whale's gut or intestines as the creature attempts to "deal" with squid beaks. Sperm whales are rather partial to squid, but seemingly struggle to digest the hard, sharp, parrot-like beaks. It is thought their stomach juices become hyper-active trying to process the irritants, and eventually hard, resinous lumps are formed around the beaks, and then expelled from their innards by vomiting. When a whale initially vomits up ambergris, it is soft and has a terrible smell. Some marine biologists compare it to the unpleasant smell of cow dung. But after floating on the salty ocean for about a decade, the substance hardens with air and sun into a smooth, waxy, usually rounded piece of nostril heaven. The dung smell is gone, replaced by a sweet, smooth, musky and pleasant earthy aroma.</p>
-<p>Since ambergris is derived from animals, naturally a question of ethics arises, and in the case of ambergris, it is very important to consider. Sperm whales are an endangered species, whose populations started to decline as far back as the 19th century due to the high demand for their highly emollient oil, and today their stocks still have not recovered. During the 1970's, the Save the Whales movement brought the plight of whales to international recognition. Many people now believe that whales are "saved". This couldn't be further from the truth. All around the world, whaling still exists. Many countries continue to hunt whales, in spite of international treaties to protect them. Many marine researchers are concerned that even the trade in naturally found ambergris can be harmful by creating further incentives to hunt whales for this valuable substance.</p>
+<p>As sperm whales navigate in the oceans, they often dive down to 2 km or more below the sea level to prey on squid, most famously the Giant Squid. It’s commonly accepted that ambergris forms in the whale’s gut or intestines as the creature attempts to “deal” with squid beaks. Sperm whales are rather partial to squid, but seemingly struggle to digest the hard, sharp, parrot-like beaks. It is thought their stomach juices become hyper-active trying to process the irritants, and eventually hard, resinous lumps are formed around the beaks, and then expelled from their innards by vomiting. When a whale initially vomits up ambergris, it is soft and has a terrible smell. Some marine biologists compare it to the unpleasant smell of cow dung. But after floating on the salty ocean for about a decade, the substance hardens with air and sun into a smooth, waxy, usually rounded piece of nostril heaven. The dung smell is gone, replaced by a sweet, smooth, musky and pleasant earthy aroma.</p>
+<p>Since ambergris is derived from animals, naturally a question of ethics arises, and in the case of ambergris, it is very important to consider. Sperm whales are an endangered species, whose populations started to decline as far back as the 19th century due to the high demand for their highly emollient oil, and today their stocks still have not recovered. During the 1970’s, the Save the Whales movement brought the plight of whales to international recognition. Many people now believe that whales are “saved”. This couldn’t be further from the truth. All around the world, whaling still exists. Many countries continue to hunt whales, in spite of international treaties to protect them. Many marine researchers are concerned that even the trade in naturally found ambergris can be harmful by creating further incentives to hunt whales for this valuable substance.</p>
 <p>One of the forms ambergris is used today is as a valuable fixative in perfumes to enhance and prolong the scent. But nowadays, since ambergris is rare and expensive, and big fragrance suppliers that make most of the fragrances on the market today do not deal in it for reasons of cost, availability and murky legal issues, most perfumeries prefer to add a chemical derivative which mimics the properties of ambergris. As a fragrance consumer, you can assume that there is no natural ambergris in your perfume bottle, unless the company advertises this fact and unless you own vintage fragrances created before the 1980s. If you are wondering if you have been wearing a perfume with this legendary ingredient, you may want to review your scent collection. Here are a few of some of the top ambergris containing perfumes: Givenchy Amarige, Chanel No. 5, and Gucci Guilty.</p>`,
     questions: [
       { type: 'mcq', rubric: 'Questions 1-6', instruction: 'Write the correct letter, A, B, C, or D. Classify the following information as referring to: A ambergris only &nbsp; B amber only &nbsp; C both ambergris and amber &nbsp; D neither ambergris nor amber', categories: { 'A': 'ambergris only &nbsp; B amber only &nbsp; C both ambergris and amber &nbsp; D neither ambergris nor amber' }, items: [
@@ -5706,19 +5727,19 @@ const readingPassage1Tests = [
         { num: 3, text: 'used as currency', answer: 'D' },
         { num: 4, text: 'being see-through', answer: 'B' },
         { num: 5, text: 'referred to by Herman Melville', answer: 'A' },
-        { num: 6, text: 'produces sweet smell', answer: 'A' },
-      ]},
-      { type: 'completion', rubric: 'Questions 7-9', instruction: 'Complete the sentences below with NO MORE THAN ONE WORD from the passage.', items: [
-        { num: 7, beforeText: 'Sperm whales can\'t digest the', afterText: 'of the squids.', answer: 'beaks' },
-        { num: 8, beforeText: 'Sperm whales drive the irritants out of their intestines by', afterText: '.', answer: 'vomiting' },
-        { num: 9, beforeText: 'The vomit of sperm whales gradually', afterText: 'on contact of air before having pleasant smell.', answer: 'hardens' },
-      ]},
+        { num: 6, text: 'produces sweet smell', answer: 'A' }
+      ] },
+      { type: 'short-answer', rubric: 'Questions 7-9', instruction: 'Complete the sentences below with NO MORE THAN ONE WORD from the passage.', items: [
+        { num: 7, text: 'Sperm whales can\'t digest the of the squids.', answer: 'beaks' },
+        { num: 8, text: 'Sperm whales drive the irritants out of their intestines by .', answer: 'vomiting' },
+        { num: 9, text: 'The vomit of sperm whales gradually on contact of air before having pleasant smell.', answer: 'hardens' }
+      ] },
       { type: 'tfng', rubric: 'Questions 10-13', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Write TRUE if the statement agrees, FALSE if it contradicts, or NOT GIVEN if there is no information.', items: [
         { num: 10, text: 'Most ambergris comes from the dead whales today.', answer: 'NOT GIVEN' },
         { num: 11, text: 'Ambergris is becoming more expensive than before.', answer: 'NOT GIVEN' },
         { num: 12, text: 'Ambergris is still a popular ingredient in perfume production today.', answer: 'FALSE' },
-        { num: 13, text: 'New uses of ambergris have been discovered recently.', answer: 'NOT GIVEN' },
-      ]},
+        { num: 13, text: 'New uses of ambergris have been discovered recently.', answer: 'NOT GIVEN' }
+      ] },
     ]
   },
   {
@@ -5740,25 +5761,25 @@ const readingPassage1Tests = [
         { num: 2, text: 'a description of the outstanding appearance of a famous tulip', answer: 'A' },
         { num: 3, text: 'a reference to another society fascinated by tulips', answer: 'D' },
         { num: 4, text: 'a reference to the highest price offered at an auction', answer: 'G' },
-        { num: 5, text: 'an incident related to the ending of \'tulip mania\'', answer: 'H' },
-      ]},
+        { num: 5, text: 'an incident related to the ending of \'tulip mania\'', answer: 'H' }
+      ] },
       { type: 'tfng', rubric: 'Questions 6-10', instruction: 'Choose TRUE if the statement agrees with the information given in the text, choose FALSE if the statement contradicts the information, or choose NOT GIVEN if there is no information on this.', items: [
         { num: 6, text: 'Rembrandt was known to have spent a considerable sum of money on purchasing flowers such as tulips.', answer: 'NOT GIVEN' },
         { num: 7, text: 'There was little incentive for traders to travel to the East Indies after Holland became independent.', answer: 'FALSE' },
         { num: 8, text: 'Tulips reproduced too slowly, and in too small a quantity, to keep up with the growing demand for the flower in the 1630s.', answer: 'TRUE' },
         { num: 9, text: 'The tulip market was comprised entirely of professional tulip traders and was generally inaccessible to most people.', answer: 'FALSE' },
-        { num: 10, text: 'Despite the sizable demand for tulips, there was negligible impact on the Dutch economy as a whole when that demand suddenly dropped.', answer: 'TRUE' },
-      ]},
+        { num: 10, text: 'Despite the sizable demand for tulips, there was negligible impact on the Dutch economy as a whole when that demand suddenly dropped.', answer: 'TRUE' }
+      ] },
       { type: 'completion', rubric: 'Questions 11-13', instruction: 'Complete the sentences below. Write ONE WORD ONLY from the passage for each answer.', items: [
         { num: 11, beforeText: 'After their war for independence, the Dutch more heavily invested in', afterText: '', answer: 'commerce' },
         { num: 12, beforeText: 'The', afterText: 'of tulips were more eye-catching than other flowers available at the time', answer: 'colors' },
-        { num: 13, beforeText: 'When an increasing number of', afterText: 'started selling tulips in the 1630s, the prices kept skyrocketing', answer: 'speculators' },
-      ]},
+        { num: 13, beforeText: 'When an increasing number of', afterText: 'started selling tulips in the 1630s, the prices kept skyrocketing', answer: 'speculators' }
+      ] },
     ]
   },
   {
     id: 37,
-    title: 'Caral: an ancient South American city',
+    title: 'Caral: an Ancient South American City',
     subtitle: '',
     passage: `<p>Huge earth and rock mounds rise out of the desert of the Supe Valley near the coast of Peru in South America. These immense mounds appear simply to be part of the geographical landscape in this arid region squeezed between the Pacific Ocean and the Andes mountains. But looks deceive. These are actually human-made pyramids. Strong evidence indicates they are the remains of a city known as Caral that flourished nearly 5,000 years ago. If true, it would be the oldest known urban center in the Americas and among the most ancient in the world.</p>
 <p>Research undertaken by Peruvian archaeologist Ruth Shady suggests that the 150-acre complex of pyramids, plazas and residential buildings was a thriving metropolis when Egypt's great pyramids were still being built. Though discovered in 1905, for years Caral attracted little attention, largely because archaeologists believed the structures were fairly recent. But the monumental scale of the pyramids had long interested Shady, who began excavations at the site in 1996, about 22 kilometers from the coast and 190 kilometers north of Peru's capital city of Lima.</p>
@@ -5774,28 +5795,40 @@ const readingPassage1Tests = [
         { num: 3, text: 'The stones used to build Piramide Mayor came from a location far away.', answer: 'FALSE' },
         { num: 4, text: 'The huge and complicated structures of Piramide Mayor suggest that its construction required an organised team of builders.', answer: 'TRUE' },
         { num: 5, text: 'Archaeological evidence shows that the residents of Caral were highly skilled musicians.', answer: 'NOT GIVEN' },
-        { num: 6, text: 'The remains of housing areas at Caral suggest that there were no class distinctions in residential areas.', answer: 'FALSE' },
-      ]},
-      { type: 'completion', rubric: 'Questions 7-13', instruction: 'Complete the notes below. Choose ONE WORD ONLY from the passage for each answer. Write your answers in boxes 7-13 on your answer sheet.', items: [
+        { num: 6, text: 'The remains of housing areas at Caral suggest that there were no class distinctions in residential areas.', answer: 'FALSE' }
+      ] },
+      { type: 'completion', rubric: 'Questions 7-13', instruction: 'Complete the notes below. Choose ONE WORD ONLY from the passage for each answer. Write your answers in boxes 7-13 on your answer sheet.', noteLines: [
+          { lineType: 'heading', text: 'Caral as a trading centre' },
+          { lineType: 'context', text: 'Items discovered at Caral but not naturally occurring in the area' },
+          { lineType: 'question', num: 7, beforeText: 'the', afterText: 'of a certain plant' },
+          { lineType: 'question', num: 8, beforeText: '', afterText: 'used to make jewellery' },
+          { lineType: 'question', num: 9, beforeText: 'the remains of certain food such as', afterText: '' },
+          { lineType: 'context', text: 'Clues to farming around Caral' },
+          { lineType: 'question', num: 10, beforeText: '', afterText: 'still in existence today indicate water diverted from rivers' },
+          { lineType: 'question', num: 11, beforeText: 'no evidence that', afterText: 'was grown' },
+          { lineType: 'context', text: 'Evidence of relationship with fishing communities' },
+          { lineType: 'question', num: 12, beforeText: 'the excavation findings and fishing nets found on the coast suggest Caral farmers traded', afterText: '' },
+          { lineType: 'question', num: 13, beforeText: 'dried squash may have been used to aid', afterText: 'of fishing nets' }
+        ], items: [
         { num: 7, beforeText: 'the', afterText: 'of a certain plant', answer: 'seeds' },
         { num: 8, beforeText: '', afterText: 'used to make jewellery', answer: 'shells' },
         { num: 9, beforeText: 'the remains of certain food such as', afterText: '', answer: 'fish' },
         { num: 10, beforeText: '', afterText: 'still in existence today indicate water diverted from rivers', answer: 'canals' },
         { num: 11, beforeText: 'no evidence that', afterText: 'was grown', answer: 'maize' },
         { num: 12, beforeText: 'the excavation findings and fishing nets found on the coast suggest Caral farmers traded', afterText: '', answer: 'cotton' },
-        { num: 13, beforeText: 'dried squash may have been used to aid', afterText: 'of fishing nets', answer: 'flotation' },
-      ]},
+        { num: 13, beforeText: 'dried squash may have been used to aid', afterText: 'of fishing nets', answer: 'flotation' }
+      ] },
     ]
   },
   {
     id: 38,
     title: 'The History of Tea',
     subtitle: '',
-    passage: `<p>The story of tea begins in China. According to legend, in 2737 BC, the Chinese emperor Shen Nung was sitting beneath a tree while his servant boiled drinking water, when some leaves from the tree blew into the water. Shen Nung, a renowned herbalist, decided to try the infusion that his servant had accidentally created. The tree was a Camellia sinensis, and the resulting drink was what we now call tea. It is impossible to know whether there is any truth in this story. But tea drinking certainly became established in China many centuries before it had even been heard of in the West. Containers for tea have been found in tombs dating from the Han Dynasty (206 BC-220 AD) but it was under the Tang Dynasty (618-906 AD), that tea became firmly established as the national drink of China.</p>
+    passage: `<p>The story of tea begins in China. According to legend, in 2737 BC, the Chinese emperor Shen Nung was sitting beneath a tree while his servant boiled drinking water, when some leaves from the tree blew into the water. Shen Nung, a renowned herbalist, decided to try the infusion that his servant had accidentally created. The tree was a Camellia sinensis, and the resulting drink was what we now call tea. It is impossible to know whether there is any truth in this story. But tea drinking certainly became established in China many centuries before it had even been heard of in the West. Containers for tea have been found in tombs dating from the Han Dynasty (206 BC—220 AD) but it was under the Tang Dynasty (618—906 AD), that tea became firmly established as the national drink of China.</p>
 <p>It became such a favourite that during the late eighth century a writer called Lu Yu wrote the first book entirely about tea, the Ch'a Ching, or Tea Classic. It was shortly after this that tea was first introduced to Japan, by Japanese Buddhist monks who had travelled to China to study. Tea received almost instant imperial sponsorship and spread rapidly from the royal court and monasteries to the other sections of Japanese society.</p>
 <p>So at this stage in the history of tea, Europe was rather lagging behind. In the latter half of the sixteenth century there are the first brief mentions of tea as a drink among Europeans. These are mostly from Portuguese who were living in the East as traders and missionaries. But although some of these individuals may have brought back samples of tea to their native country, it was not the Portuguese who were the first to ship back tea as a commercial import. This was done by the Dutch, who in the last years of the sixteenth century began to encroach on Portuguese trading routes in the East. By the turn of the century they had established a trading post on the island of Java, and it was via Java that in 1606 the first consignment of tea was shipped from China to Holland. Tea soon became a fashionable drink among the Dutch, and from there spread to other countries in continental western Europe, but because of its high price it remained a drink for the wealthy.</p>
 <p>Britain, always a little suspicious of continental trends, had yet to become the nation of tea drinkers that it is today. Starting in 1600, the British East India Company had a monopoly on importing goods from outside Europe, and it is likely that sailors on these ships brought tea home as gifts. The first coffee house had been established in London in 1652, and tea was still somewhat unfamiliar to most readers, so it is fair to assume that the drink was still something of a curiosity. Gradually, it became a popular drink in coffee houses, which were as many locations for the transaction of business as they were for relaxation or pleasure. They were though the preserve of middle- and upper-class men; women drank tea in their own homes, and as yet tea was still too expensive to be widespread among the working classes. In part, its high price was due to a punitive system of taxation.</p>
-<p>One unforeseen consequence of the taxation of tea was the growth of methods to avoid taxation-smuggling and adulteration. By the eighteenth century many Britons wanted to drink tea but could not afford the high prices, and their enthusiasm for the drink was matched by the enthusiasm of criminal gangs to smuggle it in. What began as a small time illegal trade, selling a few pounds of tea to personal contacts, developed by die late eighteenth century into an astonishing organised crime network, perhaps importing as much as 7 million lbs annually, compared to a legal import of 5 million lbs! Worse for die drinkers was that taxation also encouraged the adulteration of tea, particularly of smuggled tea which was not quality controlled through customs and excise. Leaves from other plants, or leaves which had already been brewed and then dried, were added to tea leaves. By 1784, the government realised that enough was enough, and that heavy taxation was creating more problems than it was words. The new Prime Minister, William Pitt the Younger, slashed the tax from 119 per cent to 12.5 per cent. Suddenly legal tea was affordable, and smuggling stopped virtually overnight.</p>
+<p>One unforeseen consequence of the taxation of tea was the growth of methods to avoid taxation—smuggling and adulteration. By the eighteenth century many Britons wanted to drink tea but could not afford the high prices, and their enthusiasm for the drink was matched by the enthusiasm of criminal gangs to smuggle it in. What began as a small time illegal trade, selling a few pounds of tea to personal contacts, developed by die late eighteenth century into an astonishing organised crime network, perhaps importing as much as 7 million lbs annually, compared to a legal import of 5 million lbs! Worse for die drinkers was that taxation also encouraged the adulteration of tea, particularly of smuggled tea which was not quality controlled through customs and excise. Leaves from other plants, or leaves which had already been brewed and then dried, were added to tea leaves. By 1784, the government realised that enough was enough, and that heavy taxation was creating more problems than it was words. The new Prime Minister, William Pitt the Younger, slashed the tax from 119 per cent to 12.5 per cent. Suddenly legal tea was affordable, and smuggling stopped virtually overnight.</p>
 <p>Another great impetus to tea drinking resulted from the end of the East India Company's monopoly on trade with China, in 1834. Before that date, China was the country of origin of the vast majority of the tea imported to Britain, but the end of its monopoly stimulated the East India Company to consider growing tea outside China. India had always been the centre of the Company's operations, which led to the increased cultivation of tea in India, beginning in Assam. There were a few false starts, including the destruction by cattle of one of the earliest tea nurseries, but by 1888 British tea imports from India were for the first time greater than those from China.</p>
 <p>The end of the East India Company's monopoly on trade with China also had another result, which was more dramatic though less important in the long term: it ushered in the era of the tea clippers. While the Company had had the monopoly on trade, there was no rush to bring the tea from China to Britain, but after 1834 the tea trade became a virtual free for all. Individual merchants and sea captains with their own ships raced to bring home the tea and make the most money, using fast new clippers which had sleek lines, tall masts and huge sails. In particular there was a competition between British and American merchants, leading to the famous clipper races of the 1860s. But these races soon came to an end with the opening of the Suez Canal, which made the trade routes to China viable for steamships for the first time.</p>`,
     questions: [
@@ -5806,21 +5839,21 @@ const readingPassage1Tests = [
         { num: 4, beforeText: 'Tea was carried from China to Europe actually by the', afterText: '', answer: 'Dutch' },
         { num: 5, beforeText: 'The British government had to cut down the taxation on tea due to the serious crime of', afterText: '', answer: 'smuggling' },
         { num: 6, beforeText: 'Tea was planted in', afterText: 'besides China in the 19th century', answer: 'India' },
-        { num: 7, beforeText: 'In order to compete in shipping speed, traders used', afterText: 'for the race', answer: 'clippers' },
-      ]},
+        { num: 7, beforeText: 'In order to compete in shipping speed, traders used', afterText: 'for the race', answer: 'clippers' }
+      ] },
       { type: 'tfng', rubric: 'Questions 8-13', instruction: 'Do the following statements agree with the information given in Reading Passage 1? In boxes 8-13 on your answer sheet, write TRUE if the statement agrees with the information FALSE if the statement contradicts the information NOT GIVEN if there is no information on this', items: [
         { num: 8, text: 'Tea was popular in Britain in the 16th century.', answer: 'FALSE' },
         { num: 9, text: 'Tea was more fashionable than coffee in Europe in the late 16th century.', answer: 'NOT GIVEN' },
         { num: 10, text: 'Tea was enjoyed by all classes in Britain in the seventeenth century.', answer: 'FALSE' },
         { num: 11, text: 'The adulteration of tea also prompted William Pitt the Younger to reduce the tax.', answer: 'TRUE' },
         { num: 12, text: 'Initial problems occurred when tea was planted outside China by the East India Company.', answer: 'TRUE' },
-        { num: 13, text: 'The fastest vessels were owned by America during the 19th century clipper races.', answer: 'NOT GIVEN' },
-      ]},
+        { num: 13, text: 'The fastest vessels were owned by America during the 19th century clipper races.', answer: 'NOT GIVEN' }
+      ] },
     ]
   },
   {
     id: 39,
-    title: 'The life of Beatrix Potter',
+    title: 'The Life of Beatrix Potter',
     subtitle: 'The children\'s author and illustrator who created Peter Rabbit',
     passage: `<p>Beatrix Potter is one of the best-selling children's authors of all time. Her popular series of books that includes The Tale of Peter Rabbit was first published over one hundred years ago, and has never been out of print. Generations of children have enjoyed her many stories and illustrations, all of which celebrate the English lifestyle and rural landscape through the adventures of animals.</p>
 <p>Born to a comfortable middle-class family in London in 1866, Potter spent much of her early life in her own company. She was educated in her parents' house by a governess and rarely saw her brother Bertram, who was sent to boarding school. Having little social contact with children of her own age, Potter began to be drawn into her own world of writing. When Beatrix was 15, she began to keep a diary written in a secret code of her own invention. Even Beatrix herself, when she read back over it in later life, found it difficult to understand. It was not until 15 years after her death that the code was cracked.</p>
@@ -5831,14 +5864,27 @@ const readingPassage1Tests = [
 <p>The relationship between Warne and Potter blossomed, and eventually they became engaged. However, Potter's parents were unhappy about this because of his occupation. They eventually relented, but insisted the couple live apart for six months to give Potter time to change her mind. Tragically, before the wedding could take place, Warne developed pernicious anemia, a blood disease, and passed away. Potter was devastated and she wrote in a letter to his sister, Millie, 'He did not live long, but he fulfilled a useful, happy life. I must try to make a fresh beginning next year.'</p>
 <p>After Warne's death, Potter moved to the Lake District in northern England. In 1905 she bought a small farm there, and for the next eight years she busied herself writing more books, some of which were based in or around the area. She lived there for the remainder of her life, but due to failing eyesight she was forced to stop writing children's books. Instead, she devoted her time to the breeding of sheep and helping with the conservation of farms in the district. Using proceeds from her very successful books and later her inheritance, Potter was able to buy many working farms. On her death, she left over 4,000 acres to the National Trust, an organisation which protects historical buildings and areas of countryside in England. It has meant that her beloved countryside is now accessible to many visitors.</p>`,
     questions: [
-      { type: 'completion', rubric: 'Questions 1-6', instruction: 'Complete the notes below. Choose ONE WORD ONLY from the passage for each answer. Write your answers in boxes 1-6 on your answer sheet.', items: [
+      { type: 'completion', rubric: 'Questions 1-6', instruction: 'Complete the notes below. Choose ONE WORD ONLY from the passage for each answer. Write your answers in boxes 1-6 on your answer sheet.', noteLines: [
+          { lineType: 'heading', text: 'Beatrix Potter' },
+          { lineType: 'heading', text: 'Success as an author' },
+          { lineType: 'context', text: 'Her books have been in print for more than 100 years.' },
+          { lineType: 'heading', text: 'Childhood' },
+          { lineType: 'question', num: 1, beforeText: 'She received lessons at home from a', afterText: '.' },
+          { lineType: 'question', num: 2, beforeText: 'She wrote in her', afterText: 'in code.' },
+          { lineType: 'question', num: 3, beforeText: 'She disliked the work of some', afterText: 'of the time.' },
+          { lineType: 'context', text: 'She took lessons in drawing.' },
+          { lineType: 'question', num: 4, beforeText: 'She practised drawing things she saw when she visited', afterText: '.' },
+          { lineType: 'heading', text: 'Life as a young adult' },
+          { lineType: 'question', num: 5, beforeText: 'Her', afterText: 'to have a career in natural history was not realised.' },
+          { lineType: 'question', num: 6, beforeText: 'Her illustrations were recognised as assisting research into', afterText: '.' }
+        ], items: [
         { num: 1, beforeText: 'She received lessons at home from a', afterText: '.', answer: 'governess' },
         { num: 2, beforeText: 'She wrote in her', afterText: 'in code.', answer: 'diary' },
         { num: 3, beforeText: 'She disliked the work of some', afterText: 'of the time.', answer: 'artists' },
         { num: 4, beforeText: 'She practised drawing things she saw when she visited', afterText: '.', answer: 'museums' },
         { num: 5, beforeText: 'Her', afterText: 'to have a career in natural history was not realised.', answer: 'ambition' },
-        { num: 6, beforeText: 'Her illustrations were recognised as assisting research into', afterText: '.', answer: 'mycology' },
-      ]},
+        { num: 6, beforeText: 'Her illustrations were recognised as assisting research into', afterText: '.', answer: 'mycology' }
+      ] },
       { type: 'tfng', rubric: 'Questions 7-13', instruction: 'Do the following statements agree with the information given in Reading Passage 1? In boxes 7-13 on your answer sheet, write TRUE if the statement agrees with the information FALSE if the statement contradicts the information NOT GIVEN if there is no information on this', items: [
         { num: 7, text: 'The life of a typical married woman at that time appealed to Potter.', answer: 'FALSE' },
         { num: 8, text: 'Potter\'s publishers insisted on changing the title of her first book.', answer: 'NOT GIVEN' },
@@ -5846,8 +5892,8 @@ const readingPassage1Tests = [
         { num: 10, text: 'Norman Warne suggested Potter include black and white illustrations in her first book.', answer: 'FALSE' },
         { num: 11, text: 'At first, Potter\'s parents disapproved of Norman Warne as a potential husband.', answer: 'TRUE' },
         { num: 12, text: 'Potter continued writing children\'s books until her death.', answer: 'FALSE' },
-        { num: 13, text: 'Potter\'s gift to the National Trust was the largest in recent times.', answer: 'NOT GIVEN' },
-      ]},
+        { num: 13, text: 'Potter\'s gift to the National Trust was the largest in recent times.', answer: 'NOT GIVEN' }
+      ] },
     ]
   },
   {
@@ -5868,19 +5914,30 @@ const readingPassage1Tests = [
         { num: 4, text: 'Habanero peppers are the hottest known peppers.', answer: 'FALSE' },
         { num: 5, text: 'Pure capsaicin is licensed for use in food products in the European Union.', answer: 'FALSE' },
         { num: 6, text: 'The Aztecs were the first to use capsaicin as a pain killer.', answer: 'NOT GIVEN' },
-        { num: 7, text: 'Birds have different physical responses to eating chillies to those of mammals.', answer: 'TRUE' },
-      ]},
-      { type: 'completion', rubric: 'Questions 8-13', instruction: 'Complete the notes below. Choose ONE WORD ONLY from the passage for each answer. Write your answers in boxes 8-13 on your answer sheet.', items: [
+        { num: 7, text: 'Birds have different physical responses to eating chillies to those of mammals.', answer: 'TRUE' }
+      ] },
+      { type: 'completion', rubric: 'Questions 8-13', instruction: 'Complete the notes below. Choose ONE WORD ONLY from the passage for each answer. Write your answers in boxes 8-13 on your answer sheet.', noteLines: [
+          { lineType: 'context', text: 'Using chilli to fight bacteria' },
+          { lineType: 'question', num: 8, beforeText: '- chilli\'s ability to fight germs was very significant before the invention of', afterText: '.' },
+          { lineType: 'question', num: 9, beforeText: '- it was thought that chilli was eaten because it causes bodies to produce', afterText: 'which reduces body heat' },
+          { lineType: 'question', num: 10, beforeText: '- books of', afterText: 'from around the world show chilli is more commonly used in certain geographical areas' },
+          { lineType: 'context', text: '- chilli is most likely to be used in valleys with a lot of humidity' },
+          { lineType: 'context', text: 'Using chilli for weight loss' },
+          { lineType: 'question', num: 11, beforeText: '- the University of Wyoming found that chilli raised the mice\'s', afterText: '' },
+          { lineType: 'question', num: 12, beforeText: '- the University of Adelaide found that receptors in the', afterText: 'react with chilli to indicate when you\'ve had enough to eat' },
+          { lineType: 'context', text: 'Using chilli as pain relief' },
+          { lineType: 'context', text: '- It reacts with the part of our brain that notices a difference in temperature' },
+          { lineType: 'question', num: 13, beforeText: '- the sensation we have when eating chilli is similar to the one we have after', afterText: '...' }
+        ], items: [
         { num: 8, beforeText: '- chilli\'s ability to fight germs was very significant before the invention of', afterText: '', answer: 'refrigeration' },
         { num: 9, beforeText: '- it was thought that chilli was eaten because it causes bodies to produce', afterText: 'which reduces body heat', answer: 'sweat' },
         { num: 10, beforeText: '- books of', afterText: 'from around the world show chilli is more commonly used in certain geographical areas', answer: 'recipes' },
         { num: 11, beforeText: '- the University of Wyoming found that chilli raised the mice\'s', afterText: '', answer: 'metabolism' },
         { num: 12, beforeText: '- the University of Adelaide found that receptors in the', afterText: 'react with chilli to indicate when you\'ve had enough to eat', answer: 'stomach' },
-        { num: 13, beforeText: '- the sensation we have when eating chilli is similar to the one we have after', afterText: '...', answer: 'exercise' },
-      ]},
+        { num: 13, beforeText: '- the sensation we have when eating chilli is similar to the one we have after', afterText: '...', answer: 'exercise' }
+      ] },
     ]
-  }
-];
+  }];
 
 // ==================== READING PASSAGE 2 TESTS ====================
 const readingPassage2Tests = [
@@ -6719,6 +6776,9 @@ const ReadingPage = ({ subPage, setSubPage }) => {
       const style = document.createElement('style');
       style.id = styleId;
       style.textContent = `
+        html {
+          overflow-y: scroll;
+        }
         @keyframes timerBlink {
           0%, 100% { opacity: 1; }
           50% { opacity: 0.4; }
@@ -6743,29 +6803,36 @@ const ReadingPage = ({ subPage, setSubPage }) => {
 
   const selectedTest = selectedTestId ? getTestArray().find(t => t.id === selectedTestId) : null;
 
-  // Parse URL on mount
+  // Parse URL on mount and on popstate (back/forward)
   useEffect(() => {
-    const pathParts = window.location.pathname.split('/').filter(Boolean);
-    if (pathParts[0] === 'reading' && pathParts[1] === 'passage1' && pathParts[2]) {
-      const testId = parseInt(pathParts[2]);
-      if (readingPassage1Tests.find(t => t.id === testId)) {
-        setSelectedTestId(testId);
-        setSubPage('passage1');
+    const syncFromUrl = () => {
+      const pathParts = window.location.pathname.split('/').filter(Boolean);
+      if (pathParts[0] === 'reading' && pathParts[1] && pathParts[2]) {
+        const testId = parseInt(pathParts[2]);
+        const passage = pathParts[1];
+        const tests = passage === 'passage3' ? readingPassage3Tests : passage === 'passage2' ? readingPassage2Tests : readingPassage1Tests;
+        if (tests.find(t => t.id === testId)) {
+          setSelectedTestId(testId);
+          setSubPage(passage);
+          return;
+        }
       }
-    } else if (pathParts[0] === 'reading' && pathParts[1] === 'passage2' && pathParts[2]) {
-      const testId = parseInt(pathParts[2]);
-      if (readingPassage2Tests.find(t => t.id === testId)) {
-        setSelectedTestId(testId);
-        setSubPage('passage2');
+      // No test ID in URL - clear selection
+      setSelectedTestId(null);
+      setUserAnswers({});
+      setShowResults(false);
+      setShowResultsModal(false);
+      setTimerRunning(false);
+      clearInterval(timerRef.current);
+      if (pathParts[0] === 'reading' && pathParts[1]) {
+        setSubPage(pathParts[1]);
       }
-    } else if (pathParts[0] === 'reading' && pathParts[1] === 'passage3' && pathParts[2]) {
-      const testId = parseInt(pathParts[2]);
-      if (readingPassage3Tests.find(t => t.id === testId)) {
-        setSelectedTestId(testId);
-        setSubPage('passage3');
-      }
-    }
-  }, []);
+    };
+    syncFromUrl();
+    const handleReadingPopState = () => syncFromUrl();
+    window.addEventListener('popstate', handleReadingPopState);
+    return () => window.removeEventListener('popstate', handleReadingPopState);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Timer logic
   useEffect(() => {
@@ -7555,55 +7622,80 @@ const ReadingPage = ({ subPage, setSubPage }) => {
 
                 {/* Completion Questions - Styled like the HTML */}
                 {section.type === 'completion' && (
+                  <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                    {section.noteLines ? (
+                      /* Structured note/summary completion with headings and context */
+                      section.noteLines.map((line, lIdx) => {
+                        if (line.lineType === 'heading') {
+                          return <p key={lIdx} style={{ fontWeight: '700', fontSize: '1.05rem', color: 'var(--text-primary)', marginTop: lIdx > 0 ? '1rem' : '0', marginBottom: '0.25rem' }}>{line.text}</p>;
+                        }
+                        if (line.lineType === 'context') {
+                          return <p key={lIdx} style={{ fontSize: '1.05rem', color: 'var(--text-secondary)', lineHeight: '1.6', paddingLeft: '0.5rem' }}>- {line.text}</p>;
+                        }
+                        if (line.lineType === 'question') {
+                          const item = section.items.find(it => it.num === line.num);
+                          if (!item) return null;
+                          const userAns = userAnswers[line.num] || '';
+                          const isCorrect = showResults && userAns.toLowerCase().trim() === item.answer.toLowerCase().trim();
+                          const isWrong = showResults && userAns && !isCorrect;
+                          return (
+                            <div key={lIdx} id={`question-${line.num}`} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap', fontSize: '1.05rem', color: 'var(--text-primary)', lineHeight: '1.8', paddingLeft: '0.5rem' }}>
+                              <span>- {line.beforeText}</span>
+                              <strong style={{ color: 'var(--purple-400)' }}>{line.num}</strong>
+                              <input type="text" value={userAns} onChange={(e) => handleAnswerChange(line.num, e.target.value)} disabled={showResults} placeholder={String(line.num)} className="completion-input"
+                                style={{ padding: '0.4rem 0.6rem', borderRadius: '4px', minWidth: '140px', maxWidth: '200px', border: `2px dashed ${showResults ? (isCorrect ? '#22c55e' : isWrong ? '#ef4444' : 'var(--border-color)') : 'var(--border-color)'}`, background: showResults ? (isCorrect ? 'rgba(34,197,94,0.1)' : isWrong ? 'rgba(239,68,68,0.1)' : 'var(--input-bg)') : 'var(--input-bg)', color: 'var(--text-primary)', fontSize: '1.05rem', fontFamily: 'inherit', textAlign: 'center' }} />
+                              {line.afterText && <span>{line.afterText}</span>}
+                              {showResults && (
+                                <span style={{ color: isCorrect ? '#22c55e' : '#ef4444', fontSize: '0.85rem', marginLeft: '0.5rem' }}>
+                                  {isCorrect ? '✓' : `✗ Correct: ${item.answer}`}
+                                </span>
+                              )}
+                            </div>
+                          );
+                        }
+                        return null;
+                      })
+                    ) : (
+                      /* Standard completion: beforeText [input] afterText */
+                      section.items.map((item) => {
+                        const userAns = userAnswers[item.num] || '';
+                        const isCorrect = showResults && userAns.toLowerCase().trim() === item.answer.toLowerCase().trim();
+                        const isWrong = showResults && userAns && !isCorrect;
+                        return (
+                          <div key={item.num} id={`question-${item.num}`} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', flexWrap: 'wrap', fontSize: '1.05rem', color: 'var(--text-primary)', lineHeight: '1.8' }}>
+                            <strong style={{ color: 'var(--purple-400)', marginRight: '0.25rem' }}>{item.num}.</strong>
+                            {item.beforeText && <span>{item.beforeText}</span>}
+                            <input type="text" value={userAns} onChange={(e) => handleAnswerChange(item.num, e.target.value)} disabled={showResults} placeholder={String(item.num)} className="completion-input"
+                              style={{ padding: '0.4rem 0.6rem', borderRadius: '4px', minWidth: '140px', maxWidth: '200px', border: `2px dashed ${showResults ? (isCorrect ? '#22c55e' : isWrong ? '#ef4444' : 'var(--border-color)') : 'var(--border-color)'}`, background: showResults ? (isCorrect ? 'rgba(34,197,94,0.1)' : isWrong ? 'rgba(239,68,68,0.1)' : 'var(--input-bg)') : 'var(--input-bg)', color: 'var(--text-primary)', fontSize: '1.05rem', fontFamily: 'inherit', textAlign: 'center' }} />
+                            {item.afterText && <span>{item.afterText}</span>}
+                            {showResults && (
+                              <span style={{ color: isCorrect ? '#22c55e' : '#ef4444', fontSize: '0.85rem', marginLeft: '0.5rem' }}>
+                                {isCorrect ? '✓' : `✗ Correct: ${item.answer}`}
+                              </span>
+                            )}
+                          </div>
+                        );
+                      })
+                    )}
+                  </div>
+                )}
+
+                {/* Short Answer Questions */}
+                {section.type === 'short-answer' && (
                   <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
                     {section.items.map((item) => {
                       const userAns = userAnswers[item.num] || '';
                       const isCorrect = showResults && userAns.toLowerCase().trim() === item.answer.toLowerCase().trim();
                       const isWrong = showResults && userAns && !isCorrect;
-
                       return (
-                        <div 
-                          key={item.num} 
-                          id={`question-${item.num}`}
-                          style={{ 
-                            display: 'flex', 
-                            alignItems: 'center', 
-                            gap: '0.5rem', 
-                            flexWrap: 'wrap',
-                            fontSize: '1.05rem', 
-                            color: 'var(--text-primary)',
-                            lineHeight: '1.8'
-                          }}
-                        >
-                          <strong style={{ color: 'var(--purple-400)', marginRight: '0.25rem' }}>{item.num}.</strong>
-                          {item.beforeText && <span>{item.beforeText}</span>}
-                          <input 
-                            type="text" 
-                            value={userAns} 
-                            onChange={(e) => handleAnswerChange(item.num, e.target.value)}
-                            disabled={showResults} 
-                            placeholder={String(item.num)}
-                            className="completion-input"
-                            style={{ 
-                              padding: '0.4rem 0.6rem', 
-                              borderRadius: '4px', 
-                              minWidth: '140px',
-                              maxWidth: '200px',
-                              border: `2px dashed ${showResults ? (isCorrect ? '#22c55e' : isWrong ? '#ef4444' : 'var(--border-color)') : 'var(--border-color)'}`,
-                              background: showResults ? (isCorrect ? 'rgba(34,197,94,0.1)' : isWrong ? 'rgba(239,68,68,0.1)' : 'var(--input-bg)') : 'var(--input-bg)',
-                              color: 'var(--text-primary)',
-                              fontSize: '1.05rem',
-                              fontFamily: 'inherit',
-                              textAlign: 'center'
-                            }} 
-                          />
-                          {item.afterText && <span>{item.afterText}</span>}
+                        <div key={item.num} id={`question-${item.num}`} style={{ marginBottom: '0.5rem' }}>
+                          <p style={{ color: 'var(--text-primary)', marginBottom: '0.75rem', fontSize: '1.05rem', lineHeight: '1.6' }}>
+                            <strong style={{ color: 'var(--purple-400)' }}>{item.num}.</strong> {item.text}
+                          </p>
+                          <input type="text" value={userAns} onChange={(e) => handleAnswerChange(item.num, e.target.value)} disabled={showResults} placeholder="Type your answer..."
+                            style={{ width: '100%', maxWidth: '400px', padding: '0.6rem 1rem', borderRadius: '6px', border: `2px solid ${showResults ? (isCorrect ? '#22c55e' : isWrong ? '#ef4444' : 'var(--border-color)') : 'var(--border-color)'}`, background: showResults ? (isCorrect ? 'rgba(34,197,94,0.1)' : isWrong ? 'rgba(239,68,68,0.1)' : 'var(--input-bg)') : 'var(--input-bg)', color: 'var(--text-primary)', fontSize: '1.05rem', fontFamily: 'inherit' }} />
                           {showResults && (
-                            <span style={{ 
-                              color: isCorrect ? '#22c55e' : '#ef4444', 
-                              fontSize: '0.85rem',
-                              marginLeft: '0.5rem'
-                            }}>
+                            <span style={{ color: isCorrect ? '#22c55e' : '#ef4444', fontSize: '0.85rem', marginLeft: '0.75rem' }}>
                               {isCorrect ? '✓' : `✗ Correct: ${item.answer}`}
                             </span>
                           )}
