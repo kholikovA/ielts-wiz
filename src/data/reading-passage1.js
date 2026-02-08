@@ -1,5 +1,854 @@
 export const readingPassage1Tests = [
   {
+    id: 1,
+    title: 'The Early History of Olive Oil',
+    subtitle: 'The ancient origins of olive cultivation and the many uses of olive oil in early civilisations',
+    passage: `<p>Olive oil is produced from the fruit of the olive tree, which is a member of the Oleaceae plant family. The trees require some cold weather during the year, but also tolerate hot, dry conditions, and do not like moisture when they are flowering. They actually produce better when subjected to these stressful conditions, and as a result, olive trees have traditionally been grown on land where little else will survive.</p>
+<p>Archaeologists today are divided over exactly where the first domestication of the olive occurred: Some say it was in the area which is now Iran, Syria, Jordan and Egypt, while others contend it was in mainland Greece or on the island of Crete. The one thing that can be said with certainty is that cultivation began at least 6,000 years ago and spread slowly westward across the lands bordering on the Mediterranean Sea. Olive oil was used for a variety of purposes during these early times, including as a pharmacological ointment and in rituals for anointing royalty.</p>
+<p>The ancient Greeks believed the olive tree was a priceless gift from the goddess Athena and used its oil in sacred religious rituals. In fact, the Greek poet Homer called olive oil ‘liquid gold’, and during the 6<sup>th</sup> and 7<sup>th</sup> centuries BC Greek law forbade the cutting down of olive trees and made it punishable by death. The ancient Middle Eastern ruler King David valued his groves of olive trees and his olive oil warehouses so much that he posted guards around the clock to protect them.</p>
+<p>Over the years, olive oil developed other uses. Its employment in cooking dates at least as far back as the 5<sup>th</sup> century BC, as described by the Greek philosopher Plato. Its use as an aid to beauty and health later became ingrained in many Mediterranean cultures. The Romans, for example, are said to have used generous amounts on their bodies to moisturise their skin after bathing. With the spread of the Roman Empire, olive oil became a major commodity and its trade promoted commerce throughout the ancient world. It is generally believed that in the 1<sup>st</sup>-2<sup>nd</sup> century BC, olive trees were taken to North Africa and then to Spain, which was later to become the world's largest producer of olive oil.</p>
+<p>Artefacts found at various Mediterranean archaeological sites include olive oil storage vessels with olive plant residue still in them. Historical evidence still in existence in the form of wall paintings and ancient manuscripts (including the works of the Roman naturalist and philosopher, Pliny the Elder) all record production techniques and the various uses of olive oil.</p>
+<p>Making olive oil in those early days was a laborious process accomplished without mechanisation. Processing or milling the fruit involved several distinct steps to extract the liquid. The olives were harvested from the trees by hand or by beating the fruit from the trees with long sticks. The olives were then rinsed and crushed to separate out the large seed found in the centre of each. The remaining seedless flesh was put in woven bags and pressed. Hot water was then poured over the bags to separate the oil from the solid bits of olive. The liquid produced in this process, consisting of oil and water, was drained into stone basins or tanks, where it was allowed to settle and separate. In cold weather a bit of salt was added to speed up the process As much oil as possible was drawn off the water, but the result was still not pure oil. Therefore, this impure mixture was allowed once more to settle in vats and then separated in order to refine the product.</p>
+<p>The waste water from the milling process, which is called amurca, is a bitter-tasting and foul-smelling liquid. In many ancient civilisations it was often simply discarded, causing serious pollution because of its acidity and high salt content. However, in the Roman period it was regarded as a very useful substance. When spread on surfaces, amurca forms a hard finish and therefore it was often applied to the floors of grain storage buildings where it hardened, keeping out water, mud and pests. When boiled down amurca was applied to leather to soften it so that it was easier to shape into articles of clothing and shoes. It could also be eaten by farm animals and was, in fact, fed to livestock suffering from malnutrition. According to ancient texts, amurca was also utilised in moderate amounts by farmers as a fertiliser or as a pesticide helping them to protect their crops from insects and even small rodents.</p>`,
+    questions: [
+      { type: 'tfng', rubric: 'Questions 1-6', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
+        { num: 1, text: 'In the cultivation of olives, a period without rain is advantageous.', answer: 'TRUE' },
+        { num: 2, text: 'The most fertile fields are usually chosen for growing olives.', answer: 'FALSE' },
+        { num: 3, text: 'In ancient Greece, the olive tree was said to have divine origins.', answer: 'TRUE' },
+        { num: 4, text: 'Olive oil was more costly to buy in Greece than gold.', answer: 'NOT GIVEN' },
+        { num: 5, text: 'Plato mentions the use of olive oil in the preparation of food.', answer: 'TRUE' },
+        { num: 6, text: 'North African farmers initially resisted the introduction of olive trees.', answer: 'NOT GIVEN' }
+      ] },
+      { type: 'completion', rubric: 'Questions 7-12', instruction: 'Complete the flow-chart and notes below. Choose ONE WORD ONLY from the passage for each answer.', noteLines: [
+        { lineType: 'heading', text: 'Ancient olive oil processing' },
+        { lineType: 'heading', text: 'Processing' },
+        { lineType: 'question', num: 7, beforeText: 'Olives are harvested by picking them or', afterText: 'the trees' },
+        { lineType: 'heading', text: 'Milling stage' },
+        { lineType: 'context', text: 'Olives are washed and crushed and seeds removed' },
+        { lineType: 'question', num: 8, beforeText: 'Olive flesh is placed in', afterText: 'and pressed.' },
+        { lineType: 'context', text: 'Water is poured over the mixture' },
+        { lineType: 'question', num: 9, beforeText: 'Resulting liquid is given time to settle and separate, and', afterText: 'is used to aid the process' },
+        { lineType: 'context', text: 'Oil is drawn off and separation repeated. However, Romans had practical applications for amurca:' },
+        { lineType: 'question', num: 10, beforeText: 'When dried, created hard surface, so used on', afterText: 'of certain buildings' },
+        { lineType: 'question', num: 11, beforeText: 'Used when making', afterText: 'into goods to wear' },
+        { lineType: 'question', num: 12, beforeText: 'used on farms as a', afterText: '' },
+        { lineType: 'context', text: 'to stop insects or animals damaging crops' }
+      ], items: [
+        { num: 7, beforeText: 'Olives are harvested by picking them or', afterText: 'the trees', answer: 'beating' },
+        { num: 8, beforeText: 'Olive flesh is placed in', afterText: 'and pressed.', answer: 'bags' },
+        { num: 9, beforeText: 'Resulting liquid is given time to settle and separate, and', afterText: 'is used to aid the process', answer: 'salt' },
+        { num: 10, beforeText: 'When dried, created hard surface, so used on', afterText: 'of certain buildings', answer: 'floors' },
+        { num: 11, beforeText: 'Used when making', afterText: 'into goods to wear', answer: 'leather' },
+        { num: 12, beforeText: 'used on farms as a', afterText: '', answer: 'pesticide' }
+      ] },
+    ]
+  },
+  {
+    id: 2,
+    title: 'The Pyramid of Cestius',
+    subtitle: 'A 2000-year-old pyramid in the city of Rome has been restored by archaeologists.',
+    passage: `<p>A 2000-year-old pyramid in the city of Rome has been restored by archaeologists.</p>
+<p>Though Rome draws tourists from around the world to its many impressive sites, one notable monument there has never attracted nearly as much interest: The Pyramid of Cestius. But why would there be a pyramid in Italy? After the Roman conquest of Egypt in 30 B.C, Egyptian architectural style became the fashion in Rome.</p>
+<p>Though obelisks and other monuments inspired by Egypt's great pyramids sprung up around the city, only two actual pyramids are known to have been built. The only one left standing, the pyramid of Cestius, was designed as the burial pyramid for a Roman politician named Caius Cestius, who ordered that the building work be completed within a period of 330 days.</p>
+<p>Construction took place at some point between 18 B.C. and 12 B.C. Cestius pyramid had a layer of white Carrara marble on the outside, and was constructed from brick held together by a basic kind of cement on the inside. One of the things that strikes you when you look at the pyramid is how steep it is, so that the shape of Cestius' pyramid is quite unlike that of typical Egyptian ones. This is a difference that could have been the result of inaccurate information sent back to Rome by soldiers who saw the pyramids in person in Egypt. Alternatively, Roman builders could have drawn inspiration from the pyramids in Nubia, a region located in what is today northern Sudan and southern Egypt.</p>
+<p>At the time of its construction, since there was a strict Roman law prohibiting the placement of tombs within the city itself, the pyramid of Cestius would have stood in the countryside. Rome grew enormously during the next two centuries, and by the 3rd century A.D., the pyramid would have been surrounded by buildings. We also know that in the 3rd century A.D., the pyramid of Cestius was hidden behind a high wall on the orders of Emperor Aurelian; this probably helped it survive throughout the centuries to come, even as other ancient monuments disappeared.</p>
+<p>By the Middle Ages, the pyramid was covered in vegetation and thick dirt, and popular myth had developed that it might be a tomb for one of the twin brothers Romulus and Remus, who were regarded as the men who had established the city of Rome. Cestius' actual tomb within the pyramid and the inscription identifying the pyramid as his, weren't rediscovered until the 1660's when the pyramid underwent restoration. During excavations, when trees and plants were cleared away, two marble bases were found in front of the pyramid, as well as fragments of bronze statues that had once stood on them on either side of the pyramid. The people employed to excavate the pyramid did not find the urn that would have contained Cestius' remains, but they did come across a tunnel. It was quite possible, therefore, that robbers had at some earlier time removed the contents of the tomb. But while some of the features of Cestius' tomb no longer exist, at least the pyramid itself has survived.</p>
+<p>Today, the foundations of Cestius pyramid rest below street level near an intersection with heavy traffic, so that passing tourists and residents could easily fail to notice its full height of 119 feet. Across the intersection is the piramide station, located on line B of the Rome Metro. In 2011, the Japanese clothing company entrepreneur Yuzo Yagi, president of Yagi Tsusho Ltd, announced his intention to help the Italian government pay for an ambitious renovation of the pyramid of Cestius. 'It's an act of gratitude', he later told journalists. "Our company has grown thanks to Italy." Work began at the site shortly after Yagi signed an official agreement with the Special Superintendency for the Archaeological Heritage of Rome, and was completed ahead of schedule thanks to his 2- million-euro contribution.</p>
+<p>As archaeologist Leonardo Guarnieri explained to journalists, officials are now conducting tours of the newly renovated pyramid twice a month by reservation. Visitors who take advantage of the tour can make their way through a narrow corridor in order to enter the burial chamber itself. It is within these walls that they can admire the frescoes: watercolour paintings typical of the time. In the chamber, it is possible to make out four frescoes of the winged Roman goddess of war, Victoria, a figure from Roman legend, as well as of a series of vases, the type that would have been used for special rituals and purification purposes. We know from the writings of earlier visitors that there used to be more here, but the majority have disappeared over time.</p>
+<p>Only one problem remains now that the restoration is complete. The white exterior of the pyramid of Cestius will have to be cleaned every few months to remove the layer of urban pollution. A team of free-climbers will be employed to do the job, in order to avoid placing builder's scaffolding around the newly welcoming monument.</p>`,
+    questions: [
+      { type: 'tfng', rubric: 'Questions 1-7', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
+        { num: 1, text: 'The pyramid of Cestius has always been one of Rome\'s most popular tourist attractions.', answer: 'FALSE' },
+        { num: 2, text: 'The construction of the pyramid was completed before Cestius\' death.', answer: 'NOT GIVEN' },
+        { num: 3, text: 'In the Middle Ages, people thought an original founder of Rome was buried in the pyramid of Cestius.', answer: 'TRUE' },
+        { num: 4, text: 'Today the height of the pyramid is something that tourists and residents immediately notice.', answer: 'FALSE' },
+        { num: 5, text: 'Japanese businessman Yuzo Yagi was an admirer of both Italian and Egyptian architecture.', answer: 'NOT GIVEN' },
+        { num: 6, text: 'The restoration of the pyramid of Cestius, which was funded by Yuzo Yagi, finished earlier than expected.', answer: 'TRUE' },
+        { num: 7, text: 'Most of the original frescoes inside Cestius\' tomb have survived to this day.', answer: 'FALSE' }
+      ] },
+      { type: 'completion', rubric: 'Questions 8-13', instruction: 'Complete the notes below. Choose ONE WORD ONLY from the passage for each answer. Write your answers in boxes 8-13 on your answer sheet. History of the pyramid of Cestius Construction of Cestius\' pyramid It was made from  marble and cement', noteLines: [
+        { lineType: 'heading', text: 'History of the pyramid of Cestius' },
+        { lineType: 'heading', text: 'Construction of Cestius\' pyramid' },
+        { lineType: 'question', num: 8, beforeText: 'It was made from', afterText: 'marble and cement' },
+        { lineType: 'question', num: 9, beforeText: 'Its', afterText: 'is different to the pyramids found in Egypt' },
+        { lineType: 'question', num: 10, beforeText: 'It was originally built in the', afterText: 'as building tombs in the city was forbidden' },
+        { lineType: 'context', text: 'Emperor Aurelian ordered that a wall had to be built around it.' },
+        { lineType: 'heading', text: 'Restoration of Cestius\' pyramid in the 1660s' },
+        { lineType: 'question', num: 11, beforeText: 'In the 1660s, some broken', afterText: 'were found next to it' },
+        { lineType: 'question', num: 12, beforeText: 'The', afterText: 'inside the tomb suggests that robbers had been there' },
+        { lineType: 'context', text: 'The frescoes show mythological scenes, and images of vases' },
+        { lineType: 'heading', text: 'Restoration of Cestius pyramid today' },
+        { lineType: 'context', text: 'A Japanese businessman paid for its restoration' },
+        { lineType: 'question', num: 13, beforeText: 'Climbers are helping to get rid of signs of', afterText: '' }
+      ], items: [
+        { num: 8, beforeText: 'It was made from', afterText: 'marble and cement', answer: 'white' },
+        { num: 9, beforeText: 'Its', afterText: 'is different to the pyramids found in Egypt', answer: 'shape' },
+        { num: 10, beforeText: 'It was originally built in the', afterText: 'as building tombs in the city was forbidden', answer: 'countryside' },
+        { num: 11, beforeText: 'In the 1660s, some broken', afterText: 'were found next to it', answer: 'statues' },
+        { num: 12, beforeText: 'The', afterText: 'inside the tomb suggests that robbers had been there', answer: 'tunnel' },
+        { num: 13, beforeText: 'Climbers are helping to get rid of signs of', afterText: '', answer: 'pollution' }
+      ] },
+    ]
+  },
+  {
+    id: 3,
+    title: 'The National Parks of America',
+    subtitle: 'How America\'s national park system was established and the challenges it faces today',
+    passage: `<p>America's national parks are one of the country's most remarkable and influential initiatives. The concept of the national park originated in America, though it was quickly replicated by similar parks in Canada, Finland, New Zealand, Australia and elsewhere. The first American national park was <strong>Yellowstone</strong>, created in 1872. Yellowstone comprises some 3,500 square miles of wilderness and today attracts more than four million visitors a year. Since 1872, nearly 60 additional national parks have been established in the USA, incorporating almost every type of natural environment, from mountains to deserts, lakes, rivers and coastlines. They are administered by the <strong>National Parks Service (NPS)</strong>, which also manages significant monuments and historic structures such as the Statue of Liberty, the Gettysburg Museum and Ford's Theatre, where President Lincoln was assassinated.</p>
+<p>The creation of the national parks came in response to a growing attachment to the natural world that was developing in American society. In 1832, the painter <strong>George Catlin</strong> dreamed of creating 'a nation's park' to preserve the grasslands in the state of South Dakota. Catlin failed to see such a park established in his lifetime, but his vision lived on. Four years later the writer <strong>Ralph Waldo Emerson</strong> published an important essay entitled 'Nature' in which he argued that natural landscapes should be protected rather than exploited for agriculture and commerce. The campaigner <strong>Frederick Olmsted</strong> went further, claiming that every American, not only the wealthy and powerful, had the right to access places of natural beauty. The creation of a public park in the <strong>Yosemite Valley</strong> was directly the result of his work.</p>
+<p>The development of the national parks was a process that continued through the late 19th century and the early 20th century. The establishment of the first park at Yellowstone in 1872 was perhaps the defining moment in this process. The Yellowstone national park not only preserved the headwaters of the Mississippi, Colorado and Snake rivers, but also provided a sanctuary for countless endangered species by imposing a ban on <strong>hunting</strong> in all its forms. Today such an initiative would be commonplace but in these earliest days of the conservation movement, many Americans still regarded it as their right to shoot or trap wild animals.</p>
+<p>Yellowstone was followed by <strong>Sequoia</strong> (1890), <strong>Mount Rainier</strong> (1899), <strong>Crater Lake</strong> (1902) and <strong>Wind Cave</strong> (1903), among many other parks. But while the creation of additional parks enjoyed wide popular support, there were frequent disagreements about their purpose. For some, the primary goal was the protection of the natural world, while for others the parks were about providing public access to nature. These two goals were at times contradictory and led to a variety of competing voices and factions. In recognition of the difficulties of running these vast wilderness areas, their management was for many years placed in the hands of the <strong>military</strong>, rather than the federal or state government.</p>
+<p>The late 19th century was also a time when railroads were being constructed across America. Increasingly, these ran through even the most remote areas, where many parks were located, making <strong>tourism</strong> possible in these locations for the very first time. While this was welcomed by many park supporters, others were concerned that visitors should appreciate the parks in particular ways. <strong>Nathaniel Langford</strong> was instrumental in setting up Yellowstone and saw the park as an ideal opportunity for the <strong>education</strong> of ordinary citizens in all aspects of the natural world and environmental conservation, which was his number one priority.</p>
+<p>In the early 20th century, the first really significant development was the setting up of the NPS in 1916. Now for the first time a single body was charged with administering the network and managing the numerous groups and interests that had a stake in it. <strong>Stephen Mather</strong> was appointed as the first Superintendent of Parks and under his leadership seven new parks were established, including Grand Canyon, Hawaii and Mount McKinley. However, arguably even more important was Mather's transformation of the hitherto poorly managed <strong>finances</strong> of the parks.</p>
+<p>The NPS generally saw the primary role of the parks as being environmental protection. For this reason, most human activities were regulated – farming and forestry were certainly not allowed. However, the controversial decision to permit the construction of <strong>dams</strong> in national parks was made on the basis that the resulting supplies of water and hydroelectric power would be in the public interest. Certainly, visitor numbers were unaffected as park admissions increased every year. Then in the 1930s the number of visitors expanded dramatically, largely because mass-produced <strong>automobiles</strong> became affordable, allowing ever more city-dwellers to reach the park network. With this, the national parks assumed a pre-eminent position in the social fabric of America, a legacy that continues to the present day.</p>`,
+    questions: [
+      { type: 'tfng', rubric: 'Questions 1-6', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
+        { num: 1, text: 'America copied the idea of national parks from other countries.', answer: 'FALSE' },
+        { num: 2, text: 'Yellowstone is the most frequently visited national park in the USA.', answer: 'NOT GIVEN' },
+        { num: 3, text: 'The NPS is responsible for certain buildings as well as natural landscapes.', answer: 'TRUE' },
+        { num: 4, text: 'Catlin was criticised by some people for proposing \'a nation\'s park\'.', answer: 'NOT GIVEN' },
+        { num: 5, text: 'Emerson believed that farms and businesses should be allowed to use land freely.', answer: 'FALSE' },
+        { num: 6, text: 'Olmsted helped establish a park in the Yosemite Valley.', answer: 'TRUE' }
+      ] },
+      { type: 'completion', rubric: 'Questions 7-13', instruction: 'Complete the notes below. Write ONE WORD ONLY from the passage for each answer.', items: [
+        { num: 7, beforeText: 'in Yellowstone Park, every type of
+                                7', afterText: 'was prohibited', answer: 'hunting' },
+        { num: 8, beforeText: 'Yellowstone and other parks were administered by the
+                                8', afterText: '', answer: 'military' },
+        { num: 9, beforeText: 'the development of a railroad system encouraged new kinds of
+                                9', afterText: '', answer: 'tourism' },
+        { num: 10, beforeText: 'Langford believed that public
+                                10', afterText: 'was the most important role of the parks', answer: 'education' },
+        { num: 11, beforeText: 'Mather greatly improved the
+                                11', afterText: 'of the parks', answer: 'finances' },
+        { num: 12, beforeText: 'the NPS allowed some
+                                12', afterText: 'to be built in national parks', answer: 'dams' },
+        { num: 13, beforeText: 'in the 1930s, the popularity of the parks increased with the availability of
+                                13', afterText: '', answer: 'automobiles' }
+      ] },
+    ]
+  },
+  {
+    id: 4,
+    title: 'Dirty River But Clean Water',
+    subtitle: 'An innovative water treatment system that uses natural processes to clean polluted river water',
+    passage: `<p>Floods can occur in rivers when the flow rate exceeds the capacity of the river channel, particularly at bends or meanders in the waterway. Floods often cause damage to homes and businesses if they are in the natural flood plains of rivers. While riverine flood damage can be eliminated by moving away from rivers and other bodies of water, people have traditionally lived and worked by rivers because the land is usually flat and fertile and because rivers provide easy travel and access to commerce and industry.</p>
+<p><strong>A</strong> Fire and flood are two of humanity’s worst nightmares. People have, therefore, always sought to control them. Foresters have snuffed out forest fires quickly. The flow of rivers is regulated by weirs and dams. At least, that is how it used to be. But foresters have learned that forests need fires to clear out the brash and even to get seeds to germinate. And a similar revelation is now – dawning on hydrologists. Rivers – and the ecosystems they support – need floods. That is why a man-made torrent has been surging down the Grand Canyon. By Thursday March 6th it was running at full throttle, which was expected to be sustained for 60 hours.</p>
+<p><strong>B</strong> Floods once raged through the canyon every year. Spring snow from as far away as Wyoming would melt and swell the Colorado river to a flow that averaged around 1,500 cubic metres (50,000 cubic feet) a second. Every eight years or so, that figure rose to almost 3,000 cubic metres. These floods infused the river with sediment, carved its beaches and built its sandbars.</p>
+<p><strong>C</strong> However, in the four decades since the building of the Glen Canyon dam, just upstream of the Grand Canyon, the only sediment that it has collected has come from tiny, undammed tributaries. Even that has not been much use as those tributaries are not powerful enough to distribute the sediment in an ecologically valuable way.</p>
+<p><strong>D</strong> This lack of flooding has harmed local wildlife. The humpback chub, for example, thrived in the rust-red waters of the Colorado. Recently, though, its population has crashed. At first sight, it looked as if the reason was that the chub were being eaten by trout introduced for sport fishing in the mid-20th century. But trout and chub co-existed until the Glen Canyon dam was built, so something else is going on. Steve Gloss, of the United States’ Geological Survey (USGS), reckons that the chub’s decline is the result of their losing their most valuable natural defense, the Colorado’s rusty sediment. The chub were well adapted to the poor visibility created by the thick, red water which gave the river its name, and depended on it to hide from predators. Without the cloudy water the chub became vulnerable.</p>
+<p><strong>E</strong> And the chub are not alone. In the years since the Glen Canyon dam was built, several species have vanished altogether. These include the Colorado pike-minnow, the razorback sucker and the round-tail chub. Meanwhile, aliens including fathead minnows, channel catfish and common carp, which would have been hard put to survive in the savage waters of the undammed canyon, have moved in.</p>
+<p><strong>F</strong> So flooding is the obvious answer. Unfortunately, it is easier said than done. Floods were sent down the Grand Canyon in 1996 and 2004 and the results were mixed. In 1996 the flood was allowed to go on too long. To start with, all seemed well. The floodwaters built up sandbanks and infused the river with sediment. Eventually, however, the continued flow washed most of the sediment out of the canyon. This problem was avoided in 2004, but unfortunately, on that occasion, the volume of sand available behind the dam was too low to rebuild the sandbanks. This time, the USGS is convinced that things will be better. The amount of sediment available is three times greater than it was in 2004. So if a flood is going to do some good, this is the time to unleash one.</p>
+<p><strong>G</strong> Even so, it may turn out to be an empty gesture. At less than 1,200 cubic metres a second, this flood is smaller than even an average spring flood, let alone one of the mightier deluges of the past. Those glorious inundations moved massive quantities of sediment through the Grand Canyon, wiping the slate dirty, and making a muddy mess of silt and muck that would make modern river rafters cringe.</p>`,
+    questions: [
+      { type: 'tfng', rubric: 'Questions 1-7', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
+        { num: 1, text: 'Damage caused by fire is worse than that caused by flood.', answer: 'NOT GIVEN' },
+        { num: 2, text: 'The flood peaks at almost 1500 cubic meters every eight years.', answer: 'FALSE' },
+        { num: 3, text: 'Contribution of sediments delivered by tributaries has little impact.', answer: 'TRUE' },
+        { num: 4, text: 'Decreasing number of chubs is always caused by introducing of trout since mid 20th century.', answer: 'FALSE' },
+        { num: 5, text: 'It seemed that the artificial flood in 1996 had achieved success partly at the very beginning.', answer: 'TRUE' },
+        { num: 6, text: 'In fact, the yield of artificial flood water is smaller than an average natural flood at present.', answer: 'TRUE' },
+        { num: 7, text: 'Mighty floods drove fast moving flows with clean and high quality water.', answer: 'NOT GIVEN' }
+      ] },
+      { type: 'completion', rubric: 'Questions 8-13', instruction: 'Complete the summary below. Choose NO MORE THAN TWO WORDS from the passage for each answer. Write your answers in boxes 8-13 on your answer sheet. The eco-impact of the Canyon Dam', items: [
+        { num: 8, beforeText: 'Floods are people\'s nightmare. In the past, canyon was raged by flood every year. The snow from far Wyoming would melt in the season of', afterText: 'and caused a flood flow peak in Colorado river. In the four decades after people built the Glen Canyon dam, it only could gather   together from tiny, undammed tributaries.', answer: 'spring' },
+        { num: 9, beforeText: '', afterText: '', answer: 'sediment' },
+        { num: 10, beforeText: 'Then, several species disappeared including Colorado pike-minnow,', afterText: 'and the round-tail chub. Meanwhile, some moved in such as fathead minnows, channel catfish and  .', answer: 'razorback sucker' },
+        { num: 11, beforeText: '', afterText: '', answer: 'common carp' },
+        { num: 12, beforeText: 'The non-stopped flow leaded to the washing away of the sediment out of the canyon, which poses great threat to the chubs because it has poor', afterText: 'away from predators. In addition, the volume of   available behind the dam was too low to rebuild the bars and flooding became more serious.', answer: 'visibility' },
+        { num: 13, beforeText: '', afterText: '', answer: 'sand' }
+      ] },
+    ]
+  },
+  {
+    id: 5,
+    title: 'Back to the Wild',
+    subtitle: 'The remarkable story of reintroducing Przewalski\'s horses to the wild in Mongolia',
+    passage: `<p>The Przewalski Horse is the last wild horse. The horse is named after the Russian colonel Nikolai Przewalski (the name is of Polish origin and “Przewalski” is the Polish spelling). He was the explorer and naturalist who first described the horse in 1881, after having gone on an expedition to find it, based on rumours of its existence. Many of these horses were captured around 1900 by Carl Hagenbeck and placed in zoos. As noted above, about twelve to fifteen reproduced and formed today’s population.</p>
+<p>The World Wildlife Fund is supporting the Przewalski Horse project. Przewalski’s horses, named after the Russian explorer who first described them scientifically, Nikolai Przewalski, were once native to China and travelled freely across the wilds of the Eurasian steppe covering Russia, Mongolia, and Eurasia. But they were driven to the brink of extinction after Przewalski’s 19th-century discovery of the species led to an increase in their appeal. Many were killed or captured and taken to zoos across the world, while others were displaced by human land use. Of the 2,000 Przewalski’s horses left in the world today, only 300 live in the wild, having been part of reintroduction programmes first.</p>
+<p>Colonel Nikolai Przewalski identified different kind of the horse by using the bone and skins of the horse. They are very difficult to catch and there are only a few that exist in the zoo.</p>
+<p>A scientist named Claudia Feh first put the horse in a zoo, and then sent them back to the wild. The Causse Méjean landscape in France is quite similar from that in Mongolia where the horse used to live. She spent 6000 hours to do the experiment, to change the nature of the Przewalski horse to attack and fight other horse species. Then Feh took the horse to Mongolia to roam in an area of 13000 hectares grassland once the horse used to live. Feh’s project is also known as “Wild Horse Mesh”.</p>
+<p>There are 37 Przewalski Horse in the project, and they are served as genetic reservoir if their species is under threat of extinction. There are three group of the Przewalski horse in the plan which has been reestablished by Feh.</p>
+<p>If Przewalski’s horses breed with domestic horses, they produce fertile hybrids, which has the potential to quickly adulterate the species and undo the work of the project. So, organisers have decided first to place the horses in a fenced-off area to stabilise the population and fend off the risk of losing their gene pool. The native population declined in the 20th century due to a combination of factors, with the wild population in Mongolia dying out in the 1960s. The last herd was sighted in 1967 and the last individual horse in 1969. Expeditions after this failed to locate any horses, and the species had been designated “extinct in the wild” for over 30 years. After 1945 only two captive populations in zoos remained, in Munich and in Prague. The most valuable groups, in Askania Nova, Ukraine, was shot by German soldiers during World War II occupation, and the group in the United States had died out.</p>
+<p>Competition with livestock, hunting, capture of foal for zoological collections, military activities and harsh winters recorded in 1946, 1948 and 1956 are considered to be the main cause of the decline in the Przewalski’s horse population. By the end of 1950s, only 12 individuals Przewalski horses were left in the world. The species is being introduced into their original habitats after 20 years of extinction in the wild, 20 years of the horse being extinct in the wild as the result of hunting, capture and habitat loss. The decline of pasture in Mongolia is mainly because of grazing pressure. The scientists are now discussing with local people about the horses and protect them together.</p>`,
+    questions: [
+      { type: 'tfng', rubric: 'Questions 1-4', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
+        { num: 1, text: 'The World Wildlife Fund is supporting a number of horse projects around the world.', answer: 'NOT GIVEN' },
+        { num: 2, text: 'Colonel Nikolai Przewalski identified the species from the examination of live specimens.', answer: 'FALSE' },
+        { num: 3, text: 'Zoos had difficulty acquiring Przewalski horses.', answer: 'TRUE' },
+        { num: 4, text: 'The Causse Méjean landscape is very different from the Mongolian home of the horses.', answer: 'FALSE' }
+      ] },
+      { type: 'completion', rubric: 'Questions 5-9', instruction: 'Complete the notes below. Choose NO MORE THAN THREE WORDS AND/OR A NUMBER from the passage for each answer. Saving the Przewalski horse Colonel Przewalski identified first last wild horse on visit to Mongolia From the year  Przewalski horses found only in zoos', noteLines: [
+        { lineType: 'context', text: 'Saving the Przewalski horse' },
+        { lineType: 'context', text: 'Colonel Przewalski identified first last wild horse on visit to Mongolia' },
+        { lineType: 'question', num: 5, beforeText: 'From the year', afterText: 'Przewalski horses found only in zoos' },
+        { lineType: 'question', num: 6, beforeText: 'Claudia Feh releases in France eleven horses chosen for their', afterText: '' },
+        { lineType: 'question', num: 7, beforeText: 'It took only', afterText: 'for the aggressive habits of Feh\'s horses in France to change' },
+        { lineType: 'question', num: 8, beforeText: 'Some of Feh\'s herd taken to Mongolia and allowed to run free across', afterText: 'of land' },
+        { lineType: 'question', num: 9, beforeText: 'Przewalski horse release is part of Feh\'s broader plan, known as the', afterText: 'to revive the Mongolian habitat and community' }
+      ], items: [
+        { num: 5, beforeText: 'From the year', afterText: 'Przewalski horses found only in zoos', answer: '1900' },
+        { num: 6, beforeText: 'Claudia Feh releases in France eleven horses chosen for their', afterText: '', answer: 'genetic compatibility' },
+        { num: 7, beforeText: 'It took only', afterText: 'for the aggressive habits of Feh\'s horses in France to change', answer: 'two generations' },
+        { num: 8, beforeText: 'Some of Feh\'s herd taken to Mongolia and allowed to run free across', afterText: 'of land', answer: '13000 hectares' },
+        { num: 9, beforeText: 'Przewalski horse release is part of Feh\'s broader plan, known as the', afterText: 'to revive the Mongolian habitat and community', answer: 'wild horse mesh' }
+      ] },
+      { type: 'short-answer', rubric: 'Questions 10-13', instruction: 'Answer the questions below. Choose NO MORE THAN THREE WORDS from the passage for each answer. 10 What would Feh\'s nucleus herd of 37 horses provide if there were any sort of disaster?', items: [
+        { num: 10, text: 'What would Feh\'s nucleus herd of 37 horses provide if there were any sort of disaster?', answer: 'a genetic reservoir' },
+        { num: 11, text: 'According to the article, what is the principal cause of loss of pasture and subsequent reduction in animal numbers in Mongolia?', answer: 'grazing pressure' },
+        { num: 12, text: 'How many groups of Przewalski horses have been re-established in Mongolia?', answer: 'three' },
+        { num: 13, text: 'In contrast to Feh, which aspect of human and animal behaviour do other researchers prefer to investigate?', answer: 'competition' }
+      ] },
+    ]
+  },
+  {
+    id: 6,
+    title: 'The Blockbuster Phenomenon: a New Museum Trend',
+    subtitle: 'Museums in Australia, like other pleasure-giving public organizations, are adapting their activities so that they more closely reflect the marketplace',
+    passage: `<p><strong>A</strong> Since the 1980s, the term “blockbuster‟ has become the fashionable word for spectacular, high-profile museum exhibitions that have the ability to attract large crowds. A blockbuster is a “large-scale loan exhibition that people who normally don‟t go to museums will stand in line for hours to see” (Elsen 1984). Once the museum that created the exhibition has shown it to their local market, it can be offered to other organizations for a fee. This means that you can boost your own door takings and make money from boosting someone else‟s door takings.</p>
+<p><strong>B</strong> While partaking of the excitement of the blockbuster, visitors thus lured are likely to stay longer at the museum. Betty Churcher, when Director of the Australian National Gallery, Summed up the new blockbuster creed as follows: The bonus of the blockbuster exhibitions is that people come to see the blockbuster and they stay to lock at the permanent collection, so you are getting broader exposure for your collection.</p>
+<p><strong>C</strong> Museums across the UK, USA, Canada and Australia currently operate under a system of plural funding: revenue raised through contributions by federal, state and/or local governments, combined with revenue raised through admission charges and other activities, Maintaining and increasing visitor levels is this paramount and involves not only creating or hiring blockbuster exhibitions, but providing regular exhibition changes and innovations. In addition, the visiting public have become known as customers rather than visitors, and the skills that are valued in museums to keep the new customers coming through the door have changed. Curators are now administrators and being a museum director no longer requires an Arts degree – but public relations skills are essential if the museum is going to compete with other museums to stage traveling exhibition which draw huge crowds.</p>
+<p><strong>D</strong> The convergence of museums, the heritage industry, tourism, profit-making and pleasure-giving has resulted in the new “museology”. This has given rise to much debate about whether it is appropriate to see museums primarily as tourist attractions. In literature from both UK and USA, the words that are starting to appear in some descriptions of blockbusters are “less scholarly”, “non-elitist” and “popularist”, while others extol the virtues encouraging scholars to co-operate on projects, and to provide exhibitions that cater for a broad selection of community rather than an elite sector, whatever commentators may think, manager of museums worldwide are looking for artful ways to blend culture and commerce, and blockbuster exhibitions are at the top of the list.</p>
+<p><strong>E</strong> But do blockbusters held in public institutions really create a surplus to fund other activities? If the bottom line is profit, then according to the records of many major museums blockbusters do make money. For museums in some countries, it may be the money that they require to replace parts of their collections or to fix buildings that are in need of attention. For some museums in Australia, it may be the opportunity to illustrate that they are attempting to pay their way by recovering part of their operating costs. Also, creating or hiring a blockbuster has many positive spin-offs: blockbusters mean crowds, and crowds are good for the local economy, provide increased trade for shops, hotels, restaurants, the transport industry and retailers. The arrangement that the arts provide sustained economic benefits has been well illustrated in impact studies in the USA and UK.</p>
+<p><strong>F</strong> However, blockbusters require large capital expenditure, and draw on resources across all branches of an organization, and the costs don‟t end there. There is a Human Resource Management cost in addition to a measurable “ real” dollar cost. Receiving a touring exhibition draws resources from across functional management structures in project management style. Everyone, from general labourers to building services, front of house, technical, promotional, educational and administrative staff, is required to perform additional tasks. Furthermore, as an increasing number of institutions try their hand at increasing visitor numbers and memberships (and therefore revenue) by staging blockbuster exhibitions, it may be less likely that blockbusters will continue to provide a surplus to subsidize other activities due to the competitive nature of the market.</p>
+<p><strong>G</strong> It has been illustrated in both the UK and USA that the blockbuster ideology has resulted in the false expectation that the momentum required to stage blockbusters can be maintained continually. Creating, mounting or hiring blockbusters is exhausting, with the real costs throughout an institution difficult to calculate. Secondly, as some analysts have argued, the “shop keeping” mentality and cost benefit analysis and a pure concentration on the bottom line, can squeeze substance out of an exhibition. Taking out substance can be a recipe for blockbuster failure and therefore financial failure.</p>
+<p><strong>H</strong> Perhaps the best pathway to take is one that balances both blockbusters and regular exhibitions. However, this easy middle ground may only work if you have enough space, and have alternate sources of funding to continue to support the regular, less exciting fare. Perhaps the advice should be to make sure that you find out what your local community, wants from you and make sure that your regular activities and exhibitions are more ending.</p>`,
+    questions: [
+      { type: 'matching-info', rubric: 'Questions 1-4', instruction: 'Reading Passage has eight paragraphs, A-H Which paragraph contains the following information? Choose the correct letter A-H, in boxes 1-4 on your answer sheet. A B C D E F G H 1 the reason why museum directors need to constantly alter and update their exhibits', items: [
+        { num: 1, text: 'the reason why museum directors need to constantly alter and update their exhibits', answer: 'C' },
+        { num: 2, text: 'mention of the length of time people will queue up to see a blockbuster', answer: 'A' },
+        { num: 3, text: 'terms that people have used when referring to blockbusters', answer: 'D' },
+        { num: 4, text: 'the various ways that institutions like museums get financial support', answer: 'C' }
+      ] },
+      { type: 'completion', rubric: 'Questions 5-8', instruction: 'Complete the sentences below Write NO MORE THAN THREE WORDS from the passage for each answer. These days, museum visitors tend to be referred to as Museum curators now need  rather than academic qualifications', items: [
+        { num: 5, beforeText: 'These days, museum visitors tend to be referred to as', afterText: '', answer: 'customers' },
+        { num: 6, beforeText: 'Museum curators now need', afterText: 'rather than academic qualifications', answer: 'public relations skills' },
+        { num: 7, beforeText: 'The linking of a range of public institutions that entertain the public is known as', afterText: '', answer: 'museology' },
+        { num: 8, beforeText: 'There is discussion about whether museums can be regarded in the same way as other', afterText: '', answer: 'tourist attractions' }
+      ] },
+      { type: 'mcq', rubric: 'Questions 9-10', instruction: 'Choose TWO correct answers.', items: [
+        { num: 9, text: 'Which TWO of the following are mentioned by the writer as benefits of blockbuster exhibitions?', options: ['A. Some of the money they raise can be used for structural repairs.', 'B. They can provide funds to help support amateur artists.', 'C. Local services benefit from the extra business they bring about.', 'D. They encourage overseas workers into the local area.', 'E. They raise employee performance levels'], answer: '' },
+        { num: 10, text: 'Which TWO of the following are mentioned by the writer as benefits of blockbuster exhibitions?', options: ['A. Some of the money they raise can be used for structural repairs.', 'B. They can provide funds to help support amateur artists.', 'C. Local services benefit from the extra business they bring about.', 'D. They encourage overseas workers into the local area.', 'E. They raise employee performance levels'], answer: '' }
+      ] },
+      { type: 'mcq', rubric: 'Questions 11-13', instruction: 'Choose THREE correct answers.', items: [
+        { num: 11, text: 'Which THREE of the following are mentioned by the writer as problems for blockbuster exhibitions?', options: ['A. They do not suit museum management styles', 'B. Specialist business advice has to be paid for', 'C. They involve an increased workload for personnel', 'D. They do not increase overall annual visitor numbers', 'E. They are very tiring to put on'], answer: '' },
+        { num: 12, text: 'Which THREE of the following are mentioned by the writer as problems for blockbuster exhibitions?', options: ['A. They do not suit museum management styles', 'B. Specialist business advice has to be paid for', 'C. They involve an increased workload for personnel', 'D. They do not increase overall annual visitor numbers', 'E. They are very tiring to put on'], answer: '' },
+        { num: 13, text: 'Which THREE of the following are mentioned by the writer as problems for blockbuster exhibitions?', options: ['A. They do not suit museum management styles', 'B. Specialist business advice has to be paid for', 'C. They involve an increased workload for personnel', 'D. They do not increase overall annual visitor numbers', 'E. They are very tiring to put on'], answer: '' }
+      ] },
+    ]
+  },
+  {
+    id: 7,
+    title: 'The History of the Bar Code',
+    subtitle: 'From a beach drawing to a global standard - how the barcode revolutionised retail',
+    passage: `<p><strong>A</strong> The first step toward today's bar codes came in 1948, when Bernard Silver, a graduate student in the USA, overheard a conversation in the halls of Philadelphia's Drexel Institute of Technology. The president of a food chain was pleading with a professor to undertake research on a method of capturing product information automatically at store checkouts. The professor turned down the request, but Bernard Silver mentioned the conversation to his friend Norman Woodland, a twenty-seven-year-old teacher at Drexel.</p>
+<p><strong>B</strong> The problem fascinated the two friends, and they set about thinking of a solution. Their first idea was to use patterns printed with an ink that would glow under ultraviolet light, and they built a device to test the concept. It worked, but the printing costs were high and the patterns faded over time. Nonetheless, they were convinced they had a workable idea. After several months of work they came up with the linear bar code, using elements from two established technologies: Morse code, in which letters and numbers are coded into a system of dots and dashes, and the method used to record soundtracks in movies. Silver and Woodland patented the idea in 1952, describing their invention as 'article classification... through the medium of identifying patterns'. But the cost, together with the fact that their scanning equipment was rather unreliable, made the idea a non-starter at that time.</p>
+<p><strong>C</strong> Scanning systems made little progress until the 1970s, when lasers became affordable. Following this, various systems came into use around the world in stores, libraries, factories, and the like, each with its own proprietary code, but there was no standardization. A consortium of grocery manufacturers and retailers therefore set up a committee to look into bar codes, and to standardize what became known formally as the Universal Product Code (UPC). At the heart of the committee's guidelines were a few basic principles. To make life easier for the cashier, bar codes would have to be readable from almost any angle and at a range of distances. Because they would be reproduced by the million, the labels would have to be cheap and easy to print. And to be affordable, automated checkout systems would have to pay for themselves in two and a half years.</p>
+<p><strong>D</strong> The committee considered more than a dozen versions of bar codes, including one based on multi-colored dots and another using a circular bull's eye design with lines radiating from a central point. On April 1, 1973, they unanimously agreed on a standardized UPC, a combination of black and white lines and numbers, based on Woodland and Silver's idea but developed by George Laurer at IBM. Alan Haberman, who headed the subcommittee as president of First National Stores, described the bar code as a kind of world language that worked for everyone. He recalls proudly. 'We showed that it could be done on a massive scale, that cooperation… was possible for the common good, and that business didn't need the government to shove them in the right direction.'</p>
+<p><strong>E</strong> The investment involved in the bar-code revolution was huge. Each of the tens of thousands of grocery outlets in the US had to spend at least $200,000 on new scanning equipment. Chains had to install new data processing centers and retrain their employees. Printers had to develop the new types of ink, plates, and other technology to reproduce the code with the exact tolerances it requires, and manufacturers had to spend millions of dollars a year on the labels.</p>
+<p><strong>F</strong> On June 26,1974, all the tests were done, all the proposals were complete, all the standards were set, and at a supermarket in Ohio, a single pack of Juicy Fruit chewing gum became the first retail product sold with the help of a bar-code scanner. Decades of schemes and billions of dollars in investment now became a practical reality. The bar code on any product could be read and understood in every suitably equipped store.</p>
+<p><strong>G</strong> The advantages of the system were not clear immediately, as wholesalers, retailers and customers remained suspicious. Some customers believed bar codes were a form of surveillance. During the early weeks Business Week magazine ran the headline 'The Supermarket Scanner That Failed'. However, the benefits eventually became apparent. 'It turns out there were massive savings in labor and other areas,' Haberman says. These included checking out items at twice the speed compared to using traditional equipment, which meant shorter lines. And it did not take supermarkets too long to see that, as well as vastly improving customer service, the bar code could hugely reduce the amount of time spent checking inventory.</p>
+<p><strong>H</strong> Now, every day more than 5 billion bar codes are scanned in retail outlets throughout the world. Passengers' luggage is tagged with bar codes by airlines. Staff attach them to babies to ensure the right babies go home from hospitals with the right mothers. Runners in major marathons set off with bar codes on their vests, and librarians rely on them. Tiny bar codes have even been mounted on bees by researchers to track their movements.</p>
+<p><strong>I</strong> As for that original pack of Juicy Fruit, it is now, unchewed and unopened, in the Smithsonian Institution National Museum of American History in Washington.</p>`,
+    questions: [
+      { type: 'completion', rubric: 'Questions 1-8', instruction: 'Complete the notes below. Write ONE WORD ONLY from the passage for each answer. History of the bar code 1948 - 1952 Methods of recording information automatically were developed by Silver and Woodland. 1st system:', noteLines: [
+        { lineType: 'heading', text: 'History of the bar code' },
+        { lineType: 'heading', text: '- 1952' },
+        { lineType: 'context', text: 'Methods of recording information automatically were developed by Silver and Woodland.' },
+        { lineType: 'context', text: '1st system:' },
+        { lineType: 'question', num: 1, beforeText: '○ used ultraviolet light and a special type of', afterText: '' },
+        { lineType: 'context', text: '○ problems: expensive and not permanent' },
+        { lineType: 'context', text: '2nd system:' },
+        { lineType: 'question', num: 2, beforeText: '○ based on technology used in Morse Code and also for the', afterText: 'of films' },
+        { lineType: 'question', num: 3, beforeText: '○ problems:', afterText: 'and expensive' },
+        { lineType: 'heading', text: '1970s' },
+        { lineType: 'question', num: 4, beforeText: 'Availability of cheaper', afterText: 'meant scanning technology spread more widely' },
+        { lineType: 'question', num: 5, beforeText: 'Problem: lack of', afterText: 'in code systems' },
+        { lineType: 'context', text: 'April 1973: committee agreed on one universal product code (UPC)' },
+        { lineType: 'context', text: 'June 1974: pack of Juicy Fruit chewing gum sold with bar-code scanner' },
+        { lineType: 'heading', text: 'Advantages of bar-code system:' },
+        { lineType: 'context', text: '○ supermarkets needed to spend less on labour' },
+        { lineType: 'question', num: 6, beforeText: '○ the', afterText: 'of checkouts increased' },
+        { lineType: 'context', text: '○ doing inventories was much cheaper' },
+        { lineType: 'heading', text: 'Present day' },
+        { lineType: 'context', text: 'Users of bar codes include:' },
+        { lineType: 'context', text: '○ retail companies' },
+        { lineType: 'context', text: '○ airlines' },
+        { lineType: 'context', text: '○ staff in hospitals' },
+        { lineType: 'question', num: 7, beforeText: '○ participants in', afterText: '' },
+        { lineType: 'question', num: 8, beforeText: '○ scientists studying', afterText: '' }
+      ], items: [
+        { num: 1, beforeText: '○ used ultraviolet light and a special type of', afterText: '', answer: 'ink' },
+        { num: 2, beforeText: '○ based on technology used in Morse Code and also for the', afterText: 'of films', answer: 'soundtracks' },
+        { num: 3, beforeText: '○ problems:', afterText: 'and expensive', answer: 'unreliable' },
+        { num: 4, beforeText: 'Availability of cheaper', afterText: 'meant scanning technology spread more widely', answer: 'lasers' },
+        { num: 5, beforeText: 'Problem: lack of', afterText: 'in code systems', answer: 'standardization' },
+        { num: 6, beforeText: '○ the', afterText: 'of checkouts increased', answer: 'speed' },
+        { num: 7, beforeText: '○ participants in', afterText: '', answer: 'marathons' },
+        { num: 8, beforeText: '○ scientists studying', afterText: '', answer: 'bees' }
+      ] },
+      { type: 'tfng', rubric: 'Questions 9-13', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
+        { num: 9, text: 'Bernard Silver was invited to develop a system for capturing product information by the president of a food chain.', answer: 'FALSE' },
+        { num: 10, text: 'A committee set up in the 1970s said bar codes should be easy to use and not too expensive.', answer: 'TRUE' },
+        { num: 11, text: 'Alan Haberman disagreed with government policies on business matters.', answer: 'NOT GIVEN' },
+        { num: 12, text: 'Many grocery outlets were unable to afford the necessary scanning equipment.', answer: 'NOT GIVEN' },
+        { num: 13, text: 'The advantages of the new bar-code scanner took some time to be accepted by users.', answer: 'TRUE' }
+      ] },
+    ]
+  },
+  {
+    id: 8,
+    title: 'Searching for Sustainable Solutions to Indoor Air Pollution',
+    subtitle: 'Indoor air pollution is a major problem affecting women and children in developing countries.',
+    passage: `<p>Indoor air pollution (IAP) kills more than 1.6 million people each year and some two billion more are at risk. The smoke from open cooking fires fills homes with a deadly mixture of particles and chemicals, often 100 times above agreed international exposure standards. This greatly increases the risk of respiratory diseases such as bronchitis and pneumonia, especially for women. Recent research also points to links between pregnant women’s exposure to IAP and low birth weight, increasing the vulnerability of the newborn.</p>
+<p>IAP is also part of a well-known poverty chain. Those not able to afford cleaner commercial fuels must spend many hard hours collecting biomass fuel. They do not have to pay for this, but the indirect costs on time and health are enormous. Cleaner fuels such as electricity and gas have yet to reach remote developing markets where the distribution costs are high.</p>
+<p>Attempts to solve this problem have not produced real progress on a significant scale. Special stoves to reduce emissions required expensive fuel, and bore little relation to what the market (millions of poor households) wanted and could afford for cooking their meals.</p>
+<p>For these reasons, one multi-national foundation has committed US$ 10 million to tackle IAP through a programme called ‘Breathing Space’, based on business and market principles. The foundation started their work by carrying out a series of consultations with those people affected by the problem. At the same time, they requested proposals for potentially commercialisable ways of tackling IAP. About 140 of these were received, primarily from Non-Governmental Organisations (NGOs), of which most addressed the IAP issue but failed to understand what the Foundation meant by commercialisable solutions to IAP.</p>
+<p>The next task was then to organise pilot projects with NGO partners in eight developing countries, in order to systematically explore different market-based IAP solutions. These included the development and sale of new types of cooking stoves that were appropriate for this market, together with cleaner fuels, use of consumer finance on a micro-credit model, and reducing costs through mass production.</p>
+<p>In parallel, the foundation carried out a review of the only two large-scale household energy programmes in the world at present: the National Improved Chulha Programme in India and the National Improved Stove Programme in China. Lessons from these two programmes have been extremely valuable in developing the foundation’s approach, both in terms of what has worked and what has not.</p>
+<p>Following these two initiatives, the Breathing Space programme then went on to develop:</p>
+<p>To date 250,000 households have been removed from risk through efforts to get smoke-reducing products to poor households. This figure will rise to more than a million by the end of the pilot phase at a total cost of US$ 7 million.</p>
+<p>Although this is the first systematic IAP intervention ever mounted on a global scale, it is still limited compared with the extent of the problem. However, a number of the interventions tested are robust enough to develop on a wider scale. Developments underway in India and Guatemala, based on financially viable business models, are targeting three million households.</p>
+<p>Eventually, the target is to get as many as 10 million households out of risk. In parallel, they are exploring the feasibility of building strategic partnerships and setting up intervention mechanisms on an international scale.</p>
+<p>Overall, experience to date of the impact of the various interventions carried out by Breathing Space is mixed. While a wide range of interventions is available, access by the poor is still very limited. In addition, most of the evaluation of these interventions has focused on changes in indoor air pollution levels, rather than health effects.</p>
+<p>Reductions in pollution achieved by interventions very markedly. Generally, among poor dependent communities where initial levels of pollution are very high, it has been difficult to achieve extremely low levels of pollution and exposure. When interventions are taken up by only part of a community, reductions in personal exposure will tend to be limited due to - among other factors - exposure from other nearby homes.</p>
+<p>The most successful projects have combined centralised component production, quality control and supply-chain management, with decentralised installation and assembly of products, linked to a network of social service providers (such as local NGOs) which provide the link to communities.</p>
+<p>The pilots have demonstrated there are some viable business models, supply chains and consumer financing mechanisms that could be brought to bear on the IAP problem on a large scale. This has given the foundation the confidence to expand its programme further.</p>
+<p>In Guatemala, for example, project personnel who were previously involved in managing a poverty project with a target population of 5,000 are now planning and implementing a self-financing strategy to get IAP interventions sold into a significant percentage of the 600,000 at-risk and very poor households. Meanwhile, in one state in India, the expanded programme will reach over three million people, from a pilot level of 100,000.</p>`,
+    questions: [
+      { type: 'short-answer', rubric: 'Questions 1-4', instruction: 'Answer the questions below. Choose NO MORE THAN THREE WORDS from the passage for each answer. Write your answers in boxes 1-4 on your answer sheet. 1 What condition in very young babies may be a result of the mother\'s breathing in smoke from cooking fires?', items: [
+        { num: 1, text: 'What condition in very young babies may be a result of the mother\'s breathing in smoke from cooking fires?', answer: 'low birth weight' },
+        { num: 2, text: 'What type of free fuel do low-income households have to use?', answer: 'biomass fuel' },
+        { num: 3, text: 'What makes electricity and gas unavailable in some areas?', answer: 'distribution costs' },
+        { num: 4, text: 'What devices, developed to solve the problem of IAP, failed because they did not meet local needs?', answer: 'special stoves' }
+      ] },
+      { type: 'completion', rubric: 'Questions 5-9', instruction: 'Complete the flow-chart below. Choose NO MORE THAN TWO WORDS AND/OR A NUMBER from the passage for each answer. Write your answers in boxes 5-9 on your answer sheet.', items: [
+        { num: 5, beforeText: 'conducting', afterText: 'and requesting
+                                proposals', answer: 'consultations' },
+        { num: 6, beforeText: 'setting up', afterText: 'in
+                                    developing countries', answer: 'pilot projects' },
+        { num: 7, beforeText: '', afterText: '', answer: 'review' },
+        { num: 8, beforeText: 'long-term aim: protection of up to', afterText: 'Households', answer: '10 million' },
+        { num: 9, beforeText: 'possible establishment of partnerships and
+                                    intervention mechanisms on the', afterText: 'level', answer: 'international' }
+      ] },
+      { type: 'tfng', rubric: 'Questions 10-13', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
+        { num: 10, text: 'Less research has been done on the Breathing Space programme\'s impact on health than on its effect on indoor pollution levels.', answer: 'TRUE' },
+        { num: 11, text: 'The Breathing Space programme has been very successful in communities with high levels of indoor pollution.', answer: 'FALSE' },
+        { num: 12, text: 'The pilot project worked most effectively when it included provision for health education.', answer: 'NOT GIVEN' },
+        { num: 13, text: 'The target in Guatemala is to have IAP interventions in all at-risk households.', answer: 'FALSE' }
+      ] },
+    ]
+  },
+  {
+    id: 9,
+    title: 'A BRIEF HISTORY OF DREAMS',
+    subtitle: 'From ancient civilisations to modern science - how our understanding of dreams has evolved',
+    passage: `<p><strong>A</strong> Originally dreams were thought to be messages from the gods, perhaps as an early warning device for disaster or good fortune. The Ancient Egyptians seem to have been the first dreamers to attempt interpretation of their dreams. Around 5,000 years ago they summarized their conclusions about dream symbols in one of the earliest documents on the subject.</p>
+<p><strong>B</strong> The Greeks didn't begin seriously considering dreams until about 2,700 years ago. Like the Egyptians, they believed that dreams carried divine messages, which could only be interpreted with the aid of a priest. Dreams also aided in their practice of medicine: sick people were sent to particular temples where the 'gods of the body' had their shrines. Here the sick performed various religious rites, slept, and hoped to have a dream that assured a return to good health. Sometimes this would go on for weeks or even months until they had the 'right' dream.</p>
+<p><strong>C</strong> The first steps into modern dream interpretation were taken 1400 years ago, when the Greek philosopher Heraclitus suggested that a person's dream world was something created in their own mind. This went against the other philosophers, who believed dreams were the result of outside forces, such as the gods. Most Greek philosophers considered the meaning of dreams. Plato, for example, realized how much dreaming could affect the dreamer's personality or the actions they subsequently took. He told how Socrates studied music and the arts because he was instructed to do so in a dream.</p>
+<p><strong>D</strong> Aristotle studied dreams and the dreaming process in a rational way, and argued against the idea that dreams were messages from the gods. He claimed that most so-called prophetic dreams are to be classed as mere coincidences, and suggested that dreams are a recollection of the day's events. Aristotle also helped advance the theory that dreams reflected a person's bodily health. He suggested that a doctor could diagnose a person's illness by hearing a dream that they had, a theory supported by Hippocrates, the founder of modern medicine.</p>
+<p><strong>E</strong> The Roman Artemidorus produced the first comprehensive book on the subject of dreams, around the year 150. He claimed that dreams are unique to the dreamer, believing that the person's occupation and status in the community would affect the symbols in their dreams.</p>
+<p><strong>F</strong> Many religions have believed in the significance that dreams can offer our lives. The fourth century Christian St Augustine claimed that the direction of his life was dramatically affected by dreams that he had. Much later, however, other Christians, such as Martin Luther, the founder of Protestantism, claimed that dreams could lead us into evil ways.</p>
+<p><strong>G</strong> Europeans were very curious about dreaming around the beginning of the 19th century. Robert Cross Smith helped to start this "dream craze" in Britain, publishing several popular books about dreams. Later in the century, Alfred Maury, a French doctor, introduced modern dream interpretation. He believed that the catalysts of all of our dreams were stimuli such as an object falling.</p>
+<p><strong>H</strong> Probably the best known of the modern dream philosophers was Sigmund Freud, whose book The Interpretation of Dreams was published in 1900. His theory was that although dreams may be prompted by external stimuli, wish-fulfilment was the cause of most of them, dreams reflecting our deepest desires. To Freud, no dream was of entertainment value; they all held important meanings.</p>
+<p><strong>I</strong> Carl Jung, a student of Freud for some time, argued that dreams were messages from ourselves to ourselves and that we should pay attention to them for our own benefit. Today, most psychologists agree with Jung's theory, and it is this theory that makes dream interpretation something that we can use in our everyday lives. If Freud were alive today he would disagree with every theory that says you are able to interpret your own dreams. Jung believed that, although it was difficult, dreams were meant to be understood.</p>
+<p><strong>J</strong> Ever since the Freud/Jung rivalry, other theories about dreams and dreaming have flourished and are continuing to be developed today. Some people say that dreams are either the clearing of fragments of our memory banks or the storage of these fragments. Either way they are believed to be of little or no significance and should be disregarded. However, there are the people that argue against this and say that some dreams, at least, are important to living full and complete lives.</p>`,
+    questions: [
+      { type: 'matching-info', rubric: 'Questions 1-7', instruction: 'Match each person with the theory credited to them. NB You may use any letter more than once. List of Theories A Dreams have a mental origin. B Dreams can influence behaviour. C Dreams have a supernatural source. D Dreams are caused by external events. E Dreams can indicate a medical condition.', items: [
+        { num: 1, text: 'Maury', answer: 'D' },
+        { num: 2, text: 'Plato', answer: 'B' },
+        { num: 3, text: 'Luther', answer: 'B' },
+        { num: 4, text: 'Hippocrates', answer: 'E' },
+        { num: 5, text: 'Ancient Egyptians', answer: 'C' },
+        { num: 6, text: 'Heraclitus', answer: 'A' },
+        { num: 7, text: 'Augustine', answer: 'B' }
+      ] },
+      { type: 'matching-info', rubric: 'Questions 8-13', instruction: 'Which paragraph contains the following information? 8 a claim that every dream is significant', items: [
+        { num: 8, text: 'a claim that every dream is significant', answer: 'H' },
+        { num: 9, text: 'the belief that dreams reflect the dreamer\'s social position', answer: 'E' },
+        { num: 10, text: 'a claim that dreams can be harmful', answer: 'F' },
+        { num: 11, text: 'the opinion that dreams are unimportant', answer: 'J' },
+        { num: 12, text: 'a claim that dreams are based on what happened the previous day', answer: 'D' },
+        { num: 13, text: 'evidence of popular interest in reading about dreams', answer: 'G' }
+      ] },
+    ]
+  },
+  {
+    id: 10,
+    title: 'T-Rex Hunter',
+    subtitle: 'The story of one of the world\'s most successful fossil hunters and her remarkable discoveries',
+    passage: `<p><strong>A</strong> Jack Horner is an unlikely academic: his dyslexia is so bad that he has trouble reading a book. But he can read the imprint of life in sandstone or muddy shale across a distance of 100m years, and it is this gift that has made him curator of palaeontology at Montana State University's Museum of the Rockies, the leader of a multi-million dollar scientific project to expose a complete slice of life 68m years ago, and a consultant to Steven Spielberg and other Hollywood figures.</p>
+<p><strong>B</strong> His father had a sand and gravel quarry in Montana, and the young Horner was a collector of stones and bones, complete with notes about when and where he found them. "My father had owned a ranch when he was younger, in Montana," he says. "He was enough of a geologist, is a sand and gravel man, to have a pretty good notion that they were dinosaur bones. So when I was eight years old he took me back to the area that had been his ranch, to where he had seen these big old bones. I picked up one. I am pretty sure it was the upper arm bone of a duckbilled dinosaur: it probably wasn't a maiaosaur but closely related to that. I catalogued it, and took good care of it, and then later when I was in high school, excavated my first dinosaur skeleton. It obviously started earlier than eight and I literally have been driven ever since. I feel like I was born this way."</p>
+<p><strong>C</strong> Horner spent seven years at university but never graduated. "I have a learning disability, I would call it a learning difference – dyslexia, they call it – and I just had a terrible time with English and foreign languages and things like that. For a degree in geology or biology, they required two years of a foreign language. There was no way in the world I could do that. In fact, I didn't really pass English. So I couldn't get a degree, I just wasn't capable of it. But I took all of the courses required and I wrote a thesis and I did all sorts of things. So I have the education, I just don't have the piece of paper," he says.</p>
+<p><strong>D</strong> In Montana, in those days, everybody had the right to a college education. His grades at high school had been terrible, at university, his advisers recognised that he was having a hard time, and went on helping. The dean who kept readmitting him was to give Horner an honorary doctorate years later. As a young non-graduate, Horner wrote to every museum in the English-speaking world, asking for a job. Los Angeles County Museum and the Royal Ontario Museum in Toronto made offers, but he accepted a post as a technician at Princeton University because of Princeton, New Jersey.</p>
+<p><strong>E</strong> "We definitely know we are working on a very broad coastal plain with the streams and rivers bordered by conifers and hardwood plants, and the areas in between these rivers were probably fern-covered. There were no grasses at all: just ferns and bushes – an unusual landscape, kind of taking the south-eastern United States – Georgia, Florida – and mixing it with the moors of England and flattening it out," he says. "Triceratops is very common: they are the cows of the Cretaceous, they are everywhere. Duckbilled dinosaurs are relatively common but not as common as triceratops and T rex, for a meat-eating dinosaur, is very common. What we would consider the predator-prey ratio seems really off the scale. What is interesting is the little dromaeosaurs, the ones we know for sure were good predators, we haven't found any of them."</p>
+<p><strong>F</strong> Which is why he sees T rex, not as the lion of the Cretaceous savannah but its vulture. "Look at the wildebeest that migrate in the Serengeti of Africa, a million individuals lose about 200,000 individuals in that annual migration. There is a tremendous carrion base there. And so you have hyenas, you have tremendous numbers of vultures that are scavenging, you don't have all that many animals that are good predators. If T rex was a top predator, especially considering how big it is, you'd expect it to be extremely rare, much rarer than the little dromaeosaurs, and yet they are everywhere, they are a dime a dozen," he says. A 12-tonne T rex is a lot of vultures, but he doesn't see the monster as clumsy. He insisted his theory and finding, dedicated to further research upon it, of course, he would like to reevaluate if there is any case that additional evidence found or explanation raised by others in the future.</p>
+<p><strong>G</strong> He examined the leg bones of the T-rex, and compared the length of the thigh bone (upper leg), to the shin bone (lower leg). He found that the thigh bone was equal in length or slightly longer than the shin bone, and much thicker and heavier. Which proves that the animal was built to be a slow walker rather than fast running. On the other hand, the fossils of fast hunting dinosaurs ALWAYS showed that the shin bone was longer than the thigh bone. This same truth can be observed in many animals of today which are designed to run fast: The ostrich, cheetah, etc.</p>
+<p><strong>H</strong> He also studied the fossil teeth of the T-rex, and compared them with the teeth of the Velociraptor, and put the nail in the coffin of the "hunter T-rex theory". The Velociraptor's teeth were like steak knives: sharp, razor-edged, and capable of tearing through flesh with ease. The T-Rex's teeth were huge, sharp at their tip, but blunt, propelled by enormous jaw muscles, which enabled them to only crush bones.</p>
+<p><strong>I</strong> With the evidence presented in his documentary, Horner was able to prove that the idea of the T-rex as being a hunting and ruthless killing machine is probably just a myth. In light of the scientific clues he was able to unearth, the T-rex was a slow, sluggish animal which had poor vision, an extraordinary sense of smell, that often reached its "prey" after the real hunters were done feeding, and sometimes it had to scare the hunters away from a corpse. In order to do that, the T-rex had to have been ugly, nasty-looking, and stinky. This is actually true of nearly all scavenger animal. They are usually vile and nasty looking.</p>`,
+    questions: [
+      { type: 'tfng', rubric: 'Questions 1-7', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
+        { num: 1, text: 'Jack Horner knew exactly the bone belonged to a certain dinosaur when he was in father\'s ranch at the age of 8.', answer: 'TRUE' },
+        { num: 2, text: 'Jack Horner achieved a distinctive degree in university when he graduated.', answer: 'FALSE' },
+        { num: 3, text: 'Jack Horner is the first man that discovered T-Rex\'s bone in the world.', answer: 'NOT GIVEN' },
+        { num: 4, text: 'Jack Horner believes that the number of prey should be more than that of the predator.', answer: 'TRUE' },
+        { num: 5, text: 'T-rex\'s number is equivalent to the number of vulture in the Serengeti.', answer: 'NOT GIVEN' },
+        { num: 6, text: 'The hypothesis that T-rex is top predator conflicts with the fact of the predator-prey ratio which Jack found.', answer: 'TRUE' },
+        { num: 7, text: 'He refused to accept any other viewpoints about T-rex\'s category.', answer: 'FALSE' }
+      ] },
+      { type: 'completion', rubric: 'Questions 8-13', instruction: 'Complete the following summary of the paragraphs of Reading Passage. Using NO MORE THAN TWO WORDS from the Reading Passage for each answer. Write your answers in boxes 8-13 on your answer sheet.', items: [
+        { num: 8, beforeText: 'Jack Horner found that T-rex\'s', afterText: 'is shorter than the thigh bone, which demonstrated that it was actually a , unlike other swift animals such as ostrich or  that was built to .', answer: 'shin bone' },
+        { num: 9, beforeText: '', afterText: '', answer: 'slow walker' },
+        { num: 10, beforeText: '', afterText: '', answer: 'cheetah' },
+        { num: 11, beforeText: '', afterText: '', answer: 'run fast' },
+        { num: 12, beforeText: 'Another explanation supports his idea is that T-rex\'s teeth were rather', afterText: ', which only allowed T-rex to  hard bones instead of tearing flesh like Velociraptor.', answer: 'blunt' },
+        { num: 13, beforeText: '', afterText: '', answer: 'crush' }
+      ] },
+    ]
+  },
+  {
+    id: 11,
+    title: 'What Lucy Taught Us',
+    subtitle: 'What the discovery of a 3.2-million-year-old skeleton revealed about early human ancestors',
+    passage: `<p>A scientific finding in east Africa has changed our understanding of how humans have developed.</p>
+<p>On a Sunday morning in late November 1974, a team of scientists were digging in an isolated spot in the Afar region of Ethiopia. Surveying the area, paleoanthropologist Donald Johanson spotted a small piece of bone. Straight away, he recognised it is coming from the elbow of a human ancestor. And there were plenty more. 'As I looked up the slopes to my left, I saw bits of the skull, a chunk of jaw, a couple of vertebrae,' says Johanson.</p>
+<p>It was immediately obvious that the skeleton was a significant find, because the sediments at the site were known to be 3.5 million years old. 'I realised this was part of a skeleton that was older than three million years,' says Johanson. It was the most ancient early human ever found. Later it became apparent that it was also the most complete - 40% of the skeleton had been preserved.</p>
+<p>At the group's campsite that night, Johanson played a Beatles song called Lucy in the Sky with Diamonds, and, as the feeling was that the skeleton was female due to its size, someone suggested calling it Lucy. The name stuck and Johanson says, 'All of a sudden, she became a person. But the morning after the discovery, the discussion was dominated by questions. How old was Lucy when she died? Did she have children? And might she be our direct ancestor? Nowadays, we're starting to get the answers to some of these questions.</p>
+<p>According to Johanson, Lucy had an incredible combination of primitive and derived features, which had not been seen before. Her skull and jaws were more ape-like than those of other groups of early humans. Her braincase was also very small, no bigger for Johanson, it was immediately apparent that Lucy walked upright. That's because the shape and positioning of her pelvis reflected a fully upright gait. Lucy's knee and ankle were also preserved and seemed to reflect bipedal walking. Later studies of feet offer even more evidence. As an upright walker, Lucy strengthened the idea that walking was one of the selective pressures driving human evolution forwards. Early humans did not need bigger brains to take defining steps away from apes. Extra brainpower only came over a million years later with the arrival of the species Homo erectus, meaning upright man. Though big brains would clearly be important later, walking remains one of the traits that makes us uniquely human.</p>
+<p>She may have walked like a human, but Lucy spent at least some of her time up in the trees, as chimpanzees and orangutans still do today. It may be that upright walking evolved in the trees, as a way to walk along branches that would otherwise be too flexible. It's not clear why Lucy left the safety of the trees. It is thought that savannahs were gradually opening up, so trees were spaced further apart. But hunting for food may have been the real reason for heading to the ground, says Chris Stringer of the Natural History Museum in London. In line with this idea, recent evidence suggests that the diet of early humans was changing at that time.</p>
+<p>Studies of the remains of food trapped on preserved human teeth indicate that several species, including Lucy's, were expanding their diet around 3.5 million years ago. Instead of mostly eating fruit from trees, they began to include grasses and possibly meat. This change in diet may have allowed them to range more widely, and to travel around more efficiently in a changing environment. Fossilised crocodile and turtle eggs were found near her skeleton, suggesting that Lucy died while foraging for them in a nearby lake.</p>
+<p>How did early humans process all these new foods? Later species, like Homo erectus, are known to have used simple stone tools, but no tools have ever been found from this far back. However, in 2010 archaeologists uncovered animal bones with scratches that seem to have been made by stone tools. This suggests that Lucy and her relatives used stone tools to eat meat. There have since been heated debates over whether or not the marks were really made by tools. But if they were, it is not surprising, says Fred Spoor of the Max Planck Institute for Evolutionary Anthropology in Leipzig, Germany.</p>
+<p>It also seems that Lucy's childhood was much briefer than ours and that she had to fend for herself from a young age. We know that Lucy was a full-grown adult, because she had wisdom teeth and her bones had fused. But unlike modern humans, she seems to have grown to full size very quickly, and time of death was when she was around 12 years old. In line with that, a recent study of a 3-year-old early human suggested that their brains matured much earlier than ours do.</p>`,
+    questions: [
+      { type: 'tfng', rubric: 'Questions 1-5', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
+        { num: 1, text: 'Donald Johanson was uncertain about the nature of the elbow bone he found in Afar. TRUE', answer: 'FALSE' },
+        { num: 2, text: 'Several bones were found by Donald Johanson at the same site in Afar. TRUE', answer: 'TRUE' },
+        { num: 3, text: 'The experts realised the importance of the discovery at Afar. TRUE', answer: 'TRUE' },
+        { num: 4, text: 'It was the upper part of the skeleton that had suffered the least damage. TRUE', answer: 'NOT GIVEN' },
+        { num: 5, text: 'The skeleton\'s measurements helped Johanson\'s team to decide if it was male or female. TRUE', answer: 'TRUE' }
+      ] },
+      { type: 'completion', rubric: 'Questions 6-13', instruction: 'Complete the notes below. Choose ONE WORD ONLY from the passage for each answer. Write your answers in boxes 6-13 on your answer sheet. Physical features', noteLines: [
+        { lineType: 'heading', text: 'Lucy' },
+        { lineType: 'heading', text: 'Physical features' },
+        { lineType: 'context', text: 'jaws and skull like those of an ape' },
+        { lineType: 'context', text: 'braincase similar in size to that of a chimp' },
+        { lineType: 'context', text: 'long arms' },
+        { lineType: 'heading', text: 'Movement' },
+        { lineType: 'context', text: 'the positioning and shape of her pelvis made it clear that she walked like a human' },
+        { lineType: 'question', num: 6, beforeText: 'upright movement possibly started among the', afterText: 'of trees' },
+        { lineType: 'question', num: 7, beforeText: 'probably moved to the', afterText: 'in search of food' },
+        { lineType: 'heading', text: 'Diet and eating habits' },
+        { lineType: 'question', num: 8, beforeText: 'analysis of food in the', afterText: 'of the skeletons of early humans shows changes in their diet' },
+        { lineType: 'question', num: 9, beforeText: 'it is likely that meat and grasses were substituted for', afterText: '' },
+        { lineType: 'question', num: 10, beforeText: '', afterText: 'that were located close to Lucy suggest these were also part of her diet' },
+        { lineType: 'question', num: 11, beforeText: '', afterText: 'that were found had marks on them, possibly made by tools used for eating' },
+        { lineType: 'heading', text: 'Comparisons with modern-day humans' },
+        { lineType: 'question', num: 12, beforeText: 'modern-day humans have a longer', afterText: 'than Lucy did' },
+        { lineType: 'question', num: 13, beforeText: 'the', afterText: 'of modern-day humans appear to develop later than Lucy\'s did' }
+      ], items: [
+        { num: 6, beforeText: 'upright movement possibly started among the', afterText: 'of trees', answer: 'branches' },
+        { num: 7, beforeText: 'probably moved to the', afterText: 'in search of food', answer: 'ground' },
+        { num: 8, beforeText: 'analysis of food in the', afterText: 'of the skeletons of early humans shows changes in their diet', answer: 'teeth' },
+        { num: 9, beforeText: 'it is likely that meat and grasses were substituted for', afterText: '', answer: 'fruit' },
+        { num: 10, beforeText: '', afterText: 'that were located close to Lucy suggest these were also part of her diet', answer: 'eggs' },
+        { num: 11, beforeText: '', afterText: 'that were found had marks on them, possibly made by tools used for eating', answer: 'bones' },
+        { num: 12, beforeText: 'modern-day humans have a longer', afterText: 'than Lucy did', answer: 'childhood' },
+        { num: 13, beforeText: 'the', afterText: 'of modern-day humans appear to develop later than Lucy\'s did', answer: 'brains' }
+      ] },
+    ]
+  },
+  {
+    id: 12,
+    title: 'The Burgess Shale Fossils',
+    subtitle: 'How a remarkable fossil site in Canada transformed our understanding of early animal life',
+    passage: `<p>Fauna vanished with a whimper, not a bang.</p>
+<p>Some discoveries are so unusual it takes decades and sometimes even centuries to understand their full significance. One such discovery is the fossil bed known as the Burgess Shale. It was discovered in the Canadian Rockies over a century ago and was popularised in 1989 in a book, <em>Wonderful Life</em>, by Stephen Jay Gould an American palaeontologist.</p>
+<p>The Burgess Shale fossils were created at a time when the future Canadian land mass was situated near the Earth’s equator. The creatures were preserved when an entire marine ecosystem was buried in mud that eventually hardened and became exposed hundreds of millions of years later in an outcrop of the Rocky Mountains. American palaeontologist Charles Walcott, following reports of fabulous fossils finds by construction workers on Canadian railways who were digging in the mountains in the late 19th century, is said to have tripped over a block of shale in 1909 that revealed the area’s remarkable supply of specimens. It has long been believed that the curious fauna that lived there vanished in a series of extinction because the fossil record ends abruptly, but that no longer appears to be the case.</p>
+<p>The Burgess Shale began to form soon after a period of time known as the Cambrian explosion, when most major groups of complex animals arose over a surprisingly short period. Before 560m years ago, most living things were either individual cells or simple colonies of cells. Then, and for reasons that remain a mystery, life massively diversified and became ever more complex as the rate of evolution increased. An unusual feature of the Burgess Shale is that it is one of the earliest fossil beds to contain impressions of the soft body parts alongside the remains of bones and shells, which is highly unusual.</p>
+<p>Although the fossil bed was discovered on a mountain, these animals originally existed below an ocean, the bed of which was later pushed up to create the Rockies. Nobody knows exactly why they were so well preserved. One possibility is that the creatures were buried quickly and in conditions that were hostile to the bacteria that cause decomposition of soft body parts.</p>
+<p>Those that first worked on the Burgess Shale, unearthing 65,000 specimens over a 14-year period up to 1924, assumed that the fossils came from extinct members of groups of animals in existence today. This turned out to be misleading because many of the creatures are so unusual that they are still difficult to classify.</p>
+<p>One such example is Opabinia, a creature that grew to about 8cm (3 inches), had five eyes, a body that was a series of lobes, a tail in the shape of a fan and that ate using a long proboscis. The proboscis had a set of grasping claws on the end, with which it grabbed food and stuff it into its mouth. Nectocaris, meanwhile, could be mistaken for a leech, with fins and tentacles. Weirdest of all was Hallucigenia, described by palaeontologist Simon Conway Morris when he re-examined Walcott’s specimens in 1979. With its multiplicity of spines and tentacles, little about Hallucigenia made sense. Like an abstract painting, its orientation is a mystery at first, making it difficult to work out which way up it went, which hole food went into, and which hole food come out of.</p>
+<p>Palaeontologists had long thought that many of the Burgess Shale animals were examples of experiments in evolution. In other words, entirely new forms of life that did not survive or lead to other groups or species. Hallucigenia, ironically, turned out to be the exception that proved the rule. It is now thought to be an ancestor of the modern group of arthropods, which includes everything from flies and butterflies to centipedes and crabs.</p>
+<p>Now another misconception has been quashed. Writing in <em>Nature</em>, Peter Van Roy of Yale University and his colleagues suggest that the sudden absence of such crazy soft-bodied fossils does not indicate a mass extinction, but merely an end to the unusual local circumstances that caused the creatures to be preserved. In an area of the Atlas Mountains of Morocco, Van Roy’s team of researchers have found another diverse (and sometimes bizarre) assemblage of soft-bodied organisms from a period after the Burgess Shale was formed. One discovery includes something that may be a stalked barnacle. This suggests that the evolution of such complex life went on uninterrupted. For its part, the Burgess Shale continues to produce an astonishing array of indefinable creatures faster than palaeontologists can examine them. The world still has plenty to learn about this wonderful life.</p>`,
+    questions: [
+      { type: 'tfng', rubric: 'Questions 1-5', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
+        { num: 1, text: 'The Burgess Shale became widely known to the public because of Gould\'s book.', answer: 'TRUE' },
+        { num: 2, text: 'Charles Walcott had to get permission from Canadian authorities to gain access to the fossil site.', answer: 'NOT GIVEN' },
+        { num: 3, text: 'The Burgess Shale includes impressions of soft and hard body parts.', answer: 'TRUE' },
+        { num: 4, text: 'The Burgess Shale creatures were land animals.', answer: 'FALSE' },
+        { num: 5, text: 'Researchers now believe that Hallucigenia is unrelated to any modern creature.', answer: 'FALSE' }
+      ] },
+      { type: 'completion', rubric: 'Questions 6-9', instruction: 'Complete the notes below. Choose NO MORE THAN TWO WORDS AND/OR A NUMBER from the passage for each answer. - Burgess Shale was formed following a time called the', noteLines: [
+        { lineType: 'heading', text: 'Burgess Shale' },
+        { lineType: 'heading', text: 'Formation:' },
+        { lineType: 'context', text: 'Burgess Shale was formed following a time called the' },
+        { lineType: 'heading', text: 'Discovery and Investigation in the twentieth century:' },
+        { lineType: 'context', text: 'discovered in 1909' },
+        { lineType: 'context', text: 'Charles Walcott learned of the fossil finds from people building a' },
+        { lineType: 'context', text: 'the first work on Burgess Shale was undertaken at the start of the century' },
+        { lineType: 'context', text: 'a researcher looked at Burgess Shale findings again in' },
+        { lineType: 'heading', text: 'Recent theories:' },
+        { lineType: 'context', text: 'Peter Van Roy' },
+        { lineType: 'context', text: 'believes that discoveries in Morocco show that the' },
+        { lineType: 'context', text: 'of complex life forms continued' }
+      ], items: [
+        { num: 6, beforeText: '', afterText: '', answer: 'Cambrian explosion' },
+        { num: 7, beforeText: '', afterText: '', answer: 'railway' },
+        { num: 8, beforeText: '', afterText: '', answer: '1979' },
+        { num: 9, beforeText: '', afterText: '', answer: 'evolution' }
+      ] },
+      { type: 'completion', rubric: 'Questions 10-13', instruction: 'Complete the table below. Choose ONE WORD ONLY from the passage for each answer.', items: [
+        { num: 10, beforeText: 'five eyes- tail resembling a', afterText: '- claws used to hold', answer: 'fan' },
+        { num: 11, beforeText: '', afterText: '', answer: 'food' },
+        { num: 12, beforeText: 'looked like a', afterText: 'finstentacles', answer: 'leech' },
+        { num: 13, beforeText: 'spines used to', afterText: 'tentacles', answer: 'protect' }
+      ] },
+    ]
+  },
+  {
+    id: 13,
+    title: 'Bodie: America\'s Most Famous Ghost Town',
+    subtitle: 'The rise and fall of a once-thriving mining town in California\'s Eastern Sierra Nevada',
+    passage: `<p>If you peek inside one of the broken-down buildings in Bodie, California, you might see dust-covered furniture, an old muffin pan, rusty tins, and broken kerosene lamps, or a fully stocked general store with original wooden boxes and shelves with tin cans. Situated in a sagebrush-covered valley in the eastern foothills of the Sierra Nevada mountain range, the old gold-mining town, once busy with life, began in the 1870s, when prospective miners arrived in the town in hopes of finding gold and becoming wealthy. By the 1940s, the gold was gone and the last mine closed. Today not many structures remain in Bodie; there is about 20 percent of the number that stood in the 1870s, when the town had up to 8,000 inhabitants.</p>
+<p>In the 1870s, thirty mines were built and began producing large pieces of gold in large quantities. The Standard Company was one of the first factories in America to extract the remaining traces of gold using electricity. Chemical processing was done in two stages. In the first stage, workers washed ground up ore over copper sheets covered with gold-grabbing mercury, then they heated it to release and condense the mercury, and turned the melted mixture into the shape of gold bars. In a second stage devised to obtain any remaining gold and silver particles, the ore, now the consistency of sand, was soaked in watered-down potassium cyanide. This drew the metals out into a form that could be trapped by trays containing small pieces of zinc. This process went on for about 70 years, until the gold mines dried up.</p>
+<p>When the California State Parks Department took over Bodie in 1962, it began a program of “arrested decay,” maintaining the run-down structures just as they appeared at the time the department acquired the town.</p>
+<p>According to Charley Spiller, a Bodie maintenance mechanic, the greatest enemies of preservation are wind, which can gust up to 100 miles an hour on nearby mountains, and snow, which averages 13 feet a year. When snow gets into a building and sits and ... into the floors, the condition of the floors gets worse, and they often rot. Currently, a team of three or four workers spends six months of each year strengthening walls, repairing roofs, and replacing smashed windows. Spiller and his team rebuild walls using pine similar to the native Jeffrey pine that was originally used. Without constant attention, most houses would fall apart. Nearby towns similar to Bodie have already disappeared because, for one reason or another, they weren’t maintained.</p>
+<p>While the staff work to preserve the site’s empty look, a variety of natural life lives on in the remains of the town. California ground squirrels tunnel into the shrub-covered earth, feeding on meadow grass and bitterbrush. Coyotes—and from time to time a mountain lion, bobcat, or bear—amble through the town. As people left their homes in Bodie and no one else moved in, the houses became popular havens for species that thrive in the empty places, such as deer, mice, snakes, and lizards. Trillions of microbes, life forms invisible to the human eye, also live in the soil, some of which can consume the toxic mercury and cyanide by-products of mining. One microbial ecologist found that deserts, like the one in Bodie, contain up to twice as many bacterial species, roughly 10,000 per 10 square meters, as do acidic rainforest soils. The deserts of the American West, where thousands of ghost towns stand, are therefore surprisingly full of life.</p>
+<p>It is the life that left Bodie, however, that most interests the tourists who visit. “Ghost towns like Bodie,” cultural geographer Dydia DeLyser explains, “are a powerful draw because they are perceived as authentic—actual abandoned towns presented more or less as they were left, and therefore as they once were.” DeLyser says that visitors examine their originality, asking questions like “was all this stuff really just left here?” or “was it all set up to make it look like a ghost town?” It would be a mistake, DeLyser says, for anyone to think that the plates on the table or other items at Bodie were left behind in a rush to escape.</p>`,
+    questions: [
+      { type: 'completion', rubric: 'Questions 1-7', instruction: 'Complete the notes below. Choose ONE WORD AND/OR A NUMBER from the passage for each answer. Write your answers in boxes 1-7 on your answer sheet. - Located in a  1 ..................... in the Sierra Nevada.', noteLines: [
+        { lineType: 'question', num: 1, beforeText: 'Located in a', afterText: '..................... in the Sierra Nevada.' },
+        { lineType: 'question', num: 2, beforeText: 'In the 1870s attracted people who wanted to be', afterText: '..................... in order to get rich.' },
+        { lineType: 'context', text: 'Saw the end of gold production in the 1940s.' },
+        { lineType: 'question', num: 3, beforeText: 'Now has about', afterText: '..................... of the original buildings.' },
+        { lineType: 'context', text: 'Large-scale production of gold' },
+        { lineType: 'question', num: 4, beforeText: 'Extraction of smaller amounts of gold required', afterText: '.....................' },
+        { lineType: 'context', text: 'Extraction by chemical processing involved:' },
+        { lineType: 'question', num: 5, beforeText: 'Ore was rinsed over mercury-covered sheets of', afterText: '.....................' },
+        { lineType: 'context', text: 'Melted mixture was formed into bars' },
+        { lineType: 'question', num: 6, beforeText: 'Ore with texture like', afterText: '..................... was immersed in potassium cyanide.' },
+        { lineType: 'question', num: 7, beforeText: 'Metals were taken out and caught in containers filled with', afterText: '.....................' }
+      ], items: [
+        { num: 1, beforeText: 'Located in a', afterText: '..................... in the Sierra Nevada.', answer: 'valley' },
+        { num: 2, beforeText: 'In the 1870s attracted people who wanted to be', afterText: '..................... in order to get rich.', answer: 'miners' },
+        { num: 3, beforeText: 'Now has about', afterText: '..................... of the original buildings.', answer: '20 percent' },
+        { num: 4, beforeText: 'Extraction of smaller amounts of gold required', afterText: '.....................', answer: 'electricity' },
+        { num: 5, beforeText: 'Ore was rinsed over mercury-covered sheets of', afterText: '.....................', answer: 'copper' },
+        { num: 6, beforeText: 'Ore with texture like', afterText: '..................... was immersed in potassium cyanide.', answer: 'sand' },
+        { num: 7, beforeText: 'Metals were taken out and caught in containers filled with', afterText: '.....................', answer: 'zinc' }
+      ] },
+      { type: 'tfng', rubric: 'Questions 8-13', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
+        { num: 8, text: 'Wind and snow are the most difficult factors Bodie preservationists have to deal with', answer: 'TRUE' },
+        { num: 9, text: 'The maintenance team in Bodie was unable to locate the Jeffrey pine the settlers', answer: 'NOT GIVEN' },
+        { num: 10, text: 'Lack of funding has caused other towns like Bodie to disappear.', answer: 'NOT GIVEN' },
+        { num: 11, text: 'Many people left Bodie when wild animals started living in their homes.', answer: 'FALSE' },
+        { num: 12, text: 'Acidic rainforest soils tend to contain more microbes than the soil found in places like.', answer: 'FALSE' },
+        { num: 13, text: 'Some tourists doubt that items in Bodie were really used by people who lived there.', answer: 'TRUE' }
+      ] },
+    ]
+  },
+  {
+    id: 14,
+    title: 'The History of Cinema',
+    subtitle: 'From moving pictures to an art form - the remarkable evolution of early cinema',
+    passage: `<p><strong>A.</strong> The Lumière Brothers opened their Cinematographe, at 14 Boulevard des Capucines in Paris, to 100 paying customers over 100 years ago, on December 8, 1985. Before the eyes of the stunned, thrilled audience, photographs came to life and moved across a flat screen.</p>
+<p><strong>B.</strong> So ordinary and routine has this become to us that it takes a determined leap of imagination to grasp the impact of those first moving images. But it is worth trying, for to understand the initial shock of those images is to understand the extraordinary power and magic of cinema, the unique, hypnotic quality that has made films the most dynamic, effective art form of the 20th century.</p>
+<p><strong>C.</strong> One of the Lumière Brothers’ earliest films was a 30-second piece which showed a section of a railway platform flooded with sunshine. A train appears and heads straight for the camera. And that is all that happens. Yet the Russian director Andrei Tarkovsky, one of the greatest of all film artists, described the film as a ‘work of genius’. ‘As the train approached,’ wrote Tarkovsky, ’panic started in the theatre: people jumped and ran away. That was the moment when cinema was born. The frightened audience could not accept that they were watching a mere picture. Pictures were still, only reality moved; this must, therefore, be reality. In their confusion, they feared that a real train was about to crush them.’</p>
+<p><strong>D.</strong> Early cinema audiences often experienced the same confusion. In time, the idea of films became familiar, the magic was accepted - but it never stopped being magic. Film has never lost its unique power to embrace its audience and transport them to a different world. For Tarkovsky, the key to that magic dynamic image of the real flow of events. A still picture could only imply the existence of time, while time in a novel passed at the whim of the reader. But in cinema, the real, objective flow of time was captured.</p>
+<p><strong>E.</strong> One effect of this realism was to educate the world about itself. For cinema makes the world smaller. Long before people travelled to America or anywhere else, they knew what other places looked like; they knew how other people worked and lived. Overwhelmingly, the lives recorded - at least in film fiction - have been American. From the earliest days of the industry, Hollywood has dominated the world film market. American imagery - the cars, the cities, the cowboys became the primary imagery of film. Film carried American life and values around the globe.</p>
+<p><strong>F.</strong> And, thanks to film, future generations will know the 20th century more intimately than any other period. We can only imagine what life was like in the 14th century or in classical Rome. But the life of the modern world has been recorded on film in massive encyclopedic detail. We shall be known better than any preceding generations.</p>
+<p><strong>G.</strong> The 'star' was another natural consequence of cinema. The cinema star was effectively born in 1910. Film personalities have such an immediate presence that inevitably, they become super-real. Because we watch them so closely and because everybody in the world seems to know who they are, they appear more real to us than we do ourselves. The star as magnified human self is one of cinema's most strange and enduring legacies.</p>
+<p><strong>H.</strong> Cinema has also given a new lease of life to the idea of the story. When the Lumiere Brothers and other pioneers began showing off this new invention, it was by no means obvious how it would be used. All that mattered at first was the wonder of movement. Indeed, some said that, once this novelty had worn off, cinema would fade away. It was no more than a passing gimmick, a fairground attraction.</p>
+<p><strong>I.</strong> Cinema might, for example, have become primarily a documentary form. Or it might have developed like television - as a strange noisy transfer of music, information and narrative. But what happened was that it became, overwhelmingly, a medium for telling stories. Originally these were conceived as short stories - early producers doubted the ability of audiences to concentrate for more than the length of a reel. Then, in 1912, an Italian 2-hour film was hugely successful, and Hollywood settled upon the novel-length narrative that remains the dominant cinematic convention of today.</p>
+<p><strong>J.</strong> And it has all happened so quickly. Almost unbelievably, it is a mere 100 years since that train arrived and the audience screamed and fled, convinced by the dangerous reality of what they saw, and, perhaps, suddenly aware that the world could never be the same again - that, maybe, it could be better, brighter, more astonishing, more real than reality.</p>`,
+    questions: [
+      { type: 'matching-info', rubric: 'Questions 1-5', instruction: 'The Reading Passage has ten paragraphs, A-J. Which paragraph contains the following information? Write the correct letter, A-J, in boxes 1-5 on your answer sheet. 1 the location of the first cinema', items: [
+        { num: 1, text: 'the location of the first cinema', answer: 'A' },
+        { num: 2, text: 'how cinema came to focus on stories', answer: 'I' },
+        { num: 3, text: 'the speed with which cinema has changed', answer: 'J' },
+        { num: 4, text: 'how cinema teaches us about other cultures', answer: 'E' },
+        { num: 5, text: 'the attraction of actors in films', answer: 'G' }
+      ] },
+      { type: 'ynng', rubric: 'Questions 6-9', instruction: 'Do the following statements agree with the claims of the writer in Reading Passage 1?', items: [
+        { num: 6, text: 'It is important to understand how the first audiences reacted to the cinema.', answer: 'YES' },
+        { num: 7, text: 'The Lumiere Brothers\' film about the train was one of the greatest films ever made.', answer: 'NO' },
+        { num: 8, text: 'Cinema presents a biased view of other countries.', answer: 'NOT GIVEN' },
+        { num: 9, text: 'Storylines were important in very early cinema.', answer: 'NO' }
+      ] },
+      { type: 'mcq', rubric: 'Questions 10-13', instruction: 'Choose the correct letter, A, B, C or D. Write the correct letter in boxes 10-13 on your answer sheet. 10 The writer refers to the film of the train in order to demonstrate', items: [
+        { num: 10, text: 'The writer refers to the film of the train in order to demonstrate', options: ['A. the simplicity of early films.', 'B. the impact of early films.', 'C. how short early films were.', 'D. how imaginative early films were.'], answer: 'B' },
+        { num: 11, text: 'In Tarkovsky\'s opinion, the attraction of the cinema is that it', options: ['A. aims to impress its audience.', 'B. tells stories better through books.', 'C. illustrates the passing of time.', 'D. describes familiar events.'], answer: 'C' },
+        { num: 12, text: 'When cinema first began, people thought that', options: ['A. it would always tell stories.', 'B. it should be used in fairgrounds.', 'C. US audiences were unappreciative.', 'D. its future was uncertain.'], answer: 'D' },
+        { num: 13, text: 'What is the best title for this passage?', options: ['A. The rise of the cinema star', 'B. Cinema and novels compared', 'C. The domination of Hollywood', 'D. The power of the big screen'], answer: 'D' }
+      ] },
+    ]
+  },
+  {
+    id: 15,
+    title: 'Katsushika Hokusai',
+    subtitle: 'The life and legacy of Japan\'s most celebrated artist and printmaker',
+    passage: `<p>Hokusai (b. October 1760, Edo [now Tokyo], Japan—d. May 10, 1848). Edo was a Japanese master artist and printmaker of the ukiyo-e (“pictures of the floating world”) school. His early works represent the full spectrum of ukiyo-e art, including single-sheet prints of landscapes and squares, hand paintings, and ukiyo-e (“printed things”), such as greetings and announcements. Later he concentrated on the classical themes of the samurai and Chinese subjects. His famous print series “Thirty-six Views of Mount Fuji,” published between 1825 and 1833, marked the summit in the history of the Japanese landscape print.</p>
+<p>Hokusai was born in the Honjo quarter during the age of two. He was adopted named “Tokima but he never accepted though the true son of Nakajima, he was born of a “Jo (Tokyo) and became interested ... by a prestigious artist family.” He—possibly supporting the theory that, in a lending bookshop, from 15 Hokusai is age to have served in his youth as a clerk in a lending bookshop. This early training from 15 to 18 in the book and printing trades obviously contributed to Hokusai's artistic development as a printmaker. He earliest became a pupil of the leading ukiyo-e master, Katsukawa Shunshō. When, at the age of 18, Hokusai's first published works appeared the following year—actor prints of the kabuki theatre, from the ages Shunshō and the Katsukawa school must have married dominated his mid-20s. Possibly under the influence of family life, from this period his designs tended to turn from prints of actors and women to historical landscapes using West-influenced landscape techniques, as well as uki-e (semi-prints of children. The artist's book illustrations and texts turned as well from the earlier themes to historical and didactic subjects. At the same time, Hokusai's work in the surimono genre—prints issued privately for special occasions—New Year's and other greetings, musical programs and announcements, private verse selections—in limited editions and featuring immaculate printing of the highest quality.</p>
+<p>In his middle years Hokusai experienced significant artistic evolution and personal upheaval. He began to distance himself from the Katsukawa school, probably due to the death of his master Shunshō in 1792 and partly due to his own burgeoning interest in other Japanese and Chinese artistic traditions. His work from this period shows a broader range of influences. “Hokusai” around 1797, and his work from this period shows a broader range of influences.</p>
+<p>A series of personal tragedies, including the death of his wife and his financial struggles, seemed to fuel, rather than hinder his artistic output. He moved residences frequently—some accounts say over ninety times in his life—to avoid disgruntled creditors. He despite this instability, the period from 1800 to 1820 was one of his most major illustrated books, including the first volumes of his instructional manga (random drawings), which were sketchbooks of countless subjects—animals, people, mythological figures—intended as model books for other draftsmen and showcasing his incredible observational skill.</p>
+<p><strong>Later years and legacy</strong></p>
+<p>Hokusai's most celebrated work was created in his seventies. It was during this period that he produced the iconic “The Great Wave off Kanagawa”. This series of Mount Fuji; which included for its world-renowned, innovative use of the newly affordable Prussian blue pigment, and its focus on the daily lives of common people with dramatic landscapes. The series was so popular that ten additional prints were added to the original thirty-six. Later writings, Hokusai expressed a profound belief in his own artistic growth with life. He famously wrote that by the age of 110, every dot and line he drew would be alive. Hokusai's influence extended far beyond Japan; after the country opened up in the Meiji period, European movements reached Artists Europe Claude Monet and Vincent van Gogh collected his prints and were inspired by his compositions and use of color.</p>`,
+    questions: [
+      { type: 'tfng', rubric: 'Questions 1-6', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
+        { num: 1, text: 'Hokusai\'s series "Thirty-six Views of Mount Fuji" was published over an eight-year period.', answer: 'TRUE' },
+        { num: 2, text: 'Hokusai was the biological son of the Nakajima family.', answer: 'FALSE' },
+        { num: 3, text: 'Hokusai\'s apprenticeship as a wood-block engraver lasted for four years.', answer: 'FALSE' },
+        { num: 4, text: 'Hokusai\'s work in the surimono genre is considered one of the early high points of his career.', answer: 'TRUE' },
+        { num: 5, text: 'The death of his master Shunshō was the only reason Hokusai distanced himself from the Katsukawa school.', answer: 'FALSE' },
+        { num: 6, text: 'Hokusai produced sketchbooks known as manga during his middle years.', answer: 'TRUE' }
+      ] },
+      { type: 'completion', rubric: 'Questions 7-13', instruction: 'Complete the notes below. Choose NO MORE THAN TWO WORDS from the passage for each answer. Write your answers in boxes 7-13 on your answer sheet. Hokusai\'s Life and Work Early Training:', noteLines: [
+        { lineType: 'heading', text: 'Hokusai\'s Life and Work' },
+        { lineType: 'heading', text: 'Early Training:' },
+        { lineType: 'question', num: 7, beforeText: 'Worked as a clerk in a', afterText: 'from age 15 to 18.' },
+        { lineType: 'question', num: 8, beforeText: 'Artistic shifts to a', afterText: 'which used Western-influenced landscape subjects.' },
+        { lineType: 'question', num: 9, beforeText: 'After marriage, his subjects changed to historical scenes and', afterText: 'which used Western perspective.' },
+        { lineType: 'question', num: 10, beforeText: 'His surimono', afterText: 'for their high-quality printing.' },
+        { lineType: 'heading', text: 'Middle Years:' },
+        { lineType: 'question', num: 11, beforeText: 'Began using the name \'Hokusai\' around', afterText: '.' },
+        { lineType: 'heading', text: 'Published Work:' },
+        { lineType: 'question', num: 12, beforeText: 'His famous series "Thirty-six Views of Mount Fuji" used a new blue pigment called', afterText: '.' },
+        { lineType: 'question', num: 13, beforeText: '', afterText: 'His work greatly influenced European art movements, including Impressionism.' }
+      ], items: [
+        { num: 7, beforeText: 'Worked as a clerk in a', afterText: 'from age 15 to 18.', answer: 'lending bookshop' },
+        { num: 8, beforeText: 'Artistic shifts to a', afterText: 'which used Western-influenced landscape subjects.', answer: 'printmaker' },
+        { num: 9, beforeText: 'After marriage, his subjects changed to historical scenes and', afterText: 'which used Western perspective.', answer: 'didactic subjects' },
+        { num: 10, beforeText: 'His surimono', afterText: 'for their high-quality printing.', answer: 'prints were known' },
+        { num: 11, beforeText: 'Began using the name \'Hokusai\' around', afterText: '.', answer: '1797' },
+        { num: 12, beforeText: 'His famous series "Thirty-six Views of Mount Fuji" used a new blue pigment called', afterText: '.', answer: 'Prussian blue' },
+        { num: 13, beforeText: '', afterText: 'His work greatly influenced European art movements, including Impressionism.', answer: 'His work greatly' }
+      ] },
+    ]
+  },
+  {
+    id: 16,
+    title: 'Why Good Ideas Fail',
+    subtitle: 'Why innovative ideas often struggle to gain acceptance and what determines their success',
+    passage: `<p>As part of a marketing course, two marketing experts comment on a hypothetical case study involving TF, a fiction retail giant specializing in home furnishing. The experts give concrete solutions and advice to assist students.</p>
+<p><strong>Hypothetical case study:</strong></p>
+<p>TF became a retail success in the 1970s when it succeeded in spotting homeware trends and meeting the needs of its then trendy young customers. However, by 2004, the TF stores were failing and a rethink was clearly necessary. Tibal Fisher, TF's founder and CEO, decided to change its focus under the new brand name of TF Nextstage. His aim was to recapture the now ageing customers that had given him his early success and target consumers aged 60+ with devices and gadgets specifically designed to assist them with the problems associated with ageing: mobile phones with screens that were easy to read; kitchen gadgets with comfortable grips; electronic devices that were easy to set and adjust. TF’s market research proved to be very positive, showing strong consumer support for the products.</p>
+<p>In 2007, the stores were remodelled at a cost of US $40 million and the new brand was launched. Each store was made more comfortable and featured a coffee shop to help increase traffic - Tibal had predicted that if they could get customers into the stores then the products would sell themselves. However, by 2009 it was clear that the idea was a failure and the stores consistently remained empty. Customers complained that the new stores felt like a senior center and reminded them that they were growing old.</p>
+<p><strong>Feedback from expert</strong></p>
+<p><strong>Expert 1: Donna Sturgess, global head of innovation, GlaxoSmithKline</strong></p>
+<p>The TF's customer research efforts are a classic case of missing the subconscious associations at work in consumers' minds. Tibal and his executives looked only at surface attitudes. Since those attitudes make up a relatively small part of the total consumer response, the executives are clueless about the reason for the poor sales. It's critical for companies to understand that every customer relates to a brand emotionally, and it’s those emotions that trigger - or block – purchases.</p>
+<p>That's why we’ve focused on using emotional strategies behind branding for a number of years now. A great example Is Alli (pronounced 'ally'), a drug to aid weight loss. The product deals with a highly emotional issue, so in marketing it, we faced the same challenge that the new TFstores are facing: the very thought of buying the product reminds customers that they have problems they feel negatively In the case of TF’s Nextstage, the problems are age and infirmity. In the case of Alli, the problems areexcessive weight and all consequences. There's always a risk that consumers' negative feelings will discourage them from starting or staying on a diet. So, after extensive market research, we took a number of steps to inject emotions into the whole process of using the product.</p>
+<p>First we came up with a name that sounds like a helpful partner. We also aimed to make the container both beautiful and functional — something that didn’t just hold pills but could later be used to store diet guides and recipes. Traditional market research is unlikely to uncover Ideas like this, so we use a wide variety of techniques. Even simple techniques such as one-on-one interviews, or ethnographical observation that involves going into people's houses to examine their behaviour, can provide valuable data.</p>
+<p><strong>Expert 2: Alex Lee, president of OXO International, maker of OXO Good Grips household products</strong></p>
+<p>This retailer can get back on track by remembering a principle that applies to consumers In general and those aged 60+ in particular: they’re attracted by brands they associate with the type of people they’d like to be - not the type they really are. That's why marketing campaigns for surf gear feature surfers, not the city dwellers who will wear the products while doing their shopping.</p>
+<p>I was reminded of this principle few years ago when we wanted to find out how far we could apply our design philosophy of makings things easier to use in order to move from our core business, kitchen tools, into other products. We conducted what are known as focus groups, where participants were asked to look at photos of people and pick those they are perceived to be users and nonusers of our products. Consistently they picked people who looked fit as the sort who would use our products, and people who look old and boring as the sort who wouldn't. Yet the participants, all owners of our products, looked a lot more like the later than the former</p>
+<p>Although the needs of elderly users and those with deteriorating vision or dexterity are very much taken into consideration when we develop new designs, we try to offer that appeal to 20- and 30-year-olds. We believe that referring to these products as helping tools would serve only to harm the brand in our customers' eyes. That's why our philosophy of universal design, which involves creating products that are comfortably useable by the largest possible range of people, is never explicitly stated as part of our marketing position.</p>
+<p>We’ve found that market research does not need to be very sophisticated. For instance, we have conducted simple surveys in the lobby of our building offering free products in exchange for people's opinions. Some may call this unscientific but we have uncovered great insights this way. Sometimes the most important signals come from an executive's own instincts. In Tibal fisher's case, this could have told him what his surveys and focus groups didn't: 60-plus-year-olds won't support a business that expects them to act their age.</p>`,
+    questions: [
+      { type: 'tfng', rubric: 'Questions 1-5', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
+        { num: 1, text: 'The TF Nextstage stores planned to sell products to make life easier for older people', answer: 'TRUE' },
+        { num: 2, text: 'TF\'s market research indicated that people liked the products.', answer: 'TRUE' },
+        { num: 3, text: 'It cost more than expected to remodel the TF stores.', answer: 'NOT GIVEN' },
+        { num: 4, text: 'The TF Nextstage coffee shops sold their own brand of food and drink.', answer: 'NOT GIVEN' },
+        { num: 5, text: 'TF Nextstage customers liked the atmosphere in the new stores.', answer: 'FALSE' }
+      ] },
+      { type: 'completion', rubric: 'Questions 6-13', instruction: 'Complete the notes below. Choose NO MORE THAN TWO WORDS from the passage for each answer. Write your answers in boxes 6-13 on your answer sheet. Feedback from experts Donna Sturgess Problems with customer research:', noteLines: [
+        { lineType: 'heading', text: 'Feedback from experts' },
+        { lineType: 'heading', text: 'Donna Sturgess' },
+        { lineType: 'context', text: 'Problems with customer research:' },
+        { lineType: 'question', num: 6, beforeText: 'TF team limited their research to attitudes that occur at a', afterText: 'level in customers\' minds' },
+        { lineType: 'context', text: 'TF didn\'t consider customers\' emotions' },
+        { lineType: 'context', text: 'How my company dealt with a similar problem:' },
+        { lineType: 'context', text: 'Product: Alli' },
+        { lineType: 'question', num: 7, beforeText: 'Use: help people achieve', afterText: '…..' },
+        { lineType: 'context', text: 'Marketing aim: help customers see the product a positive way by:' },
+        { lineType: 'question', num: 8, beforeText: 'Giving the product a', afterText: 'that seems helpful and supportive' },
+        { lineType: 'question', num: 9, beforeText: 'Giving the product a reusable', afterText: '……….' },
+        { lineType: 'context', text: 'Market research' },
+        { lineType: 'context', text: 'Does not need to be complex' },
+        { lineType: 'question', num: 10, beforeText: 'Good information can come from interviews or studying the', afterText: 'of consumers in the home' },
+        { lineType: 'heading', text: 'Alex Lee' },
+        { lineType: 'context', text: 'Problem:' },
+        { lineType: 'context', text: 'Customers are attracted to the ideal not the reality, e.g. ads for surf gear' },
+        { lineType: 'context', text: 'How my company dealt with a similar problem:' },
+        { lineType: 'question', num: 11, beforeText: 'We organised', afterText: 'to find out what images customers associate with our products' },
+        { lineType: 'context', text: 'we do not call our products helping tools in our marketing campaigns' },
+        { lineType: 'context', text: 'Market research:' },
+        { lineType: 'question', num: 12, beforeText: 'Can be basic, e.g. by doing', afterText: '…..' },
+        { lineType: 'question', num: 13, beforeText: 'Company executives should follow their', afterText: '……….' }
+      ], items: [
+        { num: 6, beforeText: 'TF team limited their research to attitudes that occur at a', afterText: 'level in customers\' minds', answer: 'surface' },
+        { num: 7, beforeText: 'Use: help people achieve', afterText: '…..', answer: 'weight loss' },
+        { num: 8, beforeText: 'Giving the product a', afterText: 'that seems helpful and supportive', answer: 'name' },
+        { num: 9, beforeText: 'Giving the product a reusable', afterText: '……….', answer: 'container' },
+        { num: 10, beforeText: 'Good information can come from interviews or studying the', afterText: 'of consumers in the home', answer: 'behaviour' },
+        { num: 11, beforeText: 'We organised', afterText: 'to find out what images customers associate with our products', answer: 'focus groups' },
+        { num: 12, beforeText: 'Can be basic, e.g. by doing', afterText: '…..', answer: 'surveys' },
+        { num: 13, beforeText: 'Company executives should follow their', afterText: '……….', answer: 'instincts' }
+      ] },
+    ]
+  },
+  {
+    id: 17,
+    title: 'Clarence Birdseye and the Development of Frozen Food',
+    subtitle: 'Born in 1886 in New York, the American naturalist Clarence Birdseye had an instinctive curiosity, a love of food, and a strong entrepreneurial streak.',
+    passage: `<p>Born in 1886 in New York, the American naturalist Clarence Birdseye had an instinctive curiosity, a love of food, and a strong entrepreneurial streak. At the age of ten, he was hunting, selling live animals and teaching himself taxidermy, the art of preserving and mounting the skins of animals. He studied science in college, but had to drop out because tuition was too expensive.</p>
+<p>Forced to support himself, he moved west, where he worked in Montana as an assistant naturalist, capturing small mammals to study the parasites that they often carried in their fur.</p>
+<p>Eventually, partly as a result of this research, the source of a prevalent disease was isolated.</p>
+<p>Within a few years, Birdseye moved to the arctic tundra of Labrador, in what is now northern Canada, where he worked for several years as a fur trader. He spent much of his time among the local trappers who worked year-round in the icy wilderness, and he rode long journeys with a nine-dog sled to purchase goods that were exported to a company in New York. It appeared that Birdseye relished the challenge that came with the cold climate and rugged landscape of Labrador.</p>
+<p>However, the food in Labrador left a great deal to be desired. The bleak climate meant that everything he ate during the winter was either from cans or frozen. When the frozen food was thawed, Birdseye found it to be tasteless. What's more, the texture of the food became mushy and unappealing. Other than fish, there were no fresh sources of food, so the naturalist took up ice fishing with some of the local Inuit people, carving holes in frozen lakes and casting a line for trout. With air temperatures so far below zero, a fish pulled out of the lake would freeze solid in a matter of seconds. But when he thawed out the frozen trout, Birdseye found it tasted far fresher than the usual food he was used to eating. Unwittingly, the young adventurer had made a powerful discovery. He would come to realize that dramatic difference in taste was all due to the speed of the freezing process, or what we call 'flash freezing', and that by recreating the science, he could make high quality frozen food.</p>
+<p>In the first decades of the 20th century, the frozen-food business was considered to be the very bottom of the barrel. Frozen food was terrible. In fact, it was even banned in New York State prisons for being beneath the culinary standard of convicts. A key problem was that the food was being frozen at relatively high temperatures, often just a few degrees below freezing. A slow freeze allowed ice to form larger crystals that broke the membranes surrounding and protecting each of the cells within the food. When the food was defrosted, the ice crystals melted and the juice would leak out. But flash freezing avoided this problem, plus scientific advances had made it possible to artificially produce temperatures that were much like Birdseye had experienced in Labrador. By the early 1920s, Birdseye had created a flash-freeze process, using cartons of fish, stacked and frozen at minus 40 degrees Celsius.</p>
+<p>Birdseye was also concerned about eliminating the little air pockets that in whole fish could harbor bacteria and lead to decomposition. So a key part of his original 1924 process called for removing the bones, which allowed the fish parts to be tightly packed into rectangular fiberboard boxes. Birdseye had to pioneer almost everything else in his process as well. This included inventing a glue for the packaging boxes, to withstand the changes in temperature, as well as a waterproof ink for the labels. He found that just about anything he froze with his method —fruit, meat, vegetables—would be remarkably fresh after thawing.</p>
+<p>Frozen food was still more than a decade away from becoming common in the average diet across the United States. This required a critical mass of freezers—in supermarkets and home kitchens that wouldn't be available until the late 1940s. In Birdseye's experiments that were so promising in 1929, his company, General Seafood, was acquired by the Postum Cereal Company. His adventures in ice fishing had made him a multimillionaire.</p>
+<p>In our current age of locally sourced food production, frozen food has fallen out of favor with the public. But the advent of flash-frozen food had a positive impact on the American economy and the health of every day people. It extended distribution across the entire country so that fish caught in the North Atlantic could be eaten in distant cities like Denver or Dallas. And produce harvested in summer could be consumed months later. By the mid-20th century, frozen food was a worldwide phenomenon.</p>
+<p>In fact, while nutritionists today would prefer we eat fresh food grown locally, they acknowledge the value of frozen food. And scientists at the University of Chester in England came to the same conclusion after performing tests on the nutritional value of frozen produce. They found in many cases that frozen fruits and vegetables are more nutritious and healthier than the regular unfrozen variety sold in stores. This is because the minute a fruit or vegetable is harvested, it begins to decay. But, as most frozen fruits and vegetables are flash-frozen within hours of their harvest, at their peak of ripeness, this locks in many of the important nutrients. Meanwhile, the unfrozen produce can undergo change while being transported thousands of kilometers over several days.</p>
+<p>In one report, the vitamin C content in raspberries that were frozen for a year was compared to that of unfrozen raspberries stored in a refrigerator for three days. Their levels of vitamin C were nearly the same.</p>`,
+    questions: [
+      { type: 'completion', rubric: 'Questions 1-7', instruction: 'Complete the notes below. Choose ONE WORD ONLY from the passage for each answer. Write your answers in boxes 1-7 on your answer sheet.', noteLines: [
+        { lineType: 'heading', text: 'Clarence Birdseye and the Frozen Food Industry' },
+        { lineType: 'context', text: 'Birdseye grew up hunting and selling animals' },
+        { lineType: 'question', num: 1, beforeText: 'he left', afterText: 'for financial reasons' },
+        { lineType: 'question', num: 2, beforeText: 'his work in Montana was a factor in finding the cause of a widespread', afterText: '' },
+        { lineType: 'context', text: 'he moved to Labrador, where he bought furs for a New York company' },
+        { lineType: 'question', num: 3, beforeText: 'he enjoyed the', afterText: 'of living in such a harsh environment' },
+        { lineType: 'context', text: 'Birdseye realised that the process of freezing and thawing food changed its taste and texture' },
+        { lineType: 'question', num: 4, beforeText: 'while fishing with the Inuit, he made a', afterText: 'that could improve frozen food' },
+        { lineType: 'question', num: 5, beforeText: 'in the early 20th century, the quality of frozen food was so poor that even some', afterText: 'couldn\'t serve it' },
+        { lineType: 'question', num: 6, beforeText: 'Birdseye found that when food was flash-frozen, the', afterText: 'of the cells were kept intact' },
+        { lineType: 'context', text: 'taking out bones from whole fish minimised the air content of the packaging' },
+        { lineType: 'question', num: 7, beforeText: 'Birdseye also created a new kind of', afterText: 'and glue for packaging' },
+        { lineType: 'context', text: 'because supermarkets and kitchens lacked freezers, frozen food was not part of the typical American diet before the late 1940s.' }
+      ], items: [
+        { num: 1, beforeText: 'he left', afterText: 'for financial reasons', answer: 'college' },
+        { num: 2, beforeText: 'his work in Montana was a factor in finding the cause of a widespread', afterText: '', answer: 'disease' },
+        { num: 3, beforeText: 'he enjoyed the', afterText: 'of living in such a harsh environment', answer: 'challenge' },
+        { num: 4, beforeText: 'while fishing with the Inuit, he made a', afterText: 'that could improve frozen food', answer: 'discovery' },
+        { num: 5, beforeText: 'in the early 20th century, the quality of frozen food was so poor that even some', afterText: 'couldn\'t serve it', answer: 'prisons' },
+        { num: 6, beforeText: 'Birdseye found that when food was flash-frozen, the', afterText: 'of the cells were kept intact', answer: 'membranes' },
+        { num: 7, beforeText: 'Birdseye also created a new kind of', afterText: 'and glue for packaging', answer: 'ink' }
+      ] },
+      { type: 'tfng', rubric: 'Questions 8-13', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
+        { num: 8, text: 'The public today has a positive view of frozen foods.', answer: 'FALSE' },
+        { num: 9, text: 'Most North Atlantic fish are caught during the summer.', answer: 'NOT GIVEN' },
+        { num: 10, text: 'Nutritionists and university scientists disagree about whether frozen food is beneficial.', answer: 'FALSE' },
+        { num: 11, text: 'Produce can lose nutrients soon after being picked.', answer: 'TRUE' },
+        { num: 12, text: 'Most produce that is going to be frozen is picked when it\'s perfectly ripe.', answer: 'TRUE' },
+        { num: 13, text: 'Raspberries are the best sources of vitamin C.', answer: 'NOT GIVEN' }
+      ] },
+    ]
+  },
+  {
+    id: 18,
+    title: 'Maori Fish Hooks',
+    subtitle: 'The ingenious design and cultural significance of traditional Maori fishing hooks',
+    passage: `<p><strong>A</strong> Maori fish hooks, made from wood, bone, stone, and flax, are intended to have the best possible design and function. The hooks are designed to target specific species with precision. In the industry of commercial long-line fishing, there are some Maori hook designs that are making a splash.</p>
+<p><strong>B</strong> When Polynesians first came to New Zealand sometime within the years 1100-1300 AD, they didn't have the technology necessary to heat and manipulate metal out of rocks. Meanwhile, fish was the settlers' main food source at the time, so fishermen made their hooks and fishing gear out of wood, bone, stone, and shells. Other plants native to the island of New Zealand, such as flax (harakeke), cabbage tree (ti), and astelia (kiekie), provided the necessary fibrous material to make fishing lines and nets of greater or equal strength to the jute used by Europeans at the time. However, as a material, metal is more malleable and can be shaped in various ways, whereas natural materials are limited in the forms they can take. The Maori fish hooks needed to be more innovative in overcoming these limitations.</p>
+<p><strong>C</strong> Early accounts of Europeans who settled and explored New Zealand claimed that Maori hooks, known as matau, were "odd," "of doubtful efficacy," "very clumsy affairs," or "impossible looking." Archaeologists from more recent times have also described the round hook as odd, with comments such as, "shaped in a manner which makes it very difficult to imagine could ever be effective in catching a fish." William Anderson, who was aboard the Resolution during Cook's third voyage in 1777 as the ship's surgeon, remarked that the Maori "live chiefly by fishing, making use... of wooden fish hooks pointed with bone, but so oddly made that a stranger is at a loss to know how they can serve such a purpose."</p>
+<p><strong>D</strong> The Museum of New Zealand Te Papa Tongarewa conducted a study on Maori fish hooks 230 years later and demonstrated that the unique hook design was a matter of function. The hook's design allowed it to catch fish by spinning away from the direction of the point and catching their jaws, instead of poking a hole through the fish or being used as a lever, as some archaeologists had suggested. It appears that the design of the Maori fish hook is perhaps the world's most efficiently and masterfully designed, likely superior to any modern metal fish hook today.</p>
+<p><strong>E</strong> To make larger hooks, Maori used shanks made of strong wood, with stout points made of bone or shell. They tied tree branches and saplings together to grow them into ideal shapes for building, then harvested the plants when they reached the appropriate size. They hardened wood by carefully drying it and burying it underground with fires lit above. Human bone was often used for bone points, which were securely lashed to a groove at the end of the shank using pre-made flax materials (muka). When they wanted to catch larger species like sharks, groper, and ling, they used composite hooks. However, on average, the traditional hook was usually no longer than a three-finger breadth (128 mm in length).</p>
+<p><strong>F</strong> To capture seabirds for food and feathers, like albatross, the islanders used slender hooks that can be differentiated from other hooks intended for fish by their lighter build and lack of an inturned point. Many of these hooks were collected by early explorers, suggesting that seabird catching with hook and line was an important source of food and feathers for the Maori (105 mm in length). Slender hooks with wide gapes were used to capture albatross and other seabirds and can be distinguished from fish hooks by their lighter construction and absence of an inturned point. Early explorers collected many of these hooks, which could indicate that catching seabirds provided significant amounts of food and feathers for the Maori.</p>
+<p><strong>G</strong> The Maori quickly adopted new materials once they became available through European explorers, sealers, and whalers who began arriving towards the end of the 1700s. At this point, the Maori were still making their fish hooks but were now using metals and imported materials. Wooden and flax components of old, abandoned fish hooks decomposed quickly as traditional hooks were discarded in favor of new ones. Tools made of luxury materials such as ivory or greenstone may have been kept as decorative items, with stylized Maori fish hooks today serving as a symbol of cultural revitalization.</p>
+<p><strong>H</strong> The Maori continued to recreate traditional designs even as new materials became available, preferring hook shapes introduced by Pakeha in the 1800s. By maintaining the tradition of the rotating hook design, they remained connected to an essential part of their cultural heritage. In the end, however, mass-produced European metal hooks eventually dominated, making it difficult to continue crafting hooks from nails, horseshoes, and other metal objects. Eventually, traditional designs fell out of favor.</p>
+<p><strong>I</strong> By the late 19th and early 20th centuries, tourist and collector demand for Maori artifacts had grown, leading manufacturers to produce large quantities of forged hooks. These replicas were then traded with both Maori and Europeans as forgeries of the real thing, sometimes directly commissioned by artifact dealers. Fake hooks can be identified by their cheap construction, inconsistent materials, rudimentary lashings, odd or overly elaborate decorative carvings, and the absence of in-turned points or angled grooves used to attach the fishing line properly.</p>
+<p><strong>J</strong> The evolution of matau throughout history symbolizes how the Maori have adapted to European tools, materials, and technology over time. It also reflects how European influence contributed to, rather than completely replaced, traditional Maori skills, as native materials were replaced or complemented by metals and, more recently, artificial materials. Today, commercial longline fishermen around the world have begun using the circle hook design- one that is nearly identical in appearance and function to the traditional matau. It appears that the advantages and improved catch rates of this Maori technology have once again been recognized.</p>`,
+    questions: [
+      { type: 'matching-info', rubric: 'Questions 1-8', instruction: 'The reading passage has ten paragraphs labelled A-J. Which paragraph contains the following information? Write the correct letter A-J in boxes 1-8 on your answer sheet. NB You may use any letter more than once. 1 Instruction on how to recognise authentic Maori hooks from counterfeit ones', items: [
+        { num: 1, text: 'Instruction on how to recognise authentic Maori hooks from counterfeit ones', answer: 'I' },
+        { num: 2, text: 'A description of a different type of hooks that are not used to catch fish', answer: 'F' },
+        { num: 3, text: 'An acknowledgement that Maori design and craftsmanship are still relevant in the modern world', answer: 'J' },
+        { num: 4, text: 'An investigation into how the hooks functioned so effectively', answer: 'D' },
+        { num: 5, text: 'A description of how modern technology began to dominate and eventually took over from traditional hook construction', answer: 'H' },
+        { num: 6, text: 'A list of raw materials used to construct hooks', answer: 'B' },
+        { num: 7, text: 'An outline of how different styles of hooks and types of materials were employed to catch larger fish', answer: 'E' },
+        { num: 8, text: 'An account of how the Maori employed new technology and adapted it', answer: 'G' }
+      ] },
+      { type: 'ynng', rubric: 'Questions 9-13', instruction: 'Do the following statements agree with the claims of the writer in Reading Passage 1?', items: [
+        { num: 9, text: 'The early European settlers quickly understood how the Maori fish hook worked', answer: 'NO' },
+        { num: 10, text: 'The hook works by making a hole and embedding itself in the mouth of the fish', answer: 'NO' },
+        { num: 11, text: 'The Maoris catch seabirds by their feet', answer: 'NOT GIVEN' },
+        { num: 12, text: 'There used to be a demand for Maori fish hooks and many counterfeit ones were produced', answer: 'YES' },
+        { num: 13, text: 'Today European style hooks have completely replaced the traditional styles used by the Maoris', answer: 'NO' }
+      ] },
+    ]
+  },
+  {
+    id: 19,
+    title: 'Fishbourne Roman Palace',
+    subtitle: 'The discovery and history of Britain\'s largest known Roman residential building',
+    passage: `<p>Fishbourne Roman Palace is in the village of Fishbourne in West Sussex, England. This large palace was built in the 1st century AD, around thirty years after the Roman conquest of Britain, on the site of Roman army grain stores which had been established after the invasion, in the reign of the Roman Emperor Claudius in 43 AD. The rectangular palace was built around formal gardens, the northern half of which have been reconstructed. There were extensive alterations in the 2nd and 3rd centuries AD, with many of the original black and white mosaic floors being overlaid with more sophisticated coloured ones, including a perfectly preserved mosaic of a dolphin in the north wing. More alterations were in progress when the palace burnt down in around 270AD, after which it was abandoned.</p>
+<p>Local people had long believed that a Roman palace once existed in the area. However, it was not until 1960 that the archaeologist Barry Cunliffe, of Oxford University, first systematically excavated the site, after workmen had accidentally uncovered a wall while they were laying a water main. The Roman villa excavated by Cunliffe's team was so grand that it became known as Fishbourne Roman Palace, and a museum was erected to preserve some of the remains. This is administered by the Sussex Archaeological Society.</p>
+<p>In its day, the completed palace would have comprised four large wings with colonnaded fronts. The north and east wings consisted of suites of private rooms built around courtyards, with a monumental entrance in the middle of the east wing. In the north-east corner there was an assembly hall. The west wing contained state rooms, a large ceremonial reception room, and a gallery. The south wing contained the owner’s private apartments. The palace included as many as 50 mosaic floors, under-floor central heating and a bathhouse. In size, Fishbourne Palace would have been approximately equivalent to some of the great Roman palaces of Italy, and was by far the largest known Roman residence north of the European Alps, at about 500 feet (150m) square. A team of volunteers and professional archaeologists are involved in an ongoing archaeological excavation on the site of nearby, possibly military, buildings.</p>
+<p>The first buildings to be erected on the site were constructed in the early part of the conquest in 43 AD. Later, two timber buildings were constructed, one with clay and mortar floors and plaster walls, which appears to have been a house of some comfort. These buildings were demolished in the 60s AD and replaced by a substantial stone house, which included colonnades, and a bath suite. It has been suggested that the palace itself, incorporating the previous house in its south-east corner, was constructed around 73-75 AD. However, Dr Miles Russell, of Bournemouth University, reinterpreted the ground plan and the collection of objects found and has suggested that, given the extremely close parallels with the imperial palace of Domitian in Rome, its construction may more plausibly date to after 92 AD.</p>
+<p>With regard to who lived in Fishbourne Palace, there are a number of theories; for example, one proposed by Professor Cunliffe is that, in its early phase, the palace was the residence of Tiberius Claudius Cogidubnus, a local chieftain who supported the Romans, and who may have been installed as king of a number of territories following the first stage of the conquest. Cogidubnus is known from a reference to his loyalty in Agricola, a work by the Roman writer Tacitus, and from an inscription commemorating a temple dedicated to the gods Neptune and Minerva found in the nearby city of Chichester. Another theory is that it was built for Sallustius Lucullus, a Roman governor of Britain of the late 1st century, who may have been the son of the British prince Adminius. Two inscriptions recording the presence of Lucullus have been found in Chichester, and the redating by Miles Russell of the palace was designed for Lucullus, then it may have only been in use for a few years, as the Roman historian Suetonius records that Lucullus was executed by the Emperor Domitian in or shortly after 93 AD.</p>
+<p>Additional theories suggest that either Verica, a British king of the Roman Empire in the years preceding the Claudian invasion, was owner of the palace, or Tiberius Claudius Catuarus, following the recent discovery of a gold ring belonging to him. The palace outlasted the original owner, whoever he was, and was extensively re-planned early in the 2nd century AD, and subdivided into a series of lesser apartments. Further redevelopment was begun in the late 3rd century AD, but these alterations were incomplete when the north wing was destroyed in a fire in around 270 AD. The damage was too great to repair, and the palace was abandoned and later dismantled.</p>
+<p>A modern museum had been built by the Sussex Archaeological Society, incorporating most of the visible remains, including one wing of the palace. The gardens have been re-planted using authentic plants from the Roman period.</p>`,
+    questions: [
+      { type: 'tfng', rubric: 'Questions 1-6', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
+        { num: 1, text: 'Fishbourne Palace was the first structure to be built on its site.', answer: 'FALSE' },
+        { num: 2, text: 'Fishbourne Palace was renovated more than once.', answer: 'TRUE' },
+        { num: 3, text: 'Fishbourne Palace was large in comparison with Roman palaces in Italy.', answer: 'FALSE' },
+        { num: 4, text: 'Research is continuing in the area close to Fishbourne Palace.', answer: 'TRUE' },
+        { num: 5, text: 'Researches agree on the identity of the person for whom Fishbourne Palace was constructed.', answer: 'FALSE' },
+        { num: 6, text: 'Fishbourne Palace was burnt down by local people.', answer: 'NOT GIVEN' }
+      ] },
+      { type: 'completion', rubric: 'Questions 7-13', instruction: 'Complete the notes below. Choose NO MORE THAN TWO WORDS AND/OR A NUMBER from the passage for each answer. Write your answers in boxes 7-13 on your answer sheet. Fishbourne Palace Construction • The first buildings on the site contained food for the', noteLines: [
+        { lineType: 'heading', text: 'Fishbourne Palace' },
+        { lineType: 'context', text: 'Construction' },
+        { lineType: 'question', num: 7, beforeText: 'The first buildings on the site contained food for the', afterText: '' },
+        { lineType: 'question', num: 8, beforeText: 'The palace building surrounded', afterText: '' },
+        { lineType: 'question', num: 9, beforeText: 'In the 2nd and 3rd centuries colour was added to the', afterText: 'of the palace.' },
+        { lineType: 'context', text: 'Discovery' },
+        { lineType: 'question', num: 10, beforeText: 'The first part of the palace to be found was part of a', afterText: '' },
+        { lineType: 'context', text: 'Possible inhabitants' },
+        { lineType: 'context', text: 'Cogidubnus - he is named in several writings' },
+        { lineType: 'question', num: 11, beforeText: 'Sallustius Lucullus - he may have lived there until approximately', afterText: 'AD' },
+        { lineType: 'context', text: 'Verica - a British king' },
+        { lineType: 'question', num: 12, beforeText: 'Catuarus - his', afterText: 'was found there' },
+        { lineType: 'context', text: 'Present Day' },
+        { lineType: 'question', num: 13, beforeText: 'A', afterText: 'has been built on the site to help protect it.' }
+      ], items: [
+        { num: 7, beforeText: 'The first buildings on the site contained food for the', afterText: '', answer: 'Roman army' },
+        { num: 8, beforeText: 'The palace building surrounded', afterText: '', answer: 'gardens' },
+        { num: 9, beforeText: 'In the 2nd and 3rd centuries colour was added to the', afterText: 'of the palace.', answer: 'floors' },
+        { num: 10, beforeText: 'The first part of the palace to be found was part of a', afterText: '', answer: 'wall' },
+        { num: 11, beforeText: 'Sallustius Lucullus - he may have lived there until approximately', afterText: 'AD', answer: '93' },
+        { num: 12, beforeText: 'Catuarus - his', afterText: 'was found there', answer: 'gold ring' },
+        { num: 13, beforeText: 'A', afterText: 'has been built on the site to help protect it.', answer: 'modern museum' }
+      ] },
+    ]
+  },
+  {
+    id: 20,
+    title: 'The History of Pencil',
+    subtitle: 'From ancient graphite mines to mass production - the evolution of the modern pencil',
+    passage: `<p>The beginning of the story of pencils started with a lightning. Graphite, the main material for producing pencil, was discovered in 1564 in Borrowdale in England when a lightning struck a local tree during a thunder. Local people found out that the black substance spotted at the root of the unlucky tree was different from burning ash of wood. It was soft, thus left marks everywhere. Chemistry was barely out of its infancy at the time, so people mistook it for lead, equally black but much heavier. It was soon put to use by locals in marking their sheep for ownership and calculation.</p>
+<p>Britain turns out to be major country where mines of graphite can be detected and developed. Even so, the first pencil was invented elsewhere. As graphite is soft, it requires some form of encasement. In Italy, graphite sticks were initially wrapped in string or sheepskin for stability, becoming perhaps the very first pencil in the world. Then around 1560, an Italian couple made what are likely the first blueprints for the modern, wood-encased carpentry pencil. Their version was a flat, oval, more compact type of pencil. Their concept involved the hollowing out of a stick of juniper wood. Shortly thereafter in 1662, a superior technique was discovered by German people: two wooden halves were carved, a graphite stick inserted, and the halves then glued together - essentially the same method in use to this day. The news of the usefulness of these early pencils spread far and wide, attracting the attention of artists all over the known world.</p>
+<p>Although graphite core in pencils is still referred to as lead, modern pencils do not contain lead as the “lead” of the pencil is actually a mix of finely ground graphite and clay powders. This mixture is important because the amount of clay content added to the graphite depends on the intended pencil hardness, and the amount of time spent on grinding the mixture determines the quality of the lead. The more clay you put in, the higher hardness the core has. Many pencils across the world, and almost all in Europe, are graded on the European system. This system of naming used B for black and H for hard; a pencil’s grade was described by a sequence or successive Hs or Bs such as BB and BBB for successively softer leads, and HH and HHH for successively harder ones. Then the standard writing pencil is graded HB.</p>
+<p>In England, pencils continue to be made from whole sawn graphite. But with the mass production of pencils, they are getting drastically more popular in many countries with each passing decade. As demands rise, appetite for graphite soars.</p>
+<p>According to the United States Geological Survey (USGS), world production of natural graphite in 2012 was 1,100,000 tonnes, of which the following major exporters are: China, India, Brazil, North Korea and Canada. However, much in contrast with its intellectual application in producing pencils, graphite was also widely used in the military. During the reign of Elizabeth I, Borrowdale graphite was used as a refractory material to line moulds for cannonballs, resulting in rounder, smoother balls that could be fired farther, contributing to the strength of the English navy. This particular deposit of graphite was extremely pure and soft, and could easily be broken into sticks. Because of its military importance, this unique mine and its production were strictly controlled by the Crown.</p>
+<p>That the United States did not use pencils in the outer space till they spent $1000 to make a pencil to use in zero gravity conditions is in fact a fiction. It is widely known that astronauts in Russia used grease pencils, which don’t have breakage problem. But it is also a fact that their counterparts in the United States used pencils in the outer space before real zero gravity pencil was invented. They preferred mechanical pencils, which produced fine line, much clearer than the smudgy lines left by the grease pencils that Russians favored. But the lead tips of these mechanical pencils broke often. That bit of graphite floating around the space capsule could get into someone’s eye, or even find its way into machinery or electronics, causing an electrical short or other problems. But despite the fact that the Americans did invent zero gravity pencils later, they stuck to mechanical pencils for many years.</p>
+<p>Against the backcloth of a digitalized world, the prospect of pencils seems bleak. In reality, it does not. The application of pencils has by now become so widespread that they can be seen everywhere, such as classrooms, meeting rooms and art rooms, etc. A spectrum of users are likely to continue to use it into the future: students to do math works, artists to draw on sketch pads, waiters or waitresses to mark on order boards, make-up professionals to apply to faces, and architects to produce blue prints. The possibilities seem limitless.</p>`,
+    questions: [
+      { type: 'completion', rubric: 'Questions 1-7', instruction: 'Complete the sentences below. Choose ONE WORD ONLY from the passage for each answer. Write your answers in boxes 1-7 on your answer sheet. 1 Graphite was found under a  in Borrowdale, it was dirty to use because it was  2.', items: [
+        { num: 1, beforeText: 'Graphite was found under a', afterText: 'in Borrowdale, it was dirty to use because it was  .', answer: 'tree' },
+        { num: 2, beforeText: '', afterText: '', answer: 'soft' },
+        { num: 3, beforeText: 'Ancient people used graphite to sign', afterText: '. People found graphite   in Britain.', answer: 'sheep' },
+        { num: 4, beforeText: '', afterText: '', answer: 'mines' },
+        { num: 5, beforeText: 'The first pencil was graphite wrapped in', afterText: 'or animal skin.', answer: 'string' },
+        { num: 6, beforeText: 'Since graphite was too smooth,', afterText: 'was added to make it harder.', answer: 'clay' },
+        { num: 7, beforeText: 'Russian astronauts preferred', afterText: 'pencils to write in the outer space.', answer: 'grease' }
+      ] },
+      { type: 'tfng', rubric: 'Questions 8-13', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
+        { num: 8, text: 'Not attempted Question 9 9 Not attempted Question 10 10 Not attempted Question 11 11 Not attempted Question 12 12 Not attempted Question 13 13 Not attempted', answer: 'TRUE' },
+        { num: 9, text: 'Not attempted Question 10 10 Not attempted Question 11 11 Not attempted Question 12 12 Not attempted Question 13 13 Not attempted', answer: 'NOT GIVEN' },
+        { num: 10, text: 'Not attempted Question 11 11 Not attempted Question 12 12 Not attempted Question 13 13 Not attempted', answer: 'FALSE' },
+        { num: 11, text: 'Not attempted Question 12 12 Not attempted Question 13 13 Not attempted', answer: 'FALSE' },
+        { num: 12, text: 'Not attempted Question 13 13 Not attempted', answer: 'FALSE' },
+        { num: 13, text: 'Not attempted', answer: 'FALSE' }
+      ] },
+    ]
+  },
+  {
     id: 31,
     title: 'A Survivor\'s Story',
     subtitle: 'One native bird in New Zealand that has managed to survive the introduction of non-native species',
