@@ -1049,6 +1049,8 @@ const Logo = ({ onClick }) => {
 // ==================== NAVIGATION ====================
 const Navigation = ({ currentPage, setCurrentPage }) => {
   const { user, profile, signOut } = useAuth();
+  const { isDark, toggleTheme } = useTheme();
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
   const navItems = [
     { id: 'listening', label: 'Listening' },
     { id: 'reading', label: 'Reading' },
@@ -1092,16 +1094,34 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
           ))}
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
-          <ThemeToggle />
           {user ? (
-            <>
-              <button onClick={() => setCurrentPage('dashboard')} style={{ padding: '0.5rem 0.875rem', borderRadius: '8px', border: 'none', background: 'transparent', color: 'var(--text-secondary)', fontSize: '0.875rem', cursor: 'pointer' }}>Dashboard</button>
-              <div onClick={() => signOut().then(() => setCurrentPage('home'))} style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--purple-500), var(--purple-700))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '600', fontSize: '0.875rem', cursor: 'pointer', color: 'white' }}>
+            <div style={{ position: 'relative' }}>
+              <div onClick={() => setShowProfileMenu(prev => !prev)} style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--purple-500), var(--purple-700))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '600', fontSize: '0.875rem', cursor: 'pointer', color: 'white' }}>
                 {profile?.name?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase()}
               </div>
-            </>
+              {showProfileMenu && (
+                <div style={{ position: 'absolute', top: '44px', right: 0, background: 'var(--card-bg)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '0.5rem', minWidth: '180px', zIndex: 1000, boxShadow: '0 8px 24px rgba(0,0,0,0.15)' }}>
+                  <button onClick={() => { setCurrentPage('dashboard'); setShowProfileMenu(false); }} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', width: '100%', padding: '0.6rem 0.75rem', borderRadius: '8px', border: 'none', background: 'transparent', color: 'var(--text-primary)', fontSize: '0.875rem', cursor: 'pointer', textAlign: 'left' }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                    Dashboard
+                  </button>
+                  <button onClick={() => { toggleTheme(); setShowProfileMenu(false); }} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', width: '100%', padding: '0.6rem 0.75rem', borderRadius: '8px', border: 'none', background: 'transparent', color: 'var(--text-primary)', fontSize: '0.875rem', cursor: 'pointer', textAlign: 'left' }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                    Switch Theme
+                  </button>
+                  <div style={{ height: '1px', background: 'var(--border-color)', margin: '0.25rem 0' }} />
+                  <button onClick={() => { signOut().then(() => setCurrentPage('home')); setShowProfileMenu(false); }} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', width: '100%', padding: '0.6rem 0.75rem', borderRadius: '8px', border: 'none', background: 'transparent', color: '#ef4444', fontSize: '0.875rem', cursor: 'pointer', textAlign: 'left' }}>
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    Log Out
+                  </button>
+                </div>
+              )}
+            </div>
           ) : (
-            <button onClick={() => setCurrentPage('login')} style={{ padding: '0.5rem 1.25rem', borderRadius: '10px', border: 'none', background: 'linear-gradient(135deg, var(--purple-600), var(--purple-700))', color: 'white', fontSize: '0.875rem', fontWeight: '600', cursor: 'pointer' }}>Sign In</button>
+            <>
+              <ThemeToggle />
+              <button onClick={() => setCurrentPage('login')} style={{ padding: '0.5rem 1.25rem', borderRadius: '10px', border: 'none', background: 'linear-gradient(135deg, var(--purple-600), var(--purple-700))', color: 'white', fontSize: '0.875rem', fontWeight: '600', cursor: 'pointer' }}>Sign In</button>
+            </>
           )}
         </div>
       </div>
@@ -2062,7 +2082,8 @@ const GrammarPage = () => {
 
 
 // ==================== LISTENING PAGE ====================
-const ListeningPage = ({ subPage, setSubPage }) => {
+const ListeningPage = ({ subPage, setSubPage, setCurrentPage }) => {
+  const { user } = useAuth();
   const [selectedTest, setSelectedTest] = useState(null);
   const [selectedPart, setSelectedPart] = useState('part1');
   const [userAnswers, setUserAnswers] = useState({});
@@ -2230,7 +2251,7 @@ const ListeningPage = ({ subPage, setSubPage }) => {
               {currentTests.map((test, index) => (
                 <div
                   key={test.id}
-                  onClick={() => setSelectedTest(test)}
+                  onClick={() => { if (!user) { setCurrentPage('login'); return; } setSelectedTest(test); }}
                   className="animate-fadeInUp"
                   style={{
                     padding: '1.25rem',
@@ -2549,7 +2570,8 @@ const ListeningPage = ({ subPage, setSubPage }) => {
 // ==================== READING PAGE COMPONENT ====================
 // ==================== READING PAGE COMPONENT ====================
 // ==================== READING PAGE COMPONENT ====================
-const ReadingPage = ({ subPage, setSubPage }) => {
+const ReadingPage = ({ subPage, setSubPage, setCurrentPage }) => {
+  const { user } = useAuth();
   const { isDark, toggleTheme } = useTheme();
   const [selectedTestId, setSelectedTestId] = useState(null);
   const [userAnswers, setUserAnswers] = useState({});
@@ -2563,7 +2585,15 @@ const ReadingPage = ({ subPage, setSubPage }) => {
   const [isDragging, setIsDragging] = useState(false);
   const [completedTests, setCompletedTests] = useState(() => {
     const saved = localStorage.getItem('completedReadingTests');
-    return saved ? JSON.parse(saved) : [];
+    if (!saved) return [];
+    let arr = JSON.parse(saved);
+    // Migrate old IDs: 31-40 were renumbered to 21-30
+    const migrated = arr.map(id => (id >= 31 && id <= 40) ? id - 10 : id);
+    const unique = [...new Set(migrated)];
+    if (JSON.stringify(unique) !== JSON.stringify(arr)) {
+      localStorage.setItem('completedReadingTests', JSON.stringify(unique));
+    }
+    return unique;
   });
   const [highlightPopup, setHighlightPopup] = useState({ show: false, x: 0, y: 0, range: null, isHighlighted: false });
   const timerRef = useRef(null);
@@ -2778,6 +2808,10 @@ const ReadingPage = ({ subPage, setSubPage }) => {
   };
 
   const startTest = (testId) => {
+    if (!user) {
+      setCurrentPage('login');
+      return;
+    }
     setSelectedTestId(testId);
     setUserAnswers({});
     setShowResults(false);
@@ -2876,7 +2910,7 @@ const ReadingPage = ({ subPage, setSubPage }) => {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
                 <span style={{ fontSize: '2rem' }}>📄</span>
-                <span style={{ padding: '0.35rem 0.9rem', borderRadius: '20px', background: 'var(--purple-600)', fontSize: '0.7rem', fontWeight: '700', color: 'white', letterSpacing: '0.5px' }}>30 TESTS</span>
+                <span style={{ padding: '0.35rem 0.9rem', borderRadius: '20px', background: 'var(--purple-600)', fontSize: '0.7rem', fontWeight: '700', color: 'white', letterSpacing: '0.5px' }}>40 TESTS</span>
               </div>
               <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Passage 1 Practice</h2>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>13 questions • T/F/NG, completion, matching, MCQ</p>
@@ -3257,9 +3291,9 @@ const ReadingPage = ({ subPage, setSubPage }) => {
             <h2 style={{ textAlign: 'center', fontSize: '1.5rem', fontWeight: '700', color: 'var(--purple-500)', marginBottom: '0.5rem' }}>
               {selectedTest.title}
             </h2>
-            <p style={{ textAlign: 'center', fontStyle: 'italic', color: 'var(--text-secondary)', marginBottom: '1.5rem', fontSize: '1rem' }}>
+            {selectedTest.subtitle && selectedTest.subtitleInPassage && <p style={{ textAlign: 'center', fontStyle: 'italic', color: 'var(--text-secondary)', marginBottom: '1.5rem', fontSize: '1rem' }}>
               {selectedTest.subtitle}
-            </p>
+            </p>}
             <div 
               className="passage-content"
               style={{ color: 'var(--text-primary)', lineHeight: '1.9', fontSize: '1.05rem' }}
@@ -4211,8 +4245,8 @@ const App = () => {
     switch (currentPage) {
       case 'home': return <HomePage setCurrentPage={navigateTo} />;
       case 'speaking': return <SpeakingPage subPage={speakingSubPage} setSubPage={(sp) => updateSubPage('speaking', sp)} />;
-      case 'listening': return <ListeningPage subPage={listeningSubPage} setSubPage={(sp) => updateSubPage('listening', sp)} />;
-      case 'reading': return <ReadingPage subPage={readingSubPage} setSubPage={(sp) => updateSubPage('reading', sp)} />;
+      case 'listening': return <ListeningPage subPage={listeningSubPage} setSubPage={(sp) => updateSubPage('listening', sp)} setCurrentPage={setCurrentPage} />;
+      case 'reading': return <ReadingPage subPage={readingSubPage} setSubPage={(sp) => updateSubPage('reading', sp)} setCurrentPage={setCurrentPage} />;
       case 'grammar': return <GrammarPage />;
       case 'writing': return <PlaceholderPage title="Writing Section" description="Task 1 & Task 2 with model essays. Coming soon!" icon="✍️" />;
       case 'login': return <AuthPage type="login" setCurrentPage={navigateTo} />;
