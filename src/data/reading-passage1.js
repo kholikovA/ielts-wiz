@@ -105,10 +105,10 @@ export const readingPassage1Tests = [
         { num: 9, text: 'What does the passage suggest about the portrait\'s connection to Bianca Sforza?', options: ['A. It was definitely painted after her death.', 'B. It may have been a memorial piece.', 'C. It was commissioned by her husband.', 'D. It was hidden for centuries before being discovered.'], answer: 'B' }
       ] },
       { type: 'completion', rubric: 'Questions 10-13', instruction: 'Complete the sentences below. Write NO MORE THAN TWO WORDS from the passage for each answer.', items: [
-        { num: 10, beforeText: 'The portrait was purchased at an auction in', afterText: 'before being identified as a possible da Vinci', answer: 'switzerland' },
-        { num: 11, beforeText: 'Scientific tests revealed fingerprint marks made in the', afterText: 'before it dried', answer: 'paint layer' },
-        { num: 12, beforeText: 'Critics argue that the portrait could have been painted by one of Leonardo\'s', afterText: 'or an imitator', answer: 'pupils' },
-        { num: 13, beforeText: 'The debate over the portrait highlights the challenges of', afterText: 'in art history', answer: 'art authentication' }
+        { num: 10, beforeText: 'The portrait was purchased at an auction in', afterText: 'before being identified as a possible da Vinci.', answer: 'switzerland' },
+        { num: 11, beforeText: 'Scientific tests revealed fingerprint marks made in the', afterText: 'before it dried.', answer: 'paint layer' },
+        { num: 12, beforeText: 'Critics argue that the portrait could have been painted by one of Leonardo\'s', afterText: 'or an imitator.', answer: 'pupils' },
+        { num: 13, beforeText: 'The debate over the portrait highlights the challenges of', afterText: 'in art history.', answer: 'art authentication' }
       ] },
     ]
   },
@@ -132,9 +132,9 @@ export const readingPassage1Tests = [
         { num: 4, text: 'a growth mechanism that distinguishes cultured pearls from natural ones', answer: 'C' }
       ] },
       { type: 'completion', rubric: 'Questions 5-10', instruction: 'Complete the summary below. Choose NO MORE THAN TWO WORDS from the passage for each answer. Write your answers in boxes 5-10 on your answer sheet.', items: [
-        { num: 5, beforeText: 'In history, pearls have had great importance within the men of wealth and power, which were treated as gems for women in', afterText: '. Also, pearls were even used as a medicine for people in', answer: 'ancient Rome' },
+        { num: 5, beforeText: 'In history, pearls have had great importance within the men of wealth and power, which were treated as gems for women in', afterText: '. Also, pearls were even used as a medicine for people in .', answer: 'ancient Rome' },
         { num: 6, beforeText: '. Also, pearls were even used as a medicine for people in', afterText: '', answer: 'eastern countries' },
-        { num: 7, beforeText: 'There are essentially three types of pearls: natural, cultured and imitation. Most freshwater cultured pearls sold today come from China while', afterText: 'Island is famous for its imitation pearl industry. Good-quality natural pearls are exceedingly unusual', answer: 'Mallorca' },
+        { num: 7, beforeText: 'There are essentially three types of pearls: natural, cultured and imitation. Most freshwater cultured pearls sold today come from China while', afterText: 'Island is famous for its imitation pearl industry. Good-quality natural pearls are exceedingly unusual.  often manufactures some of the glitteriest pearls while  produces larger size ones due to the favourable environment along the coastline. In the past,  in Persian Gulf produced the world\'s best pearls. Nowadays, the major remaining suppliers of natural pearls belong to India.', answer: 'Mallorca' },
         { num: 8, beforeText: 'Island is famous for its imitation pearl industry. Good-quality natural pearls are exceedingly unusual.', afterText: 'often manufactures some of the glitteriest pearls while', answer: 'Japan' },
         { num: 9, beforeText: 'often manufactures some of the glitteriest pearls while', afterText: 'produces larger size ones due to the favourable environment along the coastline. In the past,', answer: 'Australia' },
         { num: 10, beforeText: 'produces larger size ones due to the favourable environment along the coastline. In the past,', afterText: 'in Persian Gulf produced the world\'s best pearls. Nowadays, the major remaining suppliers of natural pearls belong to India', answer: 'Bahrain' }
@@ -158,7 +158,7 @@ export const readingPassage1Tests = [
 <p>Since ambergris is derived from animals, naturally a question of ethics arises, and in the case of ambergris, it is very important to consider. Sperm whales are an endangered species, whose populations started to decline as far back as the 19th century due to the high demand for their highly emollient oil, and today their stocks still have not recovered. During the 1970’s, the Save the Whales movement brought the plight of whales to international recognition. Many people now believe that whales are “saved”. This couldn’t be further from the truth. All around the world, whaling still exists. Many countries continue to hunt whales, in spite of international treaties to protect them. Many marine researchers are concerned that even the trade in naturally found ambergris can be harmful by creating further incentives to hunt whales for this valuable substance.</p>
 <p>One of the forms ambergris is used today is as a valuable fixative in perfumes to enhance and prolong the scent. But nowadays, since ambergris is rare and expensive, and big fragrance suppliers that make most of the fragrances on the market today do not deal in it for reasons of cost, availability and murky legal issues, most perfumeries prefer to add a chemical derivative which mimics the properties of ambergris. As a fragrance consumer, you can assume that there is no natural ambergris in your perfume bottle, unless the company advertises this fact and unless you own vintage fragrances created before the 1980s. If you are wondering if you have been wearing a perfume with this legendary ingredient, you may want to review your scent collection. Here are a few of some of the top ambergris containing perfumes: Givenchy Amarige, Chanel No. 5, and Gucci Guilty.</p>`,
     questions: [
-      { type: 'mcq', rubric: 'Questions 1-6', instruction: 'Write the correct letter, A, B, C, or D. Classify the following information as referring to: A ambergris only &nbsp; B amber only &nbsp; C both ambergris and amber &nbsp; D neither ambergris nor amber', categories: { 'A': 'ambergris only &nbsp; B amber only &nbsp; C both ambergris and amber &nbsp; D neither ambergris nor amber' }, items: [
+      { type: 'mcq', rubric: 'Questions 1-6', instruction: 'Write the correct letter, A, B, C, or D. Classify the following information as referring to: A ambergris only &nbsp; B amber only &nbsp; C both ambergris and amber &nbsp; D neither ambergris nor amber', items: [
         { num: 1, text: 'being expensive', answer: 'C' },
         { num: 2, text: 'adds flavor to food', answer: 'A' },
         { num: 3, text: 'used as currency', answer: 'D' },
@@ -208,9 +208,9 @@ export const readingPassage1Tests = [
         { num: 10, text: 'Despite the sizable demand for tulips, there was negligible impact on the Dutch economy as a whole when that demand suddenly dropped.', answer: 'TRUE' }
       ] },
       { type: 'completion', rubric: 'Questions 11-13', instruction: 'Complete the sentences below. Write ONE WORD ONLY from the passage for each answer.', items: [
-        { num: 11, beforeText: 'After their war for independence, the Dutch more heavily invested in', afterText: '', answer: 'commerce' },
-        { num: 12, beforeText: 'The', afterText: 'of tulips were more eye-catching than other flowers available at the time', answer: 'colors' },
-        { num: 13, beforeText: 'When an increasing number of', afterText: 'started selling tulips in the 1630s, the prices kept skyrocketing', answer: 'speculators' }
+        { num: 11, beforeText: 'After their war for independence, the Dutch more heavily invested in', afterText: '.', answer: 'commerce' },
+        { num: 12, beforeText: 'The', afterText: 'of tulips were more eye-catching than other flowers available at the time.', answer: 'colors' },
+        { num: 13, beforeText: 'When an increasing number of', afterText: 'started selling tulips in the 1630s, the prices kept skyrocketing.', answer: 'speculators' }
       ] },
     ]
   },
@@ -270,13 +270,13 @@ export const readingPassage1Tests = [
 <p>The end of the East India Company's monopoly on trade with China also had another result, which was more dramatic though less important in the long term: it ushered in the era of the tea clippers. While the Company had had the monopoly on trade, there was no rush to bring the tea from China to Britain, but after 1834 the tea trade became a virtual free for all. Individual merchants and sea captains with their own ships raced to bring home the tea and make the most money, using fast new clippers which had sleek lines, tall masts and huge sails. In particular there was a competition between British and American merchants, leading to the famous clipper races of the 1860s. But these races soon came to an end with the opening of the Suez Canal, which made the trade routes to China viable for steamships for the first time.</p>`,
     questions: [
       { type: 'completion', rubric: 'Questions 1-7', instruction: 'Complete the sentences Use ONE WORD ONLY for each answer. Write your answers in boxes 1-7 on your answer sheet.', items: [
-        { num: 1, beforeText: 'Researchers believed the tea containers detected in', afterText: 'from the Han Dynasty was the first evidence of the use of tea', answer: 'tombs' },
-        { num: 2, beforeText: 'Lu Yu wrote a', afterText: 'about tea before anyone else in the eighth century', answer: 'book' },
-        { num: 3, beforeText: 'It was', afterText: 'from Japan who brought tea to their native country from China', answer: 'monks' },
-        { num: 4, beforeText: 'Tea was carried from China to Europe actually by the', afterText: '', answer: 'Dutch' },
-        { num: 5, beforeText: 'The British government had to cut down the taxation on tea due to the serious crime of', afterText: '', answer: 'smuggling' },
-        { num: 6, beforeText: 'Tea was planted in', afterText: 'besides China in the 19th century', answer: 'India' },
-        { num: 7, beforeText: 'In order to compete in shipping speed, traders used', afterText: 'for the race', answer: 'clippers' }
+        { num: 1, beforeText: 'Researchers believed the tea containers detected in', afterText: 'from the Han Dynasty was the first evidence of the use of tea.', answer: 'tombs' },
+        { num: 2, beforeText: 'Lu Yu wrote a', afterText: 'about tea before anyone else in the eighth century.', answer: 'book' },
+        { num: 3, beforeText: 'It was', afterText: 'from Japan who brought tea to their native country from China.', answer: 'monks' },
+        { num: 4, beforeText: 'Tea was carried from China to Europe actually by the', afterText: '.', answer: 'Dutch' },
+        { num: 5, beforeText: 'The British government had to cut down the taxation on tea due to the serious crime of', afterText: '.', answer: 'smuggling' },
+        { num: 6, beforeText: 'Tea was planted in', afterText: 'besides China in the 19th century.', answer: 'India' },
+        { num: 7, beforeText: 'In order to compete in shipping speed, traders used', afterText: 'for the race.', answer: 'clippers' }
       ] },
       { type: 'tfng', rubric: 'Questions 8-13', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
         { num: 8, text: 'Tea was popular in Britain in the 16th century.', answer: 'FALSE' },
@@ -364,14 +364,14 @@ export const readingPassage1Tests = [
         { lineType: 'question', num: 12, beforeText: 'the University of Adelaide found that receptors in the', afterText: 'react with chilli to indicate when you\'ve had enough to eat' },
         { lineType: 'context', text: 'Using chilli as pain relief' },
         { lineType: 'context', text: 'It reacts with the part of our brain that notices a difference in temperature' },
-        { lineType: 'question', num: 13, beforeText: 'the sensation we have when eating chilli is similar to the one we have after', afterText: '...' }
+        { lineType: 'question', num: 13, beforeText: 'the sensation we have when eating chilli is similar to the one we have after', afterText: '…' }
       ], items: [
-        { num: 8, beforeText: 'chilli\'s ability to fight germs was very significant before the invention of', afterText: '', answer: 'refrigeration' },
+        { num: 8, beforeText: 'chilli\'s ability to fight germs was very significant before the invention of', afterText: '.', answer: 'refrigeration' },
         { num: 9, beforeText: 'it was thought that chilli was eaten because it causes bodies to produce', afterText: 'which reduces body heat', answer: 'sweat' },
         { num: 10, beforeText: 'books of', afterText: 'from around the world show chilli is more commonly used in certain geographical areas', answer: 'recipes' },
         { num: 11, beforeText: 'the University of Wyoming found that chilli raised the mice\'s', afterText: '', answer: 'metabolism' },
         { num: 12, beforeText: 'the University of Adelaide found that receptors in the', afterText: 'react with chilli to indicate when you\'ve had enough to eat', answer: 'stomach' },
-        { num: 13, beforeText: 'the sensation we have when eating chilli is similar to the one we have after', afterText: '...', answer: 'exercise' }
+        { num: 13, beforeText: 'the sensation we have when eating chilli is similar to the one we have after', afterText: '…', answer: 'exercise' }
       ] },
     ]
   },
