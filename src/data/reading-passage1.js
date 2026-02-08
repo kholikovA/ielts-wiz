@@ -19,7 +19,7 @@ export const readingPassage1Tests = [
         { num: 5, text: 'Plato mentions the use of olive oil in the preparation of food.', answer: 'TRUE' },
         { num: 6, text: 'North African farmers initially resisted the introduction of olive trees.', answer: 'NOT GIVEN' }
       ] },
-      { type: 'completion', rubric: 'Questions 7-12', instruction: 'Complete the flow-chart and notes below. Choose ONE WORD ONLY from the passage for each answer.', noteLines: [
+      { type: 'completion', rubric: 'Questions 7-9', instruction: 'Complete the flow-chart below. Choose ONE WORD ONLY from the passage for each answer.', noteLines: [
         { lineType: 'heading', text: 'Ancient olive oil processing' },
         { lineType: 'heading', text: 'Processing' },
         { lineType: 'question', num: 7, beforeText: 'Olives are harvested by picking them or', afterText: 'the trees' },
@@ -28,18 +28,24 @@ export const readingPassage1Tests = [
         { lineType: 'question', num: 8, beforeText: 'Olive flesh is placed in', afterText: 'and pressed.' },
         { lineType: 'context', text: 'Water is poured over the mixture' },
         { lineType: 'question', num: 9, beforeText: 'Resulting liquid is given time to settle and separate, and', afterText: 'is used to aid the process' },
-        { lineType: 'context', text: 'Oil is drawn off and separation repeated. However, Romans had practical applications for amurca:' },
-        { lineType: 'question', num: 10, beforeText: 'When dried, created hard surface, so used on', afterText: 'of certain buildings' },
-        { lineType: 'question', num: 11, beforeText: 'Used when making', afterText: 'into goods to wear' },
-        { lineType: 'question', num: 12, beforeText: 'used on farms as a', afterText: '' },
-        { lineType: 'context', text: 'to stop insects or animals damaging crops' }
+        { lineType: 'context', text: 'Oil is drawn off and separation repeated.' }
       ], items: [
         { num: 7, beforeText: 'Olives are harvested by picking them or', afterText: 'the trees', answer: 'beating' },
         { num: 8, beforeText: 'Olive flesh is placed in', afterText: 'and pressed.', answer: 'bags' },
-        { num: 9, beforeText: 'Resulting liquid is given time to settle and separate, and', afterText: 'is used to aid the process', answer: 'salt' },
-        { num: 10, beforeText: 'When dried, created hard surface, so used on', afterText: 'of certain buildings', answer: 'floors' },
-        { num: 11, beforeText: 'Used when making', afterText: 'into goods to wear', answer: 'leather' },
-        { num: 12, beforeText: 'used on farms as a', afterText: '', answer: 'pesticide' }
+        { num: 9, beforeText: 'Resulting liquid is given time to settle and separate, and', afterText: 'is used to aid the process', answer: 'salt' }
+      ] },
+      { type: 'completion', rubric: 'Questions 10-13', instruction: 'Complete the notes below. Choose ONE WORD ONLY from the passage for each answer.', noteLines: [
+        { lineType: 'heading', text: 'Amurca' },
+        { lineType: 'question', num: 10, beforeText: 'In ancient times, this waste liquid was usually thrown away, which led to', afterText: '. However, Romans had practical applications for amurca:' },
+        { lineType: 'question', num: 11, beforeText: 'when dried, created hard surface, so used on', afterText: 'of certain buildings' },
+        { lineType: 'question', num: 12, beforeText: 'used when making', afterText: 'into goods to wear' },
+        { lineType: 'context', text: 'fed to livestock' },
+        { lineType: 'question', num: 13, beforeText: 'used on farms as a', afterText: 'to stop insects or animals damaging crops' }
+      ], items: [
+        { num: 10, beforeText: 'In ancient times, this waste liquid was usually thrown away, which led to', afterText: '. However, Romans had practical applications for amurca:', answer: 'pollution' },
+        { num: 11, beforeText: 'when dried, created hard surface, so used on', afterText: 'of certain buildings', answer: 'floors' },
+        { num: 12, beforeText: 'used when making', afterText: 'into goods to wear', answer: 'leather' },
+        { num: 13, beforeText: 'used on farms as a', afterText: 'to stop insects or animals damaging crops', answer: 'pesticide' }
       ] },
     ]
   },
@@ -839,7 +845,7 @@ export const readingPassage1Tests = [
     ]
   },
   {
-    id: 31,
+    id: 21,
     title: 'A Survivor\'s Story',
     subtitle: 'One native bird in New Zealand that has managed to survive the introduction of non-native species',
     passage: `<p>As an island country with a fauna dominated by birds, New Zealand was once home to an owl species which is now extinct, the laughing owl, named for its distinctive cry. This bird was widespread throughout the islands when European settlers arrived in the middle of the 19th century and it remained in good numbers for some years thereafter. Where other native birds suffered from predation by the Polynesian rat, the laughing owl turned the tables and adapted its diet to include the rodent. It was also capable of catching and killing the other New Zealand owl, the morepork, and even larger birds, such as the weka. However, the laughing owl was wiped out around the beginning of the 20th century. Its demise caused by specimen collectors, habitat changes, and non-native predators including cats and stoats. Surprisingly, it is the smaller owl, the morepork, that has managed to survive until this day.</p>
@@ -885,7 +891,7 @@ export const readingPassage1Tests = [
     ]
   },
   {
-    id: 32,
+    id: 22,
     title: 'Wood: a Valuable Resource in New Zealand\'s Economy',
     subtitle: 'How timber has shaped New Zealand\'s economy and the challenges facing its forestry industry',
     passage: `<p><strong>A</strong> During the settlement of New Zealand by European immigrants, natural timbers played a major role. Wood was easily accessible and relatively cheap. A tradition of wooden houses arose, supported by the recognition that they were less likely to collapse suddenly during earthquakes, a not infrequent event in this part of the world. But in addition to demand from the domestic market, there was also a demand for forest products from overseas.</p>
@@ -919,7 +925,7 @@ export const readingPassage1Tests = [
     ]
   },
   {
-    id: 33,
+    id: 23,
     title: 'Portrait of Bianca Sforza',
     subtitle: 'A controversial portrait and the debate over whether it is a lost work by Leonardo da Vinci',
     passage: `<p>In 2010, a discovery shook the art world. A portrait of a young woman, purchased at a small auction in Switzerland for a modest sum, was identified by some experts as a previously unknown work by Leonardo da Vinci. The painting, known as La Bella Principessa, depicts Bianca Sforza, the illegitimate daughter of Ludovico Sforza, Duke of Milan. If authentic, it would not only expand da Vinci's already extraordinary oeuvre, but also change our understanding of his work during the late 15th century.</p>
@@ -952,7 +958,7 @@ export const readingPassage1Tests = [
     ]
   },
   {
-    id: 34,
+    id: 24,
     title: 'The Pearl',
     subtitle: 'The long and fascinating history of one of nature\'s most prized gems',
     passage: `<p><strong>A</strong> The pearl has always had a special status in the rich and powerful all through the history. For instance, women from ancient Rome went to bed with pearls on them, so that they could remind themselves how wealthy they were after waking up. Pearls used to have more commercial value than diamonds until jewellers learnt to cut gems. In the eastern countries like Persia, ground pearl powders could be used as a medicine to cure anything including heart diseases and epilepsy.</p>
@@ -986,7 +992,7 @@ export const readingPassage1Tests = [
     ]
   },
   {
-    id: 35,
+    id: 25,
     title: 'Ambergris - What is it and Where Does it Come From?',
     subtitle: 'The origins and uses of a rare substance produced in the digestive system of sperm whales',
     passage: `<p>Ambergris was used to perfume cosmetics in the days of ancient Mesopotamia and almost every civilization on the earth has a brush with Ambergris. Before 1,000 AD, the Chinese names ambergris as lung sien hiang, “dragon’s spittle perfume,” as they think that it was produced from the drooling of dragons sleeping on rocks at the edge of a sea. The Arabs knew ambergris as anbar who believed that it is produced from springs near seas. It also gets its name from here. For centuries, this substance has also been used as a flavouring for food.</p>
@@ -1019,7 +1025,7 @@ export const readingPassage1Tests = [
     ]
   },
   {
-    id: 36,
+    id: 26,
     title: 'Tulip Mania',
     subtitle: 'How a single flower sparked one of history\'s most famous economic bubbles in 17th-century Holland',
     passage: `<p><strong>A</strong> Centuries before anyone ever heard of high-tech stocks such as Qualcomm, CMGI, or Cisco Systems, a tulip in 17th century Holland caused quite the stir. The Semper Augustus was a tulip of extraordinary grandeur, with midnight blue petals topped by a pure white band and highlighted with crimson flares. For the Dutch, there were few things more valuable than the Semper Augustus tulips.</p>
@@ -1054,7 +1060,7 @@ export const readingPassage1Tests = [
     ]
   },
   {
-    id: 37,
+    id: 27,
     title: 'Caral: an Ancient South American City',
     subtitle: 'Discoveries at one of the oldest urban centres in the Americas reveal a complex ancient society',
     passage: `<p>Huge earth and rock mounds rise out of the desert of the Supe Valley near the coast of Peru in South America. These immense mounds appear simply to be part of the geographical landscape in this arid region squeezed between the Pacific Ocean and the Andes mountains. But looks deceive. These are actually human-made pyramids. Strong evidence indicates they are the remains of a city known as Caral that flourished nearly 5,000 years ago. If true, it would be the oldest known urban center in the Americas and among the most ancient in the world.</p>
@@ -1097,7 +1103,7 @@ export const readingPassage1Tests = [
     ]
   },
   {
-    id: 38,
+    id: 28,
     title: 'The History of Tea',
     subtitle: 'How a chance discovery in ancient China gave rise to the world\'s most popular beverage',
     passage: `<p>The story of tea begins in China. According to legend, in 2737 BC, the Chinese emperor Shen Nung was sitting beneath a tree while his servant boiled drinking water, when some leaves from the tree blew into the water. Shen Nung, a renowned herbalist, decided to try the infusion that his servant had accidentally created. The tree was a Camellia sinensis, and the resulting drink was what we now call tea. It is impossible to know whether there is any truth in this story. But tea drinking certainly became established in China many centuries before it had even been heard of in the West. Containers for tea have been found in tombs dating from the Han Dynasty (206 BC—220 AD) but it was under the Tang Dynasty (618—906 AD), that tea became firmly established as the national drink of China.</p>
@@ -1128,7 +1134,7 @@ export const readingPassage1Tests = [
     ]
   },
   {
-    id: 39,
+    id: 29,
     title: 'The Life of Beatrix Potter',
     subtitle: 'The children\'s author and illustrator who created Peter Rabbit',
     passage: `<p>Beatrix Potter is one of the best-selling children's authors of all time. Her popular series of books that includes The Tale of Peter Rabbit was first published over one hundred years ago, and has never been out of print. Generations of children have enjoyed her many stories and illustrations, all of which celebrate the English lifestyle and rural landscape through the adventures of animals.</p>
@@ -1173,7 +1179,7 @@ export const readingPassage1Tests = [
     ]
   },
   {
-    id: 40,
+    id: 30,
     title: 'Chilli Peppers',
     subtitle: 'The science behind why we love the burn and the surprising health benefits of eating chillies',
     passage: `<p>For thousands of years, humans have taken painful pleasure from adding chillies (also known as peppers or chilli peppers) to their food. A study published in the British Medical Journal in 2015 indicated that a diet filled with spices - including chillies - was beneficial for health. The study, which was carried out by scientists at the Chinese Academy of Medical Sciences, tracked the health of nearly half a million participants in China for several years. They found that participants who ate spicy food once or twice a week had a mortality rate 10% lower than those who ate spicy food less than once a week. Risk of death reduced still further for people who ate spicy food six or seven days a week. Chilli peppers were the most commonly used spice among the sample, and those who ate fresh chilli had a lower probability of death from cancer, heart disease and diabetes.</p>
@@ -1213,5 +1219,627 @@ export const readingPassage1Tests = [
         { num: 13, beforeText: 'the sensation we have when eating chilli is similar to the one we have after', afterText: '…', answer: 'exercise' }
       ] },
     ]
+  },
+  {
+    id: 31,
+    title: 'How to find your way out of a food desert',
+    subtitle: 'How some communities are finding innovative ways to bring fresh food to underserved areas',
+    passage: `<p>Over the last few months, a survey has been carried out of over 200 greengrocers and convenience stores in Crown Heights, a neighborhood in Brooklyn, New York. As researchers from the Brooklyn Food Association enter the details, colorful dots appear on their online map, which display the specific location of each of the food stores in a handful of central Brooklyn neighborhoods. Clicking on a dot will show you the store's name and whether it carries fresh fruit and vegetables, wholegrain bread, low-fat dairy and other healthy options.</p>
+<p>The researchers plan eventually to survey the entire borough of Brooklyn. ‘We want to get to a more specific and detailed description of what that looks like’, says Jeffrey Heehs, who leads the project. He hopes it will help residents find fresh food in urban areas where the stores sell mostly packaged snacks or fast food, areas otherwise known as food deserts. The aim of the project is also to assist government officials in assessing food availability, and in forming future policies about what kind of food should be sold and where.</p>
+<p>In fact, the Brooklyn project represents the intersection of two growing trends: mapping fresh food markets in US cities, and private citizens creating online maps of local neighborhood features. According to Michael Goodchild, a geographer at the University of California at Santa Barbara, citizen map makers may make maps because there is no good government map, or to record problems such as burned-out traffic lights.</p>
+<p>According to recent studies, people at higher risk of chronic disease and who receive minimal incomes for the work they do, frequently live in neighborhoods located in food deserts. But how did these food deserts arise? Linda Alwitt and Thomas Donley, marketing researchers at DePaul University in Chicago, found that supermarkets often can’t afford the amount of land required for their stores in cities. City planning researcher Cliff Guy and colleagues at the University of Leeds in the UK found in 2004 that smaller urban groceries tend to close due to competition from suburban supermarkets.</p>
+<p>As fresh food stores leave a neighborhood, residents find it harder to eat well and stay healthy. Food deserts are linked with lower local health outcomes, and they may be a driving force in the health disparities between lower-income and affluent people in the US. Until recently, the issue attracted little national attention, and received no ongoing funding for research.</p>
+<p>Now, more US cities are becoming aware of their food landscapes. Last year, the United States Department of Agriculture launched a map of where food stores are located in all the US counties. Mari Gallagher, who runs a private consulting firm, says her researchers have mapped food stores and related them to health statistics for the cities of Detroit, Chicago, Cincinnati and Washington, D.C. These maps help cities identify where food deserts are and, occasionally, have documented that people living in food deserts have higher rates of diet-related diseases.</p>
+<p>The Brooklyn project differs in that it’s run by a local core of five volunteers who have worked on the project for the past year, rather than trained, academic researchers. To gather data, they simply go to individual stores with pre-printed surveys in hand, and once the storekeeper's permission has been obtained, check off boxes on their list against the products for sale in the store. Their approach to data collection and research has been made possible by technologies such as mapping software and GPS-related smart phones, Google Maps and OpenStreetMap, an open-source online map with a history of involvement in social issues. Like Brooklyn Food Association volunteers, many citizen online map makers use maps to bring local problems to official attention, Goodchild says. Heehs, the mapping project leader, says that after his group gathers more data, it will compare neighborhoods, come up with solutions to address local needs, and then present them to New York City officials. Their website hasn’t caught them much local or official attention yet, however. It was launched only recently, but its creators haven’t yet set up systems to see who’s looking at it.</p>
+<p>Experts who visited the Brooklyn group’s site were optimistic but cautious. ‘This kind of detailed information could be very useful’ says Michele Ver Ploeg, an economist for the Department of Agriculture. To make the map more helpful to both residents and policy makers, she would like to see price data for healthy products, too. Karen Ansel, a registered dietician and a spokesperson for the American Dietetic Association, found the site confusing to navigate. ‘That said, with this information in place the group has the tools to build a more user-friendly site that could be ... very helpful to consumers’, she says. ‘The group also should ensure their map is available to those who don’t have internet access at home’, she adds. In fact, a significant proportion of Brooklyn residents don’t have internet access at home and 8 percent rely on dial-up service, instead of high-speed internet access, according to Gretchen Maneval, director of Brooklyn College’s Center for the study of Brooklyn. ‘It’s still very much a work in progress’, Heehs says of the online map. They’ll start advertising it online and by email to other community groups, such as urban food garden associations, next month. He also hopes warmer days in the spring will draw out fresh volunteers to spread awareness and to finish surveying, as they have about two-thirds of Brooklyn left to cover.</p>`,
+    questions: [
+      { type: 'completion', rubric: 'Questions 1-6', instruction: 'Complete the notes below. Choose ONE WORD ONLY from the passage for each answer.',
+      noteLines: [
+        { lineType: 'heading', text: 'Data on food deserts and their effects on health' },
+        { lineType: 'heading', text: 'The Brooklyn Food Association' },
+        { lineType: 'question', num: 1, beforeText: '• The online map provides users with a store\'s name,', afterText: '1 and details of its produce' },
+        { lineType: 'question', num: 2, beforeText: '• One goal of the mapping project is to help develop new', afterText: '2 on food.' },
+        { lineType: 'question', num: 3, beforeText: '• Citizen maps are sometimes made when', afterText: '3 maps are unsatisfactory.' },
+        { lineType: 'heading', text: 'Reasons for the development of food deserts' },
+        { lineType: 'question', num: 4, beforeText: '• New research suggests that people living in food deserts often have low', afterText: '4.' },
+        { lineType: 'question', num: 5, beforeText: '• Some supermarkets are unable to buy enough', afterText: '5 inside cities for their stores.' },
+        { lineType: 'question', num: 6, beforeText: '• Small grocery stores in cities often cannot cope with supermarket', afterText: '6.' },
+      ],
+      items: [
+        { num: 1, beforeText: '• The online map provides users with a store\'s name,', afterText: '1 and details of its produce', answer: 'location' },
+        { num: 2, beforeText: '• One goal of the mapping project is to help develop new', afterText: '2 on food.', answer: 'policies' },
+        { num: 3, beforeText: '• Citizen maps are sometimes made when', afterText: '3 maps are unsatisfactory.', answer: 'government' },
+        { num: 4, beforeText: '• New research suggests that people living in food deserts often have low', afterText: '4.', answer: 'incomes' },
+        { num: 5, beforeText: '• Some supermarkets are unable to buy enough', afterText: '5 inside cities for their stores.', answer: 'land' },
+        { num: 6, beforeText: '• Small grocery stores in cities often cannot cope with supermarket', afterText: '6.', answer: 'suburban' },
+      ] },
+      { type: 'tfng', rubric: 'Questions 7-13', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
+        { num: 7, text: 'A group of professional researchers are in charge of the Brooklyn project.', answer: 'FALSE' },
+        { num: 8, text: 'The Brooklyn project team carries out their assessment of stores without the owner\'s knowledge.', answer: 'FALSE' },
+        { num: 9, text: 'The Brooklyn project has experienced technical difficulties setting up the website.', answer: 'NOT GIVEN' },
+        { num: 10, text: 'The city government has taken a considerable interest in the Brooklyn project website.', answer: 'FALSE' },
+        { num: 11, text: 'Michele Ver Ploeg believes the Brooklyn project website should contain additional information.', answer: 'TRUE' },
+        { num: 12, text: 'The rate of internet use in Brooklyn is unlikely to increase in the near future.', answer: 'NOT GIVEN' },
+        { num: 13, text: 'Jeffrey Heehs would like more people to assist with the Brooklyn project research.', answer: 'TRUE' },
+      ] },
+    ],
+    answers: {
+      1: 'location',
+      2: 'policies',
+      3: 'government',
+      4: 'incomes',
+      5: 'land',
+      6: 'suburban',
+      7: 'FALSE',
+      8: 'FALSE',
+      9: 'NOT GIVEN',
+      10: 'FALSE',
+      11: 'TRUE',
+      12: 'NOT GIVEN',
+      13: 'TRUE',
+    }
+  },
+  {
+    id: 32,
+    title: 'Lever Brothers\' Sunlight Soap: A Revolution in Hygiene and Industry',
+    subtitle: 'How a Victorian soap brand transformed hygiene habits across Britain',
+    passage: `<p><strong>A</strong> Sunlight Soap, produced by the Lever Brothers in the late 19th century, was a groundbreaking product in hygiene. While cleanliness was not universally prioritised, Sunlight Soap not only introduced a revolutionary product but also played a crucial role in transforming industrial production, what would later become Unilever, one of the world's largest multinational corporations.</p>
+<p><strong>B</strong> The story of Sunlight Soap begins in 1884, when William Hesketh Lever and his brother James Darcy Lever established the Lever Brothers company in England. They sought to create a high-quality soap that was both affordable and effective in promoting hygiene. The Lever Brothers aimed to change this by producing a soap that was easy to use and gentle while maintaining strong cleansing properties. The innovation of soap-making, Sunlight Soap was manufactured using a blend of vegetable oils and alkali, resulting in a more consistent and superior-quality product. This not only improved the soap's effectiveness but also made it a more ethical and sustainable option compared with its contemporaries.</p>
+<p><strong>C</strong> Beyond the product itself, the Lever Brothers were pioneers in marketing and branding. They understood the power of advertising and created memorable, persuasive campaigns for Sunlight Soap. These advertisements emphasised a healthy home. The company's purity, it used a variety of fight germs, from newspapers and magazines to colourful posters and collectable cards, to reach a wide audience. This aggressive and innovative marketing strategy helped create a strong brand identity and fostered customer loyalty.</p>
+<p><strong>D</strong> The company also revolutionised industrial relations and worker welfare. In 1888, Lever Brothers built a purpose-built factory and village called Port Sunlight on the Wirral Peninsula. This model village was designed to provide high-quality housing, amenities, and welfare benefits for its employees. It was considered revolutionary gardens, schools, this approach recreational part of William Lever's philosophy of "prosperity sharing", where he believed that a healthy and content workforce would lead to greater productivity and set a standard for employee welfare.</p>
+<p><strong>E</strong> The impact of Sunlight Soap on public health was significant. It contributed to improving the importance of cleanliness and accessible health practices among the general public. This was particularly important in an era before the widespread understanding of germ theory. The widespread use of soap like Sunlight played a role in reducing the incidence of infectious diseases, thereby improving overall public health standards in Britain and beyond.</p>
+<p><strong>F</strong> The phenomenal success of Sunlight Soap provided the capital and brand recognition for the Lever Brothers to expand their operations globally. They began acquiring other soap and food companies, with the Dutch margarine company, Margarine Unie. This merger formed Unilever, a dual-headed company structure that remains unique to this day. The creation of Unilever marked the beginning of a new era, transforming a single soap product into a global consumer goods empire.</p>`,
+    questions: [
+      { type: 'matching-info', rubric: 'Questions 1-6', instruction: 'Which paragraph contains the following information?', items: [
+        { num: 1, text: 'A description of the advertising methods used to promote the soap', answer: 'C' },
+        { num: 2, text: 'The reason why a particular location was constructed for workers', answer: 'D' },
+        { num: 3, text: 'The way the success of one product led to the creation of a major corporation', answer: 'F' },
+        { num: 4, text: 'The various health benefits for society resulting from the use of the soap', answer: 'E' },
+        { num: 5, text: 'The original business goal of the Lever brothers', answer: 'A' },
+        { num: 6, text: 'The establishment of the company and its production innovation', answer: 'B' },
+      ] },
+      { type: 'completion', rubric: 'Questions 7-13', instruction: 'Complete the summary below. Choose ONE WORD ONLY from the passage for each answer.',
+      noteLines: [
+        { lineType: 'heading', text: 'Sunlight Soap: Key Facts' },
+        { lineType: 'question', num: 7, beforeText: '• Founders: William Hesketh Lever and', afterText: '7' },
+        { lineType: 'question', num: 8, beforeText: '• Key company established:', afterText: '8' },
+        { lineType: 'question', num: 9, beforeText: '• Used', afterText: 'and alkali instead of animal fats and wood ash 9' },
+        { lineType: 'question', num: 10, beforeText: '• Resulted in a product that was more consistent, superior, and', afterText: '10' },
+        { lineType: 'question', num: 11, beforeText: '• Marketing &amp; Branding: focused on purity and fighting', afterText: '11' },
+        { lineType: 'context', text: '• Worker Welfare:' },
+        { lineType: 'question', num: 12, beforeText: '• Built a model village called', afterText: '12' },
+        { lineType: 'question', num: 13, beforeText: '• Based on the philosophy of "', afterText: '"13' },
+      ],
+      items: [
+        { num: 7, beforeText: '• Founders: William Hesketh Lever and', afterText: '7', answer: 'James Darcy Lever' },
+        { num: 8, beforeText: '• Key company established:', afterText: '8', answer: '1884' },
+        { num: 9, beforeText: '• Used', afterText: 'and alkali instead of animal fats and wood ash 9', answer: 'vegetable oils' },
+        { num: 10, beforeText: '• Resulted in a product that was more consistent, superior, and', afterText: '10', answer: 'ethical/sustainable' },
+        { num: 11, beforeText: '• Marketing &amp; Branding: focused on purity and fighting', afterText: '11', answer: 'germs' },
+        { num: 12, beforeText: '• Built a model village called', afterText: '12', answer: 'Port Sunlight' },
+        { num: 13, beforeText: '• Based on the philosophy of "', afterText: '"13', answer: 'prosperity sharing' },
+      ] },
+    ],
+    answers: {
+      1: 'C',
+      2: 'D',
+      3: 'F',
+      4: 'E',
+      5: 'A',
+      6: 'B',
+      7: 'James Darcy Lever',
+      8: '1884',
+      9: 'vegetable oils',
+      10: 'ethical/sustainable',
+      11: 'germs',
+      12: 'Port Sunlight',
+      13: 'prosperity sharing',
+    }
+  },
+  {
+    id: 33,
+    title: 'Carnivorous plant',
+    subtitle: 'How certain plants have evolved to trap and consume insects and other small creatures',
+    passage: `<p>They attract insects and then eat their flesh. Is that any way for a plant to behave? The naturalist and author of Origin of Species, Charles Darwin, was fascinated by carnivorous plants. In 1860, soon after he came across his first carnivorous plant —the sundew, Drosera—he wrote, ‘I care more about Drosera than the origin of all the species in the world.’ He spent months running experiments on the plants. He dropped flies and bits of meat on their leaves and watched them slowly fold their sticky tentacles over their prey. He thought it incredible that brushing a leaf with a single strand of human hair was enough to bring about a response. Yet sundews, he observed, ignored raindrops. To react to such a false alarm, he reasoned, would obviously be a great evil to the plant. This was no accident. This was adaptation. Darwin expanded his studies from sundews to other species in his book Insectivorous Plants. He was amazed at the quickness and power of the Venus flytrap. He showed that when one of its leaves snapped shut, it formed itself into a temporary ‘stomach’, secreting enzymes that could dissolve the prey. He noted that a leaf took more than a week to reopen after closing, and reasoned that the interlocking spines along the margin of the leaf allowed tiny insects to escape, saving the plant the expense of digesting an insufficient meal. Today, biologists using 21st-century tools to study cells and DNA are beginning to understand how these plants hunt, eat, and digest — and how these strange adaptations came about in the first place. Alexander Volkov, a plant physiologist at Oakwood University in Alabama, believes he has figured out the Venus flytrap’s secret. ‘This,’ Volkov declares, ‘is an electrical plant.’ When an insect brushes against a hair on the leaf of a Venus flytrap, the movement sets off an electric charge. The charge builds up inside the tissue of the leaf but is not enough to stimulate the snap, which keeps the Venus flytrap from reacting to false alarms, such as raindrops. An insect, however, is likely to brush a second hair, adding enough electric charge for the leaf to close. Volkov’s experiments reveal that the electric charge travels down fluid-filled tunnels in a leaf, which opens up pores in cell membranes. Water rushes from the cells on the inside of the leaf to those on the outside, causing the leaf to rapidly flip in shape from convex to concave, like a soft contact lens. As the leaves flip, they snap together, trapping an insect inside. The bladderwort plant has an equally sophisticated way of setting its underwater trap. It pumps water out of tiny air sacs or bladders, lowering the pressure inside. When a water flea or some other small creature swims past, it bends hairs on the bladder, causing a flap to spring apart. The low pressure sucks water in, carrying the creature along with it. In one five-hundredth of a second, the flap swings shut again. The cells in the bladder then begin to pump water out again, creating a new vacuum. Many other species of carnivorous plants act like living flypaper, catching animals on sticky tentacles. Pitcher plants use yet another strategy, growing long tube-shaped leaves into which insects fall. Some of the largest have pitchers up to 30cm deep and can consume whole frogs unlucky enough to fall into them. Sophisticated chemistry helps make the pitcher a death trap. Nicholas Gotelli, of the University of Vermont, is trying to figure out what evolutionary force pushed these plants towards meat. Carnivorous plants clearly benefit from eating animals; when scientists feed pitcher plants extra bugs, the plants get bigger. But the benefits of eating flesh are not the ones you might expect. Carnivorous animals, like ourselves, use the carbon in protein and the fat in meat to build muscles and store energy. Carnivorous plants, however, take nitrogen and phosphorus from the flesh in order to build light-harvesting enzymes. Eating animals, in other words, lets carnivorous plants do what all plants do: grow by taking energy directly from the sun. Unfortunately, they do a really bad job of it. That’s because they have to use a lot of energy to make the equipment they need to catch animals — the enzymes, the pumps, the sticky tentacles, and so on. A pitcher or a flytrap is not very good at photosynthesis because, unlike plants with ordinary leaves, they do not have flat solar panels that can absorb lots of sunlight. Gotelli suspects that only under special conditions are the benefits of being carnivorous greater than the costs. The poor soil of bogs and swamps, where many carnivorous plants grow, offers little nitrogen and phosphorus, so carnivorous plants enjoy an advantage there over ‘conventional’ plants. Also, bogs are often flooded with sunshine, so even an inefficient carnivorous plant can carry out enough photosynthesis to survive. ‘They’re stuck, and they’re making the best of it,’ says Aaron Ellison of Harvard University. Unfortunately, the adaptations that enable carnivorous plants to survive in harsh habitats also make them extremely sensitive to environmental changes. Chemical fertilizers used in agriculture and pollution from power plants are adding extra nitrogen to many bogs in North America. Carnivorous plants are so finely adapted to low levels of nitrogen that this extra fertilizer is overloading their systems. Humans also threaten carnivorous plants in other ways. The black market trade in exotic carnivorous plants is strong, but even if this can be prevented, carnivorous plants will continue to suffer from other dangers. Their habitat is disappearing, to be replaced by shopping centers and houses. The suppression of wildfires by government agencies allows other plants to grow quickly and outcompete the Venus flytraps. Good news, perhaps, for flies. But a loss for all who delight in the inventiveness of evolution.</p>`,
+    questions: [
+      { type: 'completion', rubric: 'Questions 1-5', instruction: 'Complete the notes below. Choose ONE WORD ONLY from the passage for each answer.',
+      noteLines: [
+        { lineType: 'heading', text: 'Carnivorous Plants' },
+        { lineType: 'context', text: 'Darwin\'s experiments:' },
+        { lineType: 'context', text: 'Drosera' },
+        { lineType: 'question', num: 1, beforeText: 'He put insects and small amounts of meat onto leaves and observed what happened. He was amazed that one human hair triggered a response. He understood why the plant did not respond to', afterText: '1.' },
+        { lineType: 'context', text: 'Venus Flytrap' },
+        { lineType: 'question', num: 2, beforeText: 'He demonstrated how leaves close and then, for a short period, act like a', afterText: '2. He noted the structure of leaves ensures small insects are released.' },
+        { lineType: 'context', text: 'Biology today:' },
+        { lineType: 'context', text: 'Venus Flytrap' },
+        { lineType: 'question', num: 3, beforeText: 'If insects come into contact with leaf hairs, their movement produces an electric charge. The charge enters fluid-filled tunnels, causing', afterText: '3 in the cell walls to open. Water moves between cells and then the leaf changes from convex to concave, trapping the insect inside.' },
+        { lineType: 'context', text: 'Bladderwort' },
+        { lineType: 'question', num: 4, beforeText: 'Hairs bend when insects swim past, resulting in opening of a flap. Water is sucked in. When water is pumped out of bladder cells, a', afterText: '4 builds up inside.' },
+        { lineType: 'context', text: 'Pitcher Plants' },
+        { lineType: 'question', num: 5, beforeText: 'The plants have tube-shaped leaves that insects fall into. Some plants are big enough to capture and eat', afterText: '5.' },
+      ],
+      items: [
+        { num: 1, beforeText: 'He put insects and small amounts of meat onto leaves and observed what happened. He was amazed that one human hair triggered a response. He understood why the plant did not respond to', afterText: '1.', answer: 'raindrops' },
+        { num: 2, beforeText: 'He demonstrated how leaves close and then, for a short period, act like a', afterText: '2. He noted the structure of leaves ensures small insects are released.', answer: 'stomach' },
+        { num: 3, beforeText: 'If insects come into contact with leaf hairs, their movement produces an electric charge. The charge enters fluid-filled tunnels, causing', afterText: '3 in the cell walls to open. Water moves between cells and then the leaf changes from convex to concave, trapping the insect inside.', answer: 'pores' },
+        { num: 4, beforeText: 'Hairs bend when insects swim past, resulting in opening of a flap. Water is sucked in. When water is pumped out of bladder cells, a', afterText: '4 builds up inside.', answer: 'vacuum' },
+        { num: 5, beforeText: 'The plants have tube-shaped leaves that insects fall into. Some plants are big enough to capture and eat', afterText: '5.', answer: 'frogs' },
+      ] },
+      { type: 'tfng', rubric: 'Questions 6-13', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
+        { num: 6, text: 'Pitcher plants increase in size after they have digested a lot of insects.', answer: 'TRUE' },
+        { num: 7, text: 'Carnivorous plants produce light-harvesting enzymes with the nutrients they extract from animals.', answer: 'TRUE' },
+        { num: 8, text: 'Pitcher plants and Venus flytraps are more efficient at photosynthesis than plants with ordinary leaves.', answer: 'FALSE' },
+        { num: 9, text: 'Venus flytraps are better adapted to the soil of swamps and bogs than other carnivorous plants.', answer: 'NOT GIVEN' },
+        { num: 10, text: 'Carnivorous plants frequently find it difficult to photosynthesise in bogs due to a lack of sunlight.', answer: 'FALSE' },
+        { num: 11, text: 'Scientists have campaigned to reduce the amount of nitrogen that is released into the soil by agricultural practices.', answer: 'NOT GIVEN' },
+        { num: 12, text: 'A lot of exotic carnivorous plants are sold illegally.', answer: 'TRUE' },
+        { num: 13, text: 'Preventing wildfires is beneficial to the Venus flytrap.', answer: 'FALSE' },
+      ] },
+    ],
+    answers: {
+      1: 'raindrops',
+      2: 'stomach',
+      3: 'pores',
+      4: 'vacuum',
+      5: 'frogs',
+      6: 'TRUE',
+      7: 'TRUE',
+      8: 'FALSE',
+      9: 'NOT GIVEN',
+      10: 'FALSE',
+      11: 'NOT GIVEN',
+      12: 'TRUE',
+      13: 'FALSE',
+    }
+  },
+  {
+    id: 34,
+    title: 'The Impact of the Potato',
+    subtitle: 'How a humble tuber from South America transformed agriculture and society around the world',
+    passage: `<p>The potato was first cultivated in South America between three and seven thousand years ago, though scientists believe they may have grown wild in the region as long as 13,000 years ago. The genetic patterns of potato distribution indicate that the potato probably originated in the mountainous west-central region of the continent.</p>
+<p>Early Spanish chroniclers who misused the Indian word batata (sweet potato) as the name for the potato noted the importance of the tuber to the Incan Empire. The Incas had learned to preserve the potato for storage by dehydrating and mashing potatoes into a substance called Chuchu could be stored in a room for up to 10 years, providing excellent insurance against possible crop failures. As well as using the food as a staple crop, the Incas thought potatoes made childbirth easier and used it to treat injuries.</p>
+<p>The Spanish conquistadors first encountered the potato when they arrived in Peru in 1532 in search of gold, and noted Inca miners eating chuchu. At the time the Spaniards failed to realize that the potato represented a far more important treasure than either silver or gold, but they did gradually begin to use potatoes as basic rations aboard their ships. After the arrival of the potato in Spain in 1570 a few Spanish farmers began to cultivate them on a small scale, mostly as food for livestock.</p>
+<p>Throughout Europe, potatoes were regarded with suspicion, distaste and fear. Generally considered to be unfit for human consumption, they were used only as animal fodder and sustenance for the starving. In northern Europe, potatoes were primarily grown in botanical gardens as an exotic novelty. Even peasants refused to eat from a plant that produced ugly, misshapen tubers and that had come from a heathen civilization. Some felt that the potato plant’s resemblance to plants in the nightshade family hinted that it was the creation of witches or devils.</p>
+<p>In meat-loving England, farmers and urban workers regarded potatoes with extreme distaste. In 1662, the Royal Society recommended the cultivation of the tuber to the English government and the nation, but this recommendation had little impact. Potatoes did not become a staple until, during the food shortages associated with the Revolutionary Wars, the English government began to officially encourage potato cultivation. In 1795, the Board of Agriculture issued a pamphlet entitled “Hints Respecting the Culture and Use of Potatoes” this was followed shortly by pro-potato editorials and potato recipes in The Times. Gradually, the lower classes began to follow the lead of the upper classes.</p>
+<p>A similar pattern emerged across the English Channel in the Netherlands, Belgium and France. While the potato slowly gained ground in eastern France (where it was often the only crop remaining after marauding soldiers plundered wheat fields and vineyards), it did not achieve widespread acceptance until the late 1700s. The peasants remained suspicious, in spite of a 1771 paper from the Facult de Paris testifying that the potato was not harmful but beneficial. The people began to overcome their distaste when the plant received the royal seal of approval: Louis XVI began to sport a potato flower in his buttonhole, and Marie-Antoinette wore the purple potato blossom in her hair.</p>
+<p>Frederick the Great of Prussia saw the potato’s potential to help feed his nation and lower the price of bread, but faced the challenge of overcoming the people’s prejudice against the plant. When he issued a 1774 order for his subjects to grow potatoes as protection against famine, the town of Kolberg replied: “The things have neither smell nor taste, not even the dogs will eat them, so what use are they to us?” Trying a less direct approach to encourage his subjects to begin planting potatoes, Frederick used a bit of reverse psychology: he planted a royal field of potato plants and stationed a heavy guard to protect this field from thieves. Nearby peasants naturally assumed that anything worth guarding was worth stealing, and so snuck into the field and snatched the plants for their home gardens. Of course, this was entirely in line with Frederick’s wishes.</p>
+<p>Historians debate whether the potato was primarily a cause or an effect of the huge population boom in industrial-era England and Wales. Prior to 1800 the English diet had consisted primarily of meat, supplemented by bread, butter and cheese. Few vegetables were consumed, most vegetables being regarded as nutritionally worthless and potentially harmful. This view began to change gradually in the late 1700s. The Industrial Revolution was drawing an ever increasing percentage of the populace into crowded cities, where only the richest could afford homes with ovens or coal storage rooms, and people were working 12-16 hour days which left them with little time or energy to prepare food. High yielding, easily prepared potato crops were the obvious solution to England’s food problems.</p>
+<p>Whereas most of their neighbors regarded the potato with suspicion and had to be persuaded to use it by the upper classes, the Irish peasantry embraced the tuber more passionately than anyone since the Incas. The potato was well suited to the Irish the soil and climate, and its high yield suited the most important concern of most Irish farmers: to feed their families.</p>
+<p>The most dramatic example of the potato’s potential to alter population patterns occurred in Ireland, where the potato had become a staple by 1800. The Irish population doubled to eight million between 1780 and 1841 this without any significant expansion of industry or reform of agricultural techniques beyond the widespread cultivation of the potato. Though Irish landholding practices were primitive in comparison with those of England, the potato’s high yields allowed even the poorest farmers to produce more healthy food than they needed with scarcely any investment or hard labor. Even children could easily plant, harvest and cook potatoes, which of course required no threshing, curing or grinding. The abundance provided by potatoes greatly decreased infant mortality and encouraged early marriage.</p>`,
+    questions: [
+      { type: 'tfng', rubric: 'Questions 1-5', instruction: 'Do the following statements agree with the views of the writer in Reading Passage?',
+      items: [
+        { num: 1, text: 'The early Spanish called potato as the Incan name \'Chuchu\'', answer: 'FALSE' },
+        { num: 2, text: 'The purposes of Spanish coming to Peru were to find out potatoes', answer: 'FALSE' },
+        { num: 3, text: 'The Spanish believed that the potato has the same nutrients as other vegetables', answer: 'NOT GIVEN' },
+        { num: 4, text: 'Peasants at that time did not like to eat potatoes because they were ugly', answer: 'TRUE' },
+        { num: 5, text: 'The popularity of potatoes in the UK was due to food shortages during the war', answer: 'TRUE' },
+      ] },
+      { type: 'completion', rubric: 'Questions 6-13', instruction: 'Complete the sentences below. Choose ONE WORD ONLY from the passage for each answer.',
+      items: [
+        { num: 6, beforeText: 'In France, people started to overcome their disgusting about potatoes because the King put a potato', afterText: 'in his button hole.', answer: 'flower' },
+        { num: 7, beforeText: 'Frederick realized the potential of potato but he had to handle the', afterText: 'against potatoes from ordinary people.', answer: 'prejudice' },
+        { num: 8, beforeText: 'The King of Prussia adopted', afterText: 'psychology to make people accept potatoes.', answer: 'reverse' },
+        { num: 9, beforeText: 'Before 1800 the English people preferred', afterText: 'with bread, butter and cheese.', answer: 'meat' },
+        { num: 10, beforeText: 'The obvious way to deal with England food problems were high yielding potato', afterText: '', answer: 'crops' },
+        { num: 11, beforeText: 'The Irish and', afterText: 'suited potatoes well.', answer: 'soil' },
+        { num: 12, beforeText: 'Between 1780 and 1841, based on the', afterText: 'of potatoes, the population doubled to eight million.', answer: 'cultivation' },
+        { num: 13, beforeText: 'The potato\'s high yields help the poorest farmers to produce more healthy food almost without', afterText: '', answer: 'investment' },
+      ] },
+    ],
+    answers: {
+      1: 'FALSE',
+      2: 'FALSE',
+      3: 'NOT GIVEN',
+      4: 'TRUE',
+      5: 'TRUE',
+      6: 'flower',
+      7: 'prejudice',
+      8: 'reverse',
+      9: 'meat',
+      10: 'crops',
+      11: 'soil',
+      12: 'cultivation',
+      13: 'investment',
+    }
+  },
+  {
+    id: 35,
+    title: 'Spider silk 2',
+    subtitle: 'A strong, light bio-material made by genes from spiders could transform construction and industry',
+    passage: `<p><strong>A strong, light bio-material made by genes from spiders could transform construction and industry</strong></p>
+<p><strong>A</strong>&nbsp;&nbsp;Scientists have succeeded in copying the silk-producing genes of the Golden Orb Weaver spider and are using them to create a synthetic material which they believe is the model for a new generation of advanced bio-materials. The new material, biosilk, which has been spun for the first time by researchers at DuPont, has an enormous range of potential uses in construction and manufacturing.</p>
+<p><strong>B</strong>&nbsp;&nbsp;The attraction of the silk spun by the spider is a combination of great strength and enormous elasticity, which man-made fibres have been unable to replicate. On an equal-weight basis, spider silk is far stronger than steel and it is estimated that if a single strand could be made about 10m in diameter, it would be strong enough to stop a jumbo jet in flight. A third important factor is that it is extremely light. Army scientists are already looking at the possibilities of using it for lightweight, bulletproof vests and parachutes.</p>
+<p><strong>C</strong>&nbsp;&nbsp;For some time, biochemists have been trying to synthesise the drag-line silk of the Golden Orb Weaver. The drag-line silk, which forms the radial arms of the web, is stronger than the other parts of the web and some biochemists believe a synthetic version could prove to be as important a material as nylon, which has been around for 50 years, since the discoveries of Wallace Carothers and his team ushered in the age of polymers.</p>
+<p><strong>D</strong>&nbsp;&nbsp;To recreate the material, scientists, including Randolph Lewis at the University of Wyoming, first examined the silk-producing gland of the spider. 'We took out the glands that produce the silk and looked at the coding for the protein material they make, which is spun into a web. We then went looking for clones with the right DNA,' he says.</p>
+<p><strong>E</strong>&nbsp;&nbsp;At DuPont, researchers have used both yeast and bacteria as hosts to grow the raw material, which they have spun into fibres. Robert Dorsch, DuPont's director of biochemical development, says the globules of protein, comparable with marbles in an egg, are harvested and processed. 'We break open the bacteria, separate out the globules of protein and use them as the raw starting material. With yeast, the gene system can be designed so that the material excretes the protein outside the yeast for better access,' he says.</p>
+<p><strong>F</strong>&nbsp;&nbsp;'The bacteria and the yeast produce the same protein, equivalent to that which the spider uses in the draglines of the web. The spider mixes the protein into a water-based solution and then spins it into a solid fibre in one go. Since we are not as clever as the spider and we are not using such sophisticated organisms, we substituted man-made approaches and dissolved the protein in chemical solvents, which are then spun to push the material through small holes to form the solid fibre.'</p>
+<p><strong>G</strong>&nbsp;&nbsp;Researchers at DuPont say they envisage many possible uses for a new biosilk material. They say that earthquake-resistant suspension bridges hung from cables of synthetic spider silk fibres may become a reality. Stronger ropes, safer seat belts, shoe soles that do not wear out so quickly and tough new clothing are among the other applications. Biochemists such as Lewis see the potential range of uses of biosilk as almost limitless. 'It is very strong and retains elasticity: there are no man-made materials that can mimic both these properties. It is also a biological material with all the advantages that have over petrochemicals,' he says.</p>
+<p><strong>H</strong>&nbsp;&nbsp;At DuPont's laboratories, Dorsch is excited by the prospect of new super-strong materials but he warns they are many years away. 'We are at an early stage but theoretical predictions are that we will wind up with a very strong, tough material, with an ability to absorb shock, which is stronger and tougher than the man-made materials that are conventionally available to us,' he says.</p>
+<p><strong>I</strong>&nbsp;&nbsp;The spider is not the only creature that has aroused the interest of material scientists. They have also become envious of the natural adhesive secreted by the sea mussel. It produces a protein adhesive to attach itself to rocks. It is tedious and expensive to extract the protein from the mussel, so researchers have already produced a synthetic gene for use in surrogate bacteria.</p>`,
+    questions: [
+      { type: 'matching-info', rubric: 'Questions 1-5', instruction: 'The reading passage has nine paragraphs, A-I. Which paragraph contains the following information?',
+      items: [
+        { num: 1, text: 'a comparison of the ways two materials are used to replace silk-producing glands', answer: 'E' },
+        { num: 2, text: 'predictions regarding the availability of the synthetic silk', answer: 'H' },
+        { num: 3, text: 'ongoing research into other synthetic materials', answer: 'I' },
+        { num: 4, text: 'the research into the part of the spider that manufactures silk', answer: 'D' },
+        { num: 5, text: 'the possible application of the silk in civil engineering', answer: 'G' },
+      ] },
+      { type: 'completion', rubric: 'Questions 6-10', instruction: 'Complete the flow chart below. Choose NO MORE THAN TWO WORDS from the passage for each answer.',
+      noteLines: [
+        { lineType: 'heading', text: 'Making Biosilk' },
+        { lineType: 'question', num: 6, beforeText: 'Synthetic gene grown in', afterText: 'or' },
+        { lineType: 'question', num: 7, beforeText: '', afterText: 'or' },
+        { lineType: 'question', num: 8, beforeText: 'globules of', afterText: '' },
+        { lineType: 'question', num: 9, beforeText: 'dissolved in', afterText: '' },
+        { lineType: 'question', num: 10, beforeText: 'passed through', afterText: 'to produce a solid fibre' },
+      ],
+      items: [
+        { num: 6, beforeText: 'Synthetic gene grown in', afterText: 'or', answer: 'yeast' },
+        { num: 7, beforeText: '', afterText: 'or', answer: 'bacteria' },
+        { num: 8, beforeText: 'globules of', afterText: '', answer: 'protein' },
+        { num: 9, beforeText: 'dissolved in', afterText: '', answer: 'solvents' },
+        { num: 10, beforeText: 'passed through', afterText: 'to produce a solid fibre', answer: 'holes' },
+      ] },
+      { type: 'tfng', rubric: 'Questions 11-13', instruction: 'Do the following statements agree with the information given in Reading Passage 1?',
+      items: [
+        { num: 11, text: 'Biosilk has already replaced nylon in parachute manufacture.', answer: 'FALSE' },
+        { num: 12, text: 'The spider produces silk of varying strengths.', answer: 'TRUE' },
+        { num: 13, text: 'Lewis and Dorsch co-operated in the synthetic production of silk.', answer: 'NOT GIVEN' },
+      ] },
+    ],
+    answers: {
+      1: 'E',
+      2: 'H',
+      3: 'I',
+      4: 'D',
+      5: 'G',
+      6: 'yeast',
+      7: 'bacteria',
+      8: 'protein',
+      9: 'solvents',
+      10: 'holes',
+      11: 'FALSE',
+      12: 'TRUE',
+      13: 'NOT GIVEN',
+    }
+  },
+  {
+    id: 36,
+    title: 'Listening to the Ocean',
+    subtitle: 'How scientists use underwater sound to study and monitor the world\'s oceans',
+    passage: `<p><strong>The results of some recent research answer some long-standing questions</strong></p>
+<p><strong>A</strong> The oceans cover more than 70 per cent of the planet's surface, yet until quite recently we knew less about their depths than about the surface of the Moon. The Moon has been far more accessible to study because astronomers have long been able to look at its surface, first with the naked eye and then with the telescope, both instruments that focus light. Until the twentieth century, however, no instruments were available for the study of Earth's oceans: light, which can travel trillions of kilometers through the vast vacuum of space, cannot penetrate very far in seawater.</p>
+<p><strong>B</strong> It turns out that for penetrating water the best instrument is sound. Curious investigators have long been fascinated by sound and the way it travels in water. As early as 1490, the artist and scientist Leonardo da Vinci observed: 'If you cause your ship to stop and place the head of a long tube in the water and place the outer extremity to your ear, you will hear ships at a great distance from you.' It was not until 1826 that two scientists, Colladon and Sturm, accurately measured the speed of sound in water. Using a long tube to listen under water (as da Vinci had suggested), they recorded how fast the sound of a submerged bell traveled across Lake Geneva in Switzerland. What these investigators demonstrated was that water is an excellent medium for sound, transmitting it almost five times faster than its speed in air.</p>
+<p><strong>C</strong> A number of factors influence how far sound travels under water and how long it lasts, including particles, salinity, temperature and pressure. Particles in seawater can reflect, scatter and absorb certain frequencies of sound, just as certain wavelengths of light may be reflected, scattered and absorbed by specific types of particles in the atmosphere. In 1943, Maurice Ewing and J L Worzel conducted an experiment to test the theory that low-frequency waves, which are less vulnerable than higher frequencies to scattering and absorption, should be able to travel great distances, if the sound source is placed correctly. The researchers set off an underwater explosion and learned that it was detected easily by receivers 3,200 kilometers away. In analyzing the results of this test, they discovered a kind of sound pipeline', known as the deep sound channel'. Sound introduced into this channel of water could travel thousands of kilometers with minimal loss of signal.</p>
+<p><strong>D</strong> The US Navy was quick to appreciate the usefulness of low-frequency sound and the deep sound channel. They developed the Sound Surveillance System (SOSUS), which involved underwater microphones, called hydrophones, that were placed on the ocean bottom and connected by cables to onshore processing centers. It was Christopher Clark of Cornell University who soon realised that SOSUS could be used to listen to whales. Using a SOSUS receiver in the West Indies, he could hear whales that were 1,770 kilometers away.</p>
+<p><strong>E</strong> Whales are the biggest of Earth's creatures, yet these animals are also remarkably elusive. Scientists wishing to observe blue whales must simply wait in their ships for the whales to surface. A few whales have been tracked briefly in the wild in this way but not for very great distances, and much about them remains unknown. But by using SOSUS, scientists can track the whales and position them on a map. Moreover, they can track not just one whale at a time, but many creatures simultaneously. They can also learn to distinguish whale calls; researchers have detected changes in the calls of finback whales as the seasons change, and have found that blue whales in different regions of the Pacific Ocean have different calls.</p>
+<p><strong>F</strong> SOSUS has also proved instrumental in obtaining information crucial to our understanding of climate. The system has enabled researchers to begin making ocean temperature measurements on a global scale, measurements that are key to understanding the workings of heat transfer between the ocean and the atmosphere. The ocean plays an enormous role in determining air temperature - the heat capacity in only the upper few meters of ocean is thought to be equal to all of the heat in the entire atmosphere. For sound waves traveling horizontally in the ocean, speed is largely a function of temperature. Thus, the travel time of a wave of sound between two points is a sensitive indicator of the average temperature along its path. Transmitting sound in numerous directions through the deep sound channel can give scientists measurements spanning vast areas of the globe. Thousands of sound paths in the ocean can be pieced together into a map of global ocean temperatures, and by repeating measurements along the same paths over time, scientists can track changes in temperature over months or years.</p>
+<p><strong>G</strong> Researchers are also using other acoustic techniques to monitor climate. Oceanographer Jeff Nystuen, for example, has explored the use of sound to measure rainfall over the ocean. Monitoring changing global rainfall patterns will contribute to understanding major climate change as well as the weather phenomenon known as El Niño. Since 1985, Nystuen has used hydrophones to listen to rain over the ocean, acoustically measuring not only the rainfall rate but also the rainfall type, ranging from drizzle to thunderstorms. By using the sound of rain under water as a 'natural' rain gauge, the measurement of rainfall over the oceans will become available to climatologists. In this way, modern society continues to benefit from the investigations of those who, like Leonardo da Vinci, pursued the answers to some basic questions of nature.</p>`,
+    questions: [
+      { type: 'tfng', rubric: 'Questions 1-4', instruction: 'Do the following statements agree with the information given in Reading Passage 1?',
+      items: [
+        { num: 1, text: 'In the past, it was easier for scientists to study the Moon than the ocean.', answer: 'TRUE' },
+        { num: 2, text: 'Techniques for investigating the Moon are the same as techniques for researching the ocean.', answer: 'FALSE' },
+        { num: 3, text: 'Measuring temperature changes in the ocean using sound is more time-consuming than measuring them from space.', answer: 'NOT GIVEN' },
+        { num: 4, text: 'Hydrophones can distinguish different kinds of rain.', answer: 'TRUE' },
+      ] },
+      { type: 'matching-info', rubric: 'Questions 5-8', instruction: 'Which paragraph contains the following information?',
+      items: [
+        { num: 5, text: 'examples of things that affect the distance sound can travel in water', answer: 'C' },
+        { num: 6, text: 'details of the connection between ocean temperatures and climate', answer: 'F' },
+        { num: 7, text: 'details of ways in which light and sound are similar', answer: 'C' },
+        { num: 8, text: 'reference to a long-term study of different types of weather', answer: 'G' },
+      ] },
+      { type: 'mcq', rubric: 'Questions 9-13', instruction: 'Choose the correct letter, A, B, C or D.',
+      items: [
+        { num: 9, text: 'According to the passage, who conducted research into the rate at which sound travels in water?', options: ['A. Leonardo da Vinci', 'B. Colladon and Sturm', 'C. Ewing and Worzel', 'D. Jeff Nystuen'], answer: 'B' },
+        { num: 10, text: 'According to the passage, who investigated whether sounds occur within large areas of the Atlantic?', options: ['A. Leonardo da Vinci', 'B. Colladon and Sturm', 'C. Ewing and Worzel', 'D. Christopher Clark'], answer: 'C' },
+        { num: 11, text: 'Christopher Clark uses VHF equipment to', options: ['A. follow a number of whales at the same time.', 'B. protect whales as they migrate.', 'C. imitate whale calls of different species.', 'D. change the whales\' direction of travel.'], answer: 'A' },
+        { num: 12, text: 'Blue whales make calls', options: ['A. when scientists track them.', 'B. at different times of year.', 'C. when whales communicate with other species.', 'D. when whales come to the surface.'], answer: 'B' },
+        { num: 13, text: 'According to the passage, hydrophones are able to', options: ['A. make accurate maps of the ocean floor.', 'B. measure water level changes.', 'C. investigate ocean currents.', 'D. measure variations in temperature.'], answer: 'D' },
+      ] },
+    ],
+    answers: {
+      1: 'TRUE',
+      2: 'FALSE',
+      3: 'NOT GIVEN',
+      4: 'TRUE',
+      5: 'C',
+      6: 'F',
+      7: 'C',
+      8: 'G',
+      9: 'B',
+      10: 'C',
+      11: 'A',
+      12: 'B',
+      13: 'D',
+    }
+  },
+  {
+    id: 37,
+    title: 'A gem from the sea',
+    subtitle: 'The fascinating history and enduring appeal of pearls, nature\'s underwater treasure',
+    passage: `<p><strong>A</strong> Throughout history, pearls have held a unique presence within the wealthy and powerful. For instance, the pearl was the favored gem of the wealthy during the Roman Empire. This gift from the sea had been brought back from the orient by the Roman conquests. Roman women wore pearls to bed so they could be reminded of their wealth immediately upon waking up. Before jewelers learned to cut gems, the pearl was of greater value than the diamond. In the Orient and Persia Empire, pearls were used as well. Pearls were considered anything from heart disease to Oriental and Persian epilepsy, with royalty. A law in 1612 drawn up by the Duke of Saxony prohibited the wearing of pearls by nobility, professors, doctors or their wives in an effort to further distinguish royal appearance. American Indians also used freshwater pearls from the Mississippi River as decorations and jewelry.</p>
+<p><strong>B</strong> There are essentially three types of pearls: natural, cultured and imitation. A natural pearl (often referred to as an Oriental pearl) forms when an irritant, such as a piece of sand, works its way into a particular coat species of oyster, mussel, or clam. As a defense mechanism, the mollusk secretes a fluid to coat the irritant. Layer upon layer of this coating is deposited on the irritant until a lustrous pearl is formed.</p>
+<p><strong>C</strong> The only difference between natural pearls and cultured pearls is that the irritant is a surgically implanted bead or piece of shell called Mother of Pearl. Often, these shells are ground oyster shells that are worth significant amounts of money in their own right as irritant-catalysts for quality pearls. The resulting core is, therefore, much larger than in a natural pearl. Yet, as long as there are enough layers of nacre (the secreted fluid covering the irritant) to result in a beautiful, gem-quality pearl, the size of the nucleus is of no consequence to beauty or durability.</p>
+<p><strong>D</strong> Pearls can come from either salt or freshwater sources. Typically, saltwater pearls tend to be higher quality, although there are several types of freshwater pearls that are considered high in quality as well. Freshwater pearls tend to be very irregular in shape, with a puffed rice appearance that is most prevalent. Nevertheless, it is each individual pearl's merits that determines value more than the source of the pearl. Saltwater pearl oysters are usually cultivated in protected lagoons or volcanic atolls.</p>
+<p>However, most freshwater cultured pearls sold today come from China. Cultured pearls are the response of the shell to a tissue implant. A tiny piece of mantle tissue from a donor shell is transplanted into a recipient shell. This graft will form a pearl sac and the tissue will precipitate calcium carbonate into this pocket. There are a number of options for producing cultured pearls: use freshwater or seawater shells, transplant the graft into the mantle or into the gonad, add a spherical bead or do it non-beaded. The majority of saltwater cultured pearls are grown with beads. Surface, orient and luster. In general, cultured pearls are less valuable than natural pearls, whereas imitation pearls almost have no value. One way that jewelers can determine whether a pearl is cultured or natural is to perform an x-ray of the pearl. If the x-ray reveals a nucleus and the irregular nucleus, dark inner spots indicating a cavity are visible, combined with concentric rings of organic substance, the pearl is likely a cultured freshwater. Cultured freshwater are grown without beads.</p>
+<p><strong>E</strong> Regardless of the method used to acquire a pearl, the process usually takes several years. Mussels must reach a mature age, which can take up to 3 years, and then be implanted or naturally receive an irritant. Once the irritant is in place, it can take up to another 3 years for the pearl to reach its full size. Often, the irritant may be rejected, the pearl will be terrifically misshapen, or the oyster may simply die from disease or countless other complications. By the end of a 5 to 10 year cycle, only 50% of the oysters will have survived. And of the pearls produced, only approximately 5% are of substantial quality for top jewelry makers. From the outset, a pearl farmer can figure on spending over $500 for every oyster that is farmed, many of which will produce nothing or die.</p>
+<p><strong>F</strong> Imitation pearls are a different story altogether, in most cases, a glass bead is dipped into a solution made from fish scales. This coating is thin and may eventually wear off. One can usually tell an imitation by biting on it; fake pearls glide across your teeth whereas layers of nacre on real pearls feel gritty. The Island of Mallorca (in Spain) is known for its imitation pearl industry. Quality natural pearls are very rare jewels. The actual value of a natural pearl is determined in the same way as it would be for other "precious" gems. The valuation factors include size, shape, color, quality of surface, orient and luster.</p>
+<p><strong>G</strong> Historically, the world's best pearls came from the Persian Gulf, especially around what is now Bahrain. The pearls of the Persian Gulf were natural pearls, fished and collected by breath-hold divers. The secret to the special luster of Gulf pearls probably derived from the unique mixture of sweet and salt water around the island. Unfortunately, the natural pearl industry of the Persian Gulf ended abruptly in the early 1930's with the discovery of large deposits of oil. Those who once dove for pearls sought prosperity in the economic boom ushered in by the oil industry. The water pollution resulting from spilled oil and indiscriminate over-fishing of oysters essentially ruined the once pristine pearl producing waters of the Gulf. Today pearl diving is practiced only as a hobby. Still, Bahrain remains one of the foremost trading centers for high quality pearls. In fact, cultured pearls are banned from the Bahrain pearl market, in an effort to preserve the location's heritage. Nowadays, the largest stock of natural pearls probably resides in India. Ironically, much of India's stock of natural pearls came originally from Bahrain. Unlike Bahrain, which has essentially lost its pearl resource, traditional pearl fishing is still practiced on a small scale in India.</p>`,
+    questions: [
+      { type: 'matching-info', rubric: 'Questions 1-4', instruction: 'Which paragraph contains the following information?', items: [
+        { num: 1, text: 'Ancient stories around the pearl and customers', answer: 'A' },
+        { num: 2, text: 'Difficulties in cultivating process', answer: 'E' },
+        { num: 3, text: 'Factors can decide the value of natural pearls', answer: 'F' },
+        { num: 4, text: 'Different growth mechanisms that distinguish the cultured pearls from natural ones', answer: 'C' },
+      ] },
+      { type: 'completion', rubric: 'Questions 5-10', instruction: 'Complete the summary below. Choose ONE WORD ONLY from the passage for each answer.',
+      noteLines: [
+        { lineType: 'context', text: 'In ancient history, pearls have great importance within the rich and rulers, which was treated as gem for women in --ABCDEFGHIJK. And pearls were used as medicine and sex drug for people in --ABCDEFGHIJK.' },
+        { lineType: 'context', text: 'There are essentially three types of pearls: natural cultured and imitation. Most freshwater cultured pearls sold today come from --ABCDEFGHIJK while the --ABCDEFGHIJK is famous for its imitation pearl industry.' },
+        { lineType: 'heading', text: 'The country --ABCDEFGHIJK usually manufactures some of the glitteriest cultured ones while the nation such as --ABCDEFGHIJK produces the larger size pearl due to the favorable environment along the coast line. In the past, one country in Gulf produced the world\'s best pearls. Nowadays, the major remaining suppliers of the natural pearls belongs to G India.' },
+      ],
+      items: [
+        { num: 5, beforeText: '', afterText: '', answer: 'B' },
+        { num: 6, beforeText: '', afterText: '', answer: 'J' },
+        { num: 7, beforeText: '', afterText: '', answer: 'E' },
+        { num: 8, beforeText: '', afterText: '', answer: 'K' },
+        { num: 9, beforeText: '', afterText: '', answer: 'F' },
+        { num: 10, beforeText: '', afterText: '', answer: 'C' },
+      ] },
+      { type: 'tfng', rubric: 'Questions 11-13', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
+        { num: 11, text: 'Often cultured pearl\'s centre is significantly larger than in a natural pearl.', answer: 'TRUE' },
+        { num: 12, text: 'Cultured pearls are generally valued the same much as natural ones.', answer: 'FALSE' },
+        { num: 13, text: 'The size of pearls produced in Japan is usually of smaller size than those came from Australia.', answer: 'TRUE' },
+      ] },
+    ],
+    answers: {
+      1: 'A',
+      2: 'E',
+      3: 'F',
+      4: 'C',
+      5: 'B',
+      6: 'J',
+      7: 'E',
+      8: 'K',
+      9: 'F',
+      10: 'C',
+      11: 'TRUE',
+      12: 'FALSE',
+      13: 'TRUE',
+    }
+  },
+  {
+    id: 38,
+    title: 'The Importance of Business Cards',
+    subtitle: 'How a small piece of card became an essential tool for professional networking worldwide',
+    passage: `<p>The exchanging of business cards is as close to a universal ritual as you can find in the business world</p>
+<p>The ritual may be universal, but the details of business cards and how they are swapped vary across countries. Americans throw their cards casually across a table; the Japanese make the exchange of cards a formal ceremony. While there are cards that are discreet and understated, others are crammed full of details and titles. Some business people hand out 24-carat gold cards, and there are kindergarten children who have cards with not only their own contact details but also with the job descriptions of their parents and even grandparents. This practice has become so common in parts of New York, for example, that the use of such cards is now prohibited by some of these institutions.</p>
+<p>Cards have been around a long time in one form or another. The Chinese invented calling cards in the 15th century to give people notice that they intended to pay them a visit, but these were for social purposes only. Then, in the 17th century, European business people invented a new type of card to act as miniature advertisements, signaling the advent of the business card. In today&rsquo;s world, business cards can cause people to have strong emotional reactions. According to one experienced company director, very few things can provoke more heated discussion at a board meeting than the composition of the company&rsquo;s business cards</p>
+<p>Lots of companies try to promote themselves by altering the form of the card. Employees at one famous toy company give out little plastic figures with their contact details stamped on them. One fast food company has business cards which are shaped like a portion of French fries. A Canadian divorce lawyer once gave out a card that could be torn in two &mdash; one half for each of the spouses. For many business commentators, such gimmicky business cards prove that the use of a physical business card is nearly at an end. After all, why bother exchanging bits of thick paper at all when you can simply swap electronic versions by smartphone.</p>
+<p>However, one can just as well argue the opposite: that business cards are here to stay, and in a business world full of meetings and correspondence, it is more important than ever that your card is unique. Attempts to reinvent business cards for the digital age have not been successful. Even at the latest technology conferences, people still greet each other by handing out little rectangles made from paper rather than using a digital alternative.</p>
+<p>To understand business cards, it is necessary to understand how business works. That business cards are thriving in a digital age is a forceful reminder that there is much about business that is timeless. According to Kate Jones, a business lecturer, there is one eternal and inescapable issue. Her 2006 study of more than 200 business executives in North America found that trust was the key element for running a successful business. It is vital to be able to look someone in the eye and decide what sort of person they are.</p>
+<p>In this way, you can transform acquaintanceship into relationships. A good proportion of business life will always be about building social connections &mdash; having dinner or playing sport with clients and colleagues &mdash; and while computers can deal with administrative tasks, it is human beings that have to focus on the emotional.</p>
+<p>The rapid advance of globalization means that this relationship-building process is becoming ever more demanding. Managers have to put more effort in when dealing with international counterparts, especially when there is not a common language, which is so often the case these days. A recent UK survey showed that chief executives of global organizations now routinely spend three out of every four weeks on international travel. It is in these situations that business cards are doubly useful, as they are a quick way of establishing connections. Cards can also remind you that you have actually met someone in a face-to-face meeting rather than just searched for them on the internet. Looking through piles of different cards can enhance your memory in ways that simply looking through uniform electronic lists would never do.</p>
+<p>Janet McIntyre is a leading expert on business cards in today&rsquo;s world. She maintains that as companies become more complex, cards are essential in determining the exact status of every contact you meet in multinational corporations. Janet also explains how exchanging business cards can be an effective way of initiating a conversation because it gives people a ritual to follow when they first meet a new business contact.</p>
+<p>The business world is obsessed with the idea of creating and inventing new things that will change the way we do everything, and this does lead to progress. But there are lots of things that do not need to be changed, and in Janet McIntyre&rsquo;s view, tradition also has an equally valuable role to play. Therefore, the practice of exchanging business cards is likely to continue in the business world.</p>`,
+    questions: [
+      { type: 'tfng', rubric: 'Questions 1-5', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
+        { num: 1, text: 'Children\'s business cards have been banned in some kindergartens.', answer: 'TRUE' },
+        { num: 2, text: 'It was the Chinese who first began the practice of using business cards.', answer: 'FALSE' },
+        { num: 3, text: 'Designing business cards can be a controversial process for some companies.', answer: 'TRUE' },
+        { num: 4, text: 'A famous toy company has boosted its sales by using one type of unusual business card.', answer: 'NOT GIVEN' },
+        { num: 5, text: 'Some business commentators predict a decline in the use of paper business cards.', answer: 'TRUE' },
+      ] },
+      { type: 'completion', rubric: 'Questions 6-13', instruction: 'Complete the notes below. Choose ONE WORD ONLY from the passage for each answer.',
+      noteLines: [
+        { lineType: 'heading', text: 'How business works' },
+        { lineType: 'heading', text: 'Kate Jones&rsquo;s research' },
+        { lineType: 'question', num: 6, beforeText: '&bull; The most important aspect of business is having 6', afterText: 'in others.' },
+        { lineType: 'question', num: 7, beforeText: '&bull; 7', afterText: 'do not have the ability to establish the good relationships essential to business.' },
+        { lineType: 'heading', text: 'Business and globalisation' },
+        { lineType: 'question', num: 8, beforeText: '&bull; Managers must work harder when they don\'t share the same 8', afterText: 'with their contacts.' },
+        { lineType: 'question', num: 9, beforeText: '&bull; A UK survey indicates that 9', afterText: 'takes up the largest part of business leaders&rsquo; time.' },
+        { lineType: 'question', num: 10, beforeText: '&bull; A business person\'s 10', afterText: 'of a meeting can be improved by looking at business cards.' },
+        { lineType: 'heading', text: 'Janet McIntyre' },
+        { lineType: 'question', num: 11, beforeText: '&bull; Business cards clearly show the 11', afterText: 'of each person in a large company.' },
+        { lineType: 'question', num: 12, beforeText: '&bull; The ritual of swapping business cards is a good way of starting a 12', afterText: 'at the beginning of a business relationship.' },
+        { lineType: 'question', num: 13, beforeText: '&bull; Janet feels that in the business world, 13', afterText: 'is just as important as innovation.' },
+      ],
+      items: [
+        { num: 6, beforeText: 'How business works Kate Jones&rsquo;s research &bull; The most important aspect of business is having 6', afterText: 'in others.', answer: 'TRUST' },
+        { num: 7, beforeText: '&bull; 7', afterText: 'do not have the ability to establish the good relationships essential to business.', answer: 'COMPUTERS' },
+        { num: 8, beforeText: '&bull; Managers must work harder when they don\'t share the same 8', afterText: 'with their contacts.', answer: 'LANGUAGE' },
+        { num: 9, beforeText: '&bull; A UK survey indicates that 9', afterText: 'takes up the largest part of business leaders&rsquo; time.', answer: 'TRAVEL' },
+        { num: 10, beforeText: '&bull; A business person\'s 10', afterText: 'of a meeting can be improved by looking at business cards.', answer: 'MEMORY' },
+        { num: 11, beforeText: '&bull; Business cards clearly show the 11', afterText: 'of each person in a large company.', answer: 'STATUS' },
+        { num: 12, beforeText: '&bull; The ritual of swapping business cards is a good way of starting a 12', afterText: 'at the beginning of a business relationship.', answer: 'CONVERSATION' },
+        { num: 13, beforeText: '&bull; Janet feels that in the business world, 13', afterText: 'is just as important as innovation.', answer: 'TRADITION' },
+      ] },
+    ],
+    answers: {
+      1: 'TRUE',
+      2: 'FALSE',
+      3: 'TRUE',
+      4: 'NOT GIVEN',
+      5: 'TRUE',
+      6: 'TRUST',
+      7: 'COMPUTERS',
+      8: 'LANGUAGE',
+      9: 'TRAVEL',
+      10: 'MEMORY',
+      11: 'STATUS',
+      12: 'CONVERSATION',
+      13: 'TRADITION',
+    }
+  },
+  {
+    id: 39,
+    title: 'Dolls through the ages',
+    subtitle: 'A look at how dolls have evolved from ancient ritual objects to modern collectables',
+    passage: `<p>What is today a simple children's toy has a surprisingly rich history. Dolls have been a part of humankind for thousands of years. Often depicting religious figures, or used as playthings, early dolls were probably made from primitive materials such as clay, fur, or wood.</p>
+<p>Dolls constructed of flat pieces of wood, painted with various designs, and with 'hair' made of clay, have often been found in Egyptian graves dating back to 2000 BC. Egyptian tombs of wealthy families have included pottery dolls. Dolls being placed in these graves leads some to believe that they were cherished possessions.</p>
+<p>Girls from ancient Greece and Rome offered their wooden dolls to goddesses after they were too 'grown-up' to play with dolls. Most ancient dolls that were found in tombs were very simple creations, often made from such materials as clay, rags, wood, or bone. Some of the more unique dolls were made with ivory or wax. The main goal was to make the doll as lifelike as possible. That ideal led to the creation of dolls with movable limbs and removable garments, dating back to 600 BC.</p>
+<p>Following the era of the ancient dolls, Europe became a major hub for doll production. These dolls were primarily made of wood. Fewer than 30 examples of primitive wooden stump dolls from England survive today. The Grodnertal area of Germany produced many peg wooden dolls, a type of doll that has very simple peg joints and resembles a clothespin (a device for hanging washing on a clothesline). An alternative to wood was developed in the 1800s.</p>
+<p>'Composition' is a collective term for mixtures of pulped wood or paper that were used to make doll heads and bodies. These mixtures were moulded under pressure, creating a durable doll that could be mass produced. Manufacturers closely guarded the recipes for their mixtures, sometimes using strange ingredients like ash or eggshells. Papier-mâché, a type of composition, was one of the most popular mixtures.</p>
+<p>In addition to wooden dolls, wax dolls grew in popularity in the 17th and 18th centuries. Much in Germany was a major manufacturing center for wax dolls. Wax dollmakers would model a doll's head in wax or clay, and then cover it with plaster to create a mould. Then they would pour melted wax into the cast. The wax for the head would be very thin, no more than 3 mm. Some of the most distinctive wax dolls were created in England between 1850 and 1930. One of the first dolls that portrayed a baby was made in England from wax at the beginning of the 19th century.</p>
+<p>Around the same time porcelain became popular. It is made by firing special clays in a kiln at more than 2372 degrees Fahrenheit (1300°C), and only a few clays can withstand firing at such high temperatures. Porcelain is used generically to refer to both china and bisque dolls; china is glazed, whereas bisque is unglazed. Germany, France, and Denmark started creating china heads for dolls in the 1840s. These china heads were replaced in the 1860s by ones made of bisque. Bisque, which is porcelain fired twice with colour added to it after the first firing, looked more like skin than china did.</p>
+<p>In France, the bébé was popular in the 1880s, and it has become a highly sought after doll today. The bébé, first made in the 1850s, was different from its predecessors because it depicted a younger girl. Until then, most French dolls were representations of adults. Although the French dolls were unrivalled in their artistry, German bisque dolls became quite popular because they were not as expensive. Kammer & Reinhardt introduced a bisque character doll in the 1900s, starting a trend of creating realistic dolls.</p>
+<p>For many centuries, rag dolls were made by mothers for their children. The term 'rag doll' refers generically to dolls made of any fabric. 'Cloth doll' refers to a subset of rag dolls made of linen or cotton. Commercially produced rag dolls were first introduced in the 1850s by English and American manufacturers. Although not as sophisticated as dolls made from other materials, rag dolls were well loved, often as a child's first toy.</p>
+<p>Dollmaking did not become an industry in the United States until after the Civil War in the 1860s. Doll production was concentrated in the New England region of the United States, with dolls made from a variety of materials such as leather, rubber, papier-mâché, and cloth. Celluloid was developed in the state of New Jersey in the late 1860s and was used to manufacture dolls until the mid-1950s. German, French, American, and Japanese factories churned out cheaply produced celluloid dolls in mass quantities. However, celluloid fell out of favour because of its extreme flammability and propensity to fade in bright light.</p>
+<p>After World War I, doll makers experimented with plastics. Hard plastic dolls were manufactured in the 1940s. They resembled composition dolls, but they were much more durable. Other materials used in doll manufacturing included rubber, foam rubber, and vinyl in the 1950s and 1960s. Vinyl changed doll making, allowing doll makers to root hair into the head, rather than using wigs or painting the hair. Although most dolls are now mass-manufactured using these modern materials, many modern doll makers are still using the traditional materials of the past to make collectible dolls.</p>`,
+    questions: [
+      { type: 'completion', rubric: 'Questions 1-6', instruction: 'Complete the notes below. Choose ONE WORD ONLY from the passage for each answer.',
+      noteLines: [
+        { lineType: 'question', num: 1, beforeText: 'Dolls Earliest known dolls - represented religious figures - used as toys - Egypt 2000 BC - bodies were made of wood 1', afterText: 'was used for the hair' },
+        { lineType: 'question', num: 2, beforeText: '-Ancient Greece and Rome - dolls were given to', afterText: 'by older girls' },
+        { lineType: 'question', num: 3, beforeText: '-600 BC - realistic dolls had separate clothes and', afterText: 'different positions that could be put in' },
+        { lineType: 'question', num: 4, beforeText: '17th and 18th centuries - dolls made of', afterText: 'became more common - moulds made of' },
+        { lineType: 'question', num: 6, beforeText: '1800s - new manufacturing process developed - new group of mixtures known as', afterText: '- recipes for these mixtures kept secret' },
+      ],
+      items: [
+        { num: 1, beforeText: '', afterText: '', answer: 'clay' },
+        { num: 2, beforeText: '-Ancient Greece and Rome - dolls were given to', afterText: 'by older girls', answer: 'goddesses' },
+        { num: 3, beforeText: '-600 BC - realistic dolls had separate clothes and', afterText: 'different positions that could be put in', answer: 'limbs' },
+        { num: 4, beforeText: '17th and 18th centuries - dolls made of', afterText: 'became more common - moulds made of', answer: 'wax' },
+        { num: 5, beforeText: '17th and 18th centuries - dolls made of', afterText: 'became more common - moulds made of', answer: 'plaster' },
+        { num: 6, beforeText: '1800s - new manufacturing process developed - new group of mixtures known as', afterText: '- recipes for these mixtures kept secret', answer: 'composition' },
+      ] },
+      { type: 'tfng', rubric: 'Questions 7-13', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
+        { num: 7, text: 'Bisque dolls appear less realistic than dolls made of china.', answer: 'FALSE' },
+        { num: 8, text: 'French dolls tended to cost more than German bisque dolls.', answer: 'TRUE' },
+        { num: 9, text: 'The first rag dolls were made in the 1850s.', answer: 'FALSE' },
+        { num: 10, text: 'Only dolls made of cotton or linen are classified as cloth dolls.', answer: 'TRUE' },
+        { num: 11, text: 'Dolls made of celluloid tended to lose their colour.', answer: 'TRUE' },
+        { num: 12, text: 'Composition dolls lasted longer than the plastic dolls that were made in the 1940s.', answer: 'FALSE' },
+        { num: 13, text: 'Doll collectors prefer a doll to be dressed in its original clothing.', answer: 'NOT GIVEN' },
+      ] },
+    ],
+    answers: {
+      1: 'clay',
+      2: 'goddesses',
+      3: 'limbs',
+      4: 'wax',
+      5: 'plaster',
+      6: 'composition',
+      7: 'FALSE',
+      8: 'TRUE',
+      9: 'FALSE',
+      10: 'TRUE',
+      11: 'TRUE',
+      12: 'FALSE',
+      13: 'NOT GIVEN',
+    }
+  },
+  {
+    id: 40,
+    title: 'The History of the Guitar',
+    subtitle: 'From ancient stringed instruments to the modern electric guitar - a musical evolution',
+    passage: `<p id="A"><span class="label">A</span> The earliest stringed instruments currently known to
+                        archaeologists are bowl harps. For millennia, people made bowl harps using, for example,
+                        tortoise shells as resonators, with a bent stick for a neck and one or more gut or silk strings.
+                        The world's museums contain many such harps from the ancient Sumerian, Babylonian, and Egyptian
+                        civilisations. Around 2500-2000 BC more advanced harps, such as the beautifully carved
+                        11-stringed instrument found in the tomb of Queen Shub-Ad in ancient Mesopotamia, now modern day
+                        Iraq, started to appear.</p>
+<p id="B"><span class="label">B</span> The tanbur probably developed from the bowl harp. It was
+                        different from the bowl harp in that its neck was straightened out to allow the strings to be
+                        pressed down to create more notes. Tomb paintings and stone carvings in Egypt indicate that
+                        harps and tanburs – plus flutes and percussion instruments – were being played together
+                        3,500-4,000 years ago. Archaeologists have also found many similar relics amongst the ruins of
+                        the ancient Mesopotamian civilisation. Many of these instruments have survived into modern times
+                        in almost unchanged form, for example folk instruments of the region such as the Turkish saz and
+                        Afghan panchtar.</p>
+<p id="C"><span class="label">C</span> At 3,500 years old, the tanbur which belonged to the Egyptian
+                        singer Har-Mose is the earliest known example of this instrument. Har-Mose's tanbur had three
+                        strings and a plectrum suspended from the neck by a cord. The soundbox, which increased the
+                        volume, was made of beautifully polished cedarwood and covered in rawhide. It can be seen today
+                        at the Archaeological Museum in Cairo.</p>
+<p id="D"><span class="label">D</span> In order to distinguish guitars from other stringed
+                        instruments, it is helpful to have a broad definition of the guitar. Music expert Dr Michael
+                        Kasha defines a guitar as having 'a long, fretted neck, flat wooden soundboard, ribs, and a flat
+                        back, most often with sides that curve inwards'. The oldest known visual representation of such
+                        an instrument is a stone carving at Alaca Huyuk in Turkey, which shows a 3,300-year-old
+                        instrument with a long neck and sides that clearly curve inwards.</p>
+<p id="E"><span class="label">E</span> The name 'guitar' comes from the ancient Sanskrit word for
+                        'string' – 'tar'. Many popular stringed instruments used in central Asia today have existed in
+                        an unchanged form for several thousand years, as shown by archaeological finds in the area. Many
+                        have names that end in 'tar', with a prefix indicating the number of strings, such as the doter,
+                        a two-stringed instrument found in Turkestan, and the Persian three-stringed setar and
+                        four-stringed chartar. The Indian sitar almost certainly took its name from the setar, but over
+                        the centuries it evolved radically, following the Indians' own aesthetic and cultural ideals.
+                    </p>
+<p id="F"><span class="label">F</span> Tanburs and harps spread around the ancient world with
+                        travellers, merchants and seamen. The earliest guitar-like instruments to arrive in Europe had,
+                        most often, four strings. Many such instruments, and variations with from three to five strings,
+                        can be seen in mediaeval illustrated manuscripts. They were also carved in stone in European
+                        churches and cathedrals, from the first century AD through until the 13th century.</p>
+<p id="G"><span class="label">G</span> When the four-stringed Persian chartar arrived in Spain,
+                        however, it changed in form and construction, acquiring pairs of strings tuned to the same note
+                        instead of single strings. It became known as the chitarra. By the middle of the 14th century,
+                        the chitarra had become dominant, at least in most of Europe. The earliest known music for the
+                        eight-stringed chitarra was written in 16th-century Spain. The ten-string version first appeared
+                        in Italy at the same time, and gradually replaced the eight-stringed instrument. A further two
+                        strings first appeared in the 17th century, an innovation which guitar makers all over Europe
+                        quickly took up. However, this twelve-string arrangement gradually gave way to six single
+                        strings across the continent. The six-stringed guitar can thus be said to be a development of
+                        the twelve-stringed, rather than vice versa, as was thought previously.</p>
+<p id="H"><span class="label">H</span> At the beginning of the 19th century, the present-day guitar
+                        began to take shape, although bodies were still fairly small and narrow-waisted. The modern
+                        classical guitar first appeared in its current form in the mid-19th century, when the Spanish
+                        guitar maker Antonio Torres increased the size of the body, altered its proportions, and
+                        introduced the revolutionary fan-braced top. His design radically increased the volume and
+                        improved the tone of the instrument, and very soon became the norm. This design has remained
+                        essentially unchanged to this day.</p>
+<p id="I"><span class="label">I</span> At the time when Torres made his breakthrough, German
+                        immigrants to America – among them Christian Fredrich Martin – began making guitars with
+                        X-braced tops. Steel strings, which became widely available several decades later in the early
+                        1900s, offered the promise of much louder guitar, but the increased tension was too much for the
+                        fan-braced top. The stronger X-braced top proved equal to the job, and quickly became the
+                        industry standard.</p>
+<p id="J"><span class="label">J</span> At the end of the 19th century, guitar manufacturer Orville
+                        Gibson added steel strings to a body constructed like a cello, a combination which produced more
+                        volume. The electric guitar was born when pickups were fitted to Hawaiian and jazz guitars in
+                        the late 1920s, but met with little success until 1936, when Gibson introduced its famous ES150
+                        model.</p>`,
+    questions: [
+      { type: 'tfng', rubric: 'Questions 1-6', instruction: 'Do the following statements agree with the information given in Reading Passage 1?',
+      items: [
+        { num: 1, text: 'The instrument found in Queen Shub-Ad\'s tomb is the world\'s oldest known stringed instrument.', answer: 'FALSE' },
+        { num: 2, text: 'Today\'s Afghan panchtar is very similar to an ancient Mesopotamian instrument.', answer: 'TRUE' },
+        { num: 3, text: 'The Egyptian singer Har-Mose was an excellent tanbur player.', answer: 'NOT GIVEN' },
+        { num: 4, text: 'Cairo Archaeological Museum contains many historic musical instruments.', answer: 'NOT GIVEN' },
+        { num: 5, text: 'The instrument carved in stone at Alaca Huyuk is consistent with the guitar\'s current definition.', answer: 'TRUE' },
+        { num: 6, text: 'The different instruments that appeared in medieval literature had the same basic form.', answer: 'FALSE' },
+      ] },
+      { type: 'completion', rubric: 'Questions 7-13', instruction: 'Complete the notes below. Choose ONE WORD ONLY from the passage for each answer.',
+      items: [
+        { num: 7, beforeText: 'was a development of an earlier instrument called the', afterText: '', answer: 'chartar' },
+        { num: 8, beforeText: 'its shape a result of modifications including a larger', afterText: 'introduced by Antonio Torres.', answer: 'body' },
+        { num: 9, beforeText: 'changes produced better tone and greater', afterText: '', answer: 'volume' },
+        { num: 10, beforeText: 'X-braced top guitar - first made in', afterText: 'in mid-19th century.', answer: 'America' },
+        { num: 11, beforeText: 'strings made of', afterText: 'became available around 1900.', answer: 'steel' },
+        { num: 12, beforeText: 'in the 1920s,', afterText: 'added to guitars.', answer: 'pickups' },
+        { num: 13, beforeText: 'a well-known version brought out by', afterText: '', answer: 'Gibson' },
+      ] },
+    ],
+    answers: {
+      1: 'FALSE',
+      2: 'TRUE',
+      3: 'NOT GIVEN',
+      4: 'NOT GIVEN',
+      5: 'TRUE',
+      6: 'FALSE',
+      7: 'chartar',
+      8: 'body',
+      9: 'volume',
+      10: 'America',
+      11: 'steel',
+      12: 'pickups',
+      13: 'Gibson',
+    }
   },
 ];
