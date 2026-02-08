@@ -2919,7 +2919,7 @@ const ReadingPage = ({ subPage, setSubPage, setCurrentPage }) => {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
                 <span style={{ fontSize: '2rem' }}>📄</span>
-                <span style={{ padding: '0.25rem 0.6rem', borderRadius: '6px', background: 'var(--purple-600)', fontSize: '0.8rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1' }}>40 TESTS</span>
+                <span style={{ padding: '0.5rem 1.2rem', borderRadius: '6px', background: 'var(--purple-600)', fontSize: '0.8rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1' }}>40 TESTS</span>
               </div>
               <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Passage 1 Practice</h2>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>13 questions • T/F/NG, completion, matching, MCQ</p>
