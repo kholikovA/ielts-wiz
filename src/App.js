@@ -2511,12 +2511,11 @@ const ThemeToggle = () => {
 // ==================== LOGO ====================
 const Logo = ({ onClick }) => (
   <div onClick={onClick} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
-    <img 
-      src="/logo.svg" 
-      alt="IELTS Wiz" 
+    <img
+      src={isDarkMode ? "/logo-dark.svg" : "/logo-light.svg"}
+      alt="IELTS Wiz"
       style={{
-        height: '120px',
-        width: '80px',
+        height: '40px',
         objectFit: 'contain',
       }}
     />
