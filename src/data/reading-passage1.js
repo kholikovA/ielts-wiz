@@ -12,7 +12,7 @@ export const readingPassage1Tests = [
 <p>The New Zealand Department of Conservation is taking steps to ensure the preservation of New Zealand's only native owl. The department is involved in measuring the population of moreporks and has put transmitters on a number of birds to determine survival and mortality. As well as being New Zealand's only native owl, the morepork has symbolic and spiritual importance, so in monitoring the birds it is hoped that the morepork will continue to survive and thrive.</p>
 <p>At dusk, the melancholy sound of the morepork can be heard in forests and parks as it calls to other moreporks and claims territory. Its Maori name (ruru) echoes its two-part cry. In the tradition of the Maori people of New Zealand, the morepork, or ruru, was often seen as a careful guardian. A number of sayings referred to the bird's alertness. As a bird of the night, it was associated with the spirit world. Moreporks were believed to act as messengers to the gods in the heavens, flying along spiritual paths in the sky. They were the mediums used to communicate with the gods. The occasional high, piercing call of the morepork signified bad news, but the lower-pitched and more common "ruru" call heralded good news.</p>`,
     questions: [
-      { type: 'tfng', rubric: 'Questions 1-7', instruction: 'Do the following statements agree with the information given in Reading Passage 1? In boxes 1-7 on your answer sheet, write TRUE if the statement agrees with the information FALSE if the statement contradicts the information NOT GIVEN if there is no information on this', items: [
+      { type: 'tfng', rubric: 'Questions 1-7', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
         { num: 1, text: 'Early European settlers made detailed studies of the morepork.', answer: 'NOT GIVEN' },
         { num: 2, text: 'The Polynesian rat had a negative effect on the number of laughing owls.', answer: 'FALSE' },
         { num: 3, text: 'The laughing owl was larger than the morepork.', answer: 'TRUE' },
@@ -22,20 +22,20 @@ export const readingPassage1Tests = [
         { num: 7, text: 'In Maori tradition, the low call of the morepork had negative associations.', answer: 'FALSE' }
       ] },
       { type: 'completion', rubric: 'Questions 8-13', instruction: 'Complete the notes below. Choose ONE WORD AND/OR A NUMBER from the passage for each answer. Write your answers in boxes 8-13 on your answer sheet.', noteLines: [
-          { lineType: 'heading', text: 'The Morepork' },
-          { lineType: 'heading', text: 'Appearance' },
-          { lineType: 'question', num: 8, beforeText: 'approximately', afterText: 'in length' },
-          { lineType: 'context', text: 'feathers with fringes to enable quiet flight' },
-          { lineType: 'heading', text: 'Nesting' },
-          { lineType: 'question', num: 9, beforeText: 'nests in trees, plants or spaces in roots and', afterText: '' },
-          { lineType: 'context', text: 'after about 35 days, baby moreporks are capable of leaving the nest' },
-          { lineType: 'heading', text: 'Hunting' },
-          { lineType: 'question', num: 10, beforeText: 'transports its prey using its', afterText: '' },
-          { lineType: 'question', num: 11, beforeText: 'can be chased away by other birds during the', afterText: '' },
-          { lineType: 'question', num: 12, beforeText: 'attacked', afterText: 'that had been introduced to Motuora island' },
-          { lineType: 'heading', text: 'Threats' },
-          { lineType: 'question', num: 13, beforeText: 'may be exposed to', afterText: 'in their prey' }
-        ], items: [
+        { lineType: 'heading', text: 'The Morepork' },
+        { lineType: 'heading', text: 'Appearance' },
+        { lineType: 'question', num: 8, beforeText: 'approximately', afterText: 'in length' },
+        { lineType: 'context', text: 'feathers with fringes to enable quiet flight' },
+        { lineType: 'heading', text: 'Nesting' },
+        { lineType: 'question', num: 9, beforeText: 'nests in trees, plants or spaces in roots and', afterText: '' },
+        { lineType: 'context', text: 'after about 35 days, baby moreporks are capable of leaving the nest' },
+        { lineType: 'heading', text: 'Hunting' },
+        { lineType: 'question', num: 10, beforeText: 'transports its prey using its', afterText: '' },
+        { lineType: 'question', num: 11, beforeText: 'can be chased away by other birds during the', afterText: '' },
+        { lineType: 'question', num: 12, beforeText: 'attacked', afterText: 'that had been introduced to Motuora island' },
+        { lineType: 'heading', text: 'Threats' },
+        { lineType: 'question', num: 13, beforeText: 'may be exposed to', afterText: 'in their prey' }
+      ], items: [
         { num: 8, beforeText: 'approximately', afterText: 'in length', answer: '29 centimeters' },
         { num: 9, beforeText: 'nests in trees, plants or spaces in roots and', afterText: '', answer: 'rocks' },
         { num: 10, beforeText: 'transports its prey using its', afterText: '', answer: 'bill' },
@@ -60,7 +60,7 @@ export const readingPassage1Tests = [
 <p><strong>I</strong> Finally, in addition to competition from other wood producers, New Zealand faces competition from goods such as wood substitutes. These include steel framing for houses. This further underlines the necessity for globally competitive production and marketing strategies.</p>
 <p><em>pulp*: wood which is crushed until soft enough to form the basis of paper.</em></p>`,
     questions: [
-      { type: 'tfng', rubric: 'Questions 1-6', instruction: 'In boxes 1-6 on your answer sheet, write: TRUE - if the statement agrees with the information given in Reading Passage 1 FALSE - if the statement contradicts the information NOT GIVEN - if there is no information on this', items: [
+      { type: 'tfng', rubric: 'Questions 1-6', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
         { num: 1, text: 'Settlers realised that wooden houses were more dangerous than other types of structure.', answer: 'FALSE' },
         { num: 2, text: 'During the 1800s, New Zealand exported wood for use in boat-building.', answer: 'TRUE' },
         { num: 3, text: 'Plantation-grown wood is generally better for construction than native forest wood.', answer: 'NOT GIVEN' },
@@ -91,7 +91,7 @@ export const readingPassage1Tests = [
 <p>Adding to the intrigue is the identity of the sitter. Historical records indicate that Bianca Sforza was married at a young age to Galeazzo Sanseverino, a prominent Milanese courtier. Tragically, she died shortly thereafter at the age of 14, possibly from childbirth complications. The portrait's subtle melancholy, combined with the youthful features of the sitter, supports the theory that it may have been commissioned to commemorate her short life. The debate surrounding La Bella Principessa reflects broader challenges in art authentication. As technology advances, tools such as carbon dating, digital microscopy, and chemical analysis provide new insights. Yet they rarely offer conclusive answers. In the case of this portrait, scientific findings, historical context, and stylistic analysis each tell part of the story, but none can definitively declare Leonardo's authorship.</p>
 <p>For now, La Bella Principessa remains both a tantalising possibility and a symbol of art history's enduring mysteries. Whether or not it is confirmed as a work by Leonardo, the portrait has captured the imagination of scholars and the public alike. As Martin Kemp once remarked, "Even if we can never be 100 percent certain, the dialogue between art and science has brought us closer than ever before to understanding this beautiful, enigmatic figure."</p>`,
     questions: [
-      { type: 'ynng', rubric: 'Questions 1-5', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Write: YES if the statement agrees with the claims of the writer. NO if the statement contradicts the claims of the writer. NOT GIVEN if there is no information on this.', items: [
+      { type: 'ynng', rubric: 'Questions 1-5', instruction: 'Do the following statements agree with the claims of the writer in Reading Passage 1?', items: [
         { num: 1, text: 'The portrait La Bella Principessa was initially believed to be the work of a German artist.', answer: 'YES' },
         { num: 2, text: 'Martin Kemp was the first person to suggest that the portrait might be by Leonardo da Vinci.', answer: 'NO' },
         { num: 3, text: 'Leonardo da Vinci frequently used vellum for his paintings during his time in Milan.', answer: 'YES' },
@@ -131,14 +131,7 @@ export const readingPassage1Tests = [
         { num: 3, text: 'factors which decide the value of natural pearls', answer: 'G' },
         { num: 4, text: 'a growth mechanism that distinguishes cultured pearls from natural ones', answer: 'C' }
       ] },
-      { type: 'completion', rubric: 'Questions 5-10', instruction: 'Complete the summary below. Choose NO MORE THAN TWO WORDS from the passage for each answer. Write your answers in boxes 5-10 on your answer sheet.', noteLines: [
-          { lineType: 'question', num: 5, beforeText: 'In history, pearls have had great importance within the men of wealth and power, which were treated as gems for women in', afterText: '. Also, pearls were even used as a medicine for people in .' },
-          { lineType: 'question', num: 7, beforeText: 'There are essentially three types of pearls: natural, cultured and imitation. Most freshwater cultured pearls sold today come from China while', afterText: 'Island is famous for its imitation pearl industry. Good-quality natural pearls are exceedingly unusual. often manufactures some of the glitteriest pearls while produces larger size ones due to the favourable environment along the coastline. In the past, in Persian Gulf produced the world\'s best pearls. Nowadays, the major remaining suppliers of natural pearls belong to India.' },
-          { lineType: 'context', text: 'Do the following statements agree with the information given in Reading Passage 1?' },
-          { lineType: 'heading', text: 'TRUE if the statement is true' },
-          { lineType: 'heading', text: 'FALSE if the statement is false' },
-          { lineType: 'heading', text: 'NOT GIVEN if the information is not given in the passage' }
-        ], items: [
+      { type: 'completion', rubric: 'Questions 5-10', instruction: 'Complete the summary below. Choose NO MORE THAN TWO WORDS from the passage for each answer. Write your answers in boxes 5-10 on your answer sheet.', items: [
         { num: 5, beforeText: 'In history, pearls have had great importance within the men of wealth and power, which were treated as gems for women in', afterText: '. Also, pearls were even used as a medicine for people in', answer: 'ancient Rome' },
         { num: 6, beforeText: '. Also, pearls were even used as a medicine for people in', afterText: '', answer: 'eastern countries' },
         { num: 7, beforeText: 'There are essentially three types of pearls: natural, cultured and imitation. Most freshwater cultured pearls sold today come from China while', afterText: 'Island is famous for its imitation pearl industry. Good-quality natural pearls are exceedingly unusual', answer: 'Mallorca' },
@@ -146,7 +139,7 @@ export const readingPassage1Tests = [
         { num: 9, beforeText: 'often manufactures some of the glitteriest pearls while', afterText: 'produces larger size ones due to the favourable environment along the coastline. In the past,', answer: 'Australia' },
         { num: 10, beforeText: 'produces larger size ones due to the favourable environment along the coastline. In the past,', afterText: 'in Persian Gulf produced the world\'s best pearls. Nowadays, the major remaining suppliers of natural pearls belong to India', answer: 'Bahrain' }
       ] },
-      { type: 'tfng', rubric: 'Questions 11-13', instruction: 'Do the following statements agree with the information given in Reading Passage 1? In boxes 11-13 on your answer sheet, write TRUE if the statement is true FALSE if the statement is false NOT GIVEN if the information is not given in the passage', items: [
+      { type: 'tfng', rubric: 'Questions 11-13', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
         { num: 11, text: 'Generally speaking, the centre of cultured pearl is significantly larger than that of a natural pearl.', answer: 'TRUE' },
         { num: 12, text: 'Sometimes, fake pearls can be more expensive.', answer: 'NOT GIVEN' },
         { num: 13, text: 'The size of the pearls produced in Japan is usually smaller than those in Australia.', answer: 'TRUE' }
@@ -173,12 +166,12 @@ export const readingPassage1Tests = [
         { num: 5, text: 'referred to by Herman Melville', answer: 'A' },
         { num: 6, text: 'produces sweet smell', answer: 'A' }
       ] },
-      { type: 'short-answer', rubric: 'Questions 7-9', instruction: 'Complete the sentences below with NO MORE THAN ONE WORD from the passage.', items: [
-        { num: 7, text: 'Sperm whales can\'t digest the of the squids.', answer: 'beaks' },
-        { num: 8, text: 'Sperm whales drive the irritants out of their intestines by .', answer: 'vomiting' },
-        { num: 9, text: 'The vomit of sperm whales gradually on contact of air before having pleasant smell.', answer: 'hardens' }
+      { type: 'completion', rubric: 'Questions 7-9', instruction: 'Complete the sentences below with NO MORE THAN ONE WORD from the passage.', items: [
+        { num: 7, beforeText: 'Sperm whales can\'t digest the', afterText: 'of the squids.', answer: 'beaks' },
+        { num: 8, beforeText: 'Sperm whales drive the irritants out of their intestines by', afterText: '.', answer: 'vomiting' },
+        { num: 9, beforeText: 'The vomit of sperm whales gradually', afterText: 'on contact of air before having pleasant smell.', answer: 'hardens' }
       ] },
-      { type: 'tfng', rubric: 'Questions 10-13', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Write TRUE if the statement agrees, FALSE if it contradicts, or NOT GIVEN if there is no information.', items: [
+      { type: 'tfng', rubric: 'Questions 10-13', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
         { num: 10, text: 'Most ambergris comes from the dead whales today.', answer: 'NOT GIVEN' },
         { num: 11, text: 'Ambergris is becoming more expensive than before.', answer: 'NOT GIVEN' },
         { num: 12, text: 'Ambergris is still a popular ingredient in perfume production today.', answer: 'FALSE' },
@@ -207,7 +200,7 @@ export const readingPassage1Tests = [
         { num: 4, text: 'a reference to the highest price offered at an auction', answer: 'G' },
         { num: 5, text: 'an incident related to the ending of \'tulip mania\'', answer: 'H' }
       ] },
-      { type: 'tfng', rubric: 'Questions 6-10', instruction: 'Choose TRUE if the statement agrees with the information given in the text, choose FALSE if the statement contradicts the information, or choose NOT GIVEN if there is no information on this.', items: [
+      { type: 'tfng', rubric: 'Questions 6-10', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
         { num: 6, text: 'Rembrandt was known to have spent a considerable sum of money on purchasing flowers such as tulips.', answer: 'NOT GIVEN' },
         { num: 7, text: 'There was little incentive for traders to travel to the East Indies after Holland became independent.', answer: 'FALSE' },
         { num: 8, text: 'Tulips reproduced too slowly, and in too small a quantity, to keep up with the growing demand for the flower in the 1630s.', answer: 'TRUE' },
@@ -233,7 +226,7 @@ export const readingPassage1Tests = [
 <p>But what sustained such a trading center and drew travelers to it? Was it food? Shady and her team found the bones of small edible fish, which must have come from the Pacific coast to the west, in the excavations. But they also found evidence of squash, sweet potatoes and beans having been grown locally. Shady theorized that Caral's early farmers diverted the area's rivers into canals, which still cross the Supe Valley today, to irrigate their fields. But because she found no traces of maize, which can be traded or stored and used in times of crop failure, she concluded that Caral's trade leverage was not based on stockpiling food supplies.</p>
 <p>It was evidence of another crop in the excavations that gave Shady the best clue to Caral's success. In nearly every excavated building, her team discovered evidence of cotton seeds, fibers and textiles. Her theory fell into place when a large fishing net made of those fibers, unearthed in an unrelated dig on Peru's coast, turned out to be as old as Caral. 'The farmers of Caral grew the cotton that the fishermen needed to make their nets,' Shady speculates. 'And the fishermen gave them shellfish and dried fish in exchange for these nets.' In essence, the people of Caral enabled fishermen to work with larger and more effective nets, which made the resources of the sea more readily available, and the fishermen probably used dried squash grown by the Caral people as flotation devices for their nets.</p>`,
     questions: [
-      { type: 'tfng', rubric: 'Questions 1-6', instruction: 'Do the following statements agree with the information given in Reading Passage 1? In boxes 1-6 on your answer sheet, write TRUE if the statement agrees with the information FALSE if the statement contradicts the information NOT GIVEN if there is no information on this', items: [
+      { type: 'tfng', rubric: 'Questions 1-6', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
         { num: 1, text: 'Caral was built at the same time as the construction of the Egyptian pyramids.', answer: 'FALSE' },
         { num: 2, text: 'The absence of pottery at the archaeological dig gave Shady a significant clue to the age of the site.', answer: 'TRUE' },
         { num: 3, text: 'The stones used to build Piramide Mayor came from a location far away.', answer: 'FALSE' },
@@ -242,18 +235,18 @@ export const readingPassage1Tests = [
         { num: 6, text: 'The remains of housing areas at Caral suggest that there were no class distinctions in residential areas.', answer: 'FALSE' }
       ] },
       { type: 'completion', rubric: 'Questions 7-13', instruction: 'Complete the notes below. Choose ONE WORD ONLY from the passage for each answer. Write your answers in boxes 7-13 on your answer sheet.', noteLines: [
-          { lineType: 'heading', text: 'Caral as a trading centre' },
-          { lineType: 'context', text: 'Items discovered at Caral but not naturally occurring in the area' },
-          { lineType: 'question', num: 7, beforeText: 'the', afterText: 'of a certain plant' },
-          { lineType: 'question', num: 8, beforeText: '', afterText: 'used to make jewellery' },
-          { lineType: 'question', num: 9, beforeText: 'the remains of certain food such as', afterText: '' },
-          { lineType: 'context', text: 'Clues to farming around Caral' },
-          { lineType: 'question', num: 10, beforeText: '', afterText: 'still in existence today indicate water diverted from rivers' },
-          { lineType: 'question', num: 11, beforeText: 'no evidence that', afterText: 'was grown' },
-          { lineType: 'context', text: 'Evidence of relationship with fishing communities' },
-          { lineType: 'question', num: 12, beforeText: 'the excavation findings and fishing nets found on the coast suggest Caral farmers traded', afterText: '' },
-          { lineType: 'question', num: 13, beforeText: 'dried squash may have been used to aid', afterText: 'of fishing nets' }
-        ], items: [
+        { lineType: 'heading', text: 'Caral as a trading centre' },
+        { lineType: 'context', text: 'Items discovered at Caral but not naturally occurring in the area' },
+        { lineType: 'question', num: 7, beforeText: 'the', afterText: 'of a certain plant' },
+        { lineType: 'question', num: 8, beforeText: '', afterText: 'used to make jewellery' },
+        { lineType: 'question', num: 9, beforeText: 'the remains of certain food such as', afterText: '' },
+        { lineType: 'context', text: 'Clues to farming around Caral' },
+        { lineType: 'question', num: 10, beforeText: '', afterText: 'still in existence today indicate water diverted from rivers' },
+        { lineType: 'question', num: 11, beforeText: 'no evidence that', afterText: 'was grown' },
+        { lineType: 'context', text: 'Evidence of relationship with fishing communities' },
+        { lineType: 'question', num: 12, beforeText: 'the excavation findings and fishing nets found on the coast suggest Caral farmers traded', afterText: '' },
+        { lineType: 'question', num: 13, beforeText: 'dried squash may have been used to aid', afterText: 'of fishing nets' }
+      ], items: [
         { num: 7, beforeText: 'the', afterText: 'of a certain plant', answer: 'seeds' },
         { num: 8, beforeText: '', afterText: 'used to make jewellery', answer: 'shells' },
         { num: 9, beforeText: 'the remains of certain food such as', afterText: '', answer: 'fish' },
@@ -285,7 +278,7 @@ export const readingPassage1Tests = [
         { num: 6, beforeText: 'Tea was planted in', afterText: 'besides China in the 19th century', answer: 'India' },
         { num: 7, beforeText: 'In order to compete in shipping speed, traders used', afterText: 'for the race', answer: 'clippers' }
       ] },
-      { type: 'tfng', rubric: 'Questions 8-13', instruction: 'Do the following statements agree with the information given in Reading Passage 1? In boxes 8-13 on your answer sheet, write TRUE if the statement agrees with the information FALSE if the statement contradicts the information NOT GIVEN if there is no information on this', items: [
+      { type: 'tfng', rubric: 'Questions 8-13', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
         { num: 8, text: 'Tea was popular in Britain in the 16th century.', answer: 'FALSE' },
         { num: 9, text: 'Tea was more fashionable than coffee in Europe in the late 16th century.', answer: 'NOT GIVEN' },
         { num: 10, text: 'Tea was enjoyed by all classes in Britain in the seventeenth century.', answer: 'FALSE' },
@@ -309,19 +302,19 @@ export const readingPassage1Tests = [
 <p>After Warne's death, Potter moved to the Lake District in northern England. In 1905 she bought a small farm there, and for the next eight years she busied herself writing more books, some of which were based in or around the area. She lived there for the remainder of her life, but due to failing eyesight she was forced to stop writing children's books. Instead, she devoted her time to the breeding of sheep and helping with the conservation of farms in the district. Using proceeds from her very successful books and later her inheritance, Potter was able to buy many working farms. On her death, she left over 4,000 acres to the National Trust, an organisation which protects historical buildings and areas of countryside in England. It has meant that her beloved countryside is now accessible to many visitors.</p>`,
     questions: [
       { type: 'completion', rubric: 'Questions 1-6', instruction: 'Complete the notes below. Choose ONE WORD ONLY from the passage for each answer. Write your answers in boxes 1-6 on your answer sheet.', noteLines: [
-          { lineType: 'heading', text: 'Beatrix Potter' },
-          { lineType: 'heading', text: 'Success as an author' },
-          { lineType: 'context', text: 'Her books have been in print for more than 100 years.' },
-          { lineType: 'heading', text: 'Childhood' },
-          { lineType: 'question', num: 1, beforeText: 'She received lessons at home from a', afterText: '.' },
-          { lineType: 'question', num: 2, beforeText: 'She wrote in her', afterText: 'in code.' },
-          { lineType: 'question', num: 3, beforeText: 'She disliked the work of some', afterText: 'of the time.' },
-          { lineType: 'context', text: 'She took lessons in drawing.' },
-          { lineType: 'question', num: 4, beforeText: 'She practised drawing things she saw when she visited', afterText: '.' },
-          { lineType: 'heading', text: 'Life as a young adult' },
-          { lineType: 'question', num: 5, beforeText: 'Her', afterText: 'to have a career in natural history was not realised.' },
-          { lineType: 'question', num: 6, beforeText: 'Her illustrations were recognised as assisting research into', afterText: '.' }
-        ], items: [
+        { lineType: 'heading', text: 'Beatrix Potter' },
+        { lineType: 'heading', text: 'Success as an author' },
+        { lineType: 'context', text: 'Her books have been in print for more than 100 years.' },
+        { lineType: 'heading', text: 'Childhood' },
+        { lineType: 'question', num: 1, beforeText: 'She received lessons at home from a', afterText: '.' },
+        { lineType: 'question', num: 2, beforeText: 'She wrote in her', afterText: 'in code.' },
+        { lineType: 'question', num: 3, beforeText: 'She disliked the work of some', afterText: 'of the time.' },
+        { lineType: 'context', text: 'She took lessons in drawing.' },
+        { lineType: 'question', num: 4, beforeText: 'She practised drawing things she saw when she visited', afterText: '.' },
+        { lineType: 'heading', text: 'Life as a young adult' },
+        { lineType: 'question', num: 5, beforeText: 'Her', afterText: 'to have a career in natural history was not realised.' },
+        { lineType: 'question', num: 6, beforeText: 'Her illustrations were recognised as assisting research into', afterText: '.' }
+      ], items: [
         { num: 1, beforeText: 'She received lessons at home from a', afterText: '.', answer: 'governess' },
         { num: 2, beforeText: 'She wrote in her', afterText: 'in code.', answer: 'diary' },
         { num: 3, beforeText: 'She disliked the work of some', afterText: 'of the time.', answer: 'artists' },
@@ -329,7 +322,7 @@ export const readingPassage1Tests = [
         { num: 5, beforeText: 'Her', afterText: 'to have a career in natural history was not realised.', answer: 'ambition' },
         { num: 6, beforeText: 'Her illustrations were recognised as assisting research into', afterText: '.', answer: 'mycology' }
       ] },
-      { type: 'tfng', rubric: 'Questions 7-13', instruction: 'Do the following statements agree with the information given in Reading Passage 1? In boxes 7-13 on your answer sheet, write TRUE if the statement agrees with the information FALSE if the statement contradicts the information NOT GIVEN if there is no information on this', items: [
+      { type: 'tfng', rubric: 'Questions 7-13', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
         { num: 7, text: 'The life of a typical married woman at that time appealed to Potter.', answer: 'FALSE' },
         { num: 8, text: 'Potter\'s publishers insisted on changing the title of her first book.', answer: 'NOT GIVEN' },
         { num: 9, text: 'The publishers doubted whether Potter\'s first book would be successful.', answer: 'TRUE' },
@@ -351,7 +344,7 @@ export const readingPassage1Tests = [
 <p>Capsaicin has even been suggested as a potential weight-loss tool. Research conducted by the University of Wyoming on mice that had been fed a high-fat diet found that the substance increased the metabolism of the animals, causing them to burn more energy and preventing weight gain. In another study, researchers at the University of Adelaide found that certain receptors that interact with capsaicin and are located inside the stomach play a role in sensing when you are full. Previous studies on humans seem to back the idea that eating spicy food may curb our appetite.</p>
 <p>Capsaicin is a natural painkiller. Capsaicin creams and patches are available in chemists to ease pain. But it's only recently that we have come to understand how something that causes pain can ease it too. Capsaicin binds to the pain receptor TRPV1, which our brains also use to detect changes in temperature - that's why we think chillies are hot. But after being over-stimulated the neurons stop responding, killing the pain. This process involves the release of endorphins, which can give us a 'rush' not unlike the feeling we have when we have done some exercise. This may explain why some people believe that hot food is addictive.</p>`,
     questions: [
-      { type: 'tfng', rubric: 'Questions 1-7', instruction: 'Do the following statements agree with the information given in Reading Passage 1? In boxes 1-7 on your answer sheet, write TRUE if the statement agrees with the information FALSE if the statement contradicts the information NOT GIVEN if there is no information on this', items: [
+      { type: 'tfng', rubric: 'Questions 1-7', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
         { num: 1, text: 'The study done by the Chinese Academy of Medical Sciences looked at eating habits in several countries.', answer: 'FALSE' },
         { num: 2, text: 'Eating fresh chillies can decrease the likelihood of dying from certain serious illnesses.', answer: 'TRUE' },
         { num: 3, text: 'Capsaicin is found in the same place in all chilli varieties.', answer: 'FALSE' },
@@ -361,25 +354,25 @@ export const readingPassage1Tests = [
         { num: 7, text: 'Birds have different physical responses to eating chillies to those of mammals.', answer: 'TRUE' }
       ] },
       { type: 'completion', rubric: 'Questions 8-13', instruction: 'Complete the notes below. Choose ONE WORD ONLY from the passage for each answer. Write your answers in boxes 8-13 on your answer sheet.', noteLines: [
-          { lineType: 'context', text: 'Using chilli to fight bacteria' },
-          { lineType: 'question', num: 8, beforeText: '- chilli\'s ability to fight germs was very significant before the invention of', afterText: '.' },
-          { lineType: 'question', num: 9, beforeText: '- it was thought that chilli was eaten because it causes bodies to produce', afterText: 'which reduces body heat' },
-          { lineType: 'question', num: 10, beforeText: '- books of', afterText: 'from around the world show chilli is more commonly used in certain geographical areas' },
-          { lineType: 'context', text: '- chilli is most likely to be used in valleys with a lot of humidity' },
-          { lineType: 'context', text: 'Using chilli for weight loss' },
-          { lineType: 'question', num: 11, beforeText: '- the University of Wyoming found that chilli raised the mice\'s', afterText: '' },
-          { lineType: 'question', num: 12, beforeText: '- the University of Adelaide found that receptors in the', afterText: 'react with chilli to indicate when you\'ve had enough to eat' },
-          { lineType: 'context', text: 'Using chilli as pain relief' },
-          { lineType: 'context', text: '- It reacts with the part of our brain that notices a difference in temperature' },
-          { lineType: 'question', num: 13, beforeText: '- the sensation we have when eating chilli is similar to the one we have after', afterText: '...' }
-        ], items: [
-        { num: 8, beforeText: '- chilli\'s ability to fight germs was very significant before the invention of', afterText: '', answer: 'refrigeration' },
-        { num: 9, beforeText: '- it was thought that chilli was eaten because it causes bodies to produce', afterText: 'which reduces body heat', answer: 'sweat' },
-        { num: 10, beforeText: '- books of', afterText: 'from around the world show chilli is more commonly used in certain geographical areas', answer: 'recipes' },
-        { num: 11, beforeText: '- the University of Wyoming found that chilli raised the mice\'s', afterText: '', answer: 'metabolism' },
-        { num: 12, beforeText: '- the University of Adelaide found that receptors in the', afterText: 'react with chilli to indicate when you\'ve had enough to eat', answer: 'stomach' },
-        { num: 13, beforeText: '- the sensation we have when eating chilli is similar to the one we have after', afterText: '...', answer: 'exercise' }
+        { lineType: 'context', text: 'Using chilli to fight bacteria' },
+        { lineType: 'question', num: 8, beforeText: 'chilli\'s ability to fight germs was very significant before the invention of', afterText: '.' },
+        { lineType: 'question', num: 9, beforeText: 'it was thought that chilli was eaten because it causes bodies to produce', afterText: 'which reduces body heat' },
+        { lineType: 'question', num: 10, beforeText: 'books of', afterText: 'from around the world show chilli is more commonly used in certain geographical areas' },
+        { lineType: 'context', text: 'chilli is most likely to be used in valleys with a lot of humidity' },
+        { lineType: 'context', text: 'Using chilli for weight loss' },
+        { lineType: 'question', num: 11, beforeText: 'the University of Wyoming found that chilli raised the mice\'s', afterText: '' },
+        { lineType: 'question', num: 12, beforeText: 'the University of Adelaide found that receptors in the', afterText: 'react with chilli to indicate when you\'ve had enough to eat' },
+        { lineType: 'context', text: 'Using chilli as pain relief' },
+        { lineType: 'context', text: 'It reacts with the part of our brain that notices a difference in temperature' },
+        { lineType: 'question', num: 13, beforeText: 'the sensation we have when eating chilli is similar to the one we have after', afterText: '...' }
+      ], items: [
+        { num: 8, beforeText: 'chilli\'s ability to fight germs was very significant before the invention of', afterText: '', answer: 'refrigeration' },
+        { num: 9, beforeText: 'it was thought that chilli was eaten because it causes bodies to produce', afterText: 'which reduces body heat', answer: 'sweat' },
+        { num: 10, beforeText: 'books of', afterText: 'from around the world show chilli is more commonly used in certain geographical areas', answer: 'recipes' },
+        { num: 11, beforeText: 'the University of Wyoming found that chilli raised the mice\'s', afterText: '', answer: 'metabolism' },
+        { num: 12, beforeText: 'the University of Adelaide found that receptors in the', afterText: 'react with chilli to indicate when you\'ve had enough to eat', answer: 'stomach' },
+        { num: 13, beforeText: 'the sensation we have when eating chilli is similar to the one we have after', afterText: '...', answer: 'exercise' }
       ] },
     ]
-  }];
-
+  },
+];
