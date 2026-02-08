@@ -5196,7 +5196,7 @@ const ListeningPage = ({ subPage, setSubPage }) => {
 
             <div onClick={() => setSubPage('80-tests')} style={{ padding: '1.5rem', borderRadius: '16px', background: 'linear-gradient(135deg, var(--purple-600-10), var(--purple-700-5))', border: '1px solid var(--purple-500-30)', cursor: 'pointer' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
-                <span style={{ padding: '0.25rem 0.75rem', borderRadius: '6px', background: 'var(--purple-600)', fontSize: '0.75rem', fontWeight: '600', color: 'white' }}>80 TESTS</span>
+                <span style={{ padding: '0.35rem 0.9rem', borderRadius: '20px', background: 'var(--purple-600)', fontSize: '0.7rem', fontWeight: '700', color: 'white', letterSpacing: '0.5px' }}>80 TESTS</span>
                 <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)' }}>80 IELTS Listening Tests</h2>
               </div>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Complete practice tests covering all four sections with audio</p>
@@ -6703,6 +6703,28 @@ const ReadingPage = ({ subPage, setSubPage }) => {
   const questionsRef = useRef(null);
   const containerRef = useRef(null);
 
+  // Inject CSS for timer blink animation and input placeholder styling
+  useEffect(() => {
+    const styleId = 'timer-blink-style';
+    if (!document.getElementById(styleId)) {
+      const style = document.createElement('style');
+      style.id = styleId;
+      style.textContent = `
+        @keyframes timerBlink {
+          0%, 100% { opacity: 1; }
+          50% { opacity: 0.4; }
+        }
+        .completion-input::placeholder {
+          font-family: inherit;
+          text-align: center;
+          color: var(--text-muted);
+          opacity: 0.6;
+        }
+      `;
+      document.head.appendChild(style);
+    }
+  }, []);
+
   // Get the correct test array based on subPage
   const getTestArray = () => {
     if (subPage === 'passage3') return readingPassage3Tests;
@@ -6976,7 +6998,7 @@ const ReadingPage = ({ subPage, setSubPage }) => {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
                 <span style={{ fontSize: '2rem' }}>📄</span>
-                <span style={{ padding: '0.25rem 0.75rem', borderRadius: '6px', background: 'var(--purple-600)', fontSize: '0.75rem', fontWeight: '600', color: 'white' }}>10 TESTS</span>
+                <span style={{ padding: '0.35rem 0.9rem', borderRadius: '20px', background: 'var(--purple-600)', fontSize: '0.7rem', fontWeight: '700', color: 'white', letterSpacing: '0.5px' }}>10 TESTS</span>
               </div>
               <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Passage 1 Practice</h2>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>13 questions • T/F/NG, completion, matching, MCQ</p>
@@ -6992,7 +7014,7 @@ const ReadingPage = ({ subPage, setSubPage }) => {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
                 <span style={{ fontSize: '2rem' }}>📄</span>
-                <span style={{ padding: '0.25rem 0.75rem', borderRadius: '6px', background: '#3b82f6', fontSize: '0.75rem', fontWeight: '600', color: 'white' }}>10 TESTS</span>
+                <span style={{ padding: '0.35rem 0.9rem', borderRadius: '20px', background: '#3b82f6', fontSize: '0.7rem', fontWeight: '700', color: 'white', letterSpacing: '0.5px' }}>10 TESTS</span>
               </div>
               <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Passage 2 Practice</h2>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>13 questions • Matching headings, MCQ, T/F/NG, completion</p>
@@ -7007,7 +7029,7 @@ const ReadingPage = ({ subPage, setSubPage }) => {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
                 <span style={{ fontSize: '2rem' }}>📄</span>
-                <span style={{ padding: '0.25rem 0.75rem', borderRadius: '6px', background: '#10b981', fontSize: '0.75rem', fontWeight: '600', color: 'white' }}>9 TESTS</span>
+                <span style={{ padding: '0.35rem 0.9rem', borderRadius: '20px', background: '#10b981', fontSize: '0.7rem', fontWeight: '700', color: 'white', letterSpacing: '0.5px' }}>9 TESTS</span>
               </div>
               <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Passage 3 Practice</h2>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>14 questions • Advanced difficulty • Matching, MCQ, T/F/NG</p>
@@ -7251,33 +7273,64 @@ const ReadingPage = ({ subPage, setSubPage }) => {
 
           {/* Timer */}
           <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            {/* Hide/Show button - LEFT of timer */}
+            <button onClick={() => setShowTimer(!showTimer)} title={showTimer ? 'Hide timer' : 'Show timer'}
+              style={{ padding: '0.5rem', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-secondary)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {showTimer ? (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/>
+                  <line x1="1" y1="1" x2="23" y2="23"/>
+                </svg>
+              ) : (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                  <circle cx="12" cy="12" r="3"/>
+                </svg>
+              )}
+            </button>
+            
+            {/* Timer display - clickable to pause/play */}
             {showTimer && (
-              <div style={{
-                display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem',
-                background: timerMode === 'countdown' && timerSeconds <= 60 ? 'rgba(239, 68, 68, 0.2)' : 'var(--bg-secondary)', 
-                borderRadius: '8px', border: '1px solid var(--border-color)'
-              }}>
-                <span style={{ fontSize: '1.1rem' }}>⏱</span>
+              <div 
+                onClick={() => setTimerRunning(!timerRunning)}
+                title={timerRunning ? 'Click to pause' : 'Click to resume'}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: '0.5rem', padding: '0.5rem 1rem',
+                  background: (timerMode === 'countdown' && timerSeconds <= 120) || (timerMode === 'stopwatch' && timerSeconds >= 1080) ? 'rgba(239, 68, 68, 0.15)' : 'var(--bg-secondary)', 
+                  borderRadius: '8px', border: '1px solid var(--border-color)',
+                  cursor: 'pointer',
+                  animation: !timerRunning ? 'timerBlink 1s ease-in-out infinite' : 'none'
+                }}>
                 <span style={{ 
-                  fontFamily: 'monospace', fontSize: '1.1rem', fontWeight: '600', 
-                  color: timerMode === 'countdown' && timerSeconds <= 60 ? '#ef4444' : 'var(--text-primary)', 
-                  minWidth: '60px' 
+                  fontSize: '1.1rem', fontWeight: '600', 
+                  color: (timerMode === 'countdown' && timerSeconds <= 120) || (timerMode === 'stopwatch' && timerSeconds >= 1080) ? '#ef4444' : 'var(--text-primary)', 
+                  minWidth: '60px',
+                  fontFamily: 'inherit'
                 }}>
                   {formatTime(timerSeconds)}
                 </span>
               </div>
             )}
-            <button onClick={() => setShowTimer(!showTimer)} title={showTimer ? 'Hide timer' : 'Show timer'}
-              style={{ padding: '0.5rem', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-secondary)', cursor: 'pointer', color: 'var(--text-secondary)' }}>
-              {showTimer ? '🙈' : '👁️'}
-            </button>
-            <button onClick={() => { setTimerMode(m => m === 'countdown' ? 'stopwatch' : 'countdown'); setTimerSeconds(timerMode === 'countdown' ? 0 : 20*60); }} title="Toggle countdown/stopwatch"
-              style={{ padding: '0.5rem', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-secondary)', cursor: 'pointer', color: 'var(--text-secondary)' }}>
-              {timerMode === 'countdown' ? '⏳' : '⏱'}
-            </button>
-            <button onClick={() => setTimerRunning(!timerRunning)} title={timerRunning ? 'Pause' : 'Resume'}
-              style={{ padding: '0.5rem', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-secondary)', cursor: 'pointer', color: 'var(--text-secondary)' }}>
-              {timerRunning ? '⏸' : '▶️'}
+            
+            {/* Mode toggle button - RIGHT of timer */}
+            <button onClick={() => { setTimerMode(m => m === 'countdown' ? 'stopwatch' : 'countdown'); setTimerSeconds(timerMode === 'countdown' ? 0 : 20*60); }} title={timerMode === 'countdown' ? 'Switch to stopwatch' : 'Switch to countdown'}
+              style={{ padding: '0.5rem', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-secondary)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+              {timerMode === 'countdown' ? (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M6 2v4M18 2v4M6 22v-4M18 22v-4M2 6h4M2 18h4M22 6h-4M22 18h-4"/>
+                  <rect x="6" y="6" width="12" height="12" rx="1"/>
+                  <path d="M12 10v4"/>
+                </svg>
+              ) : (
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <circle cx="12" cy="14" r="8"/>
+                  <line x1="12" y1="10" x2="12" y2="14"/>
+                  <line x1="12" y1="14" x2="14" y2="14"/>
+                  <line x1="10" y1="2" x2="14" y2="2"/>
+                  <line x1="12" y1="2" x2="12" y2="6"/>
+                  <line x1="20" y1="5" x2="18" y2="7"/>
+                </svg>
+              )}
             </button>
           </div>
 
@@ -7307,10 +7360,10 @@ const ReadingPage = ({ subPage, setSubPage }) => {
               background: 'var(--bg-primary)'
             }}
           >
-            <h2 style={{ textAlign: 'center', fontSize: '1.25rem', fontWeight: '600', color: 'var(--purple-500)', marginBottom: '0.5rem' }}>
+            <h2 style={{ textAlign: 'center', fontSize: '1.5rem', fontWeight: '700', color: 'var(--purple-500)', marginBottom: '0.5rem' }}>
               {selectedTest.title}
             </h2>
-            <p style={{ textAlign: 'center', fontStyle: 'italic', color: 'var(--text-secondary)', marginBottom: '1.5rem', fontSize: '0.9rem' }}>
+            <p style={{ textAlign: 'center', fontStyle: 'italic', color: 'var(--text-secondary)', marginBottom: '1.5rem', fontSize: '1rem' }}>
               {selectedTest.subtitle}
             </p>
             <div 
@@ -7377,7 +7430,7 @@ const ReadingPage = ({ subPage, setSubPage }) => {
                       id={`question-${item.num}`}
                       style={{ marginBottom: '1.5rem' }}
                     >
-                      <p style={{ color: 'var(--text-primary)', marginBottom: '0.75rem', fontSize: '0.95rem', lineHeight: '1.6' }}>
+                      <p style={{ color: 'var(--text-primary)', marginBottom: '0.75rem', fontSize: '1.05rem', lineHeight: '1.6' }}>
                         <strong style={{ color: 'var(--purple-400)' }}>{item.num}.</strong> {item.text}
                       </p>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -7414,7 +7467,7 @@ const ReadingPage = ({ subPage, setSubPage }) => {
                       id={`question-${item.num}`}
                       style={{ marginBottom: '1.5rem' }}
                     >
-                      <p style={{ color: 'var(--text-primary)', marginBottom: '0.75rem', fontSize: '0.95rem' }}>
+                      <p style={{ color: 'var(--text-primary)', marginBottom: '0.75rem', fontSize: '1.05rem' }}>
                         <strong style={{ color: 'var(--purple-400)' }}>{item.num}.</strong> {item.question || item.text}
                       </p>
                       <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem' }}>
@@ -7464,7 +7517,7 @@ const ReadingPage = ({ subPage, setSubPage }) => {
                           style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}
                         >
                           <strong style={{ color: 'var(--purple-400)', minWidth: '30px' }}>{item.num}.</strong>
-                          <span style={{ color: 'var(--text-primary)', flex: 1, minWidth: '200px' }}>{item.text}</span>
+                          <span style={{ color: 'var(--text-primary)', flex: 1, minWidth: '200px', fontSize: '1.05rem' }}>{item.text}</span>
                           <input 
                             type="text" 
                             value={userAns} 
@@ -7508,7 +7561,7 @@ const ReadingPage = ({ subPage, setSubPage }) => {
                             alignItems: 'center', 
                             gap: '0.5rem', 
                             flexWrap: 'wrap',
-                            fontSize: '0.95rem', 
+                            fontSize: '1.05rem', 
                             color: 'var(--text-primary)',
                             lineHeight: '1.8'
                           }}
@@ -7521,6 +7574,7 @@ const ReadingPage = ({ subPage, setSubPage }) => {
                             onChange={(e) => handleAnswerChange(item.num, e.target.value)}
                             disabled={showResults} 
                             placeholder={String(item.num)}
+                            className="completion-input"
                             style={{ 
                               padding: '0.4rem 0.6rem', 
                               borderRadius: '4px', 
@@ -7529,7 +7583,9 @@ const ReadingPage = ({ subPage, setSubPage }) => {
                               border: `2px dashed ${showResults ? (isCorrect ? '#22c55e' : isWrong ? '#ef4444' : 'var(--border-color)') : 'var(--border-color)'}`,
                               background: showResults ? (isCorrect ? 'rgba(34,197,94,0.1)' : isWrong ? 'rgba(239,68,68,0.1)' : 'var(--input-bg)') : 'var(--input-bg)',
                               color: 'var(--text-primary)',
-                              fontSize: '0.95rem'
+                              fontSize: '1.05rem',
+                              fontFamily: 'inherit',
+                              textAlign: 'center'
                             }} 
                           />
                           {item.afterText && <span>{item.afterText}</span>}
@@ -7562,7 +7618,7 @@ const ReadingPage = ({ subPage, setSubPage }) => {
                       <p style={{ fontWeight: '600', color: 'var(--purple-400)', marginBottom: '0.75rem' }}>List of Headings</p>
                       <div style={{ display: 'grid', gap: '0.5rem' }}>
                         {section.headings.map((heading, idx) => (
-                          <p key={idx} style={{ color: 'var(--text-primary)', fontSize: '0.9rem' }}>{heading}</p>
+                          <p key={idx} style={{ color: 'var(--text-primary)', fontSize: '1.05rem' }}>{heading}</p>
                         ))}
                       </div>
                     </div>
@@ -7580,7 +7636,7 @@ const ReadingPage = ({ subPage, setSubPage }) => {
                             style={{ display: 'flex', alignItems: 'center', gap: '1rem', flexWrap: 'wrap' }}
                           >
                             <strong style={{ color: 'var(--purple-400)', minWidth: '30px' }}>{item.num}.</strong>
-                            <span style={{ color: 'var(--text-primary)', minWidth: '100px' }}>Paragraph {item.paragraph}</span>
+                            <span style={{ color: 'var(--text-primary)', minWidth: '100px', fontSize: '1.05rem' }}>Paragraph {item.paragraph}</span>
                             <input 
                               type="text" 
                               value={userAns} 
@@ -7635,7 +7691,7 @@ const ReadingPage = ({ subPage, setSubPage }) => {
                           style={{ display: 'flex', alignItems: 'flex-start', gap: '1rem', flexWrap: 'wrap' }}
                         >
                           <strong style={{ color: 'var(--purple-400)', minWidth: '30px', paddingTop: '0.25rem' }}>{item.num}.</strong>
-                          <span style={{ color: 'var(--text-primary)', flex: 1, minWidth: '200px', lineHeight: '1.6' }}>{item.text}</span>
+                          <span style={{ color: 'var(--text-primary)', flex: 1, minWidth: '200px', lineHeight: '1.6', fontSize: '1.05rem' }}>{item.text}</span>
                           <select 
                             value={userAns} 
                             onChange={(e) => handleAnswerChange(item.num, e.target.value.toUpperCase())}
