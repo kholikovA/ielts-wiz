@@ -111,20 +111,13 @@ export const readingPassage1Tests = [
         { num: 6, text: 'Olmsted helped establish a park in the Yosemite Valley.', answer: 'TRUE' }
       ] },
       { type: 'completion', rubric: 'Questions 7-13', instruction: 'Complete the notes below. Write ONE WORD ONLY from the passage for each answer.', items: [
-        { num: 7, beforeText: 'in Yellowstone Park, every type of
-                                7', afterText: 'was prohibited', answer: 'hunting' },
-        { num: 8, beforeText: 'Yellowstone and other parks were administered by the
-                                8', afterText: '', answer: 'military' },
-        { num: 9, beforeText: 'the development of a railroad system encouraged new kinds of
-                                9', afterText: '', answer: 'tourism' },
-        { num: 10, beforeText: 'Langford believed that public
-                                10', afterText: 'was the most important role of the parks', answer: 'education' },
-        { num: 11, beforeText: 'Mather greatly improved the
-                                11', afterText: 'of the parks', answer: 'finances' },
-        { num: 12, beforeText: 'the NPS allowed some
-                                12', afterText: 'to be built in national parks', answer: 'dams' },
-        { num: 13, beforeText: 'in the 1930s, the popularity of the parks increased with the availability of
-                                13', afterText: '', answer: 'automobiles' }
+        { num: 7, beforeText: 'in Yellowstone Park, every type of ', afterText: 'was prohibited', answer: 'hunting' },
+        { num: 8, beforeText: 'Yellowstone and other parks were administered by the ', afterText: '', answer: 'military' },
+        { num: 9, beforeText: 'the development of a railroad system encouraged new kinds of ', afterText: '', answer: 'tourism' },
+        { num: 10, beforeText: 'Langford believed that public ', afterText: 'was the most important role of the parks', answer: 'education' },
+        { num: 11, beforeText: 'Mather greatly improved the ', afterText: 'of the parks', answer: 'finances' },
+        { num: 12, beforeText: 'the NPS allowed some ', afterText: 'to be built in national parks', answer: 'dams' },
+        { num: 13, beforeText: 'in the 1930s, the popularity of the parks increased with the availability of ', afterText: '', answer: 'automobiles' }
       ] },
     ]
   },
@@ -323,14 +316,11 @@ export const readingPassage1Tests = [
         { num: 4, text: 'What devices, developed to solve the problem of IAP, failed because they did not meet local needs?', answer: 'special stoves' }
       ] },
       { type: 'completion', rubric: 'Questions 5-9', instruction: 'Complete the flow-chart below. Choose NO MORE THAN TWO WORDS AND/OR A NUMBER from the passage for each answer. Write your answers in boxes 5-9 on your answer sheet.', items: [
-        { num: 5, beforeText: 'conducting', afterText: 'and requesting
-                                proposals', answer: 'consultations' },
-        { num: 6, beforeText: 'setting up', afterText: 'in
-                                    developing countries', answer: 'pilot projects' },
+        { num: 5, beforeText: 'conducting', afterText: 'and requesting proposals', answer: 'consultations' },
+        { num: 6, beforeText: 'setting up', afterText: 'in developing countries', answer: 'pilot projects' },
         { num: 7, beforeText: '', afterText: '', answer: 'review' },
         { num: 8, beforeText: 'long-term aim: protection of up to', afterText: 'Households', answer: '10 million' },
-        { num: 9, beforeText: 'possible establishment of partnerships and
-                                    intervention mechanisms on the', afterText: 'level', answer: 'international' }
+        { num: 9, beforeText: 'possible establishment of partnerships and intervention mechanisms on the', afterText: 'level', answer: 'international' }
       ] },
       { type: 'tfng', rubric: 'Questions 10-13', instruction: 'Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this', items: [
         { num: 10, text: 'Less research has been done on the Breathing Space programme\'s impact on health than on its effect on indoor pollution levels.', answer: 'TRUE' },
