@@ -5635,19 +5635,19 @@ const readingPassage1Tests = [
         { num: 1, text: 'The portrait La Bella Principessa was initially believed to be the work of a German artist.', answer: 'YES' },
         { num: 2, text: 'Martin Kemp was the first person to suggest that the portrait might be by Leonardo da Vinci.', answer: 'NO' },
         { num: 3, text: 'Leonardo da Vinci frequently used vellum for his paintings during his time in Milan.', answer: 'YES' },
-        { num: 4, text: 'The fingerprint marks found on the portrait perfectly matched those in Leonardo's notebooks.', answer: 'NO' },
+        { num: 4, text: 'The fingerprint marks found on the portrait perfectly matched those in Leonardo\'s notebooks.', answer: 'NO' },
         { num: 5, text: 'Historical records confirm that Bianca Sforza died due to an illness.', answer: 'NOT GIVEN' },
       ]},
       { type: 'mcq', rubric: 'Questions 6-9', instruction: 'Choose the correct letter, A, B, C, or D.', items: [
-        { num: 6, text: 'What first made Peter Silverman suspect that the portrait might be a Leonardo da Vinci?', options: ['A. The high price paid at the auction', 'B. The exceptional quality of shading and details', 'C. A signature found on the back of the painting', 'D. The subject's resemblance to other da Vinci works'], answer: 'B' },
+        { num: 6, text: 'What first made Peter Silverman suspect that the portrait might be a Leonardo da Vinci?', options: ['A. The high price paid at the auction', 'B. The exceptional quality of shading and details', 'C. A signature found on the back of the painting', 'D. The subject\'s resemblance to other da Vinci works'], answer: 'B' },
         { num: 7, text: 'According to Martin Kemp, what technique in the portrait is characteristic of Leonardo?', options: ['A. The use of bright, contrasting colors', 'B. The sfumato blending of tones', 'C. The precise outlines of facial features', 'D. The heavy application of paint'], answer: 'B' },
         { num: 8, text: 'Why do some experts doubt that the portrait is by Leonardo?', options: ['A. It was painted on paper instead of wood.', 'B. It lacks the innovation seen in his other works.', 'C. The pigments used were not available in the 15th century.', 'D. The subject was not a member of the Sforza family.'], answer: 'B' },
-        { num: 9, text: 'What does the passage suggest about the portrait's connection to Bianca Sforza?', options: ['A. It was definitely painted after her death.', 'B. It may have been a memorial piece.', 'C. It was commissioned by her husband.', 'D. It was hidden for centuries before being discovered.'], answer: 'B' },
+        { num: 9, text: 'What does the passage suggest about the portrait\'s connection to Bianca Sforza?', options: ['A. It was definitely painted after her death.', 'B. It may have been a memorial piece.', 'C. It was commissioned by her husband.', 'D. It was hidden for centuries before being discovered.'], answer: 'B' },
       ]},
       { type: 'completion', rubric: 'Questions 10-13', instruction: 'Complete the sentences below. Write NO MORE THAN TWO WORDS from the passage for each answer.', items: [
         { num: 10, beforeText: 'The portrait was purchased at an auction in', afterText: 'before being identified as a possible da Vinci', answer: 'switzerland' },
         { num: 11, beforeText: 'Scientific tests revealed fingerprint marks made in the', afterText: 'before it dried', answer: 'paint layer' },
-        { num: 12, beforeText: 'Critics argue that the portrait could have been painted by one of Leonardo's', afterText: 'or an imitator', answer: 'pupils' },
+        { num: 12, beforeText: 'Critics argue that the portrait could have been painted by one of Leonardo\'s', afterText: 'or an imitator', answer: 'pupils' },
         { num: 13, beforeText: 'The debate over the portrait highlights the challenges of', afterText: 'in art history', answer: 'art authentication' },
       ]},
     ]
@@ -5677,7 +5677,7 @@ const readingPassage1Tests = [
         { num: 7, beforeText: 'There are essentially three types of pearls: natural, cultured and imitation. Most freshwater cultured pearls sold today come from China while', afterText: 'Island is famous for its imitation pearl industry. Good-quality natural pearls are exceedingly unusual', answer: 'Mallorca' },
         { num: 8, beforeText: 'Island is famous for its imitation pearl industry. Good-quality natural pearls are exceedingly unusual.', afterText: 'often manufactures some of the glitteriest pearls while', answer: 'Japan' },
         { num: 9, beforeText: 'often manufactures some of the glitteriest pearls while', afterText: 'produces larger size ones due to the favourable environment along the coastline. In the past,', answer: 'Australia' },
-        { num: 10, beforeText: 'produces larger size ones due to the favourable environment along the coastline. In the past,', afterText: 'in Persian Gulf produced the world's best pearls. Nowadays, the major remaining suppliers of natural pearls belong to India', answer: 'Bahrain' },
+        { num: 10, beforeText: 'produces larger size ones due to the favourable environment along the coastline. In the past,', afterText: 'in Persian Gulf produced the world\'s best pearls. Nowadays, the major remaining suppliers of natural pearls belong to India', answer: 'Bahrain' },
       ]},
       { type: 'tfng', rubric: 'Questions 11-13', instruction: 'Do the following statements agree with the information given in Reading Passage 1? In boxes 11-13 on your answer sheet, write TRUE if the statement is true FALSE if the statement is false NOT GIVEN if the information is not given in the passage', items: [
         { num: 11, text: 'Generally speaking, the centre of cultured pearl is significantly larger than that of a natural pearl.', answer: 'TRUE' },
@@ -5707,7 +5707,7 @@ const readingPassage1Tests = [
         { num: 6, text: 'produces sweet smell', answer: 'A' },
       ]},
       { type: 'completion', rubric: 'Questions 7-9', instruction: 'Complete the sentences below with NO MORE THAN ONE WORD from the passage.', items: [
-        { num: 7, beforeText: 'Sperm whales can't digest the', afterText: 'of the squids.', answer: 'beaks' },
+        { num: 7, beforeText: 'Sperm whales can\'t digest the', afterText: 'of the squids.', answer: 'beaks' },
         { num: 8, beforeText: 'Sperm whales drive the irritants out of their intestines by', afterText: '.', answer: 'vomiting' },
         { num: 9, beforeText: 'The vomit of sperm whales gradually', afterText: 'on contact of air before having pleasant smell.', answer: 'hardens' },
       ]},
