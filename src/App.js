@@ -8,6 +8,7 @@ import { listeningTestsData } from './data/listening-tests';
 import { readingPassage1Tests } from './data/reading-passage1';
 import { readingPassage2Tests } from './data/reading-passage2';
 import { readingPassage3Tests } from './data/reading-passage3';
+import AVATAR_OPTIONS from './data/avatar-options';
 
 
 // ==================== THEME CONTEXT ====================
@@ -1071,9 +1072,9 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
       backdropFilter: 'blur(20px)',
       borderBottom: '1px solid var(--border-color)',
     }}>
-      <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+      <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative' }}>
         <Logo onClick={() => setCurrentPage('home')} />
-        <div className="hide-mobile" style={{ display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+        <div className="hide-mobile" style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
           {navItems.map(item => (
             <button
               key={item.id}
@@ -1096,8 +1097,12 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
         <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
           {user ? (
             <div style={{ position: 'relative' }}>
-              <div onClick={() => setShowProfileMenu(prev => !prev)} style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'linear-gradient(135deg, var(--purple-500), var(--purple-700))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '600', fontSize: '0.875rem', cursor: 'pointer', color: 'white' }}>
-                {profile?.name?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase()}
+              <div onClick={() => setShowProfileMenu(prev => !prev)} style={{ width: '36px', height: '36px', borderRadius: '50%', background: profile?.avatar_index >= 0 ? 'transparent' : 'linear-gradient(135deg, var(--purple-500), var(--purple-700))', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: '600', fontSize: '0.875rem', cursor: 'pointer', color: 'white', overflow: 'hidden', border: profile?.avatar_index >= 0 ? '2px solid var(--purple-500)' : 'none' }}>
+                {profile?.avatar_index >= 0 && typeof AVATAR_OPTIONS !== 'undefined' && AVATAR_OPTIONS[profile.avatar_index] ? (
+                  <img src={AVATAR_OPTIONS[profile.avatar_index]} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                ) : (
+                  profile?.name?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase()
+                )}
               </div>
               {showProfileMenu && (
                 <div style={{ position: 'absolute', top: '44px', right: 0, background: 'var(--card-bg)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '0.5rem', minWidth: '180px', zIndex: 1000, boxShadow: '0 8px 24px rgba(0,0,0,0.15)' }}>
@@ -1106,8 +1111,12 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
                     Dashboard
                   </button>
                   <button onClick={() => { toggleTheme(); setShowProfileMenu(false); }} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', width: '100%', padding: '0.6rem 0.75rem', borderRadius: '8px', border: 'none', background: 'transparent', color: 'var(--text-primary)', fontSize: '0.875rem', cursor: 'pointer', textAlign: 'left' }}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-                    Switch Theme
+                    {isDark ? (
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
+                    ) : (
+                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    )}
+                    {isDark ? 'Light Mode' : 'Dark Mode'}
                   </button>
                   <div style={{ height: '1px', background: 'var(--border-color)', margin: '0.25rem 0' }} />
                   <button onClick={() => { signOut().then(() => setCurrentPage('home')); setShowProfileMenu(false); }} style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', width: '100%', padding: '0.6rem 0.75rem', borderRadius: '8px', border: 'none', background: 'transparent', color: '#ef4444', fontSize: '0.875rem', cursor: 'pointer', textAlign: 'left' }}>
@@ -2209,7 +2218,7 @@ const ListeningPage = ({ subPage, setSubPage, setCurrentPage }) => {
 
             <div onClick={() => setSubPage('80-tests')} style={{ padding: '1.5rem', borderRadius: '16px', background: 'linear-gradient(135deg, var(--purple-600-10), var(--purple-700-5))', border: '1px solid var(--purple-500-30)', cursor: 'pointer' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
-                <span style={{ padding: '0.2rem 0.5rem', borderRadius: '6px', background: 'var(--purple-600)', fontSize: '0.65rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1', alignSelf: 'flex-start' }}>80 TESTS</span>
+                <span style={{ padding: '0.3rem 0.7rem', borderRadius: '6px', background: 'var(--purple-600)', fontSize: '0.7rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1' }}>80 TESTS</span>
                 <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)' }}>80 IELTS Listening Tests</h2>
               </div>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Complete practice tests covering all four sections with audio</p>
@@ -2910,7 +2919,7 @@ const ReadingPage = ({ subPage, setSubPage, setCurrentPage }) => {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
                 <span style={{ fontSize: '2rem' }}>📄</span>
-                <span style={{ padding: '0.2rem 0.5rem', borderRadius: '6px', background: 'var(--purple-600)', fontSize: '0.65rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1', alignSelf: 'flex-start' }}>40 TESTS</span>
+                <span style={{ padding: '0.3rem 0.7rem', borderRadius: '6px', background: 'var(--purple-600)', fontSize: '0.7rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1' }}>40 TESTS</span>
               </div>
               <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Passage 1 Practice</h2>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>13 questions • T/F/NG, completion, matching, MCQ</p>
@@ -2926,7 +2935,7 @@ const ReadingPage = ({ subPage, setSubPage, setCurrentPage }) => {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
                 <span style={{ fontSize: '2rem' }}>📄</span>
-                <span style={{ padding: '0.2rem 0.5rem', borderRadius: '6px', background: '#3b82f6', fontSize: '0.65rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1', alignSelf: 'flex-start' }}>10 TESTS</span>
+                <span style={{ padding: '0.3rem 0.7rem', borderRadius: '6px', background: '#3b82f6', fontSize: '0.7rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1' }}>10 TESTS</span>
               </div>
               <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Passage 2 Practice</h2>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>13 questions • Matching headings, MCQ, T/F/NG, completion</p>
@@ -2941,7 +2950,7 @@ const ReadingPage = ({ subPage, setSubPage, setCurrentPage }) => {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
                 <span style={{ fontSize: '2rem' }}>📄</span>
-                <span style={{ padding: '0.2rem 0.5rem', borderRadius: '6px', background: '#10b981', fontSize: '0.65rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1', alignSelf: 'flex-start' }}>9 TESTS</span>
+                <span style={{ padding: '0.3rem 0.7rem', borderRadius: '6px', background: '#10b981', fontSize: '0.7rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1' }}>9 TESTS</span>
               </div>
               <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Passage 3 Practice</h2>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>14 questions • Advanced difficulty • Matching, MCQ, T/F/NG</p>
@@ -3135,38 +3144,63 @@ const ReadingPage = ({ subPage, setSubPage, setCurrentPage }) => {
             className="highlight-popup"
             style={{
               position: 'fixed',
-              left: Math.min(highlightPopup.x, window.innerWidth - 150),
+              left: Math.min(highlightPopup.x, window.innerWidth - 160),
               top: Math.max(highlightPopup.y, 10),
-              background: isDark ? '#374151' : 'white',
-              borderRadius: '8px',
-              boxShadow: '0 4px 12px rgba(0,0,0,0.2)',
-              padding: '0.5rem',
+              background: isDark ? '#2a2a3d' : 'white',
+              borderRadius: '12px',
+              boxShadow: isDark ? '0 4px 20px rgba(0,0,0,0.4)' : '0 4px 20px rgba(0,0,0,0.12)',
+              padding: '0.35rem',
               display: 'flex',
-              gap: '0.5rem',
-              zIndex: 2000
+              flexDirection: 'column',
+              minWidth: '150px',
+              zIndex: 2000,
+              border: isDark ? '1px solid rgba(255,255,255,0.08)' : '1px solid rgba(0,0,0,0.06)'
             }}
           >
-            {highlightPopup.isHighlighted ? (
+            <button
+              onClick={highlightPopup.isHighlighted ? removeHighlight : applyHighlight}
+              style={{
+                padding: '0.55rem 0.75rem', borderRadius: '8px', border: 'none',
+                background: 'transparent', color: isDark ? 'var(--text-primary)' : '#333', cursor: 'pointer',
+                fontSize: '0.9rem', fontWeight: '400', display: 'flex', alignItems: 'center', gap: '0.6rem',
+                textAlign: 'left', width: '100%'
+              }}
+              onMouseEnter={e => e.target.style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)'}
+              onMouseLeave={e => e.target.style.background = 'transparent'}
+            >
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
+              Highlight
+            </button>
+            {highlightPopup.isHighlighted && (
               <button
                 onClick={removeHighlight}
                 style={{
-                  padding: '0.5rem 0.75rem', borderRadius: '6px', border: 'none',
-                  background: '#ef4444', color: 'white', cursor: 'pointer',
-                  fontSize: '0.85rem', fontWeight: '500'
+                  padding: '0.55rem 0.75rem', borderRadius: '8px', border: 'none',
+                  background: 'transparent', color: isDark ? 'var(--text-primary)' : '#333', cursor: 'pointer',
+                  fontSize: '0.9rem', fontWeight: '400', display: 'flex', alignItems: 'center', gap: '0.6rem',
+                  textAlign: 'left', width: '100%'
                 }}
+                onMouseEnter={e => e.target.style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)'}
+                onMouseLeave={e => e.target.style.background = 'transparent'}
               >
-                Remove Highlight
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Z"/><line x1="18" y1="9" x2="12" y2="15"/><line x1="12" y1="9" x2="18" y2="15"/></svg>
+                Clear
               </button>
-            ) : (
+            )}
+            {!highlightPopup.isHighlighted && (
               <button
-                onClick={applyHighlight}
+                onClick={() => setHighlightPopup({ show: false, x: 0, y: 0, range: null, isHighlighted: false })}
                 style={{
-                  padding: '0.5rem 0.75rem', borderRadius: '6px', border: 'none',
-                  background: 'rgba(255, 235, 59, 0.8)', color: '#333', cursor: 'pointer',
-                  fontSize: '0.85rem', fontWeight: '500', display: 'flex', alignItems: 'center', gap: '0.25rem'
+                  padding: '0.55rem 0.75rem', borderRadius: '8px', border: 'none',
+                  background: 'transparent', color: isDark ? 'var(--text-primary)' : '#333', cursor: 'pointer',
+                  fontSize: '0.9rem', fontWeight: '400', display: 'flex', alignItems: 'center', gap: '0.6rem',
+                  textAlign: 'left', width: '100%'
                 }}
+                onMouseEnter={e => e.target.style.background = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.04)'}
+                onMouseLeave={e => e.target.style.background = 'transparent'}
               >
-                🖍️ Highlight
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 4H8l-7 8 7 8h13a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2Z"/><line x1="18" y1="9" x2="12" y2="15"/><line x1="12" y1="9" x2="18" y2="15"/></svg>
+                Clear
               </button>
             )}
           </div>
@@ -3185,7 +3219,7 @@ const ReadingPage = ({ subPage, setSubPage, setCurrentPage }) => {
           </div>
 
           {/* Center: Timer - always centered */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', minHeight: '36px' }}>
             {/* Hide/Show button */}
             <button onClick={() => setShowTimer(!showTimer)} title={showTimer ? 'Hide timer' : 'Show timer'}
               style={{ padding: '0.4rem', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'var(--bg-secondary)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center', color: 'var(--text-secondary)' }}>
@@ -3202,27 +3236,26 @@ const ReadingPage = ({ subPage, setSubPage, setCurrentPage }) => {
               )}
             </button>
             
-            {/* Timer display */}
-            {showTimer && (
-              <div 
-                onClick={() => setTimerRunning(!timerRunning)}
-                title={timerRunning ? 'Click to pause' : 'Click to resume'}
-                style={{
-                  display: 'flex', alignItems: 'center', padding: '0.35rem 0.75rem',
-                  background: (timerMode === 'countdown' && timerSeconds <= 120) || (timerMode === 'stopwatch' && timerSeconds >= 1080) ? 'rgba(239, 68, 68, 0.15)' : 'var(--bg-secondary)', 
-                  borderRadius: '8px', border: '1px solid var(--border-color)',
-                  cursor: 'pointer',
-                  animation: !timerRunning ? 'timerBlink 1s ease-in-out infinite' : 'none'
-                }}>
-                <span style={{ 
-                  fontSize: '1.1rem', fontWeight: '600', 
-                  color: (timerMode === 'countdown' && timerSeconds <= 120) || (timerMode === 'stopwatch' && timerSeconds >= 1080) ? '#ef4444' : 'var(--text-primary)', 
-                  fontFamily: 'inherit', fontVariantNumeric: 'tabular-nums'
-                }}>
-                  {formatTime(timerSeconds)}
-                </span>
-              </div>
-            )}
+            {/* Timer display - use visibility instead of conditional render to keep size stable */}
+            <div 
+              onClick={() => setTimerRunning(!timerRunning)}
+              title={timerRunning ? 'Click to pause' : 'Click to resume'}
+              style={{
+                display: 'flex', alignItems: 'center', padding: '0.35rem 0.75rem',
+                background: !showTimer ? 'transparent' : (timerMode === 'countdown' && timerSeconds <= 120) || (timerMode === 'stopwatch' && timerSeconds >= 1080) ? 'rgba(239, 68, 68, 0.15)' : 'var(--bg-secondary)', 
+                borderRadius: '8px', border: showTimer ? '1px solid var(--border-color)' : '1px solid transparent',
+                cursor: showTimer ? 'pointer' : 'default',
+                animation: !timerRunning && showTimer ? 'timerBlink 1s ease-in-out infinite' : 'none',
+                visibility: showTimer ? 'visible' : 'hidden'
+              }}>
+              <span style={{ 
+                fontSize: '1.1rem', fontWeight: '600', 
+                color: (timerMode === 'countdown' && timerSeconds <= 120) || (timerMode === 'stopwatch' && timerSeconds >= 1080) ? '#ef4444' : 'var(--text-primary)', 
+                fontFamily: 'inherit', fontVariantNumeric: 'tabular-nums'
+              }}>
+                {formatTime(timerSeconds)}
+              </span>
+            </div>
             
             {/* Mode toggle button */}
             <button onClick={() => { setTimerMode(m => m === 'countdown' ? 'stopwatch' : 'countdown'); setTimerSeconds(timerMode === 'countdown' ? 0 : 20*60); }} title={timerMode === 'countdown' ? 'Switch to stopwatch' : 'Switch to countdown'}
@@ -4015,6 +4048,15 @@ const Dashboard = ({ setCurrentPage }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [editTarget, setEditTarget] = useState(profile?.target_score || '7.0');
   const [saving, setSaving] = useState(false);
+  const [showAvatarPicker, setShowAvatarPicker] = useState(false);
+  const [completedListening, setCompletedListening] = useState(() => {
+    const saved = localStorage.getItem('completedListeningTests');
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [completedReading, setCompletedReading] = useState(() => {
+    const saved = localStorage.getItem('completedReadingTests');
+    return saved ? JSON.parse(saved) : [];
+  });
 
   useEffect(() => {
     if (profile?.target_score) {
@@ -4031,33 +4073,95 @@ const Dashboard = ({ setCurrentPage }) => {
     }
   };
 
+  const handleAvatarSelect = async (avatarIndex) => {
+    await updateProfile({ avatar_index: avatarIndex });
+    setShowAvatarPicker(false);
+  };
+
+  const selectedAvatar = profile?.avatar_index != null ? profile.avatar_index : -1;
+
+  const ProgressBar = ({ completed, total, color }) => (
+    <div style={{ width: '100%', height: '8px', borderRadius: '4px', background: 'var(--bg-secondary)', overflow: 'hidden' }}>
+      <div style={{ width: `${Math.min((completed / total) * 100, 100)}%`, height: '100%', borderRadius: '4px', background: color, transition: 'width 0.5s ease' }} />
+    </div>
+  );
+
+  const sections = [
+    { label: 'Listening', page: 'listening', color: 'var(--purple-500)', completed: completedListening.length, total: 80, icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>) },
+    { label: 'Reading - Passage 1', page: 'reading', color: '#8b5cf6', completed: completedReading.filter(id => id >= 1 && id <= 40).length, total: 40, icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>) },
+    { label: 'Reading - Passage 2', page: 'reading', color: '#3b82f6', completed: completedReading.filter(id => id >= 41 && id <= 50).length, total: 10, icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>) },
+    { label: 'Reading - Passage 3', page: 'reading', color: '#10b981', completed: completedReading.filter(id => id >= 51 && id <= 59).length, total: 9, icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>) },
+  ];
+
   if (!user) return null;
   
   return (
     <div style={{ paddingTop: '100px', minHeight: '100vh' }}>
-      <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '2rem' }}>
-        {/* Header */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '2rem', flexWrap: 'wrap', gap: '1rem' }}>
-          <div>
-            <h1 style={{ fontSize: '2rem', fontWeight: '700', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>
-              Welcome back, <span style={{ color: 'var(--purple-400)' }}>{profile?.name || 'Student'}</span>
-            </h1>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem' }}>
-              {profile?.email}
-            </p>
-          </div>
-          <button 
-            onClick={() => signOut().then(() => setCurrentPage('home'))} 
-            style={{ padding: '0.625rem 1.25rem', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'transparent', color: 'var(--text-secondary)', cursor: 'pointer', fontSize: '0.9rem' }}
+      <div style={{ maxWidth: '900px', margin: '0 auto', padding: '2rem' }}>
+        {/* Profile Header */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginBottom: '2.5rem' }}>
+          <div 
+            onClick={() => setShowAvatarPicker(true)}
+            style={{ 
+              width: '72px', height: '72px', borderRadius: '50%', 
+              background: selectedAvatar >= 0 ? 'transparent' : 'linear-gradient(135deg, var(--purple-500), var(--purple-700))',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              cursor: 'pointer', position: 'relative', overflow: 'hidden',
+              border: '3px solid var(--purple-500)',
+              transition: 'all 0.2s ease'
+            }}
           >
-            Sign Out
-          </button>
+            {selectedAvatar >= 0 && typeof AVATAR_OPTIONS !== 'undefined' && AVATAR_OPTIONS[selectedAvatar] ? (
+              <img src={AVATAR_OPTIONS[selectedAvatar]} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+            ) : (
+              <span style={{ fontSize: '1.75rem', fontWeight: '700', color: 'white' }}>
+                {profile?.name?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase()}
+              </span>
+            )}
+            <div style={{ position: 'absolute', bottom: 0, right: 0, width: '22px', height: '22px', borderRadius: '50%', background: 'var(--purple-600)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid var(--card-bg)' }}>
+              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
+            </div>
+          </div>
+          <div style={{ flex: 1 }}>
+            <h1 style={{ fontSize: '1.75rem', fontWeight: '700', color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
+              {profile?.name || 'Student'}
+            </h1>
+            <p style={{ color: 'var(--text-tertiary)', fontSize: '0.9rem' }}>{profile?.email || user.email}</p>
+          </div>
         </div>
+
+        {/* Avatar Picker Modal */}
+        {showAvatarPicker && (
+          <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => setShowAvatarPicker(false)}>
+            <div style={{ background: 'var(--card-bg)', borderRadius: '20px', padding: '2rem', maxWidth: '420px', width: '90%', border: '1px solid var(--border-color)' }} onClick={e => e.stopPropagation()}>
+              <h3 style={{ fontSize: '1.15rem', fontWeight: '600', marginBottom: '1.25rem', color: 'var(--text-primary)', textAlign: 'center' }}>Choose Your Avatar</h3>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '0.75rem', marginBottom: '1.5rem' }}>
+                {typeof AVATAR_OPTIONS !== 'undefined' && AVATAR_OPTIONS.map((src, i) => (
+                  <div 
+                    key={i}
+                    onClick={() => handleAvatarSelect(i)}
+                    style={{ 
+                      width: '60px', height: '60px', borderRadius: '50%', overflow: 'hidden',
+                      cursor: 'pointer', border: selectedAvatar === i ? '3px solid var(--purple-500)' : '3px solid transparent',
+                      transition: 'all 0.2s ease', background: 'var(--bg-secondary)'
+                    }}
+                  >
+                    <img src={src} alt={`Avatar ${i+1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  </div>
+                ))}
+              </div>
+              <button onClick={() => setShowAvatarPicker(false)} style={{ width: '100%', padding: '0.75rem', borderRadius: '10px', border: '1px solid var(--border-color)', background: 'transparent', color: 'var(--text-secondary)', fontSize: '0.9rem', cursor: 'pointer' }}>Cancel</button>
+            </div>
+          </div>
+        )}
 
         {/* Target Score Card */}
         <div style={{ padding: '1.5rem', borderRadius: '16px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', marginBottom: '1.5rem' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-            <h2 style={{ fontSize: '1.1rem', fontWeight: '600', color: 'var(--text-primary)' }}>🎯 Target Band Score</h2>
+            <h2 style={{ fontSize: '1.1rem', fontWeight: '600', color: 'var(--text-primary)' }}>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ verticalAlign: 'text-bottom', marginRight: '0.5rem' }}><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+              Target Band Score
+            </h2>
             {!isEditing ? (
               <button 
                 onClick={() => setIsEditing(true)}
@@ -4093,61 +4197,58 @@ const Dashboard = ({ setCurrentPage }) => {
             <select 
               value={editTarget} 
               onChange={(e) => setEditTarget(e.target.value)}
-              style={{ 
-                padding: '0.75rem 1rem', 
-                borderRadius: '8px', 
-                border: '1px solid var(--border-color)', 
-                background: 'var(--input-bg)', 
-                color: 'var(--text-primary)', 
-                fontSize: '1.5rem', 
-                fontWeight: '600',
-                cursor: 'pointer',
-                width: '120px'
-              }}
+              style={{ padding: '0.75rem 1rem', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--input-bg)', color: 'var(--text-primary)', fontSize: '1.5rem', fontWeight: '600', cursor: 'pointer', width: '120px' }}
             >
               {['5.0', '5.5', '6.0', '6.5', '7.0', '7.5', '8.0', '8.5', '9.0'].map(score => (
                 <option key={score} value={score}>{score}</option>
               ))}
             </select>
           )}
-          
-          <div style={{ marginTop: '1rem', padding: '0.75rem', borderRadius: '8px', background: 'var(--tag-bg)' }}>
-            <p style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-              {parseFloat(profile?.target_score || 7) >= 7.5 
-                ? '🌟 Aiming high! Focus on advanced vocabulary and complex grammar structures.'
-                : parseFloat(profile?.target_score || 7) >= 6.5
-                ? '📈 Solid goal! Build fluency and work on extending your answers.'
-                : '💪 Great starting point! Focus on accuracy and common topic vocabulary.'}
-            </p>
+        </div>
+
+        {/* Progress Section */}
+        <div style={{ padding: '1.5rem', borderRadius: '16px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', marginBottom: '1.5rem' }}>
+          <h2 style={{ fontSize: '1.1rem', fontWeight: '600', marginBottom: '1.25rem', color: 'var(--text-primary)' }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ verticalAlign: 'text-bottom', marginRight: '0.5rem' }}><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+            Your Progress
+          </h2>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
+            {sections.map((s) => (
+              <div key={s.label}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)', fontSize: '0.9rem', fontWeight: '500' }}>
+                    <span style={{ color: s.color }}>{s.icon}</span>
+                    {s.label}
+                  </div>
+                  <span style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)', fontWeight: '500' }}>
+                    {s.completed} / {s.total}
+                  </span>
+                </div>
+                <ProgressBar completed={s.completed} total={s.total} color={s.color} />
+              </div>
+            ))}
           </div>
         </div>
 
-        {/* Study Sections */}
-        <div style={{ padding: '2rem', borderRadius: '20px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', marginBottom: '1.5rem' }}>
-          <h2 style={{ fontSize: '1.25rem', fontWeight: '600', marginBottom: '1.5rem', color: 'var(--text-primary)' }}>📚 Continue Learning</h2>
+        {/* Continue Learning */}
+        <div style={{ padding: '1.5rem', borderRadius: '16px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', marginBottom: '1.5rem' }}>
+          <h2 style={{ fontSize: '1.1rem', fontWeight: '600', marginBottom: '1.25rem', color: 'var(--text-primary)' }}>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ verticalAlign: 'text-bottom', marginRight: '0.5rem' }}><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+            Continue Learning
+          </h2>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
             {[
-              { label: 'Speaking', page: 'speaking', icon: '🎤', desc: 'Part 1, 2, 3 Practice' },
-              { label: 'Listening', page: 'listening', icon: '🎧', desc: '80 Practice Tests' },
-              { label: 'Grammar', page: 'grammar', icon: '📝', desc: '6 Essential Lessons' },
-              { label: 'Reading', page: 'reading', icon: '📖', desc: 'Coming Soon' },
-              { label: 'Writing', page: 'writing', icon: '✍️', desc: 'Coming Soon' }
+              { label: 'Listening', page: 'listening', desc: '80 Practice Tests', color: 'var(--purple-500)' },
+              { label: 'Reading', page: 'reading', desc: '59 Practice Tests', color: '#3b82f6' },
+              { label: 'Speaking', page: 'speaking', desc: 'Part 1, 2, 3', color: '#10b981' },
+              { label: 'Grammar', page: 'grammar', desc: '6 Lessons', color: '#f59e0b' },
             ].map((action) => (
               <button 
                 key={action.page} 
                 onClick={() => setCurrentPage(action.page)} 
-                style={{ 
-                  padding: '1.25rem', 
-                  borderRadius: '12px', 
-                  border: '1px solid var(--border-color)', 
-                  background: 'transparent', 
-                  color: 'var(--text-primary)', 
-                  cursor: 'pointer', 
-                  textAlign: 'left',
-                  transition: 'all 0.2s ease'
-                }}
+                style={{ padding: '1.25rem', borderRadius: '12px', border: '1px solid var(--border-color)', background: 'transparent', color: 'var(--text-primary)', cursor: 'pointer', textAlign: 'left', transition: 'all 0.2s ease' }}
               >
-                <span style={{ fontSize: '1.75rem', display: 'block', marginBottom: '0.5rem' }}>{action.icon}</span>
+                <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: action.color, marginBottom: '0.75rem' }} />
                 <span style={{ fontWeight: '600', display: 'block', marginBottom: '0.25rem' }}>{action.label}</span>
                 <span style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)' }}>{action.desc}</span>
               </button>
@@ -4157,7 +4258,10 @@ const Dashboard = ({ setCurrentPage }) => {
 
         {/* Quick Tips */}
         <div style={{ padding: '1.5rem', borderRadius: '16px', background: 'linear-gradient(135deg, var(--purple-600-20), var(--purple-700-20))', border: '1px solid var(--purple-500-30)' }}>
-          <h3 style={{ fontSize: '1rem', fontWeight: '600', marginBottom: '0.75rem', color: 'var(--text-primary)' }}>💡 Today's Tip</h3>
+          <h3 style={{ fontSize: '1rem', fontWeight: '600', marginBottom: '0.75rem', color: 'var(--text-primary)' }}>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ verticalAlign: 'text-bottom', marginRight: '0.4rem' }}><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg>
+            Today's Tip
+          </h3>
           <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.6' }}>
             In Speaking Part 2, use the one minute preparation time wisely. Jot down 2-3 key points for each bullet on the cue card, then speak for the full 2 minutes by expanding on each point with examples and details.
           </p>
