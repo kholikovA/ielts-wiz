@@ -2876,7 +2876,7 @@ const ReadingPage = ({ subPage, setSubPage }) => {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
                 <span style={{ fontSize: '2rem' }}>📄</span>
-                <span style={{ padding: '0.35rem 0.9rem', borderRadius: '20px', background: 'var(--purple-600)', fontSize: '0.7rem', fontWeight: '700', color: 'white', letterSpacing: '0.5px' }}>10 TESTS</span>
+                <span style={{ padding: '0.35rem 0.9rem', borderRadius: '20px', background: 'var(--purple-600)', fontSize: '0.7rem', fontWeight: '700', color: 'white', letterSpacing: '0.5px' }}>30 TESTS</span>
               </div>
               <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Passage 1 Practice</h2>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>13 questions • T/F/NG, completion, matching, MCQ</p>
@@ -2934,7 +2934,7 @@ const ReadingPage = ({ subPage, setSubPage }) => {
             Passage 1 Practice Tests
           </h1>
           <p style={{ color: 'var(--text-secondary)', marginBottom: '2rem' }}>
-            13 questions per test • 20 minutes recommended
+            12–13 questions per test • 20 minutes recommended
           </p>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))', gap: '1rem' }}>
