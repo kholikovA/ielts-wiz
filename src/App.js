@@ -2218,7 +2218,7 @@ const ListeningPage = ({ subPage, setSubPage, setCurrentPage }) => {
 
             <div onClick={() => setSubPage('80-tests')} style={{ padding: '1.5rem', borderRadius: '16px', background: 'linear-gradient(135deg, var(--purple-600-10), var(--purple-700-5))', border: '1px solid var(--purple-500-30)', cursor: 'pointer' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
-                <span style={{ padding: '0.3rem 0.7rem', borderRadius: '6px', background: 'var(--purple-600)', fontSize: '0.7rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1' }}>80 TESTS</span>
+                <span style={{ padding: '0.3rem 0.7rem', borderRadius: '6px', background: 'var(--purple-600)', fontSize: '1rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1', height: 'fit-content' }>80 TESTS</span>
                 <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)' }}>80 IELTS Listening Tests</h2>
               </div>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Complete practice tests covering all four sections with audio</p>
@@ -2593,17 +2593,15 @@ const ReadingPage = ({ subPage, setSubPage, setCurrentPage }) => {
   const [panelWidth, setPanelWidth] = useState(50);
   const [isDragging, setIsDragging] = useState(false);
   const [completedTests, setCompletedTests] = useState(() => {
-    const saved = localStorage.getItem('completedReadingTests');
-    if (!saved) return [];
-    let arr = JSON.parse(saved);
-    // Migrate old IDs: 31-40 were renumbered to 21-30
-    const migrated = arr.map(id => (id >= 31 && id <= 40) ? id - 10 : id);
-    const unique = [...new Set(migrated)];
-    if (JSON.stringify(unique) !== JSON.stringify(arr)) {
-      localStorage.setItem('completedReadingTests', JSON.stringify(unique));
-    }
-    return unique;
+    const key = `completedReading_${subPage || 'passage1'}`;
+    const saved = localStorage.getItem(key);
+    return saved ? JSON.parse(saved) : [];
   });
+  useEffect(() => {
+    const key = `completedReading_${subPage || 'passage1'}`;
+    const saved = localStorage.getItem(key);
+    setCompletedTests(saved ? JSON.parse(saved) : []);
+  }, [subPage]);
   const [highlightPopup, setHighlightPopup] = useState({ show: false, x: 0, y: 0, range: null, isHighlighted: false });
   const timerRef = useRef(null);
   const passageRef = useRef(null);
@@ -2860,7 +2858,7 @@ const ReadingPage = ({ subPage, setSubPage, setCurrentPage }) => {
     if (!completedTests.includes(selectedTestId)) {
       const newCompleted = [...completedTests, selectedTestId];
       setCompletedTests(newCompleted);
-      localStorage.setItem('completedReadingTests', JSON.stringify(newCompleted));
+      localStorage.setItem(`completedReading_${subPage || 'passage1'}`, JSON.stringify(newCompleted));
     }
   };
 
@@ -2919,7 +2917,7 @@ const ReadingPage = ({ subPage, setSubPage, setCurrentPage }) => {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
                 <span style={{ fontSize: '2rem' }}>📄</span>
-                <span style={{ padding: '0.3rem 0.7rem', borderRadius: '6px', background: 'var(--purple-600)', fontSize: '0.7rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1' }}>40 TESTS</span>
+                <span style={{ padding: '0.3rem 0.7rem', borderRadius: '6px', background: 'var(--purple-600)', fontSize: '1rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1', height: 'fit-content' }>40 TESTS</span>
               </div>
               <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Passage 1 Practice</h2>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>13 questions • T/F/NG, completion, matching, MCQ</p>
@@ -2935,7 +2933,7 @@ const ReadingPage = ({ subPage, setSubPage, setCurrentPage }) => {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
                 <span style={{ fontSize: '2rem' }}>📄</span>
-                <span style={{ padding: '0.3rem 0.7rem', borderRadius: '6px', background: '#3b82f6', fontSize: '0.7rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1' }}>20 TESTS</span>
+                <span style={{ padding: '0.3rem 0.7rem', borderRadius: '6px', background: 'var(--purple-600)', fontSize: '1rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1', height: 'fit-content' }>20 TESTS</span>
               </div>
               <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Passage 2 Practice</h2>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>13 questions • Matching headings, MCQ, T/F/NG, completion</p>
@@ -2950,7 +2948,7 @@ const ReadingPage = ({ subPage, setSubPage, setCurrentPage }) => {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
                 <span style={{ fontSize: '2rem' }}>📄</span>
-                <span style={{ padding: '0.3rem 0.7rem', borderRadius: '6px', background: '#10b981', fontSize: '0.7rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1' }}>9 TESTS</span>
+                <span style={{ padding: '0.3rem 0.7rem', borderRadius: '6px', background: 'var(--purple-600)', fontSize: '1rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1', height: 'fit-content' }>9 TESTS</span>
               </div>
               <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Passage 3 Practice</h2>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>14 questions • Advanced difficulty • Matching, MCQ, T/F/NG</p>
@@ -4053,8 +4051,16 @@ const Dashboard = ({ setCurrentPage }) => {
     const saved = localStorage.getItem('completedListeningTests');
     return saved ? JSON.parse(saved) : [];
   });
-  const [completedReading, setCompletedReading] = useState(() => {
-    const saved = localStorage.getItem('completedReadingTests');
+  const [completedP1] = useState(() => {
+    const saved = localStorage.getItem('completedReading_passage1');
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [completedP2] = useState(() => {
+    const saved = localStorage.getItem('completedReading_passage2');
+    return saved ? JSON.parse(saved) : [];
+  });
+  const [completedP3] = useState(() => {
+    const saved = localStorage.getItem('completedReading_passage3');
     return saved ? JSON.parse(saved) : [];
   });
 
@@ -4088,9 +4094,9 @@ const Dashboard = ({ setCurrentPage }) => {
 
   const sections = [
     { label: 'Listening', page: 'listening', color: 'var(--purple-500)', completed: completedListening.length, total: 80, icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>) },
-    { label: 'Reading - Passage 1', page: 'reading', color: '#8b5cf6', completed: completedReading.filter(id => id >= 1 && id <= 40).length, total: 40, icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>) },
-    { label: 'Reading - Passage 2', page: 'reading', color: '#3b82f6', completed: completedReading.filter(id => id >= 41 && id <= 60).length, total: 20, icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>) },
-    { label: 'Reading - Passage 3', page: 'reading', color: '#10b981', completed: completedReading.filter(id => id >= 51 && id <= 59).length, total: 9, icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>) },
+    { label: 'Reading - Passage 1', page: 'reading', color: '#8b5cf6', completed: completedP1.length, total: 40, icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>) },
+    { label: 'Reading - Passage 2', page: 'reading', color: '#3b82f6', completed: completedP2.length, total: 20, icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>) },
+    { label: 'Reading - Passage 3', page: 'reading', color: '#10b981', completed: completedP3.length, total: 9, icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>) },
   ];
 
   if (!user) return null;
