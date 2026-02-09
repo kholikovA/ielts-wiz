@@ -2919,7 +2919,7 @@ const ReadingPage = ({ subPage, setSubPage, setCurrentPage }) => {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
                 <span style={{ fontSize: '2rem' }}>📄</span>
-                <span style={{ padding: '0.3rem 0.7rem', borderRadius: '6px', background: 'var(--purple-600)', fontSize: '0.7rem', fontWeight: '600', color: 'white', letterSpacing: '0.6px', lineHeight: '1.5' }}>40 TESTS</span>
+                <span style={{ padding: '0.3rem 0.7rem', borderRadius: '6px', background: 'var(--purple-600)', fontSize: '0.7rem', fontWeight: '600', color: 'white', letterSpacing: '0.6px', lineHeight: '1.5', height: 'fit-content' }}>40 TESTS</span>
               </div>
               <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Passage 1 Practice</h2>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>13 questions • T/F/NG, completion, matching, MCQ</p>
@@ -2935,7 +2935,7 @@ const ReadingPage = ({ subPage, setSubPage, setCurrentPage }) => {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
                 <span style={{ fontSize: '2rem' }}>📄</span>
-                <span style={{ padding: '0.3rem 0.7rem', borderRadius: '6px', background: '#3b82f6', fontSize: '0.7rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1' }}>10 TESTS</span>
+                <span style={{ padding: '0.3rem 0.7rem', borderRadius: '6px', background: '#3b82f6', fontSize: '0.7rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1', height: 'fit-content' }}>10 TESTS</span>
               </div>
               <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Passage 2 Practice</h2>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>13 questions • Matching headings, MCQ, T/F/NG, completion</p>
@@ -2950,7 +2950,7 @@ const ReadingPage = ({ subPage, setSubPage, setCurrentPage }) => {
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '1rem' }}>
                 <span style={{ fontSize: '2rem' }}>📄</span>
-                <span style={{ padding: '0.3rem 0.7rem', borderRadius: '6px', background: '#10b981', fontSize: '0.7rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1' }}>9 TESTS</span>
+                <span style={{ padding: '0.3rem 0.7rem', borderRadius: '6px', background: '#10b981', fontSize: '0.7rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1', height: 'fit-content' }}>9 TESTS</span>
               </div>
               <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)', marginBottom: '0.5rem' }}>Passage 3 Practice</h2>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>14 questions • Advanced difficulty • Matching, MCQ, T/F/NG</p>
