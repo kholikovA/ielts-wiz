@@ -1,0 +1,1061 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Speaking Examiner</title>
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎙</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+:root{--bg-deep:#0f1114;--bg-card:#181b20;--bg-card-hover:#1e2228;--bg-input:#1a1d22;--bg-elevated:#22262d;--border:#2a2e36;--border-light:#353a44;--text:#e8e6e3;--text-secondary:#9ca3af;--text-muted:#6b7280;--accent:#d4a853;--accent-dim:#b8922e;--accent-glow:rgba(212,168,83,0.15);--accent-glow-strong:rgba(212,168,83,0.25);--red:#e85d5d;--red-dim:rgba(232,93,93,0.12);--green:#5dd4a8;--green-dim:rgba(93,212,168,0.12);--blue:#5da8e8;--blue-dim:rgba(93,168,232,0.12);--radius:10px;--radius-sm:6px;--radius-lg:14px;--shadow:0 2px 12px rgba(0,0,0,0.3);--shadow-lg:0 8px 32px rgba(0,0,0,0.4);--font:'DM Sans',sans-serif;--font-display:'DM Serif Display',serif;--transition:0.2s ease}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg-deep);color:var(--text);font-family:var(--font);font-size:14px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.app{min-height:100vh;display:flex;flex-direction:column}
+.header{position:sticky;top:0;z-index:100;background:rgba(15,17,20,0.85);backdrop-filter:blur(20px);border-bottom:1px solid var(--border);padding:0 24px;height:56px;display:flex;align-items:center;justify-content:space-between}
+.header-brand{display:flex;align-items:center;gap:12px;cursor:pointer}
+.header-logo{font-family:var(--font-display);font-size:20px;color:var(--accent)}
+.header-sub{font-size:11px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px;font-weight:500}
+.header-actions{display:flex;align-items:center;gap:8px}
+.btn{display:inline-flex;align-items:center;gap:6px;padding:8px 16px;border:1px solid var(--border);border-radius:var(--radius-sm);background:var(--bg-card);color:var(--text);font-family:var(--font);font-size:13px;font-weight:500;cursor:pointer;transition:all var(--transition);white-space:nowrap}
+.btn:hover{background:var(--bg-card-hover);border-color:var(--border-light)}
+.btn-accent{background:var(--accent);color:#0f1114;border-color:var(--accent);font-weight:600}
+.btn-accent:hover{background:var(--accent-dim);border-color:var(--accent-dim)}
+.btn-sm{padding:5px 10px;font-size:12px}
+.btn-ghost{background:transparent;border-color:transparent;color:var(--text-secondary)}
+.btn-ghost:hover{background:var(--bg-elevated);color:var(--text)}
+.btn-danger{color:var(--red);border-color:rgba(232,93,93,0.3)}
+.btn-danger:hover{background:var(--red-dim)}
+.btn-icon{padding:6px;border:none;background:transparent;color:var(--text-muted);cursor:pointer;border-radius:var(--radius-sm);transition:all var(--transition);display:inline-flex;align-items:center}
+.btn-icon:hover{background:var(--bg-elevated);color:var(--text)}
+.container{max-width:1200px;margin:0 auto;padding:24px;width:100%}
+.page-title{font-family:var(--font-display);font-size:28px;color:var(--text);margin-bottom:8px}
+.page-subtitle{color:var(--text-muted);font-size:14px;margin-bottom:32px}
+.card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);overflow:hidden;transition:all var(--transition)}
+.card:hover{border-color:var(--border-light)}
+.card-header{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;gap:12px}
+.card-header h3{font-size:14px;font-weight:600;color:var(--text);letter-spacing:-0.2px}
+.card-body{padding:20px}
+input,textarea,select{width:100%;padding:10px 14px;background:var(--bg-input);border:1px solid var(--border);border-radius:var(--radius-sm);color:var(--text);font-family:var(--font);font-size:13px;transition:all var(--transition);outline:none}
+input:focus,textarea:focus,select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+textarea{resize:vertical;min-height:80px;line-height:1.6}
+label{display:block;font-size:12px;font-weight:500;color:var(--text-secondary);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.8px}
+.form-group{margin-bottom:16px}
+.tabs{display:flex;gap:2px;background:var(--bg-deep);border-radius:var(--radius);padding:3px;border:1px solid var(--border)}
+.tab{flex:1;padding:8px 16px;text-align:center;font-size:13px;font-weight:500;color:var(--text-muted);cursor:pointer;border-radius:var(--radius-sm);transition:all var(--transition);border:none;background:transparent;font-family:var(--font)}
+.tab:hover{color:var(--text-secondary)}
+.tab.active{background:var(--bg-card);color:var(--accent);box-shadow:var(--shadow)}
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:600;letter-spacing:0.3px}
+.badge-accent{background:var(--accent-glow);color:var(--accent)}
+.badge-green{background:var(--green-dim);color:var(--green)}
+.badge-blue{background:var(--blue-dim);color:var(--blue)}
+.badge-red{background:var(--red-dim);color:var(--red)}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.test-layout{display:grid;grid-template-columns:1fr 380px;gap:24px;align-items:start}
+.stopwatch{display:flex;align-items:center;gap:8px;font-variant-numeric:tabular-nums;font-size:14px;font-weight:600;color:var(--text);padding:6px 14px;background:var(--bg-elevated);border-radius:var(--radius-sm);border:1px solid var(--border)}
+.stopwatch-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 1.5s ease infinite}
+.stopwatch-dot.paused{background:var(--text-muted);animation:none}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+.countdown{text-align:center;padding:20px;background:var(--bg-elevated);border-radius:var(--radius);border:1px solid var(--border);margin-bottom:16px}
+.countdown-label{font-size:12px;text-transform:uppercase;letter-spacing:1.2px;color:var(--text-muted);margin-bottom:8px}
+.countdown-time{font-family:var(--font-display);font-size:48px;color:var(--accent);letter-spacing:2px}
+.countdown-time.warning{color:var(--red)}
+.countdown-controls{display:flex;gap:8px;justify-content:center;margin-top:12px}
+.checklist-group{margin-bottom:12px}
+.checklist-band-label{font-size:11px;font-weight:700;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;padding:6px 0;display:flex;align-items:center;gap:6px}
+.checklist-band-label .band-num{display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--bg-elevated);border:1px solid var(--border);font-size:11px;color:var(--text-secondary)}
+.checklist-item{display:flex;align-items:flex-start;gap:10px;padding:6px 8px;border-radius:var(--radius-sm);cursor:pointer;transition:background var(--transition)}
+.checklist-item:hover{background:var(--bg-elevated)}
+.checklist-box{width:18px;height:18px;min-width:18px;border:1.5px solid var(--border-light);border-radius:4px;display:flex;align-items:center;justify-content:center;margin-top:1px;transition:all var(--transition)}
+.checklist-box.checked{background:var(--accent);border-color:var(--accent)}
+.checklist-text{font-size:12.5px;color:var(--text-secondary);line-height:1.5}
+.checklist-item.checked .checklist-text{color:var(--text)}
+.question-card{padding:16px 20px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:12px}
+.question-card:last-child{border-bottom:none}
+.question-num{width:28px;height:28px;min-width:28px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:var(--bg-elevated);border:1px solid var(--border);font-size:12px;font-weight:600;color:var(--text-secondary)}
+.question-text{font-size:15px;color:var(--text);line-height:1.6;padding-top:3px}
+.cue-card{background:linear-gradient(135deg,#1e2228 0%,#22262d 100%);border:2px solid var(--accent);border-radius:var(--radius-lg);padding:28px;position:relative;overflow:hidden}
+.cue-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--accent),transparent)}
+.cue-card-title{font-family:var(--font-display);font-size:20px;color:var(--accent);margin-bottom:16px}
+.cue-card-prompt{font-size:14px;color:var(--text-secondary);margin-bottom:4px;padding-left:16px;position:relative}
+.cue-card-prompt::before{content:'•';position:absolute;left:0;color:var(--accent)}
+.topic-item{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid var(--border);transition:background var(--transition)}
+.topic-item:hover{background:var(--bg-card-hover)}
+.topic-item:last-child{border-bottom:none}
+.topic-info{display:flex;align-items:center;gap:12px}
+.topic-name{font-size:14px;font-weight:500;color:var(--text)}
+.topic-count{font-size:12px;color:var(--text-muted)}
+.topic-actions{display:flex;gap:4px}
+.dash-card{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);padding:24px;text-align:center;transition:all var(--transition);cursor:pointer}
+.dash-card:hover{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent-glow);transform:translateY(-2px)}
+.dash-card-icon{width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;background:var(--accent-glow);color:var(--accent)}
+.dash-card-title{font-size:15px;font-weight:600;color:var(--text);margin-bottom:4px}
+.dash-card-desc{font-size:12px;color:var(--text-muted)}
+.report-criteria-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.report-criterion{background:var(--bg-elevated);border-radius:var(--radius);padding:16px;text-align:center;border:1px solid var(--border)}
+.report-criterion-label{font-size:11px;text-transform:uppercase;letter-spacing:0.8px;color:var(--text-muted);margin-bottom:8px}
+.report-criterion-score{font-family:var(--font-display);font-size:32px;color:var(--accent)}
+.report-overall{text-align:center;padding:32px;background:linear-gradient(135deg,var(--accent-glow) 0%,transparent 100%);border-radius:var(--radius-lg);border:1px solid rgba(212,168,83,0.2)}
+.report-overall-score{font-family:var(--font-display);font-size:64px;color:var(--accent);line-height:1}
+.report-overall-label{font-size:13px;color:var(--text-muted);text-transform:uppercase;letter-spacing:1.5px;margin-top:8px}
+.notes-display{background:var(--bg-input);border-radius:var(--radius-sm);padding:12px 16px;font-size:13px;color:var(--text-secondary);white-space:pre-wrap;line-height:1.6;min-height:40px}
+.collapsible-header{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;cursor:pointer;border-radius:var(--radius-sm);transition:background var(--transition)}
+.collapsible-header:hover{background:var(--bg-elevated)}
+.scoring-panel{position:sticky;top:72px;max-height:calc(100vh - 88px);overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent}
+.scoring-panel::-webkit-scrollbar{width:4px}
+.scoring-panel::-webkit-scrollbar-thumb{background:var(--border);border-radius:4px}
+.override-input{width:54px;text-align:center;padding:4px 6px;font-size:14px;font-weight:600}
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);z-index:200;display:flex;align-items:center;justify-content:center;padding:24px}
+.modal{background:var(--bg-card);border:1px solid var(--border);border-radius:var(--radius-lg);width:100%;max-width:560px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg)}
+.modal-header{padding:20px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between}
+.modal-header h3{font-size:16px;font-weight:600}
+.modal-body{padding:24px}
+.modal-footer{padding:16px 24px;border-top:1px solid var(--border);display:flex;gap:8px;justify-content:flex-end}
+.empty-state{text-align:center;padding:48px 24px;color:var(--text-muted)}
+.empty-state-icon{width:56px;height:56px;border-radius:50%;background:var(--bg-elevated);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;color:var(--text-muted);font-size:24px}
+.empty-state h3{font-size:16px;color:var(--text-secondary);margin-bottom:4px}
+.empty-state p{font-size:13px}
+@media(max-width:900px){.test-layout{grid-template-columns:1fr}.scoring-panel{position:static;max-height:none}.grid-3{grid-template-columns:1fr 1fr}.report-criteria-grid{grid-template-columns:1fr 1fr}.container{padding:16px}}
+@media(max-width:600px){.grid-3{grid-template-columns:1fr}.report-criteria-grid{grid-template-columns:1fr 1fr}.header{padding:0 12px}.tabs{flex-wrap:wrap}.header-sub{display:none}}
+@media print{.header,.btn,.scoring-panel,.tabs,.btn-icon{display:none!important}.card{border:1px solid #ddd;break-inside:avoid}body{background:white;color:black}.report-criterion-score,.report-overall-score,.band-number{color:#333}.report-overall{border:2px solid #333}.test-layout{grid-template-columns:1fr}}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.fade-in{animation:fadeIn 0.3s ease}
+@keyframes slideUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.slide-up{animation:slideUp 0.4s ease}
+</style></head><body><div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+<script>
+(()=>{var{useState:g,useEffect:A,useCallback:fe,useRef:K}=React,O={part1:"ielts-part1-topics",part2:"ielts-part2-cards",part3:"ielts-part3-sets",tests:"ielts-test-history"};function M(i){try{let a=localStorage.getItem(i);return a?JSON.parse(a):null}catch{return null}}function H(i,a){try{localStorage.setItem(i,JSON.stringify(a))}catch(l){console.error("Storage error:",l)}}var Y={fc:{label:"Fluency & Coherence",short:"FC",bands:{4:["Can link simple sentences","Frequent pauses and repetition","Often self-corrects","Repetitious use of connectives","Some breakdowns in coherence"],5:["Usually keeps going (relies on repetition/slow speech)","Mid-sentence searches for basic lexis/grammar","Overuses certain discourse markers","Simpler language produced fluently","Complex speech causes disfluency"],6:["Willing to produce long turns","Uses a range of discourse markers/connectives","Coherence occasionally lost (hesitation/repetition)","Discourse markers not always appropriate"],7:["Long turns without noticeable effort","Hesitation/self-correction doesn't affect coherence","Flexible use of discourse markers & cohesive features","Mid-sentence hesitation indicates language access issues only"],8:["Fluent with only very occasional repetition/self-correction","Hesitation mostly content-related","Topic development coherent, appropriate & relevant"],9:["Any hesitation is only to prepare content","Speech is situationally appropriate","Cohesive features fully acceptable","Topic development fully coherent & appropriately extended"]}},lr:{label:"Lexical Resource",short:"LR",bands:{4:["Sufficient for familiar topics only","Only basic meaning on unfamiliar topics","Frequent word choice errors","Rarely attempts paraphrase"],5:["Sufficient for familiar & unfamiliar topics","Limited flexibility in vocabulary use","Attempts paraphrase but not always successfully"],6:["Sufficient to discuss topics at length","Some inappropriate vocabulary but meaning clear","Generally paraphrases successfully"],7:["Flexibly used to discuss a variety of topics","Some less common/idiomatic items used","Awareness of style & collocation (some inappropriacies)","Effective paraphrase as required"],8:["Wide resource, readily & flexibly used","Conveys precise meaning across all topics","Skilful use of less common/idiomatic items","Occasional inaccuracies in word choice/collocation","Effective paraphrase as required"],9:["Total flexibility & precise use in all contexts","Sustained accurate & idiomatic language"]}},gra:{label:"Grammatical Range & Accuracy",short:"GRA",bands:{4:["Basic sentence forms produced","Some short utterances error-free","Subordinate clauses rare","Turns short, structures repetitive","Errors frequent"],5:["Basic forms fairly well controlled","Complex structures attempted but limited range","Complex structures nearly always contain errors","May need reformulation"],6:["Mix of short & complex sentence forms","Variety of structures with limited flexibility","Errors frequent in complex structures","Errors rarely impede communication"],7:["Range of structures flexibly used","Error-free sentences frequent","Both simple & complex sentences used effectively","Some errors persist, few basic errors"],8:["Wide range of structures, flexibly used","Majority of sentences error-free","Occasional inappropriacies/non-systematic errors","Few basic errors may persist"],9:["Structures precise & accurate at all times","Only native-speaker-type 'mistakes'"]}},pron:{label:"Pronunciation",short:"Pron",bands:{4:["Some acceptable phonological features (limited range)","Some acceptable chunking, frequent rhythm lapses","Attempts intonation/stress (limited control)","Words/phonemes frequently mispronounced","Understanding requires some effort"],5:["Displays some Band 4 positives & some Band 6 features"],6:["Range of phonological features (variable control)","Generally appropriate chunking","Rhythm affected by lack of stress-timing/rapid rate","Some effective intonation/stress (not sustained)","Occasional mispronunciation causing lack of clarity","Generally understood without much effort"],7:["Displays all Band 6 positives & some Band 8 features"],8:["Wide range of phonological features","Conveys precise/subtle meaning","Sustains appropriate rhythm","Flexible stress & intonation across long utterances","Occasional lapses only","Easily understood throughout","Accent has minimal effect on intelligibility"],9:["Full range of phonological features","Conveys precise/subtle meaning","Flexible connected speech sustained throughout","Effortlessly understood throughout","Accent has no effect on intelligibility"]}}},p={play:React.createElement("svg",{width:"16",height:"16",viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"2.5",strokeLinecap:"round",strokeLinejoin:"round"},React.createElement("polygon",{points:"5 3 19 12 5 21 5 3"})),pause:React.createElement("svg",{width:"16",height:"16",viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"2.5",strokeLinecap:"round",strokeLinejoin:"round"},React.createElement("rect",{x:"6",y:"4",width:"4",height:"16"}),React.createElement("rect",{x:"14",y:"4",width:"4",height:"16"})),reset:React.createElement("svg",{width:"16",height:"16",viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"2.5",strokeLinecap:"round",strokeLinejoin:"round"},React.createElement("polyline",{points:"1 4 1 10 7 10"}),React.createElement("path",{d:"M3.51 15a9 9 0 1 0 2.13-9.36L1 10"})),plus:React.createElement("svg",{width:"16",height:"16",viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"2.5",strokeLinecap:"round",strokeLinejoin:"round"},React.createElement("line",{x1:"12",y1:"5",x2:"12",y2:"19"}),React.createElement("line",{x1:"5",y1:"12",x2:"19",y2:"12"})),trash:React.createElement("svg",{width:"14",height:"14",viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"2",strokeLinecap:"round",strokeLinejoin:"round"},React.createElement("polyline",{points:"3 6 5 6 21 6"}),React.createElement("path",{d:"M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"})),edit:React.createElement("svg",{width:"14",height:"14",viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"2",strokeLinecap:"round",strokeLinejoin:"round"},React.createElement("path",{d:"M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"}),React.createElement("path",{d:"M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"})),chevDown:React.createElement("svg",{width:"14",height:"14",viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"2.5",strokeLinecap:"round",strokeLinejoin:"round"},React.createElement("polyline",{points:"6 9 12 15 18 9"})),chevRight:React.createElement("svg",{width:"14",height:"14",viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"2.5",strokeLinecap:"round",strokeLinejoin:"round"},React.createElement("polyline",{points:"9 18 15 12 9 6"})),upload:React.createElement("svg",{width:"16",height:"16",viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"2.5",strokeLinecap:"round",strokeLinejoin:"round"},React.createElement("polyline",{points:"16 16 12 12 8 16"}),React.createElement("line",{x1:"12",y1:"12",x2:"12",y2:"21"}),React.createElement("path",{d:"M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"})),print:React.createElement("svg",{width:"16",height:"16",viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"2",strokeLinecap:"round",strokeLinejoin:"round"},React.createElement("polyline",{points:"6 9 6 2 18 2 18 9"}),React.createElement("path",{d:"M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"}),React.createElement("rect",{x:"6",y:"14",width:"12",height:"8"})),shuffle:React.createElement("svg",{width:"16",height:"16",viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"2.5",strokeLinecap:"round",strokeLinejoin:"round"},React.createElement("polyline",{points:"16 3 21 3 21 8"}),React.createElement("line",{x1:"4",y1:"20",x2:"21",y2:"3"}),React.createElement("polyline",{points:"21 16 21 21 16 21"}),React.createElement("line",{x1:"15",y1:"15",x2:"21",y2:"21"}),React.createElement("line",{x1:"4",y1:"4",x2:"9",y2:"9"})),clock:React.createElement("svg",{width:"16",height:"16",viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"2",strokeLinecap:"round",strokeLinejoin:"round"},React.createElement("circle",{cx:"12",cy:"12",r:"10"}),React.createElement("polyline",{points:"12 6 12 12 16 14"})),check:React.createElement("svg",{width:"14",height:"14",viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"3",strokeLinecap:"round",strokeLinejoin:"round"},React.createElement("polyline",{points:"20 6 9 17 4 12"})),x:React.createElement("svg",{width:"14",height:"14",viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"2.5",strokeLinecap:"round",strokeLinejoin:"round"},React.createElement("line",{x1:"18",y1:"6",x2:"6",y2:"18"}),React.createElement("line",{x1:"6",y1:"6",x2:"18",y2:"18"})),clipboard:React.createElement("svg",{width:"16",height:"16",viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"2",strokeLinecap:"round",strokeLinejoin:"round"},React.createElement("path",{d:"M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"}),React.createElement("rect",{x:"8",y:"2",width:"8",height:"4",rx:"1",ry:"1"})),home:React.createElement("svg",{width:"18",height:"18",viewBox:"0 0 24 24",fill:"none",stroke:"currentColor",strokeWidth:"2",strokeLinecap:"round",strokeLinejoin:"round"},React.createElement("path",{d:"M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"}),React.createElement("polyline",{points:"9 22 9 12 15 12 15 22"}))};function Q(i){let a=Math.floor(i/60),l=i%60;return`${String(a).padStart(2,"0")}:${String(l).padStart(2,"0")}`}function U(i){let a=[...i];for(let l=a.length-1;l>0;l--){let c=Math.floor(Math.random()*(l+1));[a[l],a[c]]=[a[c],a[l]]}return a}function P(){return Date.now().toString(36)+Math.random().toString(36).slice(2,7)}function X(i,a){let l=Y[a].bands,c=4;for(let u of[4,5,6,7,8,9]){let m=l[u]||[],o=m.filter((f,x)=>i[`${u}-${x}`]).length;(m.length>0?o/m.length:0)>=.5&&(c=u)}return c}function ie(i){let a=Object.values(i).filter(c=>c>0);if(a.length===0)return 0;let l=a.reduce((c,u)=>c+u,0)/a.length;return Math.round(l*2)/2}var se=`
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&family=DM+Serif+Display&display=swap');
+
+:root {
+  --bg-deep: #0f1114;
+  --bg-card: #181b20;
+  --bg-card-hover: #1e2228;
+  --bg-input: #1a1d22;
+  --bg-elevated: #22262d;
+  --border: #2a2e36;
+  --border-light: #353a44;
+  --text: #e8e6e3;
+  --text-secondary: #9ca3af;
+  --text-muted: #6b7280;
+  --accent: #d4a853;
+  --accent-dim: #b8922e;
+  --accent-glow: rgba(212, 168, 83, 0.15);
+  --accent-glow-strong: rgba(212, 168, 83, 0.25);
+  --red: #e85d5d;
+  --red-dim: rgba(232, 93, 93, 0.12);
+  --green: #5dd4a8;
+  --green-dim: rgba(93, 212, 168, 0.12);
+  --blue: #5da8e8;
+  --blue-dim: rgba(93, 168, 232, 0.12);
+  --radius: 10px;
+  --radius-sm: 6px;
+  --radius-lg: 14px;
+  --shadow: 0 2px 12px rgba(0,0,0,0.3);
+  --shadow-lg: 0 8px 32px rgba(0,0,0,0.4);
+  --font: 'DM Sans', sans-serif;
+  --font-display: 'DM Serif Display', serif;
+  --transition: 0.2s ease;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg-deep);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 14px;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* \u2500\u2500\u2500 Header \u2500\u2500\u2500 */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(15, 17, 20, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 24px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.header-logo {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--accent);
+  letter-spacing: -0.3px;
+}
+
+.header-sub {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 500;
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* \u2500\u2500\u2500 Buttons \u2500\u2500\u2500 */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition);
+  white-space: nowrap;
+}
+
+.btn:hover {
+  background: var(--bg-card-hover);
+  border-color: var(--border-light);
+}
+
+.btn-accent {
+  background: var(--accent);
+  color: #0f1114;
+  border-color: var(--accent);
+  font-weight: 600;
+}
+
+.btn-accent:hover {
+  background: var(--accent-dim);
+  border-color: var(--accent-dim);
+}
+
+.btn-sm {
+  padding: 5px 10px;
+  font-size: 12px;
+}
+
+.btn-ghost {
+  background: transparent;
+  border-color: transparent;
+  color: var(--text-secondary);
+}
+
+.btn-ghost:hover {
+  background: var(--bg-elevated);
+  color: var(--text);
+}
+
+.btn-danger {
+  color: var(--red);
+  border-color: rgba(232, 93, 93, 0.3);
+}
+
+.btn-danger:hover {
+  background: var(--red-dim);
+}
+
+.btn-icon {
+  padding: 6px;
+  border: none;
+  background: transparent;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition);
+  display: inline-flex;
+  align-items: center;
+}
+
+.btn-icon:hover {
+  background: var(--bg-elevated);
+  color: var(--text);
+}
+
+/* \u2500\u2500\u2500 Layout \u2500\u2500\u2500 */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 24px;
+  width: 100%;
+}
+
+.page-title {
+  font-family: var(--font-display);
+  font-size: 28px;
+  color: var(--text);
+  margin-bottom: 8px;
+}
+
+.page-subtitle {
+  color: var(--text-muted);
+  font-size: 14px;
+  margin-bottom: 32px;
+}
+
+/* \u2500\u2500\u2500 Cards \u2500\u2500\u2500 */
+.card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  transition: all var(--transition);
+}
+
+.card:hover {
+  border-color: var(--border-light);
+}
+
+.card-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.card-header h3 {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  letter-spacing: -0.2px;
+}
+
+.card-body {
+  padding: 20px;
+}
+
+/* \u2500\u2500\u2500 Forms \u2500\u2500\u2500 */
+input, textarea, select {
+  width: 100%;
+  padding: 10px 14px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-family: var(--font);
+  font-size: 13px;
+  transition: all var(--transition);
+  outline: none;
+}
+
+input:focus, textarea:focus, select:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+textarea {
+  resize: vertical;
+  min-height: 80px;
+  line-height: 1.6;
+}
+
+label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.form-group {
+  margin-bottom: 16px;
+}
+
+/* \u2500\u2500\u2500 Tabs \u2500\u2500\u2500 */
+.tabs {
+  display: flex;
+  gap: 2px;
+  background: var(--bg-deep);
+  border-radius: var(--radius);
+  padding: 3px;
+  border: 1px solid var(--border);
+}
+
+.tab {
+  flex: 1;
+  padding: 8px 16px;
+  text-align: center;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: all var(--transition);
+  border: none;
+  background: transparent;
+  font-family: var(--font);
+}
+
+.tab:hover { color: var(--text-secondary); }
+.tab.active {
+  background: var(--bg-card);
+  color: var(--accent);
+  box-shadow: var(--shadow);
+}
+
+/* \u2500\u2500\u2500 Tag / Badge \u2500\u2500\u2500 */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.badge-accent {
+  background: var(--accent-glow);
+  color: var(--accent);
+}
+
+.badge-green {
+  background: var(--green-dim);
+  color: var(--green);
+}
+
+.badge-blue {
+  background: var(--blue-dim);
+  color: var(--blue);
+}
+
+.badge-red {
+  background: var(--red-dim);
+  color: var(--red);
+}
+
+/* \u2500\u2500\u2500 Grid \u2500\u2500\u2500 */
+.grid-2 {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.grid-4 {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+/* \u2500\u2500\u2500 Test layout \u2500\u2500\u2500 */
+.test-layout {
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 24px;
+  align-items: start;
+}
+
+/* \u2500\u2500\u2500 Stopwatch \u2500\u2500\u2500 */
+.stopwatch {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-variant-numeric: tabular-nums;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  padding: 6px 14px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+}
+
+.stopwatch-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--green);
+  animation: pulse 1.5s ease infinite;
+}
+
+.stopwatch-dot.paused {
+  background: var(--text-muted);
+  animation: none;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* \u2500\u2500\u2500 Countdown timer \u2500\u2500\u2500 */
+.countdown {
+  text-align: center;
+  padding: 20px;
+  background: var(--bg-elevated);
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  margin-bottom: 16px;
+}
+
+.countdown-label {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.countdown-time {
+  font-family: var(--font-display);
+  font-size: 48px;
+  color: var(--accent);
+  letter-spacing: 2px;
+}
+
+.countdown-time.warning {
+  color: var(--red);
+}
+
+.countdown-controls {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 12px;
+}
+
+/* \u2500\u2500\u2500 Checklist \u2500\u2500\u2500 */
+.checklist-group {
+  margin-bottom: 12px;
+}
+
+.checklist-band-label {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  padding: 6px 0;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.checklist-band-label .band-num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 6px 8px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: background var(--transition);
+}
+
+.checklist-item:hover {
+  background: var(--bg-elevated);
+}
+
+.checklist-box {
+  width: 18px;
+  height: 18px;
+  min-width: 18px;
+  border: 1.5px solid var(--border-light);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+  transition: all var(--transition);
+}
+
+.checklist-box.checked {
+  background: var(--accent);
+  border-color: var(--accent);
+}
+
+.checklist-box.checked svg {
+  color: #0f1114;
+}
+
+.checklist-text {
+  font-size: 12.5px;
+  color: var(--text-secondary);
+  line-height: 1.5;
+}
+
+.checklist-item.checked .checklist-text {
+  color: var(--text);
+}
+
+/* \u2500\u2500\u2500 Band display \u2500\u2500\u2500 */
+.band-display {
+  text-align: center;
+  padding: 16px;
+}
+
+.band-number {
+  font-family: var(--font-display);
+  font-size: 42px;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.band-label {
+  font-size: 11px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-top: 4px;
+}
+
+/* \u2500\u2500\u2500 Question display \u2500\u2500\u2500 */
+.question-card {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.question-card:last-child {
+  border-bottom: none;
+}
+
+.question-num {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.question-text {
+  font-size: 15px;
+  color: var(--text);
+  line-height: 1.6;
+  padding-top: 3px;
+}
+
+/* \u2500\u2500\u2500 Part 2 cue card \u2500\u2500\u2500 */
+.cue-card {
+  background: linear-gradient(135deg, #1e2228 0%, #22262d 100%);
+  border: 2px solid var(--accent);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+}
+
+.cue-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--accent), transparent);
+}
+
+.cue-card-title {
+  font-family: var(--font-display);
+  font-size: 20px;
+  color: var(--accent);
+  margin-bottom: 16px;
+}
+
+.cue-card-prompt {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+  padding-left: 16px;
+  position: relative;
+}
+
+.cue-card-prompt::before {
+  content: '\u2022';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
+
+/* \u2500\u2500\u2500 Topic list items \u2500\u2500\u2500 */
+.topic-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border);
+  transition: background var(--transition);
+}
+
+.topic-item:hover {
+  background: var(--bg-card-hover);
+}
+
+.topic-item:last-child {
+  border-bottom: none;
+}
+
+.topic-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.topic-name {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text);
+}
+
+.topic-count {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.topic-actions {
+  display: flex;
+  gap: 4px;
+}
+
+/* \u2500\u2500\u2500 Dashboard cards \u2500\u2500\u2500 */
+.dash-card {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 24px;
+  text-align: center;
+  transition: all var(--transition);
+  cursor: pointer;
+}
+
+.dash-card:hover {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 1px var(--accent-glow);
+  transform: translateY(-2px);
+}
+
+.dash-card-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+  background: var(--accent-glow);
+  color: var(--accent);
+}
+
+.dash-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.dash-card-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* \u2500\u2500\u2500 Report \u2500\u2500\u2500 */
+.report-section {
+  margin-bottom: 24px;
+}
+
+.report-criteria-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.report-criterion {
+  background: var(--bg-elevated);
+  border-radius: var(--radius);
+  padding: 16px;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+
+.report-criterion-label {
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+}
+
+.report-criterion-score {
+  font-family: var(--font-display);
+  font-size: 32px;
+  color: var(--accent);
+}
+
+.report-overall {
+  text-align: center;
+  padding: 32px;
+  background: linear-gradient(135deg, var(--accent-glow) 0%, transparent 100%);
+  border-radius: var(--radius-lg);
+  border: 1px solid rgba(212, 168, 83, 0.2);
+}
+
+.report-overall-score {
+  font-family: var(--font-display);
+  font-size: 64px;
+  color: var(--accent);
+  line-height: 1;
+}
+
+.report-overall-label {
+  font-size: 13px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-top: 8px;
+}
+
+.notes-display {
+  background: var(--bg-input);
+  border-radius: var(--radius-sm);
+  padding: 12px 16px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  white-space: pre-wrap;
+  line-height: 1.6;
+  min-height: 40px;
+}
+
+/* \u2500\u2500\u2500 Collapsible \u2500\u2500\u2500 */
+.collapsible-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  cursor: pointer;
+  border-radius: var(--radius-sm);
+  transition: background var(--transition);
+}
+
+.collapsible-header:hover {
+  background: var(--bg-elevated);
+}
+
+/* \u2500\u2500\u2500 Scoring sidebar \u2500\u2500\u2500 */
+.scoring-panel {
+  position: sticky;
+  top: 72px;
+  max-height: calc(100vh - 88px);
+  overflow-y: auto;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+
+.scoring-panel::-webkit-scrollbar {
+  width: 4px;
+}
+
+.scoring-panel::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+/* \u2500\u2500\u2500 Responsive \u2500\u2500\u2500 */
+@media (max-width: 900px) {
+  .test-layout {
+    grid-template-columns: 1fr;
+  }
+  .scoring-panel {
+    position: static;
+    max-height: none;
+  }
+  .grid-2 { grid-template-columns: 1fr; }
+  .grid-3 { grid-template-columns: 1fr 1fr; }
+  .grid-4 { grid-template-columns: 1fr 1fr; }
+  .report-criteria-grid { grid-template-columns: 1fr 1fr; }
+  .container { padding: 16px; }
+}
+
+@media (max-width: 600px) {
+  .grid-3 { grid-template-columns: 1fr; }
+  .report-criteria-grid { grid-template-columns: 1fr 1fr; }
+  .header { padding: 0 12px; }
+  .tabs { flex-wrap: wrap; }
+  .header-sub { display: none; }
+}
+
+/* \u2500\u2500\u2500 Upload area \u2500\u2500\u2500 */
+.upload-area {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  padding: 32px;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition);
+}
+
+.upload-area:hover {
+  border-color: var(--accent);
+  background: var(--accent-glow);
+}
+
+/* \u2500\u2500\u2500 Modal \u2500\u2500\u2500 */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  backdrop-filter: blur(4px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+}
+
+.modal {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  width: 100%;
+  max-width: 560px;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-shadow: var(--shadow-lg);
+}
+
+.modal-header {
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.modal-header h3 {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.modal-body {
+  padding: 24px;
+}
+
+.modal-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--border);
+  display: flex;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+/* \u2500\u2500\u2500 Empty states \u2500\u2500\u2500 */
+.empty-state {
+  text-align: center;
+  padding: 48px 24px;
+  color: var(--text-muted);
+}
+
+.empty-state-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: var(--bg-elevated);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px;
+  color: var(--text-muted);
+}
+
+.empty-state h3 {
+  font-size: 16px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+}
+
+.empty-state p {
+  font-size: 13px;
+}
+
+/* \u2500\u2500\u2500 Override indicator \u2500\u2500\u2500 */
+.override-input {
+  width: 54px;
+  text-align: center;
+  padding: 4px 6px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* \u2500\u2500\u2500 Print \u2500\u2500\u2500 */
+@media print {
+  .header, .btn, .scoring-panel, .tabs { display: none !important; }
+  .card { border: 1px solid #ddd; break-inside: avoid; }
+  body { background: white; color: black; }
+  .report-criterion-score, .report-overall-score, .band-number { color: #333; }
+  .report-overall { border: 2px solid #333; }
+}
+
+/* \u2500\u2500\u2500 Animations \u2500\u2500\u2500 */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.slide-up {
+  animation: slideUp 0.4s ease;
+}
+`;function le(){let[i,a]=g("home"),[l,c]=g(()=>M(O.part1)||[]),[u,m]=g(()=>M(O.part2)||[]),[o,d]=g(()=>M(O.part3)||[]),[f,x]=g(null),[k,r]=g(1),[e,s]=g({1:"",2:"",3:""}),[t,n]=g({fc:{},lr:{},gra:{},pron:{}}),[y,N]=g({fc:"",lr:"",gra:"",pron:""}),[b,S]=g(!1),[h,j]=g(0),v=K(null),[w,B]=g(null),[T,R]=g(0),[I,W]=g(!1),D=K(null),[Z,ee]=g(null),[G,te]=g(null),[ae,_]=g("summary");A(()=>{H(O.part1,l)},[l]),A(()=>{H(O.part2,u)},[u]),A(()=>{H(O.part3,o)},[o]),A(()=>(b?v.current=setInterval(()=>j(C=>C+1),1e3):clearInterval(v.current),()=>clearInterval(v.current)),[b]),A(()=>(I&&T>0?D.current=setInterval(()=>{R(C=>C<=1?(W(!1),0):C-1)},1e3):clearInterval(D.current),()=>clearInterval(D.current)),[I,T]);function $(){if(l.length<4||u.length<1){alert("Need at least 4 Part 1 topics (including an opener) and 1 Part 2 cue card.");return}let C=l.filter(L=>L.isOpener),E=l.filter(L=>!L.isOpener);if(C.length===0){alert("You need at least one opener topic (Work/Studies, Home, or Hometown).");return}if(E.length<3){alert("You need at least 3 non-opener Part 1 topics.");return}let q=U(C)[0],z=U(E).slice(0,3),re=[q,...z],J=U(u)[0],V=o.filter(L=>L.linkedTo===J.id),ne=V.length>0?V[0]:null;x({part1:re,part2:J,part3:ne}),r(1),s({1:"",2:"",3:""}),n({fc:{},lr:{},gra:{},pron:{}}),N({fc:"",lr:"",gra:"",pron:""}),j(0),S(!0),B(null),R(0),W(!1),a("test")}function oe(){S(!1);let C={};for(let q of["fc","lr","gra","pron"]){let z=parseFloat(y[q]);C[q]=!isNaN(z)&&z>=0&&z<=9?z:X(t[q],q)}let E=ie(C);te({test:f,scores:C,overall:E,checks:t,notes:e,duration:h}),_("summary"),a("report")}function F(){S(!1),W(!1),a("home")}return React.createElement(React.Fragment,null,React.createElement("style",null,se),React.createElement("div",{className:"app"},React.createElement(de,{screen:i,goHome:F,swTime:h,swRunning:b,setSwRunning:S,showStopwatch:i==="test"}),i==="home"&&React.createElement(ce,{onManage:()=>a("manage"),onStartTest:$,p1Count:l.length,p2Count:u.length,p3Count:o.length}),i==="manage"&&React.createElement(pe,{part1Topics:l,setPart1Topics:c,part2Cards:u,setPart2Cards:m,part3Sets:o,setPart3Sets:d,modal:Z,setModal:ee,onBack:F}),i==="test"&&f&&React.createElement(ge,{testData:f,testPart:k,setTestPart:r,notes:e,setNotes:s,checks:t,setChecks:n,overrides:y,setOverrides:N,onFinish:oe,cdPhase:w,setCdPhase:B,cdTime:T,setCdTime:R,cdRunning:I,setCdRunning:W,onRegenerate:$}),i==="report"&&G&&React.createElement(he,{data:G,view:ae,setView:_,onNewTest:$,onHome:F})))}function de({screen:i,goHome:a,swTime:l,swRunning:c,setSwRunning:u,showStopwatch:m}){return React.createElement("header",{className:"header"},React.createElement("div",{className:"header-brand",onClick:a},React.createElement("span",{className:"header-logo"},"IELTS Examiner"),React.createElement("span",{className:"header-sub"},"Speaking Tool")),React.createElement("div",{className:"header-actions"},m&&React.createElement("div",{className:"stopwatch"},React.createElement("div",{className:`stopwatch-dot ${c?"":"paused"}`}),p.clock,React.createElement("span",null,Q(l)),React.createElement("button",{className:"btn-icon",onClick:()=>u(!c)},c?p.pause:p.play)),i!=="home"&&React.createElement("button",{className:"btn btn-ghost btn-sm",onClick:a},p.home," Home")))}function ce({onManage:i,onStartTest:a,p1Count:l,p2Count:c,p3Count:u}){return React.createElement("div",{className:"container slide-up"},React.createElement("div",{style:{textAlign:"center",padding:"48px 0 32px"}},React.createElement("h1",{className:"page-title",style:{fontSize:36}},"IELTS Speaking Examiner"),React.createElement("p",{className:"page-subtitle",style:{maxWidth:480,margin:"8px auto 0"}},"Automated topic selection, real-time scoring with band descriptors, and comprehensive candidate reports.")),React.createElement("div",{className:"grid-3",style:{maxWidth:720,margin:"0 auto 48px"}},React.createElement("div",{className:"dash-card",onClick:a},React.createElement("div",{className:"dash-card-icon"},p.play),React.createElement("div",{className:"dash-card-title"},"Start Test"),React.createElement("div",{className:"dash-card-desc"},"Generate & run a speaking test")),React.createElement("div",{className:"dash-card",onClick:i},React.createElement("div",{className:"dash-card-icon"},p.clipboard),React.createElement("div",{className:"dash-card-title"},"Manage Topics"),React.createElement("div",{className:"dash-card-desc"},"Add, edit, upload questions")),React.createElement("div",{className:"dash-card",style:{cursor:"default",opacity:.7}},React.createElement("div",{className:"dash-card-icon"},p.clock),React.createElement("div",{className:"dash-card-title"},"Question Bank"),React.createElement("div",{className:"dash-card-desc"},l," Part 1 \xB7 ",c," Part 2 \xB7 ",u," Part 3"))))}function pe({part1Topics:i,setPart1Topics:a,part2Cards:l,setPart2Cards:c,part3Sets:u,setPart3Sets:m,modal:o,setModal:d,onBack:f}){let[x,k]=g("part1"),[r,e]=g(!1),[s,t]=g(""),[n,y]=g("part1");function N(){try{let b=JSON.parse(s);if(n==="part1"&&Array.isArray(b)){let S=b.map(h=>({id:P(),name:h.name||h.topic,isOpener:!!h.isOpener,questions:h.questions||[]}));a(h=>[...h,...S])}else if(n==="part2"&&Array.isArray(b)){let S=b.map(h=>({id:P(),title:h.title||h.topic,prompts:h.prompts||[],youShouldSay:h.youShouldSay||h.you_should_say||""}));c(h=>[...h,...S])}else if(n==="part3"&&Array.isArray(b)){let S=b.map(h=>({id:P(),linkedTo:h.linkedTo||h.linked_to||"",questions:h.questions||[]}));m(h=>[...h,...S])}t(""),e(!1)}catch{alert("Invalid JSON. Please check the format.")}}return React.createElement("div",{className:"container fade-in"},React.createElement("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:24}},React.createElement("div",null,React.createElement("h1",{className:"page-title"},"Manage Topics"),React.createElement("p",{className:"page-subtitle",style:{marginBottom:0}},"Add, edit, or bulk upload your question bank")),React.createElement("div",{style:{display:"flex",gap:8}},React.createElement("button",{className:"btn",onClick:()=>e(!r)},p.upload," Bulk Upload"))),r&&React.createElement("div",{className:"card fade-in",style:{marginBottom:24}},React.createElement("div",{className:"card-header"},React.createElement("h3",null,"Bulk Upload (JSON)"),React.createElement("button",{className:"btn-icon",onClick:()=>e(!1)},p.x)),React.createElement("div",{className:"card-body"},React.createElement("div",{className:"form-group"},React.createElement("label",null,"Upload Type"),React.createElement("div",{className:"tabs",style:{maxWidth:360}},["part1","part2","part3"].map(b=>React.createElement("button",{key:b,className:`tab ${n===b?"active":""}`,onClick:()=>y(b)},b==="part1"?"Part 1":b==="part2"?"Part 2":"Part 3")))),React.createElement("div",{className:"form-group"},React.createElement("label",null,"JSON Data"),React.createElement("textarea",{rows:8,value:s,onChange:b=>t(b.target.value),placeholder:n==="part1"?'[{"name": "Cooking", "isOpener": false, "questions": ["Do you enjoy cooking?", "..."]}]':n==="part2"?'[{"title": "Describe a book...", "prompts": ["what book it was", "..."], "youShouldSay": "You should say:"}]':'[{"linkedTo": "<part2-card-id>", "questions": ["Do you think...", "..."]}]'})),React.createElement("button",{className:"btn btn-accent",onClick:N},"Upload"))),React.createElement("div",{className:"tabs",style:{marginBottom:24}},[{key:"part1",label:`Part 1 (${i.length})`},{key:"part2",label:`Part 2 (${l.length})`},{key:"part3",label:`Part 3 (${u.length})`}].map(b=>React.createElement("button",{key:b.key,className:`tab ${x===b.key?"active":""}`,onClick:()=>k(b.key)},b.label))),x==="part1"&&React.createElement(ue,{topics:i,setTopics:a,modal:o,setModal:d}),x==="part2"&&React.createElement(me,{cards:l,setCards:c,modal:o,setModal:d}),x==="part3"&&React.createElement(ve,{sets:u,setSets:m,part2Cards:l,modal:o,setModal:d}))}function ue({topics:i,setTopics:a,modal:l,setModal:c}){let[u,m]=g(null),[o,d]=g({name:"",isOpener:!1,questions:[""]});function f(){m(null),d({name:"",isOpener:!1,questions:[""]}),c("part1")}function x(e){m(e),d({name:e.name,isOpener:e.isOpener,questions:[...e.questions]}),c("part1")}function k(){let e=o.questions.filter(s=>s.trim());!o.name.trim()||e.length===0||(a(u?s=>s.map(t=>t.id===u.id?{...t,name:o.name.trim(),isOpener:o.isOpener,questions:e}:t):s=>[...s,{id:P(),name:o.name.trim(),isOpener:o.isOpener,questions:e}]),c(null))}function r(e){a(s=>s.filter(t=>t.id!==e))}return React.createElement(React.Fragment,null,React.createElement("div",{className:"card"},React.createElement("div",{className:"card-header"},React.createElement("h3",null,"Part 1 Topics"),React.createElement("button",{className:"btn btn-sm btn-accent",onClick:f},p.plus," Add Topic")),i.length===0?React.createElement("div",{className:"empty-state"},React.createElement("div",{className:"empty-state-icon"},p.clipboard),React.createElement("h3",null,"No Part 1 topics yet"),React.createElement("p",null,"Add topics or bulk upload to get started")):i.map(e=>React.createElement("div",{key:e.id,className:"topic-item"},React.createElement("div",{className:"topic-info"},React.createElement("span",{className:"topic-name"},e.name),e.isOpener&&React.createElement("span",{className:"badge badge-accent"},"Opener"),React.createElement("span",{className:"topic-count"},e.questions.length," questions")),React.createElement("div",{className:"topic-actions"},React.createElement("button",{className:"btn-icon",onClick:()=>x(e)},p.edit),React.createElement("button",{className:"btn-icon",style:{color:"var(--red)"},onClick:()=>r(e.id)},p.trash))))),l==="part1"&&React.createElement("div",{className:"modal-overlay",onClick:()=>c(null)},React.createElement("div",{className:"modal",onClick:e=>e.stopPropagation()},React.createElement("div",{className:"modal-header"},React.createElement("h3",null,u?"Edit Topic":"Add Part 1 Topic"),React.createElement("button",{className:"btn-icon",onClick:()=>c(null)},p.x)),React.createElement("div",{className:"modal-body"},React.createElement("div",{className:"form-group"},React.createElement("label",null,"Topic Name"),React.createElement("input",{value:o.name,onChange:e=>d({...o,name:e.target.value}),placeholder:"e.g. Cooking"})),React.createElement("div",{className:"form-group"},React.createElement("label",{style:{display:"flex",alignItems:"center",gap:8,cursor:"pointer"}},React.createElement("input",{type:"checkbox",checked:o.isOpener,onChange:e=>d({...o,isOpener:e.target.checked}),style:{width:"auto"}}),React.createElement("span",null,"Opener topic (Work/Studies, Home, Hometown)"))),React.createElement("div",{className:"form-group"},React.createElement("label",null,"Questions"),o.questions.map((e,s)=>React.createElement("div",{key:s,style:{display:"flex",gap:8,marginBottom:8}},React.createElement("input",{value:e,onChange:t=>{let n=[...o.questions];n[s]=t.target.value,d({...o,questions:n})},placeholder:`Question ${s+1}`}),o.questions.length>1&&React.createElement("button",{className:"btn-icon",style:{color:"var(--red)"},onClick:()=>d({...o,questions:o.questions.filter((t,n)=>n!==s)})},p.x))),React.createElement("button",{className:"btn btn-sm",onClick:()=>d({...o,questions:[...o.questions,""]})},p.plus," Add Question"))),React.createElement("div",{className:"modal-footer"},React.createElement("button",{className:"btn",onClick:()=>c(null)},"Cancel"),React.createElement("button",{className:"btn btn-accent",onClick:k},"Save")))))}function me({cards:i,setCards:a,modal:l,setModal:c}){let[u,m]=g(null),[o,d]=g({title:"",prompts:[""],youShouldSay:"You should say:"});function f(){m(null),d({title:"",prompts:[""],youShouldSay:"You should say:"}),c("part2")}function x(e){m(e),d({title:e.title,prompts:[...e.prompts],youShouldSay:e.youShouldSay||""}),c("part2")}function k(){let e=o.prompts.filter(s=>s.trim());o.title.trim()&&(a(u?s=>s.map(t=>t.id===u.id?{...t,title:o.title.trim(),prompts:e,youShouldSay:o.youShouldSay}:t):s=>[...s,{id:P(),title:o.title.trim(),prompts:e,youShouldSay:o.youShouldSay}]),c(null))}function r(e){a(s=>s.filter(t=>t.id!==e))}return React.createElement(React.Fragment,null,React.createElement("div",{className:"card"},React.createElement("div",{className:"card-header"},React.createElement("h3",null,"Part 2 Cue Cards"),React.createElement("button",{className:"btn btn-sm btn-accent",onClick:f},p.plus," Add Cue Card")),i.length===0?React.createElement("div",{className:"empty-state"},React.createElement("div",{className:"empty-state-icon"},p.clipboard),React.createElement("h3",null,"No Part 2 cue cards yet"),React.createElement("p",null,"Add cue cards or bulk upload")):i.map(e=>React.createElement("div",{key:e.id,className:"topic-item"},React.createElement("div",{className:"topic-info"},React.createElement("span",{className:"topic-name"},e.title),React.createElement("span",{className:"topic-count"},e.prompts.length," prompts")),React.createElement("div",{className:"topic-actions"},React.createElement("button",{className:"btn-icon",onClick:()=>x(e)},p.edit),React.createElement("button",{className:"btn-icon",style:{color:"var(--red)"},onClick:()=>r(e.id)},p.trash))))),l==="part2"&&React.createElement("div",{className:"modal-overlay",onClick:()=>c(null)},React.createElement("div",{className:"modal",onClick:e=>e.stopPropagation()},React.createElement("div",{className:"modal-header"},React.createElement("h3",null,u?"Edit Cue Card":"Add Part 2 Cue Card"),React.createElement("button",{className:"btn-icon",onClick:()=>c(null)},p.x)),React.createElement("div",{className:"modal-body"},React.createElement("div",{className:"form-group"},React.createElement("label",null,"Topic Title"),React.createElement("input",{value:o.title,onChange:e=>d({...o,title:e.target.value}),placeholder:"Describe a book you recently read"})),React.createElement("div",{className:"form-group"},React.createElement("label",null,'"You should say" line'),React.createElement("input",{value:o.youShouldSay,onChange:e=>d({...o,youShouldSay:e.target.value})})),React.createElement("div",{className:"form-group"},React.createElement("label",null,"Prompts"),o.prompts.map((e,s)=>React.createElement("div",{key:s,style:{display:"flex",gap:8,marginBottom:8}},React.createElement("input",{value:e,onChange:t=>{let n=[...o.prompts];n[s]=t.target.value,d({...o,prompts:n})},placeholder:`Prompt ${s+1}`}),o.prompts.length>1&&React.createElement("button",{className:"btn-icon",style:{color:"var(--red)"},onClick:()=>d({...o,prompts:o.prompts.filter((t,n)=>n!==s)})},p.x))),React.createElement("button",{className:"btn btn-sm",onClick:()=>d({...o,prompts:[...o.prompts,""]})},p.plus," Add Prompt"))),React.createElement("div",{className:"modal-footer"},React.createElement("button",{className:"btn",onClick:()=>c(null)},"Cancel"),React.createElement("button",{className:"btn btn-accent",onClick:k},"Save")))))}function ve({sets:i,setSets:a,part2Cards:l,modal:c,setModal:u}){let[m,o]=g(null),[d,f]=g({linkedTo:"",questions:[""]});function x(){o(null),f({linkedTo:l.length>0?l[0].id:"",questions:[""]}),u("part3")}function k(t){o(t),f({linkedTo:t.linkedTo,questions:[...t.questions]}),u("part3")}function r(){let t=d.questions.filter(n=>n.trim());!d.linkedTo||t.length===0||(a(m?n=>n.map(y=>y.id===m.id?{...y,linkedTo:d.linkedTo,questions:t}:y):n=>[...n,{id:P(),linkedTo:d.linkedTo,questions:t}]),u(null))}function e(t){a(n=>n.filter(y=>y.id!==t))}function s(t){let n=l.find(y=>y.id===t);return n?n.title:"Unknown"}return React.createElement(React.Fragment,null,React.createElement("div",{className:"card"},React.createElement("div",{className:"card-header"},React.createElement("h3",null,"Part 3 Question Sets"),React.createElement("button",{className:"btn btn-sm btn-accent",onClick:x,disabled:l.length===0},p.plus," Add Set")),i.length===0?React.createElement("div",{className:"empty-state"},React.createElement("div",{className:"empty-state-icon"},p.clipboard),React.createElement("h3",null,"No Part 3 sets yet"),React.createElement("p",null,l.length===0?"Add Part 2 cue cards first":"Link question sets to Part 2 cue cards")):i.map(t=>React.createElement("div",{key:t.id,className:"topic-item"},React.createElement("div",{className:"topic-info"},React.createElement("span",{className:"topic-name",style:{fontSize:13}},"Linked to: ",s(t.linkedTo)),React.createElement("span",{className:"topic-count"},t.questions.length," questions")),React.createElement("div",{className:"topic-actions"},React.createElement("button",{className:"btn-icon",onClick:()=>k(t)},p.edit),React.createElement("button",{className:"btn-icon",style:{color:"var(--red)"},onClick:()=>e(t.id)},p.trash))))),c==="part3"&&React.createElement("div",{className:"modal-overlay",onClick:()=>u(null)},React.createElement("div",{className:"modal",onClick:t=>t.stopPropagation()},React.createElement("div",{className:"modal-header"},React.createElement("h3",null,m?"Edit Question Set":"Add Part 3 Set"),React.createElement("button",{className:"btn-icon",onClick:()=>u(null)},p.x)),React.createElement("div",{className:"modal-body"},React.createElement("div",{className:"form-group"},React.createElement("label",null,"Linked to Part 2 Cue Card"),React.createElement("select",{value:d.linkedTo,onChange:t=>f({...d,linkedTo:t.target.value})},l.map(t=>React.createElement("option",{key:t.id,value:t.id},t.title)))),React.createElement("div",{className:"form-group"},React.createElement("label",null,"Discussion Questions"),d.questions.map((t,n)=>React.createElement("div",{key:n,style:{display:"flex",gap:8,marginBottom:8}},React.createElement("input",{value:t,onChange:y=>{let N=[...d.questions];N[n]=y.target.value,f({...d,questions:N})},placeholder:`Question ${n+1}`}),d.questions.length>1&&React.createElement("button",{className:"btn-icon",style:{color:"var(--red)"},onClick:()=>f({...d,questions:d.questions.filter((y,N)=>N!==n)})},p.x))),React.createElement("button",{className:"btn btn-sm",onClick:()=>f({...d,questions:[...d.questions,""]})},p.plus," Add Question"))),React.createElement("div",{className:"modal-footer"},React.createElement("button",{className:"btn",onClick:()=>u(null)},"Cancel"),React.createElement("button",{className:"btn btn-accent",onClick:r},"Save")))))}function ge({testData:i,testPart:a,setTestPart:l,notes:c,setNotes:u,checks:m,setChecks:o,overrides:d,setOverrides:f,onFinish:x,cdPhase:k,setCdPhase:r,cdTime:e,setCdTime:s,cdRunning:t,setCdRunning:n,onRegenerate:y}){let[N,b]=g(!0);function S(v,w){o(B=>({...B,[v]:{...B[v],[w]:!B[v][w]}}))}function h(){r("prep"),s(60),n(!0)}function j(){r("speaking"),s(120),n(!0)}return React.createElement("div",{className:"container fade-in"},React.createElement("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:20}},React.createElement("div",{className:"tabs",style:{maxWidth:360}},[1,2,3].map(v=>React.createElement("button",{key:v,className:`tab ${a===v?"active":""}`,onClick:()=>l(v)},"Part ",v))),React.createElement("div",{style:{display:"flex",gap:8}},React.createElement("button",{className:"btn btn-sm",onClick:y},p.shuffle," New Test"),React.createElement("button",{className:"btn btn-sm btn-accent",onClick:x},"Finish & Score"))),React.createElement("div",{className:"test-layout"},React.createElement("div",null,a===1&&React.createElement("div",{className:"slide-up"},i.part1.map((v,w)=>React.createElement("div",{key:v.id,className:"card",style:{marginBottom:16}},React.createElement("div",{className:"card-header"},React.createElement("div",{style:{display:"flex",alignItems:"center",gap:8}},React.createElement("h3",null,v.name),v.isOpener&&React.createElement("span",{className:"badge badge-accent"},"Opener")),React.createElement("span",{className:"badge badge-blue"},"Topic ",w+1)),v.questions.map((B,T)=>React.createElement("div",{key:T,className:"question-card"},React.createElement("div",{className:"question-num"},T+1),React.createElement("div",{className:"question-text"},B)))))),a===2&&React.createElement("div",{className:"slide-up"},React.createElement("div",{className:"countdown"},React.createElement("div",{className:"countdown-label"},k==="prep"?"Preparation Time":k==="speaking"?"Speaking Time":"Part 2 Timer"),React.createElement("div",{className:`countdown-time ${e<=10&&t?"warning":""}`},Q(e)),React.createElement("div",{className:"countdown-controls"},!k&&React.createElement("button",{className:"btn btn-accent btn-sm",onClick:h},p.play," Start 1 min Prep"),k==="prep"&&!t&&e===0&&React.createElement("button",{className:"btn btn-accent btn-sm",onClick:j},p.play," Start 2 min Speaking"),k==="prep"&&t&&React.createElement("button",{className:"btn btn-sm",onClick:()=>{n(!1),s(0),r("prep")}},"Skip to Speaking"),t&&React.createElement("button",{className:"btn btn-sm",onClick:()=>n(!1)},p.pause," Pause"),k&&!t&&e>0&&React.createElement("button",{className:"btn btn-sm",onClick:()=>n(!0)},p.play," Resume"),k&&React.createElement("button",{className:"btn btn-sm",onClick:()=>{r(null),s(0),n(!1)}},p.reset," Reset"))),React.createElement("div",{className:"cue-card"},React.createElement("div",{className:"cue-card-title"},i.part2.title),i.part2.youShouldSay&&React.createElement("p",{style:{fontSize:13,color:"var(--text-muted)",marginBottom:12}},i.part2.youShouldSay),i.part2.prompts.map((v,w)=>React.createElement("div",{key:w,className:"cue-card-prompt"},v)))),a===3&&React.createElement("div",{className:"slide-up"},React.createElement("div",{className:"card"},React.createElement("div",{className:"card-header"},React.createElement("h3",null,"Part 3 \u2014 Discussion"),React.createElement("span",{className:"badge badge-green"},"Linked to Part 2")),i.part3?i.part3.questions.map((v,w)=>React.createElement("div",{key:w,className:"question-card"},React.createElement("div",{className:"question-num"},w+1),React.createElement("div",{className:"question-text"},v))):React.createElement("div",{className:"empty-state"},React.createElement("p",null,"No Part 3 questions linked to this cue card. Use the questions you have prepared.")))),React.createElement("div",{className:"card",style:{marginTop:16}},React.createElement("div",{className:"card-header"},React.createElement("h3",null,"Notes \u2014 Part ",a)),React.createElement("div",{className:"card-body",style:{padding:12}},React.createElement("textarea",{value:c[a],onChange:v=>u({...c,[a]:v.target.value}),placeholder:"Jot observations... mispronunciations, good collocations, repeated errors, etc.",rows:4})))),React.createElement("div",{className:"scoring-panel"},React.createElement("div",{className:"card"},React.createElement("div",{className:"card-header",style:{cursor:"pointer"},onClick:()=>b(!N)},React.createElement("h3",null,"Scoring"),React.createElement("span",null,N?p.chevDown:p.chevRight)),N&&React.createElement("div",{className:"card-body",style:{padding:12}},["fc","lr","gra","pron"].map(v=>React.createElement(be,{key:v,criterionKey:v,checks:m[v],onToggle:w=>S(v,w),override:d[v],onOverride:w=>f({...d,[v]:w})})))))))}function be({criterionKey:i,checks:a,onToggle:l,override:c,onOverride:u}){let[m,o]=g(!1),d=Y[i],f=X(a,i),x=parseFloat(c),k=!isNaN(x)&&x>=0&&x<=9?x:f;return React.createElement("div",{style:{marginBottom:8,borderBottom:"1px solid var(--border)",paddingBottom:8}},React.createElement("div",{className:"collapsible-header",onClick:()=>o(!m)},React.createElement("div",{style:{display:"flex",alignItems:"center",gap:10}},React.createElement("span",{style:{fontSize:12,color:"var(--text-muted)"}},m?p.chevDown:p.chevRight),React.createElement("span",{style:{fontSize:13,fontWeight:600,color:"var(--text)"}},d.label)),React.createElement("div",{style:{display:"flex",alignItems:"center",gap:8}},React.createElement("input",{className:"override-input",value:c,onChange:r=>u(r.target.value),onClick:r=>r.stopPropagation(),placeholder:String(f),title:"Override band score"}),React.createElement("span",{className:"badge badge-accent",style:{fontSize:13,fontWeight:700}},k))),m&&React.createElement("div",{style:{padding:"4px 8px 8px"},className:"fade-in"},[4,5,6,7,8,9].map(r=>{let e=d.bands[r]||[];return e.length===0?null:React.createElement("div",{key:r,className:"checklist-group"},React.createElement("div",{className:"checklist-band-label"},React.createElement("span",{className:"band-num"},r),"Band ",r),e.map((s,t)=>{let n=`${r}-${t}`,y=!!a[n];return React.createElement("div",{key:n,className:`checklist-item ${y?"checked":""}`,onClick:()=>l(n)},React.createElement("div",{className:`checklist-box ${y?"checked":""}`},y&&p.check),React.createElement("span",{className:"checklist-text"},s))}))})))}function he({data:i,view:a,setView:l,onNewTest:c,onHome:u}){let{test:m,scores:o,overall:d,checks:f,notes:x,duration:k}=i;return React.createElement("div",{className:"container fade-in"},React.createElement("div",{style:{display:"flex",alignItems:"center",justifyContent:"space-between",marginBottom:24}},React.createElement("div",null,React.createElement("h1",{className:"page-title"},"Candidate Report"),React.createElement("p",{className:"page-subtitle",style:{marginBottom:0}},"Test duration: ",Q(k))),React.createElement("div",{style:{display:"flex",gap:8}},React.createElement("button",{className:"btn btn-sm",onClick:()=>window.print()},p.print," Print"),React.createElement("button",{className:"btn btn-sm",onClick:c},p.shuffle," New Test"))),React.createElement("div",{className:"tabs",style:{marginBottom:24,maxWidth:480}},[{key:"summary",label:"Summary"},{key:"breakdown",label:"Criterion Breakdown"},{key:"full",label:"Full Report"}].map(r=>React.createElement("button",{key:r.key,className:`tab ${a===r.key?"active":""}`,onClick:()=>l(r.key)},r.label))),React.createElement("div",{className:"report-overall slide-up",style:{marginBottom:24}},React.createElement("div",{className:"report-overall-score"},d),React.createElement("div",{className:"report-overall-label"},"Overall Band Score")),React.createElement("div",{className:"report-criteria-grid slide-up",style:{marginBottom:24}},[{key:"fc",label:"Fluency & Coherence"},{key:"lr",label:"Lexical Resource"},{key:"gra",label:"Grammar Range & Accuracy"},{key:"pron",label:"Pronunciation"}].map(r=>React.createElement("div",{key:r.key,className:"report-criterion"},React.createElement("div",{className:"report-criterion-label"},r.label),React.createElement("div",{className:"report-criterion-score"},o[r.key])))),(a==="breakdown"||a==="full")&&React.createElement("div",{className:"slide-up"},["fc","lr","gra","pron"].map(r=>{let e=Y[r],s=[];for(let t of[4,5,6,7,8,9])(e.bands[t]||[]).forEach((y,N)=>{f[r]?.[`${t}-${N}`]&&s.push({band:t,text:y})});return s.length===0?null:React.createElement("div",{key:r,className:"card report-section"},React.createElement("div",{className:"card-header"},React.createElement("h3",null,e.label),React.createElement("span",{className:"badge badge-accent"},"Band ",o[r])),React.createElement("div",{className:"card-body"},s.map((t,n)=>React.createElement("div",{key:n,style:{display:"flex",gap:8,marginBottom:6}},React.createElement("span",{className:"badge badge-blue",style:{minWidth:20,justifyContent:"center"}},t.band),React.createElement("span",{style:{fontSize:13,color:"var(--text-secondary)"}},t.text)))))})),a==="full"&&React.createElement("div",{className:"slide-up"},React.createElement("div",{className:"card report-section"},React.createElement("div",{className:"card-header"},React.createElement("h3",null,"Questions Used")),React.createElement("div",{className:"card-body"},React.createElement("h4",{style:{fontSize:13,fontWeight:600,color:"var(--text-secondary)",marginBottom:12}},"Part 1"),m.part1.map(r=>React.createElement("div",{key:r.id,style:{marginBottom:12}},React.createElement("div",{style:{fontSize:14,fontWeight:600,color:"var(--accent)",marginBottom:4}},r.name," ",r.isOpener&&"(Opener)"),r.questions.map((e,s)=>React.createElement("div",{key:s,style:{fontSize:13,color:"var(--text-secondary)",paddingLeft:12,marginBottom:2}},s+1,". ",e)))),React.createElement("h4",{style:{fontSize:13,fontWeight:600,color:"var(--text-secondary)",marginBottom:8,marginTop:20}},"Part 2"),React.createElement("div",{style:{fontSize:14,fontWeight:600,color:"var(--accent)",marginBottom:4}},m.part2.title),m.part2.prompts.map((r,e)=>React.createElement("div",{key:e,style:{fontSize:13,color:"var(--text-secondary)",paddingLeft:12,marginBottom:2}},"\u2022 ",r)),m.part3&&React.createElement(React.Fragment,null,React.createElement("h4",{style:{fontSize:13,fontWeight:600,color:"var(--text-secondary)",marginBottom:8,marginTop:20}},"Part 3"),m.part3.questions.map((r,e)=>React.createElement("div",{key:e,style:{fontSize:13,color:"var(--text-secondary)",paddingLeft:12,marginBottom:2}},e+1,". ",r))))),React.createElement("div",{className:"card report-section"},React.createElement("div",{className:"card-header"},React.createElement("h3",null,"Examiner Notes")),React.createElement("div",{className:"card-body"},[1,2,3].map(r=>React.createElement("div",{key:r,style:{marginBottom:16}},React.createElement("div",{style:{fontSize:12,fontWeight:600,color:"var(--text-muted)",textTransform:"uppercase",letterSpacing:"0.8px",marginBottom:6}},"Part ",r),React.createElement("div",{className:"notes-display"},x[r]||"No notes recorded")))))))}ReactDOM.createRoot(document.getElementById("root")).render(React.createElement(le));})();
+</script></body></html>
