@@ -5,8 +5,6 @@ const AuthContext = createContext({});
 
 export const useAuth = () => useContext(AuthContext);
 
-export const useAuth = () => useContext(AuthContext);
-
 const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
@@ -110,7 +108,4 @@ const AuthProvider = ({ children }) => {
   );
 };
 
-// ==================== CUSTOM AUDIO PLAYER ====================
-
-
-export { AuthContext };
+export { AuthProvider, AuthContext };
