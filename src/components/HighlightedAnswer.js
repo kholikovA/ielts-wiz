@@ -1,7 +1,6 @@
 import React from 'react';
 import Vocab from './Vocab';
 import { vocabDefinitions } from '../data/vocab-definitions';
-import { speakingQuestions } from '../data/speaking-questions';
 
 const HighlightedAnswer = ({ text, vocabList }) => {
   if (!vocabList || vocabList.length === 0) return text;
@@ -28,7 +27,7 @@ const HighlightedAnswer = ({ text, vocabList }) => {
 
 // ==================== SPEAKING QUESTIONS DATA (Jan-Aug 2026) ====================
 // Each answer is 2-4 sentences, natural, with vocab highlights
-const speakingQuestionsJanAug2026 = [
+export const speakingQuestionsJanAug2026 = [
   {
     id: 25,
     topic: "Animals and pets",

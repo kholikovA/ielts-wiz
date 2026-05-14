@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { speakingPart2Data } from '../data/speaking-part2';
 import { speakingPart3Data } from '../data/speaking-part3';
-import { speakingQuestions } from '../data/speaking-questions';
-import HighlightedAnswer from './HighlightedAnswer';
+import HighlightedAnswer, { speakingQuestionsJanAug2026 } from './HighlightedAnswer';
 import { vocabDefinitions } from '../data/vocab-definitions';
 
 const SpeakingPage = ({ subPage, setSubPage }) => {
