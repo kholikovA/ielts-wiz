@@ -10,6 +10,4 @@ const PlaceholderPage = ({ title, description, icon }) => (
   </div>
 );
 
-// ==================== AUTH PAGE ====================
-
 export default PlaceholderPage;

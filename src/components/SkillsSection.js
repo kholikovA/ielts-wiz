@@ -16,7 +16,15 @@ const SkillsSection = ({ setCurrentPage }) => {
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(260px, 1fr))', gap: '1.5rem' }}>
         {skills.map((skill, index) => (
-          <div key={skill.id} onClick={() => setCurrentPage(skill.id)} className="animate-fadeInUp" style={{ padding: '2rem', borderRadius: '20px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', cursor: 'pointer', transition: 'all 0.3s ease', animationDelay: `${index * 0.1}s` }}>
+          <div
+            key={skill.id}
+            onClick={() => setCurrentPage(skill.id)}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setCurrentPage(skill.id); } }}
+            className="animate-fadeInUp card-hover"
+            style={{ padding: '2rem', borderRadius: '20px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', cursor: 'pointer', animationDelay: `${index * 0.1}s` }}
+          >
             <div style={{ fontSize: '3rem', marginBottom: '1rem' }}>{skill.icon}</div>
             <h3 style={{ fontSize: '1.5rem', fontWeight: '600', marginBottom: '0.75rem', color: skill.color }}>{skill.title}</h3>
             <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: '1.6' }}>{skill.description}</p>
@@ -26,7 +34,5 @@ const SkillsSection = ({ setCurrentPage }) => {
     </section>
   );
 };
-
-// ==================== SPEAKING PAGE ====================
 
 export default SkillsSection;

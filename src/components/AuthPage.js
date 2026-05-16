@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { supabase } from '../supabaseClient';
 
 const AuthPage = ({ type, setCurrentPage }) => {
   const { signIn, signUp } = useAuth();
@@ -241,7 +240,5 @@ const AuthPage = ({ type, setCurrentPage }) => {
     </div>
   );
 };
-
-// ==================== DASHBOARD ====================
 
 export default AuthPage;

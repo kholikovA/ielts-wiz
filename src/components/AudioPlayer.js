@@ -1,4 +1,18 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
+
+const SPEEDS = [0.5, 0.75, 1, 1.25, 1.5, 2];
+
+const PlayIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M8 5v14l11-7z" />
+  </svg>
+);
+
+const PauseIcon = () => (
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M6 4h4v16H6zM14 4h4v16h-4z" />
+  </svg>
+);
 
 const AudioPlayer = ({ testId }) => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -6,12 +20,21 @@ const AudioPlayer = ({ testId }) => {
   const [duration, setDuration] = useState(0);
   const [playbackRate, setPlaybackRate] = useState(1);
   const [showSpeedMenu, setShowSpeedMenu] = useState(false);
-  const [volume, setVolume] = useState(1);
-  const [showVolumeSlider, setShowVolumeSlider] = useState(false);
   const audioRef = useRef(null);
+  const speedMenuRef = useRef(null);
 
   const audioUrl = `https://kholikova.github.io/80-listening-audios/TEST%20${testId}.mp3`;
-  const speeds = [0.5, 0.75, 1, 1.25, 1.5, 2];
+
+  useEffect(() => {
+    if (!showSpeedMenu) return;
+    const handleClickOutside = (e) => {
+      if (speedMenuRef.current && !speedMenuRef.current.contains(e.target)) {
+        setShowSpeedMenu(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [showSpeedMenu]);
 
   const togglePlay = () => {
     if (isPlaying) {
@@ -22,17 +45,10 @@ const AudioPlayer = ({ testId }) => {
     setIsPlaying(!isPlaying);
   };
 
-  const handleTimeUpdate = () => {
-    setCurrentTime(audioRef.current.currentTime);
-  };
-
-  const handleLoadedMetadata = () => {
-    setDuration(audioRef.current.duration);
-  };
-
   const handleSeek = (e) => {
+    if (!duration) return;
     const rect = e.currentTarget.getBoundingClientRect();
-    const percent = (e.clientX - rect.left) / rect.width;
+    const percent = Math.min(Math.max((e.clientX - rect.left) / rect.width, 0), 1);
     const newTime = percent * duration;
     audioRef.current.currentTime = newTime;
     setCurrentTime(newTime);
@@ -45,7 +61,7 @@ const AudioPlayer = ({ testId }) => {
   };
 
   const formatTime = (time) => {
-    if (isNaN(time)) return '0:00';
+    if (isNaN(time) || !isFinite(time)) return '0:00';
     const mins = Math.floor(time / 60);
     const secs = Math.floor(time % 60);
     return `${mins}:${secs.toString().padStart(2, '0')}`;
@@ -63,18 +79,18 @@ const AudioPlayer = ({ testId }) => {
       <audio
         ref={audioRef}
         src={audioUrl}
-        onTimeUpdate={handleTimeUpdate}
-        onLoadedMetadata={handleLoadedMetadata}
+        onTimeUpdate={() => setCurrentTime(audioRef.current.currentTime)}
+        onLoadedMetadata={() => setDuration(audioRef.current.duration)}
         onEnded={() => setIsPlaying(false)}
         controlsList="nodownload nofullscreen noremoteplayback"
         preload="metadata"
         style={{ display: 'none' }}
       />
-      
+
       <div style={{ display: 'flex', alignItems: 'center', gap: '1rem' }}>
-        {/* Play/Pause Button */}
         <button
           onClick={togglePlay}
+          aria-label={isPlaying ? 'Pause' : 'Play'}
           style={{
             width: '48px',
             height: '48px',
@@ -86,23 +102,25 @@ const AudioPlayer = ({ testId }) => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: '1.25rem',
             flexShrink: 0,
           }}
         >
-          {isPlaying ? '⏸' : '▶'}
+          {isPlaying ? <PauseIcon /> : <PlayIcon />}
         </button>
 
-        {/* Time & Progress */}
         <div style={{ flex: 1 }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
-            <span style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.9)', minWidth: '45px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+            <span style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.9)', minWidth: '45px', fontVariantNumeric: 'tabular-nums' }}>
               {formatTime(currentTime)}
             </span>
-            
-            {/* Progress Bar */}
+
             <div
               onClick={handleSeek}
+              role="slider"
+              aria-label="Audio progress"
+              aria-valuemin={0}
+              aria-valuemax={duration || 0}
+              aria-valuenow={currentTime}
               style={{
                 flex: 1,
                 height: '6px',
@@ -117,7 +135,6 @@ const AudioPlayer = ({ testId }) => {
                 height: '100%',
                 background: 'white',
                 borderRadius: '3px',
-                transition: 'width 0.1s linear',
               }} />
               <div style={{
                 position: 'absolute',
@@ -131,17 +148,18 @@ const AudioPlayer = ({ testId }) => {
                 boxShadow: '0 2px 4px rgba(0,0,0,0.2)',
               }} />
             </div>
-            
-            <span style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.9)', minWidth: '45px', textAlign: 'right' }}>
+
+            <span style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.9)', minWidth: '45px', textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>
               {formatTime(duration)}
             </span>
           </div>
         </div>
 
-        {/* Speed Control */}
-        <div style={{ position: 'relative' }}>
+        <div ref={speedMenuRef} style={{ position: 'relative' }}>
           <button
-            onClick={() => setShowSpeedMenu(!showSpeedMenu)}
+            onClick={() => setShowSpeedMenu(prev => !prev)}
+            aria-label="Playback speed"
+            aria-expanded={showSpeedMenu}
             style={{
               padding: '0.4rem 0.75rem',
               borderRadius: '8px',
@@ -155,7 +173,7 @@ const AudioPlayer = ({ testId }) => {
           >
             {playbackRate}x
           </button>
-          
+
           {showSpeedMenu && (
             <div style={{
               position: 'absolute',
@@ -169,7 +187,7 @@ const AudioPlayer = ({ testId }) => {
               boxShadow: '0 4px 20px rgba(0,0,0,0.3)',
               zIndex: 10,
             }}>
-              {speeds.map(speed => (
+              {SPEEDS.map(speed => (
                 <button
                   key={speed}
                   onClick={() => changeSpeed(speed)}
@@ -192,14 +210,12 @@ const AudioPlayer = ({ testId }) => {
           )}
         </div>
       </div>
-      
+
       <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.7)', marginTop: '0.75rem', textAlign: 'center' }}>
-        🎧 Listen carefully – you will hear the recording only once in the real test
+        Listen carefully — you will hear the recording only once in the real test
       </p>
     </div>
   );
 };
-
-// ==================== TOOLTIP COMPONENT ====================
 
 export default AudioPlayer;

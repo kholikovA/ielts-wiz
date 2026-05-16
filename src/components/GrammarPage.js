@@ -1,8 +1,5 @@
 import React, { useState } from 'react';
 import { grammarLessons } from '../data/grammar-lessons';
-import { vocabDefinitions } from '../data/vocab-definitions';
-import Vocab from './Vocab';
-import HighlightedAnswer from './HighlightedAnswer';
 
 const GrammarPage = () => {
   const [selectedLesson, setSelectedLesson] = useState(null);
@@ -68,14 +65,13 @@ const GrammarPage = () => {
             {grammarLessons.map((lesson, index) => (
               <div
                 key={lesson.id}
-                className="animate-fadeInUp"
+                className="animate-fadeInUp card-hover"
                 style={{
                   padding: '1.5rem',
                   borderRadius: '16px',
                   background: 'var(--card-bg)',
                   border: '1px solid var(--border-color)',
                   cursor: 'pointer',
-                  transition: 'all 0.3s ease',
                   animationDelay: `${index * 0.05}s`,
                 }}
                 onClick={() => { setSelectedLesson(lesson.id); setShowExplanation(false); setCurrentExercise(0); }}
@@ -571,9 +567,5 @@ const GrammarPage = () => {
     </div>
   );
 };
-
-
-
-// ==================== LISTENING PAGE ====================
 
 export default GrammarPage;

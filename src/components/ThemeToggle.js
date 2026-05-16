@@ -41,6 +41,4 @@ const ThemeToggle = () => {
   );
 };
 
-// ==================== LOGO ====================
-
 export default ThemeToggle;

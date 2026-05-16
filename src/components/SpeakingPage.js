@@ -1,9 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
+import { speakingQuestionsJanAug2026 } from '../data/speaking-part1';
 import { speakingPart2Data } from '../data/speaking-part2';
 import { speakingPart3Data } from '../data/speaking-part3';
-import { speakingQuestions } from '../data/speaking-questions';
-import HighlightedAnswer from './HighlightedAnswer';
 import { vocabDefinitions } from '../data/vocab-definitions';
+import HighlightedAnswer from './HighlightedAnswer';
 
 const SpeakingPage = ({ subPage, setSubPage }) => {
   const [selectedTopic, setSelectedTopic] = useState(null);
@@ -90,17 +90,17 @@ const SpeakingPage = ({ subPage, setSubPage }) => {
 
             {/* Part Cards */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
-              <div onClick={() => setSubPage('part1-2026')} style={{ padding: '1.5rem', borderRadius: '16px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', cursor: 'pointer', transition: 'all 0.2s ease' }}>
+              <div onClick={() => setSubPage('part1-2026')} className="card-hover" style={{ padding: '1.5rem', borderRadius: '16px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', cursor: 'pointer' }}>
                 <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>🎤</div>
                 <h3 style={{ fontSize: '1.2rem', fontWeight: '600', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>Part 1: Introduction</h3>
                 <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.6' }}>Personal questions about familiar topics. 4-5 minutes. 16 topics available.</p>
               </div>
-              <div onClick={() => setSubPage('part2-2026')} style={{ padding: '1.5rem', borderRadius: '16px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', cursor: 'pointer', transition: 'all 0.2s ease' }}>
+              <div onClick={() => setSubPage('part2-2026')} className="card-hover" style={{ padding: '1.5rem', borderRadius: '16px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', cursor: 'pointer' }}>
                 <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>📝</div>
                 <h3 style={{ fontSize: '1.2rem', fontWeight: '600', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>Part 2: Long Turn</h3>
                 <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.6' }}>Speak for 1-2 minutes on a given topic with preparation time. 27 cue cards.</p>
               </div>
-              <div onClick={() => setSubPage('part3-2026')} style={{ padding: '1.5rem', borderRadius: '16px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', cursor: 'pointer', transition: 'all 0.2s ease' }}>
+              <div onClick={() => setSubPage('part3-2026')} className="card-hover" style={{ padding: '1.5rem', borderRadius: '16px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', cursor: 'pointer' }}>
                 <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>💬</div>
                 <h3 style={{ fontSize: '1.2rem', fontWeight: '600', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>Part 3: Discussion</h3>
                 <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.6' }}>Abstract questions related to Part 2 topics. 4-5 minutes. 27 discussion topics.</p>
@@ -332,7 +332,5 @@ const SpeakingPage = ({ subPage, setSubPage }) => {
     </div>
   );
 };
-
-// ==================== GRAMMAR PAGE ====================
 
 export default SpeakingPage;

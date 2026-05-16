@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { listeningTestsData } from '../data/listening-tests';
 import AudioPlayer from './AudioPlayer';
@@ -120,7 +120,7 @@ const ListeningPage = ({ subPage, setSubPage, setCurrentPage }) => {
                 { icon: '🎓', title: 'Section 3', desc: 'Conversation in educational/training context' },
                 { icon: '📚', title: 'Section 4', desc: 'Academic lecture or talk' },
               ].map((item, i) => (
-                <div key={i} onClick={() => setSubPage('80-tests')} style={{ padding: '1.5rem', borderRadius: '16px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', cursor: 'pointer', transition: 'all 0.2s ease' }}>
+                <div key={i} onClick={() => setSubPage('80-tests')} className="card-hover" style={{ padding: '1.5rem', borderRadius: '16px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', cursor: 'pointer' }}>
                   <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>{item.icon}</div>
                   <h3 style={{ fontSize: '1.1rem', fontWeight: '600', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>{item.title}</h3>
                   <p style={{ color: 'var(--text-secondary)', fontSize: '0.85rem', lineHeight: '1.5' }}>{item.desc}</p>
@@ -130,7 +130,7 @@ const ListeningPage = ({ subPage, setSubPage, setCurrentPage }) => {
 
             <div onClick={() => setSubPage('80-tests')} style={{ padding: '1.5rem', borderRadius: '16px', background: 'linear-gradient(135deg, var(--purple-600-10), var(--purple-700-5))', border: '1px solid var(--purple-500-30)', cursor: 'pointer' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem', marginBottom: '0.5rem' }}>
-                <span style={{ padding: '0.3rem 0.7rem', borderRadius: '6px', background: 'var(--purple-600)', fontSize: '1rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1', height: 'fit-content' }>80 TESTS</span>
+                <span style={{ padding: '0.3rem 0.7rem', borderRadius: '6px', background: 'var(--purple-600)', fontSize: '1rem', fontWeight: '600', color: 'white', letterSpacing: '0.5px', lineHeight: '1', height: 'fit-content' }}>80 TESTS</span>
                 <h2 style={{ fontSize: '1.25rem', fontWeight: '600', color: 'var(--text-primary)' }}>80 IELTS Listening Tests</h2>
               </div>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>Complete practice tests covering all four sections with audio</p>
@@ -168,12 +168,12 @@ const ListeningPage = ({ subPage, setSubPage, setCurrentPage }) => {
             </p>
 
             {/* Tests Grid */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '1rem' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(150px, 1fr))', gap: '1rem' }}>
               {currentTests.map((test, index) => (
                 <div
                   key={test.id}
                   onClick={() => { if (!user) { setCurrentPage('login'); return; } setSelectedTest(test); }}
-                  className="animate-fadeInUp"
+                  className="animate-fadeInUp card-hover"
                   style={{
                     padding: '1.25rem',
                     borderRadius: '12px',
@@ -181,7 +181,6 @@ const ListeningPage = ({ subPage, setSubPage, setCurrentPage }) => {
                     border: '1px solid var(--border-color)',
                     cursor: 'pointer',
                     textAlign: 'center',
-                    transition: 'all 0.2s ease',
                     animationDelay: `${index * 0.02}s`,
                   }}
                 >
@@ -484,12 +483,5 @@ const ListeningPage = ({ subPage, setSubPage, setCurrentPage }) => {
     </div>
   );
 };
-
-
-
-
-// ==================== READING PAGE COMPONENT ====================
-// ==================== READING PAGE COMPONENT ====================
-// ==================== READING PAGE COMPONENT ====================
 
 export default ListeningPage;

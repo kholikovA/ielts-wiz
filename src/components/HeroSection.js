@@ -23,6 +23,4 @@ const HeroSection = ({ setCurrentPage }) => (
   </section>
 );
 
-// ==================== SKILLS SECTION ====================
-
 export default HeroSection;

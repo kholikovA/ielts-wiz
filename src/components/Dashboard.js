@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import { supabase } from '../supabaseClient';
 import AVATAR_OPTIONS from '../data/avatar-options';
 
 const Dashboard = ({ setCurrentPage }) => {
-  const { user, profile, signOut, updateProfile } = useAuth();
+  const { user, profile, updateProfile } = useAuth();
   const [isEditing, setIsEditing] = useState(false);
   const [editTarget, setEditTarget] = useState(profile?.target_score || '7.0');
   const [saving, setSaving] = useState(false);
   const [showAvatarPicker, setShowAvatarPicker] = useState(false);
-  const [completedListening, setCompletedListening] = useState(() => {
+  const [completedListening] = useState(() => {
     const saved = localStorage.getItem('completedListeningTests');
     return saved ? JSON.parse(saved) : [];
   });
@@ -79,7 +78,7 @@ const Dashboard = ({ setCurrentPage }) => {
               transition: 'all 0.2s ease'
             }}
           >
-            {selectedAvatar >= 0 && typeof AVATAR_OPTIONS !== 'undefined' && AVATAR_OPTIONS[selectedAvatar] ? (
+            {selectedAvatar >= 0 && AVATAR_OPTIONS[selectedAvatar] ? (
               <img src={AVATAR_OPTIONS[selectedAvatar]} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             ) : (
               <span style={{ fontSize: '1.75rem', fontWeight: '700', color: 'white' }}>
@@ -104,7 +103,7 @@ const Dashboard = ({ setCurrentPage }) => {
             <div style={{ background: 'var(--card-bg)', borderRadius: '20px', padding: '2rem', maxWidth: '420px', width: '90%', border: '1px solid var(--border-color)' }} onClick={e => e.stopPropagation()}>
               <h3 style={{ fontSize: '1.15rem', fontWeight: '600', marginBottom: '1.25rem', color: 'var(--text-primary)', textAlign: 'center' }}>Choose Your Avatar</h3>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '0.75rem', marginBottom: '1.5rem' }}>
-                {typeof AVATAR_OPTIONS !== 'undefined' && AVATAR_OPTIONS.map((src, i) => (
+                {AVATAR_OPTIONS.map((src, i) => (
                   <div 
                     key={i}
                     onClick={() => handleAvatarSelect(i)}
@@ -211,10 +210,11 @@ const Dashboard = ({ setCurrentPage }) => {
               { label: 'Speaking', page: 'speaking', desc: 'Part 1, 2, 3', color: '#10b981' },
               { label: 'Grammar', page: 'grammar', desc: '6 Lessons', color: '#f59e0b' },
             ].map((action) => (
-              <button 
-                key={action.page} 
-                onClick={() => setCurrentPage(action.page)} 
-                style={{ padding: '1.25rem', borderRadius: '12px', border: '1px solid var(--border-color)', background: 'transparent', color: 'var(--text-primary)', cursor: 'pointer', textAlign: 'left', transition: 'all 0.2s ease' }}
+              <button
+                key={action.page}
+                onClick={() => setCurrentPage(action.page)}
+                className="card-hover"
+                style={{ padding: '1.25rem', borderRadius: '12px', border: '1px solid var(--border-color)', background: 'transparent', color: 'var(--text-primary)', cursor: 'pointer', textAlign: 'left' }}
               >
                 <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: action.color, marginBottom: '0.75rem' }} />
                 <span style={{ fontWeight: '600', display: 'block', marginBottom: '0.25rem' }}>{action.label}</span>
@@ -238,7 +238,5 @@ const Dashboard = ({ setCurrentPage }) => {
     </div>
   );
 };
-
-// ==================== HOME PAGE ====================
 
 export default Dashboard;

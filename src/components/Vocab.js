@@ -36,9 +36,9 @@ const Vocab = ({ word, meaning, children }) => {
           boxShadow: '0 10px 40px rgba(0,0,0,0.3)',
           fontSize: '0.85rem',
           color: 'var(--text-primary)',
-          whiteSpace: 'nowrap',
           zIndex: 1000,
           maxWidth: '280px',
+          width: 'max-content',
           whiteSpace: 'normal',
           textAlign: 'center',
           lineHeight: '1.4',
@@ -68,7 +68,5 @@ const Vocab = ({ word, meaning, children }) => {
   );
 };
 
-
-// Helper function to highlight vocabulary words in text
 
 export default Vocab;
