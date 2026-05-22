@@ -1,0 +1,2132 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="system" data-text-size="default">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IELTS Reading — Passage 1: Back to the Wild</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;700;900&display=swap">
+<style>
+/* IELTSX-style Reading Test (v2) */
+
+:root {
+  --bg: #ffffff;
+  --bg-elevated: #fafaf9;
+  --bg-banner: #f1efeb;
+  --bg-hover: #ececea;
+  --bg-input: #ffffff;
+  --text: #0a0a0a;
+  --text-muted: #404040;
+  --text-subtle: #6b6b6b;
+  --border: #e7e5e4;
+  --border-strong: #d6d3d1;
+  --border-input: #a8a29e;
+  --accent: #2563eb;
+  --accent-soft: #dbeafe;
+  --accent-strong: #1d4ed8;
+  --highlight: #fef08a;
+  --correct: #16a34a;
+  --correct-soft: #dcfce7;
+  --wrong: #dc2626;
+  --wrong-soft: #fee2e2;
+  --table-header-bg: #dbeafe;
+  --table-row-bg: #eff6ff;
+  --shadow-modal: 0 20px 50px rgba(0,0,0,.18);
+  --serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Helvetica Neue", Arial, sans-serif;
+  --sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, "Helvetica Neue", Arial, sans-serif;
+}
+
+html[data-theme="dark"] {
+  --bg: #1c2024;
+  --bg-elevated: #252b30;
+  --bg-banner: #252b30;
+  --bg-hover: #2f363c;
+  --bg-input: #252b30;
+  --text: #e6e8ea;
+  --text-muted: #9ba3ad;
+  --text-subtle: #6b7280;
+  --border: #353b42;
+  --border-strong: #4b525a;
+  --border-input: #5a6169;
+  --accent: #60a5fa;
+  --accent-soft: #1e3a8a55;
+  --accent-strong: #93c5fd;
+  --highlight: #b58900;
+  --correct: #34d399;
+  --correct-soft: #14532d4d;
+  --wrong: #f87171;
+  --wrong-soft: #7f1d1d4d;
+  --table-header-bg: #1e3a8a55;
+  --table-row-bg: #1e3a8a33;
+}
+
+@media (prefers-color-scheme: dark) {
+  html[data-theme="system"] {
+    --bg: #1c2024;
+    --bg-elevated: #252b30;
+    --bg-banner: #252b30;
+    --bg-hover: #2f363c;
+    --bg-input: #252b30;
+    --text: #e6e8ea;
+    --text-muted: #9ba3ad;
+    --text-subtle: #6b7280;
+    --border: #353b42;
+    --border-strong: #4b525a;
+    --border-input: #5a6169;
+    --accent: #60a5fa;
+    --accent-soft: #1e3a8a55;
+    --accent-strong: #93c5fd;
+    --highlight: #b58900;
+    --correct: #34d399;
+    --correct-soft: #14532d4d;
+    --wrong: #f87171;
+    --wrong-soft: #7f1d1d4d;
+    --table-header-bg: #1e3a8a55;
+    --table-row-bg: #1e3a8a33;
+  }
+}
+
+[data-text-size="default"] { --fs-heading: 20px; --fs-subheading: 18px; --fs-content: 16px; --lh-content: 1.6; }
+[data-text-size="large"]   { --fs-heading: 22px; --fs-subheading: 20px; --fs-content: 18px; --lh-content: 1.65; }
+[data-text-size="xl"]      { --fs-heading: 24px; --fs-subheading: 22px; --fs-content: 20px; --lh-content: 1.7; }
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { height: 100%; }
+body {
+  font-family: var(--serif);
+  background: var(--bg); color: var(--text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-weight: 450;
+  display: flex; flex-direction: column;
+  overflow: hidden;
+}
+button { font: inherit; cursor: pointer; border: none; background: none; color: inherit; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* Header */
+header.topbar {
+  display: grid; grid-template-columns: 1fr auto 1fr;
+  align-items: center; padding: 14px 24px;
+  border-bottom: 1px solid var(--border);
+  background: var(--bg); font-family: var(--sans);
+  flex-shrink: 0;
+}
+.brand-area { display: flex; align-items: center; gap: 18px; }
+.brand {
+  font-weight: 900;
+  font-size: 22px;
+  letter-spacing: 0.5px;
+  color: #d50032;
+  font-family: var(--sans);
+  line-height: 1;
+}
+.tg-link { font-size: 14px; color: var(--accent); font-weight: 500; }
+.timer {
+  font-size: 16px; font-weight: 500;
+  padding: 6px 14px; user-select: none;
+  white-space: nowrap;
+  cursor: help;
+}
+.timer.warning { color: var(--wrong); font-weight: 700; }
+.timer:hover .timer-mins { display: none; }
+.timer .timer-secs { display: none; }
+.timer:hover .timer-secs { display: inline; }
+.topbar-actions { display: flex; align-items: center; gap: 8px; justify-self: end; }
+.icon-btn {
+  width: 36px; height: 36px; border-radius: 8px;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--text-muted); border: 1px solid transparent;
+  transition: background .15s;
+}
+.icon-btn:hover { background: var(--bg-hover); }
+.icon-btn svg { width: 20px; height: 20px; }
+.submit-btn {
+  font-family: var(--sans); font-size: 14px; font-weight: 500;
+  padding: 8px 16px; border: 1px solid var(--border-strong);
+  border-radius: 8px; color: var(--text); background: var(--bg);
+}
+.submit-btn:hover { background: var(--bg-hover); }
+
+/* Banner */
+.part-banner {
+  background: var(--bg-banner);
+  border-bottom: 1px solid var(--border);
+  padding: 18px 32px; flex-shrink: 0;
+}
+.part-banner h2 { font-family: var(--sans); font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+.part-banner p { font-family: var(--sans); font-size: 13px; color: var(--text-muted); }
+
+/* Main split */
+.split-container {
+  flex: 1; display: flex; overflow: hidden;
+  position: relative; min-height: 0;
+}
+.pane {
+  overflow-y: auto; padding: 28px 40px 40px;
+  font-size: var(--fs-content); line-height: var(--lh-content);
+  min-width: 0;
+}
+.pane.passage-pane { flex: 1 1 50%; }
+.pane.questions-pane { flex: 1 1 50%; font-size: var(--fs-content); line-height: 1.6; }
+.pane::-webkit-scrollbar { width: 10px; }
+.pane::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 5px; }
+
+/* Divider */
+.divider {
+  width: 1px; background: var(--border);
+  position: relative; cursor: col-resize;
+  flex-shrink: 0; user-select: none;
+}
+.divider::before { content: ""; position: absolute; inset: 0 -4px; }
+.divider-handle {
+  position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 22px; height: 36px;
+  background: var(--bg);
+  border: 1px solid var(--border-strong);
+  border-radius: 4px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text-muted); pointer-events: none;
+}
+.divider-handle svg { width: 22px; height: 22px; }
+.divider:hover { background: var(--accent); }
+
+/* Passage */
+.passage-section { display: none; }
+.passage-section.active { display: block; }
+.passage-title {
+  text-align: center; font-family: var(--serif);
+  font-size: var(--fs-heading); font-weight: 700;
+  margin-bottom: 16px; letter-spacing: -0.01em;
+}
+.passage-subtitle {
+  text-align: center; font-style: italic;
+  font-size: var(--fs-subheading);
+  margin-bottom: 22px; line-height: 1.5;
+}
+.passage-body p { margin-bottom: 0.7em; }
+.passage-body .para-row {
+  display: grid; grid-template-columns: 28px 1fr;
+  gap: 12px; margin-bottom: 0.7em; align-items: start;
+}
+.passage-body .para-letter {
+  font-family: var(--sans); font-weight: 700;
+  font-size: var(--fs-content); padding-top: 2px;
+}
+
+/* Heading-gap (matching_headings) */
+.heading-gap {
+  border: 1.5px dashed var(--border-input);
+  border-radius: 6px;
+  padding: 10px 16px;
+  margin-bottom: 12px;
+  min-height: 44px;
+  display: flex; align-items: center;
+  font-family: var(--serif); font-size: var(--fs-content);
+  color: var(--text-muted);
+  background: var(--bg);
+  transition: background .15s, border-color .15s;
+  position: relative;
+}
+.heading-gap.drop-target {
+  background: var(--accent-soft);
+  border-color: var(--accent); border-style: solid;
+}
+.heading-gap.filled {
+  color: var(--text);
+  border-style: solid; border-color: var(--accent);
+  background: var(--accent-soft);
+  cursor: grab;
+}
+
+/* matching_features in dragdrop mode: each question has its own inline drop zone */
+.matching-feature-row { margin-bottom: 16px; }
+.matching-feature-gap {
+  margin-left: 38px;  /* align under the prompt text, past the question number */
+  margin-top: 4px;
+  margin-bottom: 0;
+  min-height: 38px;
+  padding: 6px 12px;
+  font-style: italic;
+}
+.matching-feature-gap .heading-gap-num {
+  display: none;
+}
+.matching-feature-gap:not(.filled)::before {
+  content: "Drop a card here";
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--text-subtle);
+  font-style: normal;
+}
+.heading-gap-num {
+  position: absolute; left: 50%; top: 50%;
+  transform: translate(-50%, -50%);
+  font-family: var(--sans); font-size: 14px; font-weight: 600;
+  color: var(--text-subtle); pointer-events: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 24px;
+  padding: 0 6px;
+  border: 1.5px solid transparent;
+  border-radius: 3px;
+  box-sizing: border-box;
+  line-height: 1;
+}
+.heading-gap.filled .heading-gap-num { display: none; }
+.heading-gap-clear {
+  position: absolute; right: 8px; top: 50%;
+  transform: translateY(-50%);
+  width: 22px; height: 22px;
+  border-radius: 50%; display: none;
+  align-items: center; justify-content: center;
+  color: var(--text-muted); background: var(--bg);
+  border: 1px solid var(--border);
+  font-size: 14px; line-height: 1;
+}
+.heading-gap.filled .heading-gap-clear { display: flex; }
+.heading-gap-clear:hover { color: var(--wrong); border-color: var(--wrong); }
+.heading-gap.current .heading-gap-num {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.passage-body .hl, .questions-pane .hl, .pane .hl {
+  background: var(--highlight); cursor: pointer; padding: 0 1px; border-radius: 1px;
+}
+
+/* Questions */
+.questions-section { display: none; }
+.questions-section.active { display: block; }
+.question-group { margin-bottom: 36px; }
+.question-group-header {
+  font-family: var(--sans); font-size: var(--fs-content); font-weight: 700;
+  margin-bottom: 8px;
+}
+.question-group-instructions {
+  font-family: var(--sans); font-size: var(--fs-content);
+  margin-bottom: 18px; line-height: 1.55;
+}
+.question {
+  margin-bottom: 18px; padding: 6px 4px;
+  border-radius: 6px; scroll-margin-top: 100px;
+}
+/* Highlight only the question number when current. The number sits in a fixed-size box
+   that's always present (transparent border by default), so toggling the border color
+   never shifts surrounding text. */
+.question.current .question-number,
+.question.current .sa-num,
+.question.current .row-num {
+  border-color: var(--accent);
+  background: var(--bg);
+}
+.question.current { background: transparent; }
+.question-prompt {
+  display: flex; gap: 10px; margin-bottom: 10px;
+  font-family: var(--serif); font-size: var(--fs-content);
+  line-height: 1.55;
+}
+.question-number {
+  font-weight: 700; font-family: var(--sans);
+  flex-shrink: 0;
+  /* Fixed-size box, always present; border becomes visible when current */
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 26px;
+  padding: 0 6px;
+  border: 1.5px solid transparent;
+  border-radius: 3px;
+  box-sizing: border-box;
+}
+
+/* Radio / checkbox option lists */
+.options-list { list-style: none; padding-left: 32px; }
+.options-list li {
+  display: flex; align-items: flex-start; gap: 10px;
+  padding: 6px 0; cursor: pointer;
+  position: relative;
+}
+.options-list li:hover .radio-circle, .options-list li:hover .check-square { border-color: var(--accent); }
+.options-list input[type="radio"], .options-list input[type="checkbox"] {
+  position: absolute; opacity: 0; pointer-events: none;
+}
+.radio-circle, .check-square {
+  width: 18px; height: 18px;
+  border: 1.5px solid var(--border-input);
+  flex-shrink: 0; margin-top: 3px;
+  position: relative; transition: border-color .15s;
+}
+.radio-circle { border-radius: 50%; }
+.check-square { border-radius: 3px; }
+.options-list input:checked ~ .radio-circle::after {
+  content: ""; position: absolute; inset: 3px;
+  background: var(--accent); border-radius: 50%;
+}
+.options-list input:checked ~ .radio-circle { border-color: var(--accent); }
+.options-list input:checked ~ .check-square {
+  background: var(--accent); border-color: var(--accent);
+}
+.options-list input:checked ~ .check-square::after {
+  content: ""; position: absolute;
+  left: 5px; top: 1px;
+  width: 5px; height: 9px;
+  border: solid white; border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.option-letter { font-weight: 600; margin-right: 4px; }
+
+/* Boxed gap input with number placeholder */
+.gap-wrap {
+  display: inline-block; position: relative;
+  vertical-align: middle; margin: 0 4px;
+}
+.gap-input {
+  font-family: var(--serif); font-size: inherit;
+  background: var(--bg-input); color: var(--text);
+  border: 1.5px solid var(--border-input);
+  border-radius: 4px;
+  padding: 4px 10px;
+  min-width: 110px; max-width: 220px;
+  outline: none; text-align: center;
+  transition: border-color .15s, box-shadow .15s;
+}
+.gap-input.wide { min-width: 160px; }
+.gap-input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+.gap-input.filled { border-color: var(--accent); }
+.gap-input.current { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+.gap-num-placeholder {
+  position: absolute; left: 0; right: 0; top: 50%;
+  transform: translateY(-50%);
+  text-align: center;
+  font-family: var(--sans); font-weight: 600;
+  color: var(--text-subtle); pointer-events: none;
+  font-size: 13px;
+}
+.gap-input.filled + .gap-num-placeholder,
+.gap-input:focus + .gap-num-placeholder { display: none; }
+
+/* Sentence/summary completion — flowing prose */
+.completion-prose {
+  font-family: var(--serif); font-size: var(--fs-content);
+  line-height: 2.1;
+}
+.completion-title {
+  font-family: var(--serif); font-weight: 700;
+  font-size: var(--fs-subheading);
+  text-align: center; margin: 18px 0 14px;
+}
+/* Word bank for "complete the summary using the words A-I below" */
+.completion-word-bank {
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  padding: 14px 18px;
+  margin: 14px 0 18px;
+  font-family: var(--serif); font-size: var(--fs-content);
+}
+.completion-word-bank-title {
+  font-family: var(--sans); font-weight: 700;
+  font-size: var(--fs-content); margin-bottom: 10px;
+}
+.completion-word-bank-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px 16px;
+}
+@media (max-width: 720px) {
+  .completion-word-bank-grid { grid-template-columns: repeat(2, 1fr); }
+}
+.completion-word-bank-item { line-height: 1.5; }
+/* Inline dropdown gap matches the visual size of text input gaps */
+.gap-select {
+  width: auto !important;
+  min-width: 56px;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+/* Note completion */
+.note-section { margin-bottom: 18px; }
+.note-section-heading {
+  font-family: var(--sans); font-weight: 700;
+  font-size: var(--fs-subheading); margin-bottom: 8px;
+}
+.note-list { list-style: none; padding-left: 0; }
+.note-list li, .short-answer-list li {
+  position: relative; padding-left: 22px;
+  margin-bottom: 12px; line-height: 2;
+  font-family: var(--serif);
+}
+.note-list li::before, .short-answer-list li::before {
+  content: "•"; position: absolute;
+  left: 6px; top: 0; font-weight: 700;
+}
+.short-answer-list { list-style: none; padding-left: 0; }
+.short-answer-list li {
+  display: flex; align-items: flex-start; gap: 12px;
+  margin-bottom: 16px; line-height: 1.9;
+  font-family: var(--serif); padding-left: 0;
+}
+.short-answer-list li::before { content: none; }
+.short-answer-list li .sa-num {
+  font-family: var(--sans); font-weight: 700;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 26px;
+  padding: 0 6px;
+  border: 1.5px solid transparent;
+  border-radius: 3px;
+  box-sizing: border-box;
+  line-height: 1;
+}
+.short-answer-list li .sa-content { flex: 1; }
+
+/* Heading bank */
+.heading-bank { margin-bottom: 18px; }
+.heading-bank-title {
+  font-family: var(--sans); font-size: var(--fs-content); font-weight: 700;
+  margin-bottom: 10px;
+}
+.heading-bank-list { display: flex; flex-direction: column; gap: 8px; }
+.heading-card {
+  font-family: var(--serif); font-size: var(--fs-content);
+  padding: 9px 14px;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px; background: var(--bg);
+  cursor: grab; user-select: none;
+  transition: background .15s, border-color .15s, transform .1s;
+  line-height: 1.5;
+}
+.heading-card:hover { background: var(--bg-hover); border-color: var(--accent); }
+.heading-card:active { cursor: grabbing; }
+.heading-card.dragging { opacity: 0.5; transform: scale(0.98); }
+.heading-card.placed { display: none; }
+
+/* Matching info/features TABLE */
+.match-table {
+  width: 100%; border-collapse: collapse;
+  margin-bottom: 18px; font-family: var(--serif); font-size: var(--fs-content);
+}
+.match-table th, .match-table td {
+  border: 1px solid var(--border-strong);
+  padding: 8px 10px;
+  text-align: left; vertical-align: middle;
+}
+.match-table thead th {
+  background: var(--table-header-bg);
+  font-family: var(--sans); font-weight: 700;
+  text-align: center; white-space: nowrap;
+}
+.match-table thead th:first-child { text-align: left; }
+.match-table tbody td:first-child {
+  background: var(--table-row-bg);
+  width: 60%; line-height: 1.5;
+}
+.match-table tbody tr td.match-cell {
+  width: 6%; min-width: 32px;
+  text-align: center; cursor: pointer;
+  position: relative;
+  transition: background .12s;
+}
+.match-table tbody tr td.match-cell:hover { background: var(--accent-soft); }
+.match-table tbody tr td.match-cell.selected::after {
+  content: "✓"; color: var(--correct);
+  font-weight: 700; font-size: 18px;
+  font-family: var(--sans);
+}
+.match-table .row-num {
+  font-family: var(--sans); font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 28px;
+  height: 24px;
+  padding: 0 6px;
+  margin-right: 6px;
+  border: 1.5px solid transparent;
+  border-radius: 3px;
+  box-sizing: border-box;
+  line-height: 1;
+  vertical-align: middle;
+}
+
+/* Footer */
+.footer {
+  display: flex; align-items: stretch;
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+  font-family: var(--sans); font-size: 13px;
+  flex-shrink: 0; min-height: 56px;
+}
+.part-section {
+  display: flex; align-items: center;
+  flex: 1 1 0;
+  min-width: 0;
+  gap: 12px;
+  padding: 8px 16px;
+  cursor: pointer;
+  border-right: 1px solid var(--border);
+  transition: background .15s;
+  overflow: hidden;
+}
+.part-section:last-of-type { border-right: none; }
+.part-section:hover { background: var(--bg-hover); }
+.part-section .part-label { font-weight: 500; white-space: nowrap; }
+.part-section .part-progress { color: var(--text-muted); font-size: 12px; white-space: nowrap; }
+.part-section .q-palette { display: none; }
+.part-section.active { cursor: default; flex: 2 1 0; }
+.part-section.active:hover { background: var(--bg); }
+.part-section.active .part-label { font-weight: 700; }
+.part-section.active .q-palette {
+  display: flex; gap: 1px;
+  flex-wrap: nowrap;
+  flex: 1; min-width: 0;
+  overflow: visible;
+}
+.q-btn {
+  width: auto;
+  min-width: 26px;
+  height: 32px;
+  padding: 0 6px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 4px; font-size: 13px;
+  color: var(--text-muted);
+  border: 1.5px solid transparent;
+  position: relative;
+  transition: all .12s;
+  font-family: var(--sans);
+  font-weight: 500;
+  flex: 1 1 auto;
+  min-width: 0;
+  line-height: 1;
+  text-align: center;
+}
+.q-btn:hover { background: var(--bg-hover); color: var(--text); }
+.q-btn { white-space: nowrap; }
+.q-btn.answered { color: var(--text); font-weight: 700; }
+.q-btn.answered::before {
+  content: ""; position: absolute;
+  top: 3px; left: 50%; transform: translateX(-50%);
+  width: 60%; height: 2px;
+  background: var(--correct);
+  border-radius: 1px;
+}
+.q-btn.current {
+  border-color: var(--accent);
+  color: var(--accent);
+  font-weight: 800;
+}
+.nav-arrows {
+  display: flex; align-items: center;
+  gap: 4px; padding: 0 12px;
+  flex-shrink: 0;
+  border-left: 1px solid var(--border);
+}
+.nav-arrow {
+  width: 36px; height: 36px;
+  border: 1px solid var(--border-strong);
+  border-radius: 6px;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--text); background: var(--bg);
+  transition: all .12s;
+}
+.nav-arrow:hover:not(:disabled) {
+  background: var(--accent-soft);
+  border-color: var(--accent);
+  color: var(--accent);
+}
+.nav-arrow:active:not(:disabled) {
+  background: var(--accent);
+  color: white;
+}
+.nav-arrow:disabled { color: var(--text-subtle); cursor: not-allowed; opacity: 0.4; }
+.nav-arrow svg { width: 16px; height: 16px; }
+
+/* Modal */
+.modal-overlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.5);
+  display: none;
+  align-items: center; justify-content: center;
+  z-index: 100;
+}
+.modal-overlay.open { display: flex; }
+.modal {
+  background: var(--bg); border-radius: 12px;
+  padding: 28px 32px;
+  min-width: 380px; max-width: 480px;
+  box-shadow: var(--shadow-modal);
+  font-family: var(--sans); position: relative;
+}
+.modal h3 {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 17px; font-weight: 700; margin-bottom: 18px;
+}
+.modal-close {
+  position: absolute; top: 18px; right: 18px;
+  width: 28px; height: 28px; border-radius: 6px;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--text-muted);
+}
+.modal-close:hover { background: var(--bg-hover); }
+.settings-section { margin-bottom: 22px; }
+.settings-label {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 14px; font-weight: 600; margin-bottom: 10px;
+}
+.settings-label svg { width: 16px; height: 16px; color: var(--text-muted); }
+.settings-options { display: flex; flex-direction: column; gap: 6px; }
+.settings-option {
+  width: 100%; text-align: left;
+  padding: 12px 16px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--bg-elevated);
+  color: var(--text);
+  font-size: 14px; font-weight: 500;
+  display: flex; align-items: center; gap: 10px;
+  transition: all .12s;
+}
+.settings-option:hover { background: var(--bg-hover); }
+.settings-option.selected {
+  border-color: var(--accent);
+  background: var(--accent-soft);
+  color: var(--accent);
+}
+.settings-option svg { width: 16px; height: 16px; }
+.confirm-actions {
+  display: flex; gap: 10px; justify-content: flex-end;
+  margin-top: 20px;
+}
+.btn-primary {
+  font-family: var(--sans); font-size: 14px; font-weight: 500;
+  padding: 9px 20px; border-radius: 8px;
+  background: var(--accent); color: white;
+  border: 1px solid var(--accent);
+}
+.btn-primary:hover { filter: brightness(.95); }
+.btn-secondary {
+  font-family: var(--sans); font-size: 14px; font-weight: 500;
+  padding: 9px 20px; border-radius: 8px;
+  background: var(--bg); color: var(--text);
+  border: 1px solid var(--border-strong);
+}
+.btn-secondary:hover { background: var(--bg-hover); }
+.review-summary {
+  font-size: 14px; color: var(--text-muted);
+  line-height: 1.6; margin-bottom: 8px;
+}
+.review-summary strong { color: var(--text); }
+
+/* Results */
+.results-screen {
+  display: none; flex: 1; overflow-y: auto;
+  padding: 24px 60px 40px; font-family: var(--serif);
+  position: relative;
+}
+.results-screen.open { display: block; }
+
+/* Top action bar with Review on left, Retake + Send on right */
+.results-actions-top {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 24px;
+}
+.results-actions-top-right {
+  display: flex; flex-direction: column; gap: 8px; align-items: flex-end;
+}
+.results-action-btn {
+  padding: 8px 16px; border-radius: 8px;
+  border: 1px solid var(--border-strong);
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans); font-size: 14px; font-weight: 500;
+  display: flex; align-items: center; gap: 6px;
+  cursor: pointer; transition: all .12s;
+  min-width: 100px; justify-content: center;
+}
+.results-action-btn:hover {
+  background: var(--bg-hover); border-color: var(--accent);
+}
+.results-action-btn-primary {
+  background: var(--accent); color: white;
+  border-color: var(--accent);
+}
+.results-action-btn-primary:hover {
+  filter: brightness(.95);
+  background: var(--accent); color: white;
+}
+
+.results-header {
+  text-align: center; margin-bottom: 36px;
+  padding-bottom: 28px; border-bottom: 1px solid var(--border);
+}
+.results-header h1 {
+  font-family: var(--sans); font-size: 28px; font-weight: 700;
+  margin-bottom: 8px;
+}
+.results-stats {
+  display: flex; justify-content: center; gap: 24px;
+  margin-top: 24px; flex-wrap: wrap;
+}
+.stat {
+  text-align: center; font-family: var(--sans);
+  min-width: 110px;
+  padding: 14px 18px;
+  border-radius: 10px;
+  background: var(--bg-elevated);
+}
+.stat-value { font-size: 32px; font-weight: 700; line-height: 1.1; }
+.stat-label {
+  font-size: 12px; color: var(--text-muted);
+  margin-top: 6px;
+  text-transform: uppercase; letter-spacing: 0.5px;
+  font-weight: 600;
+}
+.stat.overall .stat-value { color: var(--text); }
+.stat.band .stat-value { color: var(--accent); }
+
+/* Color-coded variants apply equally to overall, band, and passage stats */
+.stat.green {
+  background: var(--correct-soft);
+}
+.stat.green .stat-value { color: var(--correct); }
+.stat.yellow {
+  background: rgba(234, 179, 8, 0.15);
+}
+.stat.yellow .stat-value { color: #b45309; }
+html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
+.stat.red {
+  background: var(--wrong-soft);
+}
+.stat.red .stat-value { color: var(--wrong); }
+
+/* Per-passage cards reuse the .green/.yellow/.red rules above (no override needed) */
+
+.results-list {
+  max-width: 1280px; margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-auto-flow: column;
+  grid-template-rows: repeat(var(--results-rows, 20), auto);
+  gap: 10px 24px;
+}
+@media (max-width: 720px) {
+  .results-list {
+    grid-template-columns: 1fr;
+    grid-auto-flow: row;
+  }
+}
+.result-item {
+  padding: 14px 18px; border-radius: 8px;
+  margin-bottom: 10px;
+  display: grid; grid-template-columns: 36px 1fr;
+  gap: 12px; align-items: start;
+}
+.result-item.correct { background: var(--correct-soft); }
+.result-item.wrong   { background: var(--wrong-soft); }
+.result-item.unanswered { background: var(--bg-elevated); }
+.result-num { font-family: var(--sans); font-weight: 700; font-size: 15px; }
+.result-num.correct { color: var(--correct); }
+.result-num.wrong { color: var(--wrong); }
+.result-detail { font-size: 14px; line-height: 1.6; }
+.result-detail .label {
+  font-family: var(--sans); font-size: 12px; font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase; letter-spacing: 0.4px;
+  display: inline-block; min-width: 90px;
+}
+.result-detail .your-answer.wrong { color: var(--wrong); text-decoration: line-through; }
+.result-detail .correct-answer { color: var(--correct); font-weight: 600; }
+
+/* Post-submit review state — applied to the test view after submission */
+.test-locked .options-list input,
+.test-locked .gap-input,
+.test-locked .heading-card,
+.test-locked .heading-gap,
+.test-locked .match-cell {
+  pointer-events: none;
+}
+.test-locked .gap-input { background: var(--bg-elevated); cursor: default; }
+
+/* Inline result marker shown next to each question after submission */
+.result-marker {
+  display: none;
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  margin-top: 8px;
+  padding: 6px 10px;
+  border-radius: 6px;
+  line-height: 1.5;
+}
+.test-locked .result-marker { display: block; }
+.result-marker.correct {
+  background: var(--correct-soft);
+  color: var(--correct);
+}
+.result-marker.wrong {
+  background: var(--wrong-soft);
+  color: var(--wrong);
+}
+.result-marker.unanswered {
+  background: var(--bg-elevated);
+  color: var(--text-muted);
+}
+.result-marker .label {
+  display: inline-block;
+  font-weight: 700;
+  margin-right: 6px;
+  text-transform: uppercase;
+  font-size: 11px;
+  letter-spacing: 0.4px;
+}
+.result-marker .your-answer { color: inherit; }
+.result-marker .correct-answer { color: var(--correct); font-weight: 700; }
+.result-marker .strike { text-decoration: line-through; opacity: 0.7; }
+
+/* "Show results" pill button visible after submission to return to results screen */
+.show-results-btn {
+  display: none;
+  font-family: var(--sans);
+  font-size: 14px;
+  font-weight: 500;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: var(--accent);
+  color: white;
+  border: 1px solid var(--accent);
+  margin-right: 8px;
+}
+.show-results-btn.visible { display: inline-flex; align-items: center; gap: 6px; }
+.show-results-btn:hover { filter: brightness(.95); }
+.highlight-tooltip {
+  position: absolute;
+  background: var(--text); color: var(--bg);
+  padding: 6px 10px; border-radius: 6px;
+  font-family: var(--sans); font-size: 12px; font-weight: 500;
+  display: none; z-index: 50; cursor: pointer;
+  user-select: none; box-shadow: var(--shadow-modal);
+}
+.highlight-tooltip.visible { display: block; }
+
+.hidden { display: none !important; }
+
+@media (max-width: 900px) {
+  .pane { padding: 20px 24px; }
+  .footer { font-size: 12px; }
+  .q-btn { width: 26px; height: 28px; }
+}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="brand-area">
+    <span class="brand">IELTS</span>
+    <a href="https://t.me/abdullahsenglish" target="_blank" rel="noopener" class="tg-link">@abdullahsenglish</a>
+  </div>
+  <div class="timer" id="timer" data-duration="1200">
+    <span class="timer-mins" id="timerMins">20 minutes left</span>
+    <span class="timer-secs" id="timerSecs">20:00 left</span>
+  </div>
+  <div class="topbar-actions">
+    <button class="icon-btn" id="fullscreenBtn" title="Toggle fullscreen" aria-label="Fullscreen">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8V5a2 2 0 0 1 2-2h3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M21 16v3a2 2 0 0 1-2 2h-3"/></svg>
+    </button>
+    <button class="icon-btn" id="menuBtn" title="Settings" aria-label="Settings">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></svg>
+    </button>
+    <button class="show-results-btn" id="showResultsBtn">Show results</button>
+    <button class="submit-btn" id="submitBtn">Submit</button>
+  </div>
+</header>
+
+<div class="part-banner" id="partBanner">
+  <h2 id="partBannerTitle">Reading Part 1</h2>
+  <p id="partBannerSubtitle">Read the passage and answer questions 1–13.</p>
+</div>
+
+<div class="split-container" id="splitContainer">
+  <div class="pane passage-pane" id="passagePane"><div class="passage-section" data-part="1">  <h1 class="passage-title">Back to the Wild</h1>  <div class="passage-subtitle">The remarkable story of reintroducing Przewalski's horses to the wild in Mongolia</div>  <div class="passage-body"><p>The Przewalski Horse is the last wild horse. The horse is named after the Russian colonel Nikolai Przewalski (the name is of Polish origin and “Przewalski” is the Polish spelling). He was the explorer and naturalist who first described the horse in 1881, after having gone on an expedition to find it, based on rumours of its existence. Many of these horses were captured around 1900 by Carl Hagenbeck and placed in zoos. As noted above, about twelve to fifteen reproduced and formed today’s population.</p><p>The World Wildlife Fund is supporting the Przewalski Horse project. Przewalski’s horses, named after the Russian explorer who first described them scientifically, Nikolai Przewalski, were once native to China and travelled freely across the wilds of the Eurasian steppe covering Russia, Mongolia, and Eurasia. But they were driven to the brink of extinction after Przewalski’s 19th-century discovery of the species led to an increase in their appeal. Many were killed or captured and taken to zoos across the world, while others were displaced by human land use. Of the 2,000 Przewalski’s horses left in the world today, only 300 live in the wild, having been part of reintroduction programmes first.</p><p>Colonel Nikolai Przewalski identified different kind of the horse by using the bone and skins of the horse. They are very difficult to catch and there are only a few that exist in the zoo.</p><p>A scientist named Claudia Feh first put the horse in a zoo, and then sent them back to the wild. The Causse Méjean landscape in France is quite similar from that in Mongolia where the horse used to live. She spent 6000 hours to do the experiment, to change the nature of the Przewalski horse to attack and fight other horse species. Then Feh took the horse to Mongolia to roam in an area of 13000 hectares grassland once the horse used to live. Feh’s project is also known as “Wild Horse Mesh”.</p><p>There are 37 Przewalski Horse in the project, and they are served as genetic reservoir if their species is under threat of extinction. There are three group of the Przewalski horse in the plan which has been reestablished by Feh.</p><p>If Przewalski’s horses breed with domestic horses, they produce fertile hybrids, which has the potential to quickly adulterate the species and undo the work of the project. So, organisers have decided first to place the horses in a fenced-off area to stabilise the population and fend off the risk of losing their gene pool. The native population declined in the 20th century due to a combination of factors, with the wild population in Mongolia dying out in the 1960s. The last herd was sighted in 1967 and the last individual horse in 1969. Expeditions after this failed to locate any horses, and the species had been designated “extinct in the wild” for over 30 years. After 1945 only two captive populations in zoos remained, in Munich and in Prague. The most valuable groups, in Askania Nova, Ukraine, was shot by German soldiers during World War II occupation, and the group in the United States had died out.</p><p>Competition with livestock, hunting, capture of foal for zoological collections, military activities and harsh winters recorded in 1946, 1948 and 1956 are considered to be the main cause of the decline in the Przewalski’s horse population. By the end of 1950s, only 12 individuals Przewalski horses were left in the world. The species is being introduced into their original habitats after 20 years of extinction in the wild, 20 years of the horse being extinct in the wild as the result of hunting, capture and habitat loss. The decline of pasture in Mongolia is mainly because of grazing pressure. The scientists are now discussing with local people about the horses and protect them together.</p></div></div></div>
+  <div class="divider" id="divider">
+    <div class="divider-handle">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="7 8 3 12 7 16"/><polyline points="17 8 21 12 17 16"/><line x1="3" y1="12" x2="21" y2="12"/></svg>
+    </div>
+  </div>
+  <div class="pane questions-pane" id="questionsPane"><div class="questions-section" data-part="1" data-part-title="Reading Part 1" data-part-range="1–13"><div class="question-group" data-type="tfng"><div class="question-group-header">Questions 1–4</div><div class="question-group-instructions">Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information <strong>FALSE</strong> if the statement contradicts the information <strong>NOT GIVEN</strong> if there is no information on this</div><div class="question" data-qnum="1">  <div class="question-prompt">    <span class="question-number">1</span>    <span>The World Wildlife Fund is supporting a number of horse projects around the world.</span>  </div>  <ul class="options-list"><li><label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;width:100%"><input type="radio" name="q1" value="TRUE"><span class="radio-circle"></span><span>TRUE</span></label></li><li><label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;width:100%"><input type="radio" name="q1" value="FALSE"><span class="radio-circle"></span><span>FALSE</span></label></li><li><label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;width:100%"><input type="radio" name="q1" value="NOT GIVEN"><span class="radio-circle"></span><span>NOT GIVEN</span></label></li></ul></div><div class="question" data-qnum="2">  <div class="question-prompt">    <span class="question-number">2</span>    <span>Colonel Nikolai Przewalski identified the species from the examination of live specimens.</span>  </div>  <ul class="options-list"><li><label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;width:100%"><input type="radio" name="q2" value="TRUE"><span class="radio-circle"></span><span>TRUE</span></label></li><li><label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;width:100%"><input type="radio" name="q2" value="FALSE"><span class="radio-circle"></span><span>FALSE</span></label></li><li><label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;width:100%"><input type="radio" name="q2" value="NOT GIVEN"><span class="radio-circle"></span><span>NOT GIVEN</span></label></li></ul></div><div class="question" data-qnum="3">  <div class="question-prompt">    <span class="question-number">3</span>    <span>Zoos had difficulty acquiring Przewalski horses.</span>  </div>  <ul class="options-list"><li><label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;width:100%"><input type="radio" name="q3" value="TRUE"><span class="radio-circle"></span><span>TRUE</span></label></li><li><label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;width:100%"><input type="radio" name="q3" value="FALSE"><span class="radio-circle"></span><span>FALSE</span></label></li><li><label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;width:100%"><input type="radio" name="q3" value="NOT GIVEN"><span class="radio-circle"></span><span>NOT GIVEN</span></label></li></ul></div><div class="question" data-qnum="4">  <div class="question-prompt">    <span class="question-number">4</span>    <span>The Causse Méjean landscape is very different from the Mongolian home of the horses.</span>  </div>  <ul class="options-list"><li><label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;width:100%"><input type="radio" name="q4" value="TRUE"><span class="radio-circle"></span><span>TRUE</span></label></li><li><label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;width:100%"><input type="radio" name="q4" value="FALSE"><span class="radio-circle"></span><span>FALSE</span></label></li><li><label style="display:flex;gap:10px;align-items:flex-start;cursor:pointer;width:100%"><input type="radio" name="q4" value="NOT GIVEN"><span class="radio-circle"></span><span>NOT GIVEN</span></label></li></ul></div></div><div class="question-group" data-type="note_completion"><div class="question-group-header">Questions 5–9</div><div class="question-group-instructions">Complete the notes below. Choose NO MORE THAN THREE WORDS AND/OR A NUMBER from the passage for each answer. Saving the Przewalski horse Colonel Przewalski identified first last wild horse on visit to Mongolia From the year  Przewalski horses found only in zoos</div><div class="note-section"><ul class="note-list"><li>Saving the Przewalski horse</li><li>Colonel Przewalski identified first last wild horse on visit to Mongolia</li><li>From the year <span class="gap-wrap"><input type="text" class="gap-input" data-qnum="5" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">5</span></span> Przewalski horses found only in zoos</li><li>Claudia Feh releases in France eleven horses chosen for their <span class="gap-wrap"><input type="text" class="gap-input" data-qnum="6" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">6</span></span></li><li>It took only <span class="gap-wrap"><input type="text" class="gap-input" data-qnum="7" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">7</span></span> for the aggressive habits of Feh's horses in France to change</li><li>Some of Feh's herd taken to Mongolia and allowed to run free across <span class="gap-wrap"><input type="text" class="gap-input" data-qnum="8" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">8</span></span> of land</li><li>Przewalski horse release is part of Feh's broader plan, known as the <span class="gap-wrap"><input type="text" class="gap-input" data-qnum="9" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">9</span></span> to revive the Mongolian habitat and community</li></ul></div><div class="question hidden" data-qnum="5"></div><div class="question hidden" data-qnum="6"></div><div class="question hidden" data-qnum="7"></div><div class="question hidden" data-qnum="8"></div><div class="question hidden" data-qnum="9"></div></div><div class="question-group" data-type="short_answer"><div class="question-group-header">Questions 10–13</div><div class="question-group-instructions">Answer the questions below. Choose NO MORE THAN THREE WORDS from the passage for each answer.</div><ul class="short-answer-list"><li class="question" data-qnum="10"><span class="sa-num">10</span><span class="sa-content">What would Feh's nucleus herd of 37 horses provide if there were any sort of disaster? <span class="gap-wrap"><input type="text" class="gap-input" data-qnum="10" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">10</span></span></span></li><li class="question" data-qnum="11"><span class="sa-num">11</span><span class="sa-content">According to the article, what is the principal cause of loss of pasture and subsequent reduction in animal numbers in Mongolia? <span class="gap-wrap"><input type="text" class="gap-input" data-qnum="11" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">11</span></span></span></li><li class="question" data-qnum="12"><span class="sa-num">12</span><span class="sa-content">How many groups of Przewalski horses have been re-established in Mongolia? <span class="gap-wrap"><input type="text" class="gap-input" data-qnum="12" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">12</span></span></span></li><li class="question" data-qnum="13"><span class="sa-num">13</span><span class="sa-content">In contrast to Feh, which aspect of human and animal behaviour do other researchers prefer to investigate? <span class="gap-wrap"><input type="text" class="gap-input" data-qnum="13" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">13</span></span></span></li></ul></div></div></div>
+</div>
+
+<div class="results-screen" id="resultsScreen">
+  <div class="results-actions-top">
+    <button class="results-action-btn" id="backToTestBtn">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      Review
+    </button>
+    <div class="results-actions-top-right">
+      <button class="results-action-btn" id="retakeBtn" onclick="location.reload()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 3-6.7L3 8"/><polyline points="3 3 3 8 8 8"/></svg>
+        Retake
+      </button>
+      <button class="results-action-btn results-action-btn-primary" id="sendBtn">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+        Send
+      </button>
+    </div>
+  </div>
+  <div class="results-header">
+    <h1>Test Complete</h1>
+    <div class="results-stats" id="resultsStats"></div>
+  </div>
+  <div class="results-list" id="resultsList"></div>
+</div>
+
+<div class="footer" id="footer">
+  <div class="part-section" data-part="1" data-questions="[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13]" data-entry-count="13">  <span class="part-label">Part 1</span>  <span class="part-progress">0/13</span>  <div class="q-palette"><button class="q-btn" data-part="1" data-q="1" data-qnums='[1]'>1</button><button class="q-btn" data-part="1" data-q="2" data-qnums='[2]'>2</button><button class="q-btn" data-part="1" data-q="3" data-qnums='[3]'>3</button><button class="q-btn" data-part="1" data-q="4" data-qnums='[4]'>4</button><button class="q-btn" data-part="1" data-q="5" data-qnums='[5]'>5</button><button class="q-btn" data-part="1" data-q="6" data-qnums='[6]'>6</button><button class="q-btn" data-part="1" data-q="7" data-qnums='[7]'>7</button><button class="q-btn" data-part="1" data-q="8" data-qnums='[8]'>8</button><button class="q-btn" data-part="1" data-q="9" data-qnums='[9]'>9</button><button class="q-btn" data-part="1" data-q="10" data-qnums='[10]'>10</button><button class="q-btn" data-part="1" data-q="11" data-qnums='[11]'>11</button><button class="q-btn" data-part="1" data-q="12" data-qnums='[12]'>12</button><button class="q-btn" data-part="1" data-q="13" data-qnums='[13]'>13</button></div></div>
+  <div class="nav-arrows" id="navArrows">
+    <button class="nav-arrow" id="prevBtn" title="Previous question" aria-label="Previous">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    </button>
+    <button class="nav-arrow" id="nextBtn" title="Next question" aria-label="Next">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+    </button>
+  </div>
+</div>
+
+<div class="highlight-tooltip" id="highlightTooltip">Highlight</div>
+
+<div class="modal-overlay" id="settingsModal">
+  <div class="modal">
+    <h3>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+      Exam Settings
+      <button class="modal-close" id="settingsClose">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </h3>
+    <div class="settings-section">
+      <div class="settings-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/></svg>
+        Theme
+      </div>
+      <div class="settings-options" id="themeOptions">
+        <button class="settings-option" data-theme="light">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          Light
+        </button>
+        <button class="settings-option" data-theme="dark">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          Dark
+        </button>
+        <button class="settings-option" data-theme="system">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          System
+        </button>
+      </div>
+    </div>
+    <div class="settings-section">
+      <div class="settings-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
+        Text Size
+      </div>
+      <div class="settings-options" id="textSizeOptions">
+        <button class="settings-option" data-size="default">Default</button>
+        <button class="settings-option" data-size="large">Large</button>
+        <button class="settings-option" data-size="xl">Extra Large</button>
+      </div>
+    </div>
+    <div class="settings-section">
+      <div class="settings-label">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+        Highlighter
+      </div>
+      <div class="settings-options">
+        <button class="settings-option" id="toggleHighlighter">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          <span id="highlighterStatus">Highlighter: On</span>
+        </button>
+        <button class="settings-option" id="clearHighlights">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6"/></svg>
+          Clear all highlights
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="submitModal">
+  <div class="modal">
+    <h3>Are you sure you want to submit?</h3>
+    <div class="review-summary" id="submitSummary"></div>
+    <div class="confirm-actions">
+      <button class="btn-secondary" id="cancelSubmit">Continue test</button>
+      <button class="btn-primary" id="confirmSubmit">Submit test</button>
+    </div>
+  </div>
+</div>
+
+<script id="answerKey" type="application/json">{"1": "NOT GIVEN", "2": "FALSE", "3": "TRUE", "4": "FALSE", "5": "1900", "6": "genetic compatibility", "7": "two generations", "8": "13000 hectares", "9": "wild horse mesh", "10": "a genetic reservoir", "11": "grazing pressure", "12": "three", "13": "competition"}</script>
+
+<script>
+(() => {
+  "use strict";
+
+  const ANSWER_KEY = JSON.parse(document.getElementById("answerKey").textContent);
+  const TOTAL_QUESTIONS = 13;
+  const IS_FULL_TEST = TOTAL_QUESTIONS === 40;
+  const TIMER_SECONDS = parseInt(document.getElementById("timer").dataset.duration, 10);
+  const userAnswers = {};
+  let currentPart = 1;
+  let currentQuestion = null;
+  let highlighterOn = true;
+  let timeLeft = TIMER_SECONDS;
+  let timerInterval = null;
+
+  const html = document.documentElement;
+  function setTheme(theme) {
+    html.setAttribute("data-theme", theme);
+    document.querySelectorAll("#themeOptions .settings-option").forEach(b => {
+      b.classList.toggle("selected", b.dataset.theme === theme);
+    });
+  }
+  document.querySelectorAll("#themeOptions .settings-option").forEach(btn => {
+    btn.addEventListener("click", () => setTheme(btn.dataset.theme));
+  });
+  setTheme("system");
+
+  function setTextSize(size) {
+    html.setAttribute("data-text-size", size);
+    document.querySelectorAll("#textSizeOptions .settings-option").forEach(b => {
+      b.classList.toggle("selected", b.dataset.size === size);
+    });
+  }
+  document.querySelectorAll("#textSizeOptions .settings-option").forEach(btn => {
+    btn.addEventListener("click", () => setTextSize(btn.dataset.size));
+  });
+  setTextSize("default");
+
+  const settingsModal = document.getElementById("settingsModal");
+  document.getElementById("menuBtn").addEventListener("click", () => settingsModal.classList.add("open"));
+  document.getElementById("settingsClose").addEventListener("click", () => settingsModal.classList.remove("open"));
+  settingsModal.addEventListener("click", e => { if (e.target === settingsModal) settingsModal.classList.remove("open"); });
+
+  document.getElementById("fullscreenBtn").addEventListener("click", () => {
+    if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+    else document.exitFullscreen?.();
+  });
+
+  const timerEl = document.getElementById("timer");
+  const timerMins = document.getElementById("timerMins");
+  const timerSecs = document.getElementById("timerSecs");
+  function fmtMMSS(s) {
+    const m = Math.floor(s / 60);
+    const sec = s % 60;
+    return `${m}:${sec.toString().padStart(2, "0")}`;
+  }
+  function updateTimerDisplay() {
+    const minutes = Math.ceil(timeLeft / 60);
+    timerMins.textContent = `${minutes} minute${minutes === 1 ? "" : "s"} left`;
+    timerSecs.textContent = `${fmtMMSS(timeLeft)} left`;
+    if (timeLeft <= 300) timerEl.classList.add("warning");
+  }
+  function startTimer() {
+    updateTimerDisplay();
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      updateTimerDisplay();
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        submitTest(true);
+      }
+    }, 1000);
+  }
+  startTimer();
+
+  const divider = document.getElementById("divider");
+  const passagePane = document.getElementById("passagePane");
+  const questionsPane = document.getElementById("questionsPane");
+  const splitContainer = document.getElementById("splitContainer");
+  let dragging = false;
+  divider.addEventListener("mousedown", e => { dragging = true; e.preventDefault(); document.body.style.cursor = "col-resize"; });
+  document.addEventListener("mouseup", () => { dragging = false; document.body.style.cursor = ""; });
+  document.addEventListener("mousemove", e => {
+    if (!dragging) return;
+    const rect = splitContainer.getBoundingClientRect();
+    const pct = ((e.clientX - rect.left) / rect.width) * 100;
+    if (pct < 25 || pct > 75) return;
+    passagePane.style.flex = `0 0 ${pct}%`;
+    questionsPane.style.flex = `0 0 ${100 - pct}%`;
+  });
+
+  function showPart(partNum) {
+    // Defensive: if the requested part doesn't exist, do nothing
+    const targetSection = document.querySelector(`.questions-section[data-part="${partNum}"]`);
+    if (!targetSection) return;
+    currentPart = partNum;
+    document.querySelectorAll(".passage-section").forEach(s => {
+      s.classList.toggle("active", parseInt(s.dataset.part, 10) === partNum);
+    });
+    document.querySelectorAll(".questions-section").forEach(s => {
+      s.classList.toggle("active", parseInt(s.dataset.part, 10) === partNum);
+    });
+    document.querySelectorAll(".part-section").forEach(p => {
+      p.classList.toggle("active", parseInt(p.dataset.part, 10) === partNum);
+    });
+    const activeQs = document.querySelector(`.questions-section.active`);
+    if (activeQs) {
+      const partTitle = activeQs.dataset.partTitle || `Reading Part ${partNum}`;
+      const partRange = activeQs.dataset.partRange || "";
+      document.getElementById("partBannerTitle").textContent = partTitle;
+      document.getElementById("partBannerSubtitle").textContent = `Read the passage and answer questions ${partRange}.`;
+    }
+    passagePane.scrollTop = 0;
+    questionsPane.scrollTop = 0;
+    const firstQ = document.querySelector(`.questions-section.active .question[data-qnum]`);
+    if (firstQ) setCurrentQuestion(parseInt(firstQ.dataset.qnum, 10));
+    updateNavArrows();
+  }
+  document.querySelectorAll(".part-section").forEach(p => {
+    p.addEventListener("click", () => showPart(parseInt(p.dataset.part, 10)));
+  });
+
+  function setCurrentQuestion(qNum) {
+    currentQuestion = qNum;
+    document.querySelectorAll(".q-btn").forEach(btn => {
+      let qnums;
+      try {
+        qnums = btn.dataset.qnums ? JSON.parse(btn.dataset.qnums) : [parseInt(btn.dataset.q, 10)];
+      } catch (e) {
+        qnums = [parseInt(btn.dataset.q, 10)];
+      }
+      btn.classList.toggle("current", qnums.includes(qNum));
+    });
+    document.querySelectorAll(".question").forEach(q => {
+      q.classList.toggle("current", parseInt(q.dataset.qnum, 10) === qNum);
+    });
+    // Also toggle on heading-gap elements (matching_headings live in passage pane)
+    document.querySelectorAll(".heading-gap").forEach(g => {
+      g.classList.toggle("current", parseInt(g.dataset.qnum, 10) === qNum);
+    });
+    // Also toggle on gap inputs (summary/note/table completion)
+    document.querySelectorAll(".gap-input").forEach(inp => {
+      inp.classList.toggle("current", parseInt(inp.dataset.qnum, 10) === qNum);
+    });
+    updateNavArrows();
+  }
+  function jumpToQuestion(qNum) {
+    // Find the visible target for this question. We try, in order:
+    //   1. The .question element if it's not .hidden (TFNG/MCQ/etc.)
+    //   2. The .heading-gap (matching_headings — lives in passage pane)
+    //   3. Any gap-input bound to this qnum (summary/note/table completion)
+    //   4. Any match-table row for this qnum (matching info/features)
+    const targetQ = document.querySelector(`.question[data-qnum="${qNum}"]:not(.hidden)`);
+    const headingGap = document.querySelector(`.heading-gap[data-qnum="${qNum}"]`);
+    const gapInput = document.querySelector(`.gap-input[data-qnum="${qNum}"]`);
+    const matchRow = document.querySelector(`.match-table tr[data-qnum="${qNum}"]`);
+    const target = targetQ || headingGap || gapInput || matchRow;
+
+    // Determine which part this qnum belongs to. If we found a target, use its section;
+    // otherwise scan the part-section data-questions arrays in the footer.
+    let part = currentPart;
+    if (target) {
+      const section = target.closest(".questions-section, .passage-section");
+      if (section) part = parseInt(section.dataset.part, 10);
+    } else {
+      document.querySelectorAll(".part-section").forEach(p => {
+        try {
+          const qs = JSON.parse(p.dataset.questions || "[]");
+          if (qs.includes(qNum)) part = parseInt(p.dataset.part, 10);
+        } catch (e) {}
+      });
+    }
+
+    function scrollAndFocus() {
+      const t2 = document.querySelector(`.question[data-qnum="${qNum}"]:not(.hidden)`)
+              || document.querySelector(`.heading-gap[data-qnum="${qNum}"]`)
+              || document.querySelector(`.gap-input[data-qnum="${qNum}"]`)
+              || document.querySelector(`.match-table tr[data-qnum="${qNum}"]`);
+      if (t2) {
+        // Use instant scroll with nearest block — prevents over-scrolling that
+        // can empty the visible area when content is short.
+        try {
+          t2.scrollIntoView({ behavior: "auto", block: "nearest", inline: "nearest" });
+        } catch (e) {
+          t2.scrollIntoView();
+        }
+      }
+      setCurrentQuestion(qNum);
+    }
+
+    if (part !== currentPart) {
+      showPart(part);
+      // Wait for layout to settle before scrolling
+      requestAnimationFrame(() => requestAnimationFrame(scrollAndFocus));
+    } else {
+      scrollAndFocus();
+    }
+  }
+  document.querySelectorAll(".q-btn").forEach(btn => {
+    btn.addEventListener("click", e => {
+      e.stopPropagation();
+      const qNum = parseInt(btn.dataset.q, 10);
+      jumpToQuestion(qNum);
+    });
+  });
+
+  function getAllEntryPrimaries() {
+    // Returns the primary qnum of each palette entry, in order.
+    return Array.from(document.querySelectorAll(".q-btn"))
+      .map(b => parseInt(b.dataset.q, 10))
+      .sort((a, b) => a - b);
+  }
+  function getAllQNums() { return getAllEntryPrimaries(); }
+  function findEntryIndexForQNum(qNum) {
+    // Find the index of the palette entry whose qnums include qNum (handles mcq_multi merging).
+    const buttons = Array.from(document.querySelectorAll(".q-btn"))
+      .sort((a, b) => parseInt(a.dataset.q, 10) - parseInt(b.dataset.q, 10));
+    for (let i = 0; i < buttons.length; i++) {
+      let qnums;
+      try {
+        qnums = buttons[i].dataset.qnums ? JSON.parse(buttons[i].dataset.qnums) : [parseInt(buttons[i].dataset.q, 10)];
+      } catch (e) {
+        qnums = [parseInt(buttons[i].dataset.q, 10)];
+      }
+      if (qnums.includes(qNum)) return i;
+    }
+    return -1;
+  }
+  function updateNavArrows() {
+    const all = getAllEntryPrimaries();
+    const idx = findEntryIndexForQNum(currentQuestion);
+    document.getElementById("prevBtn").disabled = (idx <= 0);
+    document.getElementById("nextBtn").disabled = (idx === -1 || idx >= all.length - 1);
+  }
+  document.getElementById("prevBtn").addEventListener("click", () => {
+    const all = getAllEntryPrimaries();
+    const idx = findEntryIndexForQNum(currentQuestion);
+    if (idx > 0) jumpToQuestion(all[idx - 1]);
+  });
+  document.getElementById("nextBtn").addEventListener("click", () => {
+    const all = getAllEntryPrimaries();
+    const idx = findEntryIndexForQNum(currentQuestion);
+    if (idx !== -1 && idx < all.length - 1) jumpToQuestion(all[idx + 1]);
+  });
+
+  function recordAnswer(qNum, value) {
+    if (value === "" || value == null) {
+      delete userAnswers[qNum];
+    } else {
+      userAnswers[qNum] = value;
+    }
+    updatePalette();
+    updatePartProgress();
+  }
+  function updatePalette() {
+    document.querySelectorAll(".q-btn").forEach(btn => {
+      // For merged mcq_multi buttons, data-qnums is a JSON array of all qnums in the group.
+      // The button is "answered" if ANY of those qnums has an answer.
+      let qnums;
+      try {
+        qnums = btn.dataset.qnums ? JSON.parse(btn.dataset.qnums) : [parseInt(btn.dataset.q, 10)];
+      } catch (e) {
+        qnums = [parseInt(btn.dataset.q, 10)];
+      }
+      const answered = qnums.some(q => userAnswers[q] !== undefined);
+      btn.classList.toggle("answered", answered);
+    });
+  }
+  function updatePartProgress() {
+    document.querySelectorAll(".part-section").forEach(p => {
+      // Count by entries — a 25–26 group counts as one entry, answered if either has an answer.
+      const palette = p.querySelector(".q-palette");
+      const buttons = palette ? palette.querySelectorAll(".q-btn") : [];
+      let answered = 0;
+      buttons.forEach(btn => {
+        let qnums;
+        try {
+          qnums = btn.dataset.qnums ? JSON.parse(btn.dataset.qnums) : [parseInt(btn.dataset.q, 10)];
+        } catch (e) {
+          qnums = [parseInt(btn.dataset.q, 10)];
+        }
+        if (qnums.some(q => userAnswers[q] !== undefined)) answered++;
+      });
+      const denom = parseInt(p.dataset.entryCount, 10) || buttons.length;
+      const progressEl = p.querySelector(".part-progress");
+      if (progressEl) progressEl.textContent = `${answered}/${denom}`;
+    });
+  }
+
+  document.querySelectorAll('.options-list input[type="radio"]').forEach(input => {
+    // Prevent the browser's auto-scroll-on-focus from shifting the questions pane.
+    // Snapshot scroll on mousedown (before focus), then restore in the next frame
+    // (after the browser's focus-scroll has completed).
+    input.addEventListener("mousedown", () => {
+      const saved = questionsPane.scrollTop;
+      requestAnimationFrame(() => { questionsPane.scrollTop = saved; });
+    });
+    input.addEventListener("change", e => {
+      const qNum = parseInt(e.target.name.replace("q", ""), 10);
+      recordAnswer(qNum, e.target.value);
+      setCurrentQuestion(qNum);
+    });
+  });
+  document.querySelectorAll('.options-list input[type="checkbox"][data-group]').forEach(input => {
+    input.addEventListener("mousedown", () => {
+      const saved = questionsPane.scrollTop;
+      requestAnimationFrame(() => { questionsPane.scrollTop = saved; });
+    });
+    input.addEventListener("change", e => {
+      const group = e.target.dataset.group;
+      const qnums = JSON.parse(e.target.dataset.qnums);
+      const checked = Array.from(document.querySelectorAll(`input[type="checkbox"][data-group="${group}"]:checked`)).map(c => c.value);
+      const sortedVal = checked.length ? checked.sort().join(",") : "";
+      qnums.forEach(q => recordAnswer(q, sortedVal));
+      if (qnums.length) setCurrentQuestion(qnums[0]);
+    });
+  });
+  document.querySelectorAll(".gap-input").forEach(input => {
+    input.addEventListener("input", e => {
+      const qNum = parseInt(e.target.dataset.qnum, 10);
+      const val = e.target.value.trim();
+      recordAnswer(qNum, val);
+      e.target.classList.toggle("filled", val.length > 0);
+    });
+    input.addEventListener("focus", e => {
+      const qNum = parseInt(e.target.dataset.qnum, 10);
+      setCurrentQuestion(qNum);
+    });
+  });
+
+  /* Drag-and-drop matching headings */
+  let draggedCard = null;
+  document.querySelectorAll(".heading-card").forEach(card => {
+    card.draggable = true;
+    card.addEventListener("dragstart", e => {
+      draggedCard = card;
+      card.classList.add("dragging");
+      e.dataTransfer.effectAllowed = "move";
+      e.dataTransfer.setData("text/plain", card.dataset.headingId);
+    });
+    card.addEventListener("dragend", () => {
+      card.classList.remove("dragging");
+      draggedCard = null;
+    });
+  });
+  document.querySelectorAll(".heading-gap").forEach(gap => {
+    gap.addEventListener("dragover", e => {
+      e.preventDefault();
+      e.dataTransfer.dropEffect = "move";
+      gap.classList.add("drop-target");
+    });
+    gap.addEventListener("dragleave", () => gap.classList.remove("drop-target"));
+    gap.addEventListener("drop", e => {
+      e.preventDefault();
+      gap.classList.remove("drop-target");
+      // Use the draggedCard reference directly. We don't query by ID because
+      // multiple banks (e.g. matching_features in different parts) can share
+      // the same letter ID (A, B, C, D), and a global lookup would pick the
+      // first match — usually the wrong one.
+      const card = draggedCard;
+      if (!card) return;
+      placeHeading(gap, card);
+    });
+    const clearBtn = gap.querySelector(".heading-gap-clear");
+    if (clearBtn) {
+      clearBtn.addEventListener("click", e => {
+        e.stopPropagation();
+        releaseHeading(gap);
+      });
+    }
+    gap.addEventListener("click", e => {
+      if (e.target.classList.contains("heading-gap-clear")) return;
+      if (gap.classList.contains("filled")) {
+        // Make filled gaps draggable so user can move heading to another gap
+      }
+    });
+  });
+
+  function placeHeading(gap, card) {
+    const isReusable = card.dataset.reusable === "true";
+
+    // If this gap already has a different card, return that one to availability
+    const existingId = gap.dataset.placedHeading;
+    if (existingId && existingId !== card.dataset.headingId) {
+      const existing = document.querySelector(`.heading-card[data-heading-id="${existingId}"]`);
+      if (existing && !isReusable) existing.classList.remove("placed");
+    }
+
+    // For non-reusable cards: if this card is already placed elsewhere, vacate that gap.
+    // For reusable cards: skip — the same card can be placed in multiple gaps.
+    if (!isReusable) {
+      document.querySelectorAll(".heading-gap.filled").forEach(g => {
+        if (g === gap) return;
+        if (g.dataset.placedHeading === card.dataset.headingId) {
+          delete g.dataset.placedHeading;
+          g.classList.remove("filled");
+          const text = g.querySelector(".heading-gap-text");
+          if (text) text.remove();
+          const qNum = parseInt(g.dataset.qnum, 10);
+          recordAnswer(qNum, "");
+        }
+      });
+    }
+
+    gap.dataset.placedHeading = card.dataset.headingId;
+    gap.classList.add("filled");
+    let text = gap.querySelector(".heading-gap-text");
+    if (!text) {
+      text = document.createElement("span");
+      text.className = "heading-gap-text";
+      gap.insertBefore(text, gap.querySelector(".heading-gap-clear"));
+    }
+    text.textContent = card.textContent.trim();
+    if (!isReusable) card.classList.add("placed");
+    const qNum = parseInt(gap.dataset.qnum, 10);
+    recordAnswer(qNum, card.dataset.headingId);
+    setCurrentQuestion(qNum);
+  }
+  function releaseHeading(gap) {
+    const headingId = gap.dataset.placedHeading;
+    if (!headingId) return;
+    const card = document.querySelector(`.heading-card[data-heading-id="${headingId}"]`);
+    // Only un-place the bank card if it's no longer used in any other filled gap
+    if (card) {
+      const isReusable = card.dataset.reusable === "true";
+      if (!isReusable) {
+        card.classList.remove("placed");
+      }
+    }
+    delete gap.dataset.placedHeading;
+    gap.classList.remove("filled");
+    const text = gap.querySelector(".heading-gap-text");
+    if (text) text.remove();
+    const qNum = parseInt(gap.dataset.qnum, 10);
+    recordAnswer(qNum, "");
+  }
+
+  /* Matching info/features TABLE */
+  document.querySelectorAll(".match-cell").forEach(cell => {
+    cell.addEventListener("click", () => {
+      const row = cell.closest("tr");
+      const qNum = parseInt(row.dataset.qnum, 10);
+      const value = cell.dataset.letter;
+      row.querySelectorAll(".match-cell").forEach(c => c.classList.remove("selected"));
+      cell.classList.add("selected");
+      recordAnswer(qNum, value);
+      setCurrentQuestion(qNum);
+    });
+  });
+
+  updatePartProgress();
+
+  /* Highlighter */
+  const tooltip = document.getElementById("highlightTooltip");
+  const highlighterBtn = document.getElementById("toggleHighlighter");
+  highlighterBtn.classList.add("selected");  // starts on
+  highlighterBtn.addEventListener("click", () => {
+    highlighterOn = !highlighterOn;
+    document.getElementById("highlighterStatus").textContent = `Highlighter: ${highlighterOn ? "On" : "Off"}`;
+    highlighterBtn.classList.toggle("selected", highlighterOn);
+  });
+  document.getElementById("clearHighlights").addEventListener("click", () => {
+    document.querySelectorAll(".pane .hl").forEach(span => {
+      const parent = span.parentNode;
+      while (span.firstChild) parent.insertBefore(span.firstChild, span);
+      parent.removeChild(span);
+      parent.normalize();
+    });
+  });
+  function onSelectionForHighlight() {
+    if (!highlighterOn) { tooltip.classList.remove("visible"); return; }
+    const sel = window.getSelection();
+    if (!sel || sel.isCollapsed) { tooltip.classList.remove("visible"); return; }
+    const range = sel.getRangeAt(0);
+    // Allow selection in either pane
+    if (!passagePane.contains(range.commonAncestorContainer) &&
+        !questionsPane.contains(range.commonAncestorContainer)) return;
+    const rect = range.getBoundingClientRect();
+    tooltip.style.left = `${rect.left + rect.width / 2 - 40}px`;
+    tooltip.style.top = `${rect.top - 36}px`;
+    tooltip.classList.add("visible");
+    tooltip.onclick = () => {
+      highlightRange(range);
+      sel.removeAllRanges();
+      tooltip.classList.remove("visible");
+    };
+  }
+  passagePane.addEventListener("mouseup", onSelectionForHighlight);
+  questionsPane.addEventListener("mouseup", onSelectionForHighlight);
+
+  // Safely highlight a Range that may span multiple text nodes / elements
+  // by wrapping each affected text node piece individually with a .hl span.
+  function highlightRange(range) {
+    if (range.collapsed) return;
+    const root = range.commonAncestorContainer;
+    const rootEl = root.nodeType === 3 ? root.parentNode : root;
+    const walker = document.createTreeWalker(rootEl, NodeFilter.SHOW_TEXT, {
+      acceptNode(node) {
+        if (!range.intersectsNode(node)) return NodeFilter.FILTER_REJECT;
+        // Skip text inside form controls or already-highlighted spans
+        let p = node.parentNode;
+        while (p && p !== rootEl) {
+          if (p.classList && p.classList.contains("hl")) return NodeFilter.FILTER_REJECT;
+          const tag = p.tagName;
+          if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT" || tag === "BUTTON") {
+            return NodeFilter.FILTER_REJECT;
+          }
+          p = p.parentNode;
+        }
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    });
+    const textNodes = [];
+    let n;
+    while ((n = walker.nextNode())) textNodes.push(n);
+
+    textNodes.forEach(textNode => {
+      const nodeRange = document.createRange();
+      nodeRange.selectNodeContents(textNode);
+      if (textNode === range.startContainer) {
+        nodeRange.setStart(textNode, range.startOffset);
+      }
+      if (textNode === range.endContainer) {
+        nodeRange.setEnd(textNode, range.endOffset);
+      }
+      const text = nodeRange.toString();
+      if (!text.trim()) return;
+
+      const startOffset = nodeRange.startOffset;
+      const endOffset = nodeRange.endOffset;
+      if (endOffset < textNode.length) textNode.splitText(endOffset);
+      const middle = (startOffset > 0) ? textNode.splitText(startOffset) : textNode;
+
+      const span = document.createElement("span");
+      span.className = "hl";
+      middle.parentNode.insertBefore(span, middle);
+      span.appendChild(middle);
+    });
+  }
+  function onClickRemoveHighlight(e) {
+    if (e.target.classList?.contains("hl")) {
+      const span = e.target;
+      const parent = span.parentNode;
+      while (span.firstChild) parent.insertBefore(span.firstChild, span);
+      parent.removeChild(span);
+      parent.normalize();
+    }
+  }
+  passagePane.addEventListener("click", onClickRemoveHighlight);
+  questionsPane.addEventListener("click", onClickRemoveHighlight);
+  document.addEventListener("mousedown", e => {
+    if (e.target !== tooltip) tooltip.classList.remove("visible");
+  });
+
+  const submitModal = document.getElementById("submitModal");
+  document.getElementById("submitBtn").addEventListener("click", () => {
+    const answered = Object.keys(userAnswers).length;
+    const unanswered = TOTAL_QUESTIONS - answered;
+    document.getElementById("submitSummary").innerHTML =
+      `You have answered <strong>${answered} of ${TOTAL_QUESTIONS}</strong> questions.` +
+      (unanswered > 0 ? `<br>${unanswered} question${unanswered === 1 ? "" : "s"} ${unanswered === 1 ? "is" : "are"} unanswered.` : "");
+    submitModal.classList.add("open");
+  });
+  document.getElementById("cancelSubmit").addEventListener("click", () => submitModal.classList.remove("open"));
+  submitModal.addEventListener("click", e => { if (e.target === submitModal) submitModal.classList.remove("open"); });
+  document.getElementById("confirmSubmit").addEventListener("click", () => submitTest(false));
+
+  function normalizeAnswer(a) {
+    if (a == null) return "";
+    return String(a).trim().toLowerCase().replace(/\s+/g, " ");
+  }
+  function isCorrect(qNum, userAns) {
+    const correct = ANSWER_KEY[qNum];
+    if (correct == null || userAns == null || userAns === "") return false;
+    if (Array.isArray(correct)) {
+      const userSet = String(userAns).split(",").map(normalizeAnswer).filter(Boolean).sort();
+      const correctSet = correct.map(normalizeAnswer).sort();
+      return userSet.length === correctSet.length && userSet.every((v, i) => v === correctSet[i]);
+    }
+    const acceptable = String(correct).split(/\s*[\/|]\s*/).map(normalizeAnswer);
+    return acceptable.includes(normalizeAnswer(userAns));
+  }
+
+  const BAND_TABLE = [
+    [39, 9.0], [37, 8.5], [35, 8.0], [33, 7.5], [30, 7.0],
+    [27, 6.5], [23, 6.0], [19, 5.5], [15, 5.0], [13, 4.5],
+    [10, 4.0], [8, 3.5],  [6, 3.0],  [4, 2.5]
+  ];
+  function rawToBand(raw) {
+    for (const [threshold, band] of BAND_TABLE) {
+      if (raw >= threshold) return band;
+    }
+    return null;
+  }
+
+  // Build a lookup of which question numbers belong to drag-drop groups
+  // (matching_headings + matching_features in dragdrop mode). For these,
+  // the answer value is a card ID and we display the full card text.
+  // We also track each qnum's group so we resolve IDs against the right bank
+  // (multiple matching_features groups can share letter IDs A-D).
+  const DRAGDROP_QNUMS = new Set();
+  const QNUM_TO_GROUP = {};
+  document.querySelectorAll(".heading-gap").forEach(g => {
+    const qn = parseInt(g.dataset.qnum, 10);
+    DRAGDROP_QNUMS.add(qn);
+    if (g.dataset.group) QNUM_TO_GROUP[qn] = g.dataset.group;
+  });
+
+  function lookupCardText(qNum, headingId) {
+    // Prefer the card that's in the same group as the question's gap.
+    const group = QNUM_TO_GROUP[qNum];
+    if (group) {
+      const scoped = document.querySelector(
+        `.heading-card[data-heading-id="${headingId}"][data-group="${group}"]`
+      );
+      if (scoped) return scoped.textContent.trim();
+    }
+    // Fall back: matching_headings cards have no group attribute, so first match works.
+    const any = document.querySelector(`.heading-card[data-heading-id="${headingId}"]`);
+    return any ? any.textContent.trim() : headingId;
+  }
+
+  function displayAnswer(qNum, value) {
+    if (value == null || value === "") return "";
+    // For drag-drop questions, replace card IDs with their full text
+    if (DRAGDROP_QNUMS.has(qNum)) {
+      const ids = String(value).split(",").map(s => s.trim());
+      return ids.map(id => lookupCardText(qNum, id)).join(", ");
+    }
+    if (Array.isArray(value)) return value.join(", ");
+    return String(value);
+  }
+
+  function injectResultMarkers(results) {
+    // Remove any existing markers (for re-submit scenarios)
+    document.querySelectorAll(".result-marker").forEach(el => el.remove());
+
+    results.forEach(r => {
+      // Find the visible host element to attach the marker to.
+      // Order of preference: .question (not hidden), .heading-gap, gap-input wrap, match-table row.
+      let host = document.querySelector(`.question[data-qnum="${r.q}"]:not(.hidden)`);
+      if (!host) {
+        const gap = document.querySelector(`.heading-gap[data-qnum="${r.q}"]`);
+        if (gap) host = gap.parentNode; // attach below the heading-gap
+      }
+      if (!host) {
+        const inp = document.querySelector(`.gap-input[data-qnum="${r.q}"]`);
+        if (inp) {
+          // Climb to a sensible block-level ancestor (li or div)
+          host = inp.closest("li, .completion-prose, td, .question, .note-section");
+        }
+      }
+      if (!host) {
+        const tr = document.querySelector(`.match-table tr[data-qnum="${r.q}"]`);
+        if (tr) {
+          // Use the first cell of the row as the host so the marker appears below the prompt
+          host = tr.querySelector("td");
+        }
+      }
+      if (!host) return;
+
+      const cls = r.unanswered ? "unanswered" : (r.correct ? "correct" : "wrong");
+      const userTxt = r.unanswered ? "No answer" : displayAnswer(r.q, r.userAns);
+      const correctTxt = displayAnswer(r.q, r.correctAns);
+
+      const marker = document.createElement("div");
+      marker.className = `result-marker ${cls}`;
+      const userClass = r.correct ? "your-answer" : "your-answer strike";
+      let html = `<span class="label">Q${r.q}</span>`;
+      html += r.unanswered
+        ? `<em>No answer</em> &middot; Correct: <span class="correct-answer">${escapeHtml(correctTxt)}</span>`
+        : (r.correct
+            ? `<span class="${userClass}">${escapeHtml(userTxt)}</span> &middot; ✓`
+            : `<span class="${userClass}">${escapeHtml(userTxt)}</span> &middot; Correct: <span class="correct-answer">${escapeHtml(correctTxt)}</span>`);
+      marker.innerHTML = html;
+      host.appendChild(marker);
+    });
+  }
+
+  function switchToResultsView() {
+    document.querySelector(".part-banner").style.display = "none";
+    splitContainer.style.display = "none";
+    document.getElementById("footer").style.display = "none";
+    document.getElementById("resultsScreen").classList.add("open");
+    document.getElementById("submitBtn").style.display = "none";
+    document.getElementById("showResultsBtn").classList.remove("visible");
+  }
+  function switchToTestView() {
+    document.querySelector(".part-banner").style.display = "";
+    splitContainer.style.display = "";
+    document.getElementById("footer").style.display = "";
+    document.getElementById("resultsScreen").classList.remove("open");
+    document.getElementById("showResultsBtn").classList.add("visible");
+  }
+
+  /* Confetti celebration for band 7+ — self-contained canvas animation, ~3s */
+  function launchConfetti() {
+    const canvas = document.createElement("canvas");
+    canvas.style.cssText = "position:fixed;inset:0;pointer-events:none;z-index:9999;";
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width = window.innerWidth * dpr;
+    canvas.height = window.innerHeight * dpr;
+    canvas.style.width = window.innerWidth + "px";
+    canvas.style.height = window.innerHeight + "px";
+    document.body.appendChild(canvas);
+    const ctx = canvas.getContext("2d");
+    ctx.scale(dpr, dpr);
+
+    const COLORS = ["#d50032", "#1d4ed8", "#15803d", "#facc15", "#a855f7", "#ec4899", "#f97316"];
+    const W = window.innerWidth;
+    const H = window.innerHeight;
+    const particles = [];
+
+    // Full-screen rain: spawn across the entire top, falling gently. Fewer
+    // particles than a corner-burst but bigger sizes — feels celebratory but
+    // not noisy.
+    const TOTAL = 150;
+    function spawnOne() {
+      particles.push({
+        x: Math.random() * W,
+        y: -20 - Math.random() * 200, // staggered above the viewport
+        vx: (Math.random() - 0.5) * 1.2,
+        vy: 1.5 + Math.random() * 1.8,
+        size: 10 + Math.random() * 12, // 10-22px (about 2x bigger than before)
+        color: COLORS[(Math.random() * COLORS.length) | 0],
+        rot: Math.random() * Math.PI * 2,
+        vrot: (Math.random() - 0.5) * 0.12,
+        shape: Math.random() < 0.55 ? "rect" : "circle",
+        sway: Math.random() * Math.PI * 2,
+        swaySpeed: 0.02 + Math.random() * 0.03,
+      });
+    }
+    // Stagger spawns over ~1.4s so they cascade down the screen
+    let spawned = 0;
+    const spawnInterval = setInterval(() => {
+      const batch = 6;
+      for (let i = 0; i < batch && spawned < TOTAL; i++) {
+        spawnOne();
+        spawned++;
+      }
+      if (spawned >= TOTAL) clearInterval(spawnInterval);
+    }, 50);
+
+    const gravity = 0.05; // gentle fall
+    let frame = 0;
+    function tick() {
+      frame++;
+      ctx.clearRect(0, 0, W, H);
+      for (let i = particles.length - 1; i >= 0; i--) {
+        const p = particles[i];
+        p.vy += gravity;
+        p.sway += p.swaySpeed;
+        p.x += p.vx + Math.sin(p.sway) * 0.6; // gentle horizontal drift
+        p.y += p.vy;
+        p.rot += p.vrot;
+        if (p.y > H + 30) {
+          particles.splice(i, 1);
+          continue;
+        }
+        // Fade-out only near the bottom of the screen
+        const alpha = p.y > H - 80 ? Math.max(0, (H - p.y) / 80) : 1;
+        ctx.save();
+        ctx.globalAlpha = alpha;
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.rot);
+        ctx.fillStyle = p.color;
+        if (p.shape === "rect") {
+          ctx.fillRect(-p.size / 2, -p.size / 3, p.size, p.size / 1.6);
+        } else {
+          ctx.beginPath();
+          ctx.arc(0, 0, p.size / 2, 0, Math.PI * 2);
+          ctx.fill();
+        }
+        ctx.restore();
+      }
+      // Stop when all particles have fallen off and no more will spawn
+      if ((particles.length > 0 || spawned < TOTAL) && frame < 1200) {
+        requestAnimationFrame(tick);
+      } else {
+        canvas.remove();
+        clearInterval(spawnInterval);
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+
+  // Holds the latest results so the Send button can generate a fresh image.
+  let lastResults = null;
+
+  function submitTest(timeUp) {
+    clearInterval(timerInterval);
+    submitModal.classList.remove("open");
+
+    let correctCount = 0;
+    const results = [];
+    for (let q = 1; q <= TOTAL_QUESTIONS; q++) {
+      const userAns = userAnswers[q];
+      const correct = ANSWER_KEY[q];
+      const isAnswered = userAns !== undefined && userAns !== "";
+      const correct_ = isAnswered && isCorrect(q, userAns);
+      if (correct_) correctCount++;
+      results.push({
+        q, userAns: isAnswered ? userAns : null,
+        correctAns: Array.isArray(correct) ? correct : correct,
+        correct: correct_, unanswered: !isAnswered
+      });
+    }
+
+    // Per-passage scores — derive from the footer .part-section data-questions arrays.
+    const passageStats = [];
+    document.querySelectorAll(".part-section").forEach(p => {
+      try {
+        const qs = JSON.parse(p.dataset.questions || "[]");
+        const total = qs.length;
+        const correctInPart = qs.filter(q => results[q - 1] && results[q - 1].correct).length;
+        const mistakes = total - correctInPart;
+        let color = "green";
+        if (mistakes >= 5) color = "red";
+        else if (mistakes >= 3) color = "yellow";
+        passageStats.push({
+          part: parseInt(p.dataset.part, 10),
+          total, correctInPart, mistakes, color
+        });
+      } catch (e) {}
+    });
+
+    // Compute band
+    const band = IS_FULL_TEST ? rawToBand(correctCount) : null;
+
+    // Stash for Send button
+    lastResults = { correctCount, passageStats, band, total: TOTAL_QUESTIONS, isFullTest: IS_FULL_TEST };
+
+    // Color logic for overall + band: 0-5 band → red, 5.5-6.5 → yellow, 7+ → green
+    function bandColor(b) {
+      if (b == null) return "";
+      if (b >= 7.0) return "green";
+      if (b >= 5.5) return "yellow";
+      return "red";
+    }
+    const overallColorClass = IS_FULL_TEST ? bandColor(band) : "";
+
+    // Render top stats: Overall, Band (if full), then each passage
+    const stats = document.getElementById("resultsStats");
+    stats.innerHTML = "";
+    const overallStat = document.createElement("div");
+    overallStat.className = `stat overall ${overallColorClass}`;
+    overallStat.innerHTML = `<div class="stat-value">${correctCount} / ${TOTAL_QUESTIONS}</div><div class="stat-label">Correct</div>`;
+    stats.appendChild(overallStat);
+
+    if (IS_FULL_TEST) {
+      const bandStat = document.createElement("div");
+      bandStat.className = `stat band ${overallColorClass}`;
+      bandStat.innerHTML = `<div class="stat-value">${band !== null ? band.toFixed(1) : "—"}</div><div class="stat-label">Band Score</div>`;
+      stats.appendChild(bandStat);
+    }
+
+    // Stash band color for share image
+    lastResults.bandColor = overallColorClass;
+
+    passageStats.forEach(ps => {
+      const ps_stat = document.createElement("div");
+      ps_stat.className = `stat passage ${ps.color}`;
+      ps_stat.innerHTML = `<div class="stat-value">${ps.correctInPart} / ${ps.total}</div><div class="stat-label">Passage ${ps.part}</div>`;
+      stats.appendChild(ps_stat);
+    });
+
+    // Per-question list — show heading text instead of IDs
+    const list = document.getElementById("resultsList");
+    list.innerHTML = "";
+    // Two-column layout: Q1..ceil(n/2) on left, rest on right
+    list.style.setProperty("--results-rows", Math.ceil(TOTAL_QUESTIONS / 2));
+    results.forEach(r => {
+      const div = document.createElement("div");
+      let cls = r.unanswered ? "unanswered" : (r.correct ? "correct" : "wrong");
+      div.className = `result-item ${cls}`;
+      const numCls = r.unanswered ? "" : (r.correct ? "correct" : "wrong");
+      const userTxt = r.unanswered ? null : displayAnswer(r.q, r.userAns);
+      const correctTxt = displayAnswer(r.q, r.correctAns);
+      const userPart = r.unanswered
+        ? `<span class="label">Your answer:</span> <em style="color:var(--text-muted)">No answer</em>`
+        : `<span class="label">Your answer:</span> <span class="your-answer ${r.correct ? "" : "wrong"}">${escapeHtml(userTxt)}</span>`;
+      const correctPart = `<span class="label">Correct:</span> <span class="correct-answer">${escapeHtml(correctTxt)}</span>`;
+      div.innerHTML = `<div class="result-num ${numCls}">${r.q}</div><div class="result-detail">${userPart}<br>${correctPart}</div>`;
+      list.appendChild(div);
+    });
+
+    // Inject inline result markers into the test view
+    injectResultMarkers(results);
+
+    // Lock interactions in the test view
+    document.body.classList.add("test-locked");
+    document.querySelectorAll(".options-list input, .gap-input").forEach(el => el.disabled = true);
+
+    // Switch to results view
+    switchToResultsView();
+
+    // Confetti celebration for band 7+
+    if (IS_FULL_TEST && band !== null && band >= 7.0) {
+      // Slight delay so it appears as the user lands on the results screen
+      setTimeout(() => launchConfetti(), 200);
+    }
+
+    if (timeUp) {
+      const existing = document.getElementById("timeUpBanner");
+      if (!existing) {
+        const banner = document.createElement("div");
+        banner.id = "timeUpBanner";
+        banner.style.cssText = "background:var(--wrong-soft);color:var(--wrong);padding:10px;text-align:center;font-family:var(--sans);font-size:14px;font-weight:600";
+        banner.textContent = "Time's up — your test was submitted automatically.";
+        document.getElementById("resultsScreen").prepend(banner);
+      }
+    }
+  }
+
+  /* Generate a downloadable PNG of the result summary using Canvas API.
+     The image contains the test name, overall score, band, and per-passage scores
+     with the same colour coding as the on-screen cards. */
+  function generateResultImage() {
+    if (!lastResults) return;
+    const { correctCount, passageStats, band, total, isFullTest } = lastResults;
+    const testTitle = document.title || "IELTS Reading Test";
+
+    // High-DPI canvas for crisp output
+    const dpr = 2;
+    const W = 1080, H = 720;
+    const canvas = document.createElement("canvas");
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+    const ctx = canvas.getContext("2d");
+    ctx.scale(dpr, dpr);
+
+    // Background
+    ctx.fillStyle = "#ffffff";
+    ctx.fillRect(0, 0, W, H);
+
+    // Top red bar (IELTS branding)
+    ctx.fillStyle = "#d50032";
+    ctx.fillRect(0, 0, W, 8);
+
+    // Header — test name
+    ctx.fillStyle = "#0a0a0a";
+    ctx.font = "700 32px 'Inter', sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText(testTitle, W / 2, 70);
+
+    // Subtitle
+    ctx.fillStyle = "#525252";
+    ctx.font = "500 16px 'Inter', sans-serif";
+    ctx.fillText("Result Summary", W / 2, 100);
+
+    // Footer credit
+    ctx.fillStyle = "#737373";
+    ctx.font = "500 14px 'Inter', sans-serif";
+    ctx.fillText("@abdullahsenglish", W / 2, H - 30);
+
+    // Top-row big stats: Overall + Band
+    const topY = 160, topH = 140;
+    const topPad = 60;
+    const topCardCount = isFullTest ? 2 : 1;
+    const topCardW = (W - topPad * 2 - 24 * (topCardCount - 1)) / topCardCount;
+
+    function drawCard(x, y, w, h, bg, valueText, valueColor, label) {
+      // Rounded rect background
+      const r = 14;
+      ctx.fillStyle = bg;
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+      ctx.fill();
+      // Value
+      ctx.fillStyle = valueColor;
+      ctx.font = "700 56px 'Inter', sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText(valueText, x + w / 2, y + h / 2 + 6);
+      // Label
+      ctx.fillStyle = "#525252";
+      ctx.font = "600 13px 'Inter', sans-serif";
+      ctx.fillText(label.toUpperCase(), x + w / 2, y + h - 20);
+    }
+
+    const colorMap = {
+      green:  { bg: "#dcfce7", fg: "#15803d" },
+      yellow: { bg: "#fef3c7", fg: "#b45309" },
+      red:    { bg: "#fee2e2", fg: "#b91c1c" },
+      "":     { bg: "#f5f5f5", fg: "#0a0a0a" },
+    };
+    const overallColor = (lastResults && lastResults.bandColor) ? lastResults.bandColor : "";
+    const oc = colorMap[overallColor] || colorMap[""];
+
+    // Overall card — colored by band
+    drawCard(topPad, topY, topCardW, topH, oc.bg, `${correctCount} / ${total}`, oc.fg, "Correct");
+    // Band card — same color as overall
+    if (isFullTest) {
+      const bandX = topPad + topCardW + 24;
+      drawCard(bandX, topY, topCardW, topH, oc.bg, band !== null ? band.toFixed(1) : "—", oc.fg, "Band Score");
+    }
+
+    // Per-passage cards
+    const ppY = topY + topH + 40;
+    const ppH = 140;
+    const ppCount = passageStats.length;
+    const ppCardW = (W - topPad * 2 - 24 * (ppCount - 1)) / ppCount;
+    passageStats.forEach((ps, i) => {
+      const x = topPad + i * (ppCardW + 24);
+      const c = colorMap[ps.color];
+      drawCard(x, ppY, ppCardW, ppH, c.bg, `${ps.correctInPart} / ${ps.total}`, c.fg, `Passage ${ps.part}`);
+    });
+
+    // Date
+    const d = new Date();
+    const dateStr = d.toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
+    ctx.fillStyle = "#a3a3a3";
+    ctx.font = "500 14px 'Inter', sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText(dateStr, W / 2, H - 50);
+
+    // Trigger download
+    canvas.toBlob(blob => {
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      const slug = testTitle.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_|_$/g, "");
+      a.href = url;
+      a.download = `${slug || "ielts_result"}_summary.png`;
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(() => {
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+      }, 100);
+    }, "image/png");
+  }
+
+  // Wire up the back-to-test, show-results, and send buttons
+  document.getElementById("backToTestBtn").addEventListener("click", switchToTestView);
+  document.getElementById("showResultsBtn").addEventListener("click", switchToResultsView);
+  document.getElementById("sendBtn").addEventListener("click", generateResultImage);
+
+  function escapeHtml(s) {
+    return s.replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+  }
+
+  showPart(1);
+})();
+</script>
+</body>
+</html>
