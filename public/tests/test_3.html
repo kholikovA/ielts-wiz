@@ -4,6 +4,34 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IELTS Listening — Test 3: Sarah's Health & Fitness Club</title>
+<script>
+// Auth gate — must run BEFORE the page renders. Looks for a Supabase session
+// in localStorage (set by the React app on the same origin); if missing or
+// expired, bounce to /login?next=<this-page>.
+(function () {
+  try {
+    var hasSession = false;
+    for (var i = 0; i < localStorage.length; i++) {
+      var key = localStorage.key(i);
+      if (!key || key.indexOf('sb-') !== 0 || key.indexOf('-auth-token') < 0) continue;
+      var raw = localStorage.getItem(key);
+      if (!raw) continue;
+      var val = JSON.parse(raw);
+      if (val && val.access_token) {
+        var exp = val.expires_at;
+        if (!exp || exp * 1000 > Date.now()) { hasSession = true; break; }
+      }
+    }
+    if (!hasSession) {
+      var next = encodeURIComponent(window.location.pathname + window.location.search);
+      window.location.replace('/login?next=' + next);
+    }
+  } catch (e) {
+    var next2 = encodeURIComponent(window.location.pathname + window.location.search);
+    window.location.replace('/login?next=' + next2);
+  }
+})();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;450;500;600;700;900&display=swap">
