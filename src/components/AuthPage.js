@@ -76,11 +76,19 @@ const AuthPage = ({ type, setCurrentPage }) => {
       try {
         const { error } = await signIn(email, password);
         if (error) throw error;
-        setCurrentPage('dashboard');
-      } catch (err) { 
-        setError(err.message); 
-      } finally { 
-        setLoading(false); 
+        // If the user was bounced here from a gated static page, send them back.
+        // ?next=/tests/test_1.html is appended by the test page's auth gate.
+        const params = new URLSearchParams(window.location.search);
+        const next = params.get('next');
+        if (next && next.startsWith('/')) {
+          window.location.href = next;
+        } else {
+          setCurrentPage('dashboard');
+        }
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
       }
     }
   };
