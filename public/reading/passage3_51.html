@@ -596,6 +596,28 @@ header.topbar {
   font-family: var(--sans); font-size: 13px;
   flex-shrink: 0; min-height: 56px;
 }
+.back-link {
+  display: inline-flex; align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  margin: 0 12px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  font-family: var(--sans); font-size: 12px; font-weight: 500;
+  color: var(--text-muted);
+  text-decoration: none;
+  white-space: nowrap;
+  flex-shrink: 0;
+  align-self: center;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.back-link:hover {
+  background: var(--bg-hover);
+  color: var(--text);
+  border-color: var(--border-strong);
+  text-decoration: none;
+}
+.back-link svg { width: 14px; height: 14px; }
 .part-section {
   display: flex; align-items: center;
   flex: 1 1 0;
@@ -1019,6 +1041,10 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
 </div>
 
 <div class="footer" id="footer">
+  <a href="https://ielts-wiz.com/reading" class="back-link" aria-label="Back to tests">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+    Back
+  </a>
   <div class="part-section" data-part="3" data-questions="[27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40]" data-entry-count="14">  <span class="part-label">Part 3</span>  <span class="part-progress">0/14</span>  <div class="q-palette"><button class="q-btn" data-part="3" data-q="27" data-qnums='[27]'>27</button><button class="q-btn" data-part="3" data-q="28" data-qnums='[28]'>28</button><button class="q-btn" data-part="3" data-q="29" data-qnums='[29]'>29</button><button class="q-btn" data-part="3" data-q="30" data-qnums='[30]'>30</button><button class="q-btn" data-part="3" data-q="31" data-qnums='[31]'>31</button><button class="q-btn" data-part="3" data-q="32" data-qnums='[32]'>32</button><button class="q-btn" data-part="3" data-q="33" data-qnums='[33]'>33</button><button class="q-btn" data-part="3" data-q="34" data-qnums='[34]'>34</button><button class="q-btn" data-part="3" data-q="35" data-qnums='[35]'>35</button><button class="q-btn" data-part="3" data-q="36" data-qnums='[36]'>36</button><button class="q-btn" data-part="3" data-q="37" data-qnums='[37]'>37</button><button class="q-btn" data-part="3" data-q="38" data-qnums='[38]'>38</button><button class="q-btn" data-part="3" data-q="39" data-qnums='[39]'>39</button><button class="q-btn" data-part="3" data-q="40" data-qnums='[40]'>40</button></div></div>
   <div class="nav-arrows" id="navArrows">
     <button class="nav-arrow" id="prevBtn" title="Previous question" aria-label="Previous">
