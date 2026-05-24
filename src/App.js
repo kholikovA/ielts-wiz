@@ -10,6 +10,7 @@ import GrammarPage from './components/GrammarPage';
 import PlaceholderPage from './components/PlaceholderPage';
 import AuthPage from './components/AuthPage';
 import Dashboard from './components/Dashboard';
+import Footer from './components/Footer';
 
 const PAGES_WITH_SUBPAGES = new Set(['speaking', 'listening', 'reading']);
 
@@ -83,10 +84,14 @@ const App = () => {
     );
   }
 
+  // Hide the footer on auth screens so it doesn't push the form below the fold.
+  const showFooter = !['login', 'signup'].includes(currentPage);
+
   return (
     <>
       <Navigation currentPage={currentPage} setCurrentPage={navigateTo} />
       {renderPage()}
+      {showFooter && <Footer setCurrentPage={navigateTo} />}
     </>
   );
 };

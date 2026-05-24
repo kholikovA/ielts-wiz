@@ -4,19 +4,21 @@ import { useTheme } from '../contexts/ThemeContext';
 import ThemeToggle from './ThemeToggle';
 import Logo from './Logo';
 import AVATAR_OPTIONS from '../data/avatar-options';
+import Icon from './ui/icons';
 
 const NAV_ITEMS = [
-  { id: 'listening', label: 'Listening' },
-  { id: 'reading', label: 'Reading' },
-  { id: 'writing', label: 'Writing' },
-  { id: 'speaking', label: 'Speaking' },
-  { id: 'grammar', label: 'Grammar' },
+  { id: 'listening', label: 'Listening', icon: 'headphones' },
+  { id: 'reading', label: 'Reading', icon: 'book' },
+  { id: 'writing', label: 'Writing', icon: 'pen' },
+  { id: 'speaking', label: 'Speaking', icon: 'mic' },
+  { id: 'grammar', label: 'Grammar', icon: 'graduation' },
 ];
 
 const Navigation = ({ currentPage, setCurrentPage }) => {
   const { user, profile, signOut } = useAuth();
   const { isDark, toggleTheme } = useTheme();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const menuRef = useRef(null);
 
   useEffect(() => {
@@ -30,22 +32,36 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, [showProfileMenu]);
 
+  // Lock body scroll when the mobile drawer is open
+  useEffect(() => {
+    if (mobileOpen) {
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+      return () => { document.body.style.overflow = prev; };
+    }
+  }, [mobileOpen]);
+
   const avatarSrc = profile?.avatar_index >= 0 ? AVATAR_OPTIONS[profile.avatar_index] : null;
   const initial = profile?.name?.charAt(0).toUpperCase() || user?.email?.charAt(0).toUpperCase() || '?';
 
   const menuItemStyle = {
     display: 'flex',
     alignItems: 'center',
-    gap: '0.5rem',
+    gap: 'var(--space-2)',
     width: '100%',
-    padding: '0.6rem 0.75rem',
-    borderRadius: '8px',
+    padding: 'var(--space-3) var(--space-3)',
+    borderRadius: 'var(--r-md)',
     border: 'none',
     background: 'transparent',
     color: 'var(--text-primary)',
-    fontSize: '0.875rem',
+    fontSize: 'var(--text-sm)',
     cursor: 'pointer',
     textAlign: 'left',
+  };
+
+  const navigate = (page) => {
+    setCurrentPage(page);
+    setMobileOpen(false);
   };
 
   return (
@@ -55,14 +71,14 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
       left: 0,
       right: 0,
       zIndex: 1000,
-      padding: '0.75rem 2rem',
+      padding: 'var(--space-3) var(--space-6)',
       background: 'var(--nav-bg)',
       backdropFilter: 'blur(20px)',
       borderBottom: '1px solid var(--border-color)',
     }}>
       <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative' }}>
         <Logo onClick={() => setCurrentPage('home')} />
-        <div className="hide-mobile" style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: '0.25rem' }}>
+        <div className="hide-mobile" style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: 'var(--space-1)' }}>
           {NAV_ITEMS.map(item => {
             const isActive = currentPage === item.id;
             return (
@@ -71,15 +87,15 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
                 onClick={() => setCurrentPage(item.id)}
                 aria-current={isActive ? 'page' : undefined}
                 style={{
-                  padding: '0.5rem 0.875rem',
-                  borderRadius: '8px',
+                  padding: 'var(--space-2) var(--space-3)',
+                  borderRadius: 'var(--r-md)',
                   border: 'none',
                   background: isActive ? 'var(--purple-600)' : 'transparent',
                   color: isActive ? 'white' : 'var(--text-secondary)',
-                  fontSize: '0.875rem',
-                  fontWeight: '500',
+                  fontSize: 'var(--text-sm)',
+                  fontWeight: 500,
                   cursor: 'pointer',
-                  transition: 'background 0.2s ease, color 0.2s ease',
+                  transition: 'background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease)',
                 }}
               >
                 {item.label}
@@ -87,7 +103,7 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
             );
           })}
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
           {user ? (
             <div ref={menuRef} style={{ position: 'relative' }}>
               <button
@@ -103,8 +119,8 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  fontWeight: '600',
-                  fontSize: '0.875rem',
+                  fontWeight: 600,
+                  fontSize: 'var(--text-sm)',
                   cursor: 'pointer',
                   color: 'white',
                   overflow: 'hidden',
@@ -118,22 +134,18 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
                 )}
               </button>
               {showProfileMenu && (
-                <div role="menu" style={{ position: 'absolute', top: '44px', right: 0, background: 'var(--card-bg)', border: '1px solid var(--border-color)', borderRadius: '12px', padding: '0.5rem', minWidth: '180px', zIndex: 1000, boxShadow: '0 8px 24px rgba(0,0,0,0.15)' }}>
+                <div role="menu" style={{ position: 'absolute', top: '44px', right: 0, background: 'var(--card-bg)', border: '1px solid var(--border-color)', borderRadius: 'var(--r-lg)', padding: 'var(--space-2)', minWidth: '180px', zIndex: 1000, boxShadow: '0 8px 24px rgba(0,0,0,0.15)' }}>
                   <button role="menuitem" onClick={() => { setCurrentPage('dashboard'); setShowProfileMenu(false); }} style={menuItemStyle}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+                    <Icon name="layout" size={16} />
                     Dashboard
                   </button>
                   <button role="menuitem" onClick={() => { toggleTheme(); setShowProfileMenu(false); }} style={menuItemStyle}>
-                    {isDark ? (
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><circle cx="12" cy="12" r="5"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-                    ) : (
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-                    )}
+                    <Icon name={isDark ? 'sun' : 'moon'} size={16} />
                     {isDark ? 'Light Mode' : 'Dark Mode'}
                   </button>
-                  <div style={{ height: '1px', background: 'var(--border-color)', margin: '0.25rem 0' }} />
+                  <div style={{ height: '1px', background: 'var(--border-color)', margin: 'var(--space-1) 0' }} />
                   <button role="menuitem" onClick={() => { signOut().then(() => setCurrentPage('home')); setShowProfileMenu(false); }} style={{ ...menuItemStyle, color: 'var(--error)' }}>
-                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" aria-hidden="true"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                    <Icon name="logout" size={16} />
                     Log Out
                   </button>
                 </div>
@@ -141,12 +153,76 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
             </div>
           ) : (
             <>
-              <ThemeToggle />
-              <button onClick={() => setCurrentPage('login')} style={{ padding: '0.5rem 1.25rem', borderRadius: '10px', border: 'none', background: 'linear-gradient(135deg, var(--purple-600), var(--purple-700))', color: 'white', fontSize: '0.875rem', fontWeight: '600', cursor: 'pointer' }}>Sign In</button>
+              <span className="hide-mobile"><ThemeToggle /></span>
+              <button className="hide-mobile" onClick={() => setCurrentPage('login')} style={{ padding: 'var(--space-2) var(--space-5)', borderRadius: 'var(--r-md)', border: 'none', background: 'linear-gradient(135deg, var(--purple-600), var(--purple-700))', color: 'white', fontSize: 'var(--text-sm)', fontWeight: 600, cursor: 'pointer' }}>Sign In</button>
             </>
           )}
+          <button
+            className="mobile-menu-btn"
+            onClick={() => setMobileOpen(true)}
+            aria-label="Open menu"
+          >
+            <Icon name="menu" size={20} />
+          </button>
         </div>
       </div>
+
+      {mobileOpen && (
+        <div className="mobile-menu-drawer" onClick={() => setMobileOpen(false)}>
+          <aside
+            className="mobile-menu-panel"
+            onClick={(e) => e.stopPropagation()}
+            role="dialog"
+            aria-label="Site menu"
+          >
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-2)' }}>
+              <span style={{ fontFamily: 'var(--font-display)', fontWeight: 700, fontSize: 'var(--text-lg)', color: 'var(--text-primary)' }}>Menu</span>
+              <button
+                onClick={() => setMobileOpen(false)}
+                aria-label="Close menu"
+                style={{ width: '36px', height: '36px', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', borderRadius: 'var(--r-md)', border: '1px solid var(--border-color)', background: 'transparent', color: 'var(--text-primary)', cursor: 'pointer' }}
+              >
+                <Icon name="close" size={18} />
+              </button>
+            </div>
+            {NAV_ITEMS.map(item => (
+              <button
+                key={item.id}
+                className={`mobile-menu-item ${currentPage === item.id ? 'is-active' : ''}`}
+                onClick={() => navigate(item.id)}
+              >
+                <Icon name={item.icon} size={18} />
+                {item.label}
+              </button>
+            ))}
+            <div style={{ height: '1px', background: 'var(--border-color)', margin: 'var(--space-3) 0' }} />
+            {user ? (
+              <>
+                <button className="mobile-menu-item" onClick={() => navigate('dashboard')}>
+                  <Icon name="layout" size={18} /> Dashboard
+                </button>
+                <button className="mobile-menu-item" onClick={() => { toggleTheme(); }}>
+                  <Icon name={isDark ? 'sun' : 'moon'} size={18} />
+                  {isDark ? 'Light Mode' : 'Dark Mode'}
+                </button>
+                <button className="mobile-menu-item" onClick={() => signOut().then(() => navigate('home'))} style={{ color: 'var(--error)' }}>
+                  <Icon name="logout" size={18} /> Log Out
+                </button>
+              </>
+            ) : (
+              <>
+                <button className="mobile-menu-item" onClick={() => { toggleTheme(); }}>
+                  <Icon name={isDark ? 'sun' : 'moon'} size={18} />
+                  {isDark ? 'Light Mode' : 'Dark Mode'}
+                </button>
+                <button className="btn btn-primary" style={{ marginTop: 'var(--space-2)' }} onClick={() => navigate('login')}>
+                  Sign In
+                </button>
+              </>
+            )}
+          </aside>
+        </div>
+      )}
     </nav>
   );
 };
