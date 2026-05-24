@@ -14,15 +14,25 @@ import Footer from './components/Footer';
 
 const PAGES_WITH_SUBPAGES = new Set(['speaking', 'listening', 'reading']);
 
+// Default subPage when a section is opened without one in the URL.
+// The skill landing pages now land directly on practice (not an overview).
+const DEFAULT_SUBPAGE = {
+  speaking: 'part1-2026',
+  listening: 'part1',
+  reading: 'passage1',
+};
+
 const parseUrlToState = () => {
   const parts = window.location.pathname.split('/').filter(Boolean);
-  if (parts.length === 0 || parts[0] === 'home') return { page: 'home', subPage: 'overview' };
-  return { page: parts[0], subPage: parts[1] || 'overview' };
+  if (parts.length === 0 || parts[0] === 'home') return { page: 'home', subPage: null };
+  const page = parts[0];
+  const subPage = parts[1] || DEFAULT_SUBPAGE[page] || null;
+  return { page, subPage };
 };
 
 const stateToUrl = (page, subPage) => {
   if (page === 'home') return '/';
-  if (subPage && subPage !== 'overview') return `/${page}/${subPage}`;
+  if (subPage && subPage !== DEFAULT_SUBPAGE[page]) return `/${page}/${subPage}`;
   return `/${page}`;
 };
 
@@ -30,9 +40,9 @@ const App = () => {
   const initial = parseUrlToState();
   const [currentPage, setCurrentPage] = useState(initial.page);
   const [subPages, setSubPages] = useState({
-    speaking: initial.page === 'speaking' ? initial.subPage : 'overview',
-    listening: initial.page === 'listening' ? initial.subPage : 'overview',
-    reading: initial.page === 'reading' ? initial.subPage : 'overview',
+    speaking: initial.page === 'speaking' && initial.subPage ? initial.subPage : DEFAULT_SUBPAGE.speaking,
+    listening: initial.page === 'listening' && initial.subPage ? initial.subPage : DEFAULT_SUBPAGE.listening,
+    reading: initial.page === 'reading' && initial.subPage ? initial.subPage : DEFAULT_SUBPAGE.reading,
   });
   const { loading } = useAuth();
 
@@ -48,11 +58,12 @@ const App = () => {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  const navigateTo = (page, subPage = 'overview') => {
-    window.history.pushState({}, '', stateToUrl(page, subPage));
+  const navigateTo = (page, subPage) => {
+    const resolvedSub = subPage || DEFAULT_SUBPAGE[page] || null;
+    window.history.pushState({}, '', stateToUrl(page, resolvedSub));
     setCurrentPage(page);
-    if (PAGES_WITH_SUBPAGES.has(page)) {
-      setSubPages(prev => ({ ...prev, [page]: subPage }));
+    if (PAGES_WITH_SUBPAGES.has(page) && resolvedSub) {
+      setSubPages(prev => ({ ...prev, [page]: resolvedSub }));
     }
   };
 

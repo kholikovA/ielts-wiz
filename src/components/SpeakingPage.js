@@ -4,6 +4,15 @@ import { speakingPart2Data } from '../data/speaking-part2';
 import { speakingPart3Data } from '../data/speaking-part3';
 import { vocabDefinitions } from '../data/vocab-definitions';
 import HighlightedAnswer from './HighlightedAnswer';
+import SubNav from './ui/SubNav';
+import PageHeader from './ui/PageHeader';
+import CollapsibleAbout from './ui/CollapsibleAbout';
+
+const PARTS = [
+  { id: 'part1-2026', label: 'Part 1', desc: 'Personal questions on familiar topics — home, work, interests. 4–5 minutes.' },
+  { id: 'part2-2026', label: 'Part 2', desc: 'The long turn — speak for 1–2 minutes on a cue card after 1 minute of preparation.' },
+  { id: 'part3-2026', label: 'Part 3', desc: 'Abstract discussion related to your Part 2 topic — extended answers, 4–5 minutes.' },
+];
 
 const SpeakingPage = ({ subPage, setSubPage }) => {
   const [selectedTopic, setSelectedTopic] = useState(null);
@@ -16,101 +25,39 @@ const SpeakingPage = ({ subPage, setSubPage }) => {
     setShowAnswers(prev => ({ ...prev, [key]: !prev[key] }));
   };
 
-  // Sub-navigation for speaking
-  const speakingSubNav = [
-    { id: 'overview', label: 'Overview' },
-    { id: 'part1-2026', label: 'Part 1' },
-    { id: 'part2-2026', label: 'Part 2' },
-    { id: 'part3-2026', label: 'Part 3' },
-  ];
+  // Default to Part 1 — drops the marketing "Overview" landing.
+  const active = PARTS.find(p => p.id === subPage)?.id || 'part1-2026';
+  const activePart = PARTS.find(p => p.id === active);
+
+  const onChange = (id) => {
+    setSubPage(id);
+    setSelectedTopic(null);
+    setSelectedPart2Topic(null);
+    setSelectedPart3Topic(null);
+  };
 
   return (
     <div style={{ paddingTop: '100px', minHeight: '100vh' }}>
-      <div style={{ maxWidth: '900px', margin: '0 auto', padding: '2rem' }}>
-        <div style={{ marginBottom: '2rem' }}>
-          <h1 style={{ fontSize: '2.5rem', fontWeight: '700', marginBottom: '0.75rem', color: 'var(--text-primary)' }}>
-            Speaking <span style={{ color: 'var(--purple-400)' }}>Practice</span>
-          </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '1.1rem' }}>Real IELTS questions with natural Band 9 answers</p>
-        </div>
+      <div className="page-section" style={{ maxWidth: '900px' }}>
+        <PageHeader
+          eyebrow="Speaking · Band 9 Answers"
+          title={<>Sound natural, <span className="gradient-text">say more.</span></>}
+          lead="Real exam questions across all three parts with Band 9 sample answers, cue cards, and a built-in vocabulary explainer."
+        />
 
-        {/* Sub Navigation */}
-        <div style={{ display: 'flex', gap: '0.5rem', marginBottom: '2rem', flexWrap: 'wrap' }}>
-          {speakingSubNav.map(item => (
-            <button
-              key={item.id}
-              onClick={() => { setSubPage(item.id); setSelectedTopic(null); setSelectedPart2Topic(null); setSelectedPart3Topic(null); }}
-              style={{
-                padding: '0.625rem 1.25rem',
-                borderRadius: '10px',
-                border: (subPage || 'overview') === item.id ? 'none' : '1px solid var(--border-color)',
-                background: (subPage || 'overview') === item.id ? 'linear-gradient(135deg, var(--purple-600), var(--purple-700))' : 'transparent',
-                color: (subPage || 'overview') === item.id ? 'white' : 'var(--text-secondary)',
-                fontSize: '0.9rem',
-                fontWeight: '500',
-                cursor: 'pointer',
-              }}
-            >
-              {item.label}
-            </button>
-          ))}
-        </div>
+        <SubNav
+          items={PARTS.map(p => ({ id: p.id, label: p.label }))}
+          value={active}
+          onChange={onChange}
+        />
 
-        {/* Overview Page */}
-        {(subPage || 'overview') === 'overview' && (
-          <div>
-            {/* About IELTS Speaking */}
-            <div style={{ padding: '2rem', borderRadius: '16px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', marginBottom: '2rem' }}>
-              <h2 style={{ fontSize: '1.5rem', fontWeight: '600', marginBottom: '1rem', color: 'var(--text-primary)' }}>About IELTS Speaking</h2>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: '1.8', marginBottom: '1rem' }}>
-                The IELTS Speaking test is a face-to-face interview lasting 11-14 minutes, designed to assess your ability to communicate effectively in English. It evaluates you across four key criteria: Fluency and Coherence, Lexical Resource, Grammatical Range and Accuracy, and Pronunciation.
-              </p>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: '1.8', marginBottom: '1rem' }}>
-                The test consists of three parts. Part 1 involves personal questions about familiar topics like home, work, and interests (4-5 minutes). Part 2 requires you to speak for 1-2 minutes on a given topic after one minute of preparation – this is known as the "long turn." Part 3 features a two-way discussion with the examiner on more abstract themes related to Part 2 (4-5 minutes).
-              </p>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '0.95rem', lineHeight: '1.8', marginBottom: '1.5rem' }}>
-                Success in the Speaking test comes from natural delivery, varied vocabulary, accurate grammar, and clear pronunciation. Our practice materials include authentic questions from recent exams and Band 9 model answers to help you understand what examiners are looking for.
-              </p>
-              <a 
-                href="https://www.ielts.org/for-test-takers/how-ielts-is-scored" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                style={{ 
-                  display: 'inline-flex', 
-                  alignItems: 'center', 
-                  gap: '0.5rem',
-                  color: 'var(--purple-400)', 
-                  fontSize: '0.95rem',
-                  textDecoration: 'none',
-                }}
-              >
-                📚 View Official IELTS Speaking Resources →
-              </a>
-            </div>
+        <p className="body" style={{ marginTop: '-1rem', marginBottom: 'var(--space-6)', fontSize: 'var(--text-sm)' }}>
+          {activePart.desc}
+        </p>
 
-            {/* Part Cards */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
-              <div onClick={() => setSubPage('part1-2026')} className="card-hover" style={{ padding: '1.5rem', borderRadius: '16px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', cursor: 'pointer' }}>
-                <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>🎤</div>
-                <h3 style={{ fontSize: '1.2rem', fontWeight: '600', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>Part 1: Introduction</h3>
-                <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.6' }}>Personal questions about familiar topics. 4-5 minutes. 16 topics available.</p>
-              </div>
-              <div onClick={() => setSubPage('part2-2026')} className="card-hover" style={{ padding: '1.5rem', borderRadius: '16px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', cursor: 'pointer' }}>
-                <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>📝</div>
-                <h3 style={{ fontSize: '1.2rem', fontWeight: '600', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>Part 2: Long Turn</h3>
-                <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.6' }}>Speak for 1-2 minutes on a given topic with preparation time. 27 cue cards.</p>
-              </div>
-              <div onClick={() => setSubPage('part3-2026')} className="card-hover" style={{ padding: '1.5rem', borderRadius: '16px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', cursor: 'pointer' }}>
-                <div style={{ fontSize: '2.5rem', marginBottom: '0.75rem' }}>💬</div>
-                <h3 style={{ fontSize: '1.2rem', fontWeight: '600', marginBottom: '0.5rem', color: 'var(--text-primary)' }}>Part 3: Discussion</h3>
-                <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem', lineHeight: '1.6' }}>Abstract questions related to Part 2 topics. 4-5 minutes. 27 discussion topics.</p>
-              </div>
-            </div>
-          </div>
-        )}
 
         {/* Part 1 Jan-Aug 2026 Questions */}
-        {subPage === 'part1-2026' && (
+        {active === 'part1-2026' && (
           <div>
             <div style={{ padding: '1rem 1.5rem', borderRadius: '12px', background: 'var(--tag-bg)', marginBottom: '1.5rem' }}>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
@@ -162,7 +109,7 @@ const SpeakingPage = ({ subPage, setSubPage }) => {
         )}
 
         {/* Part 2 Questions */}
-        {subPage === 'part2-2026' && (
+        {active === 'part2-2026' && (
           <div>
             <div style={{ padding: '1rem 1.5rem', borderRadius: '12px', background: 'var(--tag-bg)', marginBottom: '1.5rem' }}>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
@@ -266,7 +213,7 @@ const SpeakingPage = ({ subPage, setSubPage }) => {
         )}
 
         {/* Part 3 Questions */}
-        {subPage === 'part3-2026' && (
+        {active === 'part3-2026' && (
           <div>
             <div style={{ padding: '1rem 1.5rem', borderRadius: '12px', background: 'var(--tag-bg)', marginBottom: '1.5rem' }}>
               <p style={{ color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
@@ -328,6 +275,22 @@ const SpeakingPage = ({ subPage, setSubPage }) => {
             </div>
           </div>
         )}
+
+        <CollapsibleAbout
+          title="About IELTS Speaking"
+          resourceHref="https://www.ielts.org/for-test-takers/how-ielts-is-scored"
+          resourceLabel="View official IELTS Speaking resources"
+        >
+          <p style={{ marginBottom: 'var(--space-4)' }}>
+            The IELTS Speaking test is a face-to-face interview lasting 11–14 minutes. It assesses you across four criteria: Fluency and Coherence, Lexical Resource, Grammatical Range and Accuracy, and Pronunciation.
+          </p>
+          <p style={{ marginBottom: 'var(--space-4)' }}>
+            The test has three parts. Part 1: personal questions about familiar topics (4–5 min). Part 2: the "long turn" — 1–2 min on a cue card after 1 min of preparation. Part 3: a discussion of more abstract themes related to Part 2 (4–5 min).
+          </p>
+          <p style={{ margin: 0 }}>
+            Success comes from natural delivery, varied vocabulary, accurate grammar, and clear pronunciation. Our materials include authentic questions from recent exams and Band 9 sample answers — hover any highlighted phrase to see why it works.
+          </p>
+        </CollapsibleAbout>
       </div>
     </div>
   );
