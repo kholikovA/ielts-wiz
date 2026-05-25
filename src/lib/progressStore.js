@@ -125,4 +125,39 @@ export const getCurrentStreak = () => {
   return streak;
 };
 
+// Entries on a specific date (used by the heatmap drill-down modal).
+export const getActivityOnDate = (isoDate) => {
+  return getActivity().filter(e => e && e.d === isoDate);
+};
+
+// Most-recent activity for one skill kind, newest first. `limit` defaults to 5.
+export const getRecentByKind = (kind, limit = 5) => {
+  return getActivity()
+    .filter(e => e && e.t === kind)
+    .reverse()
+    .slice(0, limit);
+};
+
+// Best (highest correct/total ratio) and average score across all entries for a kind.
+export const getStatsByKind = (kind) => {
+  const entries = getActivity().filter(e => e && e.t === kind && e.total > 0);
+  if (entries.length === 0) return { best: null, avg: null, attempts: 0 };
+  const ratios = entries.map(e => e.correct / e.total);
+  const best = Math.max(...ratios);
+  const avg = ratios.reduce((s, r) => s + r, 0) / ratios.length;
+  return { best, avg, attempts: entries.length };
+};
+
+// Friendly label for a kind code (used by the day-detail and history views).
+export const KIND_LABELS = {
+  listening:  'Listening',
+  reading_p1: 'Reading · Passage 1',
+  reading_p2: 'Reading · Passage 2',
+  reading_p3: 'Reading · Passage 3',
+  grammar:    'Grammar',
+  writing:    'Writing',
+};
+
+export const labelForKind = (kind) => KIND_LABELS[kind] || kind;
+
 export const STORAGE_KEYS = KEYS;
