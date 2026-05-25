@@ -126,11 +126,11 @@ const TopicPage = ({ topic, levelName, onBack }) => {
               <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
                 {s.notice.examples.map((ex, i) => (
                   <div key={i} className="card">
-                    <p style={{ fontSize: 'var(--text-lg)', color: 'var(--text-primary)', marginBottom: 'var(--space-3)', lineHeight: 1.6 }}>
+                    <p style={{ fontSize: 'var(--text-reading)', color: 'var(--text-primary)', marginBottom: 'var(--space-3)', lineHeight: 1.7 }}>
                       "{ex.text}"
                     </p>
                     {ex.note && (
-                      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-tertiary)', fontStyle: 'italic', margin: 0 }}>
+                      <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', fontStyle: 'italic', margin: 0, lineHeight: 1.6 }}>
                         {ex.note}
                       </p>
                     )}

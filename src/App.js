@@ -23,7 +23,7 @@ const DEFAULT_SUBPAGE = {
   listening: 'part1',
   reading: 'passage1',
   grammar: 'hub',
-  writing: 'task1',
+  writing: 'practice',
 };
 
 const parseUrlToState = () => {
