@@ -1947,9 +1947,14 @@ According to Meyer, it is the suspenseful tension of music, arising out of unful
     }
 
     // ----- Completion + activity logging ------------------------------------
-    // Versioned localStorage keys (iw.v1.*) so future schema changes can
-    // migrate cleanly without losing user progress. The React dashboard reads
-    // the same keys. Do not rename these.
+    // Two writes:
+    //   1. Versioned localStorage (iw.v1.*) — instant cache, offline-safe.
+    //      The React dashboard reads from these keys.
+    //   2. Best-effort Supabase REST insert into user_test_results — gives the
+    //      user cross-device persistence. Silent on failure: the local copy
+    //      is already saved, and Dashboard.pullAndMerge() will reconcile next
+    //      time they open the app.
+    // Do not rename these keys. They are part of the user-data contract.
     try {
       const COMPLETION_KEY_FOR = {
         listening:  "iw.v1.completed.listening",
@@ -1979,6 +1984,40 @@ According to Meyer, it is the suspenseful tension of music, arising out of unful
         });
         while (activity.length > 400) activity.shift();
         localStorage.setItem(ACTIVITY_KEY, JSON.stringify(activity));
+
+        // Best-effort cross-device sync. SUPABASE_URL + SUPABASE_ANON_KEY are
+        // public values (anon key + RLS-protected table). No-op if missing.
+        var SUPABASE_URL = "https://jaucbfremtxmanciflab.supabase.co";
+        var SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImphdWNiZnJlbXR4bWFuY2lmbGFiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwODU2MTcsImV4cCI6MjA4NDY2MTYxN30.8unfikMze_UhgQL-ex5tutPTDgmQ0wP-tQBiCZATqTs";
+        if (SUPABASE_URL && SUPABASE_ANON_KEY && TEST_KIND && TEST_ID) {
+          var accessToken = null;
+          for (var i = 0; i < localStorage.length; i++) {
+            var key = localStorage.key(i);
+            if (!key || key.indexOf("sb-") !== 0 || key.indexOf("-auth-token") < 0) continue;
+            try {
+              var val = JSON.parse(localStorage.getItem(key));
+              if (val && val.access_token) { accessToken = val.access_token; break; }
+            } catch (e) {}
+          }
+          if (accessToken) {
+            fetch(SUPABASE_URL + "/rest/v1/user_test_results", {
+              method: "POST",
+              headers: {
+                "apikey": SUPABASE_ANON_KEY,
+                "Authorization": "Bearer " + accessToken,
+                "Content-Type": "application/json",
+                "Prefer": "return=minimal"
+              },
+              body: JSON.stringify({
+                kind: TEST_KIND,
+                test_id: String(TEST_ID),
+                correct: correctCount,
+                total: TOTAL_QUESTIONS,
+                completed_at: new Date().toISOString()
+              })
+            }).catch(function () { /* silent; localStorage is authoritative locally */ });
+          }
+        }
       }
     } catch (e) {
       // localStorage may be disabled in private windows; don't break the test.

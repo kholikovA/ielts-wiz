@@ -7,12 +7,13 @@ import SpeakingPage from './components/SpeakingPage';
 import ListeningPage from './components/ListeningPage';
 import ReadingPage from './components/ReadingPage';
 import GrammarPage from './components/GrammarPage';
-import PlaceholderPage from './components/PlaceholderPage';
+import WritingPage from './components/WritingPage';
 import AuthPage from './components/AuthPage';
 import Dashboard from './components/Dashboard';
+import HistoryPage from './components/HistoryPage';
 import Footer from './components/Footer';
 
-const PAGES_WITH_SUBPAGES = new Set(['speaking', 'listening', 'reading', 'grammar']);
+const PAGES_WITH_SUBPAGES = new Set(['speaking', 'listening', 'reading', 'grammar', 'writing']);
 
 // Default subPage when a section is opened without one in the URL.
 // The skill landing pages now land directly on practice (not an overview).
@@ -21,6 +22,7 @@ const DEFAULT_SUBPAGE = {
   listening: 'part1',
   reading: 'passage1',
   grammar: 'hub',
+  writing: 'task1',
 };
 
 const parseUrlToState = () => {
@@ -45,6 +47,7 @@ const App = () => {
     listening: initial.page === 'listening' && initial.subPage ? initial.subPage : DEFAULT_SUBPAGE.listening,
     reading: initial.page === 'reading' && initial.subPage ? initial.subPage : DEFAULT_SUBPAGE.reading,
     grammar: initial.page === 'grammar' && initial.subPage ? initial.subPage : DEFAULT_SUBPAGE.grammar,
+    writing: initial.page === 'writing' && initial.subPage ? initial.subPage : DEFAULT_SUBPAGE.writing,
   });
   const { loading } = useAuth();
 
@@ -81,10 +84,11 @@ const App = () => {
       case 'listening': return <ListeningPage subPage={subPages.listening} setSubPage={updateSubPage('listening')} setCurrentPage={navigateTo} />;
       case 'reading': return <ReadingPage subPage={subPages.reading} setSubPage={updateSubPage('reading')} setCurrentPage={navigateTo} />;
       case 'grammar': return <GrammarPage subPage={subPages.grammar} setSubPage={updateSubPage('grammar')} />;
-      case 'writing': return <PlaceholderPage title="Writing Section" description="Task 1 & Task 2 with model essays. Coming soon!" icon="✍️" />;
+      case 'writing': return <WritingPage subPage={subPages.writing} setSubPage={updateSubPage('writing')} setCurrentPage={navigateTo} />;
       case 'login': return <AuthPage type="login" setCurrentPage={navigateTo} />;
       case 'signup': return <AuthPage type="signup" setCurrentPage={navigateTo} />;
       case 'dashboard': return <Dashboard setCurrentPage={navigateTo} />;
+      case 'history': return <HistoryPage setCurrentPage={navigateTo} />;
       default: return <HomePage setCurrentPage={navigateTo} />;
     }
   };

@@ -1,5 +1,5 @@
-import React from 'react';
-import { getActivityByDay } from '../../lib/progressStore';
+import React, { useState } from 'react';
+import { getActivityByDay, getActivityOnDate, labelForKind } from '../../lib/progressStore';
 
 // GitHub-style activity heatmap. Renders the last `weeks` columns of 7 days
 // each, with cell shade proportional to # of tests completed that day.
@@ -52,8 +52,67 @@ const shadeFor = (count, max) => {
 
 const MONTH_LABELS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 
-const ActivityHeatmap = () => {
+const formatDate = (iso) => {
+  try {
+    const d = new Date(iso + 'T00:00:00');
+    return d.toLocaleDateString(undefined, { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' });
+  } catch { return iso; }
+};
+
+const DayDetailModal = ({ date, entries, onClose, onGoToHistory }) => (
+  <div className="modal-backdrop" onClick={onClose}>
+    <div className="modal-card" onClick={(e) => e.stopPropagation()} style={{ maxWidth: 520 }}>
+      <div className="eyebrow" style={{ marginBottom: 'var(--space-2)' }}>{formatDate(date)}</div>
+      <h3 className="h3" style={{ color: 'var(--text-primary)', marginBottom: 'var(--space-4)' }}>
+        {entries.length === 0 ? 'Nothing logged' : `${entries.length} test${entries.length === 1 ? '' : 's'} completed`}
+      </h3>
+      {entries.length === 0 ? (
+        <p className="body" style={{ fontSize: 'var(--text-sm)', marginBottom: 'var(--space-5)' }}>
+          No activity recorded on this date.
+        </p>
+      ) : (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-2)', marginBottom: 'var(--space-5)' }}>
+          {entries.map((e, i) => {
+            const ratio = e.total > 0 ? e.correct / e.total : 0;
+            const color = ratio >= 0.85 ? 'var(--success)' : ratio >= 0.6 ? 'var(--amber-400)' : 'var(--error)';
+            return (
+              <div key={i} className="panel" style={{ padding: 'var(--space-3) var(--space-4)', display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: 'var(--space-3)' }}>
+                <div style={{ minWidth: 0 }}>
+                  <div style={{ fontWeight: 500, color: 'var(--text-primary)', fontSize: 'var(--text-sm)' }}>
+                    {labelForKind(e.t)}
+                  </div>
+                  <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)' }}>
+                    Test {e.id}
+                  </div>
+                </div>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--space-2)' }}>
+                  <span style={{ fontFamily: 'var(--font-mono)', fontWeight: 700, color, fontSize: 'var(--text-lg)' }}>
+                    {e.correct}
+                  </span>
+                  <span style={{ color: 'var(--text-tertiary)', fontSize: 'var(--text-xs)' }}>/ {e.total}</span>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+      <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
+        {onGoToHistory && (
+          <button type="button" className="btn btn-secondary" onClick={onGoToHistory} style={{ flex: 1 }}>
+            See full history
+          </button>
+        )}
+        <button type="button" className="btn btn-primary" onClick={onClose} style={{ flex: 1 }}>
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+);
+
+const ActivityHeatmap = ({ onGoToHistory }) => {
   const { grid, max } = buildGrid();
+  const [selectedDate, setSelectedDate] = useState(null);
   const totalThisWindow = grid.reduce(
     (sum, week) => sum + week.reduce((s, d) => s + d.count, 0),
     0
@@ -103,24 +162,42 @@ const ActivityHeatmap = () => {
           <div style={{ display: 'flex', gap: GAP }}>
             {grid.map((week, wi) => (
               <div key={wi} style={{ display: 'flex', flexDirection: 'column', gap: GAP }}>
-                {week.map((cell, di) => (
-                  <div
-                    key={di}
-                    title={cell.future ? '' : `${cell.date}: ${cell.count} test${cell.count === 1 ? '' : 's'}`}
-                    style={{
-                      width: CELL,
-                      height: CELL,
-                      borderRadius: 2,
-                      background: cell.future ? 'transparent' : shadeFor(cell.count, max || 1),
-                      border: cell.future ? 'none' : '1px solid rgba(0,0,0,0.04)',
-                    }}
-                  />
-                ))}
+                {week.map((cell, di) => {
+                  const interactive = !cell.future && cell.count > 0;
+                  return (
+                    <button
+                      key={di}
+                      type="button"
+                      onClick={() => interactive && setSelectedDate(cell.date)}
+                      disabled={!interactive}
+                      title={cell.future ? '' : `${cell.date}: ${cell.count} test${cell.count === 1 ? '' : 's'}`}
+                      aria-label={cell.future ? '' : `${cell.count} tests on ${cell.date}`}
+                      style={{
+                        width: CELL,
+                        height: CELL,
+                        borderRadius: 2,
+                        background: cell.future ? 'transparent' : shadeFor(cell.count, max || 1),
+                        border: cell.future ? 'none' : '1px solid rgba(0,0,0,0.04)',
+                        cursor: interactive ? 'pointer' : 'default',
+                        padding: 0,
+                      }}
+                    />
+                  );
+                })}
               </div>
             ))}
           </div>
         </div>
       </div>
+
+      {selectedDate && (
+        <DayDetailModal
+          date={selectedDate}
+          entries={getActivityOnDate(selectedDate)}
+          onClose={() => setSelectedDate(null)}
+          onGoToHistory={onGoToHistory ? () => { setSelectedDate(null); onGoToHistory(); } : null}
+        />
+      )}
     </div>
   );
 };

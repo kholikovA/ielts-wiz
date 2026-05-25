@@ -5,6 +5,7 @@ import PageHeader from './ui/PageHeader';
 import Icon from './ui/icons';
 import ActivityHeatmap from './ui/ActivityHeatmap';
 import { getCompletedIds, getCurrentStreak, migrateLegacy } from '../lib/progressStore';
+import { pullAndMerge } from '../lib/cloudSync';
 
 // Practice catalog totals — bump when content grows.
 const SECTIONS = [
@@ -44,15 +45,30 @@ const Dashboard = ({ setCurrentPage }) => {
   // Read completion counts from versioned progress store on mount. Reads
   // happen here (not in the per-section render) so the value can drive both
   // the section list and the overall stats strip below.
-  const [completed] = useState(() => {
+  const [completed, setCompleted] = useState(() => {
     migrateLegacy();
     return Object.fromEntries(SECTIONS.map(s => [s.id, getCompletedIds(s.kind).length]));
   });
-  const streak = getCurrentStreak();
+  const [streak, setStreak] = useState(() => getCurrentStreak());
 
   useEffect(() => {
     if (profile?.target_score) setEditTarget(profile.target_score.toString());
   }, [profile]);
+
+  // Cross-device sync: on mount, pull any server-side test results recorded on
+  // other devices and merge them into the local cache. Best-effort — silent on
+  // failure, the dashboard still works offline.
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      const res = await pullAndMerge();
+      if (!cancelled && res?.added > 0) {
+        setCompleted(Object.fromEntries(SECTIONS.map(s => [s.id, getCompletedIds(s.kind).length])));
+        setStreak(getCurrentStreak());
+      }
+    })();
+    return () => { cancelled = true; };
+  }, []);
 
   if (!user) return null;
 
@@ -182,14 +198,46 @@ const Dashboard = ({ setCurrentPage }) => {
           </div>
         </div>
 
+        {/* First-time onboarding card — only renders when the user has zero
+            completed tests across all skills. Disappears once they finish their
+            first practice, so this isn't a permanent dashboard fixture. */}
+        {totalCompleted === 0 && (
+          <div className="panel panel-info" style={{ marginBottom: 'var(--space-5)', padding: 'var(--space-6)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-2)' }}>
+              <Icon name="compass" size={18} style={{ color: 'var(--purple-400)' }} />
+              <h3 className="h3" style={{ color: 'var(--text-primary)', fontSize: 'var(--text-lg)' }}>
+                Welcome — start here
+              </h3>
+            </div>
+            <p className="body" style={{ fontSize: 'var(--text-sm)', marginBottom: 'var(--space-4)' }}>
+              Take a single timed test in any section to get a real diagnostic. The score lands on this dashboard, builds your activity heatmap, and starts your streak.
+            </p>
+            <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
+              <button type="button" className="btn btn-primary" onClick={() => setCurrentPage('listening')}>
+                Start with Listening <Icon name="arrowRight" size={14} />
+              </button>
+              <button type="button" className="btn btn-secondary" onClick={() => setCurrentPage('reading')}>
+                Or try Reading
+              </button>
+            </div>
+          </div>
+        )}
+
         {/* Activity heatmap — last 6 months. Reads from progressStore which is
             the same key HTML test pages write on submit. */}
         <div className="card" style={{ marginBottom: 'var(--space-5)' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-4)' }}>
-            <Icon name="trending" size={18} style={{ color: 'var(--purple-400)' }} />
-            <h2 className="h3" style={{ color: 'var(--text-primary)' }}>Activity</h2>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 'var(--space-4)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+              <Icon name="trending" size={18} style={{ color: 'var(--purple-400)' }} />
+              <h2 className="h3" style={{ color: 'var(--text-primary)' }}>Activity</h2>
+            </div>
+            {totalCompleted > 0 && (
+              <button type="button" className="btn btn-ghost btn-sm" onClick={() => setCurrentPage('history')}>
+                Full history <Icon name="arrowRight" size={14} />
+              </button>
+            )}
           </div>
-          <ActivityHeatmap />
+          <ActivityHeatmap onGoToHistory={() => setCurrentPage('history')} />
         </div>
 
         {/* Target Band Card */}

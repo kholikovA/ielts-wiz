@@ -1,0 +1,10 @@
+User-agent: *
+Allow: /
+# Gated test pages require auth; let crawlers find the landing pages but not
+# the individual test HTML files (they show only an auth gate to bots).
+Disallow: /tests/
+Disallow: /reading/passage1_
+Disallow: /reading/passage2_
+Disallow: /reading/passage3_
+
+Sitemap: https://ielts-wiz.com/sitemap.xml

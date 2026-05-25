@@ -22,8 +22,8 @@ const SKILLS = [
     id: 'writing',
     title: 'Writing',
     icon: 'pen',
-    blurb: 'Task 1 & Task 2 with annotated Band 9 models and the structural patterns examiners reward.',
-    meta: 'Coming soon',
+    blurb: 'Task 1 & Task 2 with annotated Band 9 models, a self-grading rubric, and an auto-saving draft timer.',
+    meta: '10 prompts · timed practice',
   },
   {
     id: 'speaking',
