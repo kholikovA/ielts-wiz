@@ -104,21 +104,49 @@ const SendEmailDialog = ({ recipients, onClose }) => {
           </button>
         </div>
 
-        {result?.ok ? (
-          <div className="panel panel-success">
-            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-2)' }}>
-              <Icon name="checkCircle" size={18} style={{ color: 'var(--success)' }} />
-              <strong style={{ color: 'var(--success)' }}>Queued</strong>
+        {result?.ok ? (() => {
+          const fullySent = result.failed === 0;
+          const allFailed = result.sent === 0 && result.failed > 0;
+          const panelClass = fullySent ? 'panel-success' : allFailed ? 'panel-error' : 'panel-info';
+          const iconName   = fullySent ? 'checkCircle' : allFailed ? 'xCircle' : 'lightbulb';
+          const iconColor  = fullySent ? 'var(--success)' : allFailed ? 'var(--error)' : 'var(--amber-400)';
+          const label      = fullySent ? 'Sent' : allFailed ? 'All sends failed' : 'Partial send';
+          return (
+            <div className={`panel ${panelClass}`}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-2)' }}>
+                <Icon name={iconName} size={18} style={{ color: iconColor }} />
+                <strong style={{ color: iconColor }}>{label}</strong>
+              </div>
+              <p className="body" style={{ fontSize: 'var(--text-sm)', marginBottom: result.errors?.length > 0 ? 'var(--space-3)' : 0 }}>
+                Sent {result.sent ?? 0} of {(result.sent ?? 0) + (result.failed ?? 0)} via Resend.
+                {result.failed > 0 && ` ${result.failed} failed.`}
+              </p>
+              {result.errors?.length > 0 && (
+                <div style={{ background: 'var(--bg-secondary)', borderRadius: 'var(--r-md)', padding: 'var(--space-3)', fontSize: 'var(--text-xs)', fontFamily: 'var(--font-mono)', color: 'var(--text-secondary)', overflowX: 'auto', marginBottom: 'var(--space-3)' }}>
+                  <div style={{ color: 'var(--text-tertiary)', marginBottom: 'var(--space-2)', textTransform: 'uppercase', letterSpacing: '0.06em', fontSize: 10 }}>
+                    First {Math.min(result.errors.length, 5)} error{result.errors.length === 1 ? '' : 's'}
+                  </div>
+                  {result.errors.map((err, i) => (
+                    <div key={i} style={{ marginBottom: 4, wordBreak: 'break-word', whiteSpace: 'pre-wrap' }}>{err}</div>
+                  ))}
+                  <div style={{ marginTop: 'var(--space-3)', paddingTop: 'var(--space-2)', borderTop: '1px solid var(--border-color)', color: 'var(--text-tertiary)', whiteSpace: 'normal', fontFamily: 'inherit' }}>
+                    Most common: wrong <code>RESEND_FROM</code> format (must be <code>{'Name <email@domain.com>'}</code>), domain not fully verified in Resend, or API key revoked. Authoritative log: <a href="https://resend.com/emails" target="_blank" rel="noreferrer" style={{ color: 'var(--purple-400)' }}>resend.com/emails</a>.
+                  </div>
+                </div>
+              )}
+              <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
+                {result.failed > 0 && (
+                  <button type="button" className="btn btn-secondary" onClick={() => setResult(null)}>
+                    Try again
+                  </button>
+                )}
+                <button type="button" className="btn btn-primary" onClick={onClose}>
+                  Done
+                </button>
+              </div>
             </div>
-            <p className="body" style={{ fontSize: 'var(--text-sm)', margin: 0 }}>
-              Sent {result.sent ?? recipients.length} email{recipients.length === 1 ? '' : 's'} via Resend.
-              {result.failed > 0 && ` ${result.failed} failed.`}
-            </p>
-            <button type="button" className="btn btn-primary" style={{ marginTop: 'var(--space-4)' }} onClick={onClose}>
-              Done
-            </button>
-          </div>
-        ) : result?.ok === false ? (
+          );
+        })() : result?.ok === false ? (
           <div className="panel panel-error">
             <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-2)' }}>
               <Icon name="xCircle" size={18} style={{ color: 'var(--error)' }} />
