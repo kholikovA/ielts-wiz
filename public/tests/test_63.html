@@ -1193,6 +1193,9 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
   const PART_LABELS = JSON.parse(document.getElementById("partLabelMap").textContent);
   const TOTAL_QUESTIONS = 10;
   const IS_FULL_TEST = TOTAL_QUESTIONS === 40;
+  // Identity for completion + activity tracking. Inserted by build_test.py.
+  const TEST_KIND = "listening"; // always "listening" for this template
+  const TEST_ID   = "63";   // e.g. "1"
 
   // Collect actual qnums from the DOM. Listening "Part 2 only" tests use 11–20,
   // "Part 3 only" tests use 21–30, etc. — the qnum range is NOT always 1..N.
@@ -1884,6 +1887,45 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
       results.push(r);
       resultsByQ[q] = r;
     });
+
+    // ----- Completion + activity logging ------------------------------------
+    // Versioned localStorage keys (iw.v1.*) so future schema changes can
+    // migrate cleanly without losing user progress. The React dashboard reads
+    // the same keys. Do not rename these.
+    try {
+      const COMPLETION_KEY_FOR = {
+        listening:  "iw.v1.completed.listening",
+        reading_p1: "iw.v1.completed.reading.passage1",
+        reading_p2: "iw.v1.completed.reading.passage2",
+        reading_p3: "iw.v1.completed.reading.passage3"
+      };
+      const ACTIVITY_KEY = "iw.v1.activity";
+
+      if (TEST_KIND && TEST_ID) {
+        const completionKey = COMPLETION_KEY_FOR[TEST_KIND];
+        if (completionKey) {
+          let list = [];
+          try { list = JSON.parse(localStorage.getItem(completionKey) || "[]"); } catch (e) {}
+          const sid = String(TEST_ID);
+          if (!list.map(String).includes(sid)) list.push(sid);
+          localStorage.setItem(completionKey, JSON.stringify(list));
+        }
+        let activity = [];
+        try { activity = JSON.parse(localStorage.getItem(ACTIVITY_KEY) || "[]"); } catch (e) {}
+        activity.push({
+          d: new Date().toISOString().slice(0, 10),
+          t: TEST_KIND,
+          id: String(TEST_ID),
+          correct: correctCount,
+          total: TOTAL_QUESTIONS
+        });
+        while (activity.length > 400) activity.shift();
+        localStorage.setItem(ACTIVITY_KEY, JSON.stringify(activity));
+      }
+    } catch (e) {
+      console && console.warn && console.warn("[completion]", e);
+    }
+    // ------------------------------------------------------------------------
 
     const partStats = [];
     document.querySelectorAll(".part-section").forEach(p => {

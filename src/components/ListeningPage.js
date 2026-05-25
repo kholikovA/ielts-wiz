@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { listeningTestsData } from '../data/listening-tests';
 import SubNav from './ui/SubNav';
 import PageHeader from './ui/PageHeader';
 import CollapsibleAbout from './ui/CollapsibleAbout';
+import Icon from './ui/icons';
+import { getCompletedIds } from '../lib/progressStore';
 
 const PARTS = [
   { id: 'part1', label: 'Part 1', desc: 'Everyday social contexts — conversations between two speakers.', range: '1–20' },
@@ -26,6 +28,11 @@ const ListeningPage = ({ subPage, setSubPage, setCurrentPage }) => {
 
   const tests = listeningTestsData[selectedPart] || [];
   const activePart = PARTS.find(p => p.id === selectedPart);
+
+  // Completion list from the versioned progress store (iw.v1.completed.listening).
+  // Same key the HTML test pages write on submit.
+  const [completedIds, setCompletedIds] = useState([]);
+  useEffect(() => { setCompletedIds(getCompletedIds('listening')); }, []);
 
   const handleCardClick = (e) => {
     if (!user) {
@@ -58,18 +65,33 @@ const ListeningPage = ({ subPage, setSubPage, setCurrentPage }) => {
           gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
           gap: 'var(--space-3)',
         }}>
-          {tests.map((test, index) => (
+          {tests.map((test, index) => {
+            const isCompleted = completedIds.includes(String(test.id));
+            return (
             <a
               key={test.id}
               href={`/tests/test_${test.id}.html`}
               onClick={handleCardClick}
               className="card card-interactive animate-fadeInUp"
               style={{
+                position: 'relative',
                 padding: 'var(--space-5)',
                 textAlign: 'center',
                 animationDelay: `${index * 0.015}s`,
+                borderColor: isCompleted ? 'rgba(16, 185, 129, 0.4)' : undefined,
               }}
             >
+              {isCompleted && (
+                <div style={{
+                  position: 'absolute', top: 'var(--space-3)', right: 'var(--space-3)',
+                  width: '20px', height: '20px', borderRadius: '50%',
+                  background: 'var(--success)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  color: 'white',
+                }}>
+                  <Icon name="check" size={12} strokeWidth={3} />
+                </div>
+              )}
               <div style={{
                 width: '44px',
                 height: '44px',
@@ -99,7 +121,8 @@ const ListeningPage = ({ subPage, setSubPage, setCurrentPage }) => {
                 10 questions
               </div>
             </a>
-          ))}
+            );
+          })}
         </div>
 
         <CollapsibleAbout

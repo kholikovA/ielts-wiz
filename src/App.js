@@ -12,7 +12,7 @@ import AuthPage from './components/AuthPage';
 import Dashboard from './components/Dashboard';
 import Footer from './components/Footer';
 
-const PAGES_WITH_SUBPAGES = new Set(['speaking', 'listening', 'reading']);
+const PAGES_WITH_SUBPAGES = new Set(['speaking', 'listening', 'reading', 'grammar']);
 
 // Default subPage when a section is opened without one in the URL.
 // The skill landing pages now land directly on practice (not an overview).
@@ -20,6 +20,7 @@ const DEFAULT_SUBPAGE = {
   speaking: 'part1-2026',
   listening: 'part1',
   reading: 'passage1',
+  grammar: 'hub',
 };
 
 const parseUrlToState = () => {
@@ -43,6 +44,7 @@ const App = () => {
     speaking: initial.page === 'speaking' && initial.subPage ? initial.subPage : DEFAULT_SUBPAGE.speaking,
     listening: initial.page === 'listening' && initial.subPage ? initial.subPage : DEFAULT_SUBPAGE.listening,
     reading: initial.page === 'reading' && initial.subPage ? initial.subPage : DEFAULT_SUBPAGE.reading,
+    grammar: initial.page === 'grammar' && initial.subPage ? initial.subPage : DEFAULT_SUBPAGE.grammar,
   });
   const { loading } = useAuth();
 
@@ -78,7 +80,7 @@ const App = () => {
       case 'speaking': return <SpeakingPage subPage={subPages.speaking} setSubPage={updateSubPage('speaking')} />;
       case 'listening': return <ListeningPage subPage={subPages.listening} setSubPage={updateSubPage('listening')} setCurrentPage={navigateTo} />;
       case 'reading': return <ReadingPage subPage={subPages.reading} setSubPage={updateSubPage('reading')} setCurrentPage={navigateTo} />;
-      case 'grammar': return <GrammarPage />;
+      case 'grammar': return <GrammarPage subPage={subPages.grammar} setSubPage={updateSubPage('grammar')} />;
       case 'writing': return <PlaceholderPage title="Writing Section" description="Task 1 & Task 2 with model essays. Coming soon!" icon="✍️" />;
       case 'login': return <AuthPage type="login" setCurrentPage={navigateTo} />;
       case 'signup': return <AuthPage type="signup" setCurrentPage={navigateTo} />;

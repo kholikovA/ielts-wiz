@@ -3,13 +3,15 @@ import { useAuth } from '../contexts/AuthContext';
 import AVATAR_OPTIONS from '../data/avatar-options';
 import PageHeader from './ui/PageHeader';
 import Icon from './ui/icons';
+import ActivityHeatmap from './ui/ActivityHeatmap';
+import { getCompletedIds, getCurrentStreak, migrateLegacy } from '../lib/progressStore';
 
 // Practice catalog totals — bump when content grows.
 const SECTIONS = [
-  { id: 'listening', label: 'Listening',          page: 'listening', total: 80, color: 'var(--purple-500)', icon: 'headphones', storageKey: 'completedListeningTests' },
-  { id: 'reading-p1', label: 'Reading · Passage 1', page: 'reading', total: 40, color: '#8b5cf6',          icon: 'book',       storageKey: 'completedReading_passage1' },
-  { id: 'reading-p2', label: 'Reading · Passage 2', page: 'reading', total: 20, color: '#3b82f6',          icon: 'book',       storageKey: 'completedReading_passage2' },
-  { id: 'reading-p3', label: 'Reading · Passage 3', page: 'reading', total: 9,  color: '#10b981',          icon: 'book',       storageKey: 'completedReading_passage3' },
+  { id: 'listening',  kind: 'listening',  label: 'Listening',          page: 'listening', total: 80, color: 'var(--purple-500)', icon: 'headphones' },
+  { id: 'reading-p1', kind: 'reading_p1', label: 'Reading · Passage 1', page: 'reading',  total: 40, color: '#8b5cf6',          icon: 'book' },
+  { id: 'reading-p2', kind: 'reading_p2', label: 'Reading · Passage 2', page: 'reading',  total: 20, color: '#3b82f6',          icon: 'book' },
+  { id: 'reading-p3', kind: 'reading_p3', label: 'Reading · Passage 3', page: 'reading',  total: 9,  color: '#10b981',          icon: 'book' },
 ];
 
 const SHORTCUTS = [
@@ -20,15 +22,6 @@ const SHORTCUTS = [
 ];
 
 const TARGET_SCORES = ['5.0', '5.5', '6.0', '6.5', '7.0', '7.5', '8.0', '8.5', '9.0'];
-
-const readStored = (key) => {
-  try {
-    const raw = localStorage.getItem(key);
-    return raw ? JSON.parse(raw) : [];
-  } catch {
-    return [];
-  }
-};
 
 const ProgressBar = ({ pct, color }) => (
   <div style={{ width: '100%', height: '6px', borderRadius: 'var(--r-pill)', background: 'var(--tag-bg)', overflow: 'hidden' }}>
@@ -48,9 +41,14 @@ const Dashboard = ({ setCurrentPage }) => {
   const [editTarget, setEditTarget] = useState(profile?.target_score || '7.0');
   const [saving, setSaving] = useState(false);
   const [showAvatarPicker, setShowAvatarPicker] = useState(false);
-  const [completed] = useState(() =>
-    Object.fromEntries(SECTIONS.map(s => [s.id, readStored(s.storageKey).length]))
-  );
+  // Read completion counts from versioned progress store on mount. Reads
+  // happen here (not in the per-section render) so the value can drive both
+  // the section list and the overall stats strip below.
+  const [completed] = useState(() => {
+    migrateLegacy();
+    return Object.fromEntries(SECTIONS.map(s => [s.id, getCompletedIds(s.kind).length]));
+  });
+  const streak = getCurrentStreak();
 
   useEffect(() => {
     if (profile?.target_score) setEditTarget(profile.target_score.toString());
@@ -167,12 +165,31 @@ const Dashboard = ({ setCurrentPage }) => {
               </div>
             </div>
             <div>
+              <div className="eyebrow" style={{ marginBottom: 'var(--space-2)' }}>Streak</div>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--space-2)' }}>
+                <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-3xl)', fontWeight: 700, color: streak > 0 ? 'var(--amber-400)' : 'var(--text-tertiary)', lineHeight: 1 }}>
+                  {streak}
+                </span>
+                <span style={{ color: 'var(--text-tertiary)', fontSize: 'var(--text-sm)' }}>day{streak === 1 ? '' : 's'}</span>
+              </div>
+            </div>
+            <div>
               <div className="eyebrow" style={{ marginBottom: 'var(--space-2)' }}>Target Band</div>
               <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-3xl)', fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1 }}>
                 {profile?.target_score || '7.0'}
               </div>
             </div>
           </div>
+        </div>
+
+        {/* Activity heatmap — last 6 months. Reads from progressStore which is
+            the same key HTML test pages write on submit. */}
+        <div className="card" style={{ marginBottom: 'var(--space-5)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-4)' }}>
+            <Icon name="trending" size={18} style={{ color: 'var(--purple-400)' }} />
+            <h2 className="h3" style={{ color: 'var(--text-primary)' }}>Activity</h2>
+          </div>
+          <ActivityHeatmap />
         </div>
 
         {/* Target Band Card */}
