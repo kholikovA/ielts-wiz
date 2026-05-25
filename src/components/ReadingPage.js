@@ -7,6 +7,7 @@ import SubNav from './ui/SubNav';
 import PageHeader from './ui/PageHeader';
 import CollapsibleAbout from './ui/CollapsibleAbout';
 import Icon from './ui/icons';
+import { getCompletedIds } from '../lib/progressStore';
 
 const PASSAGES = [
   {
@@ -41,12 +42,13 @@ const ReadingPage = ({ subPage, setSubPage, setCurrentPage }) => {
     if (setSubPage) setSubPage(id);
   };
 
-  // Per-passage completion list from localStorage (matches the HTML test pages,
-  // which write to the same key on submit).
+  // Per-passage completion list from the versioned progress store. The HTML
+  // test pages write to the same store on submit (key: iw.v1.completed.reading.passageN).
   const [completedTests, setCompletedTests] = useState([]);
   useEffect(() => {
-    const saved = localStorage.getItem(`completedReading_${active}`);
-    setCompletedTests(saved ? JSON.parse(saved) : []);
+    // active is 'passage1' | 'passage2' | 'passage3' → kind is 'reading_p1' etc.
+    const num = active.replace('passage', '');
+    setCompletedTests(getCompletedIds(`reading_p${num}`));
   }, [active]);
 
   useEffect(() => {
@@ -97,7 +99,7 @@ const ReadingPage = ({ subPage, setSubPage, setCurrentPage }) => {
           gap: 'var(--space-4)',
         }}>
           {current.tests.map((test, i) => {
-            const isCompleted = completedTests.includes(test.id);
+            const isCompleted = completedTests.includes(String(test.id));
             return (
               <a
                 key={test.id}
