@@ -551,3 +551,166 @@ select:focus-visible {
   background: var(--purple-600);
   color: white;
 }
+
+/* ============================================================
+   Form primitives — used by AuthPage, Dashboard editors, etc.
+   ============================================================ */
+.form-field { margin-bottom: var(--space-4); }
+.form-label {
+  display: block;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--text-secondary);
+  margin-bottom: var(--space-2);
+}
+.form-input,
+.form-select,
+.form-textarea {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--r-md);
+  border: 1px solid var(--border-color);
+  background: var(--input-bg);
+  color: var(--text-primary);
+  font-size: var(--text-md);
+  font-family: inherit;
+  transition: border-color var(--dur-fast) var(--ease),
+              background var(--dur-fast) var(--ease);
+}
+.form-input:hover,
+.form-select:hover,
+.form-textarea:hover { border-color: rgba(168, 85, 247, 0.25); }
+.form-textarea { min-height: 96px; resize: vertical; line-height: 1.5; }
+.form-select { cursor: pointer; }
+.form-help {
+  font-size: var(--text-sm);
+  color: var(--text-tertiary);
+  margin-top: var(--space-2);
+}
+.form-error,
+.form-success {
+  padding: var(--space-3) var(--space-4);
+  border-radius: var(--r-md);
+  font-size: var(--text-sm);
+  margin-bottom: var(--space-4);
+}
+.form-error {
+  background: var(--incorrect-bg);
+  color: #f87171;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+.form-success {
+  background: var(--correct-bg);
+  color: #34d399;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+/* Selectable chip — used for multi-select inputs (goals, tags). */
+.chip {
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--r-pill);
+  border: 1px solid var(--border-color);
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: border-color var(--dur-fast) var(--ease),
+              background var(--dur-fast) var(--ease),
+              color var(--dur-fast) var(--ease);
+  font-family: inherit;
+}
+.chip:hover { border-color: var(--purple-500-30); color: var(--text-primary); }
+.chip.is-selected {
+  border-color: var(--purple-500);
+  background: var(--purple-600-20);
+  color: var(--purple-400);
+  font-weight: 500;
+}
+
+/* ============================================================
+   Result / feedback panels — correct / incorrect / info.
+   ============================================================ */
+.panel {
+  padding: var(--space-4) var(--space-5);
+  border-radius: var(--r-md);
+  border: 1px solid var(--border-color);
+  background: var(--tag-bg);
+}
+.panel-success {
+  background: var(--correct-bg);
+  border-color: rgba(16, 185, 129, 0.3);
+}
+.panel-error {
+  background: var(--incorrect-bg);
+  border-color: rgba(239, 68, 68, 0.3);
+}
+.panel-info {
+  background: var(--purple-600-10);
+  border-color: var(--purple-500-30);
+}
+
+/* ============================================================
+   Scroll reveal — opt-in. Element starts hidden, becomes visible
+   when the data-reveal="in" attribute is set (via useReveal hook).
+   ============================================================ */
+.reveal {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity var(--dur-slow) var(--ease-out),
+              transform var(--dur-slow) var(--ease-out);
+  will-change: opacity, transform;
+}
+.reveal[data-reveal="in"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* Accessible skip link (visible on focus). */
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: var(--space-3);
+  z-index: 2000;
+  padding: var(--space-2) var(--space-4);
+  background: var(--purple-600);
+  color: white;
+  border-radius: var(--r-md);
+  font-size: var(--text-sm);
+  text-decoration: none;
+}
+.skip-link:focus { left: var(--space-3); }
+
+/* Modal scaffolding (used by avatar picker, etc). */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(6px);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-4);
+  animation: fadeIn var(--dur-base) var(--ease-out);
+}
+.modal-card {
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-2xl);
+  padding: var(--space-8);
+  max-width: 440px;
+  width: 100%;
+  box-shadow: var(--shadow-elevated);
+  animation: modalIn var(--dur-base) var(--ease-out);
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes modalIn {
+  from { opacity: 0; transform: scale(0.96); }
+  to { opacity: 1; transform: scale(1); }
+}
