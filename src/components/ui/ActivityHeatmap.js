@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { getActivityByDay, getActivityOnDate, labelForKind } from '../../lib/progressStore';
+import useBodyScrollLock from './useBodyScrollLock';
 
 // GitHub-style activity heatmap. Renders the last `weeks` columns of 7 days
 // each, with cell shade proportional to # of tests completed that day.
@@ -59,7 +60,9 @@ const formatDate = (iso) => {
   } catch { return iso; }
 };
 
-const DayDetailModal = ({ date, entries, onClose, onGoToHistory }) => (
+const DayDetailModal = ({ date, entries, onClose, onGoToHistory }) => {
+  useBodyScrollLock();
+  return (
   <div className="modal-backdrop" onClick={onClose}>
     <div className="modal-card" onClick={(e) => e.stopPropagation()} style={{ maxWidth: 520 }}>
       <div className="eyebrow" style={{ marginBottom: 'var(--space-2)' }}>{formatDate(date)}</div>
@@ -108,7 +111,8 @@ const DayDetailModal = ({ date, entries, onClose, onGoToHistory }) => (
       </div>
     </div>
   </div>
-);
+  );
+};
 
 const ActivityHeatmap = ({ onGoToHistory }) => {
   const { grid, max } = buildGrid();
