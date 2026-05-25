@@ -4,6 +4,7 @@ import AVATAR_OPTIONS from '../data/avatar-options';
 import PageHeader from './ui/PageHeader';
 import Icon from './ui/icons';
 import ActivityHeatmap from './ui/ActivityHeatmap';
+import useBodyScrollLock from './ui/useBodyScrollLock';
 import { getCompletedIds, getCurrentStreak, migrateLegacy } from '../lib/progressStore';
 import { pullAndMerge } from '../lib/cloudSync';
 
@@ -50,6 +51,8 @@ const Dashboard = ({ setCurrentPage }) => {
     return Object.fromEntries(SECTIONS.map(s => [s.id, getCompletedIds(s.kind).length]));
   });
   const [streak, setStreak] = useState(() => getCurrentStreak());
+  // Lock page scroll while the avatar picker modal is open.
+  useBodyScrollLock(showAvatarPicker);
 
   useEffect(() => {
     if (profile?.target_score) setEditTarget(profile.target_score.toString());

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { supabase } from '../../supabaseClient';
 import Icon from '../ui/icons';
+import useBodyScrollLock from '../ui/useBodyScrollLock';
 
 // Calls the `send-email-batch` Supabase Edge Function with the filtered list
 // of recipients. The function uses Resend on the server side — no API key
@@ -46,6 +47,7 @@ const personalise = (template, user) => template
   .replace(/\{\{email\}\}/g, user.email || '');
 
 const SendEmailDialog = ({ recipients, onClose }) => {
+  useBodyScrollLock();
   const [templateId, setTemplateId] = useState(TEMPLATES[0].id);
   const template = TEMPLATES.find(t => t.id === templateId);
   const [subject, setSubject] = useState(template.subject);
