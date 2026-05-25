@@ -117,13 +117,14 @@ const Dashboard = ({ setCurrentPage }) => {
               </span>
             )}
             <div style={{
-              position: 'absolute', bottom: 0, right: 0,
-              width: '22px', height: '22px', borderRadius: '50%',
+              position: 'absolute', bottom: '-2px', right: '-2px',
+              width: '26px', height: '26px', borderRadius: '50%',
               background: 'var(--purple-600)', color: 'white',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
-              border: '2px solid var(--card-bg)',
+              border: '3px solid var(--bg-primary)',
+              boxShadow: '0 2px 8px rgba(0,0,0,0.15)',
             }}>
-              <Icon name="edit" size={11} strokeWidth={2.5} />
+              <Icon name="pen" size={13} strokeWidth={2.5} />
             </div>
           </button>
           <div style={{ flex: 1, minWidth: 0 }}>

@@ -1224,7 +1224,15 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
   document.querySelectorAll("#themeOptions .settings-option").forEach(btn => {
     btn.addEventListener("click", () => setTheme(btn.dataset.theme));
   });
-  setTheme("system");
+  // Carry the React app's theme choice into the test page so dark/light is
+  // consistent across the SPA boundary. iw.v1.themeOverride is null when the
+  // user wants auto — in that case we fall back to "system" and the existing
+  // @media query handles it.
+  (function () {
+    var override = null;
+    try { override = localStorage.getItem("iw.v1.themeOverride"); } catch (e) {}
+    setTheme(override === "light" || override === "dark" ? override : "system");
+  })();
 
   function setTextSize(size) {
     html.setAttribute("data-text-size", size);

@@ -41,10 +41,12 @@
   --r-3xl: 28px;
   --r-pill: 999px;
 
-  /* Type scale. */
+  /* Type scale — bumped to a more readable baseline (16px body, not 15px).
+     Long-form sections (grammar Notice/Understand, writing model answers)
+     felt cramped at 15. The display sizes are unchanged. */
   --text-xs: 12px;
   --text-sm: 14px;
-  --text-base: 15px;
+  --text-base: 16px;
   --text-md: 16px;
   --text-lg: 18px;
   --text-xl: 20px;
@@ -53,12 +55,13 @@
   --text-4xl: 36px;
   --text-5xl: 48px;
   --text-display: clamp(2.5rem, 6vw, 4.5rem);
+  --text-reading: 17px;  /* For prose-heavy areas where readability trumps density */
 
-  /* Line heights. */
+  /* Line heights — bumped --lh-base from 1.55 to 1.6 for prose comfort. */
   --lh-tight: 1.15;
   --lh-snug: 1.35;
-  --lh-base: 1.55;
-  --lh-relaxed: 1.7;
+  --lh-base: 1.6;
+  --lh-relaxed: 1.75;
 
   /* Motion. */
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);

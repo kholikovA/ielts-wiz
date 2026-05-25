@@ -12,6 +12,14 @@ import SendEmailDialog from './SendEmailDialog';
 const TARGET_BANDS = ['', '5.5', '6.0', '6.5', '7.0', '7.5', '8.0', '8.5+'];
 const REFERRAL_SOURCES = ['', 'google', 'youtube', 'instagram', 'tiktok', 'friend', 'teacher', 'other'];
 const PREP_DURATIONS = ['', 'just-started', 'less-1-month', '1-3-months', '3-6-months', '6-months-plus'];
+const INACTIVE_DAYS = [
+  { value: '',   label: 'Any activity' },
+  { value: '7',  label: 'Inactive ≥ 7 days' },
+  { value: '14', label: 'Inactive ≥ 14 days' },
+  { value: '30', label: 'Inactive ≥ 30 days' },
+  { value: '60', label: 'Inactive ≥ 60 days' },
+  { value: '90', label: 'Inactive ≥ 90 days' },
+];
 
 const formatDate = (iso) => {
   if (!iso) return '—';
@@ -56,6 +64,7 @@ const AdminUsersPage = ({ setCurrentPage }) => {
   const [referral, setReferral] = useState('');
   const [prep, setPrep] = useState('');
   const [neverSignedIn, setNeverSignedIn] = useState(false);
+  const [inactiveDays, setInactiveDays] = useState('');
 
   // Email dialog
   const [emailOpen, setEmailOpen] = useState(false);
@@ -83,9 +92,16 @@ const AdminUsersPage = ({ setCurrentPage }) => {
       if (referral && u.referral_source !== referral) return false;
       if (prep && u.prep_duration !== prep) return false;
       if (neverSignedIn && u.last_sign_in_at) return false;
+      if (inactiveDays) {
+        // Match if either: never signed in, OR last sign-in was N+ days ago.
+        const n = parseInt(inactiveDays, 10);
+        const cutoffMs = Date.now() - n * 24 * 60 * 60 * 1000;
+        const lastMs = u.last_sign_in_at ? new Date(u.last_sign_in_at).getTime() : 0;
+        if (lastMs > cutoffMs) return false;
+      }
       return true;
     });
-  }, [users, search, target, referral, prep, neverSignedIn]);
+  }, [users, search, target, referral, prep, neverSignedIn, inactiveDays]);
 
   // Aggregate stats for the current filter result.
   const stats = useMemo(() => {
@@ -195,6 +211,12 @@ const AdminUsersPage = ({ setCurrentPage }) => {
               <label className="form-label">Prep duration</label>
               <select className="form-select" value={prep} onChange={(e) => setPrep(e.target.value)}>
                 {PREP_DURATIONS.map(d => <option key={d} value={d}>{d || 'Any'}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="form-label">Inactivity</label>
+              <select className="form-select" value={inactiveDays} onChange={(e) => setInactiveDays(e.target.value)}>
+                {INACTIVE_DAYS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
               </select>
             </div>
           </div>
