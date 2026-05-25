@@ -15,7 +15,7 @@ const NAV_ITEMS = [
 ];
 
 const Navigation = ({ currentPage, setCurrentPage }) => {
-  const { user, profile, signOut } = useAuth();
+  const { user, profile, isAdmin, signOut } = useAuth();
   const { isDark, toggleTheme } = useTheme();
   const [showProfileMenu, setShowProfileMenu] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -139,6 +139,12 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
                     <Icon name="layout" size={16} />
                     Dashboard
                   </button>
+                  {isAdmin && (
+                    <button role="menuitem" onClick={() => { setCurrentPage('admin'); setShowProfileMenu(false); }} style={menuItemStyle}>
+                      <Icon name="user" size={16} />
+                      Admin · Users
+                    </button>
+                  )}
                   <button role="menuitem" onClick={() => { toggleTheme(); setShowProfileMenu(false); }} style={menuItemStyle}>
                     <Icon name={isDark ? 'sun' : 'moon'} size={16} />
                     {isDark ? 'Light Mode' : 'Dark Mode'}
@@ -201,6 +207,11 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
                 <button className="mobile-menu-item" onClick={() => navigate('dashboard')}>
                   <Icon name="layout" size={18} /> Dashboard
                 </button>
+                {isAdmin && (
+                  <button className="mobile-menu-item" onClick={() => navigate('admin')}>
+                    <Icon name="user" size={18} /> Admin · Users
+                  </button>
+                )}
                 <button className="mobile-menu-item" onClick={() => { toggleTheme(); }}>
                   <Icon name={isDark ? 'sun' : 'moon'} size={18} />
                   {isDark ? 'Light Mode' : 'Dark Mode'}

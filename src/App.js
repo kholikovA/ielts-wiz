@@ -11,6 +11,7 @@ import WritingPage from './components/WritingPage';
 import AuthPage from './components/AuthPage';
 import Dashboard from './components/Dashboard';
 import HistoryPage from './components/HistoryPage';
+import AdminUsersPage from './components/admin/AdminUsersPage';
 import Footer from './components/Footer';
 
 const PAGES_WITH_SUBPAGES = new Set(['speaking', 'listening', 'reading', 'grammar', 'writing']);
@@ -89,6 +90,7 @@ const App = () => {
       case 'signup': return <AuthPage type="signup" setCurrentPage={navigateTo} />;
       case 'dashboard': return <Dashboard setCurrentPage={navigateTo} />;
       case 'history': return <HistoryPage setCurrentPage={navigateTo} />;
+      case 'admin': return <AdminUsersPage setCurrentPage={navigateTo} />;
       default: return <HomePage setCurrentPage={navigateTo} />;
     }
   };
