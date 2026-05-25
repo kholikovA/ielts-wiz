@@ -74,17 +74,19 @@ export const AuthProvider = ({ children }) => {
         } 
       }
     });
-    // If signup successful, also create profile directly
+    // The handle_new_user trigger writes the row; this upsert is a belt-and-
+    // suspenders fallback in case the trigger fails for any reason. Anything
+    // already set by the trigger is left alone (upsert is idempotent on PK).
     if (data?.user && !error) {
       await supabase.from('profiles').upsert({
         id: data.user.id,
         email: email,
         name: name,
         target_score: additionalInfo.target_score || 7.0,
-        prep_duration: additionalInfo.prep_duration,
-        referral_source: additionalInfo.referral_source,
-        goals: additionalInfo.goals,
-        created_at: new Date().toISOString()
+        prep_duration: additionalInfo.prep_duration || null,
+        referral_source: additionalInfo.referral_source || null,
+        goals: additionalInfo.goals || [],
+        created_at: new Date().toISOString(),
       });
     }
     return { data, error };
@@ -101,8 +103,10 @@ export const AuthProvider = ({ children }) => {
     setProfile(null);
   };
 
+  const isAdmin = Boolean(profile?.is_admin);
+
   return (
-    <AuthContext.Provider value={{ user, profile, loading, signUp, signIn, signOut, updateProfile, fetchProfile }}>
+    <AuthContext.Provider value={{ user, profile, isAdmin, loading, signUp, signIn, signOut, updateProfile, fetchProfile }}>
       {children}
     </AuthContext.Provider>
   );
