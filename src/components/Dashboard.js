@@ -1,6 +1,46 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import AVATAR_OPTIONS from '../data/avatar-options';
+import PageHeader from './ui/PageHeader';
+import Icon from './ui/icons';
+
+// Practice catalog totals — bump when content grows.
+const SECTIONS = [
+  { id: 'listening', label: 'Listening',          page: 'listening', total: 80, color: 'var(--purple-500)', icon: 'headphones', storageKey: 'completedListeningTests' },
+  { id: 'reading-p1', label: 'Reading · Passage 1', page: 'reading', total: 40, color: '#8b5cf6',          icon: 'book',       storageKey: 'completedReading_passage1' },
+  { id: 'reading-p2', label: 'Reading · Passage 2', page: 'reading', total: 20, color: '#3b82f6',          icon: 'book',       storageKey: 'completedReading_passage2' },
+  { id: 'reading-p3', label: 'Reading · Passage 3', page: 'reading', total: 9,  color: '#10b981',          icon: 'book',       storageKey: 'completedReading_passage3' },
+];
+
+const SHORTCUTS = [
+  { label: 'Listening', page: 'listening', desc: '80 Practice Tests', icon: 'headphones', tint: 'var(--purple-500)' },
+  { label: 'Reading',   page: 'reading',   desc: '69 Practice Tests', icon: 'book',       tint: '#3b82f6' },
+  { label: 'Speaking',  page: 'speaking',  desc: 'Part 1, 2, 3',      icon: 'mic',        tint: '#10b981' },
+  { label: 'Grammar',   page: 'grammar',   desc: '6 Lessons',         icon: 'graduation', tint: 'var(--amber-500)' },
+];
+
+const TARGET_SCORES = ['5.0', '5.5', '6.0', '6.5', '7.0', '7.5', '8.0', '8.5', '9.0'];
+
+const readStored = (key) => {
+  try {
+    const raw = localStorage.getItem(key);
+    return raw ? JSON.parse(raw) : [];
+  } catch {
+    return [];
+  }
+};
+
+const ProgressBar = ({ pct, color }) => (
+  <div style={{ width: '100%', height: '6px', borderRadius: 'var(--r-pill)', background: 'var(--tag-bg)', overflow: 'hidden' }}>
+    <div style={{
+      width: `${Math.min(pct, 100)}%`,
+      height: '100%',
+      borderRadius: 'var(--r-pill)',
+      background: color,
+      transition: 'width var(--dur-slow) var(--ease)',
+    }} />
+  </div>
+);
 
 const Dashboard = ({ setCurrentPage }) => {
   const { user, profile, updateProfile } = useAuth();
@@ -8,36 +48,21 @@ const Dashboard = ({ setCurrentPage }) => {
   const [editTarget, setEditTarget] = useState(profile?.target_score || '7.0');
   const [saving, setSaving] = useState(false);
   const [showAvatarPicker, setShowAvatarPicker] = useState(false);
-  const [completedListening] = useState(() => {
-    const saved = localStorage.getItem('completedListeningTests');
-    return saved ? JSON.parse(saved) : [];
-  });
-  const [completedP1] = useState(() => {
-    const saved = localStorage.getItem('completedReading_passage1');
-    return saved ? JSON.parse(saved) : [];
-  });
-  const [completedP2] = useState(() => {
-    const saved = localStorage.getItem('completedReading_passage2');
-    return saved ? JSON.parse(saved) : [];
-  });
-  const [completedP3] = useState(() => {
-    const saved = localStorage.getItem('completedReading_passage3');
-    return saved ? JSON.parse(saved) : [];
-  });
+  const [completed] = useState(() =>
+    Object.fromEntries(SECTIONS.map(s => [s.id, readStored(s.storageKey).length]))
+  );
 
   useEffect(() => {
-    if (profile?.target_score) {
-      setEditTarget(profile.target_score.toString());
-    }
+    if (profile?.target_score) setEditTarget(profile.target_score.toString());
   }, [profile]);
+
+  if (!user) return null;
 
   const handleSaveTarget = async () => {
     setSaving(true);
     const { error } = await updateProfile({ target_score: parseFloat(editTarget) });
     setSaving(false);
-    if (!error) {
-      setIsEditing(false);
-    }
+    if (!error) setIsEditing(false);
   };
 
   const handleAvatarSelect = async (avatarIndex) => {
@@ -46,127 +71,151 @@ const Dashboard = ({ setCurrentPage }) => {
   };
 
   const selectedAvatar = profile?.avatar_index != null ? profile.avatar_index : -1;
+  const totalCompleted = SECTIONS.reduce((sum, s) => sum + completed[s.id], 0);
+  const totalAvailable = SECTIONS.reduce((sum, s) => sum + s.total, 0);
+  const overallPct = totalAvailable ? Math.round((totalCompleted / totalAvailable) * 100) : 0;
 
-  const ProgressBar = ({ completed, total, color }) => (
-    <div style={{ width: '100%', height: '8px', borderRadius: '4px', background: 'var(--bg-secondary)', overflow: 'hidden' }}>
-      <div style={{ width: `${Math.min((completed / total) * 100, 100)}%`, height: '100%', borderRadius: '4px', background: color, transition: 'width 0.5s ease' }} />
-    </div>
-  );
-
-  const sections = [
-    { label: 'Listening', page: 'listening', color: 'var(--purple-500)', completed: completedListening.length, total: 80, icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/></svg>) },
-    { label: 'Reading - Passage 1', page: 'reading', color: '#8b5cf6', completed: completedP1.length, total: 40, icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>) },
-    { label: 'Reading - Passage 2', page: 'reading', color: '#3b82f6', completed: completedP2.length, total: 20, icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>) },
-    { label: 'Reading - Passage 3', page: 'reading', color: '#10b981', completed: completedP3.length, total: 9, icon: (<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>) },
-  ];
-
-  if (!user) return null;
-  
   return (
     <div style={{ paddingTop: '100px', minHeight: '100vh' }}>
-      <div style={{ maxWidth: '900px', margin: '0 auto', padding: '2rem' }}>
+      <div className="page-section" style={{ maxWidth: '960px' }}>
         {/* Profile Header */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem', marginBottom: '2.5rem' }}>
-          <div 
+        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-5)', marginBottom: 'var(--space-10)' }}>
+          <button
+            type="button"
             onClick={() => setShowAvatarPicker(true)}
-            style={{ 
-              width: '72px', height: '72px', borderRadius: '50%', 
+            aria-label="Change avatar"
+            style={{
+              width: '76px', height: '76px', borderRadius: '50%',
               background: selectedAvatar >= 0 ? 'transparent' : 'linear-gradient(135deg, var(--purple-500), var(--purple-700))',
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
-              cursor: 'pointer', position: 'relative', overflow: 'hidden',
               border: '3px solid var(--purple-500)',
-              transition: 'all 0.2s ease'
+              cursor: 'pointer', position: 'relative', overflow: 'hidden', padding: 0,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
             }}
           >
             {selectedAvatar >= 0 && AVATAR_OPTIONS[selectedAvatar] ? (
-              <img src={AVATAR_OPTIONS[selectedAvatar]} alt="Avatar" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              <img src={AVATAR_OPTIONS[selectedAvatar]} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
             ) : (
-              <span style={{ fontSize: '1.75rem', fontWeight: '700', color: 'white' }}>
+              <span style={{ fontSize: 'var(--text-2xl)', fontWeight: 700, color: 'white' }}>
                 {profile?.name?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase()}
               </span>
             )}
-            <div style={{ position: 'absolute', bottom: 0, right: 0, width: '22px', height: '22px', borderRadius: '50%', background: 'var(--purple-600)', display: 'flex', alignItems: 'center', justifyContent: 'center', border: '2px solid var(--card-bg)' }}>
-              <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="3"><path d="M17 3a2.85 2.85 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z"/></svg>
+            <div style={{
+              position: 'absolute', bottom: 0, right: 0,
+              width: '22px', height: '22px', borderRadius: '50%',
+              background: 'var(--purple-600)', color: 'white',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              border: '2px solid var(--card-bg)',
+            }}>
+              <Icon name="edit" size={11} strokeWidth={2.5} />
             </div>
-          </div>
-          <div style={{ flex: 1 }}>
-            <h1 style={{ fontSize: '1.75rem', fontWeight: '700', color: 'var(--text-primary)', marginBottom: '0.25rem' }}>
-              {profile?.name || 'Student'}
-            </h1>
-            <p style={{ color: 'var(--text-tertiary)', fontSize: '0.9rem' }}>{profile?.email || user.email}</p>
+          </button>
+          <div style={{ flex: 1, minWidth: 0 }}>
+            <PageHeader
+              title={profile?.name || 'Student'}
+              lead={profile?.email || user.email}
+            />
           </div>
         </div>
 
         {/* Avatar Picker Modal */}
         {showAvatarPicker && (
-          <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.5)', zIndex: 2000, display: 'flex', alignItems: 'center', justifyContent: 'center' }} onClick={() => setShowAvatarPicker(false)}>
-            <div style={{ background: 'var(--card-bg)', borderRadius: '20px', padding: '2rem', maxWidth: '420px', width: '90%', border: '1px solid var(--border-color)' }} onClick={e => e.stopPropagation()}>
-              <h3 style={{ fontSize: '1.15rem', fontWeight: '600', marginBottom: '1.25rem', color: 'var(--text-primary)', textAlign: 'center' }}>Choose Your Avatar</h3>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: '0.75rem', marginBottom: '1.5rem' }}>
+          <div className="modal-backdrop" onClick={() => setShowAvatarPicker(false)}>
+            <div className="modal-card" onClick={(e) => e.stopPropagation()}>
+              <h3 className="h3" style={{ marginBottom: 'var(--space-5)', textAlign: 'center', color: 'var(--text-primary)' }}>
+                Choose your avatar
+              </h3>
+              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 'var(--space-3)', marginBottom: 'var(--space-5)' }}>
                 {AVATAR_OPTIONS.map((src, i) => (
-                  <div 
+                  <button
                     key={i}
+                    type="button"
                     onClick={() => handleAvatarSelect(i)}
-                    style={{ 
+                    aria-label={`Avatar ${i + 1}`}
+                    aria-pressed={selectedAvatar === i}
+                    style={{
                       width: '60px', height: '60px', borderRadius: '50%', overflow: 'hidden',
-                      cursor: 'pointer', border: selectedAvatar === i ? '3px solid var(--purple-500)' : '3px solid transparent',
-                      transition: 'all 0.2s ease', background: 'var(--bg-secondary)'
+                      cursor: 'pointer',
+                      border: selectedAvatar === i ? '3px solid var(--purple-500)' : '3px solid transparent',
+                      transition: 'border-color var(--dur-fast) var(--ease)',
+                      background: 'var(--bg-secondary)', padding: 0,
                     }}
                   >
-                    <img src={src} alt={`Avatar ${i+1}`} style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-                  </div>
+                    <img src={src} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+                  </button>
                 ))}
               </div>
-              <button onClick={() => setShowAvatarPicker(false)} style={{ width: '100%', padding: '0.75rem', borderRadius: '10px', border: '1px solid var(--border-color)', background: 'transparent', color: 'var(--text-secondary)', fontSize: '0.9rem', cursor: 'pointer' }}>Cancel</button>
+              <button type="button" className="btn btn-secondary" onClick={() => setShowAvatarPicker(false)} style={{ width: '100%' }}>
+                Cancel
+              </button>
             </div>
           </div>
         )}
 
-        {/* Target Score Card */}
-        <div style={{ padding: '1.5rem', borderRadius: '16px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', marginBottom: '1.5rem' }}>
-          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1rem' }}>
-            <h2 style={{ fontSize: '1.1rem', fontWeight: '600', color: 'var(--text-primary)' }}>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ verticalAlign: 'text-bottom', marginRight: '0.5rem' }}><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
-              Target Band Score
-            </h2>
+        {/* Stats strip — at-a-glance numbers */}
+        <div className="card" style={{ marginBottom: 'var(--space-5)' }}>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))', gap: 'var(--space-5)' }}>
+            <div>
+              <div className="eyebrow" style={{ marginBottom: 'var(--space-2)' }}>Tests Done</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-3xl)', fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1 }}>
+                {totalCompleted}<span style={{ color: 'var(--text-tertiary)', fontSize: 'var(--text-lg)', fontWeight: 500 }}> / {totalAvailable}</span>
+              </div>
+            </div>
+            <div>
+              <div className="eyebrow" style={{ marginBottom: 'var(--space-2)' }}>Overall</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-3xl)', fontWeight: 700, color: 'var(--purple-400)', lineHeight: 1 }}>
+                {overallPct}%
+              </div>
+            </div>
+            <div>
+              <div className="eyebrow" style={{ marginBottom: 'var(--space-2)' }}>Target Band</div>
+              <div style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-3xl)', fontWeight: 700, color: 'var(--text-primary)', lineHeight: 1 }}>
+                {profile?.target_score || '7.0'}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Target Band Card */}
+        <div className="card" style={{ marginBottom: 'var(--space-5)' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-4)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+              <Icon name="target" size={18} style={{ color: 'var(--purple-400)' }} />
+              <h2 className="h3" style={{ color: 'var(--text-primary)' }}>Target Band Score</h2>
+            </div>
             {!isEditing ? (
-              <button 
-                onClick={() => setIsEditing(true)}
-                style={{ padding: '0.4rem 0.8rem', borderRadius: '6px', border: '1px solid var(--purple-500)', background: 'transparent', color: 'var(--purple-400)', fontSize: '0.8rem', cursor: 'pointer' }}
-              >
-                Edit
+              <button className="btn btn-secondary btn-sm" onClick={() => setIsEditing(true)}>
+                <Icon name="edit" size={14} /> Edit
               </button>
             ) : (
-              <div style={{ display: 'flex', gap: '0.5rem' }}>
-                <button 
+              <div style={{ display: 'flex', gap: 'var(--space-2)' }}>
+                <button
+                  className="btn btn-ghost btn-sm"
                   onClick={() => { setIsEditing(false); setEditTarget(profile?.target_score?.toString() || '7.0'); }}
-                  style={{ padding: '0.4rem 0.8rem', borderRadius: '6px', border: '1px solid var(--border-color)', background: 'transparent', color: 'var(--text-secondary)', fontSize: '0.8rem', cursor: 'pointer' }}
                 >
                   Cancel
                 </button>
-                <button 
-                  onClick={handleSaveTarget}
-                  disabled={saving}
-                  style={{ padding: '0.4rem 0.8rem', borderRadius: '6px', border: 'none', background: 'var(--purple-600)', color: 'white', fontSize: '0.8rem', cursor: saving ? 'wait' : 'pointer', opacity: saving ? 0.7 : 1 }}
-                >
-                  {saving ? 'Saving...' : 'Save'}
+                <button className="btn btn-primary btn-sm" onClick={handleSaveTarget} disabled={saving}>
+                  {saving ? 'Saving…' : 'Save'}
                 </button>
               </div>
             )}
           </div>
-          
+
           {!isEditing ? (
-            <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem' }}>
-              <span style={{ fontSize: '3rem', fontWeight: '700', color: 'var(--purple-400)' }}>{profile?.target_score || '7.0'}</span>
-              <span style={{ color: 'var(--text-tertiary)', fontSize: '1rem' }}>/ 9.0</span>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: 'var(--space-2)' }}>
+              <span style={{ fontSize: 'var(--text-5xl)', fontWeight: 800, color: 'var(--purple-400)', lineHeight: 1, fontFamily: 'var(--font-display)' }}>
+                {profile?.target_score || '7.0'}
+              </span>
+              <span style={{ color: 'var(--text-tertiary)', fontSize: 'var(--text-lg)' }}>/ 9.0</span>
             </div>
           ) : (
-            <select 
-              value={editTarget} 
+            <select
+              className="form-select"
+              value={editTarget}
               onChange={(e) => setEditTarget(e.target.value)}
-              style={{ padding: '0.75rem 1rem', borderRadius: '8px', border: '1px solid var(--border-color)', background: 'var(--input-bg)', color: 'var(--text-primary)', fontSize: '1.5rem', fontWeight: '600', cursor: 'pointer', width: '120px' }}
+              style={{ maxWidth: '140px', fontSize: 'var(--text-xl)', fontWeight: 600 }}
             >
-              {['5.0', '5.5', '6.0', '6.5', '7.0', '7.5', '8.0', '8.5', '9.0'].map(score => (
+              {TARGET_SCORES.map(score => (
                 <option key={score} value={score}>{score}</option>
               ))}
             </select>
@@ -174,64 +223,77 @@ const Dashboard = ({ setCurrentPage }) => {
         </div>
 
         {/* Progress Section */}
-        <div style={{ padding: '1.5rem', borderRadius: '16px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', marginBottom: '1.5rem' }}>
-          <h2 style={{ fontSize: '1.1rem', fontWeight: '600', marginBottom: '1.25rem', color: 'var(--text-primary)' }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ verticalAlign: 'text-bottom', marginRight: '0.5rem' }}><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-            Your Progress
-          </h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '1.25rem' }}>
-            {sections.map((s) => (
-              <div key={s.label}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '0.4rem' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', color: 'var(--text-primary)', fontSize: '0.9rem', fontWeight: '500' }}>
-                    <span style={{ color: s.color }}>{s.icon}</span>
-                    {s.label}
+        <div className="card" style={{ marginBottom: 'var(--space-5)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-5)' }}>
+            <Icon name="trending" size={18} style={{ color: 'var(--purple-400)' }} />
+            <h2 className="h3" style={{ color: 'var(--text-primary)' }}>Your Progress</h2>
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+            {SECTIONS.map((s) => {
+              const done = completed[s.id];
+              const pct = (done / s.total) * 100;
+              return (
+                <div key={s.id}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 'var(--space-2)' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)' }}>
+                      <Icon name={s.icon} size={16} style={{ color: s.color }} />
+                      <span style={{ fontSize: 'var(--text-sm)', fontWeight: 500, color: 'var(--text-primary)' }}>{s.label}</span>
+                    </div>
+                    <span style={{ fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)' }}>
+                      {done} / {s.total}
+                    </span>
                   </div>
-                  <span style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)', fontWeight: '500' }}>
-                    {s.completed} / {s.total}
-                  </span>
+                  <ProgressBar pct={pct} color={s.color} />
                 </div>
-                <ProgressBar completed={s.completed} total={s.total} color={s.color} />
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
 
         {/* Continue Learning */}
-        <div style={{ padding: '1.5rem', borderRadius: '16px', background: 'var(--card-bg)', border: '1px solid var(--border-color)', marginBottom: '1.5rem' }}>
-          <h2 style={{ fontSize: '1.1rem', fontWeight: '600', marginBottom: '1.25rem', color: 'var(--text-primary)' }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ verticalAlign: 'text-bottom', marginRight: '0.5rem' }}><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-            Continue Learning
-          </h2>
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '1rem' }}>
-            {[
-              { label: 'Listening', page: 'listening', desc: '80 Practice Tests', color: 'var(--purple-500)' },
-              { label: 'Reading', page: 'reading', desc: '69 Practice Tests', color: '#3b82f6' },
-              { label: 'Speaking', page: 'speaking', desc: 'Part 1, 2, 3', color: '#10b981' },
-              { label: 'Grammar', page: 'grammar', desc: '6 Lessons', color: '#f59e0b' },
-            ].map((action) => (
+        <div className="card" style={{ marginBottom: 'var(--space-5)' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-5)' }}>
+            <Icon name="layout" size={18} style={{ color: 'var(--purple-400)' }} />
+            <h2 className="h3" style={{ color: 'var(--text-primary)' }}>Continue Learning</h2>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 'var(--space-3)' }}>
+            {SHORTCUTS.map((action) => (
               <button
                 key={action.page}
+                type="button"
                 onClick={() => setCurrentPage(action.page)}
-                className="card-hover"
-                style={{ padding: '1.25rem', borderRadius: '12px', border: '1px solid var(--border-color)', background: 'transparent', color: 'var(--text-primary)', cursor: 'pointer', textAlign: 'left' }}
+                className="card card-interactive"
+                style={{ padding: 'var(--space-5)', textAlign: 'left', cursor: 'pointer' }}
               >
-                <div style={{ width: '8px', height: '8px', borderRadius: '50%', background: action.color, marginBottom: '0.75rem' }} />
-                <span style={{ fontWeight: '600', display: 'block', marginBottom: '0.25rem' }}>{action.label}</span>
-                <span style={{ fontSize: '0.8rem', color: 'var(--text-tertiary)' }}>{action.desc}</span>
+                <div style={{
+                  display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                  width: '32px', height: '32px', borderRadius: 'var(--r-md)',
+                  background: 'var(--badge-bg)', color: action.tint,
+                  marginBottom: 'var(--space-3)',
+                }}>
+                  <Icon name={action.icon} size={16} />
+                </div>
+                <div style={{ fontWeight: 600, color: 'var(--text-primary)', marginBottom: 'var(--space-1)' }}>
+                  {action.label}
+                </div>
+                <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)' }}>
+                  {action.desc}
+                </div>
               </button>
             ))}
           </div>
         </div>
 
-        {/* Quick Tips */}
-        <div style={{ padding: '1.5rem', borderRadius: '16px', background: 'linear-gradient(135deg, var(--purple-600-20), var(--purple-700-20))', border: '1px solid var(--purple-500-30)' }}>
-          <h3 style={{ fontSize: '1rem', fontWeight: '600', marginBottom: '0.75rem', color: 'var(--text-primary)' }}>
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" style={{ verticalAlign: 'text-bottom', marginRight: '0.4rem' }}><path d="M9 18h6M10 22h4M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg>
-            Today's Tip
-          </h3>
-          <p style={{ fontSize: '0.9rem', color: 'var(--text-secondary)', lineHeight: '1.6' }}>
-            In Speaking Part 2, use the one minute preparation time wisely. Jot down 2-3 key points for each bullet on the cue card, then speak for the full 2 minutes by expanding on each point with examples and details.
+        {/* Tip card */}
+        <div className="panel panel-info">
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-2)' }}>
+            <Icon name="lightbulb" size={16} style={{ color: 'var(--amber-400)' }} />
+            <h3 className="h3" style={{ fontSize: 'var(--text-lg)', color: 'var(--text-primary)' }}>
+              Today's tip
+            </h3>
+          </div>
+          <p className="body" style={{ fontSize: 'var(--text-sm)', margin: 0 }}>
+            In Speaking Part 2, use the one-minute preparation time wisely. Jot down 2–3 key points for each bullet on the cue card, then speak for the full 2 minutes by expanding on each point with examples and details.
           </p>
         </div>
       </div>

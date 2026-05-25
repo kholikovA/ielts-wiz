@@ -100,8 +100,9 @@ const App = () => {
 
   return (
     <>
+      <a href="#main" className="skip-link">Skip to main content</a>
       <Navigation currentPage={currentPage} setCurrentPage={navigateTo} />
-      {renderPage()}
+      <main id="main">{renderPage()}</main>
       {showFooter && <Footer setCurrentPage={navigateTo} />}
     </>
   );

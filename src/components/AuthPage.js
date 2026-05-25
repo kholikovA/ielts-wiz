@@ -1,6 +1,62 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 
+const GOAL_OPTIONS = [
+  'Practice speaking skills',
+  'Improve listening comprehension',
+  'Learn grammar structures',
+  'Get band 9 sample answers',
+  'Take mock tests',
+  'Track my progress',
+];
+
+const TARGET_OPTIONS = [
+  { value: '5.5', label: 'Band 5.5' },
+  { value: '6.0', label: 'Band 6.0' },
+  { value: '6.5', label: 'Band 6.5' },
+  { value: '7.0', label: 'Band 7.0' },
+  { value: '7.5', label: 'Band 7.5' },
+  { value: '8.0', label: 'Band 8.0' },
+  { value: '8.5+', label: 'Band 8.5+' },
+];
+
+const PREP_OPTIONS = [
+  { value: '', label: 'Select an option' },
+  { value: 'just-started', label: 'Just getting started' },
+  { value: 'less-1-month', label: 'Less than 1 month' },
+  { value: '1-3-months', label: '1–3 months' },
+  { value: '3-6-months', label: '3–6 months' },
+  { value: '6-months-plus', label: 'More than 6 months' },
+];
+
+const SOURCE_OPTIONS = [
+  { value: '', label: 'Select an option' },
+  { value: 'google', label: 'Google search' },
+  { value: 'youtube', label: 'YouTube' },
+  { value: 'instagram', label: 'Instagram' },
+  { value: 'tiktok', label: 'TikTok' },
+  { value: 'friend', label: 'Friend or family' },
+  { value: 'teacher', label: 'Teacher recommendation' },
+  { value: 'other', label: 'Other' },
+];
+
+const StepDots = ({ step, total }) => (
+  <div style={{ display: 'flex', justifyContent: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-6)' }}>
+    {Array.from({ length: total }, (_, i) => (
+      <span
+        key={i}
+        style={{
+          width: i + 1 === step ? '24px' : '8px',
+          height: '8px',
+          borderRadius: 'var(--r-pill)',
+          background: i + 1 <= step ? 'var(--purple-500)' : 'var(--border-color)',
+          transition: 'width var(--dur-base) var(--ease), background var(--dur-base) var(--ease)',
+        }}
+      />
+    ))}
+  </div>
+);
+
 const AuthPage = ({ type, setCurrentPage }) => {
   const { signIn, signUp } = useAuth();
   const [email, setEmail] = useState('');
@@ -9,22 +65,14 @@ const AuthPage = ({ type, setCurrentPage }) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [success, setSuccess] = useState('');
-  const [step, setStep] = useState(1); // For multi-step signup
-  
-  // Marketing/profile questions
+  const [step, setStep] = useState(1);
+
   const [targetScore, setTargetScore] = useState('7.0');
   const [prepDuration, setPrepDuration] = useState('');
   const [hearAboutUs, setHearAboutUs] = useState('');
   const [goals, setGoals] = useState([]);
 
-  const goalOptions = [
-    'Practice speaking skills',
-    'Improve listening comprehension',
-    'Learn grammar structures',
-    'Get band 9 sample answers',
-    'Take mock tests',
-    'Track my progress'
-  ];
+  const isSignup = type === 'signup';
 
   const handleGoalToggle = (goal) => {
     setGoals(prev => prev.includes(goal) ? prev.filter(g => g !== goal) : [...prev, goal]);
@@ -33,51 +81,29 @@ const AuthPage = ({ type, setCurrentPage }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(''); setSuccess(''); setLoading(true);
-    
-    if (type === 'signup') {
+
+    if (isSignup) {
       if (step === 1) {
-        if (!email || !password || !name) { 
-          setError('Please fill in all fields'); 
-          setLoading(false); 
-          return; 
-        }
-        if (password.length < 6) {
-          setError('Password must be at least 6 characters');
-          setLoading(false);
-          return;
-        }
-        setStep(2);
-        setLoading(false);
-        return;
+        if (!email || !password || !name) { setError('Please fill in all fields'); setLoading(false); return; }
+        if (password.length < 6) { setError('Password must be at least 6 characters'); setLoading(false); return; }
+        setStep(2); setLoading(false); return;
       }
-      
-      // Step 2 - complete signup with profile data
       try {
         const { error } = await signUp(email, password, name, {
           target_score: targetScore,
           prep_duration: prepDuration,
           referral_source: hearAboutUs,
-          goals: goals
+          goals,
         });
         if (error) throw error;
         setSuccess('Account created! Check your email to confirm.');
-      } catch (err) { 
-        setError(err.message); 
-      } finally { 
-        setLoading(false); 
-      }
+      } catch (err) { setError(err.message); }
+      finally { setLoading(false); }
     } else {
-      // Login
-      if (!email || !password) { 
-        setError('Please fill in all fields'); 
-        setLoading(false); 
-        return; 
-      }
+      if (!email || !password) { setError('Please fill in all fields'); setLoading(false); return; }
       try {
         const { error } = await signIn(email, password);
         if (error) throw error;
-        // If the user was bounced here from a gated static page, send them back.
-        // ?next=/tests/test_1.html is appended by the test page's auth gate.
         const params = new URLSearchParams(window.location.search);
         const next = params.get('next');
         if (next && next.startsWith('/')) {
@@ -85,115 +111,79 @@ const AuthPage = ({ type, setCurrentPage }) => {
         } else {
           setCurrentPage('dashboard');
         }
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
+      } catch (err) { setError(err.message); }
+      finally { setLoading(false); }
     }
   };
 
-  const inputStyle = {
-    width: '100%',
-    padding: '0.875rem 1rem',
-    borderRadius: '10px',
-    border: '1px solid var(--border-color)',
-    background: 'var(--input-bg)',
-    color: 'var(--text-primary)',
-    fontSize: '1rem',
-  };
+  const wide = isSignup && step === 2;
+  const heading = !isSignup ? 'Welcome back' : step === 1 ? 'Create account' : 'Tell us about you';
+  const sub = !isSignup ? 'Sign in to continue' : step === 1 ? 'Start your IELTS journey in two quick steps.' : 'A few quick questions to tailor your practice.';
 
   return (
     <div style={{ paddingTop: '100px', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
-      <div style={{ width: '100%', maxWidth: type === 'signup' && step === 2 ? '520px' : '420px', padding: '2rem' }}>
-        <div style={{ padding: '2.5rem', borderRadius: '24px', background: 'var(--card-bg)', border: '1px solid var(--border-color)' }}>
-          <h1 style={{ fontSize: '1.75rem', fontWeight: '700', marginBottom: '0.5rem', textAlign: 'center', color: 'var(--text-primary)' }}>
-            {type === 'login' ? 'Welcome back' : step === 1 ? 'Create account' : 'Almost there!'}
+      <div style={{ width: '100%', maxWidth: wide ? '540px' : '440px', padding: 'var(--space-6)' }}>
+        <div className="card" style={{ padding: 'var(--space-8)', borderRadius: 'var(--r-3xl)' }}>
+          {isSignup && <StepDots step={step} total={2} />}
+
+          <h1 className="h2" style={{ textAlign: 'center', marginBottom: 'var(--space-2)', color: 'var(--text-primary)' }}>
+            {heading}
           </h1>
-          <p style={{ color: 'var(--text-secondary)', textAlign: 'center', marginBottom: '2rem' }}>
-            {type === 'login' ? 'Sign in to continue' : step === 1 ? 'Start your IELTS journey' : 'Tell us about your goals'}
+          <p className="body" style={{ textAlign: 'center', marginBottom: 'var(--space-6)' }}>
+            {sub}
           </p>
-          
-          {error && <div style={{ padding: '0.75rem 1rem', borderRadius: '10px', background: 'rgba(239, 68, 68, 0.1)', border: '1px solid rgba(239, 68, 68, 0.3)', color: '#f87171', fontSize: '0.9rem', marginBottom: '1.5rem' }}>{error}</div>}
-          {success && <div style={{ padding: '0.75rem 1rem', borderRadius: '10px', background: 'rgba(16, 185, 129, 0.1)', border: '1px solid rgba(16, 185, 129, 0.3)', color: '#34d399', fontSize: '0.9rem', marginBottom: '1.5rem' }}>{success}</div>}
-          
+
+          {error && <div className="form-error">{error}</div>}
+          {success && <div className="form-success">{success}</div>}
+
           <form onSubmit={handleSubmit}>
-            {type === 'signup' && step === 1 && (
+            {isSignup && step === 1 && (
               <>
-                <div style={{ marginBottom: '1rem' }}>
-                  <label style={{ display: 'block', fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>Full Name</label>
-                  <input type="text" value={name} onChange={(e) => setName(e.target.value)} placeholder="John Doe" style={inputStyle} />
+                <div className="form-field">
+                  <label className="form-label" htmlFor="name">Full name</label>
+                  <input id="name" type="text" className="form-input" value={name} onChange={(e) => setName(e.target.value)} placeholder="Jane Doe" autoComplete="name" />
                 </div>
-                <div style={{ marginBottom: '1rem' }}>
-                  <label style={{ display: 'block', fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>Email</label>
-                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" style={inputStyle} />
+                <div className="form-field">
+                  <label className="form-label" htmlFor="email">Email</label>
+                  <input id="email" type="email" className="form-input" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" autoComplete="email" />
                 </div>
-                <div style={{ marginBottom: '1.5rem' }}>
-                  <label style={{ display: 'block', fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>Password</label>
-                  <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" style={inputStyle} />
+                <div className="form-field">
+                  <label className="form-label" htmlFor="password">Password</label>
+                  <input id="password" type="password" className="form-input" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="At least 6 characters" autoComplete="new-password" />
                 </div>
               </>
             )}
-            
-            {type === 'signup' && step === 2 && (
+
+            {isSignup && step === 2 && (
               <>
-                <div style={{ marginBottom: '1.25rem' }}>
-                  <label style={{ display: 'block', fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>What's your target IELTS band score?</label>
-                  <select value={targetScore} onChange={(e) => setTargetScore(e.target.value)} style={{ ...inputStyle, cursor: 'pointer' }}>
-                    <option value="5.5">Band 5.5</option>
-                    <option value="6.0">Band 6.0</option>
-                    <option value="6.5">Band 6.5</option>
-                    <option value="7.0">Band 7.0</option>
-                    <option value="7.5">Band 7.5</option>
-                    <option value="8.0">Band 8.0</option>
-                    <option value="8.5+">Band 8.5+</option>
+                <div className="form-field">
+                  <label className="form-label" htmlFor="target">What's your target band score?</label>
+                  <select id="target" className="form-select" value={targetScore} onChange={(e) => setTargetScore(e.target.value)}>
+                    {TARGET_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                   </select>
                 </div>
-                
-                <div style={{ marginBottom: '1.25rem' }}>
-                  <label style={{ display: 'block', fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>How long have you been preparing for IELTS?</label>
-                  <select value={prepDuration} onChange={(e) => setPrepDuration(e.target.value)} style={{ ...inputStyle, cursor: 'pointer' }}>
-                    <option value="">Select an option</option>
-                    <option value="just-started">Just getting started</option>
-                    <option value="less-1-month">Less than 1 month</option>
-                    <option value="1-3-months">1-3 months</option>
-                    <option value="3-6-months">3-6 months</option>
-                    <option value="6-months-plus">More than 6 months</option>
+                <div className="form-field">
+                  <label className="form-label" htmlFor="prep">How long have you been preparing?</label>
+                  <select id="prep" className="form-select" value={prepDuration} onChange={(e) => setPrepDuration(e.target.value)}>
+                    {PREP_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                   </select>
                 </div>
-                
-                <div style={{ marginBottom: '1.25rem' }}>
-                  <label style={{ display: 'block', fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>How did you hear about IELTS Wiz?</label>
-                  <select value={hearAboutUs} onChange={(e) => setHearAboutUs(e.target.value)} style={{ ...inputStyle, cursor: 'pointer' }}>
-                    <option value="">Select an option</option>
-                    <option value="google">Google search</option>
-                    <option value="youtube">YouTube</option>
-                    <option value="instagram">Instagram</option>
-                    <option value="tiktok">TikTok</option>
-                    <option value="friend">Friend or family</option>
-                    <option value="teacher">Teacher recommendation</option>
-                    <option value="other">Other</option>
+                <div className="form-field">
+                  <label className="form-label" htmlFor="source">How did you hear about IELTS Wiz?</label>
+                  <select id="source" className="form-select" value={hearAboutUs} onChange={(e) => setHearAboutUs(e.target.value)}>
+                    {SOURCE_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
                   </select>
                 </div>
-                
-                <div style={{ marginBottom: '1.5rem' }}>
-                  <label style={{ display: 'block', fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '0.75rem' }}>What do you want to achieve? (Select all that apply)</label>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: '0.5rem' }}>
-                    {goalOptions.map(goal => (
+                <div className="form-field">
+                  <span className="form-label">What do you want to achieve?</span>
+                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
+                    {GOAL_OPTIONS.map(goal => (
                       <button
                         key={goal}
                         type="button"
                         onClick={() => handleGoalToggle(goal)}
-                        style={{
-                          padding: '0.5rem 0.875rem',
-                          borderRadius: '20px',
-                          border: goals.includes(goal) ? '1px solid var(--purple-500)' : '1px solid var(--border-color)',
-                          background: goals.includes(goal) ? 'var(--purple-600-20)' : 'transparent',
-                          color: goals.includes(goal) ? 'var(--purple-400)' : 'var(--text-secondary)',
-                          fontSize: '0.85rem',
-                          cursor: 'pointer',
-                          transition: 'all 0.2s ease',
-                        }}
+                        className={`chip ${goals.includes(goal) ? 'is-selected' : ''}`}
+                        aria-pressed={goals.includes(goal)}
                       >
                         {goal}
                       </button>
@@ -202,45 +192,47 @@ const AuthPage = ({ type, setCurrentPage }) => {
                 </div>
               </>
             )}
-            
-            {type === 'login' && (
+
+            {!isSignup && (
               <>
-                <div style={{ marginBottom: '1rem' }}>
-                  <label style={{ display: 'block', fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>Email</label>
-                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" style={inputStyle} />
+                <div className="form-field">
+                  <label className="form-label" htmlFor="email">Email</label>
+                  <input id="email" type="email" className="form-input" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" autoComplete="email" />
                 </div>
-                <div style={{ marginBottom: '1.5rem' }}>
-                  <label style={{ display: 'block', fontSize: '0.9rem', color: 'var(--text-secondary)', marginBottom: '0.5rem' }}>Password</label>
-                  <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" style={inputStyle} />
+                <div className="form-field">
+                  <label className="form-label" htmlFor="password">Password</label>
+                  <input id="password" type="password" className="form-input" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" autoComplete="current-password" />
                 </div>
               </>
             )}
-            
-            <div style={{ display: 'flex', gap: '0.75rem' }}>
-              {type === 'signup' && step === 2 && (
-                <button 
-                  type="button" 
-                  onClick={() => setStep(1)}
-                  style={{ flex: 1, padding: '0.875rem', borderRadius: '10px', border: '1px solid var(--border-color)', background: 'transparent', color: 'var(--text-secondary)', fontSize: '1rem', fontWeight: '500', cursor: 'pointer' }}
-                >
+
+            <div style={{ display: 'flex', gap: 'var(--space-3)', marginTop: 'var(--space-6)' }}>
+              {isSignup && step === 2 && (
+                <button type="button" className="btn btn-secondary btn-lg" onClick={() => setStep(1)} style={{ flex: 1 }}>
                   Back
                 </button>
               )}
-              <button 
-                type="submit" 
-                disabled={loading} 
-                style={{ flex: 1, padding: '0.875rem', borderRadius: '10px', border: 'none', background: 'linear-gradient(135deg, var(--purple-600), var(--purple-700))', color: 'white', fontSize: '1rem', fontWeight: '600', cursor: loading ? 'not-allowed' : 'pointer', opacity: loading ? 0.7 : 1 }}
-              >
-                {loading ? 'Please wait...' : (type === 'login' ? 'Sign In' : step === 1 ? 'Continue' : 'Create Account')}
+              <button type="submit" className="btn btn-primary btn-lg" disabled={loading} style={{ flex: 1, justifyContent: 'center' }}>
+                {loading ? 'Please wait…' : !isSignup ? 'Sign in' : step === 1 ? 'Continue' : 'Create account'}
               </button>
             </div>
           </form>
-          
-          <div style={{ marginTop: '1.5rem', textAlign: 'center', color: 'var(--text-secondary)', fontSize: '0.9rem' }}>
-            {type === 'login' ? (
-              <>Don't have an account? <span onClick={() => setCurrentPage('signup')} style={{ color: 'var(--purple-400)', cursor: 'pointer' }}>Sign up</span></>
+
+          <div style={{ marginTop: 'var(--space-6)', textAlign: 'center', fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>
+            {!isSignup ? (
+              <>
+                Don't have an account?{' '}
+                <button type="button" onClick={() => setCurrentPage('signup')} style={{ color: 'var(--purple-400)', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 500, fontSize: 'inherit', padding: 0 }}>
+                  Sign up
+                </button>
+              </>
             ) : (
-              <>Already have an account? <span onClick={() => setCurrentPage('login')} style={{ color: 'var(--purple-400)', cursor: 'pointer' }}>Sign in</span></>
+              <>
+                Already have an account?{' '}
+                <button type="button" onClick={() => setCurrentPage('login')} style={{ color: 'var(--purple-400)', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 500, fontSize: 'inherit', padding: 0 }}>
+                  Sign in
+                </button>
+              </>
             )}
           </div>
         </div>

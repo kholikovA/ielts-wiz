@@ -1,6 +1,7 @@
 import React from 'react';
 import Card from './ui/Card';
 import Icon from './ui/icons';
+import useReveal from './ui/useReveal';
 
 const SKILLS = [
   {
@@ -33,8 +34,10 @@ const SKILLS = [
   },
 ];
 
-const SkillsSection = ({ setCurrentPage }) => (
-  <section className="page-section page-section--lg">
+const SkillsSection = ({ setCurrentPage }) => {
+  const ref = useReveal();
+  return (
+  <section className="page-section page-section--lg reveal" ref={ref}>
     <div style={{ textAlign: 'center', marginBottom: 'var(--space-12)' }}>
       <div className="eyebrow" style={{ marginBottom: 'var(--space-3)' }}>
         Four Skills · One Path
@@ -95,6 +98,7 @@ const SkillsSection = ({ setCurrentPage }) => (
       ))}
     </div>
   </section>
-);
+  );
+};
 
 export default SkillsSection;
