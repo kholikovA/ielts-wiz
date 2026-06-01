@@ -11,6 +11,9 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // If env vars are missing or the auth endpoint is unreachable, getSession
+    // rejects. Without this catch the app sits forever on `loading=true` and
+    // renders a blank spinner. Treat any init failure as a signed-out boot.
     supabase.auth.getSession().then(({ data: { session } }) => {
       setUser(session?.user ?? null);
       if (session?.user) {
@@ -18,6 +21,9 @@ export const AuthProvider = ({ children }) => {
       } else {
         setLoading(false);
       }
+    }).catch(() => {
+      setUser(null);
+      setLoading(false);
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
