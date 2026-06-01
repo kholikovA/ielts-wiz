@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Icon from '../ui/icons';
 import { Exercise } from './exercises';
 import { recordMastery, recordAttempt } from '../../lib/grammarProgressStore';
+import { pushResult } from '../../lib/cloudSync';
 
 const formatTime = (sec) => {
   const m = Math.floor(sec / 60);
@@ -65,6 +66,14 @@ const MasteryTest = ({ topic, onExit }) => {
     const score = questions.length > 0 ? correctCount / questions.length : 0;
     if (score >= passing) {
       recordMastery(topic.id, score);
+      // Mirror to cloud so progress survives device changes. Fire-and-forget —
+      // local write is the source of truth, the network call is best-effort.
+      pushResult({
+        kind: 'grammar',
+        test_id: topic.id,
+        correct: Math.round(score * 100),
+        total: 100,
+      });
     } else {
       recordAttempt(topic.id, score);
     }
@@ -140,7 +149,7 @@ const MasteryTest = ({ topic, onExit }) => {
                 border: `1px solid ${results[i]?.correct ? 'rgba(16,185,129,0.4)' : 'rgba(239,68,68,0.4)'}`,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
                 fontFamily: 'var(--font-mono)', fontWeight: 600,
-                color: results[i]?.correct ? '#34d399' : '#f87171',
+                color: results[i]?.correct ? 'var(--correct-text)' : 'var(--incorrect-text)',
               }}>
                 {i + 1}
               </div>

@@ -11,15 +11,15 @@ import { pullAndMerge } from '../lib/cloudSync';
 // Practice catalog totals — bump when content grows.
 const SECTIONS = [
   { id: 'listening',  kind: 'listening',  label: 'Listening',          page: 'listening', total: 80, color: 'var(--purple-500)', icon: 'headphones' },
-  { id: 'reading-p1', kind: 'reading_p1', label: 'Reading · Passage 1', page: 'reading',  total: 40, color: '#8b5cf6',          icon: 'book' },
-  { id: 'reading-p2', kind: 'reading_p2', label: 'Reading · Passage 2', page: 'reading',  total: 20, color: '#3b82f6',          icon: 'book' },
-  { id: 'reading-p3', kind: 'reading_p3', label: 'Reading · Passage 3', page: 'reading',  total: 9,  color: '#10b981',          icon: 'book' },
+  { id: 'reading-p1', kind: 'reading_p1', label: 'Reading · Passage 1', page: 'reading',  total: 40, color: 'var(--violet-500)', icon: 'book' },
+  { id: 'reading-p2', kind: 'reading_p2', label: 'Reading · Passage 2', page: 'reading',  total: 20, color: 'var(--blue-500)',   icon: 'book' },
+  { id: 'reading-p3', kind: 'reading_p3', label: 'Reading · Passage 3', page: 'reading',  total: 9,  color: 'var(--green-500)',  icon: 'book' },
 ];
 
 const SHORTCUTS = [
   { label: 'Listening', page: 'listening', desc: '80 Practice Tests', icon: 'headphones', tint: 'var(--purple-500)' },
-  { label: 'Reading',   page: 'reading',   desc: '69 Practice Tests', icon: 'book',       tint: '#3b82f6' },
-  { label: 'Speaking',  page: 'speaking',  desc: 'Part 1, 2, 3',      icon: 'mic',        tint: '#10b981' },
+  { label: 'Reading',   page: 'reading',   desc: '69 Practice Tests', icon: 'book',       tint: 'var(--blue-500)' },
+  { label: 'Speaking',  page: 'speaking',  desc: 'Part 1, 2, 3',      icon: 'mic',        tint: 'var(--green-500)' },
   { label: 'Grammar',   page: 'grammar',   desc: '6 Lessons',         icon: 'graduation', tint: 'var(--amber-500)' },
 ];
 
@@ -93,7 +93,7 @@ const Dashboard = ({ setCurrentPage }) => {
   const overallPct = totalAvailable ? Math.round((totalCompleted / totalAvailable) * 100) : 0;
 
   return (
-    <div style={{ paddingTop: '100px', minHeight: '100vh' }}>
+    <div className="page-shell">
       <div className="page-section" style={{ maxWidth: '960px' }}>
         {/* Profile Header */}
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-5)', marginBottom: 'var(--space-10)' }}>

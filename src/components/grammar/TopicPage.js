@@ -30,7 +30,7 @@ const TopicPage = ({ topic, levelName, onBack }) => {
 
   if (masteryOpen) {
     return (
-      <div style={{ paddingTop: '100px', minHeight: '100vh' }}>
+      <div className="page-shell">
         <div className="page-section" style={{ maxWidth: '900px' }}>
           <button type="button" className="btn btn-secondary" onClick={() => setMasteryOpen(false)} style={{ marginBottom: 'var(--space-5)' }}>
             <Icon name="arrowLeft" size={16} /> Back to topic
@@ -42,7 +42,7 @@ const TopicPage = ({ topic, levelName, onBack }) => {
   }
 
   return (
-    <div style={{ paddingTop: '100px', minHeight: '100vh' }}>
+    <div className="page-shell">
       <div style={{ maxWidth: '1200px', margin: '0 auto', padding: '0 var(--space-6)', display: 'grid', gridTemplateColumns: '220px 1fr', gap: 'var(--space-8)' }} className="topic-layout">
         {/* Sticky side nav */}
         <aside className="topic-nav" style={{ position: 'sticky', top: '100px', alignSelf: 'start', maxHeight: 'calc(100vh - 120px)', overflowY: 'auto' }}>
@@ -201,12 +201,12 @@ const TopicPage = ({ topic, levelName, onBack }) => {
                 {s.commonMistakes.map((m, i) => (
                   <div key={i} className="card" style={{ borderColor: 'rgba(239, 68, 68, 0.25)', padding: 'var(--space-4)' }}>
                     <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-2)', marginBottom: 'var(--space-2)' }}>
-                      <Icon name="xCircle" size={16} style={{ color: '#f87171', marginTop: 2 }} />
-                      <span style={{ color: '#f87171', textDecoration: 'line-through', fontSize: 'var(--text-sm)' }}>{m.wrong}</span>
+                      <Icon name="xCircle" size={16} style={{ color: 'var(--incorrect-text)', marginTop: 2 }} />
+                      <span style={{ color: 'var(--incorrect-text)', textDecoration: 'line-through', fontSize: 'var(--text-sm)' }}>{m.wrong}</span>
                     </div>
                     <div style={{ display: 'flex', alignItems: 'flex-start', gap: 'var(--space-2)', marginBottom: 'var(--space-3)' }}>
-                      <Icon name="checkCircle" size={16} style={{ color: '#34d399', marginTop: 2 }} />
-                      <span style={{ color: '#34d399', fontWeight: 500, fontSize: 'var(--text-sm)' }}>{m.right}</span>
+                      <Icon name="checkCircle" size={16} style={{ color: 'var(--correct-text)', marginTop: 2 }} />
+                      <span style={{ color: 'var(--correct-text)', fontWeight: 500, fontSize: 'var(--text-sm)' }}>{m.right}</span>
                     </div>
                     <p style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)', margin: 0, lineHeight: 1.5 }}>{m.explanation}</p>
                   </div>

@@ -8,8 +8,8 @@ import { getProgress, getDueReviews, getMastery } from '../../lib/grammarProgres
 // Mapping level → tint colour, used by the level card accent.
 const LEVEL_TINT = {
   L1: { soft: 'rgba(168, 85, 247, 0.12)', hard: 'var(--purple-500)' },
-  L2: { soft: 'rgba(59, 130, 246, 0.12)',  hard: '#3b82f6' },
-  L3: { soft: 'rgba(16, 185, 129, 0.12)',  hard: '#10b981' },
+  L2: { soft: 'rgba(59, 130, 246, 0.12)',  hard: 'var(--blue-500)' },
+  L3: { soft: 'rgba(16, 185, 129, 0.12)',  hard: 'var(--green-500)' },
   L4: { soft: 'rgba(245, 158, 11, 0.12)',  hard: 'var(--amber-500)' },
 };
 
@@ -22,7 +22,7 @@ const GrammarHub = ({ setSubPage, setCurrentPage }) => {
   const goTopic = (topicId) => { if (setSubPage) setSubPage(topicId); };
 
   return (
-    <div style={{ paddingTop: '100px', minHeight: '100vh' }}>
+    <div className="page-shell">
       <div className="page-section" style={{ maxWidth: '1100px' }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end', flexWrap: 'wrap', gap: 'var(--space-4)', marginBottom: 'var(--space-8)' }}>
           <PageHeader

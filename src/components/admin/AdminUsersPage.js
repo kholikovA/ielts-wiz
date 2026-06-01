@@ -125,7 +125,7 @@ const AdminUsersPage = ({ setCurrentPage }) => {
 
   if (!isAdmin) {
     return (
-      <div style={{ paddingTop: '100px', minHeight: '100vh' }}>
+      <div className="page-shell">
         <div className="page-section" style={{ maxWidth: '600px' }}>
           <div className="panel panel-error" style={{ padding: 'var(--space-8)', textAlign: 'center' }}>
             <Icon name="xCircle" size={32} style={{ color: 'var(--error)', marginBottom: 'var(--space-3)' }} />
@@ -145,7 +145,7 @@ const AdminUsersPage = ({ setCurrentPage }) => {
   }
 
   return (
-    <div style={{ paddingTop: '100px', minHeight: '100vh' }}>
+    <div className="page-shell">
       <div className="page-section" style={{ maxWidth: '1200px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 'var(--space-3)' }}>
           <PageHeader
