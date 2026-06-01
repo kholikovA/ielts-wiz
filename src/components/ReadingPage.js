@@ -6,8 +6,9 @@ import { readingPassage3Tests } from '../data/reading-passage3';
 import SubNav from './ui/SubNav';
 import PageHeader from './ui/PageHeader';
 import CollapsibleAbout from './ui/CollapsibleAbout';
-import Icon from './ui/icons';
-import { getCompletedIds } from '../lib/progressStore';
+import TestCard from './ui/TestCard';
+import ViewToggle, { readViewMode, writeViewMode } from './ui/ViewToggle';
+import { getCompletedIds, getLatestAttempt } from '../lib/progressStore';
 
 const PASSAGES = [
   {
@@ -32,14 +33,27 @@ const PASSAGES = [
 
 const testHref = (passage, id) => `/reading/passage${passage}_${id}.html`;
 
+// Per-passage accent matches the dashboard category colors.
+const ACCENT_FOR_PASSAGE = {
+  passage1: 'var(--violet-500)',
+  passage2: 'var(--blue-500)',
+  passage3: 'var(--green-500)',
+};
+
 const ReadingPage = ({ subPage, setSubPage, setCurrentPage }) => {
   const { user } = useAuth();
   const initial = PASSAGES.find(p => p.id === subPage)?.id || 'passage1';
   const [active, setActive] = useState(initial);
+  const [viewMode, setViewMode] = useState(() => readViewMode());
 
   const onChange = (id) => {
     setActive(id);
     if (setSubPage) setSubPage(id);
+  };
+
+  const onChangeView = (m) => {
+    setViewMode(m);
+    writeViewMode(m);
   };
 
   // Per-passage completion list from the versioned progress store. The HTML
@@ -63,7 +77,7 @@ const ReadingPage = ({ subPage, setSubPage, setCurrentPage }) => {
     return () => window.removeEventListener('popstate', syncFromUrl);
   }, []);
 
-  const requireAuth = (e) => {
+  const handleAuthRequired = (e) => {
     if (!user) {
       e.preventDefault();
       setCurrentPage('login');
@@ -73,6 +87,8 @@ const ReadingPage = ({ subPage, setSubPage, setCurrentPage }) => {
   const current = PASSAGES.find(p => p.id === active);
   const passageNum = PASSAGES.indexOf(current) + 1;
   const totalTests = PASSAGES.reduce((sum, p) => sum + p.tests.length, 0);
+  const kind = `reading_p${passageNum}`;
+  const accent = ACCENT_FOR_PASSAGE[active] || 'var(--purple-600)';
 
   return (
     <div className="page-shell">
@@ -83,72 +99,36 @@ const ReadingPage = ({ subPage, setSubPage, setCurrentPage }) => {
           lead="Authentic IELTS reading passages with split-pane test mode, highlighter, drag-and-drop matching headings, and Cambridge-style auto-grading."
         />
 
-        <SubNav
-          items={PASSAGES.map(p => ({ id: p.id, label: `${p.label} · ${p.tests.length} tests` }))}
-          value={active}
-          onChange={onChange}
-        />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--space-3)', flexWrap: 'wrap', marginBottom: 'var(--space-4)' }}>
+          <SubNav
+            items={PASSAGES.map(p => ({ id: p.id, label: `${p.label} · ${p.tests.length} tests` }))}
+            value={active}
+            onChange={onChange}
+          />
+          <ViewToggle value={viewMode} onChange={onChangeView} />
+        </div>
 
         <p className="body" style={{ marginTop: '-1rem', marginBottom: 'var(--space-6)', fontSize: 'var(--text-sm)' }}>
           {current.desc}
         </p>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
-          gap: 'var(--space-4)',
-        }}>
-          {current.tests.map((test, i) => {
+        <div style={viewMode === 'list'
+          ? { display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }
+          : { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 'var(--space-3)' }}>
+          {current.tests.map((test) => {
             const isCompleted = completedTests.includes(String(test.id));
+            const latest = getLatestAttempt(kind, test.id);
             return (
-              <a
+              <TestCard
                 key={test.id}
+                test={test}
                 href={testHref(passageNum, test.id)}
-                onClick={requireAuth}
-                className="card card-interactive animate-fadeInUp"
-                style={{
-                  position: 'relative',
-                  borderColor: isCompleted ? 'rgba(16, 185, 129, 0.4)' : undefined,
-                  animationDelay: `${i * 0.02}s`,
-                }}
-              >
-                {isCompleted && (
-                  <div style={{
-                    position: 'absolute', top: 'var(--space-4)', right: 'var(--space-4)',
-                    width: '24px', height: '24px', borderRadius: '50%',
-                    background: 'var(--success)',
-                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                    color: 'white',
-                  }}>
-                    <Icon name="check" size={14} strokeWidth={3} />
-                  </div>
-                )}
-                <div style={{
-                  fontFamily: 'var(--font-mono)',
-                  fontSize: 'var(--text-xs)',
-                  color: 'var(--purple-400)',
-                  textTransform: 'uppercase',
-                  letterSpacing: '0.08em',
-                  fontWeight: 700,
-                  marginBottom: 'var(--space-2)',
-                }}>
-                  Test {test.id}
-                </div>
-                <h3 style={{
-                  fontFamily: 'var(--font-display)',
-                  fontSize: 'var(--text-lg)',
-                  fontWeight: 600,
-                  color: 'var(--text-primary)',
-                  marginBottom: 'var(--space-2)',
-                  lineHeight: 1.3,
-                  paddingRight: isCompleted ? 'var(--space-8)' : 0,
-                }}>
-                  {test.title}
-                </h3>
-                <p className="body" style={{ fontSize: 'var(--text-sm)', margin: 0 }}>
-                  {test.subtitle}
-                </p>
-              </a>
+                viewMode={viewMode}
+                isCompleted={isCompleted}
+                latestAttempt={latest}
+                onAuthRequired={handleAuthRequired}
+                accent={accent}
+              />
             );
           })}
         </div>

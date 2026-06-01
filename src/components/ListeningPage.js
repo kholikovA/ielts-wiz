@@ -4,8 +4,9 @@ import { listeningTestsData } from '../data/listening-tests';
 import SubNav from './ui/SubNav';
 import PageHeader from './ui/PageHeader';
 import CollapsibleAbout from './ui/CollapsibleAbout';
-import Icon from './ui/icons';
-import { getCompletedIds } from '../lib/progressStore';
+import TestCard from './ui/TestCard';
+import ViewToggle, { readViewMode, writeViewMode } from './ui/ViewToggle';
+import { getCompletedIds, getLatestAttempt } from '../lib/progressStore';
 
 const PARTS = [
   { id: 'part1', label: 'Part 1', desc: 'Everyday social contexts — conversations between two speakers.', range: '1–20' },
@@ -20,10 +21,16 @@ const ListeningPage = ({ subPage, setSubPage, setCurrentPage }) => {
   // Legacy values ("overview" / "80-tests") fall through to Part 1.
   const initialPart = PARTS.find(p => p.id === subPage)?.id || 'part1';
   const [selectedPart, setSelectedPart] = useState(initialPart);
+  const [viewMode, setViewMode] = useState(() => readViewMode());
 
   const onChangePart = (id) => {
     setSelectedPart(id);
     if (setSubPage) setSubPage(id);
+  };
+
+  const onChangeView = (m) => {
+    setViewMode(m);
+    writeViewMode(m);
   };
 
   const tests = listeningTestsData[selectedPart] || [];
@@ -34,7 +41,7 @@ const ListeningPage = ({ subPage, setSubPage, setCurrentPage }) => {
   const [completedIds, setCompletedIds] = useState([]);
   useEffect(() => { setCompletedIds(getCompletedIds('listening')); }, []);
 
-  const handleCardClick = (e) => {
+  const handleAuthRequired = (e) => {
     if (!user) {
       e.preventDefault();
       setCurrentPage('login');
@@ -50,77 +57,36 @@ const ListeningPage = ({ subPage, setSubPage, setCurrentPage }) => {
           lead="Real exam audio across all four parts. Each test is 10 questions / ~30 minutes with auto-grading and a Cambridge-style band conversion at the end."
         />
 
-        <SubNav
-          items={PARTS.map(p => ({ id: p.id, label: `${p.label} · Tests ${p.range}` }))}
-          value={selectedPart}
-          onChange={onChangePart}
-        />
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--space-3)', flexWrap: 'wrap', marginBottom: 'var(--space-4)' }}>
+          <SubNav
+            items={PARTS.map(p => ({ id: p.id, label: `${p.label} · Tests ${p.range}` }))}
+            value={selectedPart}
+            onChange={onChangePart}
+          />
+          <ViewToggle value={viewMode} onChange={onChangeView} />
+        </div>
 
         <p className="body" style={{ marginTop: '-1rem', marginBottom: 'var(--space-6)', fontSize: 'var(--text-sm)' }}>
           {activePart?.desc}
         </p>
 
-        <div style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(160px, 1fr))',
-          gap: 'var(--space-3)',
-        }}>
-          {tests.map((test, index) => {
+        <div style={viewMode === 'list'
+          ? { display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }
+          : { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 'var(--space-3)' }}>
+          {tests.map((test) => {
             const isCompleted = completedIds.includes(String(test.id));
+            const latest = getLatestAttempt('listening', test.id);
             return (
-            <a
-              key={test.id}
-              href={`/tests/test_${test.id}.html`}
-              onClick={handleCardClick}
-              className="card card-interactive animate-fadeInUp"
-              style={{
-                position: 'relative',
-                padding: 'var(--space-5)',
-                textAlign: 'center',
-                animationDelay: `${index * 0.015}s`,
-                borderColor: isCompleted ? 'rgba(16, 185, 129, 0.4)' : undefined,
-              }}
-            >
-              {isCompleted && (
-                <div style={{
-                  position: 'absolute', top: 'var(--space-3)', right: 'var(--space-3)',
-                  width: '20px', height: '20px', borderRadius: '50%',
-                  background: 'var(--success)',
-                  display: 'flex', alignItems: 'center', justifyContent: 'center',
-                  color: 'white',
-                }}>
-                  <Icon name="check" size={12} strokeWidth={3} />
-                </div>
-              )}
-              <div style={{
-                width: '44px',
-                height: '44px',
-                borderRadius: 'var(--r-md)',
-                background: 'linear-gradient(135deg, var(--purple-600), var(--purple-700))',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                margin: '0 auto var(--space-3)',
-                fontSize: 'var(--text-md)',
-                fontFamily: 'var(--font-mono)',
-                fontWeight: 700,
-                color: 'white',
-              }}>
-                {test.id}
-              </div>
-              <p style={{ fontSize: 'var(--text-sm)', color: 'var(--text-primary)', lineHeight: 1.4, fontWeight: 500, marginBottom: 'var(--space-2)' }}>
-                {test.title && test.title.length > 22 ? `${test.title.slice(0, 22)}…` : test.title}
-              </p>
-              <div style={{
-                fontSize: 'var(--text-xs)',
-                color: 'var(--text-tertiary)',
-                fontFamily: 'var(--font-mono)',
-                textTransform: 'uppercase',
-                letterSpacing: '0.06em',
-              }}>
-                10 questions
-              </div>
-            </a>
+              <TestCard
+                key={test.id}
+                test={test}
+                href={`/tests/test_${test.id}.html`}
+                viewMode={viewMode}
+                isCompleted={isCompleted}
+                latestAttempt={latest}
+                meta="10 questions"
+                onAuthRequired={handleAuthRequired}
+              />
             );
           })}
         </div>

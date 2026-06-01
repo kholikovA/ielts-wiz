@@ -2272,5 +2272,91 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
   var __p=document.querySelector(".passage-section");showPart(__p?parseInt(__p.dataset.part,10):1);
 })();
 </script>
+<script id="iw-review-mode-v1">
+// Review/retake support. Captures the last submission's inputs to localStorage
+// so the user can replay them via ?review=1, and auto-runs that replay when
+// the URL has ?review=1. TEST_KIND + TEST_ID are derived from the URL path so
+// this block needs no per-file customization.
+(function () {
+  function deriveTestMeta() {
+    var path = window.location.pathname;
+    var m = path.match(/\/tests\/test_(\d+)\.html$/);
+    if (m) return { kind: 'listening', id: m[1] };
+    m = path.match(/\/reading\/passage(\d+)_(\d+)\.html$/);
+    if (m) return { kind: 'reading_p' + m[1], id: m[2] };
+    return null;
+  }
+  var meta = deriveTestMeta();
+  if (!meta) return;
+  var SUBMISSION_KEY = 'iw.v1.lastSubmission.' + meta.kind + '.' + meta.id;
+
+  function readAllAnswers() {
+    var answers = {};
+    document.querySelectorAll('.gap-input[data-qnum]').forEach(function (el) {
+      if (el.value && el.value.length) answers[el.dataset.qnum] = el.value;
+    });
+    document.querySelectorAll('input[type="radio"][data-qnum]:checked').forEach(function (el) {
+      answers[el.dataset.qnum] = el.value;
+    });
+    var multi = {};
+    document.querySelectorAll('input[type="checkbox"][data-qnum]:checked').forEach(function (el) {
+      var k = el.dataset.qnum;
+      (multi[k] = multi[k] || []).push(el.value);
+    });
+    Object.keys(multi).forEach(function (k) { answers[k] = multi[k].join(','); });
+    return answers;
+  }
+
+  function snapshot() {
+    try {
+      localStorage.setItem(SUBMISSION_KEY, JSON.stringify({
+        answers: readAllAnswers(),
+        ts: new Date().toISOString()
+      }));
+    } catch (e) {}
+  }
+
+  // Hook the existing confirm button so every submission persists its answers.
+  // addEventListener stacks — this runs alongside the existing submitTest() listener.
+  var confirmBtn = document.getElementById('confirmSubmit');
+  if (confirmBtn) confirmBtn.addEventListener('click', snapshot);
+
+  // Review mode: hydrate inputs from the saved submission, then auto-submit
+  // so the user lands directly on the results screen with the prior answers.
+  var params = new URLSearchParams(window.location.search);
+  if (params.get('review') !== '1') return;
+  try {
+    var raw = localStorage.getItem(SUBMISSION_KEY);
+    if (!raw) return;
+    var data = JSON.parse(raw);
+    if (!data || !data.answers) return;
+    // Give the IIFE a beat to render inputs.
+    setTimeout(function () {
+      Object.keys(data.answers).forEach(function (q) {
+        var v = data.answers[q];
+        var input = document.querySelector('.gap-input[data-qnum="' + q + '"]');
+        if (input) {
+          input.value = v;
+          input.dispatchEvent(new Event('input', { bubbles: true }));
+          input.dispatchEvent(new Event('change', { bubbles: true }));
+        }
+        document.querySelectorAll('input[type="radio"][data-qnum="' + q + '"]').forEach(function (el) {
+          if (el.value === v) { el.checked = true; el.dispatchEvent(new Event('change', { bubbles: true })); }
+        });
+        var arr = String(v).split(',');
+        document.querySelectorAll('input[type="checkbox"][data-qnum="' + q + '"]').forEach(function (el) {
+          if (arr.indexOf(el.value) >= 0) { el.checked = true; el.dispatchEvent(new Event('change', { bubbles: true })); }
+        });
+      });
+      var submitBtn = document.getElementById('submitBtn');
+      if (submitBtn) submitBtn.click();
+      setTimeout(function () {
+        var cb = document.getElementById('confirmSubmit');
+        if (cb) cb.click();
+      }, 250);
+    }, 400);
+  } catch (e) {}
+})();
+</script>
 </body>
 </html>
