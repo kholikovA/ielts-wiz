@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../contexts/AuthContext';
-import AVATAR_OPTIONS from '../data/avatar-options';
+import AVATAR_OPTIONS, { AVATAR_NAMES } from '../data/avatar-options';
 import PageHeader from './ui/PageHeader';
 import Icon from './ui/icons';
 import ActivityHeatmap from './ui/ActivityHeatmap';
@@ -148,7 +148,8 @@ const Dashboard = ({ setCurrentPage }) => {
                     key={i}
                     type="button"
                     onClick={() => handleAvatarSelect(i)}
-                    aria-label={`Avatar ${i + 1}`}
+                    aria-label={AVATAR_NAMES[i] || `Avatar ${i + 1}`}
+                    title={AVATAR_NAMES[i]}
                     aria-pressed={selectedAvatar === i}
                     style={{
                       width: '60px', height: '60px', borderRadius: '50%', overflow: 'hidden',
