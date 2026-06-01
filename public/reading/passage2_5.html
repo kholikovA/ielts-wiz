@@ -2274,7 +2274,7 @@ According to Meyer, it is the suspenseful tension of music, arising out of unful
     return s.replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   }
 
-  showPart(1);
+  var __p=document.querySelector(".passage-section");showPart(__p?parseInt(__p.dataset.part,10):1);
 })();
 </script>
 </body>
