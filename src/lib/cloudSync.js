@@ -15,6 +15,7 @@
 
 import { supabase } from '../supabaseClient';
 import { getActivity, STORAGE_KEYS, migrateLegacy } from './progressStore';
+import { STORAGE_KEYS as GRAMMAR_KEYS } from './grammarProgressStore';
 
 const COMPLETION_KEY_FOR_KIND = {
   listening:  STORAGE_KEYS.listening,
@@ -26,7 +27,7 @@ const COMPLETION_KEY_FOR_KIND = {
 const safeParse = (raw, fb) => { try { return raw ? JSON.parse(raw) : fb; } catch { return fb; } };
 
 // Push a single result up. Called by:
-//   - the React app, after grammar mastery (we wrap recordMastery)
+//   - MasteryTest.js, after a passing grammar attempt
 //   - the HTML test pages, via the same REST endpoint (no JS bridge needed)
 // Failures are swallowed; the local copy is already saved.
 export const pushResult = async ({ kind, test_id, correct, total, completed_at }) => {
@@ -80,6 +81,27 @@ export const pullAndMerge = async () => {
       });
       if (changed) localStorage.setItem(key, JSON.stringify([...local]));
     });
+
+    // Reconstruct grammar mastery from cloud rows. We only push on pass, so
+    // every cloud row with kind=grammar is a passing attempt. Conservative
+    // merge: only add topics that aren't already present locally, so local
+    // attempt counts and timestamps are not clobbered.
+    const grammarRows = data.filter(r => r.kind === 'grammar');
+    if (grammarRows.length > 0) {
+      const mastery = safeParse(localStorage.getItem(GRAMMAR_KEYS.mastery), {});
+      let changed = false;
+      grammarRows.forEach(row => {
+        if (!mastery[row.test_id]) {
+          mastery[row.test_id] = {
+            masteredAt: row.completed_at,
+            score: (row.correct || 0) / (row.total || 1),
+            attempts: 1,
+          };
+          changed = true;
+        }
+      });
+      if (changed) localStorage.setItem(GRAMMAR_KEYS.mastery, JSON.stringify(mastery));
+    }
 
     // Merge activity log. Dedup by (date, kind, test_id, completed_at minute).
     const localActivity = getActivity();

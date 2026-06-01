@@ -76,6 +76,17 @@
   --amber-400: #fbbf24;
   --amber-500: #f59e0b;
   --amber-600: #d97706;
+
+  /* Category accents — used for skill/section colors in the dashboard.
+     Kept theme-invariant; they read fine on both backgrounds. */
+  --blue-500: #3b82f6;
+  --green-500: #10b981;
+  --violet-500: #8b5cf6;
+
+  /* Correct/incorrect foreground (text + icon). Lighter than --success/--error
+     so they read against both card and tinted backgrounds. */
+  --correct-text: #34d399;
+  --incorrect-text: #f87171;
 }
 
 /* Dark Theme (default) */
@@ -279,6 +290,20 @@ select:focus-visible {
    Inline-style components import these via className.
    ============================================================ */
 
+/* Page shell — top padding clears the fixed nav. Every routed page wraps in
+   .page-shell (or .page-shell--centered for auth/placeholder screens). */
+.page-shell {
+  padding-top: 100px;
+  min-height: 100vh;
+}
+.page-shell--centered {
+  padding-top: 100px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Page sections */
 .page-section {
   max-width: 1200px;
@@ -434,6 +459,36 @@ select:focus-visible {
   color: var(--success);
   border-color: rgba(16, 185, 129, 0.3);
 }
+
+/* SubNav — pill-tab row used by skill pages (Listening / Reading / Speaking). */
+.subnav {
+  display: inline-flex;
+  gap: var(--space-1);
+  padding: var(--space-1);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-pill);
+  margin-bottom: var(--space-8);
+  flex-wrap: wrap;
+}
+.subnav-btn {
+  padding: var(--space-2) var(--space-5);
+  border-radius: var(--r-pill);
+  border: none;
+  background: transparent;
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+.subnav-btn:hover { color: var(--text-primary); }
+.subnav-btn--active {
+  background: linear-gradient(135deg, var(--purple-600), var(--purple-700));
+  color: white;
+}
+.subnav-btn--active:hover { color: white; }
 
 /* Section divider — subtle hairline used inside cards / page sections */
 .divider {

@@ -42,7 +42,7 @@ const ListeningPage = ({ subPage, setSubPage, setCurrentPage }) => {
   };
 
   return (
-    <div style={{ paddingTop: '100px', minHeight: '100vh' }}>
+    <div className="page-shell">
       <div className="page-section" style={{ maxWidth: '1100px' }}>
         <PageHeader
           eyebrow="Listening · 80 Tests"

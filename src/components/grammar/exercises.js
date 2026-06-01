@@ -28,8 +28,8 @@ const matchAnswer = (userArr, correctArr) => {
 const ResultPanel = ({ correct, explanation, modelAnswer }) => (
   <div className={`panel ${correct ? 'panel-success' : 'panel-error'}`} style={{ marginTop: 'var(--space-4)' }}>
     <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-2)' }}>
-      <Icon name={correct ? 'checkCircle' : 'xCircle'} size={18} style={{ color: correct ? '#34d399' : '#f87171' }} />
-      <strong style={{ color: correct ? '#34d399' : '#f87171' }}>{correct ? 'Correct!' : 'Not quite'}</strong>
+      <Icon name={correct ? 'checkCircle' : 'xCircle'} size={18} style={{ color: correct ? 'var(--correct-text)' : 'var(--incorrect-text)' }} />
+      <strong style={{ color: correct ? 'var(--correct-text)' : 'var(--incorrect-text)' }}>{correct ? 'Correct!' : 'Not quite'}</strong>
     </div>
     {modelAnswer && (
       <div style={{ marginBottom: explanation ? 'var(--space-2)' : 0, color: 'var(--text-secondary)', fontSize: 'var(--text-sm)' }}>

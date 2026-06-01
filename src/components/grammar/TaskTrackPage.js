@@ -3,7 +3,7 @@ import Icon from '../ui/icons';
 import PageHeader from '../ui/PageHeader';
 
 const TaskTrackPage = ({ track, onBack }) => (
-  <div style={{ paddingTop: '100px', minHeight: '100vh' }}>
+  <div className="page-shell">
     <div className="page-section" style={{ maxWidth: '900px' }}>
       <button type="button" className="btn btn-secondary" onClick={onBack} style={{ marginBottom: 'var(--space-5)' }}>
         <Icon name="arrowLeft" size={16} /> Hub

@@ -67,7 +67,7 @@ const WritingPractice = ({ prompt, onBack }) => {
 
   if (phase === 'intro') {
     return (
-      <div style={{ paddingTop: '100px', minHeight: '100vh' }}>
+      <div className="page-shell">
         <div className="page-section" style={{ maxWidth: '780px' }}>
           <button type="button" className="btn btn-secondary" onClick={onBack} style={{ marginBottom: 'var(--space-5)' }}>
             <Icon name="arrowLeft" size={16} /> Back to prompts
@@ -103,7 +103,7 @@ const WritingPractice = ({ prompt, onBack }) => {
   if (phase === 'writing') {
     const overTime = remaining < 0;
     return (
-      <div style={{ paddingTop: '100px', minHeight: '100vh' }}>
+      <div className="page-shell">
         <div className="page-section" style={{ maxWidth: '1100px' }}>
           {/* Sticky stat bar */}
           <div className="card" style={{ position: 'sticky', top: '90px', zIndex: 5, marginBottom: 'var(--space-4)', padding: 'var(--space-3) var(--space-5)' }}>
@@ -170,7 +170,7 @@ const WritingPractice = ({ prompt, onBack }) => {
 
   // Review phase
   return (
-    <div style={{ paddingTop: '100px', minHeight: '100vh' }}>
+    <div className="page-shell">
       <div className="page-section" style={{ maxWidth: '900px' }}>
         <button type="button" className="btn btn-secondary" onClick={onBack} style={{ marginBottom: 'var(--space-5)' }}>
           <Icon name="arrowLeft" size={16} /> Back to prompts

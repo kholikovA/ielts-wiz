@@ -101,6 +101,17 @@ export const AuthProvider = ({ children }) => {
     await supabase.auth.signOut();
     setUser(null);
     setProfile(null);
+    // Clear local progress so a different user on the same browser doesn't see
+    // the previous user's tests, heatmap, or drafts. Theme override is a UI
+    // preference and is intentionally preserved across the boundary.
+    try {
+      const stale = [];
+      for (let i = 0; i < localStorage.length; i++) {
+        const k = localStorage.key(i);
+        if (k && k.startsWith('iw.v1.') && k !== 'iw.v1.themeOverride') stale.push(k);
+      }
+      stale.forEach(k => localStorage.removeItem(k));
+    } catch { /* storage disabled — nothing to clear */ }
   };
 
   const isAdmin = Boolean(profile?.is_admin);

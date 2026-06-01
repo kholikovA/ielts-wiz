@@ -75,7 +75,7 @@ const ReadingPage = ({ subPage, setSubPage, setCurrentPage }) => {
   const totalTests = PASSAGES.reduce((sum, p) => sum + p.tests.length, 0);
 
   return (
-    <div style={{ paddingTop: '100px', minHeight: '100vh' }}>
+    <div className="page-shell">
       <div className="page-section" style={{ maxWidth: '1100px' }}>
         <PageHeader
           eyebrow={`Reading · ${totalTests} Passages`}

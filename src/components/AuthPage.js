@@ -121,7 +121,7 @@ const AuthPage = ({ type, setCurrentPage }) => {
   const sub = !isSignup ? 'Sign in to continue' : step === 1 ? 'Start your IELTS journey in two quick steps.' : 'A few quick questions to tailor your practice.';
 
   return (
-    <div style={{ paddingTop: '100px', minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <div className="page-shell--centered">
       <div style={{ width: '100%', maxWidth: wide ? '540px' : '440px', padding: 'var(--space-6)' }}>
         <div className="card" style={{ padding: 'var(--space-8)', borderRadius: 'var(--r-3xl)' }}>
           {isSignup && <StepDots step={step} total={2} />}

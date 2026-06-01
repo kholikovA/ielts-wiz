@@ -36,7 +36,7 @@ const GrammarPage = ({ subPage, setSubPage }) => {
   if (sub === 'placement' || sub === 'reviews') {
     const isPlacement = sub === 'placement';
     return (
-      <div style={{ paddingTop: '100px', minHeight: '100vh' }}>
+      <div className="page-shell">
         <div className="page-section" style={{ maxWidth: '720px' }}>
           <button type="button" className="btn btn-secondary" onClick={() => setSubPage && setSubPage('hub')} style={{ marginBottom: 'var(--space-5)' }}>
             ← Hub
