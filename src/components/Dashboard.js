@@ -102,23 +102,35 @@ const Dashboard = ({ setCurrentPage }) => {
             onClick={() => setShowAvatarPicker(true)}
             aria-label="Change avatar"
             style={{
-              width: '76px', height: '76px', borderRadius: '50%',
-              background: selectedAvatar >= 0 ? 'transparent' : 'linear-gradient(135deg, var(--purple-500), var(--purple-700))',
-              border: '3px solid var(--purple-500)',
-              cursor: 'pointer', position: 'relative', overflow: 'hidden', padding: 0,
-              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              position: 'relative',
+              width: '76px', height: '76px',
+              background: 'transparent', border: 'none', padding: 0,
+              cursor: 'pointer', display: 'block',
             }}
           >
-            {selectedAvatar >= 0 && AVATAR_OPTIONS[selectedAvatar] ? (
-              <img src={AVATAR_OPTIONS[selectedAvatar]} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
-            ) : (
-              <span style={{ fontSize: 'var(--text-2xl)', fontWeight: 700, color: 'white' }}>
-                {profile?.name?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase()}
-              </span>
-            )}
+            {/* Circular avatar — clipping lives here, not on the button, so
+                the edit badge below can overflow at the corner. */}
             <div style={{
-              position: 'absolute', bottom: '-2px', right: '-2px',
-              width: '26px', height: '26px', borderRadius: '50%',
+              width: '100%', height: '100%', borderRadius: '50%',
+              overflow: 'hidden',
+              border: '3px solid var(--purple-500)',
+              background: selectedAvatar >= 0 ? 'transparent' : 'linear-gradient(135deg, var(--purple-500), var(--purple-700))',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              boxSizing: 'border-box',
+            }}>
+              {selectedAvatar >= 0 && AVATAR_OPTIONS[selectedAvatar] ? (
+                <img src={AVATAR_OPTIONS[selectedAvatar]} alt="" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+              ) : (
+                <span style={{ fontSize: 'var(--text-2xl)', fontWeight: 700, color: 'white' }}>
+                  {profile?.name?.charAt(0).toUpperCase() || user.email?.charAt(0).toUpperCase()}
+                </span>
+              )}
+            </div>
+            {/* Edit badge sits outside the circle clip, anchored to the
+                button's bounding box. */}
+            <div style={{
+              position: 'absolute', bottom: '-4px', right: '-4px',
+              width: '28px', height: '28px', borderRadius: '50%',
               background: 'var(--purple-600)', color: 'white',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               border: '3px solid var(--bg-primary)',
