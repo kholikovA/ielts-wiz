@@ -17,6 +17,8 @@ const KEYS = {
   readingPassage3:  'iw.v1.completed.reading.passage3',
   // Activity log — array of { d:'YYYY-MM-DD', t:'listening'|'reading_p1'|..., id, correct, total }
   activity:         'iw.v1.activity',
+  // UI preference: 'list' (default) or 'grid' for skill-page test catalogues.
+  viewMode:         'iw.v1.viewMode',
 };
 
 // One-shot mapping from the pre-namespaced keys we shipped in earlier deploys
@@ -136,6 +138,21 @@ export const getRecentByKind = (kind, limit = 5) => {
     .filter(e => e && e.t === kind)
     .reverse()
     .slice(0, limit);
+};
+
+// Latest single attempt on a specific test (kind + test_id). Returns the most
+// recent matching activity entry, or null if there isn't one. Used by skill
+// pages to render a "Last: 7/10" badge on test cards.
+export const getLatestAttempt = (kind, testId) => {
+  const sid = String(testId);
+  const all = getActivity().filter(e => e && e.t === kind && String(e.id) === sid);
+  return all.length > 0 ? all[all.length - 1] : null;
+};
+
+// All attempts on (kind, test_id), oldest first.
+export const getAttemptsForTest = (kind, testId) => {
+  const sid = String(testId);
+  return getActivity().filter(e => e && e.t === kind && String(e.id) === sid);
 };
 
 // Best (highest correct/total ratio) and average score across all entries for a kind.
