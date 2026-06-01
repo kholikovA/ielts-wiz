@@ -1715,7 +1715,56 @@ According to Meyer, it is the suspenseful tension of music, arising out of unful
 
   function normalizeAnswer(a) {
     if (a == null) return "";
-    return String(a).trim().toLowerCase().replace(/\s+/g, " ");
+    let s = String(a).normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+    s = s.toLowerCase().trim();
+    s = s.replace(/[\u2018\u2019']/g, "");
+    s = s.replace(/[-\u2010-\u2015]/g, "");
+    s = s.replace(/\s+/g, " ");
+    s = s.replace(/(?<=\d)\s+(?=\d)/g, "");
+    return s;
+  }
+  function expandAnswerKey(key) {
+    const acceptable = new Set();
+    const pre = String(key).replace(/(?<=\S)\/\s+(?=\S)/g, "/");
+    function expandParens(s) {
+      const m = s.match(/\(([^)]*)\)/);
+      if (!m) return [s];
+      const before = s.slice(0, m.index);
+      const after = s.slice(m.index + m[0].length);
+      return Array.from(new Set([
+        ...expandParens(before + m[1] + after),
+        ...expandParens((before + after).replace(/\s+/g, " ").trim()),
+      ]));
+    }
+    function cartesianTokens(phrase) {
+      const tokens = phrase.trim().split(/\s+/).filter(Boolean);
+      if (tokens.length === 0) return [];
+      const alts = tokens.map(t => t.split("/").filter(Boolean));
+      let combos = [[]];
+      for (const alt of alts) {
+        const next = [];
+        for (const c of combos) for (const a of alt) next.push([...c, a]);
+        combos = next;
+      }
+      return combos.map(c => c.join(" "));
+    }
+    for (const group of pre.split(/\s+\/\s*|\s*\/\s+/).filter(Boolean)) {
+      for (const v of expandParens(group)) {
+        for (const phrase of cartesianTokens(v)) {
+          const n = normalizeAnswer(phrase);
+          if (n) acceptable.add(n);
+        }
+      }
+    }
+    for (const piece of pre.split("/")) {
+      for (const v of expandParens(piece)) {
+        const n = normalizeAnswer(v.trim());
+        if (n) acceptable.add(n);
+      }
+    }
+    acceptable.add(normalizeAnswer(key));
+    acceptable.delete("");
+    return Array.from(acceptable);
   }
   function isCorrect(qNum, userAns) {
     const correct = ANSWER_KEY[qNum];
@@ -1725,8 +1774,7 @@ According to Meyer, it is the suspenseful tension of music, arising out of unful
       const correctSet = correct.map(normalizeAnswer).sort();
       return userSet.length === correctSet.length && userSet.every((v, i) => v === correctSet[i]);
     }
-    const acceptable = String(correct).split(/\s*[\/|]\s*/).map(normalizeAnswer);
-    return acceptable.includes(normalizeAnswer(userAns));
+    return expandAnswerKey(correct).includes(normalizeAnswer(userAns));
   }
 
   const BAND_TABLE = [
