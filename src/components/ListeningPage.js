@@ -6,7 +6,7 @@ import PageHeader from './ui/PageHeader';
 import CollapsibleAbout from './ui/CollapsibleAbout';
 import TestCard from './ui/TestCard';
 import ViewToggle, { readViewMode, writeViewMode } from './ui/ViewToggle';
-import { getCompletedIds, getLatestAttempt } from '../lib/progressStore';
+import { getCompletedIds, getLatestAttempt, hasLastSubmission } from '../lib/progressStore';
 
 const PARTS = [
   { id: 'part1', label: 'Part 1', desc: 'Everyday social contexts — conversations between two speakers.', range: '1–20' },
@@ -76,6 +76,7 @@ const ListeningPage = ({ subPage, setSubPage, setCurrentPage }) => {
           {tests.map((test) => {
             const isCompleted = completedIds.includes(String(test.id));
             const latest = getLatestAttempt('listening', test.id);
+            const canReview = hasLastSubmission('listening', test.id);
             return (
               <TestCard
                 key={test.id}
@@ -84,6 +85,7 @@ const ListeningPage = ({ subPage, setSubPage, setCurrentPage }) => {
                 viewMode={viewMode}
                 isCompleted={isCompleted}
                 latestAttempt={latest}
+                canReview={canReview}
                 meta="10 questions"
                 onAuthRequired={handleAuthRequired}
               />

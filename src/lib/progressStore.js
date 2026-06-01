@@ -149,6 +149,19 @@ export const getLatestAttempt = (kind, testId) => {
   return all.length > 0 ? all[all.length - 1] : null;
 };
 
+// True when there's a snapshotted submission for (kind, testId) that can be
+// replayed via ?review=1. Captured by the appended script on each test HTML
+// page, so this returns false for attempts made before that script shipped.
+export const hasLastSubmission = (kind, testId) => {
+  if (typeof window === 'undefined') return false;
+  try {
+    const raw = localStorage.getItem(`iw.v1.lastSubmission.${kind}.${testId}`);
+    if (!raw) return false;
+    const data = JSON.parse(raw);
+    return !!(data && data.answers && Object.keys(data.answers).length > 0);
+  } catch { return false; }
+};
+
 // All attempts on (kind, test_id), oldest first.
 export const getAttemptsForTest = (kind, testId) => {
   const sid = String(testId);

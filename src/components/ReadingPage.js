@@ -8,7 +8,7 @@ import PageHeader from './ui/PageHeader';
 import CollapsibleAbout from './ui/CollapsibleAbout';
 import TestCard from './ui/TestCard';
 import ViewToggle, { readViewMode, writeViewMode } from './ui/ViewToggle';
-import { getCompletedIds, getLatestAttempt } from '../lib/progressStore';
+import { getCompletedIds, getLatestAttempt, hasLastSubmission } from '../lib/progressStore';
 
 const PASSAGES = [
   {
@@ -118,6 +118,7 @@ const ReadingPage = ({ subPage, setSubPage, setCurrentPage }) => {
           {current.tests.map((test) => {
             const isCompleted = completedTests.includes(String(test.id));
             const latest = getLatestAttempt(kind, test.id);
+            const canReview = hasLastSubmission(kind, test.id);
             return (
               <TestCard
                 key={test.id}
@@ -126,6 +127,7 @@ const ReadingPage = ({ subPage, setSubPage, setCurrentPage }) => {
                 viewMode={viewMode}
                 isCompleted={isCompleted}
                 latestAttempt={latest}
+                canReview={canReview}
                 onAuthRequired={handleAuthRequired}
                 accent={accent}
               />
