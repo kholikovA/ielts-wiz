@@ -35,19 +35,21 @@ const ScoreBadge = ({ correct, total }) => (
   </span>
 );
 
-const Actions = ({ href, onAuthRequired, compact = false }) => {
+const Actions = ({ href, onAuthRequired, canReview, compact = false }) => {
   const size = compact ? 12 : 13;
   return (
     <span style={{ display: 'inline-flex', gap: 'var(--space-2)' }}>
-      <a
-        className="btn btn-secondary btn-sm"
-        href={`${href}?review=1`}
-        onClick={onAuthRequired}
-        style={{ gap: 'var(--space-1)', padding: '0 var(--space-3)' }}
-        title="Open this test with your previous answers and score visible"
-      >
-        <Icon name="bookOpen" size={size} /> Review
-      </a>
+      {canReview && (
+        <a
+          className="btn btn-secondary btn-sm"
+          href={`${href}?review=1`}
+          onClick={onAuthRequired}
+          style={{ gap: 'var(--space-1)', padding: '0 var(--space-3)' }}
+          title="Open this test with your previous answers and score visible"
+        >
+          <Icon name="bookOpen" size={size} /> Review
+        </a>
+      )}
       <a
         className="btn btn-primary btn-sm"
         href={href}
@@ -73,7 +75,7 @@ const StartButton = ({ href, onAuthRequired }) => (
 );
 
 export default function TestCard({
-  test, href, viewMode, isCompleted, latestAttempt,
+  test, href, viewMode, isCompleted, latestAttempt, canReview = false,
   meta, onAuthRequired, accent = 'var(--purple-600)',
 }) {
   const hasAttempt = !!latestAttempt;
@@ -128,7 +130,7 @@ export default function TestCard({
         )}
         <div style={{ flexShrink: 0 }}>
           {hasAttempt
-            ? <Actions href={href} onAuthRequired={onAuthRequired} />
+            ? <Actions href={href} onAuthRequired={onAuthRequired} canReview={canReview} />
             : <StartButton href={href} onAuthRequired={onAuthRequired} />}
         </div>
       </div>
@@ -164,7 +166,7 @@ export default function TestCard({
             gap: 'var(--space-2)', flexWrap: 'wrap',
           }}>
             <ScoreBadge correct={latestAttempt.correct} total={latestAttempt.total} />
-            <Actions href={href} onAuthRequired={onAuthRequired} compact />
+            <Actions href={href} onAuthRequired={onAuthRequired} canReview={canReview} compact />
           </div>
         </>
       )}
