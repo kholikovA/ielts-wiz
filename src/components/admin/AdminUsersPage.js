@@ -4,6 +4,7 @@ import { useAuth } from '../../contexts/AuthContext';
 import PageHeader from '../ui/PageHeader';
 import Icon from '../ui/icons';
 import SendEmailDialog from './SendEmailDialog';
+import AdminAnalytics from './AdminAnalytics';
 
 // Admin-only view of every signup row, with filters + CSV export + (optional)
 // transactional-email batch send. RLS already prevents non-admins from reading
@@ -54,6 +55,7 @@ const downloadCsv = (rows) => {
 
 const AdminUsersPage = ({ setCurrentPage }) => {
   const { isAdmin, loading: authLoading } = useAuth();
+  const [view, setView] = useState('analytics'); // 'analytics' | 'users'
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
@@ -149,15 +151,40 @@ const AdminUsersPage = ({ setCurrentPage }) => {
       <div className="page-section" style={{ maxWidth: '1200px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 'var(--space-3)' }}>
           <PageHeader
-            eyebrow="Admin · Users"
-            title="Every signup, with filters."
-            lead="Filter by target band, referral source, or sign-in status. Export the current view to CSV or hand it straight to the email batch."
+            eyebrow={view === 'analytics' ? 'Admin · Analytics' : 'Admin · Users'}
+            title={view === 'analytics' ? 'How IELTS Wiz is doing.' : 'Every signup, with filters.'}
+            lead={view === 'analytics'
+              ? 'Product analytics from your own data — signups, activation, audience, and test activity.'
+              : 'Filter by target band, referral source, or sign-in status. Export the current view to CSV or hand it straight to the email batch.'}
           />
           <button type="button" className="btn btn-secondary" onClick={() => setCurrentPage('dashboard')}>
             <Icon name="arrowLeft" size={16} /> Dashboard
           </button>
         </div>
 
+        {/* View tabs */}
+        <div style={{ display: 'inline-flex', gap: '4px', padding: '4px', background: 'var(--bg-elevated)', borderRadius: 'var(--r-lg)', marginBottom: 'var(--space-5)' }}>
+          {[['analytics', 'Analytics', 'trending'], ['users', 'Users', 'user']].map(([key, label, icon]) => (
+            <button
+              key={key}
+              type="button"
+              onClick={() => setView(key)}
+              className="btn btn-sm"
+              style={{
+                background: view === key ? 'var(--surface-1, var(--bg-card))' : 'transparent',
+                color: view === key ? 'var(--text-primary)' : 'var(--text-secondary)',
+                border: view === key ? '1px solid var(--border-color)' : '1px solid transparent',
+                boxShadow: view === key ? 'var(--shadow-sm)' : 'none',
+              }}
+            >
+              <Icon name={icon} size={14} /> {label}
+            </button>
+          ))}
+        </div>
+
+        {view === 'analytics' && <AdminAnalytics />}
+
+        {view === 'users' && (<>
         {/* Stats strip */}
         <div className="card" style={{ marginBottom: 'var(--space-5)' }}>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))', gap: 'var(--space-5)' }}>
@@ -283,6 +310,7 @@ const AdminUsersPage = ({ setCurrentPage }) => {
             </table>
           </div>
         )}
+        </>)}
       </div>
 
       {emailOpen && (
