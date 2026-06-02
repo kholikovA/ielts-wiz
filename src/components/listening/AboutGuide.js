@@ -252,105 +252,86 @@ const QuestionTypeRow = ({ t }) => (
     <summary style={{
       cursor: 'pointer',
       listStyle: 'none',
-      padding: 'var(--space-4) var(--space-5)',
+      padding: 'var(--space-5) var(--space-6)',
       display: 'flex',
       alignItems: 'center',
-      gap: 'var(--space-3)',
+      gap: 'var(--space-4)',
     }}>
       <span style={{
         flexShrink: 0,
-        width: '36px', height: '36px', borderRadius: 'var(--r-md)',
+        width: '40px', height: '40px', borderRadius: 'var(--r-md)',
         background: 'var(--badge-bg)', color: 'var(--purple-300)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
       }}>
-        <Icon name={t.icon} size={18} />
+        <Icon name={t.icon} size={20} />
       </span>
       <div style={{ flex: 1, minWidth: 0 }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
-          <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 'var(--text-md)', color: 'var(--text-primary)', margin: 0 }}>
-            {t.name}
-          </h3>
-          {t.aka && (
-            <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)', fontStyle: 'italic' }}>
-              · {t.aka}
-            </span>
-          )}
-        </div>
+        <h3 style={{ fontFamily: 'var(--font-display)', fontWeight: 600, fontSize: 'var(--text-lg)', color: 'var(--text-primary)', margin: 0, lineHeight: 1.3 }}>
+          {t.name}
+        </h3>
+        {t.aka && (
+          <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-tertiary)', marginTop: '2px' }}>
+            {t.aka}
+          </div>
+        )}
         {t.typicalSection && (
-          <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: 'var(--font-mono)', marginTop: '4px' }}>
-            Most common in: {t.typicalSection}
+          <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-tertiary)', marginTop: '4px' }}>
+            Most common in {t.typicalSection.toLowerCase()}
           </div>
         )}
       </div>
-      <Icon name="chevronDown" size={16} aria-hidden />
+      <Icon name="chevronDown" size={18} aria-hidden />
     </summary>
 
     <div style={{
-      padding: '0 var(--space-5) var(--space-5)',
-      display: 'flex', flexDirection: 'column', gap: 'var(--space-4)',
+      padding: 'var(--space-5) var(--space-6) var(--space-6)',
+      display: 'flex', flexDirection: 'column', gap: 'var(--space-5)',
       borderTop: '1px solid var(--border-color)',
-      paddingTop: 'var(--space-4)',
     }}>
-      {/* Skill */}
-      <div>
-        <div style={{ fontSize: 'var(--text-xs)', color: 'var(--purple-300)', textTransform: 'uppercase', letterSpacing: '0.08em', fontFamily: 'var(--font-mono)', marginBottom: '6px' }}>
-          What it tests
-        </div>
-        <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', lineHeight: 1.6 }}>{t.skill}</div>
-      </div>
+      {/* Skill — inline, no eyebrow */}
+      <p style={{ margin: 0, fontSize: 'var(--text-base)', color: 'var(--text-secondary)', lineHeight: 1.65 }}>
+        <strong style={{ color: 'var(--text-primary)' }}>Tests:</strong> {t.skill}
+      </p>
 
-      {/* Approach */}
-      <div>
-        <div style={{ fontSize: 'var(--text-xs)', color: 'var(--purple-300)', textTransform: 'uppercase', letterSpacing: '0.08em', fontFamily: 'var(--font-mono)', marginBottom: '6px' }}>
-          How to approach
-        </div>
-        <ol style={{ margin: 0, paddingLeft: '1.25em', color: 'var(--text-secondary)', fontSize: 'var(--text-sm)', lineHeight: 1.7 }}>
-          {t.approach.map((step, i) => <li key={i} style={{ marginBottom: '4px' }}>{step}</li>)}
-        </ol>
-      </div>
+      {/* Approach — numbered list, no eyebrow */}
+      <ol style={{ margin: 0, paddingLeft: '1.5em', color: 'var(--text-secondary)', fontSize: 'var(--text-base)', lineHeight: 1.7 }}>
+        {t.approach.map((step, i) => <li key={i} style={{ marginBottom: 'var(--space-2)' }}>{step}</li>)}
+      </ol>
 
-      {/* Cambridge example */}
+      {/* Cambridge example — single flat block, no nested sub-card */}
       <div style={{
-        padding: 'var(--space-4)',
+        padding: 'var(--space-5)',
         background: 'var(--answer-bg)',
         borderRadius: 'var(--r-md)',
         borderLeft: '3px solid var(--purple-500)',
       }}>
-        <div style={{ fontSize: 'var(--text-xs)', color: 'var(--purple-300)', textTransform: 'uppercase', letterSpacing: '0.08em', fontFamily: 'var(--font-mono)', marginBottom: '6px' }}>
-          Cambridge example
-        </div>
-        <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)', marginBottom: 'var(--space-2)' }}>
+        <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-tertiary)', marginBottom: 'var(--space-3)' }}>
           {t.example.source}
         </div>
         {t.example.prompt && (
-          <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)', fontStyle: 'italic', marginBottom: 'var(--space-2)' }}>
+          <div style={{ fontSize: 'var(--text-sm)', color: 'var(--text-tertiary)', fontStyle: 'italic', marginBottom: 'var(--space-2)' }}>
             {t.example.prompt}
           </div>
         )}
-        <blockquote style={{
-          margin: 0,
-          padding: 'var(--space-2) var(--space-3)',
-          background: 'var(--bg-secondary)',
-          borderRadius: 'var(--r-sm)',
-          fontSize: 'var(--text-sm)',
+        <div style={{
+          fontSize: 'var(--text-base)',
           color: 'var(--text-primary)',
           lineHeight: 1.6,
+          fontWeight: 500,
+          marginBottom: t.example.options ? 'var(--space-2)' : 'var(--space-3)',
         }}>
           {t.example.question}
-        </blockquote>
+        </div>
         {t.example.options && (
-          <ul style={{ margin: 'var(--space-2) 0 0', paddingLeft: '1.25em', color: 'var(--text-secondary)', fontSize: 'var(--text-sm)', lineHeight: 1.6, listStyle: 'none' }}>
+          <ul style={{ margin: '0 0 var(--space-3)', paddingLeft: '1.25em', color: 'var(--text-secondary)', fontSize: 'var(--text-base)', lineHeight: 1.7, listStyle: 'none' }}>
             {t.example.options.map((opt, i) => <li key={i}>{opt}</li>)}
           </ul>
         )}
-        <div style={{ marginTop: 'var(--space-3)', display: 'flex', alignItems: 'baseline', gap: 'var(--space-2)' }}>
-          <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.06em', fontFamily: 'var(--font-mono)' }}>
-            Answer
-          </span>
-          <span style={{ fontSize: 'var(--text-sm)', color: 'var(--green-500)', fontWeight: 600 }}>{t.example.answer}</span>
+        <div style={{ fontSize: 'var(--text-base)', color: 'var(--text-secondary)', lineHeight: 1.65 }}>
+          <strong style={{ color: 'var(--green-500)' }}>Answer:</strong> {t.example.answer}
         </div>
-        <div style={{ marginTop: '6px', fontSize: 'var(--text-sm)', color: 'var(--text-secondary)', lineHeight: 1.6 }}>
-          <strong style={{ color: 'var(--text-primary)' }}>Why.</strong> {t.example.why}
+        <div style={{ marginTop: 'var(--space-2)', fontSize: 'var(--text-base)', color: 'var(--text-secondary)', lineHeight: 1.65 }}>
+          <strong style={{ color: 'var(--text-primary)' }}>Why:</strong> {t.example.why}
         </div>
       </div>
     </div>
