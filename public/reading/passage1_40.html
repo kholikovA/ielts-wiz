@@ -145,15 +145,22 @@ header.topbar {
   flex-shrink: 0;
 }
 .brand-area { display: flex; align-items: center; gap: 18px; }
-.brand {
-  font-weight: 900;
-  font-size: 22px;
-  letter-spacing: 0.5px;
-  color: #d50032;
-  font-family: var(--sans);
-  line-height: 1;
+/* Clickable brand mark mirrors the app's home button, a touch smaller. The
+   light/dark variants swap with the page theme (explicit + system). */
+.brand-link {
+  display: inline-flex; align-items: center;
+  line-height: 0; padding: 2px 4px; border-radius: 6px;
+  transition: background .15s;
 }
-.tg-link { font-size: 14px; color: var(--accent); font-weight: 500; }
+.brand-link:hover { background: var(--bg-hover); }
+.brand-logo { height: 26px; width: auto; object-fit: contain; display: block; }
+.brand-logo-dark { display: none; }
+html[data-theme="dark"] .brand-logo-light { display: none; }
+html[data-theme="dark"] .brand-logo-dark { display: block; }
+@media (prefers-color-scheme: dark) {
+  html[data-theme="system"] .brand-logo-light { display: none; }
+  html[data-theme="system"] .brand-logo-dark { display: block; }
+}
 .timer {
   font-size: 16px; font-weight: 500;
   padding: 6px 14px; user-select: none;
@@ -184,10 +191,16 @@ header.topbar {
 .part-banner {
   background: var(--bg-banner);
   border-bottom: 1px solid var(--border);
-  padding: 18px 32px; flex-shrink: 0;
+  padding: 6px 32px; flex-shrink: 0;
+  display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
 }
-.part-banner h2 { font-family: var(--sans); font-size: 16px; font-weight: 700; margin-bottom: 4px; }
-.part-banner p { font-family: var(--sans); font-size: 13px; color: var(--text-muted); }
+.part-banner h2 {
+  font-family: var(--sans); font-size: 11.5px; font-weight: 700; margin: 0;
+  display: inline-block; padding: 3px 10px;
+  background: var(--accent-soft); color: var(--accent-strong);
+  border-radius: 999px; text-transform: uppercase; letter-spacing: 0.5px;
+}
+.part-banner p { font-family: var(--sans); font-size: 12.5px; color: var(--text-muted); margin: 0; }
 
 /* Main split */
 .split-container {
@@ -214,7 +227,7 @@ header.topbar {
 .divider-handle {
   position: absolute; top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  width: 33px; height: 54px;
+  width: 33px; height: 36px;
   background: var(--bg);
   border: 1px solid var(--border-strong);
   border-radius: 4px;
@@ -820,10 +833,28 @@ header.topbar {
 .results-header {
   text-align: center; margin-bottom: 36px;
   padding-bottom: 28px; border-bottom: 1px solid var(--border);
+  position: relative; overflow: hidden;
 }
 .results-header h1 {
   font-family: var(--sans); font-size: 28px; font-weight: 700;
   margin-bottom: 8px;
+}
+/* Band-keyed coaching line — the human voice that the exam surface itself
+   deliberately lacks. Hat motif keeps it on-brand without shouting. */
+.results-message {
+  font-family: var(--sans); font-size: 15px; line-height: 1.5;
+  color: var(--text-muted); margin: 18px auto 0; max-width: 540px;
+  display: flex; align-items: center; justify-content: center; gap: 9px;
+}
+.results-message svg { width: 20px; height: 20px; color: var(--accent); flex-shrink: 0; }
+.results-message strong { color: var(--text); font-weight: 700; }
+/* Faint hat watermark in the corner — a signature, used once. */
+.results-header::after {
+  content: ""; position: absolute; right: -10px; top: -14px;
+  width: 96px; height: 96px; opacity: 0.05; pointer-events: none;
+  background: var(--text);
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3 L25 24 H7 Z'/%3E%3Crect x='5' y='24' width='22' height='3.4' rx='1.7'/%3E%3Ccircle cx='16' cy='15' r='1.2'/%3E%3Ccircle cx='13.5' cy='19' r='0.9'/%3E%3Ccircle cx='19' cy='18' r='0.8'/%3E%3C/svg%3E") center / contain no-repeat;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3 L25 24 H7 Z'/%3E%3Crect x='5' y='24' width='22' height='3.4' rx='1.7'/%3E%3Ccircle cx='16' cy='15' r='1.2'/%3E%3Ccircle cx='13.5' cy='19' r='0.9'/%3E%3Ccircle cx='19' cy='18' r='0.8'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 .results-stats {
   display: flex; justify-content: center; gap: 24px;
@@ -983,8 +1014,10 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
 
 <header class="topbar">
   <div class="brand-area">
-    <span class="brand">IELTS</span>
-    <a href="https://t.me/abdullahsenglish" target="_blank" rel="noopener" class="tg-link">Wiz by @abdullahsenglish</a>
+    <a href="/" class="brand-link" aria-label="IELTS Wiz home">
+      <img class="brand-logo brand-logo-light" src="/logo-light.svg" alt="IELTS Wiz">
+      <img class="brand-logo brand-logo-dark" src="/logo-dark.svg" alt="IELTS Wiz">
+    </a>
   </div>
   <div class="timer" id="timer" data-duration="1200">
     <span class="timer-mins" id="timerMins">20 minutes left</span>
@@ -1103,6 +1136,7 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
   <div class="results-header">
     <h1>Test Complete</h1>
     <div class="results-stats" id="resultsStats"></div>
+    <p class="results-message" id="resultsMessage"></p>
   </div>
   <div class="results-list" id="resultsList"></div>
 </div>
@@ -1214,6 +1248,11 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
   let highlighterOn = true;
   let timeLeft = TIMER_SECONDS;
   let timerInterval = null;
+  // Brand wordmark for the shareable result image — preloaded so it's drawn
+  // crisply the moment the user hits Send. White-bg share image always uses
+  // the light logo regardless of page theme.
+  const shareBrandImg = new Image();
+  shareBrandImg.src = "/logo-light.svg";
 
   const html = document.documentElement;
   function setTheme(theme) {
@@ -2242,6 +2281,33 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
       stats.appendChild(ps_stat);
     });
 
+    // Warm, band-keyed coaching line — the human voice the exam surface lacks.
+    (function setResultsMessage() {
+      const msgEl = document.getElementById("resultsMessage");
+      if (!msgEl) return;
+      const pct = TOTAL_QUESTIONS ? correctCount / TOTAL_QUESTIONS : 0;
+      let line;
+      if (IS_FULL_TEST && band !== null) {
+        if (band >= 8) line = "<strong>Outstanding.</strong> Expert-level — you're exam-ready.";
+        else if (band >= 7) line = "<strong>Strong work.</strong> A Band 7+ is what most universities ask for.";
+        else if (band >= 6) line = "<strong>Solid.</strong> You're close — tightening a couple of question types lifts you to 7.";
+        else if (band >= 5) line = "<strong>Good progress.</strong> Aim your next sessions at the parts that cost you most.";
+        else line = "<strong>Every attempt builds the muscle.</strong> Review the misses below and go again.";
+      } else {
+        if (pct >= 0.9) line = "<strong>Sharp</strong> — nearly flawless. On to the next one.";
+        else if (pct >= 0.7) line = "<strong>Nice work.</strong> A few slips to clean up — see below.";
+        else if (pct >= 0.5) line = "<strong>Decent base.</strong> The review below shows exactly where to focus.";
+        else line = "<strong>Good for showing up.</strong> Work the misses, then retake — it climbs fast.";
+      }
+      // Point at the weakest passage when there's a clear one to target.
+      if (passageStats && passageStats.length) {
+        const worst = passageStats.slice().sort((a, b) => b.mistakes - a.mistakes)[0];
+        if (worst && worst.mistakes > 0) line += ` Passage ${worst.part} needs another pass.`;
+      }
+      const hat = "<svg viewBox='0 0 32 32' fill='currentColor' aria-hidden='true'><path d='M16 3 L25 24 H7 Z'/><rect x='5' y='24' width='22' height='3.4' rx='1.7'/><circle cx='16' cy='15' r='1.2'/><circle cx='13.5' cy='19' r='0.9'/><circle cx='19' cy='18' r='0.8'/></svg>";
+      msgEl.innerHTML = hat + "<span>" + line + "</span>";
+    })();
+
     // Per-question list — show heading text instead of IDs
     const list = document.getElementById("resultsList");
     list.innerHTML = "";
@@ -2311,25 +2377,35 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, W, H);
 
-    // Top red bar (IELTS branding)
-    ctx.fillStyle = "#d50032";
-    ctx.fillRect(0, 0, W, 8);
+    // Brand accent bar (IELTS Wiz purple)
+    ctx.fillStyle = "#9333EA";
+    ctx.fillRect(0, 0, W, 6);
+
+    // Brand wordmark — real logo if loaded, text fallback otherwise
+    ctx.textAlign = "center";
+    if (shareBrandImg.complete && shareBrandImg.naturalWidth) {
+      const lw = 210, lh = lw * (90 / 390);
+      ctx.drawImage(shareBrandImg, (W - lw) / 2, 30, lw, lh);
+    } else {
+      ctx.fillStyle = "#7E22CE";
+      ctx.font = "800 34px 'Inter', sans-serif";
+      ctx.fillText("IELTS Wiz", W / 2, 66);
+    }
 
     // Header — test name
     ctx.fillStyle = "#0a0a0a";
-    ctx.font = "700 32px 'Inter', sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText(testTitle, W / 2, 70);
+    ctx.font = "700 28px 'Inter', sans-serif";
+    ctx.fillText(testTitle, W / 2, 116);
 
     // Subtitle
     ctx.fillStyle = "#525252";
-    ctx.font = "500 16px 'Inter', sans-serif";
-    ctx.fillText("Result Summary", W / 2, 100);
+    ctx.font = "500 15px 'Inter', sans-serif";
+    ctx.fillText("Result Summary", W / 2, 142);
 
     // Footer credit
     ctx.fillStyle = "#737373";
     ctx.font = "500 14px 'Inter', sans-serif";
-    ctx.fillText("Wiz by @abdullahsenglish", W / 2, H - 30);
+    ctx.fillText("ielts-wiz.com", W / 2, H - 30);
 
     // Top-row big stats: Overall + Band
     const topY = 160, topH = 140;
