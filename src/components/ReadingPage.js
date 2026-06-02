@@ -3,17 +3,20 @@ import Hub from './reading/Hub';
 import AboutGuide from './reading/AboutGuide';
 import PartsView from './reading/PartsView';
 import FullStub from './reading/FullStub';
+import CambridgeView from './reading/CambridgeView';
 
 // Reading section router. The subPage value dictates which child renders:
-//   hub                       — three-card landing (default)
+//   hub                       — four-card landing (default)
 //   about                     — full guide page
 //   parts | passage1/2/3      — passage-by-passage test catalogue
+//   cambridge                 — official Cambridge IELTS full-test catalogue
 //   full                      — full-test (placeholder, no data yet)
 // Older `/reading/passageN` URLs still resolve correctly because PartsView
 // accepts those values as initial-tab hints.
 export default function ReadingPage({ subPage, setSubPage, setCurrentPage }) {
   if (subPage === 'about') return <AboutGuide setSubPage={setSubPage} />;
   if (subPage === 'full')  return <FullStub setSubPage={setSubPage} />;
+  if (subPage === 'cambridge') return <CambridgeView setSubPage={setSubPage} setCurrentPage={setCurrentPage} />;
   if (subPage === 'parts' || (typeof subPage === 'string' && subPage.startsWith('passage'))) {
     return <PartsView subPage={subPage} setSubPage={setSubPage} setCurrentPage={setCurrentPage} />;
   }
