@@ -145,15 +145,22 @@ header.topbar {
   flex-shrink: 0;
 }
 .brand-area { display: flex; align-items: center; gap: 18px; }
-.brand {
-  font-weight: 900;
-  font-size: 22px;
-  letter-spacing: 0.5px;
-  color: #d50032;
-  font-family: var(--sans);
-  line-height: 1;
+/* Clickable brand mark mirrors the app's home button, a touch smaller. The
+   light/dark variants swap with the page theme (explicit + system). */
+.brand-link {
+  display: inline-flex; align-items: center;
+  line-height: 0; padding: 2px 4px; border-radius: 6px;
+  transition: background .15s;
 }
-.tg-link { font-size: 14px; color: var(--accent); font-weight: 500; }
+.brand-link:hover { background: var(--bg-hover); }
+.brand-logo { height: 26px; width: auto; object-fit: contain; display: block; }
+.brand-logo-dark { display: none; }
+html[data-theme="dark"] .brand-logo-light { display: none; }
+html[data-theme="dark"] .brand-logo-dark { display: block; }
+@media (prefers-color-scheme: dark) {
+  html[data-theme="system"] .brand-logo-light { display: none; }
+  html[data-theme="system"] .brand-logo-dark { display: block; }
+}
 .timer {
   font-size: 16px; font-weight: 500;
   padding: 6px 14px; user-select: none;
@@ -184,10 +191,11 @@ header.topbar {
 .part-banner {
   background: var(--bg-banner);
   border-bottom: 1px solid var(--border);
-  padding: 18px 32px; flex-shrink: 0;
+  padding: 6px 32px; flex-shrink: 0;
+  display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
 }
-.part-banner h2 { font-family: var(--sans); font-size: 16px; font-weight: 700; margin-bottom: 4px; }
-.part-banner p { font-family: var(--sans); font-size: 13px; color: var(--text-muted); }
+.part-banner h2 { font-family: var(--sans); font-size: 14px; font-weight: 700; margin: 0; }
+.part-banner p { font-family: var(--sans); font-size: 12.5px; color: var(--text-muted); margin: 0; }
 
 /* Main split */
 .split-container {
@@ -214,7 +222,7 @@ header.topbar {
 .divider-handle {
   position: absolute; top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  width: 33px; height: 54px;
+  width: 33px; height: 36px;
   background: var(--bg);
   border: 1px solid var(--border-strong);
   border-radius: 4px;
@@ -983,8 +991,10 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
 
 <header class="topbar">
   <div class="brand-area">
-    <span class="brand">IELTS</span>
-    <a href="https://t.me/abdullahsenglish" target="_blank" rel="noopener" class="tg-link">Wiz by @abdullahsenglish</a>
+    <a href="/" class="brand-link" aria-label="IELTS Wiz home">
+      <img class="brand-logo brand-logo-light" src="/logo-light.svg" alt="IELTS Wiz">
+      <img class="brand-logo brand-logo-dark" src="/logo-dark.svg" alt="IELTS Wiz">
+    </a>
   </div>
   <div class="timer" id="timer" data-duration="3600">
     <span class="timer-mins" id="timerMins">60 minutes left</span>
