@@ -1697,14 +1697,31 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
     const acceptable = new Set();
     const pre = String(key).replace(/(?<=\S)\/\s+(?=\S)/g, "/");
     function expandParens(s) {
-      const m = s.match(/\(([^)]*)\)/);
-      if (!m) return [s];
-      const before = s.slice(0, m.index);
-      const after = s.slice(m.index + m[0].length);
-      return Array.from(new Set([
-        ...expandParens(before + m[1] + after),
-        ...expandParens((before + after).replace(/\s+/g, " ").trim()),
-      ]));
+      // Balanced-paren walker — handles nesting like "(travel (ling/ing))"
+      // without the character-corruption the previous flat-regex version had.
+      let start = -1, depth = 0;
+      for (let i = 0; i < s.length; i++) {
+        const ch = s[i];
+        if (ch === '(') { if (depth === 0) start = i; depth++; }
+        else if (ch === ')' && depth > 0) {
+          depth--;
+          if (depth === 0) {
+            const before = s.slice(0, start);
+            const after = s.slice(i + 1);
+            const content = s.slice(start + 1, i);
+            const innerExpansions = expandParens(content);
+            const variants = new Set();
+            for (const inner of innerExpansions) {
+              variants.add(before + inner + after);
+              variants.add((before + after).replace(/\s+/g, " ").trim());
+            }
+            const all = new Set();
+            for (const r of variants) for (const v of expandParens(r)) all.add(v);
+            return [...all];
+          }
+        }
+      }
+      return [s];
     }
     function cartesianTokens(phrase) {
       const tokens = phrase.trim().split(/\s+/).filter(Boolean);

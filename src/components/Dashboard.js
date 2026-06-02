@@ -157,7 +157,7 @@ const Dashboard = ({ setCurrentPage }) => {
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 'var(--space-3)', marginBottom: 'var(--space-5)' }}>
                 {AVATAR_OPTIONS.map((src, i) => (
                   <button
-                    key={i}
+                    key={AVATAR_NAMES[i] || `avatar-${i}`}
                     type="button"
                     onClick={() => handleAvatarSelect(i)}
                     aria-label={AVATAR_NAMES[i] || `Avatar ${i + 1}`}

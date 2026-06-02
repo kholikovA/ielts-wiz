@@ -129,7 +129,7 @@ export default function TestCard({
           </div>
         )}
         <div style={{ flexShrink: 0 }}>
-          {hasAttempt
+          {(hasAttempt || canReview)
             ? <Actions href={href} onAuthRequired={onAuthRequired} canReview={canReview} />
             : <StartButton href={href} onAuthRequired={onAuthRequired} />}
         </div>
@@ -138,26 +138,31 @@ export default function TestCard({
   }
 
   // Grid mode — preserves the existing card visual but appends a footer with
-  // the score badge + Review/Retake when the user has an attempt.
+  // the score badge + Review/Retake when the user has an attempt or a
+  // reviewable snapshot. `height: 100%` makes every card stretch to the
+  // tallest in its row, so cards-with-footer don't tower over plain ones.
+  const showFooter = hasAttempt || canReview;
   return (
     <div
       className="card card-interactive"
       style={{
         position: 'relative', display: 'flex', flexDirection: 'column',
-        padding: 'var(--space-5)',
+        padding: 'var(--space-5)', height: '100%',
         borderColor: isCompleted ? 'rgba(16, 185, 129, 0.4)' : undefined,
         minHeight: 0,
       }}
     >
-      {!hasAttempt ? (
+      {!showFooter ? (
         <a href={href} onClick={onAuthRequired} style={{
-          display: 'block', color: 'inherit', textDecoration: 'none',
+          display: 'block', color: 'inherit', textDecoration: 'none', flex: 1,
         }}>
           <GridBody test={test} meta={meta} accent={accent} isCompleted={isCompleted} />
         </a>
       ) : (
         <>
-          <GridBody test={test} meta={meta} accent={accent} isCompleted={isCompleted} />
+          <div style={{ flex: 1 }}>
+            <GridBody test={test} meta={meta} accent={accent} isCompleted={isCompleted} />
+          </div>
           <div style={{
             marginTop: 'var(--space-3)',
             paddingTop: 'var(--space-3)',
@@ -165,7 +170,9 @@ export default function TestCard({
             display: 'flex', alignItems: 'center', justifyContent: 'space-between',
             gap: 'var(--space-2)', flexWrap: 'wrap',
           }}>
-            <ScoreBadge correct={latestAttempt.correct} total={latestAttempt.total} />
+            {hasAttempt
+              ? <ScoreBadge correct={latestAttempt.correct} total={latestAttempt.total} />
+              : <span />}
             <Actions href={href} onAuthRequired={onAuthRequired} canReview={canReview} compact />
           </div>
         </>
