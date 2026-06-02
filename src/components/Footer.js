@@ -1,5 +1,7 @@
 import React from 'react';
 import Icon from './ui/icons';
+import AppLink from './ui/AppLink';
+import { hrefFor } from '../lib/routes';
 
 const SECTIONS = [
   {
@@ -49,18 +51,13 @@ const Footer = ({ setCurrentPage }) => (
           {section.links.map(link => link.external ? (
             <a key={link.label} href={link.href} target="_blank" rel="noopener noreferrer">{link.label}</a>
           ) : (
-            <a
+            <AppLink
               key={link.label}
-              href={`/${link.page}`}
-              onClick={(e) => {
-                if (setCurrentPage) {
-                  e.preventDefault();
-                  setCurrentPage(link.page);
-                }
-              }}
+              href={hrefFor(link.page)}
+              onNavigate={setCurrentPage ? () => setCurrentPage(link.page) : undefined}
             >
               {link.label}
-            </a>
+            </AppLink>
           ))}
         </div>
       ))}

@@ -5,6 +5,8 @@ import ThemeToggle from './ThemeToggle';
 import Logo from './Logo';
 import AVATAR_OPTIONS from '../data/avatar-options';
 import Icon from './ui/icons';
+import AppLink from './ui/AppLink';
+import { hrefFor } from '../lib/routes';
 
 const NAV_ITEMS = [
   { id: 'listening', label: 'Listening', icon: 'headphones' },
@@ -57,6 +59,7 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
     fontSize: 'var(--text-sm)',
     cursor: 'pointer',
     textAlign: 'left',
+    textDecoration: 'none',
   };
 
   const navigate = (page) => {
@@ -77,29 +80,29 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
       borderBottom: '1px solid var(--border-color)',
     }}>
       <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', position: 'relative' }}>
-        <Logo onClick={() => setCurrentPage('home')} />
+        <Logo onNavigate={() => setCurrentPage('home')} />
         <div className="hide-mobile" style={{ position: 'absolute', left: '50%', transform: 'translateX(-50%)', display: 'flex', alignItems: 'center', gap: 'var(--space-1)' }}>
           {NAV_ITEMS.map(item => {
             const isActive = currentPage === item.id;
             return (
-              <button
+              <AppLink
                 key={item.id}
-                onClick={() => setCurrentPage(item.id)}
+                href={hrefFor(item.id)}
+                onNavigate={() => setCurrentPage(item.id)}
                 aria-current={isActive ? 'page' : undefined}
                 style={{
                   padding: 'var(--space-2) var(--space-3)',
                   borderRadius: 'var(--r-md)',
-                  border: 'none',
                   background: isActive ? 'var(--purple-600)' : 'transparent',
                   color: isActive ? 'white' : 'var(--text-secondary)',
                   fontSize: 'var(--text-sm)',
                   fontWeight: 500,
-                  cursor: 'pointer',
+                  textDecoration: 'none',
                   transition: 'background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease)',
                 }}
               >
                 {item.label}
-              </button>
+              </AppLink>
             );
           })}
         </div>
@@ -135,15 +138,15 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
               </button>
               {showProfileMenu && (
                 <div role="menu" style={{ position: 'absolute', top: '44px', right: 0, background: 'var(--card-bg)', border: '1px solid var(--border-color)', borderRadius: 'var(--r-lg)', padding: 'var(--space-2)', minWidth: '180px', zIndex: 1000, boxShadow: '0 8px 24px rgba(0,0,0,0.15)' }}>
-                  <button role="menuitem" onClick={() => { setCurrentPage('dashboard'); setShowProfileMenu(false); }} style={menuItemStyle}>
+                  <AppLink role="menuitem" href={hrefFor('dashboard')} onNavigate={() => { setCurrentPage('dashboard'); setShowProfileMenu(false); }} style={menuItemStyle}>
                     <Icon name="layout" size={16} />
                     Dashboard
-                  </button>
+                  </AppLink>
                   {isAdmin && (
-                    <button role="menuitem" onClick={() => { setCurrentPage('admin'); setShowProfileMenu(false); }} style={menuItemStyle}>
+                    <AppLink role="menuitem" href={hrefFor('admin')} onNavigate={() => { setCurrentPage('admin'); setShowProfileMenu(false); }} style={menuItemStyle}>
                       <Icon name="user" size={16} />
                       Admin · Users
-                    </button>
+                    </AppLink>
                   )}
                   <button role="menuitem" onClick={() => { toggleTheme(); setShowProfileMenu(false); }} style={menuItemStyle}>
                     <Icon name={isDark ? 'sun' : 'moon'} size={16} />
@@ -160,7 +163,7 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
           ) : (
             <>
               <span className="hide-mobile"><ThemeToggle /></span>
-              <button className="hide-mobile" onClick={() => setCurrentPage('login')} style={{ padding: 'var(--space-2) var(--space-5)', borderRadius: 'var(--r-md)', border: 'none', background: 'linear-gradient(135deg, var(--purple-600), var(--purple-700))', color: 'white', fontSize: 'var(--text-sm)', fontWeight: 600, cursor: 'pointer' }}>Sign In</button>
+              <AppLink className="hide-mobile" href={hrefFor('login')} onNavigate={() => setCurrentPage('login')} style={{ padding: 'var(--space-2) var(--space-5)', borderRadius: 'var(--r-md)', background: 'linear-gradient(135deg, var(--purple-600), var(--purple-700))', color: 'white', fontSize: 'var(--text-sm)', fontWeight: 600, textDecoration: 'none' }}>Sign In</AppLink>
             </>
           )}
           <button
@@ -192,25 +195,27 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
               </button>
             </div>
             {NAV_ITEMS.map(item => (
-              <button
+              <AppLink
                 key={item.id}
+                href={hrefFor(item.id)}
                 className={`mobile-menu-item ${currentPage === item.id ? 'is-active' : ''}`}
-                onClick={() => navigate(item.id)}
+                style={{ textDecoration: 'none' }}
+                onNavigate={() => navigate(item.id)}
               >
                 <Icon name={item.icon} size={18} />
                 {item.label}
-              </button>
+              </AppLink>
             ))}
             <div style={{ height: '1px', background: 'var(--border-color)', margin: 'var(--space-3) 0' }} />
             {user ? (
               <>
-                <button className="mobile-menu-item" onClick={() => navigate('dashboard')}>
+                <AppLink className="mobile-menu-item" href={hrefFor('dashboard')} style={{ textDecoration: 'none' }} onNavigate={() => navigate('dashboard')}>
                   <Icon name="layout" size={18} /> Dashboard
-                </button>
+                </AppLink>
                 {isAdmin && (
-                  <button className="mobile-menu-item" onClick={() => navigate('admin')}>
+                  <AppLink className="mobile-menu-item" href={hrefFor('admin')} style={{ textDecoration: 'none' }} onNavigate={() => navigate('admin')}>
                     <Icon name="user" size={18} /> Admin · Users
-                  </button>
+                  </AppLink>
                 )}
                 <button className="mobile-menu-item" onClick={() => { toggleTheme(); }}>
                   <Icon name={isDark ? 'sun' : 'moon'} size={18} />
@@ -226,9 +231,9 @@ const Navigation = ({ currentPage, setCurrentPage }) => {
                   <Icon name={isDark ? 'sun' : 'moon'} size={18} />
                   {isDark ? 'Light Mode' : 'Dark Mode'}
                 </button>
-                <button className="btn btn-primary" style={{ marginTop: 'var(--space-2)' }} onClick={() => navigate('login')}>
+                <AppLink className="btn btn-primary" style={{ marginTop: 'var(--space-2)', textDecoration: 'none' }} href={hrefFor('login')} onNavigate={() => navigate('login')}>
                   Sign In
-                </button>
+                </AppLink>
               </>
             )}
           </aside>

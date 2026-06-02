@@ -1,6 +1,8 @@
 import React from 'react';
 import PageHeader from '../ui/PageHeader';
 import Icon from '../ui/icons';
+import AppLink from '../ui/AppLink';
+import { hrefFor } from '../../lib/routes';
 
 // Listening hub — mirrors the Reading hub: About / Part Practice / Full Test.
 
@@ -47,10 +49,10 @@ export default function Hub({ setSubPage }) {
           marginTop: 'var(--space-6)',
         }}>
           {CARDS.map((c) => (
-            <button
+            <AppLink
               key={c.key}
-              type="button"
-              onClick={() => setSubPage(c.key)}
+              href={hrefFor('listening', c.key)}
+              onNavigate={() => setSubPage(c.key)}
               className="card card-interactive"
               style={{
                 textAlign: 'left',
@@ -58,6 +60,7 @@ export default function Hub({ setSubPage }) {
                 cursor: 'pointer',
                 border: '1px solid var(--border-color)',
                 display: 'flex', flexDirection: 'column', gap: 'var(--space-4)',
+                textDecoration: 'none',
               }}
             >
               <div style={{
@@ -90,7 +93,7 @@ export default function Hub({ setSubPage }) {
                 </span>
                 <Icon name="arrowRight" size={16} style={{ color: c.accent }} />
               </div>
-            </button>
+            </AppLink>
           ))}
         </div>
       </div>

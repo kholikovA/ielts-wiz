@@ -1,6 +1,8 @@
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import Icon from './ui/icons';
+import AppLink from './ui/AppLink';
+import { hrefFor } from '../lib/routes';
 
 // Concrete content numbers — bump these when the catalog grows.
 const STATS = [
@@ -123,13 +125,13 @@ const HeroSection = ({ setCurrentPage }) => {
           </p>
 
           <div className="animate-fadeInUp" style={{ display: 'flex', gap: 'var(--space-3)', marginBottom: 'var(--space-10)', flexWrap: 'wrap' }}>
-            <button className="btn btn-primary btn-lg" onClick={onStart}>
+            <AppLink className="btn btn-primary btn-lg" style={{ textDecoration: 'none' }} href={hrefFor(user ? 'listening' : 'signup')} onNavigate={onStart}>
               {user ? 'Start Practicing' : 'Start Free'}
               <Icon name="arrowRight" size={18} />
-            </button>
-            <button className="btn btn-secondary btn-lg" onClick={() => setCurrentPage('speaking')}>
+            </AppLink>
+            <AppLink className="btn btn-secondary btn-lg" style={{ textDecoration: 'none' }} href={hrefFor('speaking')} onNavigate={() => setCurrentPage('speaking')}>
               Browse Questions
-            </button>
+            </AppLink>
           </div>
 
           <div className="animate-fadeInUp" style={{

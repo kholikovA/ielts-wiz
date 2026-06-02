@@ -4,6 +4,8 @@ import AVATAR_OPTIONS, { AVATAR_NAMES } from '../data/avatar-options';
 import PageHeader from './ui/PageHeader';
 import Icon from './ui/icons';
 import ActivityHeatmap from './ui/ActivityHeatmap';
+import AppLink from './ui/AppLink';
+import { hrefFor } from '../lib/routes';
 import useBodyScrollLock from './ui/useBodyScrollLock';
 import { getCompletedIds, getCurrentStreak, migrateLegacy } from '../lib/progressStore';
 import { pullAndMerge } from '../lib/cloudSync';
@@ -230,12 +232,12 @@ const Dashboard = ({ setCurrentPage }) => {
               Take a single timed test in any section to get a real diagnostic. The score lands on this dashboard, builds your activity heatmap, and starts your streak.
             </p>
             <div style={{ display: 'flex', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
-              <button type="button" className="btn btn-primary" onClick={() => setCurrentPage('listening')}>
+              <AppLink className="btn btn-primary" style={{ textDecoration: 'none' }} href={hrefFor('listening')} onNavigate={() => setCurrentPage('listening')}>
                 Start with Listening <Icon name="arrowRight" size={14} />
-              </button>
-              <button type="button" className="btn btn-secondary" onClick={() => setCurrentPage('reading')}>
+              </AppLink>
+              <AppLink className="btn btn-secondary" style={{ textDecoration: 'none' }} href={hrefFor('reading')} onNavigate={() => setCurrentPage('reading')}>
                 Or try Reading
-              </button>
+              </AppLink>
             </div>
           </div>
         )}
@@ -249,9 +251,9 @@ const Dashboard = ({ setCurrentPage }) => {
               <h2 className="h3" style={{ color: 'var(--text-primary)' }}>Activity</h2>
             </div>
             {totalCompleted > 0 && (
-              <button type="button" className="btn btn-ghost btn-sm" onClick={() => setCurrentPage('history')}>
+              <AppLink className="btn btn-ghost btn-sm" style={{ textDecoration: 'none' }} href={hrefFor('history')} onNavigate={() => setCurrentPage('history')}>
                 Full history <Icon name="arrowRight" size={14} />
-              </button>
+              </AppLink>
             )}
           </div>
           <ActivityHeatmap onGoToHistory={() => setCurrentPage('history')} />
@@ -340,12 +342,12 @@ const Dashboard = ({ setCurrentPage }) => {
           </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 'var(--space-3)' }}>
             {SHORTCUTS.map((action) => (
-              <button
+              <AppLink
                 key={action.page}
-                type="button"
-                onClick={() => setCurrentPage(action.page)}
+                href={hrefFor(action.page)}
+                onNavigate={() => setCurrentPage(action.page)}
                 className="card card-interactive"
-                style={{ padding: 'var(--space-5)', textAlign: 'left', cursor: 'pointer' }}
+                style={{ padding: 'var(--space-5)', textAlign: 'left', cursor: 'pointer', textDecoration: 'none', display: 'block' }}
               >
                 <div style={{
                   display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
@@ -361,7 +363,7 @@ const Dashboard = ({ setCurrentPage }) => {
                 <div style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)' }}>
                   {action.desc}
                 </div>
-              </button>
+              </AppLink>
             ))}
           </div>
         </div>

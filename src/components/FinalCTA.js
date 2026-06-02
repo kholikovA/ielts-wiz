@@ -1,6 +1,8 @@
 import React from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import Icon from './ui/icons';
+import AppLink from './ui/AppLink';
+import { hrefFor } from '../lib/routes';
 import useReveal from './ui/useReveal';
 
 const FinalCTA = ({ setCurrentPage }) => {
@@ -39,21 +41,23 @@ const FinalCTA = ({ setCurrentPage }) => {
             Pick one section, sit one timed test, and find out where you actually stand. The next forty minutes is the cheapest, most accurate diagnostic you'll get.
           </p>
           <div style={{ display: 'flex', gap: 'var(--space-3)', justifyContent: 'center', flexWrap: 'wrap' }}>
-            <button
-              type="button"
+            <AppLink
               className="btn btn-primary btn-lg"
-              onClick={() => setCurrentPage(user ? 'listening' : 'signup')}
+              style={{ textDecoration: 'none' }}
+              href={hrefFor(user ? 'listening' : 'signup')}
+              onNavigate={() => setCurrentPage(user ? 'listening' : 'signup')}
             >
               {user ? 'Take a test now' : 'Create free account'}
               <Icon name="arrowRight" size={18} />
-            </button>
-            <button
-              type="button"
+            </AppLink>
+            <AppLink
               className="btn btn-secondary btn-lg"
-              onClick={() => setCurrentPage('reading')}
+              style={{ textDecoration: 'none' }}
+              href={hrefFor('reading')}
+              onNavigate={() => setCurrentPage('reading')}
             >
               Browse passages
-            </button>
+            </AppLink>
           </div>
         </div>
       </div>
