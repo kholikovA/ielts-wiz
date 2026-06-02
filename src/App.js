@@ -20,8 +20,8 @@ const PAGES_WITH_SUBPAGES = new Set(['speaking', 'listening', 'reading', 'gramma
 // The skill landing pages now land directly on practice (not an overview).
 const DEFAULT_SUBPAGE = {
   speaking: 'part1-2026',
-  listening: 'part1',
-  reading: 'passage1',
+  listening: 'hub',
+  reading: 'hub',
   grammar: 'hub',
   writing: 'practice',
 };
