@@ -13,32 +13,7 @@ import Dashboard from './components/Dashboard';
 import HistoryPage from './components/HistoryPage';
 import AdminUsersPage from './components/admin/AdminUsersPage';
 import Footer from './components/Footer';
-
-const PAGES_WITH_SUBPAGES = new Set(['speaking', 'listening', 'reading', 'grammar', 'writing']);
-
-// Default subPage when a section is opened without one in the URL.
-// The skill landing pages now land directly on practice (not an overview).
-const DEFAULT_SUBPAGE = {
-  speaking: 'part1-2026',
-  listening: 'hub',
-  reading: 'hub',
-  grammar: 'hub',
-  writing: 'practice',
-};
-
-const parseUrlToState = () => {
-  const parts = window.location.pathname.split('/').filter(Boolean);
-  if (parts.length === 0 || parts[0] === 'home') return { page: 'home', subPage: null };
-  const page = parts[0];
-  const subPage = parts[1] || DEFAULT_SUBPAGE[page] || null;
-  return { page, subPage };
-};
-
-const stateToUrl = (page, subPage) => {
-  if (page === 'home') return '/';
-  if (subPage && subPage !== DEFAULT_SUBPAGE[page]) return `/${page}/${subPage}`;
-  return `/${page}`;
-};
+import { PAGES_WITH_SUBPAGES, DEFAULT_SUBPAGE, parseUrlToState, stateToUrl } from './lib/routes';
 
 const App = () => {
   const initial = parseUrlToState();
