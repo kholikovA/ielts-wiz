@@ -2,7 +2,7 @@ import React from 'react';
 import PageHeader from '../ui/PageHeader';
 import Icon from '../ui/icons';
 
-// Top-level Reading hub — three card entries to the underlying flows.
+// Top-level Reading hub — card entries to the underlying flows.
 // Card visual: large color accent + icon + title + one-line summary +
 // supporting stat. The accent colors mirror the Reading category palette
 // (violet / blue / green) already used in the Dashboard.
@@ -23,6 +23,14 @@ const CARDS = [
     stat: '69 tests',
     icon: 'layers',
     accent: 'var(--blue-500)',
+  },
+  {
+    key: 'cambridge',
+    title: 'Cambridge IELTS',
+    summary: 'Official Cambridge tests as full 60-minute, 3-passage exams. Cambridge 20 — all 4 reading tests.',
+    stat: '4 tests',
+    icon: 'award',
+    accent: 'var(--purple-600)',
   },
   {
     key: 'full',
