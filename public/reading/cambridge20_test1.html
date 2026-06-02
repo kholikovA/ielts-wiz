@@ -833,7 +833,6 @@ html[data-theme="dark"] .brand-logo-dark { display: block; }
 .results-header {
   text-align: center; margin-bottom: 36px;
   padding-bottom: 28px; border-bottom: 1px solid var(--border);
-  position: relative; overflow: hidden;
 }
 .results-header h1 {
   font-family: var(--sans); font-size: 28px; font-weight: 700;
@@ -848,14 +847,22 @@ html[data-theme="dark"] .brand-logo-dark { display: block; }
 }
 .results-message svg { width: 20px; height: 20px; color: var(--accent); flex-shrink: 0; }
 .results-message strong { color: var(--text); font-weight: 700; }
-/* Faint hat watermark in the corner — a signature, used once. */
-.results-header::after {
-  content: ""; position: absolute; right: -10px; top: -14px;
-  width: 96px; height: 96px; opacity: 0.05; pointer-events: none;
-  background: var(--text);
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3 L25 24 H7 Z'/%3E%3Crect x='5' y='24' width='22' height='3.4' rx='1.7'/%3E%3Ccircle cx='16' cy='15' r='1.2'/%3E%3Ccircle cx='13.5' cy='19' r='0.9'/%3E%3Ccircle cx='19' cy='18' r='0.8'/%3E%3C/svg%3E") center / contain no-repeat;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M16 3 L25 24 H7 Z'/%3E%3Crect x='5' y='24' width='22' height='3.4' rx='1.7'/%3E%3Ccircle cx='16' cy='15' r='1.2'/%3E%3Ccircle cx='13.5' cy='19' r='0.9'/%3E%3Ccircle cx='19' cy='18' r='0.8'/%3E%3C/svg%3E") center / contain no-repeat;
+/* Score-tier counters — the Overall + Band cards get a themed, magical
+   gradient + starfield per bracket (0-5 / 5.5-6.5 / 7-8 / 8.5-9). The motif
+   lives inside the number, not floating in a corner. */
+.stat.tier-low, .stat.tier-mid, .stat.tier-high, .stat.tier-elite {
+  position: relative; overflow: hidden; border: none;
+  min-width: 134px; padding: 20px 24px;
+  box-shadow: 0 8px 24px -10px rgba(0,0,0,0.5);
 }
+.results-stats .stat[class*="tier-"] .stat-value { color: #fff; position: relative; z-index: 1; text-shadow: 0 1px 12px rgba(0,0,0,0.25); }
+.results-stats .stat[class*="tier-"] .stat-label { color: rgba(255,255,255,0.82); position: relative; z-index: 1; }
+.stat-deco { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.stat-deco svg { width: 100%; height: 100%; display: block; }
+.stat.tier-low   { background: linear-gradient(140deg, #2b1622 0%, #7a2540 100%); }
+.stat.tier-mid   { background: linear-gradient(140deg, #33260f 0%, #a4630f 100%); }
+.stat.tier-high  { background: linear-gradient(140deg, #062a20 0%, #0f7459 100%); }
+.stat.tier-elite { background: linear-gradient(140deg, #2a0f63 0%, #7c3aed 60%, #9333ea 100%); }
 .results-stats {
   display: flex; justify-content: center; gap: 24px;
   margin-top: 24px; flex-wrap: wrap;
@@ -2128,15 +2135,37 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
     // Render top stats: Overall, Band (if full), then each passage
     const stats = document.getElementById("resultsStats");
     stats.innerHTML = "";
+    // Score tier — themed magical background per bracket (0-5 / 5.5-6.5 / 7-8 / 8.5-9).
+    const tier = (function () {
+      if (IS_FULL_TEST && band !== null) {
+        if (band >= 8.5) return "elite";
+        if (band >= 7) return "high";
+        if (band >= 5.5) return "mid";
+        return "low";
+      }
+      const p = TOTAL_QUESTIONS ? correctCount / TOTAL_QUESTIONS : 0;
+      if (p >= 0.9) return "elite";
+      if (p >= 0.75) return "high";
+      if (p >= 0.55) return "mid";
+      return "low";
+    })();
+    const TIER_DECO = {
+      low: "<svg viewBox='0 0 200 120' preserveAspectRatio='xMidYMid slice' xmlns='http://www.w3.org/2000/svg'><g fill='#ffffff' fill-opacity='0.12'><path d='M150 40 l3 8.6 8.6 3 -8.6 3 -3 8.6 -3 -8.6 -8.6 -3 8.6 -3 z'/><circle cx='40' cy='44' r='1.7'/><circle cx='30' cy='82' r='1.4'/><circle cx='172' cy='84' r='1.6'/><circle cx='96' cy='26' r='1.3'/></g></svg>",
+      mid: "<svg viewBox='0 0 200 120' preserveAspectRatio='xMidYMid slice' xmlns='http://www.w3.org/2000/svg'><g fill='#ffffff' fill-opacity='0.13'><path d='M46 32 a21 21 0 1 0 0 42 a16 16 0 1 1 0 -42 z'/><path d='M150 40 l2.4 6.8 6.8 2.4 -6.8 2.4 -2.4 6.8 -2.4 -6.8 -6.8 -2.4 6.8 -2.4 z'/><circle cx='168' cy='80' r='2'/><circle cx='120' cy='26' r='1.5'/></g></svg>",
+      high: "<svg viewBox='0 0 200 120' preserveAspectRatio='xMidYMid slice' xmlns='http://www.w3.org/2000/svg'><g fill='#ffffff' fill-opacity='0.14'><path d='M42 42 l2.8 8 8 2.8 -8 2.8 -2.8 8 -2.8 -8 -8 -2.8 8 -2.8 z'/><path d='M158 38 l2 5.6 5.6 2 -5.6 2 -2 5.6 -2 -5.6 -5.6 -2 5.6 -2 z'/><path d='M150 86 l1.5 4.2 4.2 1.5 -4.2 1.5 -1.5 4.2 -1.5 -4.2 -4.2 -1.5 4.2 -1.5 z'/><circle cx='30' cy='84' r='2'/><circle cx='110' cy='24' r='1.5'/><circle cx='180' cy='68' r='1.6'/></g></svg>",
+      elite: "<svg viewBox='0 0 200 120' preserveAspectRatio='xMidYMid slice' xmlns='http://www.w3.org/2000/svg'><g fill='#ffffff' fill-opacity='0.13'><path d='M150 26 L182 84 H118 Z'/><rect x='114' y='84' width='72' height='9' rx='4.5'/></g><g fill='#fcd34d' fill-opacity='0.32'><path d='M44 42 l2.6 7.2 7.2 2.6 -7.2 2.6 -2.6 7.2 -2.6 -7.2 -7.2 -2.6 7.2 -2.6 z'/><path d='M26 80 l1.8 5 5 1.8 -5 1.8 -1.8 5 -1.8 -5 -5 -1.8 5 -1.8 z'/><path d='M74 24 l1.5 4.2 4.2 1.5 -4.2 1.5 -1.5 4.2 -1.5 -4.2 -4.2 -1.5 4.2 -1.5 z'/><circle cx='150' cy='62' r='1.8'/><circle cx='104' cy='44' r='1.4'/></g></svg>",
+    };
+    const tierDeco = TIER_DECO[tier] || "";
+
     const overallStat = document.createElement("div");
-    overallStat.className = `stat overall ${overallColorClass}`;
-    overallStat.innerHTML = `<div class="stat-value">${correctCount} / ${TOTAL_QUESTIONS}</div><div class="stat-label">Correct</div>`;
+    overallStat.className = `stat overall tier-${tier}`;
+    overallStat.innerHTML = `<div class="stat-deco">${tierDeco}</div><div class="stat-value">${correctCount} / ${TOTAL_QUESTIONS}</div><div class="stat-label">Correct</div>`;
     stats.appendChild(overallStat);
 
     if (IS_FULL_TEST) {
       const bandStat = document.createElement("div");
-      bandStat.className = `stat band ${overallColorClass}`;
-      bandStat.innerHTML = `<div class="stat-value">${band !== null ? band.toFixed(1) : "—"}</div><div class="stat-label">Band Score</div>`;
+      bandStat.className = `stat band tier-${tier}`;
+      bandStat.innerHTML = `<div class="stat-deco">${tierDeco}</div><div class="stat-value">${band !== null ? band.toFixed(1) : "—"}</div><div class="stat-label">Band Score</div>`;
       stats.appendChild(bandStat);
     }
 
