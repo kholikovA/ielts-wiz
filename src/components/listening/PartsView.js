@@ -32,7 +32,16 @@ export default function PartsView({ subPage, setSubPage, setCurrentPage }) {
   useEffect(() => { setCompletedIds(getCompletedIds('listening')); }, []);
 
   const handleAuthRequired = (e) => {
-    if (!user) { e.preventDefault(); setCurrentPage('login'); }
+    if (!user) {
+      e.preventDefault();
+      // Remember the test the user was about to open so we land back on it
+      // after sign-in. AuthPage reads ?next= from the URL on successful login.
+      const next = e.currentTarget.getAttribute('href') || '';
+      setCurrentPage('login');
+      if (next.startsWith('/')) {
+        window.history.replaceState({}, '', `/login?next=${encodeURIComponent(next)}`);
+      }
+    }
   };
 
   return (

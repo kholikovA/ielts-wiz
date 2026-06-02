@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>IELTS Reading — Passage 1: The Life of Beatrix Potter</title>
+<link rel="icon" type="image/svg+xml" href="/wizard-hat.svg">
 <script>
 // Auth gate — must run BEFORE the page renders. Looks for a Supabase session
 // in localStorage (set by the React app on the same origin); if missing or
@@ -213,7 +214,7 @@ header.topbar {
 .divider-handle {
   position: absolute; top: 50%; left: 50%;
   transform: translate(-50%, -50%);
-  width: 22px; height: 36px;
+  width: 33px; height: 54px;
   background: var(--bg);
   border: 1px solid var(--border-strong);
   border-radius: 4px;
@@ -983,7 +984,7 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
 <header class="topbar">
   <div class="brand-area">
     <span class="brand">IELTS</span>
-    <a href="https://t.me/abdullahsenglish" target="_blank" rel="noopener" class="tg-link">@abdullahsenglish</a>
+    <a href="https://t.me/abdullahsenglish" target="_blank" rel="noopener" class="tg-link">Wiz by @abdullahsenglish</a>
   </div>
   <div class="timer" id="timer" data-duration="1200">
     <span class="timer-mins" id="timerMins">20 minutes left</span>
@@ -1828,8 +1829,32 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
     return any ? any.textContent.trim() : headingId;
   }
 
+  // MCQ questions store a letter (A/B/C…) as the value, but the letter is no
+  // longer shown to the user, so the review echoes the chosen option's text.
+  const MCQ_QNUMS = new Set();
+  document.querySelectorAll('.question-group[data-type="mcq"] .question[data-qnum], .question-group[data-type="mcq_multi"] .question[data-qnum]').forEach(q => {
+    const qn = parseInt(q.dataset.qnum, 10);
+    if (!isNaN(qn)) MCQ_QNUMS.add(qn);
+  });
+  function lookupOptionText(qNum, letter) {
+    let input = document.querySelector('.options-list input[name="q' + qNum + '"][value="' + letter + '"]');
+    if (!input) {
+      document.querySelectorAll('.options-list input[type="checkbox"][value="' + letter + '"]').forEach(cb => {
+        try { if (JSON.parse(cb.dataset.qnums || '[]').indexOf(qNum) >= 0) input = cb; } catch (e) {}
+      });
+    }
+    if (!input) return letter;
+    const label = input.closest('label');
+    const span = label ? label.querySelector('span:last-child') : null;
+    return span ? span.textContent.trim() : letter;
+  }
+
   function displayAnswer(qNum, value) {
     if (value == null || value === "") return "";
+    if (MCQ_QNUMS.has(qNum)) {
+      const ids = Array.isArray(value) ? value : String(value).split(",").map(s => s.trim());
+      return ids.filter(Boolean).map(id => lookupOptionText(qNum, id)).join(", ");
+    }
     // For drag-drop questions, replace card IDs with their full text
     if (DRAGDROP_QNUMS.has(qNum)) {
       const ids = String(value).split(",").map(s => s.trim());
@@ -2238,7 +2263,7 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
     // Footer credit
     ctx.fillStyle = "#737373";
     ctx.font = "500 14px 'Inter', sans-serif";
-    ctx.fillText("@abdullahsenglish", W / 2, H - 30);
+    ctx.fillText("Wiz by @abdullahsenglish", W / 2, H - 30);
 
     // Top-row big stats: Overall + Band
     const topY = 160, topH = 140;
