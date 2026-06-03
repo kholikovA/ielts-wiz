@@ -34,5 +34,14 @@ The supplied spec had several transcription artefacts that were corrected here:
   `["B","D","F"]`. Part 3 then correctly starts at Q27.
 - **Q27–30** is a word-bank summary (A poverty / B agriculture / C boats /
   D wood); answers are letters `27=D, 28=C, 29=A, 30=B`.
-- **Q14–15** render as paragraph dropdowns (`matching_info`, `display_mode:
-  dropdown`).
+- **Q1–7** is `note_completion` with period sub-headings (Carnegie's Life →
+  1835–1855, 1855–1865, …) and static (un-numbered) bullets between gaps.
+- **Q14–15** and **Q20–23** render as checkmark **tables** (`display_mode:
+  table`); Q20–23 adds `show_bank_legend: true` so the A–F "Types of
+  Translation" legend appears under the table.
+- **Q24–26** (`mcq_multi`) caps selection at three: once three are ticked the
+  remaining options dim and disable.
+
+These last items required small additions to the reading skill (a table
+legend in `build_test.py`, and the checkbox-cap CSS/JS in the template,
+ported from the listening skill). Rebuild with the updated skill to reproduce.

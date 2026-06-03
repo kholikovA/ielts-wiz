@@ -47,15 +47,53 @@
       "question_groups": [
         {
           "instructions_html": "Complete the notes below. Write <strong>ONE WORD ONLY</strong> from the text for each answer.",
-          "type": "short_answer",
+          "type": "note_completion",
+          "layout": {
+            "title": "Carnegie's Life",
+            "sections": [
+              {
+                "heading": "1835–1855",
+                "items": [
+                  { "qnum": 1, "html": "found employment in the same workplace as his ___" },
+                  { "qnum": 2, "html": "educated himself through books, theatrical performances and ___" }
+                ]
+              },
+              {
+                "heading": "1855–1865",
+                "items": [
+                  { "html": "worked in a telegraph office" },
+                  { "qnum": 3, "html": "became ___ to Thomas A Scott at Pennsylvania Railroad" }
+                ]
+              },
+              {
+                "heading": "1865–1870",
+                "items": [
+                  { "html": "made investments in the US and England" },
+                  { "qnum": 4, "html": "realised that changing engineering needs would require a greater demand for ___" }
+                ]
+              },
+              {
+                "heading": "1873",
+                "items": [
+                  { "html": "managed a rail manufacturing business by:" },
+                  { "qnum": 5, "html": "reducing ___" },
+                  { "html": "restructuring" },
+                  { "qnum": 6, "html": "reinvesting profit and sometimes borrowing money from ___" }
+                ]
+              },
+              {
+                "heading": "1880s",
+                "items": [
+                  { "html": "Frick and Carnegie became partners" },
+                  { "qnum": 7, "html": "Carnegie's responsibilities: arranging future ___ and innovations for factories" },
+                  { "html": "Frick's responsibilities: Production" }
+                ]
+              }
+            ]
+          },
           "questions": [
-            { "number": 1, "prompt_html": "found employment in the same workplace as his ___" },
-            { "number": 2, "prompt_html": "educated himself through books, theatrical performances and ___" },
-            { "number": 3, "prompt_html": "became ___ to Thomas A Scott at Pennsylvania Railroad" },
-            { "number": 4, "prompt_html": "realised that changing engineering needs would require a greater demand for ___" },
-            { "number": 5, "prompt_html": "continued building his business by cutting out competitors and reducing ___" },
-            { "number": 6, "prompt_html": "reinvesting profit and sometimes borrowing money from ___" },
-            { "number": 7, "prompt_html": "Carnegie's responsibilities: arranging future ___ and innovations for factories" }
+            { "number": 1 }, { "number": 2 }, { "number": 3 }, { "number": 4 },
+            { "number": 5 }, { "number": 6 }, { "number": 7 }
           ]
         },
         {
@@ -113,8 +151,8 @@
         {
           "instructions_html": "The text has eight paragraphs labeled <strong>A–H</strong>. Which paragraph contains the following information? You may choose any letter more than once.",
           "type": "matching_info",
-          "display_mode": "dropdown",
-          "bank_title": "Paragraphs",
+          "display_mode": "table",
+          "table_column_header": "Information",
           "feature_bank": [
             { "letter": "A", "text": "Paragraph A" },
             { "letter": "B", "text": "Paragraph B" },
@@ -145,8 +183,11 @@
           ]
         },
         {
-          "instructions_html": "Look at the following features of translating (Questions 20–23) and the list of types of translation below. Match each feature with the correct type of translation, <strong>A–F</strong>.",
+          "instructions_html": "Look at the following features of translating (Questions 20–23) and the list of types of translation below. Match each feature with the correct type of translation, <strong>A–F</strong>. You may choose any group more than once.",
           "type": "matching_features",
+          "display_mode": "table",
+          "table_column_header": "Features",
+          "show_bank_legend": true,
           "bank_title": "Types of Translation",
           "feature_bank": [
             { "letter": "A", "text": "aesthetic" },
