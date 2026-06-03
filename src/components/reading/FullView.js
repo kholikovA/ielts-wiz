@@ -25,6 +25,21 @@ const TESTS = [
       'The mystery of Easter Island',
     ],
   },
+  {
+    // Admin-only for now (hidden from students until the lesson). The HTML uses
+    // a non-guessable filename so it can't be reached by URL either. To release:
+    // drop adminOnly (and optionally rename the file to full_volume9_test3.html).
+    id: 'full_volume9_test3_4bc98d12',
+    recordId: 'volume9_test3', // matches the test page's TEST_ID
+    title: 'Volume 9 — Test 3',
+    note: 'Academic · Reading',
+    adminOnly: true,
+    passages: [
+      'New Understanding of Giraffes in the Wild',
+      'Healthy buildings, productive people',
+      "Child's Play in Medieval England",
+    ],
+  },
 ];
 
 const RECORD_KIND = 'reading_full';
@@ -32,7 +47,10 @@ const RECORD_KIND = 'reading_full';
 const testHref = (id) => `/reading/${id}.html`;
 
 export default function FullView({ setSubPage, setCurrentPage }) {
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
+
+  // Admin-only tests are hidden from everyone except admins.
+  const visibleTests = TESTS.filter((t) => !t.adminOnly || isAdmin);
 
   const handleAuthRequired = (e) => {
     if (!user) {
@@ -69,7 +87,7 @@ export default function FullView({ setSubPage, setCurrentPage }) {
           gap: 'var(--space-3)',
           marginTop: 'var(--space-6)',
         }}>
-          {TESTS.map((test) => {
+          {visibleTests.map((test) => {
             const href = testHref(test.id);
             const latest = getLatestAttempt(RECORD_KIND, test.recordId);
             const canReview = hasLastSubmission(RECORD_KIND, test.recordId);
@@ -92,6 +110,7 @@ export default function FullView({ setSubPage, setCurrentPage }) {
                   <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
                     <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
                       <h4 className="h4" style={{ color: 'var(--text-primary)', margin: 0 }}>{test.title}</h4>
+                      {test.adminOnly && <span className="pill pill-amber" style={{ padding: '2px 10px' }}>Admin only</span>}
                       {done && <CompletedPill />}
                     </div>
                     <span style={{
