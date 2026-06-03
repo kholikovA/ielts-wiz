@@ -505,15 +505,19 @@ html[data-theme="dark"] .brand-logo-dark { display: block; }
   font-family: var(--sans); font-weight: 700;
   font-size: var(--fs-subheading); margin-bottom: 8px;
 }
-.note-list { list-style: none; padding-left: 0; }
-.note-list li, .short-answer-list li {
-  position: relative; padding-left: 22px;
+/* Native list markers: the browser aligns the disc to the first line's box, so
+   it stays vertically centred on the text (and on inline gap inputs) on its own.
+   This replaces the fragile absolute-positioned "•" glyph, which rode high. */
+.note-list { list-style: disc; padding-left: 1.5em; }
+.note-list li {
   margin-bottom: 12px; line-height: 2;
   font-family: var(--serif);
 }
-.note-list li::before, .short-answer-list li::before {
-  content: "•"; position: absolute;
-  left: 6px; top: 0; font-weight: 700;
+.note-list li::marker { font-weight: 700; }
+.short-answer-list li {
+  position: relative;
+  margin-bottom: 12px; line-height: 2;
+  font-family: var(--serif);
 }
 .short-answer-list { list-style: none; padding-left: 0; }
 .short-answer-list li {
@@ -540,6 +544,9 @@ html[data-theme="dark"] .brand-logo-dark { display: block; }
 
 /* Heading bank */
 .heading-bank { margin-bottom: 18px; }
+/* sentence_endings: the endings bank sits BELOW the questions, so give it some
+   breathing room above and no title. */
+.ending-bank { margin-top: 26px; }
 .heading-bank-title {
   font-family: var(--sans); font-size: var(--fs-content); font-weight: 700;
   margin-bottom: 10px;
@@ -586,10 +593,15 @@ html[data-theme="dark"] .brand-logo-dark { display: block; }
   transition: background .12s;
 }
 .match-table tbody tr td.match-cell:hover { background: var(--accent-soft); }
-.match-table tbody tr td.match-cell.selected::after {
-  content: "✓"; color: var(--correct);
+/* The checkmark glyph is ALWAYS rendered (hidden until selected) so ticking a
+   cell never changes the cell/row height — nothing shifts vertically. */
+.match-table tbody tr td.match-cell::after {
+  content: "✓"; visibility: hidden;
   font-weight: 700; font-size: 18px;
-  font-family: var(--sans);
+  font-family: var(--sans); line-height: 1;
+}
+.match-table tbody tr td.match-cell.selected::after {
+  visibility: visible; color: var(--correct);
 }
 .match-table .row-num {
   font-family: var(--sans); font-weight: 700;
@@ -1699,6 +1711,10 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
     if (!isReusable) {
       document.querySelectorAll(".heading-gap.filled").forEach(g => {
         if (g === gap) return;
+        // Only vacate within the same drag group — different banks (e.g. a
+        // sentence_endings group and a matching_headings group) can share letter
+        // IDs, and clearing across groups would wipe an unrelated answer.
+        if ((g.dataset.group || "") !== (gap.dataset.group || "")) return;
         if (g.dataset.placedHeading === card.dataset.headingId) {
           delete g.dataset.placedHeading;
           g.classList.remove("filled");
