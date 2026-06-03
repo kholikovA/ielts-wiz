@@ -323,6 +323,10 @@ Use `layout.sections` for the title + sub-headings + bullet items structure (mat
 
 **Input-less bullets.** Many real Cambridge notes include bullets that are not gaps — fixed context lines between gapped bullets (e.g. *"an appeal was made in the 1960s to help build the Student Union buildings"* sitting above a gapped bullet). Represent these as items **without a `qnum`**; they render as plain bullets and are not added to the questions array. Items with a `qnum` and a `___` marker render as bullets with a boxed input.
 
+**Every gapped item MUST carry its real note text** (the words around the `___`), transcribed verbatim from the source. A bare `{ "html": "___", "qnum": N }` with no surrounding words is **incomplete source, not a buildable item** — do not ship it and do not invent the text; get the original wording. See the Source-fidelity rule in SKILL.md.
+
+**Indented sub-bullets.** When the source nests points under a heading bullet (e.g. dashed sub-points beneath *"Major Walter C. Wingfield:"*), add `"indent": true` to each sub-item. It renders as an indented dash (`–`) sub-bullet. The parent line stays a normal bullet.
+
 ```json
 {
   "type": "note_completion",
