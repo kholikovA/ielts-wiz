@@ -85,6 +85,21 @@ const TESTS = [
       "Changes to the Soviet Union's working week",
     ],
   },
+  {
+    // Admin-only for now (hidden from students until the lesson). The HTML uses
+    // a non-guessable filename so it can't be reached by URL either. To release:
+    // drop adminOnly (and optionally rename the file to full_volume9_test7.html).
+    id: 'full_volume9_test7_d4a91b27',
+    recordId: 'volume9_test7', // matches the test page's TEST_ID
+    title: 'Volume 9 — Test 7',
+    note: 'Academic · Reading',
+    adminOnly: true,
+    passages: [
+      'Seaweed',
+      'The history of the Celtic language',
+      'The psychology of new product adoption',
+    ],
+  },
 ];
 
 const RECORD_KIND = 'reading_full';
