@@ -61,19 +61,31 @@ const AdminUsersPage = ({ setCurrentPage }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  // "My class" — the set of student ids the teacher dashboard focuses on.
-  // Persisted in localStorage; toggled from the Users table below.
-  const COHORT_KEY = 'iw.v1.admin.cohort';
-  const [cohort, setCohort] = useState(() => {
-    try { return new Set(JSON.parse(localStorage.getItem(COHORT_KEY) || '[]')); }
-    catch { return new Set(); }
-  });
-  const toggleCohort = (id) => setCohort((prev) => {
-    const next = new Set(prev);
-    if (next.has(id)) next.delete(id); else next.add(id);
-    try { localStorage.setItem(COHORT_KEY, JSON.stringify([...next])); } catch {}
-    return next;
-  });
+  // "My class" — the set of student ids this teacher tracks, stored in the
+  // teacher_students table so it's shared across the teacher's devices (and is
+  // per-teacher). RLS scopes every row to teacher_id = auth.uid().
+  const [cohort, setCohort] = useState(new Set());
+  useEffect(() => {
+    if (!isAdmin) return;
+    let cancelled = false;
+    (async () => {
+      const { data } = await supabase.from('teacher_students').select('student_id');
+      if (!cancelled && data) setCohort(new Set(data.map((r) => r.student_id)));
+    })();
+    return () => { cancelled = true; };
+  }, [isAdmin]);
+
+  const toggleCohort = async (id) => {
+    const inSet = cohort.has(id);
+    // Optimistic update; revert if the DB write fails.
+    setCohort((prev) => { const n = new Set(prev); if (inSet) n.delete(id); else n.add(id); return n; });
+    const { error: dbErr } = inSet
+      ? await supabase.from('teacher_students').delete().eq('student_id', id)
+      : await supabase.from('teacher_students').insert({ student_id: id });
+    if (dbErr) {
+      setCohort((prev) => { const n = new Set(prev); if (inSet) n.add(id); else n.delete(id); return n; });
+    }
+  };
 
   // Filters
   const [search, setSearch] = useState('');
