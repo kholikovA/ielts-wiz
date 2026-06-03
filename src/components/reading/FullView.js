@@ -2,6 +2,7 @@ import React from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import PageHeader from '../ui/PageHeader';
 import Icon from '../ui/icons';
+import { prefetchPage } from '../../lib/prefetch';
 
 // Full Test Practice catalogue — complete 60-minute, 3-passage exams (40 Q)
 // delivered as the standalone interactive HTML (same engine as Part Practice
@@ -66,6 +67,7 @@ export default function FullView({ setSubPage, setCurrentPage }) {
               key={test.id}
               href={testHref(test.id)}
               onClick={handleAuthRequired}
+              onMouseEnter={() => prefetchPage(testHref(test.id))}
               className="card card-interactive"
               style={{
                 textDecoration: 'none',
