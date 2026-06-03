@@ -2,7 +2,7 @@ import React from 'react';
 import Hub from './reading/Hub';
 import AboutGuide from './reading/AboutGuide';
 import PartsView from './reading/PartsView';
-import FullStub from './reading/FullStub';
+import FullView from './reading/FullView';
 import CambridgeView from './reading/CambridgeView';
 
 // Reading section router. The subPage value dictates which child renders:
@@ -15,7 +15,7 @@ import CambridgeView from './reading/CambridgeView';
 // accepts those values as initial-tab hints.
 export default function ReadingPage({ subPage, setSubPage, setCurrentPage }) {
   if (subPage === 'about') return <AboutGuide setSubPage={setSubPage} />;
-  if (subPage === 'full')  return <FullStub setSubPage={setSubPage} />;
+  if (subPage === 'full')  return <FullView setSubPage={setSubPage} setCurrentPage={setCurrentPage} />;
   if (subPage === 'cambridge') return <CambridgeView setSubPage={setSubPage} setCurrentPage={setCurrentPage} />;
   if (subPage === 'parts' || (typeof subPage === 'string' && subPage.startsWith('passage'))) {
     return <PartsView subPage={subPage} setSubPage={setSubPage} setCurrentPage={setCurrentPage} />;

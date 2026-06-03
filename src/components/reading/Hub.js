@@ -37,8 +37,8 @@ const CARDS = [
   {
     key: 'full',
     title: 'Full Test Practice',
-    summary: 'A complete 60-minute, 3-passage exam under realistic conditions.',
-    stat: 'Coming soon',
+    summary: 'A complete 60-minute, 3-passage exam (40 questions) under realistic conditions, with band scoring.',
+    stat: '1 test',
     icon: 'target',
     accent: 'var(--green-500)',
   },
