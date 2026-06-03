@@ -5,6 +5,7 @@ import PageHeader from '../ui/PageHeader';
 import Icon from '../ui/icons';
 import SendEmailDialog from './SendEmailDialog';
 import AdminAnalytics from './AdminAnalytics';
+import AdminTeacher from './AdminTeacher';
 
 // Admin-only view of every signup row, with filters + CSV export + (optional)
 // transactional-email batch send. RLS already prevents non-admins from reading
@@ -151,10 +152,12 @@ const AdminUsersPage = ({ setCurrentPage }) => {
       <div className="page-section" style={{ maxWidth: '1200px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: 'var(--space-3)' }}>
           <PageHeader
-            eyebrow={view === 'analytics' ? 'Admin · Analytics' : 'Admin · Users'}
-            title={view === 'analytics' ? 'How IELTS Wiz is doing.' : 'Every signup, with filters.'}
+            eyebrow={view === 'analytics' ? 'Admin · Analytics' : view === 'teacher' ? 'Admin · Students' : 'Admin · Users'}
+            title={view === 'analytics' ? 'How IELTS Wiz is doing.' : view === 'teacher' ? 'How your students are doing.' : 'Every signup, with filters.'}
             lead={view === 'analytics'
               ? 'Product analytics from your own data — signups, activation, audience, and test activity.'
+              : view === 'teacher'
+              ? 'Student performance — test scores, accuracy by section, where they struggle, and a per-student drill-down.'
               : 'Filter by target band, referral source, or sign-in status. Export the current view to CSV or hand it straight to the email batch.'}
           />
           <button type="button" className="btn btn-secondary" onClick={() => setCurrentPage('dashboard')}>
@@ -164,7 +167,7 @@ const AdminUsersPage = ({ setCurrentPage }) => {
 
         {/* View tabs */}
         <div style={{ display: 'inline-flex', gap: '4px', padding: '4px', background: 'var(--bg-elevated)', borderRadius: 'var(--r-lg)', marginBottom: 'var(--space-5)' }}>
-          {[['analytics', 'Analytics', 'trending'], ['users', 'Users', 'user']].map(([key, label, icon]) => (
+          {[['analytics', 'Analytics', 'trending'], ['teacher', 'Students', 'graduation'], ['users', 'Users', 'user']].map(([key, label, icon]) => (
             <button
               key={key}
               type="button"
@@ -183,6 +186,8 @@ const AdminUsersPage = ({ setCurrentPage }) => {
         </div>
 
         {view === 'analytics' && <AdminAnalytics />}
+
+        {view === 'teacher' && <AdminTeacher />}
 
         {view === 'users' && (<>
         {/* Stats strip */}
