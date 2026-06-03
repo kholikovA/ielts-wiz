@@ -1,0 +1,7 @@
+{
+  "git": {
+    "deploymentEnabled": {
+      "cloudflare/workers-autoconfig": false
+    }
+  }
+}
