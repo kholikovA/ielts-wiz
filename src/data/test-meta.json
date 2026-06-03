@@ -1,0 +1,660 @@
+{
+"cambridge20_test1": [
+"True/False/Not Given",
+"Note Completion",
+"Matching Information",
+"Matching Features",
+"Summary Completion",
+"Multiple Choice",
+"Sentence Endings",
+"Yes/No/Not Given"
+],
+"cambridge20_test2": [
+"Note Completion",
+"True/False/Not Given",
+"Matching Information",
+"Summary Completion",
+"Multiple Choice Many",
+"Yes/No/Not Given",
+"Multiple Choice"
+],
+"cambridge20_test3": [
+"Note Completion",
+"True/False/Not Given",
+"Matching Headings",
+"Multiple Choice Many",
+"Sentence Completion",
+"Matching Features",
+"Sentence Endings",
+"Multiple Choice"
+],
+"cambridge20_test4": [
+"Note Completion",
+"True/False/Not Given",
+"Matching Information",
+"Sentence Completion",
+"Matching Features",
+"Summary Completion"
+],
+"full_volume9_test2": [
+"Note Completion",
+"True/False/Not Given",
+"Matching Information",
+"Summary Completion",
+"Matching Features",
+"Multiple Choice Many",
+"Yes/No/Not Given",
+"Multiple Choice"
+],
+"passage1_1": [
+"True/False/Not Given",
+"Note Completion"
+],
+"passage1_10": [
+"True/False/Not Given",
+"Note Completion"
+],
+"passage1_11": [
+"True/False/Not Given",
+"Note Completion"
+],
+"passage1_12": [
+"True/False/Not Given",
+"Note Completion"
+],
+"passage1_13": [
+"Note Completion",
+"True/False/Not Given"
+],
+"passage1_14": [
+"Matching Information",
+"Yes/No/Not Given",
+"Multiple Choice"
+],
+"passage1_15": [
+"True/False/Not Given",
+"Note Completion"
+],
+"passage1_16": [
+"True/False/Not Given",
+"Note Completion"
+],
+"passage1_17": [
+"Note Completion",
+"True/False/Not Given"
+],
+"passage1_18": [
+"Matching Information",
+"Yes/No/Not Given"
+],
+"passage1_19": [
+"True/False/Not Given",
+"Note Completion"
+],
+"passage1_2": [
+"True/False/Not Given",
+"Note Completion"
+],
+"passage1_20": [
+"Sentence Completion",
+"True/False/Not Given"
+],
+"passage1_21": [
+"True/False/Not Given",
+"Note Completion"
+],
+"passage1_22": [
+"True/False/Not Given",
+"Short Answer"
+],
+"passage1_23": [
+"Yes/No/Not Given",
+"Multiple Choice",
+"Sentence Completion"
+],
+"passage1_24": [
+"Matching Information",
+"Summary Completion",
+"True/False/Not Given"
+],
+"passage1_25": [
+"Multiple Choice",
+"Sentence Completion",
+"True/False/Not Given"
+],
+"passage1_26": [
+"Matching Information",
+"True/False/Not Given",
+"Sentence Completion"
+],
+"passage1_27": [
+"True/False/Not Given",
+"Note Completion"
+],
+"passage1_28": [
+"Sentence Completion",
+"True/False/Not Given"
+],
+"passage1_29": [
+"Note Completion",
+"True/False/Not Given"
+],
+"passage1_3": [
+"True/False/Not Given",
+"Note Completion"
+],
+"passage1_30": [
+"True/False/Not Given",
+"Note Completion"
+],
+"passage1_31": [
+"Note Completion",
+"True/False/Not Given"
+],
+"passage1_32": [
+"Matching Information",
+"Summary Completion"
+],
+"passage1_33": [
+"Note Completion",
+"True/False/Not Given"
+],
+"passage1_34": [
+"True/False/Not Given",
+"Sentence Completion"
+],
+"passage1_35": [
+"Matching Information",
+"Note Completion",
+"True/False/Not Given"
+],
+"passage1_36": [
+"True/False/Not Given",
+"Matching Information",
+"Multiple Choice"
+],
+"passage1_37": [
+"Matching Information",
+"Summary Completion",
+"True/False/Not Given"
+],
+"passage1_38": [
+"True/False/Not Given",
+"Note Completion"
+],
+"passage1_39": [
+"Note Completion",
+"True/False/Not Given"
+],
+"passage1_4": [
+"True/False/Not Given",
+"Summary Completion"
+],
+"passage1_40": [
+"True/False/Not Given",
+"Note Completion"
+],
+"passage1_5": [
+"True/False/Not Given",
+"Note Completion",
+"Short Answer"
+],
+"passage1_6": [
+"Matching Information",
+"Sentence Completion",
+"Multiple Choice Many"
+],
+"passage1_7": [
+"Note Completion",
+"True/False/Not Given"
+],
+"passage1_8": [
+"Short Answer",
+"Note Completion",
+"True/False/Not Given"
+],
+"passage1_9": [
+"Matching Information"
+],
+"passage2_1": [
+"Matching Headings",
+"Matching Information",
+"Summary Completion"
+],
+"passage2_10": [
+"Matching Information",
+"Sentence Completion",
+"Multiple Choice Many"
+],
+"passage2_2": [
+"Matching Information",
+"Note Completion"
+],
+"passage2_21": [
+"Matching Information",
+"Summary Completion"
+],
+"passage2_22": [
+"Matching Information",
+"Multiple Choice Many",
+"Summary Completion"
+],
+"passage2_23": [
+"Matching Information",
+"Multiple Choice Many",
+"Summary Completion"
+],
+"passage2_24": [
+"Matching Information",
+"Multiple Choice Many",
+"Summary Completion"
+],
+"passage2_25": [
+"Matching Information",
+"Sentence Completion"
+],
+"passage2_26": [
+"Matching Headings",
+"Summary Completion"
+],
+"passage2_27": [
+"Matching Headings",
+"Matching Information",
+"Summary Completion"
+],
+"passage2_28": [
+"Matching Headings",
+"Multiple Choice Many",
+"Summary Completion"
+],
+"passage2_29": [
+"Matching Information",
+"Note Completion"
+],
+"passage2_3": [
+"Matching Headings",
+"Multiple Choice Many",
+"Summary Completion"
+],
+"passage2_30": [
+"Matching Information",
+"Multiple Choice Many",
+"Summary Completion"
+],
+"passage2_4": [
+"Matching Headings",
+"Multiple Choice Many",
+"Sentence Completion"
+],
+"passage2_5": [
+"Summary Completion",
+"Multiple Choice",
+"Note Completion"
+],
+"passage2_6": [
+"Matching Information",
+"Multiple Choice",
+"Sentence Completion"
+],
+"passage2_7": [
+"Note Completion",
+"Summary Completion",
+"True/False/Not Given"
+],
+"passage2_8": [
+"Matching Information",
+"Multiple Choice Many",
+"Sentence Completion"
+],
+"passage2_9": [
+"Summary Completion",
+"Matching Information"
+],
+"passage3_51": [
+"Matching Headings",
+"Note Completion",
+"Yes/No/Not Given"
+],
+"passage3_52": [
+"Matching Headings",
+"Summary Completion",
+"Matching Information"
+],
+"passage3_53": [
+"Matching Information",
+"Yes/No/Not Given",
+"Multiple Choice"
+],
+"passage3_54": [
+"Multiple Choice",
+"Yes/No/Not Given",
+"Matching Information"
+],
+"passage3_55": [
+"Matching Information",
+"Multiple Choice",
+"Yes/No/Not Given"
+],
+"passage3_56": [
+"Multiple Choice",
+"Yes/No/Not Given",
+"Matching Information"
+],
+"passage3_57": [
+"Multiple Choice",
+"Matching Information"
+],
+"passage3_58": [
+"True/False/Not Given",
+"Matching Information",
+"Note Completion"
+],
+"passage3_59": [
+"Yes/No/Not Given",
+"Multiple Choice",
+"Matching Information"
+],
+"test_1": [
+"Form Completion"
+],
+"test_10": [
+"Form Completion"
+],
+"test_11": [
+"Note Completion",
+"Table Completion",
+"Form Completion"
+],
+"test_12": [
+"Form Completion",
+"Short Answer"
+],
+"test_13": [
+"Short Answer",
+"Form Completion"
+],
+"test_14": [
+"Form Completion",
+"Table Completion"
+],
+"test_15": [
+"Form Completion",
+"Table Completion",
+"Multiple Choice Many"
+],
+"test_16": [
+"Note Completion"
+],
+"test_17": [
+"Note Completion"
+],
+"test_18": [
+"Form Completion"
+],
+"test_19": [
+"Table Completion"
+],
+"test_2": [
+"Form Completion",
+"Sentence Completion"
+],
+"test_20": [
+"Note Completion",
+"Multiple Choice Many",
+"Table Completion"
+],
+"test_21": [
+"Table Completion",
+"Sentence Completion"
+],
+"test_22": [
+"Short Answer",
+"Multiple Choice Many"
+],
+"test_23": [
+"Multiple Choice",
+"Multiple Choice Many",
+"Note Completion"
+],
+"test_24": [
+"Multiple Choice Many",
+"Short Answer"
+],
+"test_25": [
+"Short Answer"
+],
+"test_26": [
+"Sentence Completion",
+"Short Answer"
+],
+"test_27": [
+"Multiple Choice",
+"Short Answer"
+],
+"test_28": [
+"Short Answer",
+"Table Completion"
+],
+"test_29": [
+"Multiple Choice",
+"Short Answer"
+],
+"test_3": [
+"Form Completion",
+"Short Answer"
+],
+"test_30": [
+"Short Answer",
+"Table Completion"
+],
+"test_31": [
+"Multiple Choice",
+"Form Completion"
+],
+"test_32": [
+"Multiple Choice",
+"Short Answer",
+"Table Completion"
+],
+"test_33": [
+"Note Completion",
+"Multiple Choice Many"
+],
+"test_34": [
+"Short Answer",
+"Multiple Choice"
+],
+"test_35": [
+"Form Completion",
+"Table Completion"
+],
+"test_36": [
+"Multiple Choice",
+"Short Answer"
+],
+"test_37": [
+"Note Completion"
+],
+"test_38": [
+"Table Completion",
+"Multiple Choice",
+"Short Answer"
+],
+"test_39": [
+"Multiple Choice",
+"Short Answer"
+],
+"test_4": [
+"Short Answer",
+"Note Completion"
+],
+"test_40": [
+"Multiple Choice Many",
+"Short Answer"
+],
+"test_41": [
+"Multiple Choice",
+"Note Completion"
+],
+"test_42": [
+"Multiple Choice Many",
+"Note Completion",
+"Multiple Choice"
+],
+"test_43": [
+"Note Completion",
+"Short Answer"
+],
+"test_44": [
+"Multiple Choice",
+"Short Answer"
+],
+"test_45": [
+"Multiple Choice",
+"Note Completion"
+],
+"test_46": [
+"Multiple Choice",
+"Short Answer"
+],
+"test_47": [
+"Multiple Choice",
+"Note Completion"
+],
+"test_48": [
+"Short Answer",
+"Note Completion"
+],
+"test_49": [
+"Form Completion",
+"Multiple Choice",
+"Sentence Completion"
+],
+"test_5": [
+"Form Completion"
+],
+"test_50": [
+"Multiple Choice"
+],
+"test_51": [
+"Short Answer"
+],
+"test_52": [
+"Short Answer",
+"Table Completion"
+],
+"test_53": [
+"Multiple Choice",
+"Multiple Choice Many",
+"Sentence Completion"
+],
+"test_54": [
+"Multiple Choice",
+"Note Completion"
+],
+"test_55": [
+"Multiple Choice",
+"Short Answer"
+],
+"test_56": [
+"Note Completion"
+],
+"test_57": [
+"Multiple Choice"
+],
+"test_58": [
+"Multiple Choice",
+"Note Completion"
+],
+"test_59": [
+"Form Completion"
+],
+"test_6": [
+"Form Completion"
+],
+"test_60": [
+"Note Completion",
+"Short Answer"
+],
+"test_61": [
+"Note Completion"
+],
+"test_62": [
+"Note Completion"
+],
+"test_63": [
+"Form Completion",
+"Note Completion"
+],
+"test_64": [
+"Form Completion"
+],
+"test_65": [
+"Note Completion",
+"Short Answer"
+],
+"test_66": [
+"Note Completion"
+],
+"test_67": [
+"Note Completion"
+],
+"test_68": [
+"Note Completion"
+],
+"test_69": [
+"Form Completion",
+"Sentence Completion"
+],
+"test_7": [
+"Table Completion",
+"Form Completion"
+],
+"test_70": [
+"Multiple Choice",
+"Table Completion"
+],
+"test_71": [
+"Multiple Choice",
+"Form Completion"
+],
+"test_72": [
+"Multiple Choice",
+"Note Completion"
+],
+"test_73": [
+"Form Completion"
+],
+"test_74": [
+"Multiple Choice",
+"Short Answer"
+],
+"test_75": [
+"Multiple Choice",
+"Note Completion"
+],
+"test_76": [
+"Short Answer",
+"Form Completion"
+],
+"test_77": [
+"Note Completion"
+],
+"test_78": [
+"Form Completion"
+],
+"test_79": [
+"Note Completion"
+],
+"test_8": [
+"Form Completion"
+],
+"test_80": [
+"Multiple Choice",
+"Table Completion"
+],
+"test_9": [
+"Note Completion",
+"Form Completion"
+]
+}

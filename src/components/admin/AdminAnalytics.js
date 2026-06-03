@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
+import { useLiveData, LiveBadge } from '../../hooks/useLiveData';
 import { supabase } from '../../supabaseClient';
 import Icon from '../ui/icons';
 
@@ -106,22 +107,19 @@ const PREP_LABELS = {
 export default function AdminAnalytics() {
   const [profiles, setProfiles] = useState([]);
   const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  useEffect(() => {
-    (async () => {
-      const [p, r] = await Promise.all([
-        supabase.from('profiles').select('*'),
-        supabase.from('user_test_results').select('user_id, kind, test_id, correct, total, completed_at'),
-      ]);
-      if (p.error) setError(p.error.message);
-      else setProfiles(p.data || []);
-      // Results may be empty (or admin-read policy not yet applied) — that's fine.
-      if (!r.error) setResults(r.data || []);
-      setLoading(false);
-    })();
-  }, []);
+  // Live: auto-refetch (debounced) when results change + on tab focus.
+  const { loading, live } = useLiveData(async () => {
+    const [p, r] = await Promise.all([
+      supabase.from('profiles').select('*'),
+      supabase.from('user_test_results').select('user_id, kind, test_id, correct, total, completed_at'),
+    ]);
+    if (p.error) setError(p.error.message);
+    else setProfiles(p.data || []);
+    // Results may be empty (or admin-read policy not yet applied) — that's fine.
+    if (!r.error) setResults(r.data || []);
+  }, { table: 'user_test_results', channel: 'admin-analytics' });
 
   const m = useMemo(() => {
     const total = profiles.length;
@@ -174,6 +172,9 @@ export default function AdminAnalytics() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+      <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
+        <LiveBadge live={live} />
+      </div>
       {/* KPI strip */}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: 'var(--space-4)' }}>
         <KpiCard label="Total users" value={m.total} icon="user" />

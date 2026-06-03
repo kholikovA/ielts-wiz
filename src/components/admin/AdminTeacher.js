@@ -1,4 +1,5 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
+import { useLiveData, LiveBadge } from '../../hooks/useLiveData';
 import { supabase } from '../../supabaseClient';
 import Icon from '../ui/icons';
 
@@ -140,7 +141,6 @@ const td = { padding: 'var(--space-2) var(--space-3)', fontSize: 'var(--text-sm)
 export default function AdminTeacher({ cohort }) {
   const [profiles, setProfiles] = useState([]);
   const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [sort, setSort] = useState({ key: 'attempts', dir: 'desc' });
   const [openId, setOpenId] = useState(null);
@@ -149,17 +149,16 @@ export default function AdminTeacher({ cohort }) {
   const hasCohort = !!(cohort && cohort.size > 0);
   const effScope = hasCohort ? scope : 'all';
 
-  useEffect(() => {
-    (async () => {
-      const [p, r] = await Promise.all([
-        supabase.from('profiles').select('id, name, email, target_score'),
-        supabase.from('user_test_results').select('*').order('completed_at', { ascending: false }),
-      ]);
-      if (p.error) setError(p.error.message); else setProfiles(p.data || []);
-      if (!r.error) setResults(r.data || []);
-      setLoading(false);
-    })();
-  }, []);
+  // Live: refetch automatically when a student submits a result (realtime),
+  // debounced, plus on tab focus. See useLiveData for the rationale.
+  const { loading, live } = useLiveData(async () => {
+    const [p, r] = await Promise.all([
+      supabase.from('profiles').select('id, name, email, target_score'),
+      supabase.from('user_test_results').select('*').order('completed_at', { ascending: false }),
+    ]);
+    if (p.error) setError(p.error.message); else setProfiles(p.data || []);
+    if (!r.error) setResults(r.data || []);
+  }, { table: 'user_test_results', channel: 'admin-teacher' });
 
   const model = useMemo(() => {
     const pById = Object.fromEntries(profiles.map((p) => [p.id, p]));
@@ -275,10 +274,17 @@ export default function AdminTeacher({ cohort }) {
     </p>
   );
 
+  const header = (
+    <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
+      <div style={{ minWidth: 0 }}>{scopeBar}</div>
+      <LiveBadge live={live} />
+    </div>
+  );
+
   if (model.totalAttempts === 0) {
     return (
       <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
-        {scopeBar}
+        {header}
         <div className="panel" style={{ textAlign: 'center', padding: 'var(--space-8)', color: 'var(--text-tertiary)' }}>
           <Icon name="graduation" size={28} style={{ marginBottom: 'var(--space-3)' }} />
           <p className="body" style={{ margin: 0 }}>
@@ -295,7 +301,7 @@ export default function AdminTeacher({ cohort }) {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
-      {scopeBar}
+      {header}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: 'var(--space-4)' }}>
         <Kpi label="Active students" value={model.students.length} sub="have taken ≥ 1 test" icon="user" />
         <Kpi label="Tests taken" value={model.totalAttempts} sub={`${model.attempts7} in last 7 days`} color="var(--violet-500)" icon="award" />
