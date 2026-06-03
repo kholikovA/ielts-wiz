@@ -40,6 +40,21 @@ const TESTS = [
       "Child's Play in Medieval England",
     ],
   },
+  {
+    // Admin-only for now (hidden from students until the lesson). The HTML uses
+    // a non-guessable filename so it can't be reached by URL either. To release:
+    // drop adminOnly (and optionally rename the file to full_volume9_test4.html).
+    id: 'full_volume9_test4_9a1f7c63',
+    recordId: 'volume9_test4', // matches the test page's TEST_ID
+    title: 'Volume 9 — Test 4',
+    note: 'Academic · Reading',
+    adminOnly: true,
+    passages: [
+      "Traditional Farming in Zambia's Luapula Province",
+      'Babies cry in their mother tongue',
+      'Ancient Rome: the early history of the city',
+    ],
+  },
 ];
 
 const RECORD_KIND = 'reading_full';
