@@ -56,10 +56,24 @@ const downloadCsv = (rows) => {
 
 const AdminUsersPage = ({ setCurrentPage }) => {
   const { isAdmin, loading: authLoading } = useAuth();
-  const [view, setView] = useState('analytics'); // 'analytics' | 'users'
+  const [view, setView] = useState('analytics'); // 'analytics' | 'teacher' | 'users'
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
+
+  // "My class" — the set of student ids the teacher dashboard focuses on.
+  // Persisted in localStorage; toggled from the Users table below.
+  const COHORT_KEY = 'iw.v1.admin.cohort';
+  const [cohort, setCohort] = useState(() => {
+    try { return new Set(JSON.parse(localStorage.getItem(COHORT_KEY) || '[]')); }
+    catch { return new Set(); }
+  });
+  const toggleCohort = (id) => setCohort((prev) => {
+    const next = new Set(prev);
+    if (next.has(id)) next.delete(id); else next.add(id);
+    try { localStorage.setItem(COHORT_KEY, JSON.stringify([...next])); } catch {}
+    return next;
+  });
 
   // Filters
   const [search, setSearch] = useState('');
@@ -187,7 +201,7 @@ const AdminUsersPage = ({ setCurrentPage }) => {
 
         {view === 'analytics' && <AdminAnalytics />}
 
-        {view === 'teacher' && <AdminTeacher />}
+        {view === 'teacher' && <AdminTeacher cohort={cohort} />}
 
         {view === 'users' && (<>
         {/* Stats strip */}
@@ -281,6 +295,7 @@ const AdminUsersPage = ({ setCurrentPage }) => {
             <table style={{ width: '100%', borderCollapse: 'collapse', fontSize: 'var(--text-sm)' }}>
               <thead>
                 <tr style={{ borderBottom: '1px solid var(--border-color)' }}>
+                  <th title="Add to your class (Students tab)" style={{ textAlign: 'center', padding: 'var(--space-3) var(--space-4)', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Class</th>
                   <th style={{ textAlign: 'left', padding: 'var(--space-3) var(--space-4)', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Email</th>
                   <th style={{ textAlign: 'left', padding: 'var(--space-3) var(--space-4)', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Name</th>
                   <th style={{ textAlign: 'left', padding: 'var(--space-3) var(--space-4)', fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.06em' }}>Target</th>
@@ -292,11 +307,20 @@ const AdminUsersPage = ({ setCurrentPage }) => {
               </thead>
               <tbody>
                 {filtered.length === 0 ? (
-                  <tr><td colSpan={7} style={{ padding: 'var(--space-8)', textAlign: 'center', color: 'var(--text-tertiary)' }}>
+                  <tr><td colSpan={8} style={{ padding: 'var(--space-8)', textAlign: 'center', color: 'var(--text-tertiary)' }}>
                     No users match these filters.
                   </td></tr>
                 ) : filtered.map((u, i) => (
                   <tr key={u.id} style={{ borderBottom: i < filtered.length - 1 ? '1px solid var(--border-color)' : 'none' }}>
+                    <td style={{ padding: 'var(--space-3) var(--space-4)', textAlign: 'center' }}>
+                      <input
+                        type="checkbox"
+                        checked={cohort.has(u.id)}
+                        onChange={() => toggleCohort(u.id)}
+                        title={cohort.has(u.id) ? 'In your class' : 'Add to your class'}
+                        style={{ cursor: 'pointer' }}
+                      />
+                    </td>
                     <td style={{ padding: 'var(--space-3) var(--space-4)', color: 'var(--text-primary)' }}>
                       {u.email}
                       {u.is_admin && <span className="pill" style={{ marginLeft: 8, fontSize: 10, padding: '1px 6px' }}>admin</span>}
