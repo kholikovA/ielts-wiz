@@ -70,6 +70,21 @@ const TESTS = [
       'Sir Francis Ronalds (1788–1873)',
     ],
   },
+  {
+    // Admin-only for now (hidden from students until the lesson). The HTML uses
+    // a non-guessable filename so it can't be reached by URL either. To release:
+    // drop adminOnly (and optionally rename the file to full_volume9_test6.html).
+    id: 'full_volume9_test6_e3f5c1a8',
+    recordId: 'volume9_test6', // matches the test page's TEST_ID
+    title: 'Volume 9 — Test 6',
+    note: 'Academic · Reading',
+    adminOnly: true,
+    passages: [
+      'Health in the wild',
+      'Speaking of Nothing',
+      "Changes to the Soviet Union's working week",
+    ],
+  },
 ];
 
 const RECORD_KIND = 'reading_full';
