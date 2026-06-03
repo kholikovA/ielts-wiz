@@ -2121,6 +2121,26 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
       });
     }
 
+    // Time spent (seconds) + per-question-type accuracy, for the teacher
+    // analytics dashboard. Map each question number to its group's type, then
+    // tally correct/total per type.
+    const durationSeconds = Math.max(0, Math.min(TIMER_SECONDS, TIMER_SECONDS - timeLeft));
+    const QNUM_TYPE = {};
+    document.querySelectorAll(".question-group[data-type]").forEach(function (g) {
+      const t = g.dataset.type;
+      g.querySelectorAll(".question[data-qnum]").forEach(function (qel) {
+        const n = parseInt(qel.dataset.qnum, 10);
+        if (!isNaN(n)) QNUM_TYPE[n] = t;
+      });
+    });
+    const typeStats = {};
+    results.forEach(function (r) {
+      const t = QNUM_TYPE[r.q] || "other";
+      const s = (typeStats[t] = typeStats[t] || { correct: 0, total: 0 });
+      s.total += 1;
+      if (r.correct) s.correct += 1;
+    });
+
     // ----- Completion + activity logging ------------------------------------
     // Two writes:
     //   1. Versioned localStorage (iw.v1.*) — instant cache, offline-safe.
@@ -2188,6 +2208,8 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
                 test_id: String(TEST_ID),
                 correct: correctCount,
                 total: TOTAL_QUESTIONS,
+                duration_seconds: durationSeconds,
+                type_stats: typeStats,
                 completed_at: new Date().toISOString()
               })
             }).catch(function () { /* silent; localStorage is authoritative locally */ });
