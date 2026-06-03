@@ -20,12 +20,29 @@ const TESTS = [
       'The mystery of Easter Island',
     ],
   },
+  {
+    // Admin-only for now (hidden from students until the lesson). The HTML uses
+    // a non-guessable filename so it can't be reached by URL either. To release:
+    // set adminOnly:false (and optionally rename the file to full_volume9_test3.html).
+    id: 'full_volume9_test3_4bc98d12',
+    title: 'Volume 9 — Test 3',
+    note: 'Academic · Reading',
+    adminOnly: true,
+    passages: [
+      'New Understanding of Giraffes in the Wild',
+      'Healthy buildings, productive people',
+      "Child's Play in Medieval England",
+    ],
+  },
 ];
 
 const testHref = (id) => `/reading/${id}.html`;
 
 export default function FullView({ setSubPage, setCurrentPage }) {
-  const { user } = useAuth();
+  const { user, isAdmin } = useAuth();
+
+  // Hide admin-only tests from everyone except admins.
+  const visibleTests = TESTS.filter((t) => !t.adminOnly || isAdmin);
 
   const handleAuthRequired = (e) => {
     if (!user) {
@@ -62,7 +79,7 @@ export default function FullView({ setSubPage, setCurrentPage }) {
           gap: 'var(--space-3)',
           marginTop: 'var(--space-6)',
         }}>
-          {TESTS.map((test) => (
+          {visibleTests.map((test) => (
             <a
               key={test.id}
               href={testHref(test.id)}
@@ -77,7 +94,19 @@ export default function FullView({ setSubPage, setCurrentPage }) {
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <h4 className="h4" style={{ color: 'var(--text-primary)', margin: 0 }}>{test.title}</h4>
+                <h4 className="h4" style={{ color: 'var(--text-primary)', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
+                  {test.title}
+                  {test.adminOnly && (
+                    <span style={{
+                      fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
+                      color: 'var(--purple-600)', background: 'var(--purple-50, rgba(124,58,237,0.1))',
+                      border: '1px solid var(--purple-600)', borderRadius: '4px',
+                      padding: '1px 6px', textTransform: 'uppercase', letterSpacing: '0.05em',
+                    }}>
+                      Admin only
+                    </span>
+                  )}
+                </h4>
                 <span style={{
                   fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)',
                   color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.06em',

@@ -1902,6 +1902,7 @@ According to Meyer, it is the suspenseful tension of music, arising out of unful
 
   function displayAnswer(qNum, value) {
     if (value == null || value === "") return "";
+    if (value === "__MISSED__") return "Not selected";
     if (MCQ_QNUMS.has(qNum)) {
       const ids = Array.isArray(value) ? value : String(value).split(",").map(s => s.trim());
       return ids.filter(Boolean).map(id => lookupOptionText(qNum, id)).join(", ");
@@ -2117,6 +2118,20 @@ According to Meyer, it is the suspenseful tension of music, arising out of unful
       const userAns = userAnswers[q];
       const correct = ANSWER_KEY[q];
       const isAnswered = userAns !== undefined && userAns !== "";
+      const slot = MCQ_MULTI_SLOT[q];
+      if (slot) {
+        // One mark per correct letter chosen. Each slot tracks one of the
+        // correct letters; the user's full selection is shared across the group.
+        const got = isAnswered && isCorrect(q, userAns);
+        if (got) correctCount++;
+        results.push({
+          q,
+          userAns: isAnswered ? (got ? slot.letter : "__MISSED__") : null,
+          correctAns: slot.letter,
+          correct: got, unanswered: !isAnswered
+        });
+        continue;
+      }
       const correct_ = isAnswered && isCorrect(q, userAns);
       if (correct_) correctCount++;
       results.push({

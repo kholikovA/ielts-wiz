@@ -1753,9 +1753,31 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
     acceptable.delete("");
     return Array.from(acceptable);
   }
+  // "Choose N answers" (mcq_multi): 1 mark per correct letter chosen, not
+  // all-or-nothing. Each slot maps to one correct letter; correct iff selected.
+  const MCQ_MULTI_SLOT = {};
+  document.querySelectorAll('.question-group[data-type="mcq_multi"]').forEach(group => {
+    const cb = group.querySelector('input[type="checkbox"][data-qnums]');
+    if (!cb) return;
+    let qnums = [];
+    try { qnums = JSON.parse(cb.dataset.qnums || "[]"); } catch (e) {}
+    qnums = qnums.slice().sort((a, b) => a - b);
+    if (!qnums.length) return;
+    let letters = ANSWER_KEY[qnums[0]];
+    if (!Array.isArray(letters)) letters = String(letters == null ? "" : letters).split(/\s*[,\/|]\s*/).filter(Boolean);
+    letters = letters.slice().sort();
+    qnums.forEach((qn, i) => { MCQ_MULTI_SLOT[qn] = { letter: letters[i] != null ? String(letters[i]) : null }; });
+  });
+
   function isCorrect(qNum, userAns) {
     const correct = ANSWER_KEY[qNum];
     if (correct == null || userAns == null || userAns === "") return false;
+    const slot = MCQ_MULTI_SLOT[qNum];
+    if (slot) {
+      if (!slot.letter) return false;
+      const userSet = String(userAns).split(",").map(normalizeAnswer).filter(Boolean);
+      return userSet.includes(normalizeAnswer(slot.letter));
+    }
     if (Array.isArray(correct)) {
       const userSet = String(userAns).split(",").map(normalizeAnswer).filter(Boolean).sort();
       const correctSet = correct.map(normalizeAnswer).sort();
@@ -1790,6 +1812,7 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
   }
   function displayAnswer(qNum, value) {
     if (value == null || value === "") return "";
+    if (value === "__MISSED__") return "Not selected";
     const q = document.querySelector(`.question[data-qnum="${qNum}"]`);
     const hasOptions = q && q.dataset.options;
     if (Array.isArray(value)) {
@@ -1949,13 +1972,26 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
       const userAns = userAnswers[q];
       const correct = ANSWER_KEY[q];
       const isAnswered = userAns !== undefined && userAns !== "";
-      const correct_ = isAnswered && isCorrect(q, userAns);
-      if (correct_) correctCount++;
-      const r = {
-        q, userAns: isAnswered ? userAns : null,
-        correctAns: Array.isArray(correct) ? correct : correct,
-        correct: correct_, unanswered: !isAnswered
-      };
+      const slot = MCQ_MULTI_SLOT[q];
+      let r;
+      if (slot) {
+        const got = isAnswered && isCorrect(q, userAns);
+        if (got) correctCount++;
+        r = {
+          q,
+          userAns: isAnswered ? (got ? slot.letter : "__MISSED__") : null,
+          correctAns: slot.letter,
+          correct: got, unanswered: !isAnswered
+        };
+      } else {
+        const correct_ = isAnswered && isCorrect(q, userAns);
+        if (correct_) correctCount++;
+        r = {
+          q, userAns: isAnswered ? userAns : null,
+          correctAns: Array.isArray(correct) ? correct : correct,
+          correct: correct_, unanswered: !isAnswered
+        };
+      }
       results.push(r);
       resultsByQ[q] = r;
     });
