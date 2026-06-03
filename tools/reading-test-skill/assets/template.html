@@ -477,7 +477,9 @@ html[data-theme="dark"] .brand-logo-dark { display: block; }
    columns can't push past the pane width, gap inputs that shrink to the cell
    (instead of a fixed 110px), and horizontal scroll only as a last resort. */
 .completion-layout { max-width: 100%; overflow-x: auto; margin-bottom: 18px; }
-.completion-layout table { table-layout: fixed; width: 100%; font-size: 13px; }
+/* Keep the normal content text size — fitting is handled by fixed layout +
+   wrapping cells, not by shrinking the text. */
+.completion-layout table { table-layout: fixed; width: 100%; }
 .completion-layout th, .completion-layout td {
   word-break: break-word; overflow-wrap: anywhere; vertical-align: top;
 }
