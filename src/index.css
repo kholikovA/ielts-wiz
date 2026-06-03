@@ -414,6 +414,22 @@ select:focus-visible {
 .btn-lg { height: 52px; padding: 0 var(--space-8); font-size: var(--text-md); }
 .btn-sm { height: 32px; padding: 0 var(--space-3); font-size: var(--text-xs); }
 
+/* Outlined action buttons for already-taken test cards — Review (blue) and
+   Retake (green), deliberately NOT filled so they read as secondary next to the
+   filled primary Start button. */
+.btn-outline-review {
+  background: transparent;
+  border-color: var(--blue-500);
+  color: var(--blue-500);
+}
+.btn-outline-review:hover { background: rgba(59, 130, 246, 0.1); border-color: var(--blue-500); }
+.btn-outline-retake {
+  background: transparent;
+  border-color: var(--green-500);
+  color: var(--green-500);
+}
+.btn-outline-retake:hover { background: var(--correct-bg); border-color: var(--green-500); }
+
 /* Cards */
 .card {
   background: var(--card-bg);
