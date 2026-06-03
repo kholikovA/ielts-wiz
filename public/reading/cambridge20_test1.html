@@ -864,9 +864,56 @@ html[data-theme="dark"] .brand-logo-dark { display: block; }
 .stat.tier-high  { background: linear-gradient(140deg, #062a20 0%, #0f7459 100%); }
 .stat.tier-elite { background: linear-gradient(140deg, #2a0f63 0%, #7c3aed 60%, #9333ea 100%); }
 .results-stats {
-  display: flex; justify-content: center; gap: 24px;
-  margin-top: 24px; flex-wrap: wrap;
+  display: flex; justify-content: center; align-items: stretch;
+  gap: 18px; margin-top: 24px; flex-wrap: wrap;
 }
+/* Overall score card — big band number with check / cross / dash counts beside it */
+.overall-card {
+  display: flex; align-items: center; gap: 36px;
+  padding: 26px 40px; border-radius: 16px;
+  background: var(--bg-elevated);
+  position: relative; overflow: hidden;
+}
+.overall-card .stat-deco { position: absolute; inset: 0; z-index: 0; pointer-events: none; }
+.overall-card[class*="tier-"] { border: none; box-shadow: 0 8px 24px -10px rgba(0,0,0,0.5); }
+.overall-card.tier-low   { background: linear-gradient(140deg, #2b1622 0%, #7a2540 100%); }
+.overall-card.tier-mid   { background: linear-gradient(140deg, #33260f 0%, #a4630f 100%); }
+.overall-card.tier-high  { background: linear-gradient(140deg, #062a20 0%, #0f7459 100%); }
+.overall-card.tier-elite { background: linear-gradient(140deg, #2a0f63 0%, #7c3aed 60%, #9333ea 100%); }
+.overall-main { position: relative; z-index: 1; text-align: center; }
+.overall-score {
+  font-family: var(--sans); font-weight: 700; line-height: 1;
+  font-size: 64px; color: #fff; text-shadow: 0 1px 12px rgba(0,0,0,0.25);
+}
+.overall-score-label {
+  display: block; font-family: var(--sans); font-size: 12px; font-weight: 600;
+  letter-spacing: .5px; text-transform: uppercase; margin-top: 10px;
+  color: rgba(255,255,255,0.82);
+}
+.overall-card:not([class*="tier-"]) .overall-score { color: var(--text); text-shadow: none; }
+.overall-card:not([class*="tier-"]) .overall-score-label { color: var(--text-muted); }
+.overall-counts { position: relative; z-index: 1; display: flex; flex-direction: column; gap: 12px; }
+.count-row {
+  display: flex; align-items: center; gap: 9px;
+  font-family: var(--sans); font-size: 20px; font-weight: 700; color: #fff;
+}
+.count-row svg { width: 22px; height: 22px; flex-shrink: 0; }
+.count-row.correct svg { color: #4ade80; }
+.count-row.wrong svg { color: #f87171; }
+.count-row.unanswered svg { color: rgba(255,255,255,0.55); }
+.overall-card:not([class*="tier-"]) .count-row { color: var(--text); }
+.overall-card:not([class*="tier-"]) .count-row.correct svg { color: var(--correct); }
+.overall-card:not([class*="tier-"]) .count-row.wrong svg { color: var(--wrong); }
+.overall-card:not([class*="tier-"]) .count-row.unanswered svg { color: var(--text-muted); }
+/* Per-passage scores, stacked vertically beside the overall card */
+.passage-column { display: flex; flex-direction: column; gap: 12px; justify-content: center; }
+.passage-column .stat {
+  min-width: 168px; padding: 12px 18px;
+  display: flex; align-items: center; justify-content: space-between; gap: 18px;
+  text-align: left;
+}
+.passage-column .stat .stat-value { font-size: 22px; }
+.passage-column .stat .stat-label { margin-top: 0; }
 .stat {
   text-align: center; font-family: var(--sans);
   min-width: 110px;
@@ -903,17 +950,41 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
 
 .results-list {
   max-width: 1280px; margin: 0 auto;
+  display: flex; flex-direction: column; gap: 12px;
+}
+/* Collapsible per-passage answer-review groups — collapsed by default */
+.qreview-group {
+  border: 1px solid var(--border); border-radius: 12px;
+  overflow: hidden; background: var(--bg-elevated);
+}
+.qreview-toggle {
+  width: 100%; display: flex; align-items: center; gap: 12px;
+  padding: 15px 20px; cursor: pointer;
+  background: transparent; border: none;
+  font-family: var(--sans); font-size: 16px; font-weight: 700; color: var(--text);
+  text-align: left;
+}
+.qreview-toggle:hover { background: var(--bg-hover); }
+.qreview-chev {
+  width: 18px; height: 18px; flex-shrink: 0;
+  color: var(--text-muted); transition: transform .18s;
+}
+.qreview-group.open .qreview-chev { transform: rotate(180deg); }
+.qreview-count {
+  margin-left: auto; font-family: var(--sans);
+  font-size: 13px; font-weight: 600; color: var(--text-muted);
+}
+.qreview-body {
+  padding: 16px 20px 20px; border-top: 1px solid var(--border);
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-auto-flow: column;
-  grid-template-rows: repeat(var(--results-rows, 20), auto);
+  grid-template-rows: repeat(var(--results-rows, 7), auto);
   gap: 10px 24px;
 }
+.qreview-body[hidden] { display: none; }
 @media (max-width: 720px) {
-  .results-list {
-    grid-template-columns: 1fr;
-    grid-auto-flow: row;
-  }
+  .qreview-body { grid-template-columns: 1fr; grid-auto-flow: row; }
 }
 .result-item {
   padding: 14px 18px; border-radius: 8px;
@@ -2293,27 +2364,47 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
     };
     const tierDeco = TIER_DECO[tier] || "";
 
-    const overallStat = document.createElement("div");
-    overallStat.className = `stat overall tier-${tier}`;
-    overallStat.innerHTML = `<div class="stat-deco">${tierDeco}</div><div class="stat-value">${correctCount} / ${TOTAL_QUESTIONS}</div><div class="stat-label">Correct</div>`;
-    stats.appendChild(overallStat);
+    // Counts for the overall card: correct / wrong / unanswered
+    const unansweredCount = results.filter(r => r.unanswered).length;
+    const wrongCount = TOTAL_QUESTIONS - correctCount - unansweredCount;
+    const COUNT_SVG = {
+      correct: "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><path d='M22 11.08V12a10 10 0 1 1-5.93-9.14'/><polyline points='22 4 12 14.01 9 11.01'/></svg>",
+      wrong: "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><line x1='15' y1='9' x2='9' y2='15'/><line x1='9' y1='9' x2='15' y2='15'/></svg>",
+      unanswered: "<svg viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><circle cx='12' cy='12' r='10'/><line x1='8' y1='12' x2='16' y2='12'/></svg>",
+    };
 
-    if (IS_FULL_TEST) {
-      const bandStat = document.createElement("div");
-      bandStat.className = `stat band tier-${tier}`;
-      bandStat.innerHTML = `<div class="stat-deco">${tierDeco}</div><div class="stat-value">${band !== null ? band.toFixed(1) : "—"}</div><div class="stat-label">Band Score</div>`;
-      stats.appendChild(bandStat);
-    }
+    const bigNum = IS_FULL_TEST
+      ? (band !== null ? band.toFixed(1) : "—")
+      : `${correctCount} / ${TOTAL_QUESTIONS}`;
+    const bigLabel = IS_FULL_TEST ? "Band Score" : "Correct";
+
+    const overallCard = document.createElement("div");
+    overallCard.className = `overall-card tier-${tier}`;
+    overallCard.innerHTML =
+      `<div class="stat-deco">${tierDeco}</div>` +
+      `<div class="overall-main"><div class="overall-score">${bigNum}</div><span class="overall-score-label">${bigLabel}</span></div>` +
+      `<div class="overall-counts">` +
+        `<div class="count-row correct">${COUNT_SVG.correct}<span>${correctCount}</span></div>` +
+        `<div class="count-row wrong">${COUNT_SVG.wrong}<span>${wrongCount}</span></div>` +
+        `<div class="count-row unanswered">${COUNT_SVG.unanswered}<span>${unansweredCount}</span></div>` +
+      `</div>`;
+    stats.appendChild(overallCard);
 
     // Stash band color for share image
     lastResults.bandColor = overallColorClass;
 
-    passageStats.forEach(ps => {
-      const ps_stat = document.createElement("div");
-      ps_stat.className = `stat passage ${ps.color}`;
-      ps_stat.innerHTML = `<div class="stat-value">${ps.correctInPart} / ${ps.total}</div><div class="stat-label">Passage ${ps.part}</div>`;
-      stats.appendChild(ps_stat);
-    });
+    // Per-passage scores, stacked vertically beside the overall card
+    if (passageStats.length) {
+      const col = document.createElement("div");
+      col.className = "passage-column";
+      passageStats.forEach(ps => {
+        const ps_stat = document.createElement("div");
+        ps_stat.className = `stat passage ${ps.color}`;
+        ps_stat.innerHTML = `<div class="stat-value">${ps.correctInPart} / ${ps.total}</div><div class="stat-label">Passage ${ps.part}</div>`;
+        col.appendChild(ps_stat);
+      });
+      stats.appendChild(col);
+    }
 
     // Warm, band-keyed coaching line — the human voice the exam surface lacks.
     (function setResultsMessage() {
@@ -2342,13 +2433,12 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
       msgEl.innerHTML = hat + "<span>" + line + "</span>";
     })();
 
-    // Per-question list — show heading text instead of IDs
+    // Per-question review — grouped per passage, each group collapsed by default
     const list = document.getElementById("resultsList");
     list.innerHTML = "";
-    // Two-column layout: Q1..ceil(n/2) on left, rest on right
-    list.style.setProperty("--results-rows", Math.ceil(TOTAL_QUESTIONS / 2));
-    results.forEach(r => {
-      if (r.skipDisplay) return;
+    const CHEV_SVG = "<svg class='qreview-chev' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>";
+    function buildResultItem(r) {
+      if (r.skipDisplay) return null;
       if (r.multi) {
         const m = r.multi;
         const gcls = m.hits === m.size ? "correct" : "wrong";
@@ -2358,11 +2448,10 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
           + `<div class="result-detail"><span class="label">Your answers:</span> ${m.userHtml}<br>`
           + `<span class="label">Correct:</span> ${m.correctHtml} `
           + `<span style="color:var(--text-muted)">(${m.hits}/${m.size})</span></div>`;
-        list.appendChild(gdiv);
-        return;
+        return gdiv;
       }
       const div = document.createElement("div");
-      let cls = r.unanswered ? "unanswered" : (r.correct ? "correct" : "wrong");
+      const cls = r.unanswered ? "unanswered" : (r.correct ? "correct" : "wrong");
       div.className = `result-item ${cls}`;
       const numCls = r.unanswered ? "" : (r.correct ? "correct" : "wrong");
       const userTxt = r.unanswered ? null : displayAnswer(r.q, r.userAns);
@@ -2372,7 +2461,44 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
         : `<span class="label">Your answer:</span> <span class="your-answer ${r.correct ? "" : "wrong"}">${escapeHtml(userTxt)}</span>`;
       const correctPart = `<span class="label">Correct:</span> <span class="correct-answer">${escapeHtml(correctTxt)}</span>`;
       div.innerHTML = `<div class="result-num ${numCls}">${r.q}</div><div class="result-detail">${userPart}<br>${correctPart}</div>`;
-      list.appendChild(div);
+      return div;
+    }
+    document.querySelectorAll(".part-section").forEach(p => {
+      let qs;
+      try { qs = JSON.parse(p.dataset.questions || "[]"); } catch (e) { qs = []; }
+      if (!qs.length) return;
+      const part = parseInt(p.dataset.part, 10);
+      const correctInPart = qs.filter(q => results[q - 1] && results[q - 1].correct).length;
+
+      const group = document.createElement("div");
+      group.className = "qreview-group";
+
+      const body = document.createElement("div");
+      body.className = "qreview-body";
+      body.hidden = true;
+      body.style.setProperty("--results-rows", Math.ceil(qs.length / 2));
+      qs.forEach(qn => {
+        const r = results[qn - 1];
+        if (!r) return;
+        const item = buildResultItem(r);
+        if (item) body.appendChild(item);
+      });
+
+      const toggle = document.createElement("button");
+      toggle.type = "button";
+      toggle.className = "qreview-toggle";
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.innerHTML = `${CHEV_SVG}<span class="qreview-title">Passage ${part}</span><span class="qreview-count">${correctInPart} / ${qs.length} correct</span>`;
+      toggle.addEventListener("click", () => {
+        const willOpen = body.hidden;
+        body.hidden = !willOpen;
+        toggle.setAttribute("aria-expanded", String(willOpen));
+        group.classList.toggle("open", willOpen);
+      });
+
+      group.appendChild(toggle);
+      group.appendChild(body);
+      list.appendChild(group);
     });
 
     // Inject inline result markers into the test view
