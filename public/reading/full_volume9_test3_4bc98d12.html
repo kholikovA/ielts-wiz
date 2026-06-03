@@ -2458,9 +2458,27 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
     }
   }
 
+  /* Best-effort name of the logged-in user (the solver), read from the Supabase
+     session in localStorage. Falls back full_name -> name -> display_name -> email. */
+  function getSolverName() {
+    try {
+      for (var i = 0; i < localStorage.length; i++) {
+        var key = localStorage.key(i);
+        if (!key || key.indexOf("sb-") !== 0 || key.indexOf("-auth-token") < 0) continue;
+        var val = JSON.parse(localStorage.getItem(key));
+        var u = val && (val.user || (val.currentSession && val.currentSession.user));
+        if (u) {
+          var m = u.user_metadata || {};
+          return String(m.full_name || m.name || m.display_name || u.email || "").trim();
+        }
+      }
+    } catch (e) {}
+    return "";
+  }
+
   /* Generate a downloadable PNG of the result summary using Canvas API.
-     The image contains the test name, overall score, band, and per-passage scores
-     with the same colour coding as the on-screen cards. */
+     The image contains the test name, the solver's name, overall score, band, and
+     per-passage scores with the same colour coding as the on-screen cards. */
   function generateResultImage() {
     if (!lastResults) return;
     const { correctCount, passageStats, band, total, isFullTest } = lastResults;
@@ -2483,26 +2501,38 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
     ctx.fillStyle = "#9333EA";
     ctx.fillRect(0, 0, W, 6);
 
-    // Brand wordmark — real logo if loaded, text fallback otherwise
+    // Brand wordmark — larger and with more breathing room beneath it so the
+    // brand reads clearly at the top of the share image.
     ctx.textAlign = "center";
     if (shareBrandImg.complete && shareBrandImg.naturalWidth) {
-      const lw = 210, lh = lw * (90 / 390);
-      ctx.drawImage(shareBrandImg, (W - lw) / 2, 30, lw, lh);
+      const lw = 250, lh = lw * (90 / 390);
+      ctx.drawImage(shareBrandImg, (W - lw) / 2, 40, lw, lh);
     } else {
       ctx.fillStyle = "#7E22CE";
-      ctx.font = "800 34px 'Inter', sans-serif";
-      ctx.fillText("IELTS Wiz", W / 2, 66);
+      ctx.font = "800 40px 'Inter', sans-serif";
+      ctx.fillText("IELTS Wiz", W / 2, 86);
     }
 
-    // Header — test name
+    // Header — test name (pushed down to give the logo more space)
     ctx.fillStyle = "#0a0a0a";
     ctx.font = "700 28px 'Inter', sans-serif";
-    ctx.fillText(testTitle, W / 2, 116);
+    ctx.fillText(testTitle, W / 2, 158);
+
+    let headerBottom = 158;
+    // Solver name (the logged-in user), shown prominently if known
+    const solverName = getSolverName();
+    if (solverName) {
+      ctx.fillStyle = "#7E22CE";
+      ctx.font = "700 20px 'Inter', sans-serif";
+      ctx.fillText(solverName, W / 2, 190);
+      headerBottom = 190;
+    }
 
     // Subtitle
     ctx.fillStyle = "#525252";
     ctx.font = "500 15px 'Inter', sans-serif";
-    ctx.fillText("Result Summary", W / 2, 142);
+    ctx.fillText("Result Summary", W / 2, headerBottom + 26);
+    headerBottom += 26;
 
     // Footer credit
     ctx.fillStyle = "#737373";
@@ -2510,7 +2540,7 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
     ctx.fillText("ielts-wiz.com", W / 2, H - 30);
 
     // Top-row big stats: Overall + Band
-    const topY = 160, topH = 140;
+    const topY = headerBottom + 26, topH = 140;
     const topPad = 60;
     const topCardCount = isFullTest ? 2 : 1;
     const topCardW = (W - topPad * 2 - 24 * (topCardCount - 1)) / topCardCount;
