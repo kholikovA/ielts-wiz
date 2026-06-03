@@ -74,6 +74,16 @@
 "Short Answer",
 "Matching Information"
 ],
+"full_volume9_test6_e3f5c1a8": [
+"True/False/Not Given",
+"Table Completion",
+"Summary Completion",
+"Matching Headings",
+"Matching Features",
+"Sentence Completion",
+"Multiple Choice",
+"Short Answer"
+],
 "passage1_1": [
 "True/False/Not Given",
 "Note Completion"
