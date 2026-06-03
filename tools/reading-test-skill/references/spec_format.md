@@ -369,7 +369,7 @@ The `questions` list still needs to enumerate every qnum (used for footer palett
 
 ### 11. Table / Flowchart / Diagram Completion (`table_completion`, `flowchart_completion`, `diagram_completion`)
 
-Use `layout.body_html` to embed the table/flowchart/diagram HTML. Place `___` markers in qnum order.
+Use `layout.body_html` to embed the table/flowchart/diagram HTML. Place `___` markers in qnum order. The renderer wraps it in `.completion-layout`, which constrains a wide table to the questions pane (fixed layout, wrapping cells, shrink-to-fit gap inputs) — you don't need to size it yourself.
 
 ```json
 {

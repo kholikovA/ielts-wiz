@@ -466,7 +466,10 @@ def render_question_group(group, part_paragraphs, group_index):
         if layout_html:
             for q in questions:
                 layout_html = layout_html.replace("___", render_gap_input(q["number"]), 1)
-            parts.append(f'<div>{layout_html}</div>')
+            # Wrap in .completion-layout so the (often wide) embedded table is
+            # constrained to the questions pane — fixed layout + wrapping cells +
+            # shrink-to-fit gap inputs, with horizontal scroll only as a fallback.
+            parts.append(f'<div class="completion-layout">{layout_html}</div>')
             for q in questions:
                 parts.append(f'<div class="question hidden" data-qnum="{q["number"]}"></div>')
         else:

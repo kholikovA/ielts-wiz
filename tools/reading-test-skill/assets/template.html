@@ -472,6 +472,19 @@ html[data-theme="dark"] .brand-logo-dark { display: block; }
   font-size: var(--fs-subheading);
   text-align: center; margin: 18px 0 14px;
 }
+/* Table / flowchart / diagram completion layouts can embed a wide multi-column
+   table. Constrain it to the questions pane: fixed layout + wrapping cells so
+   columns can't push past the pane width, gap inputs that shrink to the cell
+   (instead of a fixed 110px), and horizontal scroll only as a last resort. */
+.completion-layout { max-width: 100%; overflow-x: auto; margin-bottom: 18px; }
+.completion-layout table { table-layout: fixed; width: 100%; font-size: 13px; }
+.completion-layout th, .completion-layout td {
+  word-break: break-word; overflow-wrap: anywhere; vertical-align: top;
+}
+.completion-layout .gap-wrap { display: block; position: relative; }
+.completion-layout .gap-input {
+  min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box;
+}
 /* Word bank for "complete the summary using the words A-I below" */
 .completion-word-bank {
   border: 1px solid var(--border-strong);
