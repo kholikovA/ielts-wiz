@@ -102,6 +102,16 @@ The script prints a summary. Verify the question count matches the source (e.g. 
 
 Use `present_files` with the HTML output. Keep the message brief — name the test, note total questions and duration, mention any banner warnings.
 
+## Source fidelity (NON-NEGOTIABLE — read this first)
+
+**NEVER invent, paraphrase, reword, or "reconstruct" question text, prompts, options, or note/summary wording. Transcribe the source verbatim.** Even a small reword can invert the meaning (e.g. "the net is *lower* in the centre" must not become "*higher* at the ends") and silently breaks the question.
+
+If the source/spec is missing text — the classic symptom is a `note_completion` / `summary_completion` item whose `html` is a bare `"___"` with no surrounding words, or an empty `prompt` — **STOP and ask the user for the original wording. Do NOT fill it in from the passage.** A blank you can't fill faithfully is a blocker, not a thing to improvise.
+
+> Known extractor failure mode: the DOM→spec extractor sometimes drops the prose around note-completion blanks, emitting `{"html": "___", "qnum": N}` with only the gap. That is incomplete source, not buildable content — flag it.
+
+The only edits allowed without asking: fixing obvious transcription artefacts (UTF-8 mojibake like `AâH`→`A–H`, chopped first letters), and encoding answer alternatives in the grader's `a|b|c` format. Anything that changes wording or meaning needs the real source.
+
 ## House-style rendering rules (non-negotiable)
 
 These are how each question type MUST look. They are the renderer defaults — do not set `display_mode` or otherwise override them unless the user explicitly asks.
@@ -110,8 +120,10 @@ These are how each question type MUST look. They are the renderer defaults — d
 - **`matching_features` and `matching_info`** → a **checkmark table** (rows = statements, columns = bank letters; click a cell to tick). For `matching_features`, the option bank renders below the table as a **plain reference legend** (`A fish`, `B goats`, …) — a list, NOT draggable cards or buttons. **Never use dropdown/"buttons" mode** for matching questions.
 - **`sentence_endings`** → **drag-and-drop**: draggable ending cards + a drop-zone gap (dashed box with the question number) after each stem. Each ending used once. (Never a dropdown.)
 - **`matching_headings`** → drag-and-drop into the passage (unchanged).
+- **`note_completion`** → bullet list with native markers. Nested points under a heading bullet (e.g. items under "Major X:") use `"indent": true` on the item → indented dash sub-bullet.
+- **Question-number chips** (the boxed `N` on tfng/yng/mcq and short-answer) sit **dead-centre on the first line** of the prompt — height is one line (`1.55em` / `1.9em`), never a fixed pixel height that rides high when the prompt wraps.
 
-If a freshly built test shows numbered sentence-completion, dropdown/button matching, or dropdown sentence-endings, the renderer regressed — fix `scripts/build_test.py`, do not hand-edit the HTML.
+If a freshly built test shows numbered sentence-completion, dropdown/button matching, dropdown sentence-endings, or number chips riding high above multi-line prompts, the renderer/template regressed — fix `scripts/build_test.py` or `assets/template.html`, do not hand-edit the built HTML.
 
 ## Default behaviors
 

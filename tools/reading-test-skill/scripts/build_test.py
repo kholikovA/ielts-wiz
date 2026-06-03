@@ -431,7 +431,11 @@ def render_question_group(group, part_paragraphs, group_index):
                     else:
                         # Non-input bullet (just informative text between gaps)
                         item_html = item["html"]
-                    parts.append(f'<li>{item_html}</li>')
+                    # `indent: true` renders the bullet as an indented sub-item
+                    # with a dash marker (for nested notes, e.g. points under a
+                    # named heading bullet).
+                    li_cls = ' class="note-subitem"' if item.get("indent") else ''
+                    parts.append(f'<li{li_cls}>{item_html}</li>')
                 parts.append('</ul>')
                 parts.append('</div>')
             # Hidden palette markers

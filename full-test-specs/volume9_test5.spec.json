@@ -40,30 +40,30 @@
               {
                 "heading": "'Real tennis' court at Hampton Court",
                 "items": [
-                  { "html": "The ball can be bounced off any of the ___", "qnum": 7 },
-                  { "html": "The ___ is higher at the ends than in the middle", "qnum": 8 }
+                  { "html": "The ball may be hit against the ___ around the court", "qnum": 7 },
+                  { "html": "The ___ is lower in the centre", "qnum": 8 }
                 ]
               },
               {
                 "heading": "1850s",
                 "items": [
-                  { "html": "Players started using balls made of ___", "qnum": 9 }
+                  { "html": "Balls made out of ___ started to be used", "qnum": 9 }
                 ]
               },
               {
                 "heading": "1874",
                 "items": [
                   { "html": "Major Walter C. Wingfield:" },
-                  { "html": "Published a set of ___ for the game", "qnum": 10 },
-                  { "html": "Introduced standardised ___", "qnum": 11 },
-                  { "html": "Introduced a name for the game which was never adopted" },
-                  { "html": "Designed a court in the ___ of an hourglass", "qnum": 12 }
+                  { "html": "Published written ___ for the game", "qnum": 10, "indent": true },
+                  { "html": "Produced complete sets of tennis ___ for sale", "qnum": 11, "indent": true },
+                  { "html": "Introduced a name for the game which was never adopted", "indent": true },
+                  { "html": "Designed an unusual ___ for the court", "qnum": 12, "indent": true }
                 ]
               },
               {
                 "heading": "1877",
                 "items": [
-                  { "html": "The first major ___ was held at Wimbledon", "qnum": 13 }
+                  { "html": "The first large ___ was held", "qnum": 13 }
                 ]
               }
             ]

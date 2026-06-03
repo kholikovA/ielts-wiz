@@ -377,12 +377,14 @@ html[data-theme="dark"] .brand-logo-dark { display: block; }
 .question-number {
   font-weight: 700; font-family: var(--sans);
   flex-shrink: 0;
-  /* Fixed-size box, always present; border becomes visible when current */
+  /* Fixed-size box, always present; border becomes visible when current.
+     Height is one prompt line (line-height 1.55) so the chip centres dead on
+     the first line of the prompt — not riding high when the prompt wraps. */
   display: inline-flex;
   align-items: center;
   justify-content: center;
   min-width: 28px;
-  height: 26px;
+  height: 1.55em;
   padding: 0 6px;
   border: 1.5px solid transparent;
   border-radius: 3px;
@@ -514,6 +516,12 @@ html[data-theme="dark"] .brand-logo-dark { display: block; }
   font-family: var(--serif);
 }
 .note-list li::marker { font-weight: 700; }
+/* Indented sub-bullet (dash marker) for nested notes, e.g. points listed under
+   a named heading bullet. */
+.note-list li.note-subitem {
+  margin-left: 1.6em;
+  list-style-type: "\2013\00a0\00a0";
+}
 .short-answer-list li {
   position: relative;
   margin-bottom: 12px; line-height: 2;
@@ -533,7 +541,10 @@ html[data-theme="dark"] .brand-logo-dark { display: block; }
   align-items: center;
   justify-content: center;
   min-width: 28px;
-  height: 26px;
+  /* One prompt line tall (li line-height 1.9) so the number chip centres dead
+     on the first line for every question, regardless of how many lines the
+     prompt wraps to. */
+  height: 1.9em;
   padding: 0 6px;
   border: 1.5px solid transparent;
   border-radius: 3px;
