@@ -119,7 +119,7 @@ These are how each question type MUST look. They are the renderer defaults — d
 - **`sentence_completion`** → a **bulleted list**. No visible question-number prefix; the number shows only inside the boxed input. (Never a numbered list.)
 - **`matching_features` and `matching_info`** → a **checkmark table** (rows = statements, columns = bank letters; click a cell to tick). For `matching_features`, the option bank renders below the table as a **plain reference legend** (`A fish`, `B goats`, …) — a list, NOT draggable cards or buttons. **Never use dropdown/"buttons" mode** for matching questions.
 - **`sentence_endings`** → **drag-and-drop**: draggable ending cards + a drop-zone gap (dashed box with the question number) after each stem. Each ending used once. (Never a dropdown.)
-- **`matching_headings`** → drag-and-drop into the passage (unchanged).
+- **`matching_headings`** → drag-and-drop into the passage. The passage sections show a drop-zone gap above each section and **NO A/B/C letter labels** — the gaps identify the sections. (Paragraphs still carry a `letter` in the spec for internal answer mapping; it is just not displayed.) Letters are shown ONLY for `matching_info`/`matching_features` groups that reference paragraphs by letter ("which paragraph A–G…").
 - **`note_completion`** → bullet list with native markers. Nested points under a heading bullet (e.g. items under "Major X:") use `"indent": true` on the item → indented dash sub-bullet.
 - **Question-number chips** (the boxed `N` on tfng/yng/mcq and short-answer) sit **dead-centre on the first line** of the prompt — height is one line (`1.55em` / `1.9em`), never a fixed pixel height that rides high when the prompt wraps.
 
