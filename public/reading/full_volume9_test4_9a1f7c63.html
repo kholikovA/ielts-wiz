@@ -505,18 +505,19 @@ html[data-theme="dark"] .brand-logo-dark { display: block; }
   font-family: var(--sans); font-weight: 700;
   font-size: var(--fs-subheading); margin-bottom: 8px;
 }
-.note-list { list-style: none; padding-left: 0; }
-.note-list li, .short-answer-list li {
-  position: relative; padding-left: 22px;
+/* Native list markers: the browser aligns the disc to the first line's box, so
+   it stays vertically centred on the text (and on inline gap inputs) on its own.
+   This replaces the fragile absolute-positioned "•" glyph, which rode high. */
+.note-list { list-style: disc; padding-left: 1.5em; }
+.note-list li {
   margin-bottom: 12px; line-height: 2;
   font-family: var(--serif);
 }
-.note-list li::before, .short-answer-list li::before {
-  content: "•"; position: absolute;
-  left: 6px; top: 0; font-weight: 700;
-  /* Match the line's box height so the bullet sits dead-centre on the first
-     line of text instead of riding high against the top. */
-  line-height: inherit;
+.note-list li::marker { font-weight: 700; }
+.short-answer-list li {
+  position: relative;
+  margin-bottom: 12px; line-height: 2;
+  font-family: var(--serif);
 }
 .short-answer-list { list-style: none; padding-left: 0; }
 .short-answer-list li {
