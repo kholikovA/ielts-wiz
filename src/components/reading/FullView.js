@@ -55,6 +55,21 @@ const TESTS = [
       'Ancient Rome: the early history of the city',
     ],
   },
+  {
+    // Admin-only for now (hidden from students until the lesson). The HTML uses
+    // a non-guessable filename so it can't be reached by URL either. To release:
+    // drop adminOnly (and optionally rename the file to full_volume9_test5.html).
+    id: 'full_volume9_test5_b7e2a4d9',
+    recordId: 'volume9_test5', // matches the test page's TEST_ID
+    title: 'Volume 9 — Test 5',
+    note: 'Academic · Reading',
+    adminOnly: true,
+    passages: [
+      'The origins of tennis',
+      'Coins: the first form of money',
+      'Sir Francis Ronalds (1788–1873)',
+    ],
+  },
 ];
 
 const RECORD_KIND = 'reading_full';
