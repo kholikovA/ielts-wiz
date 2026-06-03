@@ -1916,11 +1916,33 @@ According to Meyer, it is the suspenseful tension of music, arising out of unful
     return String(value);
   }
 
+  // Build the consolidated review for a "choose N" group: the user's actual
+  // picks (each marked right/wrong) + the full correct set. Shown once on the
+  // group's first question instead of a confusing per-slot "Not selected".
+  function mcqMultiReview(primaryQ) {
+    const grp = MCQ_MULTI_GROUP[primaryQ];
+    const correctNorm = grp.correct.map(normalizeAnswer);
+    const raw = userAnswers[primaryQ];
+    const picks = (raw == null || raw === "") ? [] : String(raw).split(",").map(s => s.trim()).filter(Boolean);
+    const userHtml = picks.length
+      ? picks.map(l => {
+          const ok = correctNorm.indexOf(normalizeAnswer(l)) >= 0;
+          const t = escapeHtml(lookupOptionText(primaryQ, l));
+          return ok ? '<span class="your-answer">' + t + '</span>' : '<span class="your-answer strike">' + t + '</span>';
+        }).join("; ")
+      : '<em style="color:var(--text-muted)">No answer</em>';
+    const correctHtml = grp.correct.map(l => '<span class="correct-answer">' + escapeHtml(lookupOptionText(primaryQ, l)) + '</span>').join("; ");
+    const hits = picks.filter(l => correctNorm.indexOf(normalizeAnswer(l)) >= 0).length;
+    return { userHtml: userHtml, correctHtml: correctHtml, hits: hits, size: grp.qnums.length,
+             range: grp.qnums[0] + "–" + grp.qnums[grp.qnums.length - 1] };
+  }
+
   function injectResultMarkers(results) {
     // Remove any existing markers (for re-submit scenarios)
     document.querySelectorAll(".result-marker").forEach(el => el.remove());
 
     results.forEach(r => {
+      if (r.skipDisplay) return;
       // Find the visible host element to attach the marker to.
       // Order of preference: .question (not hidden), .heading-gap, gap-input wrap, match-table row.
       let host = document.querySelector(`.question[data-qnum="${r.q}"]:not(.hidden)`);
@@ -1943,6 +1965,16 @@ According to Meyer, it is the suspenseful tension of music, arising out of unful
         }
       }
       if (!host) return;
+
+      if (r.multi) {
+        const m = r.multi;
+        const marker = document.createElement("div");
+        marker.className = `result-marker ${m.hits === m.size ? "correct" : "wrong"}`;
+        marker.innerHTML = `<span class="label">Q${m.range}</span>`
+          + `<span>Your answers: ${m.userHtml} &middot; Correct: ${m.correctHtml} (${m.hits}/${m.size})</span>`;
+        host.appendChild(marker);
+        return;
+      }
 
       const cls = r.unanswered ? "unanswered" : (r.correct ? "correct" : "wrong");
       const userTxt = r.unanswered ? "No answer" : displayAnswer(r.q, r.userAns);
@@ -2120,16 +2152,20 @@ According to Meyer, it is the suspenseful tension of music, arising out of unful
       const isAnswered = userAns !== undefined && userAns !== "";
       const slot = MCQ_MULTI_SLOT[q];
       if (slot) {
-        // One mark per correct letter chosen. Each slot tracks one of the
-        // correct letters; the user's full selection is shared across the group.
+        // One mark per correct letter chosen. Each slot tracks one correct
+        // letter (for scoring + type_stats); the whole group is reviewed once,
+        // on its first question, via r.multi.
         const got = isAnswered && isCorrect(q, userAns);
         if (got) correctCount++;
-        results.push({
+        const r = {
           q,
           userAns: isAnswered ? (got ? slot.letter : "__MISSED__") : null,
           correctAns: slot.letter,
           correct: got, unanswered: !isAnswered
-        });
+        };
+        if (MCQ_MULTI_PRIMARY[q] === q) r.multi = mcqMultiReview(q);
+        else r.skipDisplay = true;
+        results.push(r);
         continue;
       }
       const correct_ = isAnswered && isCorrect(q, userAns);
@@ -2355,6 +2391,19 @@ According to Meyer, it is the suspenseful tension of music, arising out of unful
     // Two-column layout: Q1..ceil(n/2) on left, rest on right
     list.style.setProperty("--results-rows", Math.ceil(TOTAL_QUESTIONS / 2));
     results.forEach(r => {
+      if (r.skipDisplay) return;
+      if (r.multi) {
+        const m = r.multi;
+        const gcls = m.hits === m.size ? "correct" : "wrong";
+        const gdiv = document.createElement("div");
+        gdiv.className = `result-item ${gcls}`;
+        gdiv.innerHTML = `<div class="result-num ${gcls}">${m.range}</div>`
+          + `<div class="result-detail"><span class="label">Your answers:</span> ${m.userHtml}<br>`
+          + `<span class="label">Correct:</span> ${m.correctHtml} `
+          + `<span style="color:var(--text-muted)">(${m.hits}/${m.size})</span></div>`;
+        list.appendChild(gdiv);
+        return;
+      }
       const div = document.createElement("div");
       let cls = r.unanswered ? "unanswered" : (r.correct ? "correct" : "wrong");
       div.className = `result-item ${cls}`;
