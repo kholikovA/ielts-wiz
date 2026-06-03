@@ -3,6 +3,10 @@ import { useAuth } from '../../contexts/AuthContext';
 import PageHeader from '../ui/PageHeader';
 import Icon from '../ui/icons';
 import { prefetchPage } from '../../lib/prefetch';
+import { typesForHref } from '../../lib/testMeta';
+import QuestionTypeChips from '../ui/QuestionTypeChips';
+import { CompletedPill, ScoreBadge, ReviewRetake, StartLink } from '../ui/testCardBits';
+import { getLatestAttempt, hasLastSubmission } from '../../lib/progressStore';
 
 // Full Test Practice catalogue — complete 60-minute, 3-passage exams (40 Q)
 // delivered as the standalone interactive HTML (same engine as Part Practice
@@ -12,6 +16,7 @@ import { prefetchPage } from '../../lib/prefetch';
 const TESTS = [
   {
     id: 'full_volume9_test2',
+    recordId: 'volume9_test2', // matches the test page's TEST_ID
     title: 'Volume 9 — Test 2',
     note: 'Academic · Reading',
     passages: [
@@ -20,29 +25,14 @@ const TESTS = [
       'The mystery of Easter Island',
     ],
   },
-  {
-    // Admin-only for now (hidden from students until the lesson). The HTML uses
-    // a non-guessable filename so it can't be reached by URL either. To release:
-    // set adminOnly:false (and optionally rename the file to full_volume9_test3.html).
-    id: 'full_volume9_test3_4bc98d12',
-    title: 'Volume 9 — Test 3',
-    note: 'Academic · Reading',
-    adminOnly: true,
-    passages: [
-      'New Understanding of Giraffes in the Wild',
-      'Healthy buildings, productive people',
-      "Child's Play in Medieval England",
-    ],
-  },
 ];
+
+const RECORD_KIND = 'reading_full';
 
 const testHref = (id) => `/reading/${id}.html`;
 
 export default function FullView({ setSubPage, setCurrentPage }) {
-  const { user, isAdmin } = useAuth();
-
-  // Hide admin-only tests from everyone except admins.
-  const visibleTests = TESTS.filter((t) => !t.adminOnly || isAdmin);
+  const { user } = useAuth();
 
   const handleAuthRequired = (e) => {
     if (!user) {
@@ -79,55 +69,58 @@ export default function FullView({ setSubPage, setCurrentPage }) {
           gap: 'var(--space-3)',
           marginTop: 'var(--space-6)',
         }}>
-          {visibleTests.map((test) => (
-            <a
-              key={test.id}
-              href={testHref(test.id)}
-              onClick={handleAuthRequired}
-              onMouseEnter={() => prefetchPage(testHref(test.id))}
-              className="card card-interactive"
-              style={{
-                textDecoration: 'none',
-                padding: 'var(--space-5)',
-                border: '1px solid var(--border-color)',
-                display: 'flex', flexDirection: 'column', gap: 'var(--space-3)',
-              }}
-            >
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <h4 className="h4" style={{ color: 'var(--text-primary)', margin: 0, display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  {test.title}
-                  {test.adminOnly && (
+          {TESTS.map((test) => {
+            const href = testHref(test.id);
+            const latest = getLatestAttempt(RECORD_KIND, test.recordId);
+            const canReview = hasLastSubmission(RECORD_KIND, test.recordId);
+            const done = !!latest;
+            return (
+              <div
+                key={test.id}
+                className="card"
+                style={{
+                  padding: 'var(--space-5)', border: '1px solid var(--border-color)',
+                  display: 'flex', flexDirection: 'column', gap: 'var(--space-3)',
+                }}
+              >
+                <a
+                  href={href}
+                  onClick={handleAuthRequired}
+                  onMouseEnter={() => prefetchPage(href)}
+                  style={{ textDecoration: 'none', color: 'inherit', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)', flex: 1 }}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
+                      <h4 className="h4" style={{ color: 'var(--text-primary)', margin: 0 }}>{test.title}</h4>
+                      {done && <CompletedPill />}
+                    </div>
                     <span style={{
-                      fontFamily: 'var(--font-mono)', fontSize: '10px', fontWeight: 700,
-                      color: 'var(--purple-600)', background: 'var(--purple-50, rgba(124,58,237,0.1))',
-                      border: '1px solid var(--purple-600)', borderRadius: '4px',
-                      padding: '1px 6px', textTransform: 'uppercase', letterSpacing: '0.05em',
+                      fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)',
+                      color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.06em',
                     }}>
-                      Admin only
+                      40 Q · 60 min
                     </span>
-                  )}
-                </h4>
-                <span style={{
-                  fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)',
-                  color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.06em',
+                  </div>
+                  <ol style={{ margin: 0, paddingLeft: '1.1rem', display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                    {test.passages.map((p, i) => (
+                      <li key={i} className="body" style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>{p}</li>
+                    ))}
+                  </ol>
+                  <QuestionTypeChips types={typesForHref(href)} collapsed={3} />
+                </a>
+                <div style={{
+                  marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  gap: 'var(--space-2)', flexWrap: 'wrap',
+                  paddingTop: 'var(--space-3)', borderTop: '1px solid var(--border-color)',
                 }}>
-                  40 Q · 60 min
-                </span>
+                  {latest ? <ScoreBadge correct={latest.correct} total={latest.total} /> : <span />}
+                  {done
+                    ? <ReviewRetake href={href} onAuthRequired={handleAuthRequired} canReview={canReview} />
+                    : <StartLink href={href} onAuthRequired={handleAuthRequired} label="Start full test" />}
+                </div>
               </div>
-              <ol style={{ margin: 0, paddingLeft: '1.1rem', display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                {test.passages.map((p, i) => (
-                  <li key={i} className="body" style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>{p}</li>
-                ))}
-              </ol>
-              <div style={{
-                marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'flex-end',
-                paddingTop: 'var(--space-2)', borderTop: '1px solid var(--border-color)',
-                color: 'var(--purple-600)', fontSize: 'var(--text-sm)', fontWeight: 600,
-              }}>
-                Start full test <Icon name="arrowRight" size={15} style={{ marginLeft: '4px' }} />
-              </div>
-            </a>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>
