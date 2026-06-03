@@ -42,6 +42,38 @@ const weekBuckets = (rows, field, weeks = 12) => {
   return out;
 };
 
+// Friendly labels for the question-type keys stored in type_stats.
+const TYPE_LABEL = {
+  tfng: 'True / False / Not Given', yng: 'Yes / No / Not Given', mcq: 'Multiple choice',
+  mcq_multi: 'Multiple choice (multi)', matching_info: 'Matching information',
+  matching_headings: 'Matching headings', matching_features: 'Matching features',
+  sentence_endings: 'Sentence endings', sentence_completion: 'Sentence completion',
+  summary_completion: 'Summary completion', note_completion: 'Note completion',
+  table_completion: 'Table completion', flowchart_completion: 'Flow-chart completion',
+  diagram_completion: 'Diagram completion', short_answer: 'Short answer', other: 'Other',
+};
+const prettyType = (t) => TYPE_LABEL[t] || t;
+
+// Aggregate per-question-type miss-rate (% of questions missed) across attempts.
+function aggTypeMiss(attempts) {
+  const m = {};
+  let any = false;
+  attempts.forEach((r) => {
+    if (!r.type_stats) return;
+    any = true;
+    const ts = typeof r.type_stats === 'string' ? JSON.parse(r.type_stats) : r.type_stats;
+    Object.entries(ts || {}).forEach(([t, st]) => {
+      const c = (m[t] = m[t] || { missed: 0, total: 0 });
+      c.missed += (st.total - st.correct) || 0;
+      c.total += st.total || 0;
+    });
+  });
+  const list = Object.entries(m)
+    .map(([t, v]) => [t, v.total ? Math.round((v.missed / v.total) * 100) : 0])
+    .sort((a, b) => b[1] - a[1]);
+  return { list, any };
+}
+
 // --- primitives ------------------------------------------------------------
 
 const Kpi = ({ label, value, sub, color = 'var(--text-primary)', icon }) => (
@@ -105,13 +137,17 @@ const td = { padding: 'var(--space-2) var(--space-3)', fontSize: 'var(--text-sm)
 
 // --- main ------------------------------------------------------------------
 
-export default function AdminTeacher() {
+export default function AdminTeacher({ cohort }) {
   const [profiles, setProfiles] = useState([]);
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [sort, setSort] = useState({ key: 'attempts', dir: 'desc' });
   const [openId, setOpenId] = useState(null);
+  const [scope, setScope] = useState('class'); // 'class' | 'all'
+
+  const hasCohort = !!(cohort && cohort.size > 0);
+  const effScope = hasCohort ? scope : 'all';
 
   useEffect(() => {
     (async () => {
@@ -127,7 +163,8 @@ export default function AdminTeacher() {
 
   const model = useMemo(() => {
     const pById = Object.fromEntries(profiles.map((p) => [p.id, p]));
-    const withPct = results.map((r) => ({ ...r, pct: r.total ? r.correct / r.total : 0, band: bandFor(r), section: sectionOf(r.kind) }));
+    const scoped = results.filter((r) => effScope === 'all' || (cohort && cohort.has(r.user_id)));
+    const withPct = scoped.map((r) => ({ ...r, pct: r.total ? r.correct / r.total : 0, band: bandFor(r), section: sectionOf(r.kind) }));
 
     // Per-student rollup
     const byUser = {};
@@ -150,6 +187,7 @@ export default function AdminTeacher() {
         avgPct,
         bestBand: bands.length ? Math.max(...bands) : null,
         last,
+        typeMissed: aggTypeMiss(a).list,
         rows: a.slice().sort((x, y) => (y.completed_at > x.completed_at ? 1 : -1)),
       };
     });
@@ -187,30 +225,16 @@ export default function AdminTeacher() {
     // Optional enriched fields (present once the capture pipeline is live)
     const durations = withPct.map((r) => r.duration_seconds).filter((d) => d != null);
     const avgDuration = durations.length ? durations.reduce((s, d) => s + d, 0) / durations.length : null;
-    const typeMiss = {};
-    let haveTypeStats = false;
-    withPct.forEach((r) => {
-      if (!r.type_stats) return;
-      haveTypeStats = true;
-      const ts = typeof r.type_stats === 'string' ? JSON.parse(r.type_stats) : r.type_stats;
-      Object.entries(ts || {}).forEach(([type, st]) => {
-        const cur = (typeMiss[type] = typeMiss[type] || { missed: 0, total: 0 });
-        cur.missed += (st.total - st.correct) || 0;
-        cur.total += st.total || 0;
-      });
-    });
-    const typeMissed = Object.entries(typeMiss)
-      .map(([t, v]) => [t, v.total ? Math.round((v.missed / v.total) * 100) : 0])
-      .sort((a, b) => b[1] - a[1]);
+    const groupTypes = aggTypeMiss(withPct);
 
     return {
       students, attempts7, cohortAvg, avgBand,
       buckets, bySection, popular, hardest,
       signupWeeks: weekBuckets(withPct, 'completed_at', 12),
-      avgDuration, haveTypeStats, typeMissed,
+      avgDuration, haveTypeStats: groupTypes.any, typeMissed: groupTypes.list,
       totalAttempts: withPct.length,
     };
-  }, [profiles, results]);
+  }, [profiles, results, effScope, cohort]);
 
   const sortedStudents = useMemo(() => {
     const s = model.students.slice();
@@ -229,11 +253,40 @@ export default function AdminTeacher() {
   if (loading) return <div className="panel" style={{ textAlign: 'center', padding: 'var(--space-8)' }}><div className="spinner" style={{ margin: '0 auto' }} /></div>;
   if (error) return <div className="panel panel-error"><p className="body" style={{ margin: 0 }}>Failed to load: {error}</p></div>;
 
+  const scopeBar = hasCohort ? (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-3)', flexWrap: 'wrap' }}>
+      <div style={{ display: 'inline-flex', gap: '4px', padding: '4px', background: 'var(--bg-secondary)', borderRadius: 'var(--r-lg)' }}>
+        {[['class', `My class (${cohort.size})`], ['all', 'All students']].map(([k, label]) => (
+          <button key={k} type="button" onClick={() => setScope(k)} className="btn btn-sm"
+            style={{
+              background: scope === k ? 'var(--card-bg)' : 'transparent',
+              color: scope === k ? 'var(--text-primary)' : 'var(--text-secondary)',
+              border: scope === k ? '1px solid var(--border-color)' : '1px solid transparent',
+            }}>
+            {label}
+          </button>
+        ))}
+      </div>
+      <span style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)' }}>Manage your class by ticking students in the Users tab.</span>
+    </div>
+  ) : (
+    <p className="body" style={{ fontSize: 'var(--text-xs)', color: 'var(--text-tertiary)', margin: 0 }}>
+      Tip: tick students in the <strong>Users</strong> tab to focus this dashboard on just your class.
+    </p>
+  );
+
   if (model.totalAttempts === 0) {
     return (
-      <div className="panel" style={{ textAlign: 'center', padding: 'var(--space-8)', color: 'var(--text-tertiary)' }}>
-        <Icon name="graduation" size={28} style={{ marginBottom: 'var(--space-3)' }} />
-        <p className="body" style={{ margin: 0 }}>No test results yet. As students complete tests, their performance appears here.</p>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+        {scopeBar}
+        <div className="panel" style={{ textAlign: 'center', padding: 'var(--space-8)', color: 'var(--text-tertiary)' }}>
+          <Icon name="graduation" size={28} style={{ marginBottom: 'var(--space-3)' }} />
+          <p className="body" style={{ margin: 0 }}>
+            {effScope === 'class'
+              ? 'Your selected students haven’t completed any tests yet.'
+              : 'No test results yet. As students complete tests, their performance appears here.'}
+          </p>
+        </div>
       </div>
     );
   }
@@ -242,6 +295,7 @@ export default function AdminTeacher() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-4)' }}>
+      {scopeBar}
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: 'var(--space-4)' }}>
         <Kpi label="Active students" value={model.students.length} sub="have taken ≥ 1 test" icon="user" />
         <Kpi label="Tests taken" value={model.totalAttempts} sub={`${model.attempts7} in last 7 days`} color="var(--violet-500)" icon="award" />
@@ -271,7 +325,7 @@ export default function AdminTeacher() {
 
       <Panel title="Question types missed most" hint={model.haveTypeStats ? '% of questions missed, by type' : 'Awaiting capture — see PR note'}>
         {model.haveTypeStats
-          ? <BarList items={model.typeMissed} color="var(--wrong, #dc2626)" max={12} suffix="%" />
+          ? <BarList items={model.typeMissed} color="var(--wrong, #dc2626)" max={12} suffix="%" fmt={prettyType} />
           : (
             <p className="body" style={{ fontSize: 'var(--text-sm)', color: 'var(--text-tertiary)', margin: 0 }}>
               Per-question-type results aren't stored yet. Add <code>type_stats</code> to the results pipeline
@@ -319,6 +373,24 @@ export default function AdminTeacher() {
                   <tr>
                     <td colSpan={6} style={{ padding: 0, background: 'var(--bg-secondary)' }}>
                       <div style={{ padding: 'var(--space-3) var(--space-5) var(--space-4)' }}>
+                        {s.typeMissed.length > 0 && (
+                          <div style={{ marginBottom: 'var(--space-3)' }}>
+                            <div className="eyebrow" style={{ marginBottom: 'var(--space-2)' }}>Weakest question types</div>
+                            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
+                              {s.typeMissed.slice(0, 6).map(([t, miss]) => (
+                                <span key={t} style={{
+                                  display: 'inline-flex', alignItems: 'baseline', gap: '6px',
+                                  padding: '3px 10px', borderRadius: '999px',
+                                  background: 'var(--card-bg)', border: '1px solid var(--border-color)',
+                                  fontSize: 'var(--text-xs)', color: 'var(--text-secondary)',
+                                }}>
+                                  {prettyType(t)}
+                                  <strong style={{ fontFamily: 'var(--font-mono)', color: miss >= 50 ? 'var(--wrong, #dc2626)' : miss >= 30 ? 'var(--amber-400)' : 'var(--text-tertiary)' }}>{miss}%</strong>
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
                           <tbody>
                             {s.rows.map((r, i) => (
