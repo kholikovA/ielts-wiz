@@ -461,6 +461,32 @@ select:focus-visible {
   border-color: rgba(16, 185, 129, 0.3);
 }
 
+/* Test-card question-type chips */
+.qtype-chip {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: var(--r-pill);
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  font-size: var(--text-xs);
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
+}
+.qtype-chip.qtype-more {
+  border: none;
+  cursor: pointer;
+  color: var(--text-tertiary);
+}
+.qtype-chip.qtype-more:hover { color: var(--text-secondary); }
+
+/* Test-card action buttons collapse to icon-only when cramped (heavy zoom /
+   narrow window). The icon always stays; only the text label hides. */
+@media (max-width: 560px) {
+  .test-actions .icon-label { display: none; }
+  .test-actions .btn { padding-left: var(--space-3); padding-right: var(--space-3); }
+}
+
 /* SubNav — pill-tab row used by skill pages (Listening / Reading / Speaking). */
 .subnav {
   display: inline-flex;

@@ -1,6 +1,14 @@
 import React from 'react';
 import Icon from './icons';
 import { prefetchPage } from '../../lib/prefetch';
+import { typesForHref } from '../../lib/testMeta';
+import QuestionTypeChips from './QuestionTypeChips';
+
+const CompletedPill = () => (
+  <span className="pill pill-success" style={{ padding: '2px 10px' }}>
+    <Icon name="checkCircle" size={12} /> Completed
+  </span>
+);
 
 // Single test entry on a skill page. Renders as either a grid tile or a list
 // row, with a score badge + Review/Retake buttons when the user has a prior
@@ -39,41 +47,45 @@ const ScoreBadge = ({ correct, total }) => (
 const Actions = ({ href, onAuthRequired, canReview, compact = false }) => {
   const size = compact ? 12 : 13;
   return (
-    <span style={{ display: 'inline-flex', gap: 'var(--space-2)' }}>
+    <span className="test-actions" style={{ display: 'inline-flex', gap: 'var(--space-2)' }}>
       {canReview && (
         <a
           className="btn btn-secondary btn-sm"
           href={`${href}?review=1`}
           onClick={onAuthRequired}
+          onMouseEnter={() => prefetchPage(href)}
           style={{ gap: 'var(--space-1)', padding: '0 var(--space-3)' }}
           title="Open this test with your previous answers and score visible"
         >
-          <Icon name="bookOpen" size={size} /> Review
+          <Icon name="bookOpen" size={size} /> <span className="icon-label">Review</span>
         </a>
       )}
       <a
         className="btn btn-primary btn-sm"
         href={href}
         onClick={onAuthRequired}
+        onMouseEnter={() => prefetchPage(href)}
         style={{ gap: 'var(--space-1)', padding: '0 var(--space-3)' }}
         title="Start this test over with a blank slate"
       >
-        <Icon name="refresh" size={size} /> Retake
+        <Icon name="refresh" size={size} /> <span className="icon-label">Retake</span>
       </a>
     </span>
   );
 };
 
 const StartButton = ({ href, onAuthRequired }) => (
-  <a
-    className="btn btn-primary btn-sm"
-    href={href}
-    onClick={onAuthRequired}
-    onMouseEnter={() => prefetchPage(href)}
-    style={{ gap: 'var(--space-1)', padding: '0 var(--space-4)' }}
-  >
-    Start <Icon name="arrowRight" size={13} />
-  </a>
+  <span className="test-actions" style={{ display: 'inline-flex' }}>
+    <a
+      className="btn btn-primary btn-sm"
+      href={href}
+      onClick={onAuthRequired}
+      onMouseEnter={() => prefetchPage(href)}
+      style={{ gap: 'var(--space-1)', padding: '0 var(--space-4)' }}
+    >
+      <span className="icon-label">Start</span> <Icon name="arrowRight" size={13} />
+    </a>
+  </span>
 );
 
 export default function TestCard({
@@ -81,6 +93,7 @@ export default function TestCard({
   meta, onAuthRequired, accent = 'var(--purple-600)',
 }) {
   const hasAttempt = !!latestAttempt;
+  const types = typesForHref(href);
 
   if (viewMode === 'list') {
     return (
@@ -103,18 +116,11 @@ export default function TestCard({
           {test.id}
         </div>
         <div style={{ flex: 1, minWidth: 0 }}>
-          <div style={{
-            display: 'flex', alignItems: 'center', gap: 'var(--space-2)',
-            color: 'var(--text-primary)', fontWeight: 600,
-            fontSize: 'var(--text-base)',
-            overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
-          }}>
-            {isCompleted && (
-              <Icon name="checkCircle" size={16} style={{ color: 'var(--success)', flexShrink: 0 }} />
-            )}
-            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
+            <span style={{ color: 'var(--text-primary)', fontWeight: 600, fontSize: 'var(--text-base)' }}>
               {test.title}
             </span>
+            {isCompleted && <CompletedPill />}
           </div>
           {(test.subtitle || meta) && (
             <div style={{
@@ -124,6 +130,7 @@ export default function TestCard({
               {test.subtitle || meta}
             </div>
           )}
+          <QuestionTypeChips types={types} collapsed={2} />
         </div>
         {hasAttempt && (
           <div style={{ flexShrink: 0 }}>
@@ -158,12 +165,12 @@ export default function TestCard({
         <a href={href} onClick={onAuthRequired} onMouseEnter={() => prefetchPage(href)} style={{
           display: 'block', color: 'inherit', textDecoration: 'none', flex: 1,
         }}>
-          <GridBody test={test} meta={meta} accent={accent} isCompleted={isCompleted} />
+          <GridBody test={test} meta={meta} accent={accent} isCompleted={isCompleted} types={types} />
         </a>
       ) : (
         <>
           <div style={{ flex: 1 }}>
-            <GridBody test={test} meta={meta} accent={accent} isCompleted={isCompleted} />
+            <GridBody test={test} meta={meta} accent={accent} isCompleted={isCompleted} types={types} />
           </div>
           <div style={{
             marginTop: 'var(--space-3)',
@@ -183,7 +190,7 @@ export default function TestCard({
   );
 }
 
-const GridBody = ({ test, meta, accent, isCompleted }) => (
+const GridBody = ({ test, meta, accent, isCompleted, types }) => (
   <>
     {isCompleted && (
       <div style={{
@@ -220,6 +227,11 @@ const GridBody = ({ test, meta, accent, isCompleted }) => (
           letterSpacing: '0.06em',
         }}>
           {test.subtitle || meta}
+        </div>
+      )}
+      {types && types.length > 0 && (
+        <div style={{ display: 'flex', justifyContent: 'center' }}>
+          <QuestionTypeChips types={types} collapsed={2} />
         </div>
       )}
     </div>

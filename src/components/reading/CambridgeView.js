@@ -3,6 +3,14 @@ import { useAuth } from '../../contexts/AuthContext';
 import PageHeader from '../ui/PageHeader';
 import Icon from '../ui/icons';
 import { prefetchPage } from '../../lib/prefetch';
+import { typesForHref } from '../../lib/testMeta';
+import QuestionTypeChips from '../ui/QuestionTypeChips';
+import { CompletedPill, ScoreBadge, ReviewRetake, StartLink } from '../ui/testCardBits';
+import { getLatestAttempt, hasLastSubmission } from '../../lib/progressStore';
+
+const RECORD_KIND = 'reading_full';
+const recordIdFor = (bookId, testId) =>
+  bookId === 'cambridge20' ? `cam20_t${testId}` : `${bookId}_t${testId}`;
 
 // Cambridge IELTS catalogue — official-book reading tests delivered as the
 // standalone, full 3-passage interactive HTML (same engine as Part Practice,
@@ -86,43 +94,59 @@ export default function CambridgeView({ setSubPage, setCurrentPage }) {
               gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))',
               gap: 'var(--space-3)',
             }}>
-              {book.tests.map((test) => (
-                <a
-                  key={test.id}
-                  href={testHref(book.id, test.id)}
-                  onClick={handleAuthRequired}
-                  onMouseEnter={() => prefetchPage(testHref(book.id, test.id))}
-                  className="card card-interactive"
-                  style={{
-                    textDecoration: 'none',
-                    padding: 'var(--space-5)',
-                    border: '1px solid var(--border-color)',
-                    display: 'flex', flexDirection: 'column', gap: 'var(--space-3)',
-                  }}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                    <h4 className="h4" style={{ color: 'var(--text-primary)', margin: 0 }}>{test.title}</h4>
-                    <span style={{
-                      fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)',
-                      color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.06em',
+              {book.tests.map((test) => {
+                const href = testHref(book.id, test.id);
+                const recordId = recordIdFor(book.id, test.id);
+                const latest = getLatestAttempt(RECORD_KIND, recordId);
+                const canReview = hasLastSubmission(RECORD_KIND, recordId);
+                const done = !!latest;
+                return (
+                  <div
+                    key={test.id}
+                    className="card"
+                    style={{
+                      padding: 'var(--space-5)', border: '1px solid var(--border-color)',
+                      display: 'flex', flexDirection: 'column', gap: 'var(--space-3)',
+                    }}
+                  >
+                    <a
+                      href={href}
+                      onClick={handleAuthRequired}
+                      onMouseEnter={() => prefetchPage(href)}
+                      style={{ textDecoration: 'none', color: 'inherit', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)', flex: 1 }}
+                    >
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
+                          <h4 className="h4" style={{ color: 'var(--text-primary)', margin: 0 }}>{test.title}</h4>
+                          {done && <CompletedPill />}
+                        </div>
+                        <span style={{
+                          fontFamily: 'var(--font-mono)', fontSize: 'var(--text-xs)',
+                          color: 'var(--text-tertiary)', textTransform: 'uppercase', letterSpacing: '0.06em',
+                        }}>
+                          40 Q · 60 min
+                        </span>
+                      </div>
+                      <ol style={{ margin: 0, paddingLeft: '1.1rem', display: 'flex', flexDirection: 'column', gap: '2px' }}>
+                        {test.passages.map((p, i) => (
+                          <li key={i} className="body" style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>{p}</li>
+                        ))}
+                      </ol>
+                      <QuestionTypeChips types={typesForHref(href)} collapsed={3} />
+                    </a>
+                    <div style={{
+                      marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                      gap: 'var(--space-2)', flexWrap: 'wrap',
+                      paddingTop: 'var(--space-3)', borderTop: '1px solid var(--border-color)',
                     }}>
-                      40 Q · 60 min
-                    </span>
+                      {latest ? <ScoreBadge correct={latest.correct} total={latest.total} /> : <span />}
+                      {done
+                        ? <ReviewRetake href={href} onAuthRequired={handleAuthRequired} canReview={canReview} />
+                        : <StartLink href={href} onAuthRequired={handleAuthRequired} label="Start test" />}
+                    </div>
                   </div>
-                  <ol style={{ margin: 0, paddingLeft: '1.1rem', display: 'flex', flexDirection: 'column', gap: '2px' }}>
-                    {test.passages.map((p, i) => (
-                      <li key={i} className="body" style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>{p}</li>
-                    ))}
-                  </ol>
-                  <div style={{
-                    marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'flex-end',
-                    paddingTop: 'var(--space-2)', borderTop: '1px solid var(--border-color)',
-                    color: book.accent, fontSize: 'var(--text-sm)', fontWeight: 600,
-                  }}>
-                    Start test <Icon name="arrowRight" size={15} style={{ marginLeft: '4px' }} />
-                  </div>
-                </a>
-              ))}
+                );
+              })}
             </div>
           </div>
         ))}
