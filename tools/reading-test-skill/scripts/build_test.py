@@ -534,6 +534,13 @@ def render_passage_section(part):
         for qn, plet in mapping.items():
             paragraph_to_qnum[plet] = qn
 
+    # A matching_headings passage is the DRAG-INTO-GAP style: the reader drops a
+    # heading onto each section, so sections must NOT show A/B/C letter labels —
+    # the gap above each section identifies it. Letters are only shown when a
+    # group references them by letter (matching_info / matching_features "which
+    # paragraph A–G…"), which never coexists with matching_headings in a part.
+    is_matching_headings = bool(mh_groups)
+
     body_parts = []
     for p in paragraphs:
         if isinstance(p, str):
@@ -543,23 +550,25 @@ def render_passage_section(part):
             text = p["text"]
             letter = p.get("letter")
 
-        if letter:
-            # Two-column layout: letter | content
-            content_parts = []
-            # If this paragraph is part of matching_headings, add a heading-gap above the text
-            if letter in paragraph_to_qnum:
+        if is_matching_headings:
+            # No letter column. Add a drop-zone gap above questioned sections.
+            section = ""
+            if letter and letter in paragraph_to_qnum:
                 qn = paragraph_to_qnum[letter]
-                content_parts.append(
+                section += (
                     f'<div class="heading-gap" data-qnum="{qn}">'
                     f'<span class="heading-gap-num">{qn}</span>'
                     f'<button class="heading-gap-clear" title="Clear">×</button>'
                     f'</div>'
                 )
-            content_parts.append(f'<p>{text}</p>')
+            section += f'<p>{text}</p>'
+            body_parts.append(section)
+        elif letter:
+            # Two-column layout: letter | content (matching_info / features ref).
             body_parts.append(
                 f'<div class="para-row">'
                 f'<div class="para-letter">{letter}</div>'
-                f'<div>{"".join(content_parts)}</div>'
+                f'<div><p>{text}</p></div>'
                 f'</div>'
             )
         else:
