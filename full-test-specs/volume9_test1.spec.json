@@ -40,19 +40,19 @@
                 "heading": "Reasons why Madagascar's baobabs are declining in number:",
                 "items": [
                   { "html": "Morondava area" },
-                  { "html": "trees may be falling down because of ___ from nearby fields", "qnum": 7 },
-                  { "html": "lone trees are at risk from ___", "qnum": 8 },
+                  { "html": "trees may be falling down because of ___ from nearby fields", "qnum": 7, "indent": true },
+                  { "html": "lone trees are at risk from ___", "qnum": 8, "indent": true },
                   { "html": "Forest areas" },
-                  { "html": "land clearance: mainly by burning carried out to create space for ___ activity", "qnum": 9 },
-                  { "html": "practice of ___ makes seed germination difficult", "qnum": 10 },
-                  { "html": "disappearance of certain ___ which dispersed baobab seeds", "qnum": 11 }
+                  { "html": "land clearance: mainly by burning carried out to create space for ___ activity", "qnum": 9, "indent": true },
+                  { "html": "practice of ___ makes seed germination difficult", "qnum": 10, "indent": true },
+                  { "html": "disappearance of certain ___ which dispersed baobab seeds", "qnum": 11, "indent": true }
                 ]
               },
               {
                 "heading": "Jim Bond's efforts to record information about the baobab:",
                 "items": [
-                  { "html": "making ___ of areas of relatively undamaged baobab forest", "qnum": 12 },
-                  { "html": "producing a ___ showing importance of baobab in local culture", "qnum": 13 }
+                  { "html": "making ___ of areas of relatively undamaged baobab forest", "qnum": 12, "indent": true },
+                  { "html": "producing a ___ showing importance of baobab in local culture", "qnum": 13, "indent": true }
                 ]
               }
             ]
