@@ -1,19 +1,25 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Navigation from './components/Navigation';
 import HomePage from './components/HomePage';
-import SpeakingPage from './components/SpeakingPage';
-import ListeningPage from './components/ListeningPage';
-import ReadingPage from './components/ReadingPage';
-import GrammarPage from './components/GrammarPage';
-import WritingPage from './components/WritingPage';
-import AuthPage from './components/AuthPage';
-import Dashboard from './components/Dashboard';
-import HistoryPage from './components/HistoryPage';
-import AdminUsersPage from './components/admin/AdminUsersPage';
 import Footer from './components/Footer';
 import { PAGES_WITH_SUBPAGES, DEFAULT_SUBPAGE, parseUrlToState, stateToUrl } from './lib/routes';
+
+// Route-level code splitting. The shell (Navigation, Footer, HomePage) loads
+// eagerly; every other page — and the heavy data it imports (grammar
+// curriculum, reading-passage catalogues, etc.) — ships in its own chunk that
+// downloads only when that route is opened. Keeps the initial bundle small so
+// the app loads fast, including when returning from a standalone test page.
+const SpeakingPage = lazy(() => import('./components/SpeakingPage'));
+const ListeningPage = lazy(() => import('./components/ListeningPage'));
+const ReadingPage = lazy(() => import('./components/ReadingPage'));
+const GrammarPage = lazy(() => import('./components/GrammarPage'));
+const WritingPage = lazy(() => import('./components/WritingPage'));
+const AuthPage = lazy(() => import('./components/AuthPage'));
+const Dashboard = lazy(() => import('./components/Dashboard'));
+const HistoryPage = lazy(() => import('./components/HistoryPage'));
+const AdminUsersPage = lazy(() => import('./components/admin/AdminUsersPage'));
 
 const App = () => {
   const initial = parseUrlToState();
@@ -85,7 +91,11 @@ const App = () => {
     <>
       <a href="#main" className="skip-link">Skip to main content</a>
       <Navigation currentPage={currentPage} setCurrentPage={navigateTo} />
-      <main id="main">{renderPage()}</main>
+      <main id="main">
+        <Suspense fallback={<div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><div className="spinner" /></div>}>
+          {renderPage()}
+        </Suspense>
+      </main>
       {showFooter && <Footer setCurrentPage={navigateTo} />}
     </>
   );

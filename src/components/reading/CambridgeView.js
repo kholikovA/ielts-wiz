@@ -2,6 +2,7 @@ import React from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import PageHeader from '../ui/PageHeader';
 import Icon from '../ui/icons';
+import { prefetchPage } from '../../lib/prefetch';
 
 // Cambridge IELTS catalogue — official-book reading tests delivered as the
 // standalone, full 3-passage interactive HTML (same engine as Part Practice,
@@ -90,6 +91,7 @@ export default function CambridgeView({ setSubPage, setCurrentPage }) {
                   key={test.id}
                   href={testHref(book.id, test.id)}
                   onClick={handleAuthRequired}
+                  onMouseEnter={() => prefetchPage(testHref(book.id, test.id))}
                   className="card card-interactive"
                   style={{
                     textDecoration: 'none',

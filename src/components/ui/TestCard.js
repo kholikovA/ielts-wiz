@@ -1,5 +1,6 @@
 import React from 'react';
 import Icon from './icons';
+import { prefetchPage } from '../../lib/prefetch';
 
 // Single test entry on a skill page. Renders as either a grid tile or a list
 // row, with a score badge + Review/Retake buttons when the user has a prior
@@ -68,6 +69,7 @@ const StartButton = ({ href, onAuthRequired }) => (
     className="btn btn-primary btn-sm"
     href={href}
     onClick={onAuthRequired}
+    onMouseEnter={() => prefetchPage(href)}
     style={{ gap: 'var(--space-1)', padding: '0 var(--space-4)' }}
   >
     Start <Icon name="arrowRight" size={13} />
@@ -153,7 +155,7 @@ export default function TestCard({
       }}
     >
       {!showFooter ? (
-        <a href={href} onClick={onAuthRequired} style={{
+        <a href={href} onClick={onAuthRequired} onMouseEnter={() => prefetchPage(href)} style={{
           display: 'block', color: 'inherit', textDecoration: 'none', flex: 1,
         }}>
           <GridBody test={test} meta={meta} accent={accent} isCompleted={isCompleted} />
