@@ -31,29 +31,32 @@ export const ScoreBadge = ({ correct, total }) => (
   </span>
 );
 
+// Review + Retake for an already-taken test. Both are OUTLINED (not filled) so
+// they're visually distinct from the filled Start button: Review in blue with an
+// eye icon, Retake in green with a check-circle icon.
 export const ReviewRetake = ({ href, onAuthRequired, canReview }) => (
   <span className="test-actions" style={{ display: 'inline-flex', gap: 'var(--space-2)' }}>
     {canReview && (
       <a
-        className="btn btn-secondary btn-sm"
+        className="btn btn-sm btn-outline-review"
         href={`${href}?review=1`}
         onClick={onAuthRequired}
         onMouseEnter={() => prefetchPage(href)}
-        style={{ gap: 'var(--space-1)', padding: '0 var(--space-3)' }}
+        style={{ gap: 'var(--space-1)' }}
         title="Open this test with your previous answers and score visible"
       >
-        <Icon name="bookOpen" size={13} /> <span className="icon-label">Review</span>
+        <Icon name="eye" size={14} /> <span className="icon-label">Review</span>
       </a>
     )}
     <a
-      className="btn btn-primary btn-sm"
+      className="btn btn-sm btn-outline-retake"
       href={href}
       onClick={onAuthRequired}
       onMouseEnter={() => prefetchPage(href)}
-      style={{ gap: 'var(--space-1)', padding: '0 var(--space-3)' }}
+      style={{ gap: 'var(--space-1)' }}
       title="Start this test over with a blank slate"
     >
-      <Icon name="refresh" size={13} /> <span className="icon-label">Retake</span>
+      <Icon name="checkCircle" size={14} /> <span className="icon-label">Retake</span>
     </a>
   </span>
 );
@@ -67,7 +70,7 @@ export const StartLink = ({ href, onAuthRequired, label = 'Start' }) => (
       onMouseEnter={() => prefetchPage(href)}
       style={{ gap: 'var(--space-1)', padding: '0 var(--space-4)' }}
     >
-      <span className="icon-label">{label}</span> <Icon name="arrowRight" size={13} />
+      <Icon name="play" size={13} /> <span className="icon-label">{label}</span>
     </a>
   </span>
 );

@@ -82,10 +82,13 @@ export default function FullView({ setSubPage, setCurrentPage }) {
           href={href}
           onClick={handleAuthRequired}
           onMouseEnter={() => prefetchPage(href)}
-          style={{ textDecoration: 'none', color: 'inherit', flex: 1, minWidth: 0, display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flexWrap: 'wrap' }}
+          style={{ textDecoration: 'none', color: 'inherit', flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}
         >
-          <h4 className="h4" style={{ color: 'var(--text-primary)', margin: 0 }}>{test.title}</h4>
-          {done && <CompletedPill />}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
+            <h4 className="h4" style={{ color: 'var(--text-primary)', margin: 0 }}>{test.title}</h4>
+            {done && <CompletedPill />}
+          </div>
+          <QuestionTypeChips types={typesForHref(href)} collapsed={3} />
         </a>
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flexShrink: 0 }}>
           {latest && <ScoreBadge correct={latest.correct} total={latest.total} />}
