@@ -15,6 +15,21 @@ import { getLatestAttempt, hasLastSubmission } from '../../lib/progressStore';
 
 const TESTS = [
   {
+    // Admin-only for now (hidden from students until the lesson). The HTML uses
+    // a non-guessable filename so it can't be reached by URL either. To release:
+    // drop adminOnly (and optionally rename the file to full_volume9_test1.html).
+    id: 'full_volume9_test1_f2c7e83a',
+    recordId: 'volume9_test1', // matches the test page's TEST_ID
+    title: 'Volume 9 — Test 1',
+    note: 'Academic · Reading',
+    adminOnly: true,
+    passages: [
+      'The Baobabs of Madagascar',
+      'Coins: the first form of money',
+      'Creating a Better Grapefruit',
+    ],
+  },
+  {
     id: 'full_volume9_test2',
     recordId: 'volume9_test2', // matches the test page's TEST_ID
     title: 'Volume 9 — Test 2',
