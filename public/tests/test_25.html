@@ -2207,6 +2207,29 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
     }
   }
 
+  // Brand wordmark for the shareable result image — preloaded so it's drawn
+  // crisply the moment the user hits Send.
+  const shareBrandImg = new Image();
+  shareBrandImg.src = "/logo-light.svg";
+
+  // Best-effort name of the logged-in user (the solver), read from the Supabase
+  // session in localStorage. Falls back full_name -> name -> display_name -> email.
+  function getSolverName() {
+    try {
+      for (var i = 0; i < localStorage.length; i++) {
+        var key = localStorage.key(i);
+        if (!key || key.indexOf("sb-") !== 0 || key.indexOf("-auth-token") < 0) continue;
+        var val = JSON.parse(localStorage.getItem(key));
+        var u = val && (val.user || (val.currentSession && val.currentSession.user));
+        if (u) {
+          var m = u.user_metadata || {};
+          return String(m.full_name || m.name || m.display_name || u.email || "").trim();
+        }
+      }
+    } catch (e) {}
+    return "";
+  }
+
   function generateResultImage() {
     if (!lastResults) return;
     const { correctCount, partStats, band, total, isFullTest } = lastResults;
@@ -2226,20 +2249,44 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
     ctx.fillStyle = "#2563eb";
     ctx.fillRect(0, 0, W, 8);
 
-    ctx.fillStyle = "#0a0a0a";
-    ctx.font = "700 32px 'Inter', sans-serif";
+    // Brand wordmark — larger, with breathing room beneath it.
     ctx.textAlign = "center";
-    ctx.fillText(testTitle, W / 2, 70);
+    if (shareBrandImg.complete && shareBrandImg.naturalWidth) {
+      const lw = 250, lh = lw * (90 / 390);
+      ctx.drawImage(shareBrandImg, (W - lw) / 2, 40, lw, lh);
+    } else {
+      ctx.fillStyle = "#1d4ed8";
+      ctx.font = "800 40px 'Inter', sans-serif";
+      ctx.fillText("IELTS Wiz", W / 2, 86);
+    }
 
+    // Header — test name (pushed down to give the logo space)
+    ctx.fillStyle = "#0a0a0a";
+    ctx.font = "700 28px 'Inter', sans-serif";
+    ctx.fillText(testTitle, W / 2, 158);
+
+    let headerBottom = 158;
+    // Solver name (the logged-in user), shown prominently if known
+    const solverName = getSolverName();
+    if (solverName) {
+      ctx.fillStyle = "#2563eb";
+      ctx.font = "700 20px 'Inter', sans-serif";
+      ctx.fillText(solverName, W / 2, 190);
+      headerBottom = 190;
+    }
+
+    // Subtitle
     ctx.fillStyle = "#525252";
-    ctx.font = "500 16px 'Inter', sans-serif";
-    ctx.fillText("Result Summary", W / 2, 100);
+    ctx.font = "500 15px 'Inter', sans-serif";
+    ctx.fillText("Result Summary", W / 2, headerBottom + 26);
+    headerBottom += 26;
 
+    // Footer credit
     ctx.fillStyle = "#737373";
     ctx.font = "500 14px 'Inter', sans-serif";
-    ctx.fillText("IELTS Wiz", W / 2, H - 30);
+    ctx.fillText("ielts-wiz.com", W / 2, H - 30);
 
-    const topY = 160, topH = 140;
+    const topY = headerBottom + 26, topH = 140;
     const topPad = 60;
     const topCardCount = isFullTest ? 2 : 1;
     const topCardW = (W - topPad * 2 - 24 * (topCardCount - 1)) / topCardCount;
