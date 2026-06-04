@@ -1317,6 +1317,30 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
   let highlighterOn = true;
   let timeLeft = TIMER_SECONDS;
   let timerInterval = null;
+
+  // ---- Review mode --------------------------------------------------------
+  // `?review=1` replays the user's last submission read-only. On a real submit
+  // the answers are saved to localStorage AND Supabase (per user, per test); in
+  // review mode we load them and show the locked results view, recording NO new
+  // attempt. REVIEW_MODE also gates the persistence writes inside submitTest.
+  const REVIEW_MODE = (function () {
+    try { return new URLSearchParams(location.search).get("review") === "1"; } catch (e) { return false; }
+  })();
+  const LAST_SUB_KEY = "iw.v1.lastSubmission." + TEST_KIND + "." + TEST_ID;
+  const SB_URL = "https://jaucbfremtxmanciflab.supabase.co";
+  const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImphdWNiZnJlbXR4bWFuY2lmbGFiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwODU2MTcsImV4cCI6MjA4NDY2MTYxN30.8unfikMze_UhgQL-ex5tutPTDgmQ0wP-tQBiCZATqTs";
+  function getAccessToken() {
+    try {
+      for (var i = 0; i < localStorage.length; i++) {
+        var key = localStorage.key(i);
+        if (!key || key.indexOf("sb-") !== 0 || key.indexOf("-auth-token") < 0) continue;
+        var val = JSON.parse(localStorage.getItem(key));
+        if (val && val.access_token) return val.access_token;
+      }
+    } catch (e) {}
+    return null;
+  }
+  function attrEsc(s) { return String(s).replace(/(["\\])/g, "\\$1"); }
   // Brand wordmark for the shareable result image — preloaded so it's drawn
   // crisply the moment the user hits Send. White-bg share image always uses
   // the light logo regardless of page theme.
@@ -2324,7 +2348,8 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
     //      is already saved, and Dashboard.pullAndMerge() will reconcile next
     //      time they open the app.
     // Do not rename these keys. They are part of the user-data contract.
-    try {
+    // Review mode replays a past attempt — never record a new one.
+    if (!REVIEW_MODE) try {
       const COMPLETION_KEY_FOR = {
         listening:  "iw.v1.completed.listening",
         reading_p1: "iw.v1.completed.reading.passage1",
@@ -2334,6 +2359,13 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
       const ACTIVITY_KEY = "iw.v1.activity";
 
       if (TEST_KIND && TEST_ID) {
+        // Snapshot the answers so this result can be replayed via ?review=1.
+        try {
+          localStorage.setItem(LAST_SUB_KEY, JSON.stringify({
+            answers: userAnswers, correctCount: correctCount,
+            total: TOTAL_QUESTIONS, ts: new Date().toISOString()
+          }));
+        } catch (e) {}
         const completionKey = COMPLETION_KEY_FOR[TEST_KIND];
         if (completionKey) {
           let list = [];
@@ -2384,6 +2416,7 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
                 total: TOTAL_QUESTIONS,
                 duration_seconds: durationSeconds,
                 type_stats: typeStats,
+                answers: userAnswers,
                 completed_at: new Date().toISOString()
               })
             }).catch(function () { /* silent; localStorage is authoritative locally */ });
@@ -2800,6 +2833,86 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
   // leave the page blank.
   var __firstSection = document.querySelector(".passage-section");
   showPart(__firstSection ? parseInt(__firstSection.dataset.part, 10) : 1);
+
+  // ---- Review-mode bootstrap ---------------------------------------------
+  // Re-apply a saved attempt to the rendered test, then run the (persistence-
+  // skipping) grade flow so the user sees their locked result + per-question
+  // review. Tries the local snapshot first, then the cloud (cross-device).
+  function loadLocalSubmission() {
+    try {
+      var d = JSON.parse(localStorage.getItem(LAST_SUB_KEY) || "null");
+      return (d && d.answers && Object.keys(d.answers).length) ? d : null;
+    } catch (e) { return null; }
+  }
+  function fetchCloudSubmission() {
+    var token = getAccessToken();
+    if (!SB_URL || !SB_KEY || !token) return Promise.resolve(null);
+    var url = SB_URL + "/rest/v1/user_test_results"
+      + "?kind=eq." + encodeURIComponent(TEST_KIND)
+      + "&test_id=eq." + encodeURIComponent(TEST_ID)
+      + "&answers=not.is.null&select=answers&order=completed_at.desc&limit=1";
+    return fetch(url, { headers: { "apikey": SB_KEY, "Authorization": "Bearer " + token } })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (rows) {
+        return (rows && rows[0] && rows[0].answers && Object.keys(rows[0].answers).length)
+          ? { answers: rows[0].answers } : null;
+      })
+      .catch(function () { return null; });
+  }
+  function applyAnswers(answers) {
+    Object.keys(answers).forEach(function (qStr) {
+      var q = parseInt(qStr, 10);
+      var v = answers[qStr];
+      if (v == null || v === "") return;
+      userAnswers[q] = v;
+      try {
+        // radio (tfng / yng / mcq single)
+        var radio = document.querySelector('input[type="radio"][name="q' + q + '"][value="' + attrEsc(v) + '"]');
+        if (radio) { radio.checked = true; return; }
+        // checkbox group (mcq_multi) — value is comma-joined letters
+        var cbList = document.querySelectorAll('input[type="checkbox"][data-qnums]');
+        if (cbList.length) {
+          var letters = String(v).split(",").map(function (s) { return s.trim(); });
+          var any = false;
+          cbList.forEach(function (cb) {
+            var qn; try { qn = JSON.parse(cb.dataset.qnums || "[]"); } catch (e) { qn = []; }
+            if (qn.indexOf(q) >= 0 && letters.indexOf(cb.value) >= 0) { cb.checked = true; any = true; }
+          });
+          if (any) return;
+        }
+        // gap text input (completion / short answer)
+        var gap = document.querySelector('input.gap-input[data-qnum="' + q + '"]');
+        if (gap) { gap.value = v; gap.classList.add("filled"); return; }
+        // gap select (summary word bank)
+        var sel = document.querySelector('select.gap-input[data-qnum="' + q + '"]');
+        if (sel) { sel.value = v; return; }
+        // match-table cell (matching info / features, table mode)
+        var cell = document.querySelector('.match-table tr[data-qnum="' + q + '"] .match-cell[data-letter="' + attrEsc(v) + '"]');
+        if (cell) { cell.classList.add("selected"); return; }
+        // drag-drop gap (matching_headings / sentence_endings / matching_features)
+        var hgap = document.querySelector('.heading-gap[data-qnum="' + q + '"]');
+        if (hgap) {
+          var grp = hgap.dataset.group || "";
+          var card = grp
+            ? document.querySelector('.heading-card[data-heading-id="' + attrEsc(v) + '"][data-group="' + attrEsc(grp) + '"]')
+            : document.querySelector('.heading-card[data-heading-id="' + attrEsc(v) + '"]');
+          if (card && typeof placeHeading === "function") { placeHeading(hgap, card); return; }
+        }
+      } catch (e) {}
+    });
+    try { updatePalette(); } catch (e) {}
+  }
+  function enterReviewMode() {
+    var go = function (saved) {
+      if (!saved || !saved.answers) return; // nothing saved — leave as a fresh attempt
+      applyAnswers(saved.answers);
+      submitTest(false);
+    };
+    var local = loadLocalSubmission();
+    if (local) go(local);
+    else fetchCloudSubmission().then(go);
+  }
+  if (REVIEW_MODE) enterReviewMode();
 })();
 </script>
 </body>
