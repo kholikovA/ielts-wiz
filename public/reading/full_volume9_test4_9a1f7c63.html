@@ -1326,6 +1326,12 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
   const REVIEW_MODE = (function () {
     try { return new URLSearchParams(location.search).get("review") === "1"; } catch (e) { return false; }
   })();
+  // True only once we've actually replayed a saved attempt. submitTest skips its
+  // persistence writes when REPLAYING — so a `?review=1` page that finds NO saved
+  // answers (and falls back to a normal interactive test) still records the new
+  // attempt when the user submits it. (Guarding on REVIEW_MODE alone silently
+  // dropped those submissions.)
+  let REPLAYING = false;
   const LAST_SUB_KEY = "iw.v1.lastSubmission." + TEST_KIND + "." + TEST_ID;
   const SB_URL = "https://jaucbfremtxmanciflab.supabase.co";
   const SB_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImphdWNiZnJlbXR4bWFuY2lmbGFiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwODU2MTcsImV4cCI6MjA4NDY2MTYxN30.8unfikMze_UhgQL-ex5tutPTDgmQ0wP-tQBiCZATqTs";
@@ -2348,8 +2354,9 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
     //      is already saved, and Dashboard.pullAndMerge() will reconcile next
     //      time they open the app.
     // Do not rename these keys. They are part of the user-data contract.
-    // Review mode replays a past attempt — never record a new one.
-    if (!REVIEW_MODE) try {
+    // Skip persistence only when replaying a saved attempt (not for a fresh
+    // submit, even if the URL still carries ?review=1 from an empty review).
+    if (!REPLAYING) try {
       const COMPLETION_KEY_FOR = {
         listening:  "iw.v1.completed.listening",
         reading_p1: "iw.v1.completed.reading.passage1",
@@ -2902,11 +2909,29 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
     });
     try { updatePalette(); } catch (e) {}
   }
+  function showReviewBanner(msg, ok) {
+    var b = document.createElement("div");
+    b.id = "reviewBanner";
+    b.style.cssText = "position:sticky;top:0;z-index:60;padding:9px 16px;text-align:center;"
+      + "font-family:var(--sans);font-size:13px;font-weight:600;line-height:1.4;"
+      + (ok ? "background:var(--accent-soft,#f3e8ff);color:var(--accent,#7e22ce);"
+            : "background:#fef3c7;color:#92400e;");
+    b.textContent = msg;
+    document.body.insertBefore(b, document.body.firstChild);
+  }
   function enterReviewMode() {
     var go = function (saved) {
-      if (!saved || !saved.answers) return; // nothing saved — leave as a fresh attempt
-      applyAnswers(saved.answers);
-      submitTest(false);
+      if (saved && saved.answers && Object.keys(saved.answers).length) {
+        REPLAYING = true;
+        applyAnswers(saved.answers);
+        submitTest(false);
+        showReviewBanner("Reviewing your last attempt — your answers and score are shown below.", true);
+      } else {
+        // No snapshot for this attempt (e.g. taken before review-saving existed,
+        // or on another device with no cloud copy). Be explicit rather than
+        // silently looking like a fresh "Retake".
+        showReviewBanner("No saved answers for this attempt yet — take the test and submit, and your answers will be kept for Review.", false);
+      }
     };
     var local = loadLocalSubmission();
     if (local) go(local);
