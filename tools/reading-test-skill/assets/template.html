@@ -2902,11 +2902,28 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
     });
     try { updatePalette(); } catch (e) {}
   }
+  function showReviewBanner(msg, ok) {
+    var b = document.createElement("div");
+    b.id = "reviewBanner";
+    b.style.cssText = "position:sticky;top:0;z-index:60;padding:9px 16px;text-align:center;"
+      + "font-family:var(--sans);font-size:13px;font-weight:600;line-height:1.4;"
+      + (ok ? "background:var(--accent-soft,#f3e8ff);color:var(--accent,#7e22ce);"
+            : "background:#fef3c7;color:#92400e;");
+    b.textContent = msg;
+    document.body.insertBefore(b, document.body.firstChild);
+  }
   function enterReviewMode() {
     var go = function (saved) {
-      if (!saved || !saved.answers) return; // nothing saved — leave as a fresh attempt
-      applyAnswers(saved.answers);
-      submitTest(false);
+      if (saved && saved.answers && Object.keys(saved.answers).length) {
+        applyAnswers(saved.answers);
+        submitTest(false);
+        showReviewBanner("Reviewing your last attempt — your answers and score are shown below.", true);
+      } else {
+        // No snapshot for this attempt (e.g. taken before review-saving existed,
+        // or on another device with no cloud copy). Be explicit rather than
+        // silently looking like a fresh "Retake".
+        showReviewBanner("No saved answers for this attempt yet — take the test and submit, and your answers will be kept for Review.", false);
+      }
     };
     var local = loadLocalSubmission();
     if (local) go(local);
