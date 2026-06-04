@@ -1326,6 +1326,12 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
   const REVIEW_MODE = (function () {
     try { return new URLSearchParams(location.search).get("review") === "1"; } catch (e) { return false; }
   })();
+  // True only once we've actually replayed a saved attempt. submitTest skips its
+  // persistence writes when REPLAYING — so a `?review=1` page that finds NO saved
+  // answers (and falls back to a normal interactive test) still records the new
+  // attempt when the user submits it. (Guarding on REVIEW_MODE alone silently
+  // dropped those submissions.)
+  let REPLAYING = false;
   const LAST_SUB_KEY = "iw.v1.lastSubmission." + TEST_KIND + "." + TEST_ID;
   const SB_URL = "{{SUPABASE_URL}}";
   const SB_KEY = "{{SUPABASE_ANON_KEY}}";
@@ -2348,8 +2354,9 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
     //      is already saved, and Dashboard.pullAndMerge() will reconcile next
     //      time they open the app.
     // Do not rename these keys. They are part of the user-data contract.
-    // Review mode replays a past attempt — never record a new one.
-    if (!REVIEW_MODE) try {
+    // Skip persistence only when replaying a saved attempt (not for a fresh
+    // submit, even if the URL still carries ?review=1 from an empty review).
+    if (!REPLAYING) try {
       const COMPLETION_KEY_FOR = {
         listening:  "iw.v1.completed.listening",
         reading_p1: "iw.v1.completed.reading.passage1",
@@ -2915,6 +2922,7 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
   function enterReviewMode() {
     var go = function (saved) {
       if (saved && saved.answers && Object.keys(saved.answers).length) {
+        REPLAYING = true;
         applyAnswers(saved.answers);
         submitTest(false);
         showReviewBanner("Reviewing your last attempt — your answers and score are shown below.", true);
