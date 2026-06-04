@@ -6,7 +6,7 @@ import { prefetchPage } from '../../lib/prefetch';
 import { typesForHref } from '../../lib/testMeta';
 import QuestionTypeChips from '../ui/QuestionTypeChips';
 import { CompletedPill, ScoreBadge, ReviewRetake, StartLink } from '../ui/testCardBits';
-import { getLatestAttempt, hasLastSubmission } from '../../lib/progressStore';
+import { getLatestAttempt } from '../../lib/progressStore';
 
 // Full Test Practice catalogue — complete 60-minute, 3-passage exams (40 Q)
 // delivered as the standalone interactive HTML. Tests are grouped into volume
@@ -66,7 +66,9 @@ export default function FullView({ setSubPage, setCurrentPage }) {
 
   const progressFor = (test) => {
     const latest = getLatestAttempt(RECORD_KIND, test.recordId);
-    return { latest, done: !!latest, canReview: hasLastSubmission(RECORD_KIND, test.recordId) };
+    // Any attempt is reviewable — the test page replays the saved submission
+    // (localStorage, falling back to Supabase for cross-device).
+    return { latest, done: !!latest, canReview: !!latest };
   };
 
   // ---- A single test, list-row form ----
