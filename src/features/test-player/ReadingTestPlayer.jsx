@@ -400,9 +400,9 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
                 Text Size
               </div>
               <div className="settings-options">
-                <button className={`settings-option${textSize === 'default' ? ' selected' : ''}`} onClick={() => setTextSize('default')}>Default</button>
-                <button className={`settings-option${textSize === 'large' ? ' selected' : ''}`} onClick={() => setTextSize('large')}>Large</button>
-                <button className={`settings-option${textSize === 'xl' ? ' selected' : ''}`} onClick={() => setTextSize('xl')}>Extra Large</button>
+                <button className={`settings-option${textSize === 'default' ? ' selected' : ''}`} onClick={() => setTextSize('default')} style={{ fontSize: '16px' }}>Default</button>
+                <button className={`settings-option${textSize === 'large' ? ' selected' : ''}`} onClick={() => setTextSize('large')} style={{ fontSize: '18px' }}>Large</button>
+                <button className={`settings-option${textSize === 'xl' ? ' selected' : ''}`} onClick={() => setTextSize('xl')} style={{ fontSize: '20px' }}>Extra Large</button>
               </div>
             </div>
             <div className="settings-section">
