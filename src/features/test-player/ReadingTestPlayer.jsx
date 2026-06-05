@@ -146,20 +146,27 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
   const [highlightOn, setHighlightOn] = useState(true);
   const { tip: hlTip, apply: applyHighlight } = useHighlighter(passageRef, highlightOn && !readOnly);
 
-  // Draggable split divider — resizes the passage/questions panes.
+  // Draggable split divider — resizes the passage/questions panes. Listeners are
+  // attached on mousedown and torn down on mouseup; preventDefault + user-select
+  // none stop the drag from selecting passage text.
   const containerRef = useRef(null);
   const [splitPct, setSplitPct] = useState(50);
-  const draggingRef = useRef(false);
-  useEffect(() => {
-    const onMove = (e) => {
-      if (!draggingRef.current || !containerRef.current) return;
-      const r = containerRef.current.getBoundingClientRect();
-      setSplitPct(Math.min(75, Math.max(25, ((e.clientX - r.left) / r.width) * 100)));
+  const startDrag = useCallback((e) => {
+    e.preventDefault();
+    const container = containerRef.current;
+    if (!container) return;
+    const onMove = (ev) => {
+      const r = container.getBoundingClientRect();
+      setSplitPct(Math.min(78, Math.max(22, ((ev.clientX - r.left) / r.width) * 100)));
     };
-    const onUp = () => { draggingRef.current = false; try { document.body.style.cursor = ''; } catch { /* noop */ } };
-    window.addEventListener('mousemove', onMove);
-    window.addEventListener('mouseup', onUp);
-    return () => { window.removeEventListener('mousemove', onMove); window.removeEventListener('mouseup', onUp); };
+    const onUp = () => {
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onUp);
+      try { document.body.style.cursor = ''; document.body.style.userSelect = ''; } catch { /* noop */ }
+    };
+    try { document.body.style.cursor = 'col-resize'; document.body.style.userSelect = 'none'; } catch { /* noop */ }
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onUp);
   }, []);
 
   const doSubmit = useCallback(() => {
@@ -232,7 +239,7 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
       <div
         className="divider"
         id="divider"
-        onMouseDown={() => { draggingRef.current = true; try { document.body.style.cursor = 'col-resize'; } catch { /* noop */ } }}
+        onMouseDown={startDrag}
       >
         <div className="divider-handle">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="7 8 3 12 7 16" /><polyline points="17 8 21 12 17 16" /><line x1="3" y1="12" x2="21" y2="12" /></svg>
