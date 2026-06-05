@@ -1,5 +1,5 @@
 import React from 'react';
-import { GapInput, InterleaveGaps, HTML } from './gaps';
+import { InterleaveGaps, HTML } from './gaps';
 import { ResultMarker } from './review';
 
 // Stable key for a placement group (matching headings / sentence endings / dragdrop

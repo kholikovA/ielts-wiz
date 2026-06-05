@@ -7,6 +7,7 @@ import { typesForHref } from '../../lib/testMeta';
 import QuestionTypeChips from '../ui/QuestionTypeChips';
 import { CompletedPill, ScoreBadge, ReviewRetake, StartLink } from '../ui/testCardBits';
 import { getLatestAttempt, hasLastSubmission } from '../../lib/progressStore';
+import { findReadingTestById } from '../../data/tests/manifest';
 
 const RECORD_KIND = 'reading_full';
 const recordIdFor = (bookId, testId) =>
@@ -37,16 +38,24 @@ const testHref = (bookId, testId) => `/reading/${bookId}_test${testId}.html`;
 export default function CambridgeView({ setSubPage, setCurrentPage }) {
   const { user } = useAuth();
 
+  // Auth-gates first; then, for migrated tests (the in-app /reading-test/<id>
+  // route), navigates within the SPA instead of a full page load. Standalone
+  // .html tests fall through to normal browser navigation.
   const handleAuthRequired = (e) => {
+    const href = e.currentTarget.getAttribute('href') || '';
     if (!user) {
       e.preventDefault();
-      // Remember the test the user was about to open so we land back on it
-      // after sign-in. AuthPage reads ?next= from the URL on successful login.
-      const next = e.currentTarget.getAttribute('href') || '';
       setCurrentPage('login');
-      if (next.startsWith('/')) {
-        window.history.replaceState({}, '', `/login?next=${encodeURIComponent(next)}`);
+      if (href.startsWith('/')) {
+        window.history.replaceState({}, '', `/login?next=${encodeURIComponent(href)}`);
       }
+      return;
+    }
+    if (href.startsWith('/reading-test/')) {
+      e.preventDefault();
+      const [path, search] = href.split('?');
+      const id = path.split('/').filter(Boolean)[1];
+      setCurrentPage('reading-test', id, search || '');
     }
   };
 
@@ -95,8 +104,10 @@ export default function CambridgeView({ setSubPage, setCurrentPage }) {
               gap: 'var(--space-3)',
             }}>
               {book.tests.map((test) => {
-                const href = testHref(book.id, test.id);
+                const metaHref = testHref(book.id, test.id);
                 const recordId = recordIdFor(book.id, test.id);
+                // Migrated tests open in the in-app player; the rest, their HTML.
+                const href = findReadingTestById(recordId) ? `/reading-test/${recordId}` : metaHref;
                 const latest = getLatestAttempt(RECORD_KIND, recordId);
                 const canReview = hasLastSubmission(RECORD_KIND, recordId);
                 const done = !!latest;
@@ -112,7 +123,7 @@ export default function CambridgeView({ setSubPage, setCurrentPage }) {
                     <a
                       href={href}
                       onClick={handleAuthRequired}
-                      onMouseEnter={() => prefetchPage(href)}
+                      onMouseEnter={() => href.endsWith('.html') && prefetchPage(href)}
                       style={{ textDecoration: 'none', color: 'inherit', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)', flex: 1 }}
                     >
                       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
@@ -132,7 +143,7 @@ export default function CambridgeView({ setSubPage, setCurrentPage }) {
                           <li key={i} className="body" style={{ fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>{p}</li>
                         ))}
                       </ol>
-                      <QuestionTypeChips types={typesForHref(href)} collapsed={3} />
+                      <QuestionTypeChips types={typesForHref(metaHref)} collapsed={3} />
                     </a>
                     <div style={{
                       marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between',
