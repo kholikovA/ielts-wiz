@@ -20,6 +20,7 @@ const AuthPage = lazy(() => import('./components/AuthPage'));
 const Dashboard = lazy(() => import('./components/Dashboard'));
 const HistoryPage = lazy(() => import('./components/HistoryPage'));
 const AdminUsersPage = lazy(() => import('./components/admin/AdminUsersPage'));
+const ReadingTestRoute = lazy(() => import('./components/reading/ReadingTestRoute'));
 
 const App = () => {
   const initial = parseUrlToState();
@@ -45,9 +46,10 @@ const App = () => {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  const navigateTo = (page, subPage) => {
+  const navigateTo = (page, subPage, query) => {
     const resolvedSub = subPage || DEFAULT_SUBPAGE[page] || null;
-    window.history.pushState({}, '', stateToUrl(page, resolvedSub));
+    const url = stateToUrl(page, resolvedSub) + (query ? `?${query}` : '');
+    window.history.pushState({}, '', url);
     setCurrentPage(page);
     if (PAGES_WITH_SUBPAGES.has(page) && resolvedSub) {
       setSubPages(prev => ({ ...prev, [page]: resolvedSub }));
@@ -72,6 +74,11 @@ const App = () => {
       case 'dashboard': return <Dashboard setCurrentPage={navigateTo} />;
       case 'history': return <HistoryPage setCurrentPage={navigateTo} />;
       case 'admin': return <AdminUsersPage setCurrentPage={navigateTo} />;
+      case 'reading-test': {
+        const id = window.location.pathname.split('/').filter(Boolean)[1];
+        const review = new URLSearchParams(window.location.search).get('review') === '1';
+        return <ReadingTestRoute key={`${id}:${review}`} testId={id} review={review} onExit={() => navigateTo('reading', 'full')} />;
+      }
       default: return <HomePage setCurrentPage={navigateTo} />;
     }
   };
@@ -84,13 +91,15 @@ const App = () => {
     );
   }
 
+  // The reading test player is a full-screen takeover — no app nav/footer.
+  const fullscreen = currentPage === 'reading-test';
   // Hide the footer on auth screens so it doesn't push the form below the fold.
-  const showFooter = !['login', 'signup'].includes(currentPage);
+  const showFooter = !['login', 'signup'].includes(currentPage) && !fullscreen;
 
   return (
     <>
       <a href="#main" className="skip-link">Skip to main content</a>
-      <Navigation currentPage={currentPage} setCurrentPage={navigateTo} />
+      {!fullscreen && <Navigation currentPage={currentPage} setCurrentPage={navigateTo} />}
       <main id="main">
         <Suspense fallback={<div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><div className="spinner" /></div>}>
           {renderPage()}

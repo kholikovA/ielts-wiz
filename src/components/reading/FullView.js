@@ -7,6 +7,7 @@ import { typesForHref } from '../../lib/testMeta';
 import QuestionTypeChips from '../ui/QuestionTypeChips';
 import { CompletedPill, ScoreBadge, ReviewRetake, StartLink } from '../ui/testCardBits';
 import { getLatestAttempt } from '../../lib/progressStore';
+import { findReadingTestById } from '../../data/tests/manifest';
 
 // Full Test Practice catalogue — complete 60-minute, 3-passage exams (40 Q)
 // delivered as the standalone interactive HTML. Tests are grouped into volume
@@ -38,7 +39,12 @@ const VOLUMES = [
 
 const RECORD_KIND = 'reading_full';
 const VIEW_KEY = 'iw.v1.reading.fullTestView';
-const testHref = (id) => `/reading/${id}.html`;
+// Migrated tests (those with a committed spec) open in the in-app React player;
+// the rest still open their standalone HTML. `metaHref` keeps the question-type
+// chip lookup keyed by the original HTML path either way.
+const metaHref = (test) => `/reading/${test.id}.html`;
+const testHref = (test) =>
+  findReadingTestById(test.recordId) ? `/reading-test/${test.recordId}` : `/reading/${test.id}.html`;
 
 export default function FullView({ setSubPage, setCurrentPage }) {
   const { user } = useAuth();
@@ -51,14 +57,24 @@ export default function FullView({ setSubPage, setCurrentPage }) {
     try { localStorage.setItem(VIEW_KEY, v); } catch (e) {}
   };
 
+  // Auth-gates first; then, for migrated tests (the in-app /reading-test/<id>
+  // route), navigates within the SPA instead of a full page load. Standalone
+  // .html tests fall through to normal browser navigation.
   const handleAuthRequired = (e) => {
+    const href = e.currentTarget.getAttribute('href') || '';
     if (!user) {
       e.preventDefault();
-      const next = e.currentTarget.getAttribute('href') || '';
       setCurrentPage('login');
-      if (next.startsWith('/')) {
-        window.history.replaceState({}, '', `/login?next=${encodeURIComponent(next)}`);
+      if (href.startsWith('/')) {
+        window.history.replaceState({}, '', `/login?next=${encodeURIComponent(href)}`);
       }
+      return;
+    }
+    if (href.startsWith('/reading-test/')) {
+      e.preventDefault();
+      const [path, search] = href.split('?');
+      const id = path.split('/').filter(Boolean)[1];
+      setCurrentPage('reading-test', id, search || '');
     }
   };
 
@@ -73,7 +89,7 @@ export default function FullView({ setSubPage, setCurrentPage }) {
 
   // ---- A single test, list-row form ----
   const TestRow = ({ test }) => {
-    const href = testHref(test.id);
+    const href = testHref(test);
     const { latest, done, canReview } = progressFor(test);
     return (
       <div className="card" style={{
@@ -83,14 +99,14 @@ export default function FullView({ setSubPage, setCurrentPage }) {
         <a
           href={href}
           onClick={handleAuthRequired}
-          onMouseEnter={() => prefetchPage(href)}
+          onMouseEnter={() => href.endsWith(".html") && prefetchPage(href)}
           style={{ textDecoration: 'none', color: 'inherit', flex: 1, minWidth: 0, display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
             <h4 className="h4" style={{ color: 'var(--text-primary)', margin: 0 }}>{test.title}</h4>
             {done && <CompletedPill />}
           </div>
-          <QuestionTypeChips types={typesForHref(href)} collapsed={3} />
+          <QuestionTypeChips types={typesForHref(metaHref(test))} collapsed={3} />
         </a>
         <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flexShrink: 0 }}>
           {latest && <ScoreBadge correct={latest.correct} total={latest.total} />}
@@ -104,7 +120,7 @@ export default function FullView({ setSubPage, setCurrentPage }) {
 
   // ---- A single test, simplified grid card (no meta line, no passage titles) ----
   const TestCard = ({ test }) => {
-    const href = testHref(test.id);
+    const href = testHref(test);
     const { latest, done, canReview } = progressFor(test);
     return (
       <div className="card" style={{
@@ -114,14 +130,14 @@ export default function FullView({ setSubPage, setCurrentPage }) {
         <a
           href={href}
           onClick={handleAuthRequired}
-          onMouseEnter={() => prefetchPage(href)}
+          onMouseEnter={() => href.endsWith(".html") && prefetchPage(href)}
           style={{ textDecoration: 'none', color: 'inherit', display: 'flex', flexDirection: 'column', gap: 'var(--space-3)', flex: 1 }}
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-2)', flexWrap: 'wrap' }}>
             <h4 className="h4" style={{ color: 'var(--text-primary)', margin: 0 }}>{test.title}</h4>
             {done && <CompletedPill />}
           </div>
-          <QuestionTypeChips types={typesForHref(href)} collapsed={3} />
+          <QuestionTypeChips types={typesForHref(metaHref(test))} collapsed={3} />
         </a>
         <div style={{
           marginTop: 'auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between',

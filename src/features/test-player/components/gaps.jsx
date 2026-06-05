@@ -2,7 +2,7 @@ import React from 'react';
 
 // Boxed text input bound to a question number. The number shows as a placeholder
 // until the gap is filled (CSS hides it via .gap-input.filled + .gap-num-placeholder).
-export function GapInput({ qnum, value, onChange, wide }) {
+export function GapInput({ qnum, value, onChange, wide, disabled }) {
   const filled = !!(value && String(value).length);
   return (
     <span className="gap-wrap">
@@ -12,6 +12,7 @@ export function GapInput({ qnum, value, onChange, wide }) {
         data-qnum={qnum}
         autoComplete="off"
         spellCheck="false"
+        disabled={disabled}
         value={value || ''}
         onChange={(e) => onChange(qnum, e.target.value)}
       />
@@ -21,12 +22,13 @@ export function GapInput({ qnum, value, onChange, wide }) {
 }
 
 // Dropdown gap (summary completion with a word bank) — value is the bank letter.
-export function GapSelect({ qnum, value, onChange, options }) {
+export function GapSelect({ qnum, value, onChange, options, disabled }) {
   return (
     <span className="gap-wrap">
       <select
         className="gap-input gap-select"
         data-qnum={qnum}
+        disabled={disabled}
         value={value || ''}
         onChange={(e) => onChange(qnum, e.target.value)}
       >
@@ -42,7 +44,7 @@ export function GapSelect({ qnum, value, onChange, options }) {
 // Render authored HTML that contains `___` markers, replacing each in order with
 // a real controlled gap input/select bound to the matching qnum. The HTML between
 // gaps is trusted (it comes from our own specs), so dangerouslySetInnerHTML is safe.
-export function InterleaveGaps({ html, qnums, answers, onChange, wordBank }) {
+export function InterleaveGaps({ html, qnums, answers, onChange, wordBank, disabled }) {
   const segments = String(html).split('___');
   const nodes = [];
   segments.forEach((seg, i) => {
@@ -51,9 +53,9 @@ export function InterleaveGaps({ html, qnums, answers, onChange, wordBank }) {
       const qn = qnums[i];
       nodes.push(
         wordBank ? (
-          <GapSelect key={`g${i}`} qnum={qn} value={answers[qn]} onChange={onChange} options={wordBank} />
+          <GapSelect key={`g${i}`} qnum={qn} value={answers[qn]} onChange={onChange} options={wordBank} disabled={disabled} />
         ) : (
-          <GapInput key={`g${i}`} qnum={qn} value={answers[qn]} onChange={onChange} />
+          <GapInput key={`g${i}`} qnum={qn} value={answers[qn]} onChange={onChange} disabled={disabled} />
         )
       );
     }

@@ -1,5 +1,6 @@
 import React from 'react';
-import { GapInput, InterleaveGaps, HTML } from './gaps';
+import { InterleaveGaps, HTML } from './gaps';
+import { ResultMarker } from './review';
 
 // Stable key for a placement group (matching headings / sentence endings / dragdrop
 // matching) — must match the key the player uses to scope its placement controller.
@@ -11,7 +12,7 @@ export const groupKey = (group) => {
 const headerLabel = (qnums) =>
   qnums.length > 1 ? `Questions ${qnums[0]}–${qnums[qnums.length - 1]}` : `Question ${qnums[0]}`;
 
-function RadioGroup({ qnum, options, value, onChange }) {
+function RadioGroup({ qnum, options, value, onChange, disabled }) {
   return (
     <ul className="options-list">
       {options.map((opt) => {
@@ -19,14 +20,8 @@ function RadioGroup({ qnum, options, value, onChange }) {
         const display = typeof opt === 'string' ? opt : opt.text;
         return (
           <li key={val}>
-            <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', cursor: 'pointer', width: '100%' }}>
-              <input
-                type="radio"
-                name={`q${qnum}`}
-                value={val}
-                checked={value === val}
-                onChange={() => onChange(qnum, val)}
-              />
+            <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', cursor: disabled ? 'default' : 'pointer', width: '100%' }}>
+              <input type="radio" name={`q${qnum}`} value={val} checked={value === val} disabled={disabled} onChange={() => onChange(qnum, val)} />
               <span className="radio-circle" />
               <span><HTML html={display} /></span>
             </label>
@@ -37,11 +32,13 @@ function RadioGroup({ qnum, options, value, onChange }) {
   );
 }
 
-export default function QuestionGroup({ group, answers, onChange, place }) {
+export default function QuestionGroup({ group, answers, onChange, place, readOnly = false, results = null, resolver = null }) {
   const qtype = group.type;
   const questions = group.questions || [];
   const qnums = questions.map((q) => q.number);
   const key = groupKey(group);
+  const ro = readOnly;
+  const change = ro ? () => {} : onChange;
 
   let body = null;
 
@@ -49,19 +46,15 @@ export default function QuestionGroup({ group, answers, onChange, place }) {
     const opts = qtype === 'tfng' ? ['TRUE', 'FALSE', 'NOT GIVEN'] : ['YES', 'NO', 'NOT GIVEN'];
     body = questions.map((q) => (
       <div className="question" data-qnum={q.number} key={q.number}>
-        <div className="question-prompt">
-          <span className="question-number">{q.number}</span> <HTML html={q.prompt} />
-        </div>
-        <RadioGroup qnum={q.number} options={opts} value={answers[q.number]} onChange={onChange} />
+        <div className="question-prompt"><span className="question-number">{q.number}</span> <HTML html={q.prompt} /></div>
+        <RadioGroup qnum={q.number} options={opts} value={answers[q.number]} onChange={change} disabled={ro} />
       </div>
     ));
   } else if (qtype === 'mcq') {
     body = questions.map((q) => (
       <div className="question" data-qnum={q.number} key={q.number}>
-        <div className="question-prompt">
-          <span className="question-number">{q.number}</span> <HTML html={q.prompt} />
-        </div>
-        <RadioGroup qnum={q.number} options={q.options || []} value={answers[q.number]} onChange={onChange} />
+        <div className="question-prompt"><span className="question-number">{q.number}</span> <HTML html={q.prompt} /></div>
+        <RadioGroup qnum={q.number} options={q.options || []} value={answers[q.number]} onChange={change} disabled={ro} />
       </div>
     ));
   } else if (qtype === 'mcq_multi') {
@@ -73,18 +66,16 @@ export default function QuestionGroup({ group, answers, onChange, place }) {
     const toggle = (letter) => {
       const next = current.includes(letter) ? current.filter((l) => l !== letter) : [...current, letter];
       const val = next.join(',');
-      sorted.forEach((qn) => onChange(qn, val)); // mirror selection onto every shared qnum
+      sorted.forEach((qn) => change(qn, val));
     };
     body = (
       <div className="question" data-qnum={primary}>
-        <div className="question-prompt">
-          <span className="question-number">{prefix}</span> <HTML html={first.prompt} />
-        </div>
+        <div className="question-prompt"><span className="question-number">{prefix}</span> <HTML html={first.prompt} /></div>
         <ul className="options-list">
           {(first.options || []).map((o) => (
             <li key={o.letter}>
-              <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', cursor: 'pointer', width: '100%' }}>
-                <input type="checkbox" value={o.letter} checked={current.includes(o.letter)} onChange={() => toggle(o.letter)} />
+              <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', cursor: ro ? 'default' : 'pointer', width: '100%' }}>
+                <input type="checkbox" value={o.letter} checked={current.includes(o.letter)} disabled={ro} onChange={() => toggle(o.letter)} />
                 <span className="check-square" />
                 <span><HTML html={o.text} /></span>
               </label>
@@ -107,8 +98,8 @@ export default function QuestionGroup({ group, answers, onChange, place }) {
                 key={h.id}
                 className={`heading-card${used ? ' used' : ''}${sel ? ' selected' : ''}`}
                 data-heading-id={h.id}
-                draggable={!used}
-                onClick={() => !used && place.select(key, h.id)}
+                draggable={!ro && !used}
+                onClick={() => !ro && !used && place.select(key, h.id)}
                 onDragStart={(e) => e.dataTransfer.setData('text/plain', JSON.stringify({ key, id: h.id }))}
                 style={used ? { opacity: 0.4, pointerEvents: 'none' } : sel ? { outline: '2px solid var(--accent)' } : undefined}
               >
@@ -126,12 +117,7 @@ export default function QuestionGroup({ group, answers, onChange, place }) {
     body = (
       <>
         <table className="match-table">
-          <thead>
-            <tr>
-              <th>{col}</th>
-              {bank.map((b) => <th key={b.letter}>{b.letter}</th>)}
-            </tr>
-          </thead>
+          <thead><tr><th>{col}</th>{bank.map((b) => <th key={b.letter}>{b.letter}</th>)}</tr></thead>
           <tbody>
             {questions.map((q) => (
               <tr key={q.number} data-qnum={q.number} className="question" data-question-row="true">
@@ -139,13 +125,8 @@ export default function QuestionGroup({ group, answers, onChange, place }) {
                 {bank.map((b) => {
                   const on = answers[q.number] === b.letter;
                   return (
-                    <td
-                      key={b.letter}
-                      className={`match-cell${on ? ' selected' : ''}`}
-                      data-letter={b.letter}
-                      onClick={() => onChange(q.number, on ? '' : b.letter)}
-                      style={{ cursor: 'pointer' }}
-                    >
+                    <td key={b.letter} className={`match-cell${on ? ' selected' : ''}`} data-letter={b.letter}
+                      onClick={() => !ro && change(q.number, on ? '' : b.letter)} style={{ cursor: ro ? 'default' : 'pointer' }}>
                       <span style={{ visibility: on ? 'visible' : 'hidden' }}>✓</span>
                     </td>
                   );
@@ -157,11 +138,7 @@ export default function QuestionGroup({ group, answers, onChange, place }) {
         {showLegend && (
           <div className="match-legend">
             <div className="match-legend-title">{group.bank_title || 'Options'}</div>
-            {bank.map((b) => (
-              <div className="match-legend-item" key={b.letter}>
-                <strong>{b.letter}</strong><span><HTML html={b.text} /></span>
-              </div>
-            ))}
+            {bank.map((b) => <div className="match-legend-item" key={b.letter}><strong>{b.letter}</strong><span><HTML html={b.text} /></span></div>)}
           </div>
         )}
       </>
@@ -175,17 +152,11 @@ export default function QuestionGroup({ group, answers, onChange, place }) {
           return (
             <div className="question" data-qnum={q.number} key={q.number}>
               <div className="question-prompt"><span><HTML html={q.prompt} /></span></div>
-              <div
-                className="heading-gap"
-                data-qnum={q.number}
-                onClick={() => (val ? place.clearAt(q.number) : place.placeAt(key, q.number))}
-                onDragOver={(e) => e.preventDefault()}
-                onDrop={(e) => place.dropAt(key, q.number, e)}
-              >
-                {val
-                  ? <span><HTML html={place.labelOf(key, val)} /></span>
-                  : <span className="heading-gap-num">{q.number}</span>}
-                {val && <button className="heading-gap-clear" title="Clear" onClick={(e) => { e.stopPropagation(); place.clearAt(q.number); }}>×</button>}
+              <div className="heading-gap" data-qnum={q.number}
+                onClick={() => !ro && (val ? place.clearAt(q.number) : place.placeAt(key, q.number))}
+                onDragOver={(e) => e.preventDefault()} onDrop={(e) => !ro && place.dropAt(key, q.number, e)}>
+                {val ? <span><HTML html={place.labelOf(key, val)} /></span> : <span className="heading-gap-num">{q.number}</span>}
+                {val && !ro && <button className="heading-gap-clear" title="Clear" onClick={(e) => { e.stopPropagation(); place.clearAt(q.number); }}>×</button>}
               </div>
             </div>
           );
@@ -196,15 +167,10 @@ export default function QuestionGroup({ group, answers, onChange, place }) {
               const used = placed.has(it.letter);
               const sel = place.selected && place.selected.key === key && place.selected.id === it.letter;
               return (
-                <div
-                  key={it.letter}
-                  className={`heading-card${used ? ' used' : ''}${sel ? ' selected' : ''}`}
-                  data-heading-id={it.letter}
-                  draggable={!used}
-                  onClick={() => !used && place.select(key, it.letter)}
+                <div key={it.letter} className={`heading-card${used ? ' used' : ''}${sel ? ' selected' : ''}`} data-heading-id={it.letter}
+                  draggable={!ro && !used} onClick={() => !ro && !used && place.select(key, it.letter)}
                   onDragStart={(e) => e.dataTransfer.setData('text/plain', JSON.stringify({ key, id: it.letter }))}
-                  style={used ? { opacity: 0.4, pointerEvents: 'none' } : sel ? { outline: '2px solid var(--accent)' } : undefined}
-                >
+                  style={used ? { opacity: 0.4, pointerEvents: 'none' } : sel ? { outline: '2px solid var(--accent)' } : undefined}>
                   <HTML html={it.text} />
                 </div>
               );
@@ -218,7 +184,7 @@ export default function QuestionGroup({ group, answers, onChange, place }) {
       <ul className="note-list">
         {questions.map((q) => (
           <li className="question" data-qnum={q.number} key={q.number}>
-            <InterleaveGaps html={q.prompt_html || q.prompt || ''} qnums={[q.number]} answers={answers} onChange={onChange} />
+            <InterleaveGaps html={q.prompt_html || q.prompt || ''} qnums={[q.number]} answers={answers} onChange={change} disabled={ro} />
           </li>
         ))}
       </ul>
@@ -233,20 +199,16 @@ export default function QuestionGroup({ group, answers, onChange, place }) {
           <div className="completion-word-bank">
             <div className="completion-word-bank-title">List of words</div>
             <div className="completion-word-bank-grid">
-              {wordBank.map((it) => (
-                <div className="completion-word-bank-item" key={it.letter}>
-                  <strong>{it.letter}</strong>&nbsp;&nbsp;<HTML html={it.text} />
-                </div>
-              ))}
+              {wordBank.map((it) => <div className="completion-word-bank-item" key={it.letter}><strong>{it.letter}</strong>&nbsp;&nbsp;<HTML html={it.text} /></div>)}
             </div>
           </div>
         )}
         {layout.body_html
-          ? <div className="completion-prose"><InterleaveGaps html={layout.body_html} qnums={qnums} answers={answers} onChange={onChange} wordBank={wordBank} /></div>
+          ? <div className="completion-prose"><InterleaveGaps html={layout.body_html} qnums={qnums} answers={answers} onChange={change} wordBank={wordBank} disabled={ro} /></div>
           : questions.map((q) => (
               <div className="question" data-qnum={q.number} key={q.number}>
                 <div className="question-prompt"><span className="question-number">{q.number}</span>{' '}
-                  <span><InterleaveGaps html={q.prompt_html || q.prompt || ''} qnums={[q.number]} answers={answers} onChange={onChange} /></span>
+                  <span><InterleaveGaps html={q.prompt_html || q.prompt || ''} qnums={[q.number]} answers={answers} onChange={change} disabled={ro} /></span>
                 </div>
               </div>
             ))}
@@ -264,7 +226,7 @@ export default function QuestionGroup({ group, answers, onChange, place }) {
               {(sec.items || []).map((it, ii) => (
                 <li key={ii} className={it.indent ? 'note-subitem' : undefined}>
                   {'qnum' in it
-                    ? <InterleaveGaps html={it.html} qnums={[it.qnum]} answers={answers} onChange={onChange} />
+                    ? <InterleaveGaps html={it.html} qnums={[it.qnum]} answers={answers} onChange={change} disabled={ro} />
                     : <HTML html={it.html} />}
                 </li>
               ))}
@@ -280,7 +242,7 @@ export default function QuestionGroup({ group, answers, onChange, place }) {
         {layout.title && <div className="completion-title">{layout.title}</div>}
         {layout.body_html && (
           <div className="completion-layout">
-            <InterleaveGaps html={layout.body_html} qnums={qnums} answers={answers} onChange={onChange} />
+            <InterleaveGaps html={layout.body_html} qnums={qnums} answers={answers} onChange={change} disabled={ro} />
           </div>
         )}
       </>
@@ -294,7 +256,7 @@ export default function QuestionGroup({ group, answers, onChange, place }) {
           return (
             <li className="question" data-qnum={q.number} key={q.number}>
               <span className="sa-num">{q.number}</span>
-              <span className="sa-content"><InterleaveGaps html={ht} qnums={[q.number]} answers={answers} onChange={onChange} /></span>
+              <span className="sa-content"><InterleaveGaps html={ht} qnums={[q.number]} answers={answers} onChange={change} disabled={ro} /></span>
             </li>
           );
         })}
@@ -309,6 +271,11 @@ export default function QuestionGroup({ group, answers, onChange, place }) {
       <div className="question-group-header">{headerLabel(qnums)}</div>
       <div className="question-group-instructions"><HTML html={group.instructions_html || ''} /></div>
       {body}
+      {results && resolver && (
+        <div className="qreview-inline" style={{ marginTop: 10, display: 'flex', flexDirection: 'column', gap: 6 }}>
+          {[...qnums].sort((a, b) => a - b).map((qn) => results[qn] && <ResultMarker key={qn} r={results[qn]} resolver={resolver} />)}
+        </div>
+      )}
     </div>
   );
 }
