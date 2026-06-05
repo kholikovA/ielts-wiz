@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
+import { pullAndMerge, flushToCloud } from '../lib/cloudSync';
 
 const AuthContext = createContext({});
 
@@ -18,6 +19,9 @@ export const AuthProvider = ({ children }) => {
       setUser(session?.user ?? null);
       if (session?.user) {
         fetchProfile(session.user.id);
+        // Restore cloud progress into local store on boot, so stats show up
+        // everywhere (not only after visiting the Dashboard).
+        pullAndMerge().catch(() => {});
       } else {
         setLoading(false);
       }
@@ -30,6 +34,7 @@ export const AuthProvider = ({ children }) => {
       setUser(session?.user ?? null);
       if (session?.user) {
         fetchProfile(session.user.id);
+        if (_event === 'SIGNED_IN') pullAndMerge().catch(() => {});
       } else {
         setProfile(null);
         setLoading(false);
@@ -104,6 +109,9 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signOut = async () => {
+    // Flush any local-only results to the cloud BEFORE we drop the session and
+    // wipe local storage — signing out must never destroy un-synced progress.
+    try { await flushToCloud(); } catch { /* best-effort; offline = keep local */ }
     await supabase.auth.signOut();
     setUser(null);
     setProfile(null);

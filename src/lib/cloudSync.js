@@ -74,6 +74,40 @@ export const fetchLastSubmission = async (kind, test_id) => {
   }
 };
 
+// Push any local activity entries that aren't already in the cloud. Best-effort.
+// Called before sign-out wipes local storage, so a local-only attempt (made
+// before cloud sync worked for that kind, or while offline) can't be lost.
+export const flushToCloud = async () => {
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.user) return 0;
+    const { data: existing } = await supabase
+      .from('user_test_results')
+      .select('kind, test_id, correct, total, completed_at');
+    const seen = new Set((existing || []).map(r =>
+      `${(r.completed_at || '').slice(0, 10)}|${r.kind}|${r.test_id}|${r.correct}|${r.total}`));
+    const rows = [];
+    for (const e of getActivity()) {
+      if (!e || !e.t || e.id == null || !(e.total > 0)) continue;
+      const fp = `${e.d}|${e.t}|${e.id}|${e.correct}|${e.total}`;
+      if (seen.has(fp)) continue;
+      seen.add(fp);
+      rows.push({
+        user_id: session.user.id,
+        kind: e.t,
+        test_id: String(e.id),
+        correct: e.correct,
+        total: e.total,
+        completed_at: e.d ? new Date(`${e.d}T12:00:00Z`).toISOString() : new Date().toISOString(),
+      });
+    }
+    if (rows.length) await supabase.from('user_test_results').insert(rows);
+    return rows.length;
+  } catch {
+    return 0;
+  }
+};
+
 // Pull every server row for the current user, merge into local store.
 // Idempotent — running multiple times is safe.
 export const pullAndMerge = async () => {
