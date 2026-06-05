@@ -155,7 +155,7 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
   // Results summary
   if (grade && !inContext) {
     return (
-      <div className="rtp-root">
+      <div className="rtp-root" style={{ height: '100vh', overflowY: 'auto' }}>
         <ResultsScreen
           grade={grade}
           spec={spec}
@@ -200,8 +200,8 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
   );
 
   return (
-    <div className="rtp-root">
-      <div className="rtp-topbar" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: '10px 16px', borderBottom: '1px solid var(--border)' }}>
+    <div className="rtp-root" style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <div className="rtp-topbar" style={{ flex: '0 0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: '10px 16px', borderBottom: '1px solid var(--border)' }}>
         <strong style={{ fontSize: 14 }}>{spec.title}</strong>
         <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
           {readOnly ? (
