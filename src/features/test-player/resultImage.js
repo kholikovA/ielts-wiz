@@ -43,7 +43,7 @@ export function downloadResultImage({ spec, grade, solverName, submittedAt }) {
 
     ctx.textAlign = 'center';
     if (brand.complete && brand.naturalWidth) {
-      const lw = 250, lh = lw * (90 / 390);
+      const lw = 260, lh = lw * (90 / 406);
       ctx.drawImage(brand, (W - lw) / 2, 40, lw, lh);
     } else {
       ctx.fillStyle = '#7E22CE';
