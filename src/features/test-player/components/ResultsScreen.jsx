@@ -131,9 +131,13 @@ export default function ResultsScreen({ grade, spec, banner, onReviewInContext, 
   const glow = isFull && band != null && band >= 8.5; // C2 — celebratory glow
   const [reportOpen, setReportOpen] = useState(false);
 
-  // Celebrate a strong, fresh result (not a review replay) once on mount.
+  // Branded confetti for band 7.0+ on a full test — same trigger as the old
+  // HTML pages. Not on review replays. Slight delay so it lands as the screen
+  // appears.
   useEffect(() => {
-    if (!banner && (tier === 'high' || tier === 'elite')) fireConfetti(glow ? { count: 200, durationMs: 3200 } : {});
+    if (banner || !isFull || band == null || band < 7.0) return undefined;
+    const t = setTimeout(fireConfetti, 200);
+    return () => clearTimeout(t);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const [activePassage, setActivePassage] = useState(0);
