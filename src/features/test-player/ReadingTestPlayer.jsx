@@ -94,6 +94,11 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
           const labels = {};
           (g.heading_bank || g.ending_bank || []).forEach((it) => { labels[it.id ?? it.letter] = it.text; });
           byKey[keyOf(g)] = { qnums: g.questions.map((q) => q.number), labels };
+        } else if (g.type === 'summary_completion' && g.layout?.word_bank) {
+          // word-bank summary is drag-and-drop: words dragged into prose gaps
+          const labels = {};
+          g.layout.word_bank.forEach((it) => { labels[it.letter] = it.text; });
+          byKey[keyOf(g)] = { qnums: g.questions.map((q) => q.number), labels };
         }
       });
     });

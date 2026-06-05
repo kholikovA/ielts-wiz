@@ -286,7 +286,7 @@ Use the structured `layout` field. Place `___` markers in `body_html` in questio
 }
 ```
 
-**With a word bank** ("Complete the summary using the list of words A–I below"): add a `word_bank` array to `layout`. The renderer shows the bank as a labeled grid above the body, and the gaps become A–I dropdowns instead of text inputs. Answer key values are bank letters (`"A"`, `"B"`, …).
+**With a word bank** ("Complete the summary using the list of words A–I below"): add a `word_bank` array to `layout`. **HOUSE STYLE — this renders as DRAG-AND-DROP**, not dropdowns: the gaps become dashed drop-zones (showing the question number) inline in the prose, and the `word_bank` renders **below** the summary as draggable word cards. Drag a word into a gap (each word used once, like matching headings). The spec is unchanged — just `word_bank` + `body_html` with `___` markers. Answer key values are bank letters (`"A"`, `"B"`, …).
 
 ```json
 {
