@@ -434,8 +434,8 @@
 .rtp-root .completion-word-bank-item { line-height: 1.5; }
 .rtp-root .gap-select {
   width: auto !important;
-  min-width: 56px;
-  padding: 4px 8px;
+  min-width: 0;
+  padding: 4px 4px 4px 8px;
   cursor: pointer;
 }
 .rtp-root .note-section { margin-bottom: 18px; }
