@@ -830,6 +830,9 @@
 /* ---------- Results v2: two-column layout (left fixed, right scrolls) ---------- */
 .rtp-root .results-screen.results-v2.open { display: flex; flex-direction: column; overflow: hidden; padding: 22px 44px 74px; }
 .rtp-root .results-v2-title { font-family: var(--sans); font-size: 28px; font-weight: 700; text-align: center; margin-bottom: 18px; flex-shrink: 0; }
+.rtp-root .results-savenotice { display: flex; align-items: center; gap: 9px; justify-content: center; flex-wrap: wrap; max-width: 720px; margin: -8px auto 18px; padding: 9px 16px; border: 1px solid var(--amber-400, #f59e0b); background: color-mix(in srgb, var(--amber-400, #f59e0b) 12%, transparent); border-radius: 10px; font-size: 13.5px; line-height: 1.4; text-align: center; flex-shrink: 0; }
+.rtp-root .results-savenotice strong { font-weight: 700; }
+.rtp-root .savenotice-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--amber-400, #f59e0b); flex-shrink: 0; }
 .rtp-root .results-grid { display: grid; grid-template-columns: minmax(340px, 420px) 1fr; gap: 30px; align-items: stretch; max-width: 1240px; width: 100%; margin: 0 auto; flex: 1; min-height: 0; }
 .rtp-root .results-left { display: flex; flex-direction: column; gap: 18px; overflow: hidden; align-self: start; max-height: 100%; }
 .rtp-root .results-right { overflow-y: auto; min-height: 0; height: 100%; padding-right: 4px; }

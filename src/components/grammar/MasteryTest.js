@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Icon from '../ui/icons';
 import { Exercise } from './exercises';
 import { recordMastery, recordAttempt } from '../../lib/grammarProgressStore';
-import { pushResult } from '../../lib/cloudSync';
+import { enqueue } from '../../lib/syncQueue';
 
 const formatTime = (sec) => {
   const m = Math.floor(sec / 60);
@@ -66,9 +66,9 @@ const MasteryTest = ({ topic, onExit }) => {
     const score = questions.length > 0 ? correctCount / questions.length : 0;
     if (score >= passing) {
       recordMastery(topic.id, score);
-      // Mirror to cloud so progress survives device changes. Fire-and-forget —
-      // local write is the source of truth, the network call is best-effort.
-      pushResult({
+      // Durable cloud write via the idempotent outbox, so a passing attempt
+      // survives device changes and is retried until the server confirms it.
+      enqueue({
         kind: 'grammar',
         test_id: topic.id,
         correct: Math.round(score * 100),
