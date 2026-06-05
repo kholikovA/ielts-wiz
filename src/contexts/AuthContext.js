@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
-import { pullAndMerge, flushToCloud } from '../lib/cloudSync';
+import { reconcile, flushToCloud } from '../lib/cloudSync';
+import { flush as flushOutbox } from '../lib/syncQueue';
 
 const AuthContext = createContext({});
 
@@ -19,11 +20,10 @@ export const AuthProvider = ({ children }) => {
       setUser(session?.user ?? null);
       if (session?.user) {
         fetchProfile(session.user.id);
-        // Two-way reconcile on boot: push any local-only history UP first (a
-        // device may hold attempts taken while signed out / that never pushed
-        // at submit time), then pull cloud progress DOWN. Without the flush,
-        // local-only history is invisible on every other device.
-        flushToCloud().catch(() => {}).then(() => pullAndMerge().catch(() => {}));
+        // Two-way reconcile on boot: flush the durable outbox + any legacy
+        // local-only history UP, then pull cloud progress DOWN, so this device
+        // holds the union of every device's history.
+        reconcile().catch(() => {});
       } else {
         setLoading(false);
       }
@@ -36,14 +36,21 @@ export const AuthProvider = ({ children }) => {
       setUser(session?.user ?? null);
       if (session?.user) {
         fetchProfile(session.user.id);
-        if (_event === 'SIGNED_IN') flushToCloud().catch(() => {}).then(() => pullAndMerge().catch(() => {}));
+        if (_event === 'SIGNED_IN') reconcile().catch(() => {});
       } else {
         setProfile(null);
         setLoading(false);
       }
     });
 
-    return () => subscription.unsubscribe();
+    // When the device comes back online, drain any results queued while offline.
+    const onOnline = () => { flushOutbox().catch(() => {}); };
+    window.addEventListener('online', onOnline);
+
+    return () => {
+      subscription.unsubscribe();
+      window.removeEventListener('online', onOnline);
+    };
   }, []);
 
   const fetchProfile = async (userId) => {
@@ -111,8 +118,11 @@ export const AuthProvider = ({ children }) => {
   };
 
   const signOut = async () => {
-    // Flush any local-only results to the cloud BEFORE we drop the session and
-    // wipe local storage — signing out must never destroy un-synced progress.
+    // Flush everything to the cloud BEFORE we drop the session and wipe local
+    // storage — signing out must never destroy un-synced progress. Drain the
+    // durable outbox (this session is the user it belongs to) and the legacy
+    // local-only activity.
+    try { await flushOutbox(); } catch { /* kept in queue */ }
     try { await flushToCloud(); } catch { /* best-effort; offline = keep local */ }
     await supabase.auth.signOut();
     setUser(null);

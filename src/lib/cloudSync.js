@@ -3,19 +3,20 @@
 // `user_test_results` Supabase table so progress survives device changes.
 //
 // Design rules:
-//   * localStorage stays the read-path of truth in the UI for speed and
-//     offline support. Cloud is treated as a syncing peer, not a replacement.
-//   * Network calls are best-effort. Failures never block the UI.
-//   * Writes go cloud-side via Supabase's PostgREST (auth header from the
-//     existing session). HTML test pages use the same REST contract.
-//   * Reads pull all rows once on app mount and merge any cloud-only entries
-//     into local. We never delete local rows that are missing from the cloud
+//   * The CLOUD is the durable record of truth for finished attempts. New
+//     results are written through the idempotent outbox (see syncQueue.js);
+//     localStorage is a fast/offline render cache that we reconcile FROM the
+//     cloud on every boot and sign-in.
+//   * Network calls are best-effort for READS. Failures never block the UI.
+//   * Reads pull all rows on app mount and merge any cloud-only entries into
+//     local. We never delete local rows that are missing from the cloud
 //     (could be slow propagation, or a different device's offline work).
 // =============================================================================
 
 import { supabase } from '../supabaseClient';
 import { getActivity, STORAGE_KEYS, migrateLegacy } from './progressStore';
 import { STORAGE_KEYS as GRAMMAR_KEYS } from './grammarProgressStore';
+import { flush as flushOutbox } from './syncQueue';
 
 const COMPLETION_KEY_FOR_KIND = {
   listening:  STORAGE_KEYS.listening,
@@ -207,4 +208,16 @@ export const pullAndMerge = async () => {
   } catch (e) {
     return { ok: false, reason: String(e?.message || e), added: 0 };
   }
+};
+
+// Full two-way reconcile, run on boot, sign-in, and when the device comes back
+// online. Order matters: push everything local UP first (the durable outbox of
+// new attempts, then any legacy local-only activity), THEN pull the cloud DOWN
+// so this device ends up holding the union of every device's history. Without
+// the upward flushes, a device's local-only results would stay invisible
+// everywhere else — the exact cross-device gap this system exists to close.
+export const reconcile = async () => {
+  try { await flushOutbox(); } catch { /* kept in queue, retried next time */ }
+  try { await flushToCloud(); } catch { /* best-effort legacy backfill */ }
+  return pullAndMerge();
 };

@@ -120,7 +120,7 @@ function ReportModal({ onClose, testKind, testId, grade }) {
   );
 }
 
-export default function ResultsScreen({ grade, spec, banner, onReviewInContext, onShare, onFinish, testKind, testId, elapsedSec, durationSec }) {
+export default function ResultsScreen({ grade, spec, banner, onReviewInContext, onShare, onFinish, testKind, testId, elapsedSec, durationSec, signedIn = true }) {
   const { correct, total, band, results } = grade;
   const isFull = total >= 40;
   const wrong = results.filter((r) => !r.correct && !r.unanswered).length;
@@ -152,6 +152,13 @@ export default function ResultsScreen({ grade, spec, banner, onReviewInContext, 
   return (
     <div className="results-screen results-v2 open" data-testid="results">
       <h1 className="results-v2-title">{banner ? 'Reviewing your attempt' : 'Test Complete'}</h1>
+
+      {!signedIn && (
+        <p className="results-savenotice" data-testid="save-notice" role="status">
+          <span className="savenotice-dot" aria-hidden="true" />
+          You're not signed in — this result isn't saved yet. <strong>Sign in</strong> and it'll be stored to your account automatically.
+        </p>
+      )}
 
       <div className="results-grid">
         <div className="results-left">

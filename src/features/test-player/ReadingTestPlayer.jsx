@@ -198,10 +198,11 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
 
   const doSubmit = useCallback(() => {
     const g = gradeTest(spec, answers);
-    recordAttempt({ kind, id, answers, correct: g.correct, total: g.total, replaying: review });
+    const elapsed = (spec.duration_minutes || 60) * 60 - secondsLeft;
+    recordAttempt({ kind, id, answers, correct: g.correct, total: g.total, durationSec: elapsed, replaying: review });
     setGrade(g);
     setSubmittedAt(new Date());
-    setElapsedSec((spec.duration_minutes || 60) * 60 - secondsLeft);
+    setElapsedSec(elapsed);
     setShowConfirm(false);
     try { window.scrollTo(0, 0); } catch { /* jsdom / unsupported */ }
   }, [spec, answers, kind, id, review, secondsLeft]);
@@ -272,6 +273,7 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
           testId={id}
           elapsedSec={elapsedSec}
           durationSec={(spec.duration_minutes || 60) * 60}
+          signedIn={!!user || review}
         />
       </div>
     );
