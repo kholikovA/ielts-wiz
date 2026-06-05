@@ -1,7 +1,29 @@
 import React, { useRef, useMemo, useEffect } from 'react';
 
-// Grow a single-line textarea to fit its (possibly wrapped) content.
-const autoGrow = (el) => { if (!el) return; el.style.height = 'auto'; el.style.height = `${el.scrollHeight}px`; };
+// Grow the answer field to the RIGHT to fit its content (so it doesn't stack up
+// vertically). Only once it hits a max width does it wrap onto a second line.
+// In a table cell the max is the cell width; inline it's a comfortable cap.
+// Text width comes from canvas measureText using the field's own font, which is
+// exact (scrollWidth drops the right padding when content overflows).
+let _ctx = null;
+let _ctxTried = false;
+const measureText = (el, text) => {
+  if (!_ctxTried) { _ctxTried = true; try { _ctx = document.createElement('canvas').getContext('2d'); } catch { _ctx = null; } }
+  const cs = getComputedStyle(el);
+  if (!_ctx || !_ctx.measureText) return String(text || '').length * (parseFloat(cs.fontSize) || 16) * 0.55; // jsdom / no canvas
+  _ctx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+  return _ctx.measureText(text || '').width;
+};
+const autoGrow = (el) => {
+  if (!el) return;
+  const cell = el.closest('td');
+  const max = cell ? Math.max(96, cell.clientWidth - 12) : 320;
+  const textW = measureText(el, el.value);
+  const w = Math.min(max, Math.max(76, Math.ceil(textW) + 30)); // padding + caret room
+  el.style.width = `${w}px`;
+  el.style.height = 'auto';
+  el.style.height = `${el.scrollHeight}px`;
+};
 
 // Boxed answer field bound to a question number. It's a textarea (not an input) so
 // long answers wrap onto a second line within a narrow box instead of scrolling.
