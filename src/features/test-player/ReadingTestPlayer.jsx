@@ -240,6 +240,7 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
         className="divider"
         id="divider"
         onMouseDown={startDrag}
+        style={{ height: '100%' }}
       >
         <div className="divider-handle">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="7 8 3 12 7 16" /><polyline points="17 8 21 12 17 16" /><line x1="3" y1="12" x2="21" y2="12" /></svg>
