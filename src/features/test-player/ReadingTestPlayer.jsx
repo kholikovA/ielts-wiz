@@ -7,7 +7,7 @@ import ResultsScreen from './components/ResultsScreen';
 import { buildLabelResolver } from './components/review';
 import { gradeTest } from './grading';
 import { recordAttempt, loadLastSubmission, loadLastSubmissionCloud } from './recording';
-import { downloadResultImage } from './resultImage';
+import { downloadResultImage, shareResultImage } from './resultImage';
 import { useAuth } from '../../contexts/AuthContext';
 
 const keyOf = (g) => {
@@ -170,7 +170,7 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
   const [textSize, setTextSize] = useState('default');
   const passageRef = useRef(null);
   const [highlightOn, setHighlightOn] = useState(true);
-  const { tip: hlTip, apply: applyHighlight } = useHighlighter(passageRef, highlightOn && !readOnly);
+  const { tip: hlTip, apply: applyHighlight } = useHighlighter(passageRef, highlightOn);
 
   // Draggable split divider — resizes the passage/questions panes. Listeners are
   // attached on mousedown and torn down on mouseup; preventDefault + user-select
@@ -264,8 +264,10 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
           spec={spec}
           banner={banner}
           onReviewInContext={() => setInContext(true)}
-          onDownloadImage={() => downloadResultImage({ spec, grade, solverName, submittedAt })}
-          onRetake={onExit}
+          onShare={() => shareResultImage({ spec, grade, solverName, submittedAt })}
+          onFinish={onExit}
+          testKind={kind}
+          testId={id}
         />
       </div>
     );
@@ -479,8 +481,8 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
         <div className="modal-overlay" style={{ display: 'flex' }}>
           <div className="modal">
             <h3>Are you sure you want to submit?</h3>
-            <div className="review-summary">You have answered {answeredCount} of {totalQuestions} questions.</div>
-            <div className="confirm-actions">
+            <div className="review-summary">You have answered <strong>{answeredCount}</strong> of <strong>{totalQuestions}</strong> questions.</div>
+            <div className="confirm-actions confirm-actions-split">
               <button className="btn-secondary" onClick={() => setShowConfirm(false)}>Continue test</button>
               <button className="btn-primary" id="confirmSubmit" onClick={doSubmit}>Submit test</button>
             </div>

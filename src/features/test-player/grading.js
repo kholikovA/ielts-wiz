@@ -61,6 +61,34 @@ export function isCorrect(qnum, userAns, answerKey, index) {
   return acceptable.includes(normalizeAnswer(userAns));
 }
 
+// Friendly labels per question type. mcq + mcq_multi share one bucket so the
+// per-type breakdown stays readable.
+const TYPE_LABELS = {
+  tfng: 'True / False / Not Given', yng: 'Yes / No / Not Given',
+  mcq: 'Multiple choice', mcq_multi: 'Multiple choice',
+  matching_headings: 'Matching headings', matching_info: 'Matching information',
+  matching_features: 'Matching features', sentence_endings: 'Sentence endings',
+  sentence_completion: 'Sentence completion', summary_completion: 'Summary completion',
+  note_completion: 'Note completion', table_completion: 'Table completion',
+  flowchart_completion: 'Flowchart completion', diagram_completion: 'Diagram completion',
+  short_answer: 'Short answer',
+};
+
+// Aggregate correct/total per question type, in first-appearance order.
+export function perTypeStats(spec, grade) {
+  const typeOf = {};
+  spec.parts.forEach((p) => p.question_groups.forEach((g) => g.questions.forEach((q) => { typeOf[q.number] = g.type; })));
+  const agg = {}; const order = [];
+  (grade.results || []).forEach((r) => {
+    const label = TYPE_LABELS[typeOf[r.q]] || typeOf[r.q];
+    if (!label) return;
+    if (!agg[label]) { agg[label] = { correct: 0, total: 0 }; order.push(label); }
+    agg[label].total += 1;
+    if (r.correct) agg[label].correct += 1;
+  });
+  return order.map((label) => ({ label, correct: agg[label].correct, total: agg[label].total, pct: agg[label].total ? Math.round((100 * agg[label].correct) / agg[label].total) : 0 }));
+}
+
 // Grade an entire test. `userAnswers` is a map qnum -> value (mcq_multi stores
 // the comma-joined selection on every shared qnum). Returns per-question results
 // plus the raw score and band (band only on full 40-question tests).

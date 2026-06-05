@@ -53,6 +53,28 @@ export const pushResult = async ({ kind, test_id, correct, total, completed_at, 
   }
 };
 
+// Student feedback on a test, written to `test_reports`. Works signed-in or not
+// (user_id defaults to auth.uid() server-side; null for anonymous reports).
+export const submitTestReport = async ({ kind, test_id, message, context }) => {
+  try {
+    const msg = String(message || '').trim();
+    if (!msg) return { ok: false, reason: 'empty' };
+    const { data: { session } } = await supabase.auth.getSession();
+    const row = {
+      kind: kind || null,
+      test_id: test_id != null ? String(test_id) : null,
+      message: msg.slice(0, 4000),
+      context: context || null,
+    };
+    if (session?.user) row.user_id = session.user.id;
+    const { error } = await supabase.from('test_reports').insert(row);
+    if (error) return { ok: false, reason: error.message };
+    return { ok: true };
+  } catch (e) {
+    return { ok: false, reason: String(e?.message || e) };
+  }
+};
+
 // Most-recent saved submission (with its answer snapshot) for one test, from the
 // cloud — the cross-device fallback when there's no local snapshot to replay.
 export const fetchLastSubmission = async (kind, test_id) => {

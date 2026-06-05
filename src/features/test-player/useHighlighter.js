@@ -42,7 +42,9 @@ export function useHighlighter(paneRef, enabled) {
     if (!range) return;
     const mark = document.createElement('mark');
     mark.className = 'iw-hl';
-    mark.style.cssText = 'background:#fde68a;border-radius:2px;cursor:pointer';
+    // No inline background — the .iw-hl rule paints it with the themed
+    // --highlight (neon brand purple), so it stays correct in dark mode too.
+    mark.style.cssText = 'border-radius:2px;cursor:pointer';
     try { range.surroundContents(mark); }
     catch { try { mark.appendChild(range.extractContents()); range.insertNode(mark); } catch { /* unsplittable selection */ } }
     const sel = window.getSelection();
