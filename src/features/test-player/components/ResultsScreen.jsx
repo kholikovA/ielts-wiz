@@ -29,7 +29,7 @@ function PassageGroup({ part, rows, resolver, defaultOpen }) {
 
 // Post-submit results: overall card (score / band + counts) and a collapsible
 // per-passage review of every question.
-export default function ResultsScreen({ grade, spec, banner, onReviewInContext, onRetake }) {
+export default function ResultsScreen({ grade, spec, banner, onReviewInContext, onDownloadImage, onRetake }) {
   const { correct, total, band, results } = grade;
   const wrong = results.filter((r) => !r.correct && !r.unanswered).length;
   const unanswered = results.filter((r) => r.unanswered).length;
@@ -50,6 +50,9 @@ export default function ResultsScreen({ grade, spec, banner, onReviewInContext, 
           <button className="results-action-btn" onClick={onReviewInContext}>Review in context</button>
         )}
         <div className="results-actions-top-right">
+          {onDownloadImage && (
+            <button className="results-action-btn results-action-btn-primary" onClick={onDownloadImage}>Download image</button>
+          )}
           {onRetake && <button className="results-action-btn" onClick={onRetake}>Done</button>}
         </div>
       </div>

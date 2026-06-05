@@ -1,11 +1,14 @@
-import React, { useMemo, useState, useEffect, useCallback } from 'react';
+import React, { useMemo, useState, useEffect, useCallback, useRef } from 'react';
 import './player.css';
+import { useHighlighter } from './useHighlighter';
 import PassagePane from './components/PassagePane';
 import QuestionGroup from './components/QuestionGroup';
 import ResultsScreen from './components/ResultsScreen';
 import { buildLabelResolver } from './components/review';
 import { gradeTest } from './grading';
 import { recordAttempt, loadLastSubmission } from './recording';
+import { downloadResultImage } from './resultImage';
+import { useAuth } from '../../contexts/AuthContext';
 
 const keyOf = (g) => {
   const ns = g.questions.map((q) => q.number).sort((a, b) => a - b);
@@ -16,6 +19,9 @@ const keyOf = (g) => {
 // user's last saved submission read-only instead of starting a fresh attempt.
 export default function ReadingTestPlayer({ test, review = false, onExit }) {
   const { spec, kind, id } = test;
+  const { user } = useAuth();
+  const solverName = (user
+    && (user.user_metadata?.full_name || user.user_metadata?.name || user.email)) || '';
 
   const [answers, setAnswers] = useState({});
   const [selected, setSelected] = useState(null);
@@ -98,6 +104,11 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
     return m;
   }, [grade]);
 
+  const readOnly = !!grade; // in-context review when graded
+  const passageRef = useRef(null);
+  const [highlightOn, setHighlightOn] = useState(true);
+  const { tip: hlTip, apply: applyHighlight } = useHighlighter(passageRef, highlightOn && !readOnly);
+
   const doSubmit = useCallback(() => {
     const g = gradeTest(spec, answers);
     recordAttempt({ kind, id, answers, correct: g.correct, total: g.total, replaying: review });
@@ -126,16 +137,16 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
           spec={spec}
           banner={banner}
           onReviewInContext={() => setInContext(true)}
+          onDownloadImage={() => downloadResultImage({ spec, grade, solverName })}
           onRetake={onExit}
         />
       </div>
     );
   }
 
-  const readOnly = !!grade; // in-context review when graded
   const panes = (
     <div className="split-container" id="splitContainer">
-      <div className="pane passage-pane" id="passagePane">
+      <div className="pane passage-pane" id="passagePane" ref={passageRef}>
         <PassagePane spec={spec} mhByPart={mhByPart} place={place} answers={answers} readOnly={readOnly} />
       </div>
       <div className="divider" id="divider" />
@@ -170,6 +181,9 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
           ) : (
             <>
               {!review && <span className="rtp-timer" style={{ fontVariantNumeric: 'tabular-nums', fontWeight: 600 }}>{mm}:{ss}</span>}
+              <button className="btn-secondary" onClick={() => setHighlightOn((h) => !h)} title="Toggle highlighter">
+                Highlighter: {highlightOn ? 'On' : 'Off'}
+              </button>
               <button className="btn-primary" id="submitBtn" onClick={() => setShowConfirm(true)}>Submit</button>
             </>
           )}
@@ -181,6 +195,15 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
       )}
 
       {panes}
+
+      {hlTip && (
+        <button
+          onMouseDown={(e) => { e.preventDefault(); applyHighlight(); }}
+          style={{ position: 'fixed', left: hlTip.x, top: hlTip.y, transform: 'translate(-50%, -100%)', zIndex: 50, background: '#111', color: '#fff', border: 'none', borderRadius: 6, padding: '4px 10px', fontSize: 12, cursor: 'pointer', boxShadow: '0 2px 8px rgba(0,0,0,0.25)' }}
+        >
+          Highlight
+        </button>
+      )}
 
       {showConfirm && (
         <div className="modal-overlay" style={{ display: 'flex' }}>

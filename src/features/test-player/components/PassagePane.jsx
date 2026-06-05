@@ -1,6 +1,12 @@
 import React from 'react';
 import { HTML } from './gaps';
 
+// Memoized prose paragraph. Its html is stable, so React never re-renders it —
+// which is what lets imperative highlighter <mark>s survive answer changes.
+const Para = React.memo(function Para({ html }) {
+  return <p dangerouslySetInnerHTML={{ __html: html || '' }} />;
+});
+
 function HeadingGap({ qn, mhKey, place, answers, readOnly }) {
   const val = answers[qn];
   return (
@@ -40,7 +46,7 @@ export default function PassagePane({ spec, mhByPart, place, answers, readOnly }
                   return (
                     <React.Fragment key={idx}>
                       {qn && <HeadingGap qn={qn} mhKey={mh.key} place={place} answers={answers} readOnly={readOnly} />}
-                      <p><HTML html={text} /></p>
+                      <Para html={text} />
                     </React.Fragment>
                   );
                 }
@@ -48,11 +54,11 @@ export default function PassagePane({ spec, mhByPart, place, answers, readOnly }
                   return (
                     <div className="para-row" key={idx}>
                       <div className="para-letter">{letter}</div>
-                      <div><p><HTML html={text} /></p></div>
+                      <div><Para html={text} /></div>
                     </div>
                   );
                 }
-                return <p key={idx}><HTML html={text} /></p>;
+                return <Para key={idx} html={text} />;
               })}
             </div>
           </div>
