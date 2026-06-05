@@ -1,5 +1,5 @@
 import React from 'react';
-import { InterleaveGaps, HTML } from './gaps';
+import { InterleaveGaps, CompletionLayout, HTML } from './gaps';
 import { ResultMarker } from './review';
 
 // Stable key for a placement group (matching headings / sentence endings / dragdrop
@@ -241,9 +241,7 @@ export default function QuestionGroup({ group, answers, onChange, place, readOnl
       <>
         {layout.title && <div className="completion-title">{layout.title}</div>}
         {layout.body_html && (
-          <div className="completion-layout">
-            <InterleaveGaps html={layout.body_html} qnums={qnums} answers={answers} onChange={change} disabled={ro} />
-          </div>
+          <CompletionLayout bodyHtml={layout.body_html} qnums={qnums} answers={answers} onChange={change} readOnly={ro} />
         )}
       </>
     );

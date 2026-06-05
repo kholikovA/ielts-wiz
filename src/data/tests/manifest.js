@@ -8,6 +8,7 @@
 
 import v9t1 from './reading/volume9/test1.json';
 import v9t2 from './reading/volume9/test2.json';
+import v9t3 from './reading/volume9/test3.json';
 import v9t4 from './reading/volume9/test4.json';
 import v9t5 from './reading/volume9/test5.json';
 import v9t6 from './reading/volume9/test6.json';
@@ -17,11 +18,11 @@ import c20t2 from './reading/cambridge20/test2.json';
 import c20t3 from './reading/cambridge20/test3.json';
 import c20t4 from './reading/cambridge20/test4.json';
 
-// source = catalogue folder, n = test number within it. (Volume 9 Test 3's spec
-// is being reconstructed and is intentionally absent for now.)
+// source = catalogue folder, n = test number within it.
 export const READING_TESTS = [
   { source: 'volume9', n: 1, kind: 'reading_full', id: 'volume9_test1', spec: v9t1 },
   { source: 'volume9', n: 2, kind: 'reading_full', id: 'volume9_test2', spec: v9t2 },
+  { source: 'volume9', n: 3, kind: 'reading_full', id: 'volume9_test3', spec: v9t3 },
   { source: 'volume9', n: 4, kind: 'reading_full', id: 'volume9_test4', spec: v9t4 },
   { source: 'volume9', n: 5, kind: 'reading_full', id: 'volume9_test5', spec: v9t5 },
   { source: 'volume9', n: 6, kind: 'reading_full', id: 'volume9_test6', spec: v9t6 },
