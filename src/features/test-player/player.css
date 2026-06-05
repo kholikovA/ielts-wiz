@@ -828,7 +828,7 @@
 .rtp-root .results-message strong { color: var(--text); font-weight: 700; }
 
 /* ---------- Results v2: two-column layout (left fixed, right scrolls) ---------- */
-.rtp-root .results-screen.results-v2.open { display: flex; flex-direction: column; overflow: hidden; padding: 22px 44px 84px; }
+.rtp-root .results-screen.results-v2.open { display: flex; flex-direction: column; overflow: hidden; padding: 22px 44px 104px; }
 .rtp-root .results-v2-title {
   font-family: var(--sans); font-size: 38px; font-weight: 800; line-height: 1.05;
   letter-spacing: -0.8px; text-align: center; margin: 2px 0 20px; flex-shrink: 0;
@@ -851,6 +851,9 @@
    header + tabs stay pinned and only its question list scrolls (see .rsec-grow).
    This also removes the full-height pane scrollbar. */
 .rtp-root .results-right { display: flex; flex-direction: column; min-height: 0; height: 100%; overflow: hidden; }
+/* Non-growing sections (e.g. Feedback) keep their natural height — only the
+   per-passage breakdown flexes and scrolls, so Feedback never gets squeezed. */
+.rtp-root .results-right > .rsec:not(.rsec-grow) { flex-shrink: 0; }
 .rtp-root .rsec-grow.open { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; margin-bottom: 0; }
 .rtp-root .rsec-grow .rsec-head { flex-shrink: 0; }
 .rtp-root .rsec-grow.open .rsec-body { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
