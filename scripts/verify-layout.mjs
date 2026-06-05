@@ -58,13 +58,18 @@ try {
     const sc = document.querySelector('.split-container');
     const pp = document.querySelector('.passage-pane');
     const qp = document.querySelector('.questions-pane');
+    const activeSec = document.querySelector('.passage-section.active') || document.querySelector('.passage-section');
     return {
       splitH: sc ? sc.clientHeight : 0,
       passageH: pp ? pp.clientHeight : 0,
       questionsH: qp ? qp.clientHeight : 0,
       passageSections: document.querySelectorAll('.passage-section').length,
       questionGroups: document.querySelectorAll('.question-group').length,
-      passageText: (pp?.textContent || '').trim().length,
+      // innerText is layout-aware (excludes display:none/hidden) — this is what
+      // actually catches a "renders in DOM but invisible" bug. textContent would not.
+      passageVisibleText: (pp ? pp.innerText : '').trim().length,
+      questionsVisibleText: (qp ? qp.innerText : '').trim().length,
+      activeSectionH: activeSec ? activeSec.clientHeight : 0,
     };
   });
   console.log(`layout for ${TEST_ID}:`, JSON.stringify(m));
@@ -73,8 +78,10 @@ try {
   if (m.passageH < 200) fail(`passage pane height ${m.passageH}px — collapsed`);
   if (m.passageSections !== 3) fail(`expected 3 passages, found ${m.passageSections}`);
   if (m.questionGroups < 1) fail(`no question groups rendered`);
-  if (m.passageText < 100) fail(`passage pane has almost no text (${m.passageText} chars)`);
-  if (!process.exitCode) console.log('✓ player renders with real height and content');
+  if (m.activeSectionH < 50) fail(`active passage section has 0 height — content hidden (display:none?)`);
+  if (m.passageVisibleText < 200) fail(`passage pane shows almost no VISIBLE text (${m.passageVisibleText} chars) — blank to the user`);
+  if (m.questionsVisibleText < 50) fail(`questions pane shows almost no VISIBLE text (${m.questionsVisibleText} chars)`);
+  if (!process.exitCode) console.log('✓ player renders with real height and VISIBLE content');
 } finally {
   await browser.close();
   server.close();
