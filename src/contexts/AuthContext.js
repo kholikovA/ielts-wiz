@@ -19,9 +19,11 @@ export const AuthProvider = ({ children }) => {
       setUser(session?.user ?? null);
       if (session?.user) {
         fetchProfile(session.user.id);
-        // Restore cloud progress into local store on boot, so stats show up
-        // everywhere (not only after visiting the Dashboard).
-        pullAndMerge().catch(() => {});
+        // Two-way reconcile on boot: push any local-only history UP first (a
+        // device may hold attempts taken while signed out / that never pushed
+        // at submit time), then pull cloud progress DOWN. Without the flush,
+        // local-only history is invisible on every other device.
+        flushToCloud().catch(() => {}).then(() => pullAndMerge().catch(() => {}));
       } else {
         setLoading(false);
       }
@@ -34,7 +36,7 @@ export const AuthProvider = ({ children }) => {
       setUser(session?.user ?? null);
       if (session?.user) {
         fetchProfile(session.user.id);
-        if (_event === 'SIGNED_IN') pullAndMerge().catch(() => {});
+        if (_event === 'SIGNED_IN') flushToCloud().catch(() => {}).then(() => pullAndMerge().catch(() => {}));
       } else {
         setProfile(null);
         setLoading(false);
