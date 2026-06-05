@@ -10,7 +10,8 @@ The build script `scripts/build_test.py` consumes a single JSON file describing 
   "duration_minutes": 60,
   "parts": [ ... ],
   "answer_key": { "1": "TRUE", "2": "FALSE", ... },
-  "answer_key_status": "complete"
+  "answer_key_status": "complete",
+  "explanations": { "1": "The text says six of eight species are found only there...", ... }
 }
 ```
 
@@ -21,6 +22,17 @@ The build script `scripts/build_test.py` consumes a single JSON file describing 
 | `parts` | yes | Array of 1–3 part objects |
 | `answer_key` | no | Map from question-number string to correct answer |
 | `answer_key_status` | no | `"complete"`, `"partial"`, or `"missing"` — triggers warning banner if not complete |
+| `explanations` | yes (full tests) | Map from question-number string to a one-sentence rationale, shown under each question in **Review in context**. ALWAYS generate these for every question. |
+
+### Explanations (`explanations`)
+
+For every full test, provide an `explanations` map with **one entry per `answer_key` key** (same key set). Each value is a single plain-text sentence (~12–28 words) telling the student why the keyed answer is correct:
+
+- **Grounded only in the passage** — never invent facts. Point to the specific passage detail and how it paraphrases the question wording.
+- TRUE/YES → cite the confirming statement. FALSE/NO → state what the passage actually says that contradicts the prompt. NOT GIVEN → say the passage never states/compares that specific claim (justify the absence).
+- Headings/matching/features → name the matching section detail. Completion/short-answer → quote the passage phrase containing the answer word.
+- For `mcq_multi`, mirror the same explanation on each shared question number, just like the answer key.
+- Plain text only — no HTML, no markdown, no leading "Q".
 
 ## Part object
 

@@ -26,7 +26,7 @@ export function buildLabelResolver(spec) {
 
 // One per-question result line (Q#, your answer vs correct). Same look as the
 // standalone HTML's result-marker.
-export function ResultMarker({ r, resolver }) {
+export function ResultMarker({ r, resolver, explanation }) {
   const cls = r.unanswered ? 'unanswered' : r.correct ? 'correct' : 'wrong';
   const correctTxt = resolver(r.q, r.correctAns);
   const userTxt = resolver(r.q, r.userAns);
@@ -40,6 +40,7 @@ export function ResultMarker({ r, resolver }) {
       ) : (
         <span><span className="your-answer strike">{userTxt}</span> &middot; Correct: <span className="correct-answer">{correctTxt}</span></span>
       )}
+      {explanation && <span className="result-explanation"><strong>Why:</strong> {explanation}</span>}
     </div>
   );
 }

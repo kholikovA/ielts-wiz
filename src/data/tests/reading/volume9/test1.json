@@ -10,24 +10,54 @@
       "passage_title": "The Baobabs of Madagascar",
       "passage_subtitle": "The ancient baobabs of Madagascar are some of the largest and most distinctive trees in the world, but they face an uncertain future",
       "passage_paragraphs": [
-        { "text": "The island of Madagascar in the Indian Ocean is the best place in the world to see baobabs. These spectacular trees, with their massive trunks and distinctive horizontal root-like branches, can live over 800 years. Of the eight known species, six are found only there, while a seventh has made its way across the Mozambique Channel from mainland Africa with a certain amount of human help. Some of the most visited and photographed baobabs in Madagascar are at the Avenue des Baobabs in the western province of Menabe, close to the town of Morondava. There, a dozen trees straddle a narrow sandy road, soaring 30 metres into the sky. Known as renala - 'mother of the forest' - in the local Malagasy language, these trees belong to the tallest baobab species in the world: Adansonia grandidieri, named after two great 19th-century French botanists, Michel Adanson and Alfred Grandidier." },
-        { "text": "Baobabs have religious and spiritual significance for many Malagasy tribes, although the majority of the island's population will probably never see one they only grow along the western margin of the island and not in the more populous central highlands. However, as the national tree and the national emblem, the trees are an ideal symbol for increasing awareness not only of the endangered forests, but also of the traditional beliefs of the people who live alongside them. But what does the future hold for the Malagasy baobabs?" },
-        { "text": "The Avenue des Baobabs is something of a contradiction; the 'natural' scene that tourists visit is actually man-made. While the trees themselves are natural enough, the surrounding landscape was created by humans. Back in the early 20th century, much of the Morondava plain was cleared for rice and sugar-cane fields. However, many baobabs were spared because they are valuable as a food source and renewable building material, or they simply survived the fires that were set to clear the dry deciduous forest around them. These days many stand alone in fields, a reminder of where the forest once was. But now it seems that even the mighty baobabs are falling down. 'Every year I see new trees that have fallen,' says Jim Bond, an ethnobotanist who has studied Madagascar's baobabs for more than a decade. The exact cause of the falling baobabs is uncertain, but some people think that the water used to irrigate the nearby fields is partly to blame. Baobabs are adapted to the annual wet season, but their roots can't cope with constantly waterlogged soils. Lone trees separated from the surrounding forest are also susceptible to cyclones, which reach speeds of over 200 kph in the area, and can easily uproot even a 30-metre baobab." },
-        { "text": "Baobabs elsewhere on the island are also facing a host of threats, with three of the six native species now listed as endangered by the World Conservation Union. David Baum from the University of Wisconsin has spent years researching Malagasy baobabs. 'The main threat to their survival is land clearance for farming, which probably suppresses regeneration,' he says. Burning is the usual method of clearing land, and while baobabs have some resistance to this, they will eventually succumb to repeated burning. Human disturbance in the forest, such as logging, is also a problem. This practice may be promoting the rapid spread of shrubby undergrowth, which quickly fills in the bright forest gaps needed for baobab germination. Another problem the trees face is the dispersal of their seeds. Baum suggests that dispersal is being limited by the absence of two large, now extinct animals - a gorilla-sized lemur and the three-metre-tall elephant bird. Passage through the digestive tract of these giant fruit-eating animals probably once played a vital role in the distribution of the renala baobabs in particular." },
-        { "text": "The Malagasy government is becoming increasingly concerned as the baobab is key to the local tourism industry, and thus to the economy of the island as a whole. But visiting and photographing the solitary trees in the dramatic open landscape at the Avenue des Baobabs isn't the only way to experience baobabs in Madagascar. Within a few hours' drive of Morondava, three species of baobab can be seen in largely intact, dry forest habitat. Jim Bond has led expeditions of Malagasy and foreign participants to the Mikea forest in the island's southwest, which is almost certainly one of the least studied and least damaged areas of baobab forest left in Madagascar. On his expeditions Bond works closely with local people to search for, and create maps of baobab distribution. He also plans to compile an illustrated children's book of the many local folk-tales about the tree, hoping that national and international versions will help to spread the word about how important baobabs are in Malagasy culture. But it's going to require some swift and coordinated action to ensure that the baobab becomes a symbol of conservation success, rather than a symbol of humanity's mistakes." },
-        { "text": "*Malagasy: of Madagascar" }
+        {
+          "text": "The island of Madagascar in the Indian Ocean is the best place in the world to see baobabs. These spectacular trees, with their massive trunks and distinctive horizontal root-like branches, can live over 800 years. Of the eight known species, six are found only there, while a seventh has made its way across the Mozambique Channel from mainland Africa with a certain amount of human help. Some of the most visited and photographed baobabs in Madagascar are at the Avenue des Baobabs in the western province of Menabe, close to the town of Morondava. There, a dozen trees straddle a narrow sandy road, soaring 30 metres into the sky. Known as renala - 'mother of the forest' - in the local Malagasy language, these trees belong to the tallest baobab species in the world: Adansonia grandidieri, named after two great 19th-century French botanists, Michel Adanson and Alfred Grandidier."
+        },
+        {
+          "text": "Baobabs have religious and spiritual significance for many Malagasy tribes, although the majority of the island's population will probably never see one they only grow along the western margin of the island and not in the more populous central highlands. However, as the national tree and the national emblem, the trees are an ideal symbol for increasing awareness not only of the endangered forests, but also of the traditional beliefs of the people who live alongside them. But what does the future hold for the Malagasy baobabs?"
+        },
+        {
+          "text": "The Avenue des Baobabs is something of a contradiction; the 'natural' scene that tourists visit is actually man-made. While the trees themselves are natural enough, the surrounding landscape was created by humans. Back in the early 20th century, much of the Morondava plain was cleared for rice and sugar-cane fields. However, many baobabs were spared because they are valuable as a food source and renewable building material, or they simply survived the fires that were set to clear the dry deciduous forest around them. These days many stand alone in fields, a reminder of where the forest once was. But now it seems that even the mighty baobabs are falling down. 'Every year I see new trees that have fallen,' says Jim Bond, an ethnobotanist who has studied Madagascar's baobabs for more than a decade. The exact cause of the falling baobabs is uncertain, but some people think that the water used to irrigate the nearby fields is partly to blame. Baobabs are adapted to the annual wet season, but their roots can't cope with constantly waterlogged soils. Lone trees separated from the surrounding forest are also susceptible to cyclones, which reach speeds of over 200 kph in the area, and can easily uproot even a 30-metre baobab."
+        },
+        {
+          "text": "Baobabs elsewhere on the island are also facing a host of threats, with three of the six native species now listed as endangered by the World Conservation Union. David Baum from the University of Wisconsin has spent years researching Malagasy baobabs. 'The main threat to their survival is land clearance for farming, which probably suppresses regeneration,' he says. Burning is the usual method of clearing land, and while baobabs have some resistance to this, they will eventually succumb to repeated burning. Human disturbance in the forest, such as logging, is also a problem. This practice may be promoting the rapid spread of shrubby undergrowth, which quickly fills in the bright forest gaps needed for baobab germination. Another problem the trees face is the dispersal of their seeds. Baum suggests that dispersal is being limited by the absence of two large, now extinct animals - a gorilla-sized lemur and the three-metre-tall elephant bird. Passage through the digestive tract of these giant fruit-eating animals probably once played a vital role in the distribution of the renala baobabs in particular."
+        },
+        {
+          "text": "The Malagasy government is becoming increasingly concerned as the baobab is key to the local tourism industry, and thus to the economy of the island as a whole. But visiting and photographing the solitary trees in the dramatic open landscape at the Avenue des Baobabs isn't the only way to experience baobabs in Madagascar. Within a few hours' drive of Morondava, three species of baobab can be seen in largely intact, dry forest habitat. Jim Bond has led expeditions of Malagasy and foreign participants to the Mikea forest in the island's southwest, which is almost certainly one of the least studied and least damaged areas of baobab forest left in Madagascar. On his expeditions Bond works closely with local people to search for, and create maps of baobab distribution. He also plans to compile an illustrated children's book of the many local folk-tales about the tree, hoping that national and international versions will help to spread the word about how important baobabs are in Malagasy culture. But it's going to require some swift and coordinated action to ensure that the baobab becomes a symbol of conservation success, rather than a symbol of humanity's mistakes."
+        },
+        {
+          "text": "*Malagasy: of Madagascar"
+        }
       ],
       "question_groups": [
         {
           "instructions_html": "Choose <strong>TRUE</strong> if the statement agrees with the information given in the text, choose <strong>FALSE</strong> if the statement contradicts the information, or choose <strong>NOT GIVEN</strong> if there is no information on this.",
           "type": "tfng",
           "questions": [
-            { "number": 1, "prompt": "All of the baobab species found on Madagascar are unique to the island." },
-            { "number": 2, "prompt": "Adanson and Grandidier were the first foreign botanists to visit Madagascar." },
-            { "number": 3, "prompt": "The baobab can be found in most areas of Madagascar." },
-            { "number": 4, "prompt": "The landscape around the Avenue des Baobabs is the result of agricultural development." },
-            { "number": 5, "prompt": "The baobab provides useful products for the local people." },
-            { "number": 6, "prompt": "There is general agreement about the reasons for baobabs falling down." }
+            {
+              "number": 1,
+              "prompt": "All of the baobab species found on Madagascar are unique to the island."
+            },
+            {
+              "number": 2,
+              "prompt": "Adanson and Grandidier were the first foreign botanists to visit Madagascar."
+            },
+            {
+              "number": 3,
+              "prompt": "The baobab can be found in most areas of Madagascar."
+            },
+            {
+              "number": 4,
+              "prompt": "The landscape around the Avenue des Baobabs is the result of agricultural development."
+            },
+            {
+              "number": 5,
+              "prompt": "The baobab provides useful products for the local people."
+            },
+            {
+              "number": 6,
+              "prompt": "There is general agreement about the reasons for baobabs falling down."
+            }
           ]
         },
         {
@@ -39,27 +69,78 @@
               {
                 "heading": "Reasons why Madagascar's baobabs are declining in number:",
                 "items": [
-                  { "html": "Morondava area" },
-                  { "html": "trees may be falling down because of ___ from nearby fields", "qnum": 7, "indent": true },
-                  { "html": "lone trees are at risk from ___", "qnum": 8, "indent": true },
-                  { "html": "Forest areas" },
-                  { "html": "land clearance: mainly by burning carried out to create space for ___ activity", "qnum": 9, "indent": true },
-                  { "html": "practice of ___ makes seed germination difficult", "qnum": 10, "indent": true },
-                  { "html": "disappearance of certain ___ which dispersed baobab seeds", "qnum": 11, "indent": true }
+                  {
+                    "html": "Morondava area"
+                  },
+                  {
+                    "html": "trees may be falling down because of ___ from nearby fields",
+                    "qnum": 7,
+                    "indent": true
+                  },
+                  {
+                    "html": "lone trees are at risk from ___",
+                    "qnum": 8,
+                    "indent": true
+                  },
+                  {
+                    "html": "Forest areas"
+                  },
+                  {
+                    "html": "land clearance: mainly by burning carried out to create space for ___ activity",
+                    "qnum": 9,
+                    "indent": true
+                  },
+                  {
+                    "html": "practice of ___ makes seed germination difficult",
+                    "qnum": 10,
+                    "indent": true
+                  },
+                  {
+                    "html": "disappearance of certain ___ which dispersed baobab seeds",
+                    "qnum": 11,
+                    "indent": true
+                  }
                 ]
               },
               {
                 "heading": "Jim Bond's efforts to record information about the baobab:",
                 "items": [
-                  { "html": "making ___ of areas of relatively undamaged baobab forest", "qnum": 12, "indent": true },
-                  { "html": "producing a ___ showing importance of baobab in local culture", "qnum": 13, "indent": true }
+                  {
+                    "html": "making ___ of areas of relatively undamaged baobab forest",
+                    "qnum": 12,
+                    "indent": true
+                  },
+                  {
+                    "html": "producing a ___ showing importance of baobab in local culture",
+                    "qnum": 13,
+                    "indent": true
+                  }
                 ]
               }
             ]
           },
           "questions": [
-            { "number": 7 }, { "number": 8 }, { "number": 9 }, { "number": 10 },
-            { "number": 11 }, { "number": 12 }, { "number": 13 }
+            {
+              "number": 7
+            },
+            {
+              "number": 8
+            },
+            {
+              "number": 9
+            },
+            {
+              "number": 10
+            },
+            {
+              "number": 11
+            },
+            {
+              "number": 12
+            },
+            {
+              "number": 13
+            }
           ]
         }
       ]
@@ -68,39 +149,114 @@
       "part_number": 2,
       "passage_title": "Coins: the first form of money",
       "passage_paragraphs": [
-        { "letter": "A", "text": "Few people pay much attention to coins; we take them for granted. Since the advent of paper currency and the abandonment of a monetary system based on intrinsic or actual value, they have been demoted to the status of change: what is left when you have paid for something with 'paper' money. There is even a belief that they will one day be obsolete, as will paper or plastic notes, and money will at last have achieved the pure status of a mathematical formulation, a system of electronic credits and debits." },
-        { "letter": "B", "text": "In the modern media environment, the sheer number of visual images is overwhelming, but it makes one stop to think that coins are among the most durable of our artefacts, and future archaeologists will scrutinise coins in order to learn about their distant ancestors. This is exactly the way ancient coins have informed us for over four millennia. There are thousands of different coins, each designed to carry meaning as well as value, tiny but rich sources of documentary evidence about events and cultural attitudes, frequently produced with exquisite craftsmanship." },
-        { "letter": "C", "text": "Coins in Europe date from 2,500 to 2,700 years ago, and seem to have originated in the ancient kingdom of Lydia, in what is now Turkey. Before coins, trade was based on barter: the direct trade of commodities. Barter required the physical presence of both commodities that were being traded. Metal coins were far more portable, and not subject to the same spoilage on long sea journeys as a commodity like grain might be if it became wet. However, they could also be accumulated, and these hoards could be stolen. Coins were therefore a temptation to criminals. The Greeks, however, were the first to realise the full potential of the new invention. They were a trading people of seafarers. Their civilisation, which was composed of dozens of city-states, was highly decentralised. Despite the potential for theft, the Greeks realised that they could benefit enormously from a system that used coins, because it meant that they no longer had to carry goods with them to barter." },
-        { "letter": "D", "text": "The value of coins was generally based on the intrinsic value of the metal they were made of. At first this was mostly silver, and this meant that the discovery of silver mines on Greek territory actually increased the quantity of money they could produce. Had the Greek mining been on a larger scale, it could have caused problems similar to those faced by the Spanish centuries later, when so much gold from the New World was brought into their economy that it resulted in serious inflation. One advantage of intrinsic value was that coins could be weighed to determine the amount of metal they contained, so that the only thing an issuing state had to guarantee was the purity of the metal to prevent accusations of fraud and cheating, which could cause fighting and unrest. This was quite difficult to do, especially with coins made of gold, until Archimedes realised that different metals have different weight-volume ratios, and that by measuring the amount of displacement when coins were immersed in water, it was possible to establish whether gold was alloyed with silver." },
-        { "letter": "E", "text": "All ancient coins were made by hand using engraved metal moulds. Many hundreds of coins were made, and as a result the moulds often cracked and new ones had to be engraved. This explains the endless variety encountered in coins with the same designs because the moulds had to be remade repeatedly, by many different artisans. One of the distinctive features of coins, in fact, is that they are the work of anonymous craftsmen, and yet each coin is an intimate reflection of the character of its city of origin. It was the Greeks who realised that coins could have a double function, as a unit of value and as a symbol of the identity of the city that issued them. The Greek view of life was deeply motivated by a spirit of competition, and coins, which circulated around the trading world, were a way of advertising the qualities of each particular city-state." },
-        { "letter": "F", "text": "Interestingly, Greek coins from the city of Athens, which was the home of the greatest sculptors of the classical period, seem to have been completely disconnected from the high sculptural tradition. The beautiful features of the city's patron, Athena (with her owl on the reverse of the coin), seem to have been repeated virtually unaltered for many years. Perhaps this was because the Athenian currency had grown increasingly to be the international standard and, like the US dollar today, a uniform design implied integrity." },
-        { "letter": "G", "text": "One side of a coin was always occupied by the head of a divinity, so it was a relatively small step, at around 323 BC, for Greek coins to replace that head with the portrait of the reigning monarch, a tradition that has continued in monarchies to the present day. Republics may have either symbolic heads - going back to the older tradition of divinities - or the features of a distinguished past head of state. The Romans adopted the Greek practice of coin design and as a result, the features of many great Romans have survived and are known to modern generations, despite the fact that the art of portrait painting was completely lost for more than a millennium following the fall of the Roman Empire." }
+        {
+          "letter": "A",
+          "text": "Few people pay much attention to coins; we take them for granted. Since the advent of paper currency and the abandonment of a monetary system based on intrinsic or actual value, they have been demoted to the status of change: what is left when you have paid for something with 'paper' money. There is even a belief that they will one day be obsolete, as will paper or plastic notes, and money will at last have achieved the pure status of a mathematical formulation, a system of electronic credits and debits."
+        },
+        {
+          "letter": "B",
+          "text": "In the modern media environment, the sheer number of visual images is overwhelming, but it makes one stop to think that coins are among the most durable of our artefacts, and future archaeologists will scrutinise coins in order to learn about their distant ancestors. This is exactly the way ancient coins have informed us for over four millennia. There are thousands of different coins, each designed to carry meaning as well as value, tiny but rich sources of documentary evidence about events and cultural attitudes, frequently produced with exquisite craftsmanship."
+        },
+        {
+          "letter": "C",
+          "text": "Coins in Europe date from 2,500 to 2,700 years ago, and seem to have originated in the ancient kingdom of Lydia, in what is now Turkey. Before coins, trade was based on barter: the direct trade of commodities. Barter required the physical presence of both commodities that were being traded. Metal coins were far more portable, and not subject to the same spoilage on long sea journeys as a commodity like grain might be if it became wet. However, they could also be accumulated, and these hoards could be stolen. Coins were therefore a temptation to criminals. The Greeks, however, were the first to realise the full potential of the new invention. They were a trading people of seafarers. Their civilisation, which was composed of dozens of city-states, was highly decentralised. Despite the potential for theft, the Greeks realised that they could benefit enormously from a system that used coins, because it meant that they no longer had to carry goods with them to barter."
+        },
+        {
+          "letter": "D",
+          "text": "The value of coins was generally based on the intrinsic value of the metal they were made of. At first this was mostly silver, and this meant that the discovery of silver mines on Greek territory actually increased the quantity of money they could produce. Had the Greek mining been on a larger scale, it could have caused problems similar to those faced by the Spanish centuries later, when so much gold from the New World was brought into their economy that it resulted in serious inflation. One advantage of intrinsic value was that coins could be weighed to determine the amount of metal they contained, so that the only thing an issuing state had to guarantee was the purity of the metal to prevent accusations of fraud and cheating, which could cause fighting and unrest. This was quite difficult to do, especially with coins made of gold, until Archimedes realised that different metals have different weight-volume ratios, and that by measuring the amount of displacement when coins were immersed in water, it was possible to establish whether gold was alloyed with silver."
+        },
+        {
+          "letter": "E",
+          "text": "All ancient coins were made by hand using engraved metal moulds. Many hundreds of coins were made, and as a result the moulds often cracked and new ones had to be engraved. This explains the endless variety encountered in coins with the same designs because the moulds had to be remade repeatedly, by many different artisans. One of the distinctive features of coins, in fact, is that they are the work of anonymous craftsmen, and yet each coin is an intimate reflection of the character of its city of origin. It was the Greeks who realised that coins could have a double function, as a unit of value and as a symbol of the identity of the city that issued them. The Greek view of life was deeply motivated by a spirit of competition, and coins, which circulated around the trading world, were a way of advertising the qualities of each particular city-state."
+        },
+        {
+          "letter": "F",
+          "text": "Interestingly, Greek coins from the city of Athens, which was the home of the greatest sculptors of the classical period, seem to have been completely disconnected from the high sculptural tradition. The beautiful features of the city's patron, Athena (with her owl on the reverse of the coin), seem to have been repeated virtually unaltered for many years. Perhaps this was because the Athenian currency had grown increasingly to be the international standard and, like the US dollar today, a uniform design implied integrity."
+        },
+        {
+          "letter": "G",
+          "text": "One side of a coin was always occupied by the head of a divinity, so it was a relatively small step, at around 323 BC, for Greek coins to replace that head with the portrait of the reigning monarch, a tradition that has continued in monarchies to the present day. Republics may have either symbolic heads - going back to the older tradition of divinities - or the features of a distinguished past head of state. The Romans adopted the Greek practice of coin design and as a result, the features of many great Romans have survived and are known to modern generations, despite the fact that the art of portrait painting was completely lost for more than a millennium following the fall of the Roman Empire."
+        }
       ],
       "question_groups": [
         {
           "type": "matching_headings",
           "heading_bank": [
-            { "id": "h1", "text": "Training coin makers" },
-            { "id": "h2", "text": "A form of regional promotion" },
-            { "id": "h3", "text": "More gold than silver in Greece" },
-            { "id": "h4", "text": "Calculating what a coin was worth" },
-            { "id": "h5", "text": "A simpler, more efficient way of trading" },
-            { "id": "h6", "text": "Putting a face to famous historical names" },
-            { "id": "h7", "text": "An uncertain future" },
-            { "id": "h8", "text": "Careless workmanship caused breakages" },
-            { "id": "h9", "text": "Unchanging coins signalled trustworthiness" },
-            { "id": "h10", "text": "Reading the writing on coins" },
-            { "id": "h11", "text": "Significant records of past societies" }
+            {
+              "id": "h1",
+              "text": "Training coin makers"
+            },
+            {
+              "id": "h2",
+              "text": "A form of regional promotion"
+            },
+            {
+              "id": "h3",
+              "text": "More gold than silver in Greece"
+            },
+            {
+              "id": "h4",
+              "text": "Calculating what a coin was worth"
+            },
+            {
+              "id": "h5",
+              "text": "A simpler, more efficient way of trading"
+            },
+            {
+              "id": "h6",
+              "text": "Putting a face to famous historical names"
+            },
+            {
+              "id": "h7",
+              "text": "An uncertain future"
+            },
+            {
+              "id": "h8",
+              "text": "Careless workmanship caused breakages"
+            },
+            {
+              "id": "h9",
+              "text": "Unchanging coins signalled trustworthiness"
+            },
+            {
+              "id": "h10",
+              "text": "Reading the writing on coins"
+            },
+            {
+              "id": "h11",
+              "text": "Significant records of past societies"
+            }
           ],
           "instructions_html": "The text has seven sections. Choose the correct heading for each section and move it into the gap.",
           "questions": [
-            { "number": 14, "paragraph": "A" },
-            { "number": 15, "paragraph": "B" },
-            { "number": 16, "paragraph": "C" },
-            { "number": 17, "paragraph": "D" },
-            { "number": 18, "paragraph": "E" },
-            { "number": 19, "paragraph": "F" },
-            { "number": 20, "paragraph": "G" }
+            {
+              "number": 14,
+              "paragraph": "A"
+            },
+            {
+              "number": 15,
+              "paragraph": "B"
+            },
+            {
+              "number": 16,
+              "paragraph": "C"
+            },
+            {
+              "number": 17,
+              "paragraph": "D"
+            },
+            {
+              "number": 18,
+              "paragraph": "E"
+            },
+            {
+              "number": 19,
+              "paragraph": "F"
+            },
+            {
+              "number": 20,
+              "paragraph": "G"
+            }
           ]
         },
         {
@@ -111,14 +267,32 @@
               "number": 21,
               "prompt": "Which TWO of these comments about ancient coins are made by the writer of the text?",
               "options": [
-                { "letter": "A", "text": "There is no record of the names of the coin makers." },
-                { "letter": "B", "text": "Coins were not popular as payment for traded objects." },
-                { "letter": "C", "text": "Coins with the same design often looked quite different." },
-                { "letter": "D", "text": "Greek coins were more beautiful in design than Roman coins." },
-                { "letter": "E", "text": "At times, too many coins were produced in Greece." }
+                {
+                  "letter": "A",
+                  "text": "There is no record of the names of the coin makers."
+                },
+                {
+                  "letter": "B",
+                  "text": "Coins were not popular as payment for traded objects."
+                },
+                {
+                  "letter": "C",
+                  "text": "Coins with the same design often looked quite different."
+                },
+                {
+                  "letter": "D",
+                  "text": "Greek coins were more beautiful in design than Roman coins."
+                },
+                {
+                  "letter": "E",
+                  "text": "At times, too many coins were produced in Greece."
+                }
               ]
             },
-            { "number": 22, "prompt": "" }
+            {
+              "number": 22,
+              "prompt": ""
+            }
           ]
         },
         {
@@ -129,7 +303,18 @@
             "body_html": "The ancient Greek ___ was made up of many city-states which were spread over a large area. Many Greeks were seafarers who travelled the seas trading. Before coins, they had to do this through ___. This meant that, whenever they set out, they had to carry a lot of goods, which could get damaged on the voyages. The Greeks liked coins; they were made of metal, and the weather and sea had little effect on them. The Greeks had a plentiful supply of ___ which they mined themselves, but were able to avoid the problem of ___ which the Spanish encountered much later, after they allowed too much gold from the New World to enter their economy."
           },
           "questions": [
-            { "number": 23 }, { "number": 24 }, { "number": 25 }, { "number": 26 }
+            {
+              "number": 23
+            },
+            {
+              "number": 24
+            },
+            {
+              "number": 25
+            },
+            {
+              "number": 26
+            }
           ]
         }
       ]
@@ -139,50 +324,140 @@
       "passage_title": "Creating a Better Grapefruit",
       "passage_subtitle": "By blocking the right taste receptors, biotech researchers turn bitter into sweet",
       "passage_paragraphs": [
-        { "letter": "A", "text": "There is a reason why grapefruit juice is served in little glasses. Most people don't want to drink more than a few ounces at a time. This is because a natural chemical compound found in grapefruit, naringin, has a bitter taste. Some people like that bitterness in small doses and believe it enhances the general flavour, but others would rather avoid it altogether. So juice packagers often select grapefruit with low naringin content, even though the compound has antioxidant properties that some nutritionists contend may help prevent many serious diseases." },
-        { "letter": "B", "text": "It is possible, however, to get the goodness of grapefruit without the bitter taste. In a test conducted by a biotechnology company, sets of two miniature white paper cups, labelled 304 and 305, were placed before five people seated around a conference table. Each person drank from one cup and then the other, cleansing their palates between tastes with water and a cracker. Even the smallest sip of 304 had grapefruit's unmistakable bite. But 305 was smoother; there was the sour taste of citrus but none of the bitterness of naringin. This juice had been treated with AMP, a compound that blocks the bitterness in foods without making them less nutritious." },
-        { "letter": "C", "text": "Taste research is a booming business these days, with scientists delving into all five basics: sweet, bitter, sour, salty, and umami (the savory taste of protein). However, bitterness is of special interest to the food industry because it is present in so many different types of food. There are thousands of bitter-tasting compounds in nature. They defend plants by warning animals away and protect animals by letting them know when a plant may be poisonous. But the system isn't foolproof. Grapefruit and bitter green vegetables like Brussels sprouts and kale are nutritious despite - and sometimes because of - their bitter-tasting components." },
-        { "letter": "D", "text": "'Humans are the only species that enjoys a bitter taste,' says Charles Zuker, a neuroscientist at the University of California School of Medicine at San Diego. 'Every other species is averse to bitter because it means bad news. But we have learned to enjoy it. We drink coffee, which is bitter, and quinine (in tonic water) too. We enjoy having that spice in our lives.' Because bitterness can be pleasant in small quantities but repellent when intense, bitter blockers like AMP could make a whole range of foods, drinks and medicines more palatable." },
-        { "letter": "E", "text": "People have varying capacities for tasting bitterness and the differences appear to be genetic. About 75% of people are sensitive to the taste of some well-identified bitter compounds. Those who are sensitive seem to be less likely than others to eat bitter vegetables, according to Stephen Wooding, a geneticist at the University of Utah. Some people who have an unusually high number of taste buds, and are known as 'supertasters', are especially sensitive to these compounds. Supertasters tend to shun all kinds of bitter-tasting things, including vegetables, coffee, and dark chocolate." },
-        { "letter": "F", "text": "The tongue is covered with taste buds. Under the microscope each one looks like an onion, consisting of 50 to 100 elongated cells running from the top of the taste buds to the bottom. At the top is a group of receptors that captures the taste molecules, known as tastants, in food and drink. The receptors function much like those for sight and smell. Once a bitter signal has been received, it is relayed via proteins known as G proteins. The G protein involved in the perception of bitterness, sweetness and umami was identified in the early 1990s by Robert Margolskee, at Mount Sinai School of Medicine in New York. The protein triggers a cascade of chemical reactions that lead to ion concentrations within the cell. Ultimately, this delivers a signal to the brain that registers as bitter." },
-        { "letter": "G", "text": "Once they understood the taste mechanism, scientists began to think of ways to interfere with it. They tried AMP, an organic compound found in breast milk and other substances, that is created as cells break down food. AMP has no bitterness of its own, but when put in foods, as Margolskee and his colleagues discovered, it attaches to bitter-taste receptors. As effective as it is, AMP may not be able to dampen every type of bitter taste because it probably doesn't attach to all 30 bitter-taste receptors." },
-        { "letter": "H", "text": "Some taste researchers believe that, in time, compounds like AMP will help make processed foods less unhealthy. Consider, for example, that a single cup of canned chicken noodle soup contains 850 milligrams of sodium chloride, or table salt - more than a third of the recommended daily allowance. The salt masks the bitterness created by the high temperatures used in the canning process, which cause sugars and amino acids to react. Part of the table salt could be replaced by another type of salt, potassium chloride, which tends to be scarce in some people's diets because of its bitter taste. But that bitter taste could be eliminated with a dose of AMP. Bitter blockers could also be used in place of sugary cherry and grape flavourings in children's cough syrups, and they could dampen the bitterness of drugs like antihistamines, antibiotics and other similar products." },
-        { "letter": "I", "text": "A number of foodmakers have already begun to experiment with AMP in their products, and other bitter blockers are being developed. In a few years, perhaps, after food companies have taken the bitterness from canned soup and improved the taste of medicines, they can set their sights on something more useful: a bitter blocker in a bottle that any of us can sprinkle on our Brussels sprouts or stir into our grapefruit juice." }
+        {
+          "letter": "A",
+          "text": "There is a reason why grapefruit juice is served in little glasses. Most people don't want to drink more than a few ounces at a time. This is because a natural chemical compound found in grapefruit, naringin, has a bitter taste. Some people like that bitterness in small doses and believe it enhances the general flavour, but others would rather avoid it altogether. So juice packagers often select grapefruit with low naringin content, even though the compound has antioxidant properties that some nutritionists contend may help prevent many serious diseases."
+        },
+        {
+          "letter": "B",
+          "text": "It is possible, however, to get the goodness of grapefruit without the bitter taste. In a test conducted by a biotechnology company, sets of two miniature white paper cups, labelled 304 and 305, were placed before five people seated around a conference table. Each person drank from one cup and then the other, cleansing their palates between tastes with water and a cracker. Even the smallest sip of 304 had grapefruit's unmistakable bite. But 305 was smoother; there was the sour taste of citrus but none of the bitterness of naringin. This juice had been treated with AMP, a compound that blocks the bitterness in foods without making them less nutritious."
+        },
+        {
+          "letter": "C",
+          "text": "Taste research is a booming business these days, with scientists delving into all five basics: sweet, bitter, sour, salty, and umami (the savory taste of protein). However, bitterness is of special interest to the food industry because it is present in so many different types of food. There are thousands of bitter-tasting compounds in nature. They defend plants by warning animals away and protect animals by letting them know when a plant may be poisonous. But the system isn't foolproof. Grapefruit and bitter green vegetables like Brussels sprouts and kale are nutritious despite - and sometimes because of - their bitter-tasting components."
+        },
+        {
+          "letter": "D",
+          "text": "'Humans are the only species that enjoys a bitter taste,' says Charles Zuker, a neuroscientist at the University of California School of Medicine at San Diego. 'Every other species is averse to bitter because it means bad news. But we have learned to enjoy it. We drink coffee, which is bitter, and quinine (in tonic water) too. We enjoy having that spice in our lives.' Because bitterness can be pleasant in small quantities but repellent when intense, bitter blockers like AMP could make a whole range of foods, drinks and medicines more palatable."
+        },
+        {
+          "letter": "E",
+          "text": "People have varying capacities for tasting bitterness and the differences appear to be genetic. About 75% of people are sensitive to the taste of some well-identified bitter compounds. Those who are sensitive seem to be less likely than others to eat bitter vegetables, according to Stephen Wooding, a geneticist at the University of Utah. Some people who have an unusually high number of taste buds, and are known as 'supertasters', are especially sensitive to these compounds. Supertasters tend to shun all kinds of bitter-tasting things, including vegetables, coffee, and dark chocolate."
+        },
+        {
+          "letter": "F",
+          "text": "The tongue is covered with taste buds. Under the microscope each one looks like an onion, consisting of 50 to 100 elongated cells running from the top of the taste buds to the bottom. At the top is a group of receptors that captures the taste molecules, known as tastants, in food and drink. The receptors function much like those for sight and smell. Once a bitter signal has been received, it is relayed via proteins known as G proteins. The G protein involved in the perception of bitterness, sweetness and umami was identified in the early 1990s by Robert Margolskee, at Mount Sinai School of Medicine in New York. The protein triggers a cascade of chemical reactions that lead to ion concentrations within the cell. Ultimately, this delivers a signal to the brain that registers as bitter."
+        },
+        {
+          "letter": "G",
+          "text": "Once they understood the taste mechanism, scientists began to think of ways to interfere with it. They tried AMP, an organic compound found in breast milk and other substances, that is created as cells break down food. AMP has no bitterness of its own, but when put in foods, as Margolskee and his colleagues discovered, it attaches to bitter-taste receptors. As effective as it is, AMP may not be able to dampen every type of bitter taste because it probably doesn't attach to all 30 bitter-taste receptors."
+        },
+        {
+          "letter": "H",
+          "text": "Some taste researchers believe that, in time, compounds like AMP will help make processed foods less unhealthy. Consider, for example, that a single cup of canned chicken noodle soup contains 850 milligrams of sodium chloride, or table salt - more than a third of the recommended daily allowance. The salt masks the bitterness created by the high temperatures used in the canning process, which cause sugars and amino acids to react. Part of the table salt could be replaced by another type of salt, potassium chloride, which tends to be scarce in some people's diets because of its bitter taste. But that bitter taste could be eliminated with a dose of AMP. Bitter blockers could also be used in place of sugary cherry and grape flavourings in children's cough syrups, and they could dampen the bitterness of drugs like antihistamines, antibiotics and other similar products."
+        },
+        {
+          "letter": "I",
+          "text": "A number of foodmakers have already begun to experiment with AMP in their products, and other bitter blockers are being developed. In a few years, perhaps, after food companies have taken the bitterness from canned soup and improved the taste of medicines, they can set their sights on something more useful: a bitter blocker in a bottle that any of us can sprinkle on our Brussels sprouts or stir into our grapefruit juice."
+        }
       ],
       "question_groups": [
         {
           "type": "matching_info",
           "feature_bank": [
-            { "letter": "A", "text": "Paragraph A" },
-            { "letter": "B", "text": "Paragraph B" },
-            { "letter": "C", "text": "Paragraph C" },
-            { "letter": "D", "text": "Paragraph D" },
-            { "letter": "E", "text": "Paragraph E" },
-            { "letter": "F", "text": "Paragraph F" },
-            { "letter": "G", "text": "Paragraph G" },
-            { "letter": "H", "text": "Paragraph H" },
-            { "letter": "I", "text": "Paragraph I" }
+            {
+              "letter": "A",
+              "text": "Paragraph A"
+            },
+            {
+              "letter": "B",
+              "text": "Paragraph B"
+            },
+            {
+              "letter": "C",
+              "text": "Paragraph C"
+            },
+            {
+              "letter": "D",
+              "text": "Paragraph D"
+            },
+            {
+              "letter": "E",
+              "text": "Paragraph E"
+            },
+            {
+              "letter": "F",
+              "text": "Paragraph F"
+            },
+            {
+              "letter": "G",
+              "text": "Paragraph G"
+            },
+            {
+              "letter": "H",
+              "text": "Paragraph H"
+            },
+            {
+              "letter": "I",
+              "text": "Paragraph I"
+            }
           ],
           "instructions_html": "The text has nine sections labeled <strong>A–I</strong>. Which paragraph contains the following information? Choose the correct letter, <strong>A–I</strong>. You may choose any letter more than once.",
           "questions": [
-            { "number": 27, "prompt": "details of an experiment in taste comparison" },
-            { "number": 28, "prompt": "examples of medications that could be improved using compounds that remove bitterness" },
-            { "number": 29, "prompt": "a biological reason why some people don't like bitter-tasting foods" },
-            { "number": 30, "prompt": "an explanation of how the taste process works" },
-            { "number": 31, "prompt": "why bitterness is more interesting commercially than other tastes" },
-            { "number": 32, "prompt": "an example of how compounds that remove bitterness could indirectly benefit health" },
-            { "number": 33, "prompt": "a reason why people have different taste preferences from animals" }
+            {
+              "number": 27,
+              "prompt": "details of an experiment in taste comparison"
+            },
+            {
+              "number": 28,
+              "prompt": "examples of medications that could be improved using compounds that remove bitterness"
+            },
+            {
+              "number": 29,
+              "prompt": "a biological reason why some people don't like bitter-tasting foods"
+            },
+            {
+              "number": 30,
+              "prompt": "an explanation of how the taste process works"
+            },
+            {
+              "number": 31,
+              "prompt": "why bitterness is more interesting commercially than other tastes"
+            },
+            {
+              "number": 32,
+              "prompt": "an example of how compounds that remove bitterness could indirectly benefit health"
+            },
+            {
+              "number": 33,
+              "prompt": "a reason why people have different taste preferences from animals"
+            }
           ]
         },
         {
           "instructions_html": "Complete the sentences. Write <strong>NO MORE THAN TWO WORDS</strong> from the text for each answer.",
           "type": "sentence_completion",
           "questions": [
-            { "number": 34, "prompt_html": "The grapefruit used to make drinks is chosen because it contains a smaller amount of a substance called ___" },
-            { "number": 35, "prompt_html": "Animals associate a bitter taste with ___ plants." },
-            { "number": 36, "prompt_html": "Our varying degree of sensitivity to bitter tastes is thought to be ___" },
-            { "number": 37, "prompt_html": "People who are extremely aware of bitter tastes are called ___" },
-            { "number": 38, "prompt_html": "Receptors inside the ___ on the tongue detect the taste of food and drink." }
+            {
+              "number": 34,
+              "prompt_html": "The grapefruit used to make drinks is chosen because it contains a smaller amount of a substance called ___"
+            },
+            {
+              "number": 35,
+              "prompt_html": "Animals associate a bitter taste with ___ plants."
+            },
+            {
+              "number": 36,
+              "prompt_html": "Our varying degree of sensitivity to bitter tastes is thought to be ___"
+            },
+            {
+              "number": 37,
+              "prompt_html": "People who are extremely aware of bitter tastes are called ___"
+            },
+            {
+              "number": 38,
+              "prompt_html": "Receptors inside the ___ on the tongue detect the taste of food and drink."
+            }
           ]
         },
         {
@@ -193,20 +468,44 @@
               "number": 39,
               "prompt": "The G protein identified by Robert Margolskee",
               "options": [
-                { "letter": "A", "text": "is responsible for transmitting bitter tastes." },
-                { "letter": "B", "text": "causes dangerous reactions in the cells of the tongue." },
-                { "letter": "C", "text": "has a similar function to sight and smell receptors." },
-                { "letter": "D", "text": "can be found only in sweetness and umami." }
+                {
+                  "letter": "A",
+                  "text": "is responsible for transmitting bitter tastes."
+                },
+                {
+                  "letter": "B",
+                  "text": "causes dangerous reactions in the cells of the tongue."
+                },
+                {
+                  "letter": "C",
+                  "text": "has a similar function to sight and smell receptors."
+                },
+                {
+                  "letter": "D",
+                  "text": "can be found only in sweetness and umami."
+                }
               ]
             },
             {
               "number": 40,
               "prompt": "AMP is an organic compound which is",
               "options": [
-                { "letter": "A", "text": "found only in breast milk." },
-                { "letter": "B", "text": "bitter-tasting when added to food" },
-                { "letter": "C", "text": "able to reduce some bitter tastes" },
-                { "letter": "D", "text": "found in bitter taste receptors" }
+                {
+                  "letter": "A",
+                  "text": "found only in breast milk."
+                },
+                {
+                  "letter": "B",
+                  "text": "bitter-tasting when added to food"
+                },
+                {
+                  "letter": "C",
+                  "text": "able to reduce some bitter tastes"
+                },
+                {
+                  "letter": "D",
+                  "text": "found in bitter taste receptors"
+                }
               ]
             }
           ]
@@ -255,5 +554,47 @@
     "38": "taste buds",
     "39": "A",
     "40": "C"
+  },
+  "explanations": {
+    "1": "The text says six of eight species are found only there plus a seventh that crossed from mainland Africa, so not all are unique.",
+    "2": "The passage names Adanson and Grandidier as the botanists the tree honours but never states they were the first to visit Madagascar.",
+    "3": "Baobabs grow only along the western margin and not in the populous central highlands, contradicting the claim of most areas.",
+    "4": "The Morondava plain was cleared for rice and sugar-cane fields, so the surrounding landscape resulted from agricultural development.",
+    "5": "Baobabs were spared because they are valuable as a food source and renewable building material, confirming useful products for locals.",
+    "6": "The text states the exact cause of falling baobabs is uncertain and only some people blame irrigation water, so there is no agreement.",
+    "7": "The passage says the water used to irrigate nearby fields is partly to blame, giving the answer water.",
+    "8": "Lone trees separated from the forest are susceptible to cyclones, which can uproot even a 30-metre baobab.",
+    "9": "The main threat is land clearance for farming, matching burning carried out to create space for farming activity.",
+    "10": "Human disturbance such as logging promotes shrubby undergrowth that fills the gaps needed for baobab germination.",
+    "11": "Seed dispersal is limited by the absence of two now-extinct animals that once spread the seeds.",
+    "12": "Bond works with local people to search for and create maps of baobab distribution in undamaged forest.",
+    "13": "He plans to compile an illustrated children's book of local folk-tales to spread the word about the baobab's cultural importance.",
+    "14": "Section A ends by raising doubt that coins may one day be obsolete, matching the heading about an uncertain future.",
+    "15": "Section B calls coins durable artefacts that future archaeologists will study, fitting significant records of past societies.",
+    "16": "Section C explains coins were more portable than bartered goods, letting Greeks trade without carrying goods, a simpler way of trading.",
+    "17": "Section D discusses determining coin worth by weighing metal and Archimedes' method of measuring purity, calculating what a coin was worth.",
+    "18": "Section E says coins advertised the qualities of each city-state as a symbol of its identity, a form of regional promotion.",
+    "19": "Section F notes Athens' unchanging design implied integrity like the US dollar, matching unchanging coins signalled trustworthiness.",
+    "20": "Section G explains coins preserved the features of great Romans for modern generations, putting a face to famous historical names.",
+    "21": "The text states coins are the work of anonymous craftsmen (A) and that the same designs looked different due to remade moulds (C).",
+    "22": "The text states coins are the work of anonymous craftsmen (A) and that the same designs looked different due to remade moulds (C).",
+    "23": "Their civilisation was composed of dozens of city-states and was highly decentralised, matching spread over a large area.",
+    "24": "Before coins trade was based on barter, the direct trade of commodities, so they traded through barter.",
+    "25": "The value was based mostly on silver, and discovering silver mines on Greek territory increased the money they could produce.",
+    "26": "Larger-scale mining could have caused problems like the Spanish faced when New World gold caused serious inflation.",
+    "27": "Paragraph B describes the test with cups labelled 304 and 305 tasted by five people, an experiment in taste comparison.",
+    "28": "Paragraph H says bitter blockers could dampen the bitterness of drugs like antihistamines and antibiotics.",
+    "29": "Paragraph E says about 75% are sensitive to bitter compounds and the differences appear to be genetic, a biological reason.",
+    "30": "Paragraph F describes taste buds, receptors capturing tastants, G proteins and signals to the brain, how the taste process works.",
+    "31": "Paragraph C says bitterness is of special interest to the food industry because it is present in so many foods.",
+    "32": "Paragraph H explains AMP could replace part of the salt in canned soup, indirectly benefiting health.",
+    "33": "Paragraph D says humans are the only species that enjoys bitter taste while every other species is averse to it.",
+    "34": "Juice packagers select grapefruit with low naringin content, so the substance present in smaller amount is naringin.",
+    "35": "Bitter compounds protect animals by letting them know when a plant may be poisonous.",
+    "36": "The text says capacities for tasting bitterness vary and the differences appear to be genetic.",
+    "37": "People with an unusually high number of taste buds, especially sensitive to bitter compounds, are known as supertasters.",
+    "38": "Receptors that capture taste molecules sit at the top of the taste buds on the tongue.",
+    "39": "Margolskee's G protein triggers reactions delivering a signal that registers as bitter, so it transmits bitter tastes.",
+    "40": "AMP has no bitterness of its own and attaches to bitter-taste receptors, though it may not dampen every bitter taste, so it reduces some bitter tastes."
   }
 }

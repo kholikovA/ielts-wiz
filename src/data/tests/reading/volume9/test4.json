@@ -51,25 +51,55 @@
           "bank_title": "List of Animals",
           "type": "matching_features",
           "feature_bank": [
-            { "letter": "A", "text": "fish" },
-            { "letter": "B", "text": "goats" },
-            { "letter": "C", "text": "oxen" }
+            {
+              "letter": "A",
+              "text": "fish"
+            },
+            {
+              "letter": "B",
+              "text": "goats"
+            },
+            {
+              "letter": "C",
+              "text": "oxen"
+            }
           ],
           "instructions_html": "Choose the correct group, <strong>A–C</strong>, for each item. You may choose any group more than once.",
           "questions": [
-            { "number": 6, "prompt": "They yield the biggest profits for farmers." },
-            { "number": 7, "prompt": "They may be consumed on special occasions." },
-            { "number": 8, "prompt": "Because of insect pests they do not thrive." },
-            { "number": 9, "prompt": "They are often preserved and sold outside the local area." }
+            {
+              "number": 6,
+              "prompt": "They yield the biggest profits for farmers."
+            },
+            {
+              "number": 7,
+              "prompt": "They may be consumed on special occasions."
+            },
+            {
+              "number": 8,
+              "prompt": "Because of insect pests they do not thrive."
+            },
+            {
+              "number": 9,
+              "prompt": "They are often preserved and sold outside the local area."
+            }
           ]
         },
         {
           "instructions_html": "Choose <strong>TRUE</strong> if the statement agrees with the information given in the text, choose <strong>FALSE</strong> if the statement contradicts the information, or choose <strong>NOT GIVEN</strong> if there is no information on this.",
           "type": "tfng",
           "questions": [
-            { "number": 10, "prompt": "Agricultural land is usually prepared without the help of oxen." },
-            { "number": 11, "prompt": "Children are a source of extra labour during busy periods." },
-            { "number": 12, "prompt": "The people of Luapula Province eat chicken on a regular basis." }
+            {
+              "number": 10,
+              "prompt": "Agricultural land is usually prepared without the help of oxen."
+            },
+            {
+              "number": 11,
+              "prompt": "Children are a source of extra labour during busy periods."
+            },
+            {
+              "number": 12,
+              "prompt": "The people of Luapula Province eat chicken on a regular basis."
+            }
           ]
         },
         {
@@ -80,10 +110,22 @@
               "number": 13,
               "prompt": "What is the writer's opinion about traditional farming methods in Luapula Province?",
               "options": [
-                { "letter": "A", "text": "They meet all the dietary needs of the local population." },
-                { "letter": "B", "text": "The region's natural resources have not been fully exploited." },
-                { "letter": "C", "text": "They will be inadequate to support a growing population." },
-                { "letter": "D", "text": "A larger labour force will be required for maximum efficiency." }
+                {
+                  "letter": "A",
+                  "text": "They meet all the dietary needs of the local population."
+                },
+                {
+                  "letter": "B",
+                  "text": "The region's natural resources have not been fully exploited."
+                },
+                {
+                  "letter": "C",
+                  "text": "They will be inadequate to support a growing population."
+                },
+                {
+                  "letter": "D",
+                  "text": "A larger labour force will be required for maximum efficiency."
+                }
               ]
             }
           ]
@@ -95,61 +137,157 @@
       "passage_title": "Babies cry in their mother tongue",
       "passage_subtitle": "A newborn baby's cry may sound the same to the ears of sleep-deprived parents the world over but, say scientists, comparisons of babies a few days old show that the cry of a newborn shares similarities with the language its parents speak. The reason for this is presumably the different intonation patterns in their native languages, which are already perceived in the uterus and are later reproduced",
       "passage_paragraphs": [
-        { "letter": "A", "text": "It is already known that human foetuses become attentive listeners in the final trimester of pregnancy. 'The mother's voice in particular is sensed early on,' explains Professor Amelia Finlayson of the Institute for Human Cognitive and Brain Sciences in Leipzig. 'Human foetuses perceive information filtered at around 400 hertz, but they cannot hear the actual words. It is a bit like holding your head under water when someone is talking next to the bath.'" },
-        { "letter": "B", "text": "Finlayson's research indicates that newborn babies probably cannot distinguish between the accents of Welsh and Northern Scottish people or between Low German and Upper Bavarian, but they can recognise major differences in the intonation patterns of their respective mother tongues. The Leipzig researchers showed that in an earlier experiment, by means of physiological studies of babies of three to four months of age. For that study, the babies had hoods with electrodes put on their heads, and had recordings of different intonation patterns played to them. The children's brainwaves reacted to the differences even when they were asleep." },
-        { "letter": "C", "text": "At the same time, Doctor Katya Williams of the University of Wurzburg first suggested in her PhD thesis that babies' crying might be a stage in their linguistic development. Said Williams: 'It used to be thought that a baby's cry was just a signal of alarm to call its mother. This assumption was corrected when we noticed that the cries are not the same from week to week. What biological purpose would that have? If a fire siren sounded different every day, we would not even recognise it!'" },
-        { "letter": "D", "text": "The question thus presented itself as to whether babies' cries already showed the intonation patterns of their different mother tongues. To study this, the Leipzig brain researchers and the 'screaming researchers' of the University of Wurzburg worked in collaboration with their colleagues at the Laboratory of Cognitive Sciences and Linguistics, at the Ecole Normale Superieure in Paris, to devise a new experiment. German and French babies were selected for the comparison because the differences in the intonation shapes of these two mother tongues are particularly pronounced. For example, the German word Papa is Papa in French." },
-        { "letter": "E", "text": "These three research groups made a comparison of recordings of 60 healthy newborns aged between two and five days old: 30 infants born into French-speaking families and 30 born into German-speaking families. Whenever the babies were hungry or thirsty or simply wanted their mothers and announced the fact by crying, the researchers were at the ready with their microphones and recorded their complaints. More than 20 hours of recordings of babies' crying were then fed into a computer for the purpose of analysis." },
-        { "letter": "F", "text": "The amazing result, published in the journal Modern Biology, is that just a few days after birth, babies use the acoustic input they perceive in the uterus to adapt their linguistic production to their target mother tongue. The melody of the German babies' screams usually began loudly and at a high pitch and then followed a downward curve, while the French babies more often screamed with a rising melody contour. Thus, they reproduce precisely the intonation patterns that are characteristic of their respective mother tongues. This proves, says the team of researchers, that babies' cries are attempts to communicate specifically with their mothers. 'Newborns are probably highly motivated to imitate their mother's behaviour in order to attract her and foster bonding and therefore physical nourishment,' they wrote. 'Because melody contour may be the only aspect of their mother's speech that newborns are able to imitate, this might explain why we found melody contour imitation at that early age.' This finding is interesting because it suggests that babies are producing sounds they have heard in the womb, meaning that this is learning rather than an innate behaviour." },
-        { "letter": "G", "text": "Furthermore, the findings are consistent with the hypothesis that linguistic development does not just begin from the age of nine to ten months, with the first babbling resembling language such as 'mam-mam-mam' or 'ba-ba-ba', but with the very first sounds that babies produce. 'We are born to learn language. And that starts right away,' says Dr Katya Williams. Dr Williams' colleague, Mr Walter Meade, discovered that this initial sensitivity to the melodic features of language assists infants to subsequently learn their mother tongue. 'The melodic patterns practised in crying are building blocks for eventual sound production, such as gurgling and babbling, right up to the first words and sentences,' says Meade." },
-        { "letter": "H", "text": "The results also demonstrated once again how language distinguishes human infants from all other primates. According to Williams, among baby chimpanzees, the 'crying melody' is closely associated with the build-up and reduction of pressure in the lungs, and is not generated by a mental process. 'In comparison with the sounds of other primates, the cries of a newborn human baby display a fantastic repertoire of melodic and rhythmic variations,' she adds. 'Our babies are expert vocalists in comparison with all the other animals. Could that offer some small consolation for nerve-wracked parents?'" }
+        {
+          "letter": "A",
+          "text": "It is already known that human foetuses become attentive listeners in the final trimester of pregnancy. 'The mother's voice in particular is sensed early on,' explains Professor Amelia Finlayson of the Institute for Human Cognitive and Brain Sciences in Leipzig. 'Human foetuses perceive information filtered at around 400 hertz, but they cannot hear the actual words. It is a bit like holding your head under water when someone is talking next to the bath.'"
+        },
+        {
+          "letter": "B",
+          "text": "Finlayson's research indicates that newborn babies probably cannot distinguish between the accents of Welsh and Northern Scottish people or between Low German and Upper Bavarian, but they can recognise major differences in the intonation patterns of their respective mother tongues. The Leipzig researchers showed that in an earlier experiment, by means of physiological studies of babies of three to four months of age. For that study, the babies had hoods with electrodes put on their heads, and had recordings of different intonation patterns played to them. The children's brainwaves reacted to the differences even when they were asleep."
+        },
+        {
+          "letter": "C",
+          "text": "At the same time, Doctor Katya Williams of the University of Wurzburg first suggested in her PhD thesis that babies' crying might be a stage in their linguistic development. Said Williams: 'It used to be thought that a baby's cry was just a signal of alarm to call its mother. This assumption was corrected when we noticed that the cries are not the same from week to week. What biological purpose would that have? If a fire siren sounded different every day, we would not even recognise it!'"
+        },
+        {
+          "letter": "D",
+          "text": "The question thus presented itself as to whether babies' cries already showed the intonation patterns of their different mother tongues. To study this, the Leipzig brain researchers and the 'screaming researchers' of the University of Wurzburg worked in collaboration with their colleagues at the Laboratory of Cognitive Sciences and Linguistics, at the Ecole Normale Superieure in Paris, to devise a new experiment. German and French babies were selected for the comparison because the differences in the intonation shapes of these two mother tongues are particularly pronounced. For example, the German word Papa is Papa in French."
+        },
+        {
+          "letter": "E",
+          "text": "These three research groups made a comparison of recordings of 60 healthy newborns aged between two and five days old: 30 infants born into French-speaking families and 30 born into German-speaking families. Whenever the babies were hungry or thirsty or simply wanted their mothers and announced the fact by crying, the researchers were at the ready with their microphones and recorded their complaints. More than 20 hours of recordings of babies' crying were then fed into a computer for the purpose of analysis."
+        },
+        {
+          "letter": "F",
+          "text": "The amazing result, published in the journal Modern Biology, is that just a few days after birth, babies use the acoustic input they perceive in the uterus to adapt their linguistic production to their target mother tongue. The melody of the German babies' screams usually began loudly and at a high pitch and then followed a downward curve, while the French babies more often screamed with a rising melody contour. Thus, they reproduce precisely the intonation patterns that are characteristic of their respective mother tongues. This proves, says the team of researchers, that babies' cries are attempts to communicate specifically with their mothers. 'Newborns are probably highly motivated to imitate their mother's behaviour in order to attract her and foster bonding and therefore physical nourishment,' they wrote. 'Because melody contour may be the only aspect of their mother's speech that newborns are able to imitate, this might explain why we found melody contour imitation at that early age.' This finding is interesting because it suggests that babies are producing sounds they have heard in the womb, meaning that this is learning rather than an innate behaviour."
+        },
+        {
+          "letter": "G",
+          "text": "Furthermore, the findings are consistent with the hypothesis that linguistic development does not just begin from the age of nine to ten months, with the first babbling resembling language such as 'mam-mam-mam' or 'ba-ba-ba', but with the very first sounds that babies produce. 'We are born to learn language. And that starts right away,' says Dr Katya Williams. Dr Williams' colleague, Mr Walter Meade, discovered that this initial sensitivity to the melodic features of language assists infants to subsequently learn their mother tongue. 'The melodic patterns practised in crying are building blocks for eventual sound production, such as gurgling and babbling, right up to the first words and sentences,' says Meade."
+        },
+        {
+          "letter": "H",
+          "text": "The results also demonstrated once again how language distinguishes human infants from all other primates. According to Williams, among baby chimpanzees, the 'crying melody' is closely associated with the build-up and reduction of pressure in the lungs, and is not generated by a mental process. 'In comparison with the sounds of other primates, the cries of a newborn human baby display a fantastic repertoire of melodic and rhythmic variations,' she adds. 'Our babies are expert vocalists in comparison with all the other animals. Could that offer some small consolation for nerve-wracked parents?'"
+        }
       ],
       "question_groups": [
         {
           "type": "matching_info",
           "feature_bank": [
-            { "letter": "A", "text": "Paragraph A" },
-            { "letter": "B", "text": "Paragraph B" },
-            { "letter": "C", "text": "Paragraph C" },
-            { "letter": "D", "text": "Paragraph D" },
-            { "letter": "E", "text": "Paragraph E" },
-            { "letter": "F", "text": "Paragraph F" },
-            { "letter": "G", "text": "Paragraph G" },
-            { "letter": "H", "text": "Paragraph H" }
+            {
+              "letter": "A",
+              "text": "Paragraph A"
+            },
+            {
+              "letter": "B",
+              "text": "Paragraph B"
+            },
+            {
+              "letter": "C",
+              "text": "Paragraph C"
+            },
+            {
+              "letter": "D",
+              "text": "Paragraph D"
+            },
+            {
+              "letter": "E",
+              "text": "Paragraph E"
+            },
+            {
+              "letter": "F",
+              "text": "Paragraph F"
+            },
+            {
+              "letter": "G",
+              "text": "Paragraph G"
+            },
+            {
+              "letter": "H",
+              "text": "Paragraph H"
+            }
           ],
           "instructions_html": "The text has eight sections labeled <strong>A–H</strong>. Which paragraph contains the following information? Choose the correct letter, <strong>A–H</strong>. You may choose any letter more than once.",
           "questions": [
-            { "number": 14, "prompt": "a description of the methodology of an experiment carried out by several research institutes" },
-            { "number": 15, "prompt": "the rationale for choosing the participants of an experiment" },
-            { "number": 16, "prompt": "a suggestion that babies are driven to copy their mothers to gain food" },
-            { "number": 17, "prompt": "an account of the methodology of a past experiment carried out by the Leipzig researchers" },
-            { "number": 18, "prompt": "an illustration of the limitation of babies' ability to hear inside the womb" },
-            { "number": 19, "prompt": "an assertion that babies of different nationalities cry with different intonation" }
+            {
+              "number": 14,
+              "prompt": "a description of the methodology of an experiment carried out by several research institutes"
+            },
+            {
+              "number": 15,
+              "prompt": "the rationale for choosing the participants of an experiment"
+            },
+            {
+              "number": 16,
+              "prompt": "a suggestion that babies are driven to copy their mothers to gain food"
+            },
+            {
+              "number": 17,
+              "prompt": "an account of the methodology of a past experiment carried out by the Leipzig researchers"
+            },
+            {
+              "number": 18,
+              "prompt": "an illustration of the limitation of babies' ability to hear inside the womb"
+            },
+            {
+              "number": 19,
+              "prompt": "an assertion that babies of different nationalities cry with different intonation"
+            }
           ]
         },
         {
           "bank_title": "List of researchers",
           "type": "matching_features",
           "feature_bank": [
-            { "letter": "A", "text": "Professor Amelia Finlayson" },
-            { "letter": "B", "text": "Doctor Katya Williams" },
-            { "letter": "C", "text": "Mr Walter Meade" }
+            {
+              "letter": "A",
+              "text": "Professor Amelia Finlayson"
+            },
+            {
+              "letter": "B",
+              "text": "Doctor Katya Williams"
+            },
+            {
+              "letter": "C",
+              "text": "Mr Walter Meade"
+            }
           ],
           "instructions_html": "Choose the correct group, <strong>A–C</strong>, for each item. You may choose any group more than once.",
           "questions": [
-            { "number": 20, "prompt": "Important everyday sounds must remain consistent in order to be understood." },
-            { "number": 21, "prompt": "The different tones used in crying help babies to learn language later on." },
-            { "number": 22, "prompt": "The tune of young primates' cries is created by their breathing, not their brain." },
-            { "number": 23, "prompt": "Unborn babies in the womb are focused on the voice of one specific person." }
+            {
+              "number": 20,
+              "prompt": "Important everyday sounds must remain consistent in order to be understood."
+            },
+            {
+              "number": 21,
+              "prompt": "The different tones used in crying help babies to learn language later on."
+            },
+            {
+              "number": 22,
+              "prompt": "The tune of young primates' cries is created by their breathing, not their brain."
+            },
+            {
+              "number": 23,
+              "prompt": "Unborn babies in the womb are focused on the voice of one specific person."
+            }
           ]
         },
         {
           "instructions_html": "Complete the sentences. Write <strong>ONE WORD ONLY</strong> from the text for each answer.",
           "type": "sentence_completion",
           "questions": [
-            { "number": 24, "prompt_html": "Professor Amelia Finlayson doubts unborn babies can recognise different ___" },
-            { "number": 25, "prompt_html": "In the first Leipzig experiment, the ___ of babies changed upon hearing different intonation patterns." },
-            { "number": 26, "prompt_html": "Early scientists believed that babies cried for no other reason than as a ___ that they wanted their parents." }
+            {
+              "number": 24,
+              "prompt_html": "Professor Amelia Finlayson doubts unborn babies can recognise different ___"
+            },
+            {
+              "number": 25,
+              "prompt_html": "In the first Leipzig experiment, the ___ of babies changed upon hearing different intonation patterns."
+            },
+            {
+              "number": 26,
+              "prompt_html": "Early scientists believed that babies cried for no other reason than as a ___ that they wanted their parents."
+            }
           ]
         }
       ]
@@ -170,12 +308,30 @@
           "instructions_html": "Choose <strong>YES</strong> if the statement agrees with the information given in the text, choose <strong>NO</strong> if the statement contradicts the information, or choose <strong>NOT GIVEN</strong> if there is no information on this.",
           "type": "yng",
           "questions": [
-            { "number": 27, "prompt": "Historians have expressed little curiosity about the rise of the Roman Empire." },
-            { "number": 28, "prompt": "Accounts from the first century BCE of Rome's origins may be less reliable than 21st-century accounts." },
-            { "number": 29, "prompt": "Most Roman historians viewed their ancient capital in an unrealistically positive light." },
-            { "number": 30, "prompt": "The accounts by early Roman historians about the founding of Rome provide a full description of life at that time." },
-            { "number": 31, "prompt": "It is certain that the city of Rome was in existence long before 63 BCE." },
-            { "number": 32, "prompt": "Some people oppose archaeological excavations in Rome because they can damage the ancient monuments." }
+            {
+              "number": 27,
+              "prompt": "Historians have expressed little curiosity about the rise of the Roman Empire."
+            },
+            {
+              "number": 28,
+              "prompt": "Accounts from the first century BCE of Rome's origins may be less reliable than 21st-century accounts."
+            },
+            {
+              "number": 29,
+              "prompt": "Most Roman historians viewed their ancient capital in an unrealistically positive light."
+            },
+            {
+              "number": 30,
+              "prompt": "The accounts by early Roman historians about the founding of Rome provide a full description of life at that time."
+            },
+            {
+              "number": 31,
+              "prompt": "It is certain that the city of Rome was in existence long before 63 BCE."
+            },
+            {
+              "number": 32,
+              "prompt": "Some people oppose archaeological excavations in Rome because they can damage the ancient monuments."
+            }
           ]
         },
         {
@@ -186,40 +342,88 @@
               "number": 33,
               "prompt": "According to the writer, why were the archaeological remains found at Fidenae important?",
               "options": [
-                { "letter": "A", "text": "They shed some light on the way of life of ancient Romans." },
-                { "letter": "B", "text": "They were the first evidence of an ancient Roman settlement in the area." },
-                { "letter": "C", "text": "They overturned common assumptions about the diet of ancient Romans." },
-                { "letter": "D", "text": "They showed how sophisticated domestic Roman architecture could be." }
+                {
+                  "letter": "A",
+                  "text": "They shed some light on the way of life of ancient Romans."
+                },
+                {
+                  "letter": "B",
+                  "text": "They were the first evidence of an ancient Roman settlement in the area."
+                },
+                {
+                  "letter": "C",
+                  "text": "They overturned common assumptions about the diet of ancient Romans."
+                },
+                {
+                  "letter": "D",
+                  "text": "They showed how sophisticated domestic Roman architecture could be."
+                }
               ]
             },
             {
               "number": 34,
               "prompt": "What did Rome's marble temples and Renaissance houses have in common?",
               "options": [
-                { "letter": "A", "text": "They were the most enduring buildings of their respective eras." },
-                { "letter": "B", "text": "They were evidence of Rome's enormous wealth." },
-                { "letter": "C", "text": "They were built on previously unoccupied sites." },
-                { "letter": "D", "text": "Their construction destroyed evidence of earlier buildings." }
+                {
+                  "letter": "A",
+                  "text": "They were the most enduring buildings of their respective eras."
+                },
+                {
+                  "letter": "B",
+                  "text": "They were evidence of Rome's enormous wealth."
+                },
+                {
+                  "letter": "C",
+                  "text": "They were built on previously unoccupied sites."
+                },
+                {
+                  "letter": "D",
+                  "text": "Their construction destroyed evidence of earlier buildings."
+                }
               ]
             },
             {
               "number": 35,
               "prompt": "What does the writer say in the fifth paragraph about the dating of excavated remains?",
               "options": [
-                { "letter": "A", "text": "Only the age of a proportion of remains can be agreed upon." },
-                { "letter": "B", "text": "Only an approximate sequence of eras can be established." },
-                { "letter": "C", "text": "Serious attempts at dating began only a few decades ago." },
-                { "letter": "D", "text": "More thorough investigations will result in reliable dates." }
+                {
+                  "letter": "A",
+                  "text": "Only the age of a proportion of remains can be agreed upon."
+                },
+                {
+                  "letter": "B",
+                  "text": "Only an approximate sequence of eras can be established."
+                },
+                {
+                  "letter": "C",
+                  "text": "Serious attempts at dating began only a few decades ago."
+                },
+                {
+                  "letter": "D",
+                  "text": "More thorough investigations will result in reliable dates."
+                }
               ]
             },
             {
               "number": 36,
               "prompt": "In the final paragraph, the writer makes the point that",
               "options": [
-                { "letter": "A", "text": "traditional archaeological methods of dating have been discredited." },
-                { "letter": "B", "text": "many archaeologists are reluctant to abandon traditional methods of dating." },
-                { "letter": "C", "text": "radiocarbon dating is more accurate than archaeological methods." },
-                { "letter": "D", "text": "the findings of traditional archaeology and radiocarbon dating differ." }
+                {
+                  "letter": "A",
+                  "text": "traditional archaeological methods of dating have been discredited."
+                },
+                {
+                  "letter": "B",
+                  "text": "many archaeologists are reluctant to abandon traditional methods of dating."
+                },
+                {
+                  "letter": "C",
+                  "text": "radiocarbon dating is more accurate than archaeological methods."
+                },
+                {
+                  "letter": "D",
+                  "text": "the findings of traditional archaeology and radiocarbon dating differ."
+                }
               ]
             }
           ]
@@ -227,19 +431,49 @@
         {
           "type": "sentence_endings",
           "ending_bank": [
-            { "letter": "A", "text": "composed of organic materials which are in use in the 21st century." },
-            { "letter": "B", "text": "referred to in popular legends about the origins of Rome." },
-            { "letter": "C", "text": "constructed on the site of an earlier burial ground." },
-            { "letter": "D", "text": "used to determine the relative dates of various Roman artefacts." },
-            { "letter": "E", "text": "chosen as the area for the greatest number of archaeological excavations." },
-            { "letter": "F", "text": "expected to shed some light on what Rome was originally like." }
+            {
+              "letter": "A",
+              "text": "composed of organic materials which are in use in the 21st century."
+            },
+            {
+              "letter": "B",
+              "text": "referred to in popular legends about the origins of Rome."
+            },
+            {
+              "letter": "C",
+              "text": "constructed on the site of an earlier burial ground."
+            },
+            {
+              "letter": "D",
+              "text": "used to determine the relative dates of various Roman artefacts."
+            },
+            {
+              "letter": "E",
+              "text": "chosen as the area for the greatest number of archaeological excavations."
+            },
+            {
+              "letter": "F",
+              "text": "expected to shed some light on what Rome was originally like."
+            }
           ],
           "instructions_html": "Complete each sentence with the correct ending. Choose the correct answer and move it into the gap.",
           "questions": [
-            { "number": 37, "prompt": "The Latin language can be" },
-            { "number": 38, "prompt": "The Roman Forum was" },
-            { "number": 39, "prompt": "The recently discovered building at Fidenae was" },
-            { "number": 40, "prompt": "Ancient Greek pottery is sometimes" }
+            {
+              "number": 37,
+              "prompt": "The Latin language can be"
+            },
+            {
+              "number": 38,
+              "prompt": "The Roman Forum was"
+            },
+            {
+              "number": 39,
+              "prompt": "The recently discovered building at Fidenae was"
+            },
+            {
+              "number": 40,
+              "prompt": "Ancient Greek pottery is sometimes"
+            }
           ]
         }
       ]
@@ -286,5 +520,47 @@
     "38": "C",
     "39": "A",
     "40": "D"
+  },
+  "explanations": {
+    "1": "Para 1 says land 'is allocated by the headman or headwoman of a village to people of either sex according to need.'",
+    "2": "Para 2 defines citemene as 'a system whereby crops are grown on the ashes of tree branches.'",
+    "3": "Para 3 states 'The diverse sequence ends with the vegetable cassava,' confirming it is the last crop planted.",
+    "4": "Para 6 says when forest is unavailable 'a series of ridges is built, in which combinations of maize, beans...are then planted.'",
+    "5": "Para 6 notes mango, guava and oil-palm trees with year-round water access 'are often grown around houses.'",
+    "6": "Para 7 states 'Fishing has always been a far more remunerative activity in Luapula than crop husbandry,' the one source of cash, so fish (A).",
+    "7": "Para 8 says chickens and goats 'may also be occasionally slaughtered for ceremonies,' matching consumption on special occasions; goats is B.",
+    "8": "Para 8 says only small numbers of cattle or oxen are kept 'owing to the prevalence of the tsetse fly,' an insect pest; oxen is C.",
+    "9": "Para 7 says of fish 'Much fish is dried for sale to areas away from the main waterways,' i.e. preserved and sold outside; fish is A.",
+    "10": "Para 8 confirms few oxen exist due to tsetse fly, so a couple prepares land 'by hand-hoeing,' matching land prepared without oxen.",
+    "11": "The passage never mentions children as a labour source during busy periods, so this is Not Given.",
+    "12": "Para 8 says of chickens and goats 'These animals are not a standard part of most people's diet,' contradicting regular consumption.",
+    "13": "Para 10 says neither fisheries nor woodlands can support 'the expanding population in a sustainable manner,' matching inadequate for a growing population.",
+    "14": "Para E describes recording 60 newborns from French and German families and feeding 20 hours of crying into a computer for analysis.",
+    "15": "Para D explains German and French babies were chosen 'because the differences in the intonation shapes of these two mother tongues are particularly pronounced.'",
+    "16": "Para F says newborns are 'highly motivated to imitate their mother's behaviour in order to attract her and foster bonding and therefore physical nourishment.'",
+    "17": "Para B describes the earlier Leipzig study where babies had hoods with electrodes and were played different intonation patterns.",
+    "18": "Para A compares foetal hearing to 'holding your head under water when someone is talking next to the bath,' illustrating a hearing limitation.",
+    "19": "Para F reports German babies' cries fell while French babies' rose, showing different nationalities cry with different intonation.",
+    "20": "Williams (B) says of cries 'If a fire siren sounded different every day, we would not even recognise it,' meaning key sounds must stay consistent.",
+    "21": "Para G: Williams says 'this initial sensitivity to the melodic features of language assists infants to subsequently learn their mother tongue.'",
+    "22": "Para H: Williams says baby chimpanzees' crying melody relates to lung pressure 'and is not generated by a mental process.'",
+    "23": "Para A: Finlayson states 'The mother's voice in particular is sensed early on,' so unborn babies focus on one specific person.",
+    "24": "Para A says foetuses 'cannot hear the actual words,' so Finlayson doubts they recognise different words.",
+    "25": "Para B says in the earlier study 'The children's brainwaves reacted to the differences,' i.e. brainwaves changed with intonation patterns.",
+    "26": "Para C: 'It used to be thought that a baby's cry was just a signal of alarm to call its mother,' giving the word signal.",
+    "27": "Para 1 says historians 'from ancient times to the present' have asked how Rome grew so big, contradicting little curiosity.",
+    "28": "The passage says first-century historians had little direct evidence but never compares their reliability to 21st-century accounts, so Not Given.",
+    "29": "The passage says the histories reveal Roman 'values, and their failings' but never claims most historians saw the city unrealistically positively, so Not Given.",
+    "30": "Para 1 says the early histories 'tell us very little indeed' about what earliest Rome was actually like, contradicting a full description.",
+    "31": "Para 1 states 'Rome was already a very old city by 63 BCE,' confirming it existed long before then.",
+    "32": "The passage discusses difficult excavation conditions but never says people oppose digs for damaging monuments, so Not Given.",
+    "33": "Para 3 says the Fidenae structure gives 'vivid glimpses of human and other life,' matching shedding light on ancient Romans' way of life.",
+    "34": "Para 4 says the marble temples 'obliterated much of what then lay beneath' and Renaissance cellars 'cut through even more ancient remains.'",
+    "35": "Para 5 says decades of work produced only 'a rough chronological scheme,' matching that only an approximate sequence can be established.",
+    "36": "Para 6 contrasts traditional dating of Fidenae with radiocarbon pushing it back a century, showing the two methods' findings differ.",
+    "37": "Para 2 says one can seek 'clues in the Latin language' pointing back to earliest Rome, matching shedding light on what Rome was originally like (F).",
+    "38": "Para 2 says beneath the Forum 'lie the remains of an early cemetery,' so the Forum was constructed on an earlier burial ground (C).",
+    "39": "Para 3 says the Fidenae building used wood and rammed earth, 'a construction method still utilised up to the present day' (A).",
+    "40": "Para 5 cites 'the occasional presence on graves of Greek ceramics' used in comparison to date material, matching determining relative dates (D)."
   }
 }
