@@ -14,7 +14,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "validate:specs": "node scripts/validate-specs.mjs"
+    "validate:specs": "node scripts/validate-specs.mjs",
+    "verify:layout": "node scripts/verify-layout.mjs"
   },
   "eslintConfig": {
     "extends": [
@@ -33,5 +34,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "puppeteer-core": "^25.1.0"
   }
 }
