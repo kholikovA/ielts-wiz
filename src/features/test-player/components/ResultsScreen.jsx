@@ -1,7 +1,8 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useState, useEffect } from 'react';
 import { buildLabelResolver } from './review';
 import { perTypeStats, generateFeedback } from '../grading';
 import { submitTestReport } from '../../../lib/cloudSync';
+import { fireConfetti } from '../confetti';
 
 const TIER_DECO = {
   low: "<svg viewBox='0 0 200 120' preserveAspectRatio='xMidYMid slice' xmlns='http://www.w3.org/2000/svg'><g fill='#ffffff' fill-opacity='0.12'><path d='M150 40 l3 8.6 8.6 3 -8.6 3 -3 8.6 -3 -8.6 -8.6 -3 8.6 -3 z'/><circle cx='40' cy='44' r='1.7'/><circle cx='30' cy='82' r='1.4'/><circle cx='172' cy='84' r='1.6'/><circle cx='96' cy='26' r='1.3'/></g></svg>",
@@ -82,10 +83,10 @@ function ResultItems({ units, resolver }) {
   });
 }
 
-function Collapsible({ title, defaultOpen, children }) {
+function Collapsible({ title, defaultOpen, className = '', children }) {
   const [open, setOpen] = useState(!!defaultOpen);
   return (
-    <div className={`rsec${open ? ' open' : ''}`}>
+    <div className={`rsec${open ? ' open' : ''}${className ? ` ${className}` : ''}`}>
       <button type="button" className="rsec-head" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
         <Chev /><span className="rsec-title">{title}</span>
       </button>
@@ -127,7 +128,14 @@ export default function ResultsScreen({ grade, spec, banner, onReviewInContext, 
   const unanswered = results.filter((r) => r.unanswered).length;
   const ratio = total ? correct / total : 0;
   const tier = tierFor(band, ratio, isFull);
+  const glow = isFull && band != null && band >= 8.5; // C2 — celebratory glow
   const [reportOpen, setReportOpen] = useState(false);
+
+  // Celebrate a strong, fresh result (not a review replay) once on mount.
+  useEffect(() => {
+    if (!banner && (tier === 'high' || tier === 'elite')) fireConfetti(glow ? { count: 200, durationMs: 3200 } : {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const [activePassage, setActivePassage] = useState(0);
   const resolver = useMemo(() => buildLabelResolver(spec), [spec]);
   const types = useMemo(() => perTypeStats(spec, grade), [spec, grade]);
@@ -164,7 +172,7 @@ export default function ResultsScreen({ grade, spec, banner, onReviewInContext, 
         <div className="results-left">
           {banner && <p className="results-message" style={{ opacity: 0.85, justifyContent: 'center', margin: 0 }}>{banner}</p>}
           <div className="results-stats">
-            <div className={`overall-card tier-${tier}`}>
+            <div className={`overall-card tier-${tier}${glow ? ' glow' : ''}`}>
               <Svg html={TIER_DECO[tier]} />
               <div className="overall-main">
                 <div className="overall-score" data-testid="overall-score">{bigNum}</div>
@@ -212,7 +220,7 @@ export default function ResultsScreen({ grade, spec, banner, onReviewInContext, 
               </ul>
             </Collapsible>
           )}
-          <Collapsible title="Per-passage breakdown" defaultOpen>
+          <Collapsible title="Per-passage breakdown" defaultOpen className="rsec-grow">
             <div className="passage-tabs">
               {passages.map((ps, i) => (
                 <button key={ps.part.part_number} className={`passage-tab${active === ps ? ' active' : ''}`} onClick={() => setActivePassage(i)}>

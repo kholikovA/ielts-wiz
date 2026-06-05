@@ -108,9 +108,15 @@ export function generateFeedback({ grade, types, elapsedSec, durationSec }) {
     out.push({ tone: pct >= 70 ? 'good' : 'tip', text: `${correct} of ${total} correct (${pct}%).` });
   }
 
-  const ranked = types.filter((t) => t.total >= 2).slice().sort((a, b) => a.pct - b.pct);
+  // Prioritise by the NUMBER of marks being lost, not the percentage — a type
+  // with 11/11 wrong matters more than one with 2/2 wrong, regardless of order
+  // or rate. Tie-break on the lower success rate.
+  const ranked = types
+    .map((t) => ({ ...t, wrong: t.total - t.correct }))
+    .filter((t) => t.wrong > 0)
+    .sort((a, b) => b.wrong - a.wrong || a.pct - b.pct);
   const weakest = ranked[0];
-  if (weakest && weakest.pct < 70) out.push({ tone: 'warn', text: `Weakest type: ${weakest.label} (${weakest.correct}/${weakest.total}) — make this your next focus.` });
+  if (weakest && weakest.wrong >= 2) out.push({ tone: 'warn', text: `Most marks to gain: ${weakest.label} — ${weakest.wrong} wrong (${weakest.correct}/${weakest.total}). Make this your next focus.` });
 
   const strong = types.find((t) => t.total >= 3 && t.pct === 100);
   if (strong) out.push({ tone: 'good', text: `Full marks on ${strong.label} — a reliable strength to lean on.` });

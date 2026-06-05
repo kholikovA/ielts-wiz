@@ -718,7 +718,7 @@
 }
 .rtp-root .modal h3 {
   display: flex; align-items: center; gap: 10px;
-  font-size: 17px; font-weight: 700; margin-bottom: 18px;
+  font-size: 20px; font-weight: 700; margin-bottom: 16px;
 }
 .rtp-root .modal-close {
   position: absolute; top: 18px; right: 18px;
@@ -759,21 +759,21 @@
 .rtp-root .confirm-actions-split { justify-content: stretch; }
 .rtp-root .confirm-actions-split > button { flex: 1 1 0; text-align: center; }
 .rtp-root .btn-primary {
-  font-family: var(--sans); font-size: 14px; font-weight: 500;
-  padding: 9px 20px; border-radius: 8px;
+  font-family: var(--sans); font-size: 15px; font-weight: 600;
+  padding: 11px 22px; border-radius: 8px;
   background: var(--accent); color: white;
   border: 1px solid var(--accent);
 }
 .rtp-root .btn-primary:hover { filter: brightness(.95); }
 .rtp-root .btn-secondary {
-  font-family: var(--sans); font-size: 14px; font-weight: 500;
-  padding: 9px 20px; border-radius: 8px;
+  font-family: var(--sans); font-size: 15px; font-weight: 600;
+  padding: 11px 22px; border-radius: 8px;
   background: var(--bg); color: var(--text);
   border: 1px solid var(--border-strong);
 }
 .rtp-root .btn-secondary:hover { background: var(--bg-hover); }
 .rtp-root .review-summary {
-  font-size: 14px; color: var(--text-muted);
+  font-size: 15.5px; color: var(--text-muted);
   line-height: 1.6; margin-bottom: 8px;
 }
 .rtp-root .review-summary strong { color: var(--text); }
@@ -828,14 +828,37 @@
 .rtp-root .results-message strong { color: var(--text); font-weight: 700; }
 
 /* ---------- Results v2: two-column layout (left fixed, right scrolls) ---------- */
-.rtp-root .results-screen.results-v2.open { display: flex; flex-direction: column; overflow: hidden; padding: 22px 44px 74px; }
-.rtp-root .results-v2-title { font-family: var(--sans); font-size: 28px; font-weight: 700; text-align: center; margin-bottom: 18px; flex-shrink: 0; }
+.rtp-root .results-screen.results-v2.open { display: flex; flex-direction: column; overflow: hidden; padding: 22px 44px 84px; }
+.rtp-root .results-v2-title {
+  font-family: var(--sans); font-size: 38px; font-weight: 800; line-height: 1.05;
+  letter-spacing: -0.8px; text-align: center; margin: 2px 0 20px; flex-shrink: 0;
+  background: linear-gradient(100deg, var(--text) 0%, var(--text) 30%, #9333ea 62%, #38bdf8 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+  animation: rtp-title-pop .5s cubic-bezier(.2,.8,.2,1) both;
+}
+@keyframes rtp-title-pop {
+  from { opacity: 0; transform: translateY(8px) scale(.96); }
+  to   { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) { .rtp-root .results-v2-title { animation: none; } }
 .rtp-root .results-savenotice { display: flex; align-items: center; gap: 9px; justify-content: center; flex-wrap: wrap; max-width: 720px; margin: -8px auto 18px; padding: 9px 16px; border: 1px solid var(--amber-400, #f59e0b); background: color-mix(in srgb, var(--amber-400, #f59e0b) 12%, transparent); border-radius: 10px; font-size: 13.5px; line-height: 1.4; text-align: center; flex-shrink: 0; }
 .rtp-root .results-savenotice strong { font-weight: 700; }
 .rtp-root .savenotice-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--amber-400, #f59e0b); flex-shrink: 0; }
 .rtp-root .results-grid { display: grid; grid-template-columns: minmax(340px, 420px) 1fr; gap: 30px; align-items: stretch; max-width: 1240px; width: 100%; margin: 0 auto; flex: 1; min-height: 0; }
 .rtp-root .results-left { display: flex; flex-direction: column; gap: 18px; overflow: hidden; align-self: start; max-height: 100%; }
-.rtp-root .results-right { overflow-y: auto; min-height: 0; height: 100%; padding-right: 4px; }
+/* Right column no longer scrolls as a whole — the per-passage breakdown's
+   header + tabs stay pinned and only its question list scrolls (see .rsec-grow).
+   This also removes the full-height pane scrollbar. */
+.rtp-root .results-right { display: flex; flex-direction: column; min-height: 0; height: 100%; overflow: hidden; }
+.rtp-root .rsec-grow.open { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; margin-bottom: 0; }
+.rtp-root .rsec-grow .rsec-head { flex-shrink: 0; }
+.rtp-root .rsec-grow.open .rsec-body { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; overflow: hidden; }
+.rtp-root .rsec-grow .passage-tabs { flex-shrink: 0; margin-bottom: 0; padding-bottom: 14px; }
+.rtp-root .passage-tab-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; display: flex; flex-direction: column; gap: 0; }
+/* No scrollbar anywhere in the results view (#7) — scroll still works. */
+.rtp-root .results-v2 .passage-tab-body { scrollbar-width: none; -ms-overflow-style: none; }
+.rtp-root .results-v2 .passage-tab-body::-webkit-scrollbar { width: 0; height: 0; display: none; }
 .rtp-root .results-v2 .results-stats { flex-direction: column; align-items: stretch; gap: 14px; margin-top: 0; }
 .rtp-root .results-v2 .overall-card { width: 100%; justify-content: space-between; }
 .rtp-root .results-v2 .passage-column { flex-direction: row; gap: 12px; }
@@ -881,34 +904,51 @@
 .rtp-root .results-v2 .qreview-body { grid-template-columns: 1fr; grid-auto-flow: row; }
 .rtp-root .results-v2 .result-detail { display: grid; grid-template-columns: auto 1fr; gap: 3px 12px; align-items: baseline; }
 
+/* Bottom action bar — clear hierarchy: Report is a quiet utility pinned far
+   left; the actual next-steps (Review → Share → Finish) group on the right,
+   with Finish as the solid terminal primary. */
 .rtp-root .results-actions-bottom {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 6;
-  display: flex; gap: 12px; justify-content: center; flex-wrap: wrap;
-  padding: 14px 24px; background: var(--bg); border-top: 1px solid var(--border);
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 44px;
+  background: color-mix(in srgb, var(--bg) 90%, transparent);
+  backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+  border-top: 1px solid var(--border);
 }
+.rtp-root .results-actions-bottom .rbtn-report { margin-right: auto; }
 .rtp-root .rbtn {
   display: inline-flex; align-items: center; gap: 8px;
-  padding: 10px 20px; border-radius: 10px;
+  padding: 11px 20px; border-radius: 10px;
   border: 1px solid var(--border-strong); background: var(--bg); color: var(--text);
-  font-family: var(--sans); font-size: 14px; font-weight: 600; cursor: pointer; transition: all .12s;
+  font-family: var(--sans); font-size: 14.5px; font-weight: 600; cursor: pointer; transition: all .14s;
 }
+.rtp-root .rbtn:hover { transform: translateY(-1px); }
 .rtp-root .rbtn svg { width: 17px; height: 17px; }
-.rtp-root .rbtn-report { color: #d97706; border-color: rgba(217,119,6,.5); }
-.rtp-root .rbtn-report:hover { background: rgba(217,119,6,.12); border-color: #d97706; }
+/* Report — quiet ghost utility */
+.rtp-root .rbtn-report { color: var(--text-muted); border-color: transparent; background: transparent; font-weight: 500; padding-left: 12px; padding-right: 12px; }
+.rtp-root .rbtn-report:hover { color: #d97706; background: rgba(217,119,6,.10); transform: none; }
+/* Review — prominent secondary */
 .rtp-root .rbtn-review { color: var(--accent); border-color: var(--accent); }
 .rtp-root .rbtn-review:hover { background: var(--accent-soft); }
+/* Share — branded */
 .rtp-root .rbtn-share { color: #fff; background: linear-gradient(135deg, #7c3aed, #9333ea); border-color: transparent; box-shadow: 0 4px 14px -6px rgba(124,58,237,.7); }
 .rtp-root .rbtn-share:hover { filter: brightness(1.08); }
-.rtp-root .rbtn-finish { color: var(--correct); border-color: rgba(22,163,74,.5); }
-.rtp-root .rbtn-finish:hover { background: rgba(22,163,74,.12); border-color: var(--correct); }
+/* Finish — terminal primary, most prominent */
+.rtp-root .rbtn-finish { color: #fff; background: var(--correct); border-color: transparent; font-weight: 700; padding: 11px 26px; box-shadow: 0 4px 14px -6px rgba(22,163,74,.7); }
+.rtp-root .rbtn-finish:hover { filter: brightness(1.06); }
+@media (max-width: 720px) {
+  .rtp-root .results-actions-bottom { flex-wrap: wrap; padding: 12px 16px; gap: 8px; }
+  .rtp-root .results-actions-bottom .rbtn-report { margin-right: 0; }
+  .rtp-root .rbtn { flex: 1 1 auto; justify-content: center; }
+}
 
-.rtp-root .report-modal { min-width: 420px; max-width: 520px; }
-.rtp-root .report-sub { font-family: var(--sans); font-size: 13.5px; color: var(--text-muted); margin: 6px 0 14px; line-height: 1.5; }
+.rtp-root .report-modal { min-width: 460px; max-width: 560px; }
+.rtp-root .report-sub { font-family: var(--sans); font-size: 15px; color: var(--text-muted); margin: 4px 0 16px; line-height: 1.55; }
 .rtp-root .report-textarea {
-  width: 100%; min-height: 110px; resize: vertical; padding: 10px 12px;
+  width: 100%; min-height: 120px; resize: vertical; padding: 12px 14px;
   border-radius: 8px; border: 1.5px solid var(--border-input);
   background: var(--bg-input); color: var(--text);
-  font-family: var(--sans); font-size: 14px; line-height: 1.5; outline: none;
+  font-family: var(--sans); font-size: 15px; line-height: 1.55; outline: none;
 }
 .rtp-root .report-textarea:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
 .rtp-root .report-error { color: var(--wrong); font-family: var(--sans); font-size: 13px; margin-top: 8px; }
@@ -946,6 +986,15 @@
 .rtp-root .overall-card.tier-mid { background: linear-gradient(140deg, #33260f 0%, #a4630f 100%); }
 .rtp-root .overall-card.tier-high { background: linear-gradient(140deg, #062a20 0%, #0f7459 100%); }
 .rtp-root .overall-card.tier-elite { background: linear-gradient(140deg, #2a0f63 0%, #7c3aed 60%, #9333ea 100%); }
+/* C2 (band 8.5 / 9.0) — celebratory pulsing glow. */
+.rtp-root .overall-card.glow { animation: rtp-card-glow 2.8s ease-in-out infinite; }
+@keyframes rtp-card-glow {
+  0%, 100% { box-shadow: 0 0 0 1px rgba(168,85,247,.5), 0 10px 36px -8px rgba(124,58,237,.55), 0 0 56px -12px rgba(147,51,234,.45); }
+  50%      { box-shadow: 0 0 0 1px rgba(168,85,247,.75), 0 12px 48px -4px rgba(124,58,237,.8), 0 0 92px -4px rgba(147,51,234,.7); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .rtp-root .overall-card.glow { animation: none; box-shadow: 0 0 0 1px rgba(168,85,247,.6), 0 10px 44px -6px rgba(124,58,237,.7), 0 0 70px -8px rgba(147,51,234,.6); }
+}
 .rtp-root .overall-main { position: relative; z-index: 1; text-align: center; }
 .rtp-root .overall-score {
   font-family: var(--sans); font-weight: 700; line-height: 1;
