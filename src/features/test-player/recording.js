@@ -14,12 +14,13 @@ export const lastSubmissionKey = (kind, id) => `iw.v1.lastSubmission.${kind}.${i
 export const loadLastSubmissionCloud = (kind, id) => fetchLastSubmission(kind, id);
 
 // Snapshot used to replay a submission in review mode.
-export function saveLastSubmission(kind, id, { answers, correct, total }) {
+export function saveLastSubmission(kind, id, { answers, correct, total, elapsedSec }) {
   try {
     localStorage.setItem(
       lastSubmissionKey(kind, id),
-      // HTML wrote { answers, correctCount, total, ts } — keep the same keys.
-      JSON.stringify({ answers, correctCount: correct, total, ts: new Date().toISOString() })
+      // HTML wrote { answers, correctCount, total, ts } — keep those keys; add the
+      // optional elapsedSec so the review's time feedback survives a replay.
+      JSON.stringify({ answers, correctCount: correct, total, ts: new Date().toISOString(), elapsedSec: elapsedSec ?? null })
     );
   } catch { /* storage full / unavailable — local snapshot is best-effort */ }
 }
@@ -34,12 +35,12 @@ export function loadLastSubmission(kind, id) {
 // Record a completed attempt. `replaying` is true when we're re-rendering a past
 // submission in review mode — in that case we must NOT re-record (the HTML's
 // REPLAYING guard). Returns nothing; cloud push is fire-and-forget.
-export function recordAttempt({ kind, id, answers, correct, total, replaying = false }) {
+export function recordAttempt({ kind, id, answers, correct, total, elapsedSec = null, replaying = false }) {
   if (replaying) return;
   // 1. activity log — logActivity stamps `d` (today) itself.
   logActivity({ t: kind, id: String(id), correct, total });
   // 2. review snapshot
-  saveLastSubmission(kind, id, { answers, correct, total });
+  saveLastSubmission(kind, id, { answers, correct, total, elapsedSec });
   // 3. cloud mirror incl. answers, so review works cross-device (best-effort)
-  pushResult({ kind, test_id: id, correct, total, answers, completed_at: new Date().toISOString() });
+  pushResult({ kind, test_id: id, correct, total, answers, elapsedSec, completed_at: new Date().toISOString() });
 }

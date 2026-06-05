@@ -90,7 +90,7 @@ export const fetchLastSubmission = async (kind, test_id) => {
       .order('completed_at', { ascending: false })
       .limit(1);
     if (error || !data || !data.length || !data[0].answers) return null;
-    return { answers: data[0].answers, correct: data[0].correct, total: data[0].total };
+    return { answers: data[0].answers, correct: data[0].correct, total: data[0].total, ts: data[0].completed_at };
   } catch {
     return null;
   }

@@ -76,6 +76,7 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
       setAnswers(saved.answers);
       setGrade(gradeTest(spec, saved.answers));
       setSubmittedAt(saved.ts ? new Date(saved.ts) : new Date());
+      setElapsedSec(saved.elapsedSec ?? null);
       setBanner('You are viewing your previous attempt. Answers are read-only.');
     };
     const local = loadLastSubmission(kind, id);
@@ -198,10 +199,11 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
 
   const doSubmit = useCallback(() => {
     const g = gradeTest(spec, answers);
-    recordAttempt({ kind, id, answers, correct: g.correct, total: g.total, replaying: review });
+    const elapsed = (spec.duration_minutes || 60) * 60 - secondsLeft;
+    recordAttempt({ kind, id, answers, correct: g.correct, total: g.total, elapsedSec: elapsed, replaying: review });
     setGrade(g);
     setSubmittedAt(new Date());
-    setElapsedSec((spec.duration_minutes || 60) * 60 - secondsLeft);
+    setElapsedSec(elapsed);
     setShowConfirm(false);
     try { window.scrollTo(0, 0); } catch { /* jsdom / unsupported */ }
   }, [spec, answers, kind, id, review, secondsLeft]);
