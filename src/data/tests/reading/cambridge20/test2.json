@@ -3,15 +3,58 @@
   "duration_minutes": 60,
   "answer_key_status": "complete",
   "answer_key": {
-    "1": "tail", "2": "flippers", "3": "hair", "4": "seagrasses", "5": "lips", "6": "buoyancy",
-    "7": "TRUE", "8": "NOT GIVEN", "9": "FALSE", "10": "NOT GIVEN", "11": "TRUE", "12": "NOT GIVEN", "13": "TRUE",
-    "14": "B", "15": "F", "16": "B",
-    "17": "laziness", "18": "anxious", "19": "threats", "20": "exams", "21": "perfectionists", "22": "guilt",
-    "23": ["A", "C"], "24": ["A", "C"],
-    "25": ["A", "E"], "26": ["A", "E"],
-    "27": "NO", "28": "YES", "29": "NOT GIVEN", "30": "NO", "31": "NOT GIVEN", "32": "YES",
-    "33": "F", "34": "D", "35": "H", "36": "B", "37": "G",
-    "38": "B", "39": "D", "40": "C"
+    "1": "tail",
+    "2": "flippers",
+    "3": "hair",
+    "4": "seagrasses",
+    "5": "lips",
+    "6": "buoyancy",
+    "7": "TRUE",
+    "8": "NOT GIVEN",
+    "9": "FALSE",
+    "10": "NOT GIVEN",
+    "11": "TRUE",
+    "12": "NOT GIVEN",
+    "13": "TRUE",
+    "14": "B",
+    "15": "F",
+    "16": "B",
+    "17": "laziness",
+    "18": "anxious",
+    "19": "threats",
+    "20": "exams",
+    "21": "perfectionists",
+    "22": "guilt",
+    "23": [
+      "A",
+      "C"
+    ],
+    "24": [
+      "A",
+      "C"
+    ],
+    "25": [
+      "A",
+      "E"
+    ],
+    "26": [
+      "A",
+      "E"
+    ],
+    "27": "NO",
+    "28": "YES",
+    "29": "NOT GIVEN",
+    "30": "NO",
+    "31": "NOT GIVEN",
+    "32": "YES",
+    "33": "F",
+    "34": "D",
+    "35": "H",
+    "36": "B",
+    "37": "G",
+    "38": "B",
+    "39": "D",
+    "40": "C"
   },
   "parts": [
     {
@@ -39,49 +82,108 @@
               {
                 "heading": "Appearance",
                 "items": [
-                  { "qnum": 1, "html": "look similar to dugongs, but with a differently shaped ___" }
+                  {
+                    "qnum": 1,
+                    "html": "look similar to dugongs, but with a differently shaped ___"
+                  }
                 ]
               },
               {
                 "heading": "Movement",
                 "items": [
-                  { "html": "have fewer neck bones than most mammals" },
-                  { "qnum": 2, "html": "need to use their ___ to help to turn their bodies around in order to look sideways" },
-                  { "qnum": 3, "html": "sense vibrations in the water by means of ___ on their skin" }
+                  {
+                    "html": "have fewer neck bones than most mammals"
+                  },
+                  {
+                    "qnum": 2,
+                    "html": "need to use their ___ to help to turn their bodies around in order to look sideways"
+                  },
+                  {
+                    "qnum": 3,
+                    "html": "sense vibrations in the water by means of ___ on their skin"
+                  }
                 ]
               },
               {
                 "heading": "Feeding",
                 "items": [
-                  { "qnum": 4, "html": "eat mainly aquatic vegetation, such as ___" },
-                  { "qnum": 5, "html": "grasp and pull up plants with their ___" }
+                  {
+                    "qnum": 4,
+                    "html": "eat mainly aquatic vegetation, such as ___"
+                  },
+                  {
+                    "qnum": 5,
+                    "html": "grasp and pull up plants with their ___"
+                  }
                 ]
               },
               {
                 "heading": "Breathing",
                 "items": [
-                  { "html": "come to the surface for air every 2-4 minutes when awake and every 15-20 while sleeping" },
-                  { "qnum": 6, "html": "may regulate the ___ of their bodies by using muscles of diaphragm to store air internally" }
+                  {
+                    "html": "come to the surface for air every 2-4 minutes when awake and every 15-20 while sleeping"
+                  },
+                  {
+                    "qnum": 6,
+                    "html": "may regulate the ___ of their bodies by using muscles of diaphragm to store air internally"
+                  }
                 ]
               }
             ]
           },
           "questions": [
-            { "number": 1 }, { "number": 2 }, { "number": 3 },
-            { "number": 4 }, { "number": 5 }, { "number": 6 }
+            {
+              "number": 1
+            },
+            {
+              "number": 2
+            },
+            {
+              "number": 3
+            },
+            {
+              "number": 4
+            },
+            {
+              "number": 5
+            },
+            {
+              "number": 6
+            }
           ]
         },
         {
           "type": "tfng",
           "instructions_html": "Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.",
           "questions": [
-            { "number": 7, "prompt": "West Indian manatees can be found in a variety of different aquatic habitats." },
-            { "number": 8, "prompt": "The Florida manatee lives in warmer waters than the Antillean manatee." },
-            { "number": 9, "prompt": "The African manatee's range is limited to coastal waters between the West African countries of Mauritania and Angola." },
-            { "number": 10, "prompt": "The extent of the loss of Amazonian manatees in the mid-twentieth century was only revealed many years later." },
-            { "number": 11, "prompt": "It is predicted that West Indian manatee populations will fall in the coming decades." },
-            { "number": 12, "prompt": "The risk to manatees from entanglement and plastic consumption increased significantly in the period 2009-2020." },
-            { "number": 13, "prompt": "There is some legislation in place which aims to reduce the likelihood of boat strikes on manatees in Florida." }
+            {
+              "number": 7,
+              "prompt": "West Indian manatees can be found in a variety of different aquatic habitats."
+            },
+            {
+              "number": 8,
+              "prompt": "The Florida manatee lives in warmer waters than the Antillean manatee."
+            },
+            {
+              "number": 9,
+              "prompt": "The African manatee's range is limited to coastal waters between the West African countries of Mauritania and Angola."
+            },
+            {
+              "number": 10,
+              "prompt": "The extent of the loss of Amazonian manatees in the mid-twentieth century was only revealed many years later."
+            },
+            {
+              "number": 11,
+              "prompt": "It is predicted that West Indian manatee populations will fall in the coming decades."
+            },
+            {
+              "number": 12,
+              "prompt": "The risk to manatees from entanglement and plastic consumption increased significantly in the period 2009-2020."
+            },
+            {
+              "number": 13,
+              "prompt": "There is some legislation in place which aims to reduce the likelihood of boat strikes on manatees in Florida."
+            }
           ]
         }
       ]
@@ -91,12 +193,30 @@
       "passage_title": "Procrastination",
       "passage_subtitle": "A psychologist explains why we put off important tasks and how we can break this habit",
       "passage_paragraphs": [
-        { "letter": "A", "text": "Procrastination is the habit of delaying a necessary task, usually by focusing on less urgent, more enjoyable, and easier activities instead. We all do it from time to time. We might be composing a message to a friend who we have to let down, or putting together an important report for college or work; we're doing our best to avoid doing the job at hand, but deep down we know that we should just be getting on with it. Unfortunately, berating ourselves won't stop us procrastinating again. In fact, it's one of the worst things we can do. This matters because, as my research shows, procrastination doesn't just waste time, but is actually linked to other problems, too." },
-        { "letter": "B", "text": "Contrary to popular belief, procrastination is not due to laziness or poor time management. Scientific studies suggest procrastination is, in fact, caused by poor mood management. This makes sense if we consider that people are more likely to put off starting or completing tasks that they are really not keen to do. If just thinking about the task threatens our sense of self-worth or makes us anxious, we will be more likely to put it off. Research involving brain imaging has found that areas of the brain linked to detection of threats and emotion regulation are actually different in people who chronically procrastinate compared to those who don't procrastinate frequently." },
-        { "letter": "C", "text": "Tasks that are emotionally loaded or difficult, such as preparing for exams, are prime candidates for procrastination. People with low self-esteem are more likely to procrastinate. Another group of people who tend to procrastinate are perfectionists, who worry their work will be judged harshly by others. We know that if we don't finish that report or complete those home repairs, then what we did can't be evaluated. When we avoid such tasks, we also avoid the negative emotions associated with them. This is rewarding, and it conditions us to use procrastination to repair our mood. If we engage in more enjoyable tasks instead, we get another mood boost. In the long run, however, procrastination isn't an effective way of managing emotions. The 'mood repair' we experience is temporary. Afterwards, people tend to be left with a sense of guilt that not only increases their negative mood, but also reinforces their tendency to procrastinate." },
-        { "letter": "D", "text": "So why is this such a problem? When most people think of the costs of procrastination, they think of the toll on productivity. For example, studies have shown that procrastination negatively impacts on student performance. But putting off reading textbooks and writing essays may affect other areas of students' lives. In one study of over 3,000 German students over a six-month period, those who reported procrastinating over their university work were also more likely to engage in study-related misconduct, such as cheating and plagiarism. But the behaviour that procrastination was most closely linked with was using fraudulent excuses to get deadline extensions. Other research shows that employees on average spend almost a quarter of their workday procrastinating, and again this is linked with negative outcomes. In fact, in one US survey of over 22,000 employees, participants who said they regularly procrastinated had less annual income and less employment stability. For every one-point increase on a measure of chronic procrastination, annual income decreased by US$15,000." },
-        { "letter": "E", "text": "Procrastination also correlates with serious health and well-being problems. A tendency to procrastinate is linked to poor mental health, including higher levels of depression and anxiety. Across numerous studies, I've found people who regularly procrastinate report a greater number of health issues, such as headaches, flu and colds, and digestive issues. They also experience higher levels of stress and poor sleep quality. They are less likely to practise healthy behaviours, such as eating a healthy diet and regularly exercising, and use destructive coping strategies to manage their stress. In one study of over 700 people, I found people prone to procrastination had a 63% greater risk of poor heart health after accounting for other personality traits and demographics." },
-        { "letter": "F", "text": "Finding better ways of managing our emotions is one route out of the vicious cycle of procrastination. An important first step is to manage our environment and how we view the task. There are a number of evidence-based strategies that can help us fend off distractions that can occupy our minds when we should be focusing on the thing we should be getting on with. For example, reminding ourselves about why the task is important and valuable can increase positive feelings towards it. Forgiving ourselves and feeling compassion when we procrastinate can help break the procrastination cycle. We should admit that we feel bad, but not be overly critical of ourselves. We should remind ourselves that we're not the first person to procrastinate, nor the last. Doing this can take the edge off the negative feelings we have about ourselves when we procrastinate. This can all make it easier to get back on track." }
+        {
+          "letter": "A",
+          "text": "Procrastination is the habit of delaying a necessary task, usually by focusing on less urgent, more enjoyable, and easier activities instead. We all do it from time to time. We might be composing a message to a friend who we have to let down, or putting together an important report for college or work; we're doing our best to avoid doing the job at hand, but deep down we know that we should just be getting on with it. Unfortunately, berating ourselves won't stop us procrastinating again. In fact, it's one of the worst things we can do. This matters because, as my research shows, procrastination doesn't just waste time, but is actually linked to other problems, too."
+        },
+        {
+          "letter": "B",
+          "text": "Contrary to popular belief, procrastination is not due to laziness or poor time management. Scientific studies suggest procrastination is, in fact, caused by poor mood management. This makes sense if we consider that people are more likely to put off starting or completing tasks that they are really not keen to do. If just thinking about the task threatens our sense of self-worth or makes us anxious, we will be more likely to put it off. Research involving brain imaging has found that areas of the brain linked to detection of threats and emotion regulation are actually different in people who chronically procrastinate compared to those who don't procrastinate frequently."
+        },
+        {
+          "letter": "C",
+          "text": "Tasks that are emotionally loaded or difficult, such as preparing for exams, are prime candidates for procrastination. People with low self-esteem are more likely to procrastinate. Another group of people who tend to procrastinate are perfectionists, who worry their work will be judged harshly by others. We know that if we don't finish that report or complete those home repairs, then what we did can't be evaluated. When we avoid such tasks, we also avoid the negative emotions associated with them. This is rewarding, and it conditions us to use procrastination to repair our mood. If we engage in more enjoyable tasks instead, we get another mood boost. In the long run, however, procrastination isn't an effective way of managing emotions. The 'mood repair' we experience is temporary. Afterwards, people tend to be left with a sense of guilt that not only increases their negative mood, but also reinforces their tendency to procrastinate."
+        },
+        {
+          "letter": "D",
+          "text": "So why is this such a problem? When most people think of the costs of procrastination, they think of the toll on productivity. For example, studies have shown that procrastination negatively impacts on student performance. But putting off reading textbooks and writing essays may affect other areas of students' lives. In one study of over 3,000 German students over a six-month period, those who reported procrastinating over their university work were also more likely to engage in study-related misconduct, such as cheating and plagiarism. But the behaviour that procrastination was most closely linked with was using fraudulent excuses to get deadline extensions. Other research shows that employees on average spend almost a quarter of their workday procrastinating, and again this is linked with negative outcomes. In fact, in one US survey of over 22,000 employees, participants who said they regularly procrastinated had less annual income and less employment stability. For every one-point increase on a measure of chronic procrastination, annual income decreased by US$15,000."
+        },
+        {
+          "letter": "E",
+          "text": "Procrastination also correlates with serious health and well-being problems. A tendency to procrastinate is linked to poor mental health, including higher levels of depression and anxiety. Across numerous studies, I've found people who regularly procrastinate report a greater number of health issues, such as headaches, flu and colds, and digestive issues. They also experience higher levels of stress and poor sleep quality. They are less likely to practise healthy behaviours, such as eating a healthy diet and regularly exercising, and use destructive coping strategies to manage their stress. In one study of over 700 people, I found people prone to procrastination had a 63% greater risk of poor heart health after accounting for other personality traits and demographics."
+        },
+        {
+          "letter": "F",
+          "text": "Finding better ways of managing our emotions is one route out of the vicious cycle of procrastination. An important first step is to manage our environment and how we view the task. There are a number of evidence-based strategies that can help us fend off distractions that can occupy our minds when we should be focusing on the thing we should be getting on with. For example, reminding ourselves about why the task is important and valuable can increase positive feelings towards it. Forgiving ourselves and feeling compassion when we procrastinate can help break the procrastination cycle. We should admit that we feel bad, but not be overly critical of ourselves. We should remind ourselves that we're not the first person to procrastinate, nor the last. Doing this can take the edge off the negative feelings we have about ourselves when we procrastinate. This can all make it easier to get back on track."
+        }
       ],
       "question_groups": [
         {
@@ -104,17 +224,44 @@
           "instructions_html": "Reading Passage 2 has six paragraphs, <strong>A–F</strong>. Which paragraph contains the following information? <strong>NB</strong> You may use any letter more than once.",
           "table_column_header": "Information",
           "feature_bank": [
-            { "letter": "A", "text": "Paragraph A" },
-            { "letter": "B", "text": "Paragraph B" },
-            { "letter": "C", "text": "Paragraph C" },
-            { "letter": "D", "text": "Paragraph D" },
-            { "letter": "E", "text": "Paragraph E" },
-            { "letter": "F", "text": "Paragraph F" }
+            {
+              "letter": "A",
+              "text": "Paragraph A"
+            },
+            {
+              "letter": "B",
+              "text": "Paragraph B"
+            },
+            {
+              "letter": "C",
+              "text": "Paragraph C"
+            },
+            {
+              "letter": "D",
+              "text": "Paragraph D"
+            },
+            {
+              "letter": "E",
+              "text": "Paragraph E"
+            },
+            {
+              "letter": "F",
+              "text": "Paragraph F"
+            }
           ],
           "questions": [
-            { "number": 14, "prompt": "mention of false assumptions about why people procrastinate" },
-            { "number": 15, "prompt": "reference to the realisation that others also procrastinate" },
-            { "number": 16, "prompt": "neurological evidence of a link between procrastination and emotion" }
+            {
+              "number": 14,
+              "prompt": "mention of false assumptions about why people procrastinate"
+            },
+            {
+              "number": 15,
+              "prompt": "reference to the realisation that others also procrastinate"
+            },
+            {
+              "number": 16,
+              "prompt": "neurological evidence of a link between procrastination and emotion"
+            }
           ]
         },
         {
@@ -125,8 +272,24 @@
             "body_html": "Many people think that procrastination is the result of ___ . Others believe it to be the result of an inability to organise time efficiently. But scientific studies suggest that procrastination is actually due to poor mood management. The tasks we are most likely to put off are those that could damage our self-esteem or cause us to feel ___ when we think about them. Research comparing chronic procrastinators with other people even found differences in the brain regions associated with regulating emotions and identifying ___ . Emotionally loaded and difficult tasks often cause us to procrastinate. Getting ready to take ___ might be a typical example of one such task. People who are likely to procrastinate tend to be either ___ or those with low self-esteem. Procrastination is only a short-term measure for managing emotions. It's often followed by a feeling of ___ , which worsens our mood and leads to more procrastination."
           },
           "questions": [
-            { "number": 17 }, { "number": 18 }, { "number": 19 },
-            { "number": 20 }, { "number": 21 }, { "number": 22 }
+            {
+              "number": 17
+            },
+            {
+              "number": 18
+            },
+            {
+              "number": 19
+            },
+            {
+              "number": 20
+            },
+            {
+              "number": 21
+            },
+            {
+              "number": 22
+            }
           ]
         },
         {
@@ -137,14 +300,31 @@
               "number": 23,
               "prompt": "Which TWO comparisons between employees who often procrastinate and those who do not are mentioned in the text?",
               "options": [
-                { "letter": "A", "text": "Their salaries are lower." },
-                { "letter": "B", "text": "The quality of their work is inferior." },
-                { "letter": "C", "text": "They don't keep their jobs for as long." },
-                { "letter": "D", "text": "They don't enjoy their working lives as much." },
-                { "letter": "E", "text": "They have poorer relationships with colleagues." }
+                {
+                  "letter": "A",
+                  "text": "Their salaries are lower."
+                },
+                {
+                  "letter": "B",
+                  "text": "The quality of their work is inferior."
+                },
+                {
+                  "letter": "C",
+                  "text": "They don't keep their jobs for as long."
+                },
+                {
+                  "letter": "D",
+                  "text": "They don't enjoy their working lives as much."
+                },
+                {
+                  "letter": "E",
+                  "text": "They have poorer relationships with colleagues."
+                }
               ]
             },
-            { "number": 24 }
+            {
+              "number": 24
+            }
           ]
         },
         {
@@ -155,14 +335,31 @@
               "number": 25,
               "prompt": "Which TWO recommendations for getting out of a cycle of procrastination does the writer give?",
               "options": [
-                { "letter": "A", "text": "not judging ourselves harshly" },
-                { "letter": "B", "text": "setting ourselves manageable aims" },
-                { "letter": "C", "text": "rewarding ourselves for tasks achieved" },
-                { "letter": "D", "text": "prioritising tasks according to their importance" },
-                { "letter": "E", "text": "avoiding things that stop us concentrating on our tasks" }
+                {
+                  "letter": "A",
+                  "text": "not judging ourselves harshly"
+                },
+                {
+                  "letter": "B",
+                  "text": "setting ourselves manageable aims"
+                },
+                {
+                  "letter": "C",
+                  "text": "rewarding ourselves for tasks achieved"
+                },
+                {
+                  "letter": "D",
+                  "text": "prioritising tasks according to their importance"
+                },
+                {
+                  "letter": "E",
+                  "text": "avoiding things that stop us concentrating on our tasks"
+                }
               ]
             },
-            { "number": 26 }
+            {
+              "number": 26
+            }
           ]
         }
       ]
@@ -186,12 +383,30 @@
           "type": "yng",
           "instructions_html": "Do the following statements agree with the claims of the writer in Reading Passage 3? Choose <strong>YES</strong> if the statement agrees with the claims of the writer, <strong>NO</strong> if the statement contradicts the claims of the writer, or <strong>NOT GIVEN</strong> if it is impossible to say what the writer thinks about this.",
           "questions": [
-            { "number": 27, "prompt": "When DeJesus first used ABS, he shared decision-making about strikes with it." },
-            { "number": 28, "prompt": "MLB considered it necessary to amend the size of the strike zone when criticisms were received from players." },
-            { "number": 29, "prompt": "MLB is keen to justify the money spent on improving the accuracy of ABS's calculations." },
-            { "number": 30, "prompt": "The hundred-mile-an-hour fastball led to a more exciting style of play." },
-            { "number": 31, "prompt": "The differing proposals for alterations to the baseball bat led to fierce debate on Sword's team." },
-            { "number": 32, "prompt": "ABS makes changes to the shape of the strike zone feasible." }
+            {
+              "number": 27,
+              "prompt": "When DeJesus first used ABS, he shared decision-making about strikes with it."
+            },
+            {
+              "number": 28,
+              "prompt": "MLB considered it necessary to amend the size of the strike zone when criticisms were received from players."
+            },
+            {
+              "number": 29,
+              "prompt": "MLB is keen to justify the money spent on improving the accuracy of ABS's calculations."
+            },
+            {
+              "number": 30,
+              "prompt": "The hundred-mile-an-hour fastball led to a more exciting style of play."
+            },
+            {
+              "number": 31,
+              "prompt": "The differing proposals for alterations to the baseball bat led to fierce debate on Sword's team."
+            },
+            {
+              "number": 32,
+              "prompt": "ABS makes changes to the shape of the strike zone feasible."
+            }
           ]
         },
         {
@@ -200,20 +415,57 @@
           "layout": {
             "title": "Calls by the umpire",
             "word_bank": [
-              { "letter": "A", "text": "pitch boundary" },
-              { "letter": "B", "text": "numerous disputes" },
-              { "letter": "C", "text": "team tactics" },
-              { "letter": "D", "text": "subjective assessment" },
-              { "letter": "E", "text": "widespread approval" },
-              { "letter": "F", "text": "former roles" },
-              { "letter": "G", "text": "total silence" },
-              { "letter": "H", "text": "perceived area" }
+              {
+                "letter": "A",
+                "text": "pitch boundary"
+              },
+              {
+                "letter": "B",
+                "text": "numerous disputes"
+              },
+              {
+                "letter": "C",
+                "text": "team tactics"
+              },
+              {
+                "letter": "D",
+                "text": "subjective assessment"
+              },
+              {
+                "letter": "E",
+                "text": "widespread approval"
+              },
+              {
+                "letter": "F",
+                "text": "former roles"
+              },
+              {
+                "letter": "G",
+                "text": "total silence"
+              },
+              {
+                "letter": "H",
+                "text": "perceived area"
+              }
             ],
             "body_html": "Even after ABS was developed, MLB still wanted human umpires to shout out decisions as they had in their ___ . The umpire's job had, at one time, required a ___ about whether a ball was a strike. A ball is considered a strike when the batter does not hit it and it crosses through a ___ extending approximately from the batter's knee to his chest. In the past, ___ over strike calls were not uncommon, but today everyone accepts the complete ban on pushing or shoving the umpire. One difference, however, is that during the first game DeJesus used ABS, strike calls were met with ___ ."
           },
           "questions": [
-            { "number": 33 }, { "number": 34 }, { "number": 35 },
-            { "number": 36 }, { "number": 37 }
+            {
+              "number": 33
+            },
+            {
+              "number": 34
+            },
+            {
+              "number": 35
+            },
+            {
+              "number": 36
+            },
+            {
+              "number": 37
+            }
           ]
         },
         {
@@ -224,35 +476,113 @@
               "number": 38,
               "prompt": "What does the writer suggest about ABS in the fifth paragraph?",
               "options": [
-                { "letter": "A", "text": "It is bound to make key decisions that are wrong." },
-                { "letter": "B", "text": "It may reduce some of the appeal of the game." },
-                { "letter": "C", "text": "It will lead to the disappearance of human umpires." },
-                { "letter": "D", "text": "It may increase calls for the rules of baseball to be changed." }
+                {
+                  "letter": "A",
+                  "text": "It is bound to make key decisions that are wrong."
+                },
+                {
+                  "letter": "B",
+                  "text": "It may reduce some of the appeal of the game."
+                },
+                {
+                  "letter": "C",
+                  "text": "It will lead to the disappearance of human umpires."
+                },
+                {
+                  "letter": "D",
+                  "text": "It may increase calls for the rules of baseball to be changed."
+                }
               ]
             },
             {
               "number": 39,
               "prompt": "Morgan Sword says that the introduction of ABS",
               "options": [
-                { "letter": "A", "text": "was regarded as an experiment without a guaranteed outcome." },
-                { "letter": "B", "text": "was intended to keep up with developments in other sports." },
-                { "letter": "C", "text": "was a response to changing attitudes about the role of sport." },
-                { "letter": "D", "text": "was an attempt to ensure baseball retained a young audience." }
+                {
+                  "letter": "A",
+                  "text": "was regarded as an experiment without a guaranteed outcome."
+                },
+                {
+                  "letter": "B",
+                  "text": "was intended to keep up with developments in other sports."
+                },
+                {
+                  "letter": "C",
+                  "text": "was a response to changing attitudes about the role of sport."
+                },
+                {
+                  "letter": "D",
+                  "text": "was an attempt to ensure baseball retained a young audience."
+                }
               ]
             },
             {
               "number": 40,
               "prompt": "Why does the writer include the views of Noe and Russo?",
               "options": [
-                { "letter": "A", "text": "to show that attitudes to technology vary widely" },
-                { "letter": "B", "text": "to argue that people have unrealistic expectations of sport" },
-                { "letter": "C", "text": "to indicate that accuracy is not the same thing as enjoyment" },
-                { "letter": "D", "text": "to suggest that the number of baseball fans needs to increase" }
+                {
+                  "letter": "A",
+                  "text": "to show that attitudes to technology vary widely"
+                },
+                {
+                  "letter": "B",
+                  "text": "to argue that people have unrealistic expectations of sport"
+                },
+                {
+                  "letter": "C",
+                  "text": "to indicate that accuracy is not the same thing as enjoyment"
+                },
+                {
+                  "letter": "D",
+                  "text": "to suggest that the number of baseball fans needs to increase"
+                }
               ]
             }
           ]
         }
       ]
     }
-  ]
+  ],
+  "explanations": {
+    "1": "The passage says the manatee has 'a broad, rounded tail, whereas the dugong's is fluked,' so the tail shape differs.",
+    "2": "To look left or right a manatee 'must turn its entire body, steering with its flippers,' so flippers help it turn.",
+    "3": "They have 'hairs covering their bodies which help them sense vibrations in the water,' matching the skin-vibration note.",
+    "4": "'Seagrasses and other marine plants make up most of a manatee's diet,' giving seagrasses as an example of aquatic vegetation.",
+    "5": "Manatees 'have lips which function like a pair of hands to help tear food away from the seafloor,' grasping and pulling plants.",
+    "6": "They 'use their muscular diaphragm and breathing to adjust their buoyancy,' matching regulating the body's buoyancy by storing air.",
+    "7": "The West Indian manatee 'moves between fresh water and salt water,' using mangroves, reefs, rivers, lakes and lagoons - varied habitats.",
+    "8": "The passage gives both species' locations but never compares the water temperatures of the Florida and Antillean manatees.",
+    "9": "It is also found in 'rivers,' seen in landlocked Mali and Niger, so its range is not limited to coastal waters.",
+    "10": "The passage gives the kill estimate for 1935-1954 but never states this loss was only revealed many years later.",
+    "11": "Both West Indian subspecies 'are also expected to undergo a decline of 20% over the next 40 years,' a predicted future fall.",
+    "12": "The review counts cases from 2009-2020 but does not state the risk increased significantly over that period.",
+    "13": "'Laws in certain parts of Florida now limit boat speeds during winter,' aiming to reduce boat strikes on manatees.",
+    "14": "Paragraph B opens 'Contrary to popular belief, procrastination is not due to laziness,' correcting a false assumption about its cause.",
+    "15": "Paragraph F advises reminding ourselves 'we're not the first person to procrastinate, nor the last,' the realisation that others do it too.",
+    "16": "Paragraph B reports brain-imaging found areas 'linked to detection of threats and emotion regulation' differ in chronic procrastinators.",
+    "17": "Paragraph B states procrastination 'is not due to laziness,' the popular but mistaken belief being laziness.",
+    "18": "If thinking about a task 'threatens our sense of self-worth or makes us anxious, we will be more likely to put it off.'",
+    "19": "Brain areas 'linked to detection of threats and emotion regulation' differ, so the regions identify threats.",
+    "20": "'Tasks that are emotionally loaded or difficult, such as preparing for exams, are prime candidates for procrastination.'",
+    "21": "'Another group of people who tend to procrastinate are perfectionists,' alongside those with low self-esteem.",
+    "22": "Afterwards 'people tend to be left with a sense of guilt that not only increases their negative mood' and reinforces procrastination.",
+    "23": "The survey found procrastinating employees 'had less annual income' (A) 'and less employment stability' (C).",
+    "24": "Same passage: lower 'annual income' (A) and 'less employment stability,' meaning they don't keep jobs as long (C).",
+    "25": "Paragraph F recommends 'Forgiving ourselves' (A) and strategies to 'fend off distractions' when we should focus (E).",
+    "26": "Same paragraph: not being 'overly critical of ourselves' (A) and fending off 'distractions' that occupy our minds (E).",
+    "27": "DeJesus made no judgments himself; decisions were 'fed to him through an earpiece,' so he did not share decision-making.",
+    "28": "After complaints 'about some strange calls,' MLB 'decided to tweak the dimensions of the zone,' confirming the amendment.",
+    "29": "The passage discusses ABS's accuracy but never says MLB wants to justify money spent on improving it.",
+    "30": "The fastball 'flattened the game into strikeouts, walks, and home runs - a type of play lacking much action,' not more exciting.",
+    "31": "Sword's team 'talked about changing' rules including bats, but no fierce debate over bat proposals is mentioned.",
+    "32": "'Once you get the technology right, you can load any strike zone you want,' a triangle, blob or Texas shape - so reshaping is feasible.",
+    "33": "MLB wanted umpires to announce calls 'just as they would have done in the past,' matching their former roles.",
+    "34": "'Previously, calling a strike was a judgment call on the part of the umpire,' a subjective assessment.",
+    "35": "The strike zone is 'an imaginary zone' from knees to mid-chest - a perceived area, not a physical one.",
+    "36": "'Countless arguments... have taken place over its boundaries,' matching numerous disputes over strike calls.",
+    "37": "At DeJesus's first game 'there was no heckling and no shouted disagreement. Nobody said a word' - total silence.",
+    "38": "The writer asks 'whether controversy is worth reducing, or whether it is the sign of a human hand,' hinting ABS may lessen the game's appeal.",
+    "39": "Sword says ABS aimed to make baseball exciting because 'executives are terrified of losing younger fans,' retaining a young audience.",
+    "40": "Noe and Russo argue 'accuracy is not the answer' and 'perfect would be weird,' showing accuracy differs from enjoyment."
+  }
 }

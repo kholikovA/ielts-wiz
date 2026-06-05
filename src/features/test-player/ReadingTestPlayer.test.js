@@ -33,7 +33,9 @@ afterEach(() => {
 
 const click = (el) => act(() => { el.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
 const setVal = (el, value) => act(() => {
-  const proto = el.tagName === 'SELECT' ? window.HTMLSelectElement.prototype : window.HTMLInputElement.prototype;
+  const proto = el.tagName === 'SELECT' ? window.HTMLSelectElement.prototype
+    : el.tagName === 'TEXTAREA' ? window.HTMLTextAreaElement.prototype
+      : window.HTMLInputElement.prototype;
   Object.getOwnPropertyDescriptor(proto, 'value').set.call(el, value);
   el.dispatchEvent(new Event('input', { bubbles: true }));
   el.dispatchEvent(new Event('change', { bubbles: true }));
@@ -70,7 +72,7 @@ function answerEverything(spec) {
       const first = String(Array.isArray(k) ? k[0] : k).split(/\s*[/|]\s*/)[0].trim();
       const sel = container.querySelector(`select.gap-input[data-qnum="${q}"]`);
       if (sel) { setVal(sel, first); continue; }
-      const inp = container.querySelector(`input.gap-input[data-qnum="${q}"]`);
+      const inp = container.querySelector(`textarea.gap-input[data-qnum="${q}"]`);
       if (inp) setVal(inp, first);
     }
   }

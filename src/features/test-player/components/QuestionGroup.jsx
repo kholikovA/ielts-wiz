@@ -61,7 +61,7 @@ function RadioGroup({ qnum, options, value, onChange, disabled }) {
   );
 }
 
-export default function QuestionGroup({ group, answers, onChange, place, readOnly = false, currentQ = null, results = null, resolver = null }) {
+export default function QuestionGroup({ group, answers, onChange, place, readOnly = false, currentQ = null, results = null, resolver = null, explanations = null }) {
   const qtype = group.type;
   const questions = group.questions || [];
   const qnums = questions.map((q) => q.number);
@@ -332,7 +332,7 @@ export default function QuestionGroup({ group, answers, onChange, place, readOnl
       {body}
       {results && resolver && (
         <div className="qreview-inline" style={{ marginTop: 10, display: 'flex', flexDirection: 'column', gap: 6 }}>
-          {[...qnums].sort((a, b) => a - b).map((qn) => results[qn] && <ResultMarker key={qn} r={results[qn]} resolver={resolver} />)}
+          {[...qnums].sort((a, b) => a - b).map((qn) => results[qn] && <ResultMarker key={qn} r={results[qn]} resolver={resolver} explanation={explanations ? explanations[qn] : null} />)}
         </div>
       )}
     </div>

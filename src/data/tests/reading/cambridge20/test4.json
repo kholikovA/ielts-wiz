@@ -3,14 +3,46 @@
   "duration_minutes": 60,
   "answer_key_status": "complete",
   "answer_key": {
-    "1": "teacher", "2": "charcoal", "3": "skyscrapers", "4": "flowers", "5": "bones", "6": "landscape", "7": "rivers",
-    "8": "FALSE", "9": "TRUE", "10": "FALSE", "11": "TRUE", "12": "NOT GIVEN", "13": "NOT GIVEN",
-    "14": "C", "15": "A", "16": "D", "17": "F",
-    "18": "pumps", "19": "dams", "20": "float", "21": "crops", "22": "trees",
-    "23": "B", "24": "E", "25": "A", "26": "C",
-    "27": "D", "28": "G", "29": "B", "30": "C", "31": "B",
-    "32": "D", "33": "E", "34": "B", "35": "C", "36": "A",
-    "37": "jackals", "38": "diseases", "39": "food", "40": "foxes"
+    "1": "teacher",
+    "2": "charcoal",
+    "3": "skyscrapers",
+    "4": "flowers",
+    "5": "bones",
+    "6": "landscape",
+    "7": "rivers",
+    "8": "FALSE",
+    "9": "TRUE",
+    "10": "FALSE",
+    "11": "TRUE",
+    "12": "NOT GIVEN",
+    "13": "NOT GIVEN",
+    "14": "C",
+    "15": "A",
+    "16": "D",
+    "17": "F",
+    "18": "pumps",
+    "19": "dams",
+    "20": "float",
+    "21": "crops",
+    "22": "trees",
+    "23": "B",
+    "24": "E",
+    "25": "A",
+    "26": "C",
+    "27": "D",
+    "28": "G",
+    "29": "B",
+    "30": "C",
+    "31": "B",
+    "32": "D",
+    "33": "E",
+    "34": "B",
+    "35": "C",
+    "36": "A",
+    "37": "jackals",
+    "38": "diseases",
+    "39": "food",
+    "40": "foxes"
   },
   "parts": [
     {
@@ -41,32 +73,90 @@
               {
                 "heading": "",
                 "items": [
-                  { "qnum": 1, "html": "studied art, then worked as a ___ in various places in the USA" },
-                  { "qnum": 2, "html": "created drawings using ___ which were exhibited in New York City" },
-                  { "qnum": 3, "html": "moved to New York and became famous for her paintings of the city's ___" },
-                  { "qnum": 4, "html": "produced a series of innovative close-up paintings of ___" },
-                  { "qnum": 5, "html": "went to New Mexico and was initially inspired to paint the many ___ that could be found there" },
-                  { "qnum": 6, "html": "continued to paint various features that together formed the dramatic ___ of New Mexico for over forty years" },
-                  { "qnum": 7, "html": "travelled widely by plane in later years, and painted pictures of clouds and ___ seen from above" }
+                  {
+                    "qnum": 1,
+                    "html": "studied art, then worked as a ___ in various places in the USA"
+                  },
+                  {
+                    "qnum": 2,
+                    "html": "created drawings using ___ which were exhibited in New York City"
+                  },
+                  {
+                    "qnum": 3,
+                    "html": "moved to New York and became famous for her paintings of the city's ___"
+                  },
+                  {
+                    "qnum": 4,
+                    "html": "produced a series of innovative close-up paintings of ___"
+                  },
+                  {
+                    "qnum": 5,
+                    "html": "went to New Mexico and was initially inspired to paint the many ___ that could be found there"
+                  },
+                  {
+                    "qnum": 6,
+                    "html": "continued to paint various features that together formed the dramatic ___ of New Mexico for over forty years"
+                  },
+                  {
+                    "qnum": 7,
+                    "html": "travelled widely by plane in later years, and painted pictures of clouds and ___ seen from above"
+                  }
                 ]
               }
             ]
           },
           "questions": [
-            { "number": 1 }, { "number": 2 }, { "number": 3 }, { "number": 4 },
-            { "number": 5 }, { "number": 6 }, { "number": 7 }
+            {
+              "number": 1
+            },
+            {
+              "number": 2
+            },
+            {
+              "number": 3
+            },
+            {
+              "number": 4
+            },
+            {
+              "number": 5
+            },
+            {
+              "number": 6
+            },
+            {
+              "number": 7
+            }
           ]
         },
         {
           "type": "tfng",
           "instructions_html": "Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.",
           "questions": [
-            { "number": 8, "prompt": "Georgia O'Keeffe's style was greatly influenced by the changing fashions in art over the seven decades of her career." },
-            { "number": 9, "prompt": "When O'Keeffe finished high school, she had already made her mind up about the career that she wanted." },
-            { "number": 10, "prompt": "Alfred Stieglitz first discovered O'Keeffe's work when she sent some abstract drawings to his gallery in New York City." },
-            { "number": 11, "prompt": "O'Keeffe was the subject of Stieglitz's photographic work for many years." },
-            { "number": 12, "prompt": "O'Keeffe's paintings of the patio of her house in Abiquiú were among the artist's favourite works." },
-            { "number": 13, "prompt": "O'Keeffe produced a greater quantity of work during the 1950s to 1970s than at any other time in her life." }
+            {
+              "number": 8,
+              "prompt": "Georgia O'Keeffe's style was greatly influenced by the changing fashions in art over the seven decades of her career."
+            },
+            {
+              "number": 9,
+              "prompt": "When O'Keeffe finished high school, she had already made her mind up about the career that she wanted."
+            },
+            {
+              "number": 10,
+              "prompt": "Alfred Stieglitz first discovered O'Keeffe's work when she sent some abstract drawings to his gallery in New York City."
+            },
+            {
+              "number": 11,
+              "prompt": "O'Keeffe was the subject of Stieglitz's photographic work for many years."
+            },
+            {
+              "number": 12,
+              "prompt": "O'Keeffe's paintings of the patio of her house in Abiquiú were among the artist's favourite works."
+            },
+            {
+              "number": 13,
+              "prompt": "O'Keeffe produced a greater quantity of work during the 1950s to 1970s than at any other time in her life."
+            }
           ]
         }
       ]
@@ -75,12 +165,30 @@
       "part_number": 2,
       "passage_title": "Adapting to the effects of climate change",
       "passage_paragraphs": [
-        { "letter": "A", "text": "All around the world, nations are already preparing for, and adapting to, climate change and its impacts. Even if we stopped all CO2 emissions tomorrow, we would continue to see the impact of the CO2 already released since industrial times, with scientists forecasting that global warming would continue for around 40 years. In the meantime, ice caps would continue to melt and sea levels rise. Some countries and regions will suffer more extreme impacts from these changes than others. It's in these places that innovation is thriving." },
-        { "letter": "B", "text": "In Miami Beach, Florida, USA, seawater isn't just breaching the island city's walls, it's seeping up through the ground, so the only way to save the city is to lift it up above sea level. Starting in the lowest and most vulnerable neighbourhoods, roads have been raised by as much as 61 centimetres. The elevation work was carried out as part of Miami Beach's ambitious but much-needed stormwater-management programme. In addition to the road adaptations, the city has set up new pumps that can remove up to 75,000 litres of water per minute. In the face of floods, climate-mitigation strategies have often been overlooked, says Yanira Pineda, a senior sustainability coordinator. She knows that they're essential and that the job is far from over. 'We know that in 20, 30, 40 years, we'll need to go back in there and adjust to the changing environment,' she says." },
-        { "letter": "C", "text": "Seawalls are a staple strategy for many coastal communities, but on the soft, muddy northern shores of Java, Indonesia, they frequently collapse, further exacerbating coastal erosion. There have been many attempts to restore the island's coastal mangroves: ecosystems of trees and shrubs that help defend coastal areas by trapping sediment in their net-like root systems, elevating the sea bed and dampening the energy of waves and tidal currents. But Susanna Toi of the not-for-profit organisation Wetlands International says that, while hugely popular, the majority of mangrove-planting projects fail. So, Wetlands International started out with a different approach, building semi-permeable dams, made from bamboo poles and brushwood, to mimic the role of mangrove roots and create favourable conditions for mangroves to grow back naturally. The programme has seen moderate success, mainly in areas with less subsidence. 'Unfortunately, traditional infrastructure is often single-solution focused,' says Tol. 'For long-term success, it's critical that we transition towards multifunctional approaches that embed natural processes and that engage and benefit communities and local decision-makers.'" },
-        { "letter": "D", "text": "As the floodwaters rose in the rice fields of the Mekong Delta in September 2018, four small houses rose with them. Homes in this part of Vietnam are traditionally built on stilts but these ones had been built to float. The modifications were made by the Buoyant Foundation Project, a not-for-profit organisation that has been researching and retrofitting amphibious houses since 2006. 'When I started this,' explains founder Elizabeth English, 'climate change was not on the tip of everybody's tongue, but this technology is becoming necessary in places that didn't previously need it.' It's much cheaper than permanently elevating houses, English explains - about a third of what it would cost to completely replace a building's foundations. It also avoids the problem of taller houses being at greater risk from wind damage. Another plus comes from the fact that amphibious structures can be sensitively adapted to meet cultural needs and match the kind of houses that are already common in a community." },
-        { "letter": "E", "text": "Bangladesh is especially vulnerable to climate change. Most of the country is less than a metre above sea level and 80 per cent of its land lies on floodplains. 'Almost 35 million people living on the coastal belt of Bangladesh are currently affected by soil and water salinity,' says Raisa Chowdhury of the international development organisation ICCO Cooperation. Rather than fighting against it, one project is helping communities adapt to salt-affected soils. ICCO Cooperation has been working with 10,000 farmers in Bangladesh to start cultivating naturally salt-tolerant crops in the region. Certain varieties of carrot, potato, kohlrabi, cabbage and beetroot have been found to be better suited to salty soil than the rice and wheat that is typically grown there. Chowdhury says that the results are very visible, comparing a barren plot of land to the 'beautiful, lush green vegetable garden' sitting beside it, in which he and his team have been working with the farmers. Since the project began, farmers trained in saline agriculture have reported increases of two to three more harvests per year." },
-        { "letter": "F", "text": "Greg Spotts from Los Angeles (LA) in the USA is chief sustainability officer of the city's street services department. He leads the Cool Streets LA programme, a series of pilot projects, which include the planting of trees and the installation of a 'cool pavement' system, designed to help reach the city's goal of bringing down its average temperature by 1.5°C. 'Urban cooling is literally a matter of life and death for our future in LA,' says Spotts. Using a Geographic Information System data mapping tool, the programme identified streets with low tree canopy cover in three of the city's neighbourhoods and covered them with a light-grey, light-reflecting coating, which had already been shown to lower road surface temperature in Los Angeles by 6°C. Spotts says one of these streets, in the Winnetka neighbourhood of San Fernando Valley, can now be seen as a pale crescent, the only cool spot on an otherwise red thermal image, from the International Space Station." }
+        {
+          "letter": "A",
+          "text": "All around the world, nations are already preparing for, and adapting to, climate change and its impacts. Even if we stopped all CO2 emissions tomorrow, we would continue to see the impact of the CO2 already released since industrial times, with scientists forecasting that global warming would continue for around 40 years. In the meantime, ice caps would continue to melt and sea levels rise. Some countries and regions will suffer more extreme impacts from these changes than others. It's in these places that innovation is thriving."
+        },
+        {
+          "letter": "B",
+          "text": "In Miami Beach, Florida, USA, seawater isn't just breaching the island city's walls, it's seeping up through the ground, so the only way to save the city is to lift it up above sea level. Starting in the lowest and most vulnerable neighbourhoods, roads have been raised by as much as 61 centimetres. The elevation work was carried out as part of Miami Beach's ambitious but much-needed stormwater-management programme. In addition to the road adaptations, the city has set up new pumps that can remove up to 75,000 litres of water per minute. In the face of floods, climate-mitigation strategies have often been overlooked, says Yanira Pineda, a senior sustainability coordinator. She knows that they're essential and that the job is far from over. 'We know that in 20, 30, 40 years, we'll need to go back in there and adjust to the changing environment,' she says."
+        },
+        {
+          "letter": "C",
+          "text": "Seawalls are a staple strategy for many coastal communities, but on the soft, muddy northern shores of Java, Indonesia, they frequently collapse, further exacerbating coastal erosion. There have been many attempts to restore the island's coastal mangroves: ecosystems of trees and shrubs that help defend coastal areas by trapping sediment in their net-like root systems, elevating the sea bed and dampening the energy of waves and tidal currents. But Susanna Toi of the not-for-profit organisation Wetlands International says that, while hugely popular, the majority of mangrove-planting projects fail. So, Wetlands International started out with a different approach, building semi-permeable dams, made from bamboo poles and brushwood, to mimic the role of mangrove roots and create favourable conditions for mangroves to grow back naturally. The programme has seen moderate success, mainly in areas with less subsidence. 'Unfortunately, traditional infrastructure is often single-solution focused,' says Tol. 'For long-term success, it's critical that we transition towards multifunctional approaches that embed natural processes and that engage and benefit communities and local decision-makers.'"
+        },
+        {
+          "letter": "D",
+          "text": "As the floodwaters rose in the rice fields of the Mekong Delta in September 2018, four small houses rose with them. Homes in this part of Vietnam are traditionally built on stilts but these ones had been built to float. The modifications were made by the Buoyant Foundation Project, a not-for-profit organisation that has been researching and retrofitting amphibious houses since 2006. 'When I started this,' explains founder Elizabeth English, 'climate change was not on the tip of everybody's tongue, but this technology is becoming necessary in places that didn't previously need it.' It's much cheaper than permanently elevating houses, English explains - about a third of what it would cost to completely replace a building's foundations. It also avoids the problem of taller houses being at greater risk from wind damage. Another plus comes from the fact that amphibious structures can be sensitively adapted to meet cultural needs and match the kind of houses that are already common in a community."
+        },
+        {
+          "letter": "E",
+          "text": "Bangladesh is especially vulnerable to climate change. Most of the country is less than a metre above sea level and 80 per cent of its land lies on floodplains. 'Almost 35 million people living on the coastal belt of Bangladesh are currently affected by soil and water salinity,' says Raisa Chowdhury of the international development organisation ICCO Cooperation. Rather than fighting against it, one project is helping communities adapt to salt-affected soils. ICCO Cooperation has been working with 10,000 farmers in Bangladesh to start cultivating naturally salt-tolerant crops in the region. Certain varieties of carrot, potato, kohlrabi, cabbage and beetroot have been found to be better suited to salty soil than the rice and wheat that is typically grown there. Chowdhury says that the results are very visible, comparing a barren plot of land to the 'beautiful, lush green vegetable garden' sitting beside it, in which he and his team have been working with the farmers. Since the project began, farmers trained in saline agriculture have reported increases of two to three more harvests per year."
+        },
+        {
+          "letter": "F",
+          "text": "Greg Spotts from Los Angeles (LA) in the USA is chief sustainability officer of the city's street services department. He leads the Cool Streets LA programme, a series of pilot projects, which include the planting of trees and the installation of a 'cool pavement' system, designed to help reach the city's goal of bringing down its average temperature by 1.5°C. 'Urban cooling is literally a matter of life and death for our future in LA,' says Spotts. Using a Geographic Information System data mapping tool, the programme identified streets with low tree canopy cover in three of the city's neighbourhoods and covered them with a light-grey, light-reflecting coating, which had already been shown to lower road surface temperature in Los Angeles by 6°C. Spotts says one of these streets, in the Winnetka neighbourhood of San Fernando Valley, can now be seen as a pale crescent, the only cool spot on an otherwise red thermal image, from the International Space Station."
+        }
       ],
       "question_groups": [
         {
@@ -88,29 +196,74 @@
           "instructions_html": "Reading Passage 2 has six paragraphs, <strong>A–F</strong>. Which paragraph contains the following information?",
           "table_column_header": "Information",
           "feature_bank": [
-            { "letter": "A", "text": "Paragraph A" },
-            { "letter": "B", "text": "Paragraph B" },
-            { "letter": "C", "text": "Paragraph C" },
-            { "letter": "D", "text": "Paragraph D" },
-            { "letter": "E", "text": "Paragraph E" },
-            { "letter": "F", "text": "Paragraph F" }
+            {
+              "letter": "A",
+              "text": "Paragraph A"
+            },
+            {
+              "letter": "B",
+              "text": "Paragraph B"
+            },
+            {
+              "letter": "C",
+              "text": "Paragraph C"
+            },
+            {
+              "letter": "D",
+              "text": "Paragraph D"
+            },
+            {
+              "letter": "E",
+              "text": "Paragraph E"
+            },
+            {
+              "letter": "F",
+              "text": "Paragraph F"
+            }
           ],
           "questions": [
-            { "number": 14, "prompt": "how a type of plant functions as a natural protection for coastlines" },
-            { "number": 15, "prompt": "a prediction about how long it could take to stop noticing the effects of climate change" },
-            { "number": 16, "prompt": "a reference to the fact that a solution is particularly cost-effective" },
-            { "number": 17, "prompt": "a mention of a technology used to locate areas most in need of intervention" }
+            {
+              "number": 14,
+              "prompt": "how a type of plant functions as a natural protection for coastlines"
+            },
+            {
+              "number": 15,
+              "prompt": "a prediction about how long it could take to stop noticing the effects of climate change"
+            },
+            {
+              "number": 16,
+              "prompt": "a reference to the fact that a solution is particularly cost-effective"
+            },
+            {
+              "number": 17,
+              "prompt": "a mention of a technology used to locate areas most in need of intervention"
+            }
           ]
         },
         {
           "type": "sentence_completion",
           "instructions_html": "Complete the sentences below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.",
           "questions": [
-            { "number": 18, "prompt_html": "The stormwater-management programme in Miami Beach has involved the installation of efficient ___ ." },
-            { "number": 19, "prompt_html": "The construction of ___ was the first stage of a project to ensure the success of mangroves in Indonesia." },
-            { "number": 20, "prompt_html": "As a response to rising floodwaters in the Mekong Delta, a not-for-profit organisation has been building houses that can ___ ." },
-            { "number": 21, "prompt_html": "Rising sea levels in Bangladesh have made it necessary to introduce various ___ that are suitable for areas of high salt content." },
-            { "number": 22, "prompt_html": "A project in LA has increased the number of ___ on the city's streets." }
+            {
+              "number": 18,
+              "prompt_html": "The stormwater-management programme in Miami Beach has involved the installation of efficient ___ ."
+            },
+            {
+              "number": 19,
+              "prompt_html": "The construction of ___ was the first stage of a project to ensure the success of mangroves in Indonesia."
+            },
+            {
+              "number": 20,
+              "prompt_html": "As a response to rising floodwaters in the Mekong Delta, a not-for-profit organisation has been building houses that can ___ ."
+            },
+            {
+              "number": 21,
+              "prompt_html": "Rising sea levels in Bangladesh have made it necessary to introduce various ___ that are suitable for areas of high salt content."
+            },
+            {
+              "number": 22,
+              "prompt_html": "A project in LA has increased the number of ___ on the city's streets."
+            }
           ]
         },
         {
@@ -118,17 +271,44 @@
           "instructions_html": "Look at the following statements (Questions 23–26) and the list of people below. Match each statement with the correct person, <strong>A–E</strong>.",
           "bank_title": "List of People",
           "feature_bank": [
-            { "letter": "A", "text": "Yanira Pineda" },
-            { "letter": "B", "text": "Susanna Toi" },
-            { "letter": "C", "text": "Elizabeth English" },
-            { "letter": "D", "text": "Raisa Chowdhury" },
-            { "letter": "E", "text": "Greg Spotts" }
+            {
+              "letter": "A",
+              "text": "Yanira Pineda"
+            },
+            {
+              "letter": "B",
+              "text": "Susanna Toi"
+            },
+            {
+              "letter": "C",
+              "text": "Elizabeth English"
+            },
+            {
+              "letter": "D",
+              "text": "Raisa Chowdhury"
+            },
+            {
+              "letter": "E",
+              "text": "Greg Spotts"
+            }
           ],
           "questions": [
-            { "number": 23, "prompt": "It is essential to adopt strategies which involve and help residents of the region." },
-            { "number": 24, "prompt": "Interventions which reduce heat are absolutely vital for our survival in this location." },
-            { "number": 25, "prompt": "More work will need to be done in future decades to deal with the impact of rising water levels." },
-            { "number": 26, "prompt": "The number of locations requiring action to adapt to flooding has grown in recent years." }
+            {
+              "number": 23,
+              "prompt": "It is essential to adopt strategies which involve and help residents of the region."
+            },
+            {
+              "number": 24,
+              "prompt": "Interventions which reduce heat are absolutely vital for our survival in this location."
+            },
+            {
+              "number": 25,
+              "prompt": "More work will need to be done in future decades to deal with the impact of rising water levels."
+            },
+            {
+              "number": 26,
+              "prompt": "The number of locations requiring action to adapt to flooding has grown in recent years."
+            }
           ]
         }
       ]
@@ -138,13 +318,34 @@
       "passage_title": "A new role for livestock guard dogs",
       "passage_subtitle": "Livestock guard dogs, traditionally used to protect farm animals from predators, are now being used to protect the predators themselves",
       "passage_paragraphs": [
-        { "letter": "A", "text": "For thousands of years, livestock guard dogs worked alongside shepherds to protect their sheep, goats and cattle from predators such as wolves and bears. But in the 19th and 20th centuries, when such predators were largely exterminated, most guard dogs lost their jobs. In recent years, however, as increased efforts have been made to protect wild animals, predators have become more widespread again. As a result, farmers once more need to protect their livestock, and guard dogs are enjoying an unexpected revival." },
-        { "letter": "B", "text": "Today there are around 50 breeds of guard dogs on duty in various parts of the world. These dogs are raised from an early age with the animals they will be watching and eventually these animals become the dog's family. The dogs will place themselves between the livestock and any threat, barking loudly. If necessary, they will chase away predators, but often their mere presence is sufficient. 'Their initial training is to make them understand that livestock is going to be their life,' says Dan Macon, a shepherd with three guard dogs. 'A fluffy white puppy is fun to be around, but too much human affection makes it a great dog for guarding the front porch, rather than a great livestock guard dog.'" },
-        { "letter": "C", "text": "The evidence indicates that guard dogs are highly effective. For example, in Portugal, biologist Silvia Ribeiro has found that more than 90 per cent of the farmers participating in a programme to train and use guard dogs to protect their herds against attack from wolves rate the performance of the dogs as very good or excellent. In a study carried out in Australia by Linda van Bommel and Chris Johnson at the University of Tasmania, more than 65 per cent of herders reported that predation stopped completely after they got the dogs, and almost all the rest saw a decrease in attacks. 'If they are managed and used properly, livestock guard dogs are the most efficient control method that we have in terms of the amount of livestock that they save from predation,' says van Bommel." },
-        { "letter": "D", "text": "But today's guard dogs also have a new role - to help preserve the predators. It is hoped that reductions in livestock losses can make farmers more tolerant of predators and less likely to kill them. In Namibia, more than 90 per cent of cheetahs live outside protected areas, close to humans raising livestock. As a result, the cheetahs are often held responsible for animal losses, and large numbers have been killed by farmers. When guard dogs were introduced, more than 90 per cent of farmers reported a dramatic reduction in livestock losses, and said that as a result they were less likely to kill predators. Julie Young, at Utah State University in the US, believes this result applies widely. 'There is common ground from the livestock perspective and from the conservation perspective,' she says. 'If ranchers don't have a dead cow, they will not make a call to apply for a permit to kill a wolf.'" },
-        { "letter": "E", "text": "Looking at all the published evidence, Bethany Smith at Nottingham Trent University in the UK found that up to 88 per cent of farmers said they no longer killed predators after using dogs - but warned that such self-reported results must be taken with a pinch of salt. What's more, it is possible that livestock guard dogs merely displace predators to unprotected neighbouring properties, where their fate isn't recorded. 'In some regions, we work with almost every farmer, but in others only one or two have dogs,' says Ribeiro. 'If we are not working with everybody, we are transferring the wolf pressure to the neighbour's herd and he can use poison and kill an entire pack of wolves.'" },
-        { "letter": "F", "text": "Another concern is whether there may be unintended ecological effects of using guard dogs. Studies suggest that reducing deaths of one type of predator may have a negative impact on other species. The extent of this problem isn't known, but the consequences are clear in Namibia. Cheetahs aren't the only species that cause sheep and goat losses there: other predators also attack livestock. In 2015, researchers reported that in spite of the impact farmers obtaining guard dogs had on cheetahs, the number of jackals killed by dogs and people actually increased. Guard dogs have other ecological impacts too. They have been found to spread diseases to wild animals, including endangered Ethiopian wolves. They may also compete with other carnivores for food. And by creating a 'landscape of fear', their mere presence can influence the behaviour of prey animals." },
-        { "letter": "G", "text": "The evidence so far, however, indicates that these consequences aren't always negative. Guard dogs can deliver unexpected benefits by protecting vulnerable wildlife from predators. For example, their presence has been found to protect birds which build their nests on the ground in fields, where foxes would normally raid them. Indeed, Australian researchers are now using dogs to enhance biodiversity and create refuges for species threatened by predation. So if we can get this right, there may be a bright future for guard dogs in promoting harmonious coexistence between humans and wildlife." }
+        {
+          "letter": "A",
+          "text": "For thousands of years, livestock guard dogs worked alongside shepherds to protect their sheep, goats and cattle from predators such as wolves and bears. But in the 19th and 20th centuries, when such predators were largely exterminated, most guard dogs lost their jobs. In recent years, however, as increased efforts have been made to protect wild animals, predators have become more widespread again. As a result, farmers once more need to protect their livestock, and guard dogs are enjoying an unexpected revival."
+        },
+        {
+          "letter": "B",
+          "text": "Today there are around 50 breeds of guard dogs on duty in various parts of the world. These dogs are raised from an early age with the animals they will be watching and eventually these animals become the dog's family. The dogs will place themselves between the livestock and any threat, barking loudly. If necessary, they will chase away predators, but often their mere presence is sufficient. 'Their initial training is to make them understand that livestock is going to be their life,' says Dan Macon, a shepherd with three guard dogs. 'A fluffy white puppy is fun to be around, but too much human affection makes it a great dog for guarding the front porch, rather than a great livestock guard dog.'"
+        },
+        {
+          "letter": "C",
+          "text": "The evidence indicates that guard dogs are highly effective. For example, in Portugal, biologist Silvia Ribeiro has found that more than 90 per cent of the farmers participating in a programme to train and use guard dogs to protect their herds against attack from wolves rate the performance of the dogs as very good or excellent. In a study carried out in Australia by Linda van Bommel and Chris Johnson at the University of Tasmania, more than 65 per cent of herders reported that predation stopped completely after they got the dogs, and almost all the rest saw a decrease in attacks. 'If they are managed and used properly, livestock guard dogs are the most efficient control method that we have in terms of the amount of livestock that they save from predation,' says van Bommel."
+        },
+        {
+          "letter": "D",
+          "text": "But today's guard dogs also have a new role - to help preserve the predators. It is hoped that reductions in livestock losses can make farmers more tolerant of predators and less likely to kill them. In Namibia, more than 90 per cent of cheetahs live outside protected areas, close to humans raising livestock. As a result, the cheetahs are often held responsible for animal losses, and large numbers have been killed by farmers. When guard dogs were introduced, more than 90 per cent of farmers reported a dramatic reduction in livestock losses, and said that as a result they were less likely to kill predators. Julie Young, at Utah State University in the US, believes this result applies widely. 'There is common ground from the livestock perspective and from the conservation perspective,' she says. 'If ranchers don't have a dead cow, they will not make a call to apply for a permit to kill a wolf.'"
+        },
+        {
+          "letter": "E",
+          "text": "Looking at all the published evidence, Bethany Smith at Nottingham Trent University in the UK found that up to 88 per cent of farmers said they no longer killed predators after using dogs - but warned that such self-reported results must be taken with a pinch of salt. What's more, it is possible that livestock guard dogs merely displace predators to unprotected neighbouring properties, where their fate isn't recorded. 'In some regions, we work with almost every farmer, but in others only one or two have dogs,' says Ribeiro. 'If we are not working with everybody, we are transferring the wolf pressure to the neighbour's herd and he can use poison and kill an entire pack of wolves.'"
+        },
+        {
+          "letter": "F",
+          "text": "Another concern is whether there may be unintended ecological effects of using guard dogs. Studies suggest that reducing deaths of one type of predator may have a negative impact on other species. The extent of this problem isn't known, but the consequences are clear in Namibia. Cheetahs aren't the only species that cause sheep and goat losses there: other predators also attack livestock. In 2015, researchers reported that in spite of the impact farmers obtaining guard dogs had on cheetahs, the number of jackals killed by dogs and people actually increased. Guard dogs have other ecological impacts too. They have been found to spread diseases to wild animals, including endangered Ethiopian wolves. They may also compete with other carnivores for food. And by creating a 'landscape of fear', their mere presence can influence the behaviour of prey animals."
+        },
+        {
+          "letter": "G",
+          "text": "The evidence so far, however, indicates that these consequences aren't always negative. Guard dogs can deliver unexpected benefits by protecting vulnerable wildlife from predators. For example, their presence has been found to protect birds which build their nests on the ground in fields, where foxes would normally raid them. Indeed, Australian researchers are now using dogs to enhance biodiversity and create refuges for species threatened by predation. So if we can get this right, there may be a bright future for guard dogs in promoting harmonious coexistence between humans and wildlife."
+        }
       ],
       "question_groups": [
         {
@@ -152,20 +353,56 @@
           "instructions_html": "Reading Passage 3 has seven paragraphs, <strong>A–G</strong>. Which paragraph contains the following information? <strong>NB</strong> You may use any letter more than once.",
           "table_column_header": "Information",
           "feature_bank": [
-            { "letter": "A", "text": "Paragraph A" },
-            { "letter": "B", "text": "Paragraph B" },
-            { "letter": "C", "text": "Paragraph C" },
-            { "letter": "D", "text": "Paragraph D" },
-            { "letter": "E", "text": "Paragraph E" },
-            { "letter": "F", "text": "Paragraph F" },
-            { "letter": "G", "text": "Paragraph G" }
+            {
+              "letter": "A",
+              "text": "Paragraph A"
+            },
+            {
+              "letter": "B",
+              "text": "Paragraph B"
+            },
+            {
+              "letter": "C",
+              "text": "Paragraph C"
+            },
+            {
+              "letter": "D",
+              "text": "Paragraph D"
+            },
+            {
+              "letter": "E",
+              "text": "Paragraph E"
+            },
+            {
+              "letter": "F",
+              "text": "Paragraph F"
+            },
+            {
+              "letter": "G",
+              "text": "Paragraph G"
+            }
           ],
           "questions": [
-            { "number": 27, "prompt": "an example of how one predator has been protected by the introduction of livestock guard dogs" },
-            { "number": 28, "prompt": "an optimistic suggestion about the possible positive developments in the use of livestock guard dogs" },
-            { "number": 29, "prompt": "a description of how the methods used by livestock guard dogs help to keep predators away" },
-            { "number": 30, "prompt": "claims by different academics that the use of livestock guard dogs is a successful way of protecting farmers' herds" },
-            { "number": 31, "prompt": "a reference to how livestock guard dogs gain their skills" }
+            {
+              "number": 27,
+              "prompt": "an example of how one predator has been protected by the introduction of livestock guard dogs"
+            },
+            {
+              "number": 28,
+              "prompt": "an optimistic suggestion about the possible positive developments in the use of livestock guard dogs"
+            },
+            {
+              "number": 29,
+              "prompt": "a description of how the methods used by livestock guard dogs help to keep predators away"
+            },
+            {
+              "number": 30,
+              "prompt": "claims by different academics that the use of livestock guard dogs is a successful way of protecting farmers' herds"
+            },
+            {
+              "number": 31,
+              "prompt": "a reference to how livestock guard dogs gain their skills"
+            }
           ]
         },
         {
@@ -173,18 +410,48 @@
           "instructions_html": "Look at the following statements (Questions 32–36) and the list of people below. Match each statement with the correct person, <strong>A–E</strong>.",
           "bank_title": "List of People",
           "feature_bank": [
-            { "letter": "A", "text": "Dan Macon" },
-            { "letter": "B", "text": "Silvia Ribeiro" },
-            { "letter": "C", "text": "Linda van Bommel" },
-            { "letter": "D", "text": "Julie Young" },
-            { "letter": "E", "text": "Bethany Smith" }
+            {
+              "letter": "A",
+              "text": "Dan Macon"
+            },
+            {
+              "letter": "B",
+              "text": "Silvia Ribeiro"
+            },
+            {
+              "letter": "C",
+              "text": "Linda van Bommel"
+            },
+            {
+              "letter": "D",
+              "text": "Julie Young"
+            },
+            {
+              "letter": "E",
+              "text": "Bethany Smith"
+            }
           ],
           "questions": [
-            { "number": 32, "prompt": "The use of guard dogs may save the lives of both livestock and wild animals." },
-            { "number": 33, "prompt": "Claims of a change in behaviour from those using livestock guard dogs may not be totally accurate." },
-            { "number": 34, "prompt": "There may be negative results if the use of livestock guard dogs is not sufficiently widespread." },
-            { "number": 35, "prompt": "Livestock guard dogs are the best way of protecting farm animals, as long as the dogs are appropriately handled." },
-            { "number": 36, "prompt": "Teaching a livestock guard dog how to do its work needs a different focus from teaching a house guard dog." }
+            {
+              "number": 32,
+              "prompt": "The use of guard dogs may save the lives of both livestock and wild animals."
+            },
+            {
+              "number": 33,
+              "prompt": "Claims of a change in behaviour from those using livestock guard dogs may not be totally accurate."
+            },
+            {
+              "number": 34,
+              "prompt": "There may be negative results if the use of livestock guard dogs is not sufficiently widespread."
+            },
+            {
+              "number": 35,
+              "prompt": "Livestock guard dogs are the best way of protecting farm animals, as long as the dogs are appropriately handled."
+            },
+            {
+              "number": 36,
+              "prompt": "Teaching a livestock guard dog how to do its work needs a different focus from teaching a house guard dog."
+            }
           ]
         },
         {
@@ -195,10 +462,63 @@
             "body_html": "In Namibia, livestock guard dogs have been used to protect domestic animals from attacks by cheetahs. This has led to a rise in the deaths of other predators, particularly ___ . In addition, it has been suggested that the dogs could have ___ which may affect other species, and that they may reduce the amount of ___ available to certain wild animals. On the other hand, these dogs may help birds by protecting their nests. These might otherwise be threatened by predators such as ___ ."
           },
           "questions": [
-            { "number": 37 }, { "number": 38 }, { "number": 39 }, { "number": 40 }
+            {
+              "number": 37
+            },
+            {
+              "number": 38
+            },
+            {
+              "number": 39
+            },
+            {
+              "number": 40
+            }
           ]
         }
       ]
     }
-  ]
+  ],
+  "explanations": {
+    "1": "After training college she 'became an art teacher and taught in elementary schools, high schools, and colleges' across several US states.",
+    "2": "She 'began to experiment with creating abstract compositions in charcoal' and sent these drawings that were then exhibited in New York.",
+    "3": "She was 'widely known for the architectural pictures that dramatically depict the soaring skyscrapers of New York' city.",
+    "4": "Her 'magnified images depicting flowers, begun in 1924' brought the viewer right into the picture as innovative close-ups.",
+    "5": "In New Mexico, 'it was the numerous sun-bleached bones she came across' that first sparked her imagination.",
+    "6": "The region's 'spectacular landscape' held her imagination 'for more than four decades', matching the over-forty-years dramatic features.",
+    "7": "Flying inspired her last series, 'aerial views of rivers and expansive paintings of the sky viewed from just above clouds'.",
+    "8": "She 'remained independent from shifting art trends and her work stayed true to her own vision', contradicting being greatly influenced by changing fashions.",
+    "9": "By graduating high school in 1905 'she had determined to make her way as an artist', confirming she had decided her career.",
+    "10": "A friend showed the drawings to Stieglitz, who then exhibited them at his gallery; she did not send them to his gallery herself.",
+    "11": "Stieglitz's 'celebrated black-and-white portraits of O'Keeffe' were taken 'over the course of twenty years (1917-37)'.",
+    "12": "The passage notes she reinvented the patio in over thirty pictures but never states these were among her favourite works.",
+    "13": "The passage says the 1950s-1970s were productive but never compares this period's quantity of output against any other time.",
+    "14": "Paragraph C explains mangroves are 'ecosystems of trees and shrubs that help defend coastal areas by trapping sediment' and dampening waves.",
+    "15": "Paragraph A forecasts 'global warming would continue for around 40 years' even if CO2 emissions stopped tomorrow.",
+    "16": "Paragraph D states the floating houses are 'much cheaper... about a third of what it would cost to completely replace a building's foundations'.",
+    "17": "Paragraph F describes 'a Geographic Information System data mapping tool' used to identify streets with low tree canopy cover.",
+    "18": "Paragraph B says the city 'has set up new pumps that can remove up to 75,000 litres of water per minute'.",
+    "19": "Wetlands International began 'building semi-permeable dams... to mimic the role of mangrove roots and create favourable conditions for mangroves to grow back'.",
+    "20": "Homes in the Mekong Delta 'had been built to float', rising with the floodwaters.",
+    "21": "ICCO Cooperation worked with farmers 'to start cultivating naturally salt-tolerant crops' suited to the salty soil.",
+    "22": "The Cool Streets LA programme 'include the planting of trees', increasing the number of trees on streets.",
+    "23": "Tol says 'it's critical that we transition towards multifunctional approaches that... engage and benefit communities and local decision-makers'.",
+    "24": "Spotts says 'Urban cooling is literally a matter of life and death for our future in LA'.",
+    "25": "Pineda says 'in 20, 30, 40 years, we'll need to go back in there and adjust to the changing environment'.",
+    "26": "English says 'this technology is becoming necessary in places that didn't previously need it', showing the number of affected locations grew.",
+    "27": "Paragraph D describes Namibia, where introducing guard dogs cut livestock losses and made farmers 'less likely to kill predators' like cheetahs.",
+    "28": "Paragraph G concludes 'there may be a bright future for guard dogs in promoting harmonious coexistence between humans and wildlife'.",
+    "29": "Paragraph B describes dogs placing 'themselves between the livestock and any threat, barking loudly' and chasing away predators.",
+    "30": "Paragraph C cites Ribeiro, van Bommel and Johnson reporting that farmers rate the dogs highly effective at saving herds.",
+    "31": "Paragraph B explains dogs are 'raised from an early age with the animals' and their 'initial training' teaches them livestock is their life.",
+    "32": "Young says 'There is common ground from the livestock perspective and from the conservation perspective', saving both livestock and predators.",
+    "33": "Smith warned that the self-reported claims of farmers no longer killing predators 'must be taken with a pinch of salt'.",
+    "34": "Ribeiro warns that not working with everybody means 'transferring the wolf pressure to the neighbour's herd', who may poison wolves.",
+    "35": "Van Bommel says 'if they are managed and used properly, livestock guard dogs are the most efficient control method that we have'.",
+    "36": "Macon contrasts a dog given too much affection becoming 'great... for guarding the front porch, rather than a great livestock guard dog'.",
+    "37": "Paragraph F reports that despite the impact on cheetahs, 'the number of jackals killed by dogs and people actually increased'.",
+    "38": "The dogs 'have been found to spread diseases to wild animals, including endangered Ethiopian wolves'.",
+    "39": "The dogs 'may also compete with other carnivores for food', reducing the food available to certain wild animals.",
+    "40": "Dogs protect ground-nesting birds 'where foxes would normally raid' their nests."
+  }
 }

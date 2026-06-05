@@ -214,7 +214,7 @@
 }
 .rtp-root .passage-body .para-letter {
   font-family: var(--sans); font-weight: 700;
-  font-size: var(--fs-content); padding-top: 2px;
+  font-size: var(--fs-content); padding-top: 0; line-height: var(--lh-content);
 }
 .rtp-root .heading-gap {
   border: 1.5px dashed var(--border-input);
@@ -298,7 +298,7 @@
 .rtp-root .questions-section.active { display: block; }
 .rtp-root .question-group { margin-bottom: 36px; }
 .rtp-root .question-group-header {
-  font-family: var(--sans); font-size: var(--fs-subheading); font-weight: 700;
+  font-family: var(--sans); font-size: var(--fs-content); font-weight: 700;
   margin-bottom: 8px;
 }
 .rtp-root .question-group-instructions {
@@ -379,12 +379,15 @@
   background: var(--bg-input); color: var(--text);
   border: 1.5px solid var(--border-input);
   border-radius: 4px;
-  padding: 4px 10px;
-  min-width: 110px; max-width: 220px;
+  padding: 4px 8px;
+  width: 110px; min-width: 0; max-width: 100%;
   outline: none; text-align: center;
   transition: border-color .15s, box-shadow .15s;
+  /* textarea so long answers wrap onto a 2nd line instead of scrolling */
+  resize: none; overflow: hidden; white-space: pre-wrap; overflow-wrap: anywhere;
+  line-height: 1.4; vertical-align: middle; height: auto; display: inline-block;
 }
-.rtp-root .gap-input.wide { min-width: 160px; }
+.rtp-root .gap-input.wide { width: 140px; }
 .rtp-root .gap-input:focus { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
 .rtp-root .gap-input.filled { border-color: var(--accent); }
 .rtp-root .gap-input.current { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
@@ -411,9 +414,9 @@
 .rtp-root .completion-layout th, .rtp-root .completion-layout td {
   word-break: break-word; overflow-wrap: anywhere; vertical-align: top;
 }
-.rtp-root .completion-layout .gap-wrap { display: block; position: relative; }
+.rtp-root .completion-layout .gap-wrap { display: inline-block; position: relative; }
 .rtp-root .completion-layout .gap-input {
-  min-width: 0; width: 100%; max-width: 100%; box-sizing: border-box;
+  min-width: 0; width: 130px; max-width: 100%; box-sizing: border-box; text-align: left;
 }
 .rtp-root .completion-word-bank {
   border: 1px solid var(--border-strong);
@@ -1007,6 +1010,12 @@
 .rtp-root .result-marker .your-answer { color: inherit; }
 .rtp-root .result-marker .correct-answer { color: var(--correct); font-weight: 700; }
 .rtp-root .result-marker .strike { text-decoration: line-through; opacity: 0.7; }
+.rtp-root .result-explanation {
+  display: block; flex-basis: 100%; margin-top: 5px;
+  font-family: var(--sans); font-size: 12.5px; font-weight: 400;
+  color: var(--text-muted); line-height: 1.5;
+}
+.rtp-root .result-explanation strong { color: var(--text); font-weight: 700; }
 .rtp-root .show-results-btn {
   display: none;
   font-family: var(--sans);

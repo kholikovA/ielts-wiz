@@ -3,15 +3,58 @@
   "duration_minutes": 60,
   "answer_key_status": "complete",
   "answer_key": {
-    "1": "potatoes", "2": "butter", "3": "meat", "4": "crystals", "5": "cellophane", "6": "tin", "7": "refrigerator",
-    "8": "NOT GIVEN", "9": "TRUE", "10": "FALSE", "11": "TRUE", "12": "FALSE", "13": "NOT GIVEN",
-    "14": "v", "15": "ii", "16": "iv", "17": "vii", "18": "iii", "19": "vi",
-    "20": ["C", "E"], "21": ["C", "E"],
-    "22": ["B", "D"], "23": ["B", "D"],
-    "24": "tentacles", "25": "protection", "26": "colour",
-    "27": "A", "28": "C", "29": "B", "30": "A", "31": "B", "32": "A", "33": "C",
-    "34": "C", "35": "B", "36": "D",
-    "37": "B", "38": "C", "39": "B", "40": "C"
+    "1": "potatoes",
+    "2": "butter",
+    "3": "meat",
+    "4": "crystals",
+    "5": "cellophane",
+    "6": "tin",
+    "7": "refrigerator",
+    "8": "NOT GIVEN",
+    "9": "TRUE",
+    "10": "FALSE",
+    "11": "TRUE",
+    "12": "FALSE",
+    "13": "NOT GIVEN",
+    "14": "v",
+    "15": "ii",
+    "16": "iv",
+    "17": "vii",
+    "18": "iii",
+    "19": "vi",
+    "20": [
+      "C",
+      "E"
+    ],
+    "21": [
+      "C",
+      "E"
+    ],
+    "22": [
+      "B",
+      "D"
+    ],
+    "23": [
+      "B",
+      "D"
+    ],
+    "24": "tentacles",
+    "25": "protection",
+    "26": "colour",
+    "27": "A",
+    "28": "C",
+    "29": "B",
+    "30": "A",
+    "31": "B",
+    "32": "A",
+    "33": "C",
+    "34": "C",
+    "35": "B",
+    "36": "D",
+    "37": "B",
+    "38": "C",
+    "39": "B",
+    "40": "C"
   },
   "parts": [
     {
@@ -41,58 +84,118 @@
               {
                 "heading": "2,000 years ago, South America",
                 "items": [
-                  { "qnum": 1, "html": "People conserved the nutritional value of ___ , using a method of freezing then drying" }
+                  {
+                    "qnum": 1,
+                    "html": "People conserved the nutritional value of ___ , using a method of freezing then drying"
+                  }
                 ]
               },
               {
                 "heading": "1851, USA",
                 "items": [
-                  { "qnum": 2, "html": "___ was kept cool by ice during transportation in specially adapted trains" }
+                  {
+                    "qnum": 2,
+                    "html": "___ was kept cool by ice during transportation in specially adapted trains"
+                  }
                 ]
               },
               {
                 "heading": "1880, Australia",
                 "items": [
-                  { "qnum": 3, "html": "Two kinds of ___ were the first frozen food shipped to England" }
+                  {
+                    "qnum": 3,
+                    "html": "Two kinds of ___ were the first frozen food shipped to England"
+                  }
                 ]
               },
               {
                 "heading": "1917 onwards, USA",
                 "items": [
-                  { "html": "Clarence Birdseye introduced innovations including:" },
-                  { "qnum": 4, "html": "quick-freezing methods, so that ___ did not spoil the food" },
-                  { "qnum": 5, "html": "packaging products with ___ , so the product was visible" }
+                  {
+                    "html": "Clarence Birdseye introduced innovations including:"
+                  },
+                  {
+                    "qnum": 4,
+                    "html": "quick-freezing methods, so that ___ did not spoil the food"
+                  },
+                  {
+                    "qnum": 5,
+                    "html": "packaging products with ___ , so the product was visible"
+                  }
                 ]
               },
               {
                 "heading": "Early 1940s, USA",
                 "items": [
-                  { "qnum": 6, "html": "Frozen food became popular because of a shortage of ___" }
+                  {
+                    "qnum": 6,
+                    "html": "Frozen food became popular because of a shortage of ___"
+                  }
                 ]
               },
               {
                 "heading": "1950s, USA",
                 "items": [
-                  { "qnum": 7, "html": "A large number of homes now had a ___" }
+                  {
+                    "qnum": 7,
+                    "html": "A large number of homes now had a ___"
+                  }
                 ]
               }
             ]
           },
           "questions": [
-            { "number": 1 }, { "number": 2 }, { "number": 3 }, { "number": 4 },
-            { "number": 5 }, { "number": 6 }, { "number": 7 }
+            {
+              "number": 1
+            },
+            {
+              "number": 2
+            },
+            {
+              "number": 3
+            },
+            {
+              "number": 4
+            },
+            {
+              "number": 5
+            },
+            {
+              "number": 6
+            },
+            {
+              "number": 7
+            }
           ]
         },
         {
           "type": "tfng",
           "instructions_html": "Do the following statements agree with the information given in Reading Passage 1? Choose <strong>TRUE</strong> if the statement agrees with the information, <strong>FALSE</strong> if the statement contradicts the information, or <strong>NOT GIVEN</strong> if there is no information on this.",
           "questions": [
-            { "number": 8, "prompt": "The ice transportation business made some Boston ship owners very wealthy in the early 1800s." },
-            { "number": 9, "prompt": "A disadvantage of the freezing process invented in Australia was that it affected the taste of food." },
-            { "number": 10, "prompt": "Clarence Birdseye travelled to Labrador in order to learn how the Inuit people froze fish." },
-            { "number": 11, "prompt": "Swanson Foods invested a great deal of money in the promotion of the TV Dinner." },
-            { "number": 12, "prompt": "Swanson Foods developed a new style of container for the launch of the TV Dinner." },
-            { "number": 13, "prompt": "The US frozen food industry is currently the largest in the world." }
+            {
+              "number": 8,
+              "prompt": "The ice transportation business made some Boston ship owners very wealthy in the early 1800s."
+            },
+            {
+              "number": 9,
+              "prompt": "A disadvantage of the freezing process invented in Australia was that it affected the taste of food."
+            },
+            {
+              "number": 10,
+              "prompt": "Clarence Birdseye travelled to Labrador in order to learn how the Inuit people froze fish."
+            },
+            {
+              "number": 11,
+              "prompt": "Swanson Foods invested a great deal of money in the promotion of the TV Dinner."
+            },
+            {
+              "number": 12,
+              "prompt": "Swanson Foods developed a new style of container for the launch of the TV Dinner."
+            },
+            {
+              "number": 13,
+              "prompt": "The US frozen food industry is currently the largest in the world."
+            }
           ]
         }
       ]
@@ -101,33 +204,90 @@
       "part_number": 2,
       "passage_title": "Can the planet's coral reefs be saved?",
       "passage_paragraphs": [
-        { "letter": "A", "text": "Conservationists have put the final touches to a giant artificial reef they have been assembling at the world-renowned Zoological Society of London (London Zoo). Samples of the planet's most spectacular corals - vivid green branching coral, yellow scroll, blue ridge and many more species - have been added to the giant tank along with fish that thrive in their presence: blue tang, clownfish and many others. The reef is in the zoo's new gallery, Tiny Giants, which is dedicated to the minuscule invertebrate creatures that sustain life across the planet. The coral reef tank and its seven-metre-wide window form the core of the exhibition. 'Coral reefs are the most diverse ecosystems on Earth and we want to show people how wonderful they are,' said Paul Pearce-Kelly, senior curator of invertebrates and fish at the Zoological Society of London. 'However, we also want to highlight the research and conservation efforts that are now being carried out to try to save them from the threat of global warming.' They want people to see what is being done to try to save these wonders." },
-        { "letter": "B", "text": "Corals are composed of tiny animals, known as polyps, with tentacles for capturing small marine creatures in the sea water. These polyps are transparent but get their brilliant tones of pink, orange, blue, green, etc. from algae that live within them, which in turn get protection, while their photosynthesising of the sun's rays provides nutrients for the polyps. This comfortable symbiotic relationship has led to the growth of coral reefs that cover 0.1% of the planet's ocean bed while providing homes for more than 25% of marine species, including fish, molluscs, sponges and shellfish." },
-        { "letter": "C", "text": "As a result, coral reefs are often described as the 'rainforests of the sea', though the comparison is dismissed by some naturalists, including David Attenborough. 'People say you cannot beat the rainforest,' Attenborough has stated. 'But that is simply not true. You go there and the first thing you think is: where ... are the birds? Where are the animals? They are hiding in the trees, of course. No, if you want beauty and wildlife, you want a coral reef. Put on a mask and stick your head under the water. The sight is mind-blowing.'" },
-        { "letter": "D", "text": "Unfortunately, these majestic sights are now under very serious threat, with the most immediate problem coming in the form of thermal stress. Rising ocean temperatures are triggering bleaching events that strip reefs of their colour and eventually kill them. And that is just the start. Other menaces include ocean acidification, sea level increase, pollution by humans, deoxygenation and ocean current changes, while the climate crisis is also increasing habitat destruction. As a result, vast areas - including massive chunks of Australia's Great Barrier Reef - have already been destroyed, and scientists advise that more than 90% of reefs could be lost by 2050 unless urgent action is taken to tackle global heating and greenhouse gas emissions. Pearce-Kelly says that coral reefs have to survive really harsh conditions - wave erosion and other factors. And 'when things start to go wrong in the oceans, then corals will be the first to react. And that is exactly what we are seeing now. Coral reefs are dying and they are telling us that all is not well with our planet.'" },
-        { "letter": "E", "text": "However, scientists are trying to pinpoint hardy types of coral that could survive our overheated oceans, and some of this research will be carried out at London Zoo. 'Behind our ... coral reef tank we have built laboratories where scientists will be studying coral species,' said Pearce-Kelly. One aim will be to carry out research on species to find those that can survive best in warm, acidic waters. Another will be to try to increase coral breeding rates. 'Coral spawn just once a year,' he added. 'However, aquarium-based research has enabled some corals to spawn artificially, which can assist coral reef restoration efforts. And if this can be extended for all species, we could consider the launching of coral-spawning programmes several times a year. That would be a big help in restoring blighted reefs.'" },
-        { "letter": "F", "text": "Research in these fields is being conducted in laboratories around the world, with the London Zoo centre linked to this global network. Studies carried out in one centre can then be tested in others. The resulting young coral can then be displayed in the tank in Tiny Giants. 'The crucial point is that the progress we make in making coral better able to survive in a warming world can be shown to the public and encourage them to believe that we can do something to save the planet's reefs,' said Pearce-Kelly. 'Saving our coral reefs is now a critically important ecological goal.'" }
+        {
+          "letter": "A",
+          "text": "Conservationists have put the final touches to a giant artificial reef they have been assembling at the world-renowned Zoological Society of London (London Zoo). Samples of the planet's most spectacular corals - vivid green branching coral, yellow scroll, blue ridge and many more species - have been added to the giant tank along with fish that thrive in their presence: blue tang, clownfish and many others. The reef is in the zoo's new gallery, Tiny Giants, which is dedicated to the minuscule invertebrate creatures that sustain life across the planet. The coral reef tank and its seven-metre-wide window form the core of the exhibition. 'Coral reefs are the most diverse ecosystems on Earth and we want to show people how wonderful they are,' said Paul Pearce-Kelly, senior curator of invertebrates and fish at the Zoological Society of London. 'However, we also want to highlight the research and conservation efforts that are now being carried out to try to save them from the threat of global warming.' They want people to see what is being done to try to save these wonders."
+        },
+        {
+          "letter": "B",
+          "text": "Corals are composed of tiny animals, known as polyps, with tentacles for capturing small marine creatures in the sea water. These polyps are transparent but get their brilliant tones of pink, orange, blue, green, etc. from algae that live within them, which in turn get protection, while their photosynthesising of the sun's rays provides nutrients for the polyps. This comfortable symbiotic relationship has led to the growth of coral reefs that cover 0.1% of the planet's ocean bed while providing homes for more than 25% of marine species, including fish, molluscs, sponges and shellfish."
+        },
+        {
+          "letter": "C",
+          "text": "As a result, coral reefs are often described as the 'rainforests of the sea', though the comparison is dismissed by some naturalists, including David Attenborough. 'People say you cannot beat the rainforest,' Attenborough has stated. 'But that is simply not true. You go there and the first thing you think is: where ... are the birds? Where are the animals? They are hiding in the trees, of course. No, if you want beauty and wildlife, you want a coral reef. Put on a mask and stick your head under the water. The sight is mind-blowing.'"
+        },
+        {
+          "letter": "D",
+          "text": "Unfortunately, these majestic sights are now under very serious threat, with the most immediate problem coming in the form of thermal stress. Rising ocean temperatures are triggering bleaching events that strip reefs of their colour and eventually kill them. And that is just the start. Other menaces include ocean acidification, sea level increase, pollution by humans, deoxygenation and ocean current changes, while the climate crisis is also increasing habitat destruction. As a result, vast areas - including massive chunks of Australia's Great Barrier Reef - have already been destroyed, and scientists advise that more than 90% of reefs could be lost by 2050 unless urgent action is taken to tackle global heating and greenhouse gas emissions. Pearce-Kelly says that coral reefs have to survive really harsh conditions - wave erosion and other factors. And 'when things start to go wrong in the oceans, then corals will be the first to react. And that is exactly what we are seeing now. Coral reefs are dying and they are telling us that all is not well with our planet.'"
+        },
+        {
+          "letter": "E",
+          "text": "However, scientists are trying to pinpoint hardy types of coral that could survive our overheated oceans, and some of this research will be carried out at London Zoo. 'Behind our ... coral reef tank we have built laboratories where scientists will be studying coral species,' said Pearce-Kelly. One aim will be to carry out research on species to find those that can survive best in warm, acidic waters. Another will be to try to increase coral breeding rates. 'Coral spawn just once a year,' he added. 'However, aquarium-based research has enabled some corals to spawn artificially, which can assist coral reef restoration efforts. And if this can be extended for all species, we could consider the launching of coral-spawning programmes several times a year. That would be a big help in restoring blighted reefs.'"
+        },
+        {
+          "letter": "F",
+          "text": "Research in these fields is being conducted in laboratories around the world, with the London Zoo centre linked to this global network. Studies carried out in one centre can then be tested in others. The resulting young coral can then be displayed in the tank in Tiny Giants. 'The crucial point is that the progress we make in making coral better able to survive in a warming world can be shown to the public and encourage them to believe that we can do something to save the planet's reefs,' said Pearce-Kelly. 'Saving our coral reefs is now a critically important ecological goal.'"
+        }
       ],
       "question_groups": [
         {
           "type": "matching_headings",
           "instructions_html": "Reading Passage 2 has six sections, <strong>A–F</strong>. Choose the correct heading for each section from the list of headings below, and move it into the gap.",
           "heading_bank": [
-            { "id": "i", "text": "Tried and tested solutions" },
-            { "id": "ii", "text": "Cooperation beneath the waves" },
-            { "id": "iii", "text": "Working to lessen the problems" },
-            { "id": "iv", "text": "Disagreement about the accuracy of a certain phrase" },
-            { "id": "v", "text": "Two clear educational goals" },
-            { "id": "vi", "text": "Promoting hope" },
-            { "id": "vii", "text": "A warning of further trouble ahead" }
+            {
+              "id": "i",
+              "text": "Tried and tested solutions"
+            },
+            {
+              "id": "ii",
+              "text": "Cooperation beneath the waves"
+            },
+            {
+              "id": "iii",
+              "text": "Working to lessen the problems"
+            },
+            {
+              "id": "iv",
+              "text": "Disagreement about the accuracy of a certain phrase"
+            },
+            {
+              "id": "v",
+              "text": "Two clear educational goals"
+            },
+            {
+              "id": "vi",
+              "text": "Promoting hope"
+            },
+            {
+              "id": "vii",
+              "text": "A warning of further trouble ahead"
+            }
           ],
           "questions": [
-            { "number": 14, "paragraph": "A" },
-            { "number": 15, "paragraph": "B" },
-            { "number": 16, "paragraph": "C" },
-            { "number": 17, "paragraph": "D" },
-            { "number": 18, "paragraph": "E" },
-            { "number": 19, "paragraph": "F" }
+            {
+              "number": 14,
+              "paragraph": "A"
+            },
+            {
+              "number": 15,
+              "paragraph": "B"
+            },
+            {
+              "number": 16,
+              "paragraph": "C"
+            },
+            {
+              "number": 17,
+              "paragraph": "D"
+            },
+            {
+              "number": 18,
+              "paragraph": "E"
+            },
+            {
+              "number": 19,
+              "paragraph": "F"
+            }
           ]
         },
         {
@@ -138,14 +298,31 @@
               "number": 20,
               "prompt": "Which TWO of these causes of damage to coral reefs are mentioned by the writer of the text?",
               "options": [
-                { "letter": "A", "text": "a rising number of extreme storms" },
-                { "letter": "B", "text": "the removal of too many fish from the sea" },
-                { "letter": "C", "text": "the contamination of the sea from waste" },
-                { "letter": "D", "text": "increased disease among marine species" },
-                { "letter": "E", "text": "alterations in the usual flow of water in the seas" }
+                {
+                  "letter": "A",
+                  "text": "a rising number of extreme storms"
+                },
+                {
+                  "letter": "B",
+                  "text": "the removal of too many fish from the sea"
+                },
+                {
+                  "letter": "C",
+                  "text": "the contamination of the sea from waste"
+                },
+                {
+                  "letter": "D",
+                  "text": "increased disease among marine species"
+                },
+                {
+                  "letter": "E",
+                  "text": "alterations in the usual flow of water in the seas"
+                }
               ]
             },
-            { "number": 21 }
+            {
+              "number": 21
+            }
           ]
         },
         {
@@ -156,23 +333,49 @@
               "number": 22,
               "prompt": "Which TWO of the following statements are true of the researchers at London Zoo?",
               "options": [
-                { "letter": "A", "text": "They are hoping to expand the numbers of different corals being bred in laboratories." },
-                { "letter": "B", "text": "They want to identify corals that can cope well with the changed sea conditions." },
-                { "letter": "C", "text": "They are looking at ways of creating artificial reefs that corals could grow on." },
-                { "letter": "D", "text": "They are trying out methods that would speed up reproduction in some corals." },
-                { "letter": "E", "text": "They are investigating materials that might protect reefs from higher temperatures." }
+                {
+                  "letter": "A",
+                  "text": "They are hoping to expand the numbers of different corals being bred in laboratories."
+                },
+                {
+                  "letter": "B",
+                  "text": "They want to identify corals that can cope well with the changed sea conditions."
+                },
+                {
+                  "letter": "C",
+                  "text": "They are looking at ways of creating artificial reefs that corals could grow on."
+                },
+                {
+                  "letter": "D",
+                  "text": "They are trying out methods that would speed up reproduction in some corals."
+                },
+                {
+                  "letter": "E",
+                  "text": "They are investigating materials that might protect reefs from higher temperatures."
+                }
               ]
             },
-            { "number": 23 }
+            {
+              "number": 23
+            }
           ]
         },
         {
           "type": "sentence_completion",
           "instructions_html": "Complete the sentences below. Choose <strong>ONE WORD ONLY</strong> from the passage for each answer.",
           "questions": [
-            { "number": 24, "prompt_html": "Corals have a number of ___ which they use to collect their food." },
-            { "number": 25, "prompt_html": "Algae gain ___ from being inside the coral." },
-            { "number": 26, "prompt_html": "Increases in the warmth of the sea water can remove the ___ from coral." }
+            {
+              "number": 24,
+              "prompt_html": "Corals have a number of ___ which they use to collect their food."
+            },
+            {
+              "number": 25,
+              "prompt_html": "Algae gain ___ from being inside the coral."
+            },
+            {
+              "number": 26,
+              "prompt_html": "Increases in the warmth of the sea water can remove the ___ from coral."
+            }
           ]
         }
       ]
@@ -201,33 +404,84 @@
           "instructions_html": "Look at the following statements (Questions 27–33) and the list of experts below. Match each statement with the correct expert, <strong>A</strong>, <strong>B</strong> or <strong>C</strong>. <strong>NB</strong> You may use any letter more than once.",
           "bank_title": "List of Experts",
           "feature_bank": [
-            { "letter": "A", "text": "Martin Rees" },
-            { "letter": "B", "text": "Daniel Wolpert" },
-            { "letter": "C", "text": "Kathleen Richardson" }
+            {
+              "letter": "A",
+              "text": "Martin Rees"
+            },
+            {
+              "letter": "B",
+              "text": "Daniel Wolpert"
+            },
+            {
+              "letter": "C",
+              "text": "Kathleen Richardson"
+            }
           ],
           "questions": [
-            { "number": 27, "prompt": "For our own safety, humans will need to restrict the abilities of robots." },
-            { "number": 28, "prompt": "The risk of robots harming us is less serious than humans believe it to be." },
-            { "number": 29, "prompt": "It will take many decades for robot intelligence to be as imaginative as human intelligence." },
-            { "number": 30, "prompt": "We may have to start considering whether we are treating robots fairly." },
-            { "number": 31, "prompt": "Robots are probably of more help to us on Earth than in space." },
-            { "number": 32, "prompt": "The ideas in high-quality science fiction may prove to be just as accurate as those found in the work of mediocre scientists." },
-            { "number": 33, "prompt": "There are those who look forward to robots developing greater intelligence." }
+            {
+              "number": 27,
+              "prompt": "For our own safety, humans will need to restrict the abilities of robots."
+            },
+            {
+              "number": 28,
+              "prompt": "The risk of robots harming us is less serious than humans believe it to be."
+            },
+            {
+              "number": 29,
+              "prompt": "It will take many decades for robot intelligence to be as imaginative as human intelligence."
+            },
+            {
+              "number": 30,
+              "prompt": "We may have to start considering whether we are treating robots fairly."
+            },
+            {
+              "number": 31,
+              "prompt": "Robots are probably of more help to us on Earth than in space."
+            },
+            {
+              "number": 32,
+              "prompt": "The ideas in high-quality science fiction may prove to be just as accurate as those found in the work of mediocre scientists."
+            },
+            {
+              "number": 33,
+              "prompt": "There are those who look forward to robots developing greater intelligence."
+            }
           ]
         },
         {
           "type": "sentence_endings",
           "instructions_html": "Complete each sentence with the correct ending, <strong>A–D</strong>, below.",
           "ending_bank": [
-            { "letter": "A", "text": "robots to explore outer space." },
-            { "letter": "B", "text": "advances made in machine intelligence so far." },
-            { "letter": "C", "text": "changes made to other planets for our own benefit." },
-            { "letter": "D", "text": "the harm already done by artificial intelligence." }
+            {
+              "letter": "A",
+              "text": "robots to explore outer space."
+            },
+            {
+              "letter": "B",
+              "text": "advances made in machine intelligence so far."
+            },
+            {
+              "letter": "C",
+              "text": "changes made to other planets for our own benefit."
+            },
+            {
+              "letter": "D",
+              "text": "the harm already done by artificial intelligence."
+            }
           ],
           "questions": [
-            { "number": 34, "prompt": "Richardson and Rees express similar views regarding the ethical aspect of" },
-            { "number": 35, "prompt": "Rees and Wolpert share an opinion about the extent of" },
-            { "number": 36, "prompt": "Wolpert disagrees with Richardson on the question of" }
+            {
+              "number": 34,
+              "prompt": "Richardson and Rees express similar views regarding the ethical aspect of"
+            },
+            {
+              "number": 35,
+              "prompt": "Rees and Wolpert share an opinion about the extent of"
+            },
+            {
+              "number": 36,
+              "prompt": "Wolpert disagrees with Richardson on the question of"
+            }
           ]
         },
         {
@@ -238,45 +492,135 @@
               "number": 37,
               "prompt": "What point does Richardson make about fear of machines?",
               "options": [
-                { "letter": "A", "text": "It has grown alongside the development of ever more advanced robots." },
-                { "letter": "B", "text": "It is the result of our inclination to attribute human characteristics to non-human entities." },
-                { "letter": "C", "text": "It has its origins in basic misunderstandings about how inanimate objects function." },
-                { "letter": "D", "text": "It demonstrates a key difference between human intelligence and machine intelligence." }
+                {
+                  "letter": "A",
+                  "text": "It has grown alongside the development of ever more advanced robots."
+                },
+                {
+                  "letter": "B",
+                  "text": "It is the result of our inclination to attribute human characteristics to non-human entities."
+                },
+                {
+                  "letter": "C",
+                  "text": "It has its origins in basic misunderstandings about how inanimate objects function."
+                },
+                {
+                  "letter": "D",
+                  "text": "It demonstrates a key difference between human intelligence and machine intelligence."
+                }
               ]
             },
             {
               "number": 38,
               "prompt": "What potential advance does Rees see as a cause for concern?",
               "options": [
-                { "letter": "A", "text": "robots outnumbering people" },
-                { "letter": "B", "text": "robots having abilities which humans do not" },
-                { "letter": "C", "text": "artificial intelligence developing independent thought" },
-                { "letter": "D", "text": "artificial intelligence taking over every aspect of our lives" }
+                {
+                  "letter": "A",
+                  "text": "robots outnumbering people"
+                },
+                {
+                  "letter": "B",
+                  "text": "robots having abilities which humans do not"
+                },
+                {
+                  "letter": "C",
+                  "text": "artificial intelligence developing independent thought"
+                },
+                {
+                  "letter": "D",
+                  "text": "artificial intelligence taking over every aspect of our lives"
+                }
               ]
             },
             {
               "number": 39,
               "prompt": "What does Wolpert emphasise in his response to the question about science fiction?",
               "options": [
-                { "letter": "A", "text": "how science fiction influences our attitudes to robots" },
-                { "letter": "B", "text": "how fundamental robots are to the science fiction genre" },
-                { "letter": "C", "text": "how the image of robots in science fiction has changed over time" },
-                { "letter": "D", "text": "how reactions to similar portrayals of robots in science fiction may vary" }
+                {
+                  "letter": "A",
+                  "text": "how science fiction influences our attitudes to robots"
+                },
+                {
+                  "letter": "B",
+                  "text": "how fundamental robots are to the science fiction genre"
+                },
+                {
+                  "letter": "C",
+                  "text": "how the image of robots in science fiction has changed over time"
+                },
+                {
+                  "letter": "D",
+                  "text": "how reactions to similar portrayals of robots in science fiction may vary"
+                }
               ]
             },
             {
               "number": 40,
               "prompt": "What is Richardson doing in her comment about reality and fantasy?",
               "options": [
-                { "letter": "A", "text": "warning people not to confuse one with the other" },
-                { "letter": "B", "text": "outlining ways in which one has impacted on the other" },
-                { "letter": "C", "text": "recommending a change of approach in how people view them" },
-                { "letter": "D", "text": "explaining why scientists have a different perspective on them from other people" }
+                {
+                  "letter": "A",
+                  "text": "warning people not to confuse one with the other"
+                },
+                {
+                  "letter": "B",
+                  "text": "outlining ways in which one has impacted on the other"
+                },
+                {
+                  "letter": "C",
+                  "text": "recommending a change of approach in how people view them"
+                },
+                {
+                  "letter": "D",
+                  "text": "explaining why scientists have a different perspective on them from other people"
+                }
               ]
             }
           ]
         }
       ]
     }
-  ]
+  ],
+  "explanations": {
+    "1": "The Andeans froze, trampled and dried potatoes, which 'preserved their nutritional value', matching the note about conserving nutritional value.",
+    "2": "In 1851 railroads put ice in insulated rail cars 'to send butter' from Ogdensburg to Boston, the food kept cool in adapted trains.",
+    "3": "The 1880 shipment to England was 'Australian beef and mutton' sent frozen, so the answer is two kinds of meat.",
+    "4": "Quick-freezing 'reduced the damage that crystals caused'; the crystals forming in cells were what spoilt the food.",
+    "5": "Birdseye 'introduced the use of cellophane, the first transparent material for food packaging', which let consumers see the product.",
+    "6": "WWII boosted frozen food because 'tin was being used for munitions' and canned foods were rationed to save tin.",
+    "7": "By 1953 '33 million US families owned a refrigerator', matching a large number of homes having one.",
+    "8": "The passage says Boston owners had Arctic ice towed for preservation but never states this made them wealthy.",
+    "9": "Crystals burst the cells and 'this spoilt the flavor and texture of the food', confirming taste was affected.",
+    "10": "Birdseye went to Labrador 'to trap and trade furs' after running out of money, not to learn Inuit freezing.",
+    "11": "The TV Dinner launched 'with the help of a clever name and a huge advertising budget', confirming heavy promotion spending.",
+    "12": "The TV Dinner used 'the same segmented aluminum tray that was used by airlines', not a newly developed container.",
+    "13": "The passage gives US turnover figures but never compares it to other countries' industries worldwide.",
+    "14": "Section A states two aims: showing how wonderful reefs are and highlighting conservation, matching 'Two clear educational goals'.",
+    "15": "Section B describes algae giving polyps colour and getting protection in return, a symbiotic relationship, matching 'Cooperation beneath the waves'.",
+    "16": "Section C centres on Attenborough disputing the 'rainforests of the sea' label, matching 'Disagreement about the accuracy of a certain phrase'.",
+    "17": "Section D says thermal stress is the start and lists further menaces, with 90% of reefs lost by 2050, matching 'A warning of further trouble ahead'.",
+    "18": "Section E describes scientists researching hardy corals and boosting breeding rates, matching 'Working to lessen the problems'.",
+    "19": "Section F says progress shown to the public should 'encourage them to believe that we can do something', matching 'Promoting hope'.",
+    "20": "Section D lists 'pollution by humans' (waste contamination, C) and 'ocean current changes' (altered water flow, E).",
+    "21": "Section D lists 'pollution by humans' (waste contamination, C) and 'ocean current changes' (altered water flow, E).",
+    "22": "Section E says they want corals 'that can survive best in warm, acidic waters' (B) and aim 'to increase coral breeding rates' (D).",
+    "23": "Section E says they want corals 'that can survive best in warm, acidic waters' (B) and aim 'to increase coral breeding rates' (D).",
+    "24": "Polyps have 'tentacles for capturing small marine creatures in the sea water', matching what corals use to collect food.",
+    "25": "Algae living within the polyps 'in turn get protection', matching what algae gain from being inside.",
+    "26": "Bleaching events 'strip reefs of their colour', so warmer water removes the colour from coral.",
+    "27": "Rees says 'we should ensure that robots remain as no more than \"idiot savants\" lacking the capacity to outwit us', restricting their abilities.",
+    "28": "Wolpert says 'the benefits that they will bring are likely to outweigh these negative aspects', downplaying the danger.",
+    "29": "Wolpert says expecting 'a machine close to the creative intelligence of a human within the next 50 years would be highly ambitious'.",
+    "30": "Rees raises 'Should we feel guilty about exploiting [sophisticated robots]?', questioning whether we treat robots fairly.",
+    "31": "Wolpert says 'Using robots to gather resources nearer to home would seem to be a better use of our robotic tools'.",
+    "32": "Rees advises 'it's better to read first-rate science fiction than second-rate science... perhaps no more likely to be wrong'.",
+    "33": "Richardson says 'many people welcome machine intelligence', confirming some look forward to more intelligent robots.",
+    "34": "Rees says colonised planets should be preserved like Antarctica and Richardson finds colonisation 'morally dubious', sharing ethical concern about altering planets.",
+    "35": "Rees and Wolpert both say machine intelligence already outstrips humans in limited ways like calculation, navigation and memory.",
+    "36": "Wolpert says AI's benefits outweigh harm done by viruses, while Richardson stresses robots have never challenged human supremacy.",
+    "37": "Richardson says fear 'stems from humans' tendency to personify inanimate objects', attributing human traits to non-human entities.",
+    "38": "Rees worries computer networks 'could behave like a single \"brain\" with a mind of its own', independent thought contrary to human welfare.",
+    "39": "Wolpert notes 'almost no science fiction envisages a future without robots', emphasising how fundamental robots are to the genre.",
+    "40": "Richardson urges bringing reality and fantasy understandings 'together to get a whole perspective', recommending a change in how people view them."
+  }
 }

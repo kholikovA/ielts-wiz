@@ -1,20 +1,28 @@
 import React, { useRef, useMemo, useEffect } from 'react';
 
-// Boxed text input bound to a question number. The number shows as a placeholder
-// until the gap is filled (CSS hides it via .gap-input.filled + .gap-num-placeholder).
+// Grow a single-line textarea to fit its (possibly wrapped) content.
+const autoGrow = (el) => { if (!el) return; el.style.height = 'auto'; el.style.height = `${el.scrollHeight}px`; };
+
+// Boxed answer field bound to a question number. It's a textarea (not an input) so
+// long answers wrap onto a second line within a narrow box instead of scrolling.
+// The number shows as a placeholder until filled (CSS hides it when .filled).
 export function GapInput({ qnum, value, onChange, wide, disabled }) {
   const filled = !!(value && String(value).length);
+  const ref = useRef(null);
+  useEffect(() => { autoGrow(ref.current); }, [value]);
   return (
     <span className="gap-wrap">
-      <input
-        type="text"
+      <textarea
+        ref={ref}
+        rows={1}
         className={`gap-input${wide ? ' wide' : ''}${filled ? ' filled' : ''}`}
         data-qnum={qnum}
         autoComplete="off"
         spellCheck="false"
         disabled={disabled}
         value={value || ''}
-        onChange={(e) => onChange(qnum, e.target.value)}
+        onKeyDown={(e) => { if (e.key === 'Enter') e.preventDefault(); }}
+        onChange={(e) => onChange(qnum, e.target.value.replace(/\n/g, ' '))}
       />
       <span className="gap-num-placeholder">{qnum}</span>
     </span>
@@ -78,28 +86,31 @@ export function CompletionLayout({ bodyHtml, qnums, answers, onChange, readOnly 
     let i = 0;
     return String(bodyHtml).replace(/___/g, () => {
       const qn = qnums[i++];
-      return `<span class="gap-wrap"><input type="text" class="gap-input" data-qnum="${qn}" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">${qn}</span></span>`;
+      return `<span class="gap-wrap"><textarea rows="1" class="gap-input" data-qnum="${qn}" autocomplete="off" spellcheck="false"></textarea><span class="gap-num-placeholder">${qn}</span></span>`;
     });
   }, [bodyHtml, qnums]);
 
   const onInput = (e) => {
     const t = e.target;
-    if (!readOnly && t && t.classList && t.classList.contains('gap-input')) {
-      onChange(parseInt(t.dataset.qnum, 10), t.value);
+    if (t && t.classList && t.classList.contains('gap-input')) {
+      autoGrow(t);
+      if (!readOnly) onChange(parseInt(t.dataset.qnum, 10), t.value.replace(/\n/g, ' '));
     }
   };
+  const onKeyDown = (e) => { if (e.key === 'Enter' && e.target.classList?.contains('gap-input')) e.preventDefault(); };
 
   useEffect(() => {
     const el = ref.current;
     if (!el) return;
-    el.querySelectorAll('input.gap-input').forEach((inp) => {
+    el.querySelectorAll('textarea.gap-input').forEach((inp) => {
       const qn = parseInt(inp.dataset.qnum, 10);
       const v = answers[qn] == null ? '' : String(answers[qn]);
       if (inp.value !== v) inp.value = v;
       inp.disabled = !!readOnly;
       inp.classList.toggle('filled', !!v);
+      autoGrow(inp);
     });
   }, [html, answers, readOnly]);
 
-  return <div className="completion-layout" ref={ref} onInput={onInput} dangerouslySetInnerHTML={{ __html: html }} />;
+  return <div className="completion-layout" ref={ref} onInput={onInput} onKeyDown={onKeyDown} dangerouslySetInnerHTML={{ __html: html }} />;
 }

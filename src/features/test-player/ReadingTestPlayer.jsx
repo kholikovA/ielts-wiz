@@ -300,6 +300,7 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
                 currentQ={currentQ}
                 results={readOnly ? resultsByQ : null}
                 resolver={readOnly ? resolver : null}
+                explanations={readOnly ? spec.explanations : null}
               />
             ))}
           </div>

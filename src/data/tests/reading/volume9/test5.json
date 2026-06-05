@@ -9,26 +9,60 @@
       "part_number": 1,
       "passage_title": "The origins of tennis",
       "passage_paragraphs": [
-        { "text": "The game of tennis has a very long history. It is officially still known as 'lawn tennis,' partly because it was originally only played on grass, and also to distinguish it from the older game known as 'real tennis,' from which the modern game developed." },
-        { "text": "Some people believe that the ancient Egyptians, Greeks, and Romans played various versions of tennis. No drawings or descriptions of any tennis-like games have been discovered, but a couple of Arabic words dating from ancient Egyptian times are cited as evidence. The theory goes that the name 'tennis' is derived from the Egyptian town of Tennis alongside the Nile, and the word 'racquet' evolved from the Arabic word for the palm of the hand, rahat. Aside from these two Arabic words, there is no other evidence for any form of tennis prior to the year 1000." },
-        { "text": "Most historians believe the origins of the game date back to 11th- and 12th-century France. It's thought that French monks were the first to play a basic game of handball against their monastery buildings, or over a rope strung across a courtyard. Those who dispute more ancient origins argue that the name 'tennis' is derived from the French tenez, which meant something to the effect of 'take this,' said as one player would serve to the other. This game took on the name jeu de paume, which means \"game of the hand or palm.\" But as they found playing with bare hands quite uncomfortable, players began using a simple glove, and later either a glove with webbing between the fingers or a solid paddle, similar to the ones used in table tennis today. Wooden racquets were not invented until much later." },
-        { "text": "The French nobility learned the game from the monks, and some accounts report as many as 1,800 tennis courts in France by the 13th century. The game, which remained exclusive to the upper classes, gained more popularity over the 14th and 15th centuries. As it became increasingly fashionable, outdoor courtyards were modified into indoor courts. The game became such a widespread diversion among the aristocracy that both the pope and the French king tried to ban it." },
-        { "text": "By the 16th century, the game had spread to England, where it became known as 'tennis.' Both kings Henry VII and Henry VIII were avid players who promoted the building of courts, and it also became a very fashionable game among the English upper classes. An example of one of these early 'real tennis' courts can be seen at the royal palace of Hampton Court near London. It was built in 1525 and is still used today. Only a handful of such courts remain. It is a tall, narrow indoor court, bearing more resemblance to a squash court than the type of tennis courts we are familiar with today. 'Real tennis' is a remarkably fast and difficult game as the ball can be bounced off any of the surfaces, some of which are slanted at odd angles. The net is just over 1.5 metres high at each end, but drops to just under a metre in the middle." },
-        { "text": "Until the 19th century, the ball was either constructed from a wad of hair, wool, or cork wrapped in string and cloth or leather. Then a major development took place when Charles Goodyear invented vulcanisation, a process that allows rubber to withstand heat and cold. This led to the development of rubber tennis balls. During the 1850s, players began to experiment with these new balls, which bounced easily on outdoor grass courts." },
-        { "text": "In 1874 a Welshman, Major Walter C. Wingfield, known as 'the father of lawn tennis,' had the idea of devising rules, which he published. He also introduced standardised equipment, including racquets, balls, posts, and a net, which he patented and sold in sets. The game quickly became a very popular and sociable open-air pursuit for the English middle classes. People also started playing tennis in countries such as the United States, Russia, India, Canada, and China." },
-        { "text": "However, not all of Wingfield's ideas ultimately survived. Inspired by his knowledge of Greek, he called his version of tennis Sphairistike a name which never caught on. Interestingly, his original court had the shape of an hourglass, with the net across its narrowest section. A major tennis tournament took place for the first time in Wimbledon, London in 1877, and its organising committee came up with a rectangular court and a modified set of rules that are essentially the same as for the game we know today. The net was still high at the sides, a carryover from the game's indoor ancestor. But by 1882, the specifications for the size of the court, the equipment, and the rules had evolved to their current form." }
+        {
+          "text": "The game of tennis has a very long history. It is officially still known as 'lawn tennis,' partly because it was originally only played on grass, and also to distinguish it from the older game known as 'real tennis,' from which the modern game developed."
+        },
+        {
+          "text": "Some people believe that the ancient Egyptians, Greeks, and Romans played various versions of tennis. No drawings or descriptions of any tennis-like games have been discovered, but a couple of Arabic words dating from ancient Egyptian times are cited as evidence. The theory goes that the name 'tennis' is derived from the Egyptian town of Tennis alongside the Nile, and the word 'racquet' evolved from the Arabic word for the palm of the hand, rahat. Aside from these two Arabic words, there is no other evidence for any form of tennis prior to the year 1000."
+        },
+        {
+          "text": "Most historians believe the origins of the game date back to 11th- and 12th-century France. It's thought that French monks were the first to play a basic game of handball against their monastery buildings, or over a rope strung across a courtyard. Those who dispute more ancient origins argue that the name 'tennis' is derived from the French tenez, which meant something to the effect of 'take this,' said as one player would serve to the other. This game took on the name jeu de paume, which means \"game of the hand or palm.\" But as they found playing with bare hands quite uncomfortable, players began using a simple glove, and later either a glove with webbing between the fingers or a solid paddle, similar to the ones used in table tennis today. Wooden racquets were not invented until much later."
+        },
+        {
+          "text": "The French nobility learned the game from the monks, and some accounts report as many as 1,800 tennis courts in France by the 13th century. The game, which remained exclusive to the upper classes, gained more popularity over the 14th and 15th centuries. As it became increasingly fashionable, outdoor courtyards were modified into indoor courts. The game became such a widespread diversion among the aristocracy that both the pope and the French king tried to ban it."
+        },
+        {
+          "text": "By the 16th century, the game had spread to England, where it became known as 'tennis.' Both kings Henry VII and Henry VIII were avid players who promoted the building of courts, and it also became a very fashionable game among the English upper classes. An example of one of these early 'real tennis' courts can be seen at the royal palace of Hampton Court near London. It was built in 1525 and is still used today. Only a handful of such courts remain. It is a tall, narrow indoor court, bearing more resemblance to a squash court than the type of tennis courts we are familiar with today. 'Real tennis' is a remarkably fast and difficult game as the ball can be bounced off any of the surfaces, some of which are slanted at odd angles. The net is just over 1.5 metres high at each end, but drops to just under a metre in the middle."
+        },
+        {
+          "text": "Until the 19th century, the ball was either constructed from a wad of hair, wool, or cork wrapped in string and cloth or leather. Then a major development took place when Charles Goodyear invented vulcanisation, a process that allows rubber to withstand heat and cold. This led to the development of rubber tennis balls. During the 1850s, players began to experiment with these new balls, which bounced easily on outdoor grass courts."
+        },
+        {
+          "text": "In 1874 a Welshman, Major Walter C. Wingfield, known as 'the father of lawn tennis,' had the idea of devising rules, which he published. He also introduced standardised equipment, including racquets, balls, posts, and a net, which he patented and sold in sets. The game quickly became a very popular and sociable open-air pursuit for the English middle classes. People also started playing tennis in countries such as the United States, Russia, India, Canada, and China."
+        },
+        {
+          "text": "However, not all of Wingfield's ideas ultimately survived. Inspired by his knowledge of Greek, he called his version of tennis Sphairistike a name which never caught on. Interestingly, his original court had the shape of an hourglass, with the net across its narrowest section. A major tennis tournament took place for the first time in Wimbledon, London in 1877, and its organising committee came up with a rectangular court and a modified set of rules that are essentially the same as for the game we know today. The net was still high at the sides, a carryover from the game's indoor ancestor. But by 1882, the specifications for the size of the court, the equipment, and the rules had evolved to their current form."
+        }
       ],
       "question_groups": [
         {
           "instructions_html": "Choose <strong>TRUE</strong> if the statement agrees with the information given in the text, choose <strong>FALSE</strong> if the statement contradicts the information, or choose <strong>NOT GIVEN</strong> if there is no information on this.",
           "type": "tfng",
           "questions": [
-            { "number": 1, "prompt": "There are a few surviving documents which show that a game similar to tennis was played in the ancient world." },
-            { "number": 2, "prompt": "An early form of tennis involved players hitting a ball with just their hand." },
-            { "number": 3, "prompt": "The game of table tennis developed around the same time as tennis." },
-            { "number": 4, "prompt": "Tennis became popular with all sections of French society in the 14th and 15th centuries." },
-            { "number": 5, "prompt": "The indoor courts created in the 14th and 15th centuries were larger than the outdoor courtyards." },
-            { "number": 6, "prompt": "There were attempts to prevent French aristocrats from playing tennis." }
+            {
+              "number": 1,
+              "prompt": "There are a few surviving documents which show that a game similar to tennis was played in the ancient world."
+            },
+            {
+              "number": 2,
+              "prompt": "An early form of tennis involved players hitting a ball with just their hand."
+            },
+            {
+              "number": 3,
+              "prompt": "The game of table tennis developed around the same time as tennis."
+            },
+            {
+              "number": 4,
+              "prompt": "Tennis became popular with all sections of French society in the 14th and 15th centuries."
+            },
+            {
+              "number": 5,
+              "prompt": "The indoor courts created in the 14th and 15th centuries were larger than the outdoor courtyards."
+            },
+            {
+              "number": 6,
+              "prompt": "There were attempts to prevent French aristocrats from playing tennis."
+            }
           ]
         },
         {
@@ -40,37 +74,85 @@
               {
                 "heading": "'Real tennis' court at Hampton Court",
                 "items": [
-                  { "html": "The ball may be hit against the ___ around the court", "qnum": 7 },
-                  { "html": "The ___ is lower in the centre", "qnum": 8 }
+                  {
+                    "html": "The ball may be hit against the ___ around the court",
+                    "qnum": 7
+                  },
+                  {
+                    "html": "The ___ is lower in the centre",
+                    "qnum": 8
+                  }
                 ]
               },
               {
                 "heading": "1850s",
                 "items": [
-                  { "html": "Balls made out of ___ started to be used", "qnum": 9 }
+                  {
+                    "html": "Balls made out of ___ started to be used",
+                    "qnum": 9
+                  }
                 ]
               },
               {
                 "heading": "1874",
                 "items": [
-                  { "html": "Major Walter C. Wingfield:" },
-                  { "html": "Published written ___ for the game", "qnum": 10, "indent": true },
-                  { "html": "Produced complete sets of tennis ___ for sale", "qnum": 11, "indent": true },
-                  { "html": "Introduced a name for the game which was never adopted", "indent": true },
-                  { "html": "Designed an unusual ___ for the court", "qnum": 12, "indent": true }
+                  {
+                    "html": "Major Walter C. Wingfield:"
+                  },
+                  {
+                    "html": "Published written ___ for the game",
+                    "qnum": 10,
+                    "indent": true
+                  },
+                  {
+                    "html": "Produced complete sets of tennis ___ for sale",
+                    "qnum": 11,
+                    "indent": true
+                  },
+                  {
+                    "html": "Introduced a name for the game which was never adopted",
+                    "indent": true
+                  },
+                  {
+                    "html": "Designed an unusual ___ for the court",
+                    "qnum": 12,
+                    "indent": true
+                  }
                 ]
               },
               {
                 "heading": "1877",
                 "items": [
-                  { "html": "The first large ___ was held", "qnum": 13 }
+                  {
+                    "html": "The first large ___ was held",
+                    "qnum": 13
+                  }
                 ]
               }
             ]
           },
           "questions": [
-            { "number": 7 }, { "number": 8 }, { "number": 9 }, { "number": 10 },
-            { "number": 11 }, { "number": 12 }, { "number": 13 }
+            {
+              "number": 7
+            },
+            {
+              "number": 8
+            },
+            {
+              "number": 9
+            },
+            {
+              "number": 10
+            },
+            {
+              "number": 11
+            },
+            {
+              "number": 12
+            },
+            {
+              "number": 13
+            }
           ]
         }
       ]
@@ -79,39 +161,114 @@
       "part_number": 2,
       "passage_title": "Coins: the first form of money",
       "passage_paragraphs": [
-        { "letter": "A", "text": "Few people pay much attention to coins; we take them for granted. Since the advent of paper currency and the abandonment of a monetary system based on intrinsic or actual value, they have been demoted to the status of change: what is left when you have paid for something with 'paper' money. There is even a belief that they will one day be obsolete, as will paper or plastic notes, and money will at last have achieved the pure status of a mathematical formulation, a system of electronic credits and debits." },
-        { "letter": "B", "text": "In the modern media environment, the sheer number of visual images is overwhelming, but it makes one stop to think that coins are among the most durable of our artefacts, and future archaeologists will scrutinise coins in order to learn about their distant ancestors. This is exactly the way ancient coins have informed us for over four millennia. There are thousands of different coins, each designed to carry meaning as well as value, tiny but rich sources of documentary evidence about events and cultural attitudes, frequently produced with exquisite craftsmanship." },
-        { "letter": "C", "text": "Coins in Europe date from 2,500 to 2,700 years ago, and seem to have originated in the ancient kingdom of Lydia, in what is now Turkey. Before coins, trade was based on barter: the direct trade of commodities. Barter required the physical presence of both commodities that were being traded. Metal coins were far more portable, and not subject to the same spoilage on long sea journeys as a commodity like grain might be if it became wet. However, they could also be accumulated, and these hoards could be stolen. Coins were therefore a temptation to criminals. The Greeks, however, were the first to realise the full potential of the new invention. They were a trading people of seafarers. Their civilisation, which was composed of dozens of city-states, was highly decentralised. Despite the potential for theft, the Greeks realised that they could benefit enormously from a system that used coins, because it meant that they no longer had to carry goods with them to barter." },
-        { "letter": "D", "text": "The value of coins was generally based on the intrinsic value of the metal they were made of. At first this was mostly silver, and this meant that the discovery of silver mines on Greek territory actually increased the quantity of money they could produce. Had the Greek mining been on a larger scale, it could have caused problems similar to those faced by the Spanish centuries later, when so much gold from the New World was brought into their economy that it resulted in serious inflation. One advantage of intrinsic value was that coins could be weighed to determine the amount of metal they contained, so that the only thing an issuing state had to guarantee was the purity of the metal to prevent accusations of fraud and cheating, which could cause fighting and unrest. This was quite difficult to do, especially with coins made of gold, until Archimedes realised that different metals have different weight-volume ratios, and that by measuring the amount of displacement when coins were immersed in water, it was possible to establish whether gold was alloyed with silver." },
-        { "letter": "E", "text": "All ancient coins were made by hand using engraved metal moulds. Many hundreds of coins were made, and as a result the moulds often cracked and new ones had to be engraved. This explains the endless variety encountered in coins with the same designs because the moulds had to be remade repeatedly, by many different artisans. One of the distinctive features of coins, in fact, is that they are the work of anonymous craftsmen, and yet each coin is an intimate reflection of the character of its city of origin. It was the Greeks who realised that coins could have a double function, as a unit of value and as a symbol of the identity of the city that issued them. The Greek view of life was deeply motivated by a spirit of competition, and coins, which circulated around the trading world, were a way of advertising the qualities of each particular city-state." },
-        { "letter": "F", "text": "Interestingly, Greek coins from the city of Athens, which was the home of the greatest sculptors of the classical period, seem to have been completely disconnected from the high sculptural tradition. The beautiful features of the city's patron, Athena (with her owl on the reverse of the coin), seem to have been repeated virtually unaltered for many years. Perhaps this was because the Athenian currency had grown increasingly to be the international standard and, like the US dollar today, a uniform design implied integrity." },
-        { "letter": "G", "text": "One side of a coin was always occupied by the head of a divinity, so it was a relatively small step, at around 323 BC, for Greek coins to replace that head with the portrait of the reigning monarch, a tradition that has continued in monarchies to the present day. Republics may have either symbolic heads going back to the older tradition of divinities - or the features of a distinguished past head of state. The Romans adopted the Greek practice of coin design and as a result, the features of many great Romans have survived and are known to modern generations, despite the fact that the art of portrait painting was completely lost for more than a millennium following the fall of the Roman Empire." }
+        {
+          "letter": "A",
+          "text": "Few people pay much attention to coins; we take them for granted. Since the advent of paper currency and the abandonment of a monetary system based on intrinsic or actual value, they have been demoted to the status of change: what is left when you have paid for something with 'paper' money. There is even a belief that they will one day be obsolete, as will paper or plastic notes, and money will at last have achieved the pure status of a mathematical formulation, a system of electronic credits and debits."
+        },
+        {
+          "letter": "B",
+          "text": "In the modern media environment, the sheer number of visual images is overwhelming, but it makes one stop to think that coins are among the most durable of our artefacts, and future archaeologists will scrutinise coins in order to learn about their distant ancestors. This is exactly the way ancient coins have informed us for over four millennia. There are thousands of different coins, each designed to carry meaning as well as value, tiny but rich sources of documentary evidence about events and cultural attitudes, frequently produced with exquisite craftsmanship."
+        },
+        {
+          "letter": "C",
+          "text": "Coins in Europe date from 2,500 to 2,700 years ago, and seem to have originated in the ancient kingdom of Lydia, in what is now Turkey. Before coins, trade was based on barter: the direct trade of commodities. Barter required the physical presence of both commodities that were being traded. Metal coins were far more portable, and not subject to the same spoilage on long sea journeys as a commodity like grain might be if it became wet. However, they could also be accumulated, and these hoards could be stolen. Coins were therefore a temptation to criminals. The Greeks, however, were the first to realise the full potential of the new invention. They were a trading people of seafarers. Their civilisation, which was composed of dozens of city-states, was highly decentralised. Despite the potential for theft, the Greeks realised that they could benefit enormously from a system that used coins, because it meant that they no longer had to carry goods with them to barter."
+        },
+        {
+          "letter": "D",
+          "text": "The value of coins was generally based on the intrinsic value of the metal they were made of. At first this was mostly silver, and this meant that the discovery of silver mines on Greek territory actually increased the quantity of money they could produce. Had the Greek mining been on a larger scale, it could have caused problems similar to those faced by the Spanish centuries later, when so much gold from the New World was brought into their economy that it resulted in serious inflation. One advantage of intrinsic value was that coins could be weighed to determine the amount of metal they contained, so that the only thing an issuing state had to guarantee was the purity of the metal to prevent accusations of fraud and cheating, which could cause fighting and unrest. This was quite difficult to do, especially with coins made of gold, until Archimedes realised that different metals have different weight-volume ratios, and that by measuring the amount of displacement when coins were immersed in water, it was possible to establish whether gold was alloyed with silver."
+        },
+        {
+          "letter": "E",
+          "text": "All ancient coins were made by hand using engraved metal moulds. Many hundreds of coins were made, and as a result the moulds often cracked and new ones had to be engraved. This explains the endless variety encountered in coins with the same designs because the moulds had to be remade repeatedly, by many different artisans. One of the distinctive features of coins, in fact, is that they are the work of anonymous craftsmen, and yet each coin is an intimate reflection of the character of its city of origin. It was the Greeks who realised that coins could have a double function, as a unit of value and as a symbol of the identity of the city that issued them. The Greek view of life was deeply motivated by a spirit of competition, and coins, which circulated around the trading world, were a way of advertising the qualities of each particular city-state."
+        },
+        {
+          "letter": "F",
+          "text": "Interestingly, Greek coins from the city of Athens, which was the home of the greatest sculptors of the classical period, seem to have been completely disconnected from the high sculptural tradition. The beautiful features of the city's patron, Athena (with her owl on the reverse of the coin), seem to have been repeated virtually unaltered for many years. Perhaps this was because the Athenian currency had grown increasingly to be the international standard and, like the US dollar today, a uniform design implied integrity."
+        },
+        {
+          "letter": "G",
+          "text": "One side of a coin was always occupied by the head of a divinity, so it was a relatively small step, at around 323 BC, for Greek coins to replace that head with the portrait of the reigning monarch, a tradition that has continued in monarchies to the present day. Republics may have either symbolic heads going back to the older tradition of divinities - or the features of a distinguished past head of state. The Romans adopted the Greek practice of coin design and as a result, the features of many great Romans have survived and are known to modern generations, despite the fact that the art of portrait painting was completely lost for more than a millennium following the fall of the Roman Empire."
+        }
       ],
       "question_groups": [
         {
           "type": "matching_headings",
           "heading_bank": [
-            { "id": "h1", "text": "Training coin makers" },
-            { "id": "h2", "text": "A form of regional promotion" },
-            { "id": "h3", "text": "More gold than silver in Greece" },
-            { "id": "h4", "text": "Calculating what a coin was worth" },
-            { "id": "h5", "text": "A simpler, more efficient way of trading" },
-            { "id": "h6", "text": "Putting a face to famous historical names" },
-            { "id": "h7", "text": "An uncertain future" },
-            { "id": "h8", "text": "Careless workmanship caused breakages" },
-            { "id": "h9", "text": "Unchanging coins signalled trustworthiness" },
-            { "id": "h10", "text": "Reading the writing on coins" },
-            { "id": "h11", "text": "Significant records of past societies" }
+            {
+              "id": "h1",
+              "text": "Training coin makers"
+            },
+            {
+              "id": "h2",
+              "text": "A form of regional promotion"
+            },
+            {
+              "id": "h3",
+              "text": "More gold than silver in Greece"
+            },
+            {
+              "id": "h4",
+              "text": "Calculating what a coin was worth"
+            },
+            {
+              "id": "h5",
+              "text": "A simpler, more efficient way of trading"
+            },
+            {
+              "id": "h6",
+              "text": "Putting a face to famous historical names"
+            },
+            {
+              "id": "h7",
+              "text": "An uncertain future"
+            },
+            {
+              "id": "h8",
+              "text": "Careless workmanship caused breakages"
+            },
+            {
+              "id": "h9",
+              "text": "Unchanging coins signalled trustworthiness"
+            },
+            {
+              "id": "h10",
+              "text": "Reading the writing on coins"
+            },
+            {
+              "id": "h11",
+              "text": "Significant records of past societies"
+            }
           ],
           "instructions_html": "The text has seven sections. Choose the correct heading for each section and move it into the gap.",
           "questions": [
-            { "number": 14, "paragraph": "A" },
-            { "number": 15, "paragraph": "B" },
-            { "number": 16, "paragraph": "C" },
-            { "number": 17, "paragraph": "D" },
-            { "number": 18, "paragraph": "E" },
-            { "number": 19, "paragraph": "F" },
-            { "number": 20, "paragraph": "G" }
+            {
+              "number": 14,
+              "paragraph": "A"
+            },
+            {
+              "number": 15,
+              "paragraph": "B"
+            },
+            {
+              "number": 16,
+              "paragraph": "C"
+            },
+            {
+              "number": 17,
+              "paragraph": "D"
+            },
+            {
+              "number": 18,
+              "paragraph": "E"
+            },
+            {
+              "number": 19,
+              "paragraph": "F"
+            },
+            {
+              "number": 20,
+              "paragraph": "G"
+            }
           ]
         },
         {
@@ -122,14 +279,32 @@
               "number": 21,
               "prompt": "Which TWO of these comments about ancient coins are made by the writer of the text?",
               "options": [
-                { "letter": "A", "text": "There is no record of the names of the coin makers." },
-                { "letter": "B", "text": "Coins were not popular as payment for traded objects." },
-                { "letter": "C", "text": "Coins with the same design often looked quite different." },
-                { "letter": "D", "text": "Greek coins were more beautiful in design than Roman coins." },
-                { "letter": "E", "text": "At times, too many coins were produced in Greece." }
+                {
+                  "letter": "A",
+                  "text": "There is no record of the names of the coin makers."
+                },
+                {
+                  "letter": "B",
+                  "text": "Coins were not popular as payment for traded objects."
+                },
+                {
+                  "letter": "C",
+                  "text": "Coins with the same design often looked quite different."
+                },
+                {
+                  "letter": "D",
+                  "text": "Greek coins were more beautiful in design than Roman coins."
+                },
+                {
+                  "letter": "E",
+                  "text": "At times, too many coins were produced in Greece."
+                }
               ]
             },
-            { "number": 22, "prompt": "" }
+            {
+              "number": 22,
+              "prompt": ""
+            }
           ]
         },
         {
@@ -140,7 +315,18 @@
             "body_html": "The ancient Greek ___ was made up of many city-states which were spread over a large area. Many Greeks were seafarers who travelled the seas trading. Before coins, they had to do this through ___. This meant that, whenever they set out, they had to carry a lot of goods, which could get damaged on the voyages. The Greeks liked coins; they were made of metal, and the weather and sea had little effect on them. The Greeks had a plentiful supply of ___ which they mined themselves, but were able to avoid the problem of ___ which the Spanish encountered much later, after they allowed too much gold from the New World to enter their economy."
           },
           "questions": [
-            { "number": 23 }, { "number": 24 }, { "number": 25 }, { "number": 26 }
+            {
+              "number": 23
+            },
+            {
+              "number": 24
+            },
+            {
+              "number": 25
+            },
+            {
+              "number": 26
+            }
           ]
         }
       ]
@@ -150,65 +336,173 @@
       "passage_title": "Sir Francis Ronalds (1788–1873)",
       "passage_subtitle": "An early pioneer in the story of long-distance communication",
       "passage_paragraphs": [
-        { "letter": "A", "text": "Francis Ronalds was born in London in 1788, the second of eleven children. When he was nineteen his father died, and as the eldest son, the young Ronalds had to assume the responsibility of running the family's cheese business. He combined this occupation with his passions for chemical experiments and for meteorology, the study of the Earth's atmosphere and its changes. This brought him into contact with the elderly Swiss meteorologist Jean Andre de Luc, who was also an inspired inventor in the field of electricity. In 1814, de Luc encouraged Ronalds to start work on this new discipline." },
-        { "letter": "B", "text": "For the next few years, Ronalds experimented enthusiastically with various kinds of electrostatic clockwork devices. He was particularly interested in the idea of electric telegraphy: transmitting messages over distance, using electrical impulses carried along metal wires. In the best traditions of nineteenth century scientists, these investigations were carried out at home. In early 1816, Ronalds gutted the family home in Hammersmith, West London, and covered its rooms, halls, and staircases with electric wire. This experiment involved the use of current to produce movement in small corks at the ends of circuits." },
-        { "letter": "C", "text": "Some months later, Ronalds built two large wooden frames accommodating 8 miles (12.9 km) of electrically charged iron wire in his back garden. At either end of the wire was a revolving disc, on which letters and numbers were engraved. These dials were kept revolving by means of a clockwork mechanism. When somebody wanted to send a message, he would wait until the dial at his end was showing the desired number or letter, and then interrupt the charge on the wire. This would cause two balls suspended on the wire to fall together. The person at the opposite end would then note down what was indicated by the dial at his end at the moment when the balls made contact. Ronalds soon developed a modified version of his invention in which the wire was encased in glass tubes and buried in the ground. The system was slow and depended on the two dials staying in step, but it worked." },
-        { "letter": "D", "text": "Ronalds immediately contacted the Admiralty, the department of the British government which had control over the nation's naval affairs. He was not the first to propose a system of this nature to them. Some ten years earlier, in 1806, the inventor Ralph Wedgwood had offered the Admiralty a similar type of telegraph based on frictional electricity, which it had rejected. The Admiralty had its home in London, whereas its naval fleets were based over 130 km away in Portsmouth. With communication between these two cities in mind, Ronalds wrote to Lord Melville, the then First Lord of the Admiralty, to offer him his telegraphic system." },
-        { "letter": "E", "text": "Ronalds believed that his invention was capable of carrying messages some 800 km, and in his letter to Lord Melville written on 11 July 1816 he spoke of the 'mode of conveying telegraphic intelligence with great rapidity, accuracy, and certainty, in all states of the atmosphere, either at night or in the day, and at small expense.' In 1816, the Admiralty had at its disposal only the late eighteenth-century telegraphic system of semaphore, whereby a mechanical device was used to control a mast with two arms. The disadvantage of this system was that it was only usable in daylight and in clear weather conditions. Nevertheless, John Barrow, Secretary to the Admiralty, wrote back to Ronalds on 5 August, saying that 'telegraphs of any kind are wholly unnecessary, and NO other than the one now in use will be adopted.'" },
-        { "letter": "F", "text": "Ronalds did not pursue the matter further or attempt to patent his telegraph. However, in a small pamphlet published in 1823, he described his invention and listed some of its potential uses: 'Why should not government govern at Portsmouth almost as promptly as in Downing Street? Why should our defaulters escape by default of our foggy climate? Let us have Electrical Conversazione offices communicating with each other all over the kingdom if we can.' Although Ronalds lived long enough to see his prophecies come to fruition, he made NO further contribution to the progress of telegraphic communication. In 1843, he was appointed the first Honorary Director and Superintendent of the Observatory at Kew, where he devised an accurate, automatic system for registering meteorological data using photography. A similar system was developed independently by Charles Brooke, but the British Association of Meteorologists confirmed Ronalds's priority. His system remained in use for many decades." },
-        { "letter": "G", "text": "Meanwhile, the people who benefited most directly from Ronalds's telegraphic work were the physicist Charles Wheatstone and his business partner William Cooke. They saw the potential of a rapid communication system for the growing number of private railway companies, and in 1837 they developed the Wheatstone-Cooke five-needle telegraph. The pair patented their design in the same year, the first of its kind to be officially registered, and reaped considerable financial gain as a result. Ronalds himself retired in 1852 and devoted his later years to collecting and cataloguing a vast library of published material on electricity and magnetism. In 1870, three years before he died, he was knighted by Queen Victoria, a belated honour in recognition of his 'early and remarkable labours in telegraphic investigations.'" }
+        {
+          "letter": "A",
+          "text": "Francis Ronalds was born in London in 1788, the second of eleven children. When he was nineteen his father died, and as the eldest son, the young Ronalds had to assume the responsibility of running the family's cheese business. He combined this occupation with his passions for chemical experiments and for meteorology, the study of the Earth's atmosphere and its changes. This brought him into contact with the elderly Swiss meteorologist Jean Andre de Luc, who was also an inspired inventor in the field of electricity. In 1814, de Luc encouraged Ronalds to start work on this new discipline."
+        },
+        {
+          "letter": "B",
+          "text": "For the next few years, Ronalds experimented enthusiastically with various kinds of electrostatic clockwork devices. He was particularly interested in the idea of electric telegraphy: transmitting messages over distance, using electrical impulses carried along metal wires. In the best traditions of nineteenth century scientists, these investigations were carried out at home. In early 1816, Ronalds gutted the family home in Hammersmith, West London, and covered its rooms, halls, and staircases with electric wire. This experiment involved the use of current to produce movement in small corks at the ends of circuits."
+        },
+        {
+          "letter": "C",
+          "text": "Some months later, Ronalds built two large wooden frames accommodating 8 miles (12.9 km) of electrically charged iron wire in his back garden. At either end of the wire was a revolving disc, on which letters and numbers were engraved. These dials were kept revolving by means of a clockwork mechanism. When somebody wanted to send a message, he would wait until the dial at his end was showing the desired number or letter, and then interrupt the charge on the wire. This would cause two balls suspended on the wire to fall together. The person at the opposite end would then note down what was indicated by the dial at his end at the moment when the balls made contact. Ronalds soon developed a modified version of his invention in which the wire was encased in glass tubes and buried in the ground. The system was slow and depended on the two dials staying in step, but it worked."
+        },
+        {
+          "letter": "D",
+          "text": "Ronalds immediately contacted the Admiralty, the department of the British government which had control over the nation's naval affairs. He was not the first to propose a system of this nature to them. Some ten years earlier, in 1806, the inventor Ralph Wedgwood had offered the Admiralty a similar type of telegraph based on frictional electricity, which it had rejected. The Admiralty had its home in London, whereas its naval fleets were based over 130 km away in Portsmouth. With communication between these two cities in mind, Ronalds wrote to Lord Melville, the then First Lord of the Admiralty, to offer him his telegraphic system."
+        },
+        {
+          "letter": "E",
+          "text": "Ronalds believed that his invention was capable of carrying messages some 800 km, and in his letter to Lord Melville written on 11 July 1816 he spoke of the 'mode of conveying telegraphic intelligence with great rapidity, accuracy, and certainty, in all states of the atmosphere, either at night or in the day, and at small expense.' In 1816, the Admiralty had at its disposal only the late eighteenth-century telegraphic system of semaphore, whereby a mechanical device was used to control a mast with two arms. The disadvantage of this system was that it was only usable in daylight and in clear weather conditions. Nevertheless, John Barrow, Secretary to the Admiralty, wrote back to Ronalds on 5 August, saying that 'telegraphs of any kind are wholly unnecessary, and NO other than the one now in use will be adopted.'"
+        },
+        {
+          "letter": "F",
+          "text": "Ronalds did not pursue the matter further or attempt to patent his telegraph. However, in a small pamphlet published in 1823, he described his invention and listed some of its potential uses: 'Why should not government govern at Portsmouth almost as promptly as in Downing Street? Why should our defaulters escape by default of our foggy climate? Let us have Electrical Conversazione offices communicating with each other all over the kingdom if we can.' Although Ronalds lived long enough to see his prophecies come to fruition, he made NO further contribution to the progress of telegraphic communication. In 1843, he was appointed the first Honorary Director and Superintendent of the Observatory at Kew, where he devised an accurate, automatic system for registering meteorological data using photography. A similar system was developed independently by Charles Brooke, but the British Association of Meteorologists confirmed Ronalds's priority. His system remained in use for many decades."
+        },
+        {
+          "letter": "G",
+          "text": "Meanwhile, the people who benefited most directly from Ronalds's telegraphic work were the physicist Charles Wheatstone and his business partner William Cooke. They saw the potential of a rapid communication system for the growing number of private railway companies, and in 1837 they developed the Wheatstone-Cooke five-needle telegraph. The pair patented their design in the same year, the first of its kind to be officially registered, and reaped considerable financial gain as a result. Ronalds himself retired in 1852 and devoted his later years to collecting and cataloguing a vast library of published material on electricity and magnetism. In 1870, three years before he died, he was knighted by Queen Victoria, a belated honour in recognition of his 'early and remarkable labours in telegraphic investigations.'"
+        }
       ],
       "question_groups": [
         {
           "bank_title": "List of Dates",
           "type": "matching_features",
           "feature_bank": [
-            { "letter": "A", "text": "1806" },
-            { "letter": "B", "text": "1814" },
-            { "letter": "C", "text": "1816" },
-            { "letter": "D", "text": "1823" },
-            { "letter": "E", "text": "1837" },
-            { "letter": "F", "text": "1843" },
-            { "letter": "G", "text": "1852" },
-            { "letter": "H", "text": "1870" }
+            {
+              "letter": "A",
+              "text": "1806"
+            },
+            {
+              "letter": "B",
+              "text": "1814"
+            },
+            {
+              "letter": "C",
+              "text": "1816"
+            },
+            {
+              "letter": "D",
+              "text": "1823"
+            },
+            {
+              "letter": "E",
+              "text": "1837"
+            },
+            {
+              "letter": "F",
+              "text": "1843"
+            },
+            {
+              "letter": "G",
+              "text": "1852"
+            },
+            {
+              "letter": "H",
+              "text": "1870"
+            }
           ],
           "instructions_html": "Choose the correct group, <strong>A–H</strong>, for each item. You may choose any group more than once.",
           "questions": [
-            { "number": 27, "prompt": "The first electric telegraph system was submitted to the Admiralty." },
-            { "number": 28, "prompt": "Ronalds received official recognition of his contribution to telegraphy." },
-            { "number": 29, "prompt": "The first electric telegraph was patented." },
-            { "number": 30, "prompt": "Ronalds began to experiment with electricity." },
-            { "number": 31, "prompt": "Ronalds informed the public about the possible uses of his telegraph." }
+            {
+              "number": 27,
+              "prompt": "The first electric telegraph system was submitted to the Admiralty."
+            },
+            {
+              "number": 28,
+              "prompt": "Ronalds received official recognition of his contribution to telegraphy."
+            },
+            {
+              "number": 29,
+              "prompt": "The first electric telegraph was patented."
+            },
+            {
+              "number": 30,
+              "prompt": "Ronalds began to experiment with electricity."
+            },
+            {
+              "number": 31,
+              "prompt": "Ronalds informed the public about the possible uses of his telegraph."
+            }
           ]
         },
         {
           "instructions_html": "Answer the questions. Write <strong>NO MORE THAN THREE WORDS AND/OR A NUMBER</strong> from the text for each answer.",
           "type": "short_answer",
           "questions": [
-            { "number": 32, "prompt_html": "What was marked on the dials on Ronalds's garden telegraph? ___" },
-            { "number": 33, "prompt_html": "What did Ronalds use to enclose the wires on his later version of the garden telegraph? ___" },
-            { "number": 34, "prompt_html": "How far did Ronalds believe his telegraph could transmit information? ___" },
-            { "number": 35, "prompt_html": "What did the communication system invented by Ralph Wedgwood use? ___" }
+            {
+              "number": 32,
+              "prompt_html": "What was marked on the dials on Ronalds's garden telegraph? ___"
+            },
+            {
+              "number": 33,
+              "prompt_html": "What did Ronalds use to enclose the wires on his later version of the garden telegraph? ___"
+            },
+            {
+              "number": 34,
+              "prompt_html": "How far did Ronalds believe his telegraph could transmit information? ___"
+            },
+            {
+              "number": 35,
+              "prompt_html": "What did the communication system invented by Ralph Wedgwood use? ___"
+            }
           ]
         },
         {
           "type": "matching_info",
           "feature_bank": [
-            { "letter": "A", "text": "Paragraph A" },
-            { "letter": "B", "text": "Paragraph B" },
-            { "letter": "C", "text": "Paragraph C" },
-            { "letter": "D", "text": "Paragraph D" },
-            { "letter": "E", "text": "Paragraph E" },
-            { "letter": "F", "text": "Paragraph F" },
-            { "letter": "G", "text": "Paragraph G" }
+            {
+              "letter": "A",
+              "text": "Paragraph A"
+            },
+            {
+              "letter": "B",
+              "text": "Paragraph B"
+            },
+            {
+              "letter": "C",
+              "text": "Paragraph C"
+            },
+            {
+              "letter": "D",
+              "text": "Paragraph D"
+            },
+            {
+              "letter": "E",
+              "text": "Paragraph E"
+            },
+            {
+              "letter": "F",
+              "text": "Paragraph F"
+            },
+            {
+              "letter": "G",
+              "text": "Paragraph G"
+            }
           ],
           "instructions_html": "The text has seven sections labeled <strong>A–G</strong>. Which paragraph contains the following information? Choose the correct letter, <strong>A–G</strong>. You may choose any letter more than once.",
           "questions": [
-            { "number": 36, "prompt": "a description of a commercial application for the electric telegraph" },
-            { "number": 37, "prompt": "a rejection of Ronalds's invention" },
-            { "number": 38, "prompt": "a drawback of Ronalds's invention" },
-            { "number": 39, "prompt": "reference to the positive influence on Ronald of a fellow scientist" },
-            { "number": 40, "prompt": "reference to the adoption of one of Ronalds's procedures in preference to that of another scientist" }
+            {
+              "number": 36,
+              "prompt": "a description of a commercial application for the electric telegraph"
+            },
+            {
+              "number": 37,
+              "prompt": "a rejection of Ronalds's invention"
+            },
+            {
+              "number": 38,
+              "prompt": "a drawback of Ronalds's invention"
+            },
+            {
+              "number": 39,
+              "prompt": "reference to the positive influence on Ronald of a fellow scientist"
+            },
+            {
+              "number": 40,
+              "prompt": "reference to the adoption of one of Ronalds's procedures in preference to that of another scientist"
+            }
           ]
         }
       ]
@@ -255,5 +549,47 @@
     "38": "C",
     "39": "A",
     "40": "F"
+  },
+  "explanations": {
+    "1": "False: the passage says 'No drawings or descriptions of any tennis-like games have been discovered,' so no surviving documents exist.",
+    "2": "True: French monks first played 'handball against their monastery buildings,' a game called jeu de paume, 'game of the hand or palm.'",
+    "3": "Not Given: table tennis is mentioned only as resembling a solid paddle; the passage never states when table tennis itself developed.",
+    "4": "False: the game 'remained exclusive to the upper classes,' so it did not become popular with all sections of French society.",
+    "5": "Not Given: it says outdoor courtyards 'were modified into indoor courts' but never compares whether the indoor courts were larger.",
+    "6": "True: 'both the pope and the French king tried to ban it,' showing attempts to prevent aristocrats from playing.",
+    "7": "The text says in 'real tennis' the ball 'can be bounced off any of the surfaces,' matching being hit against the surfaces around the court.",
+    "8": "The net 'is just over 1.5 metres high at each end, but drops to just under a metre in the middle,' so the net is lower in the centre.",
+    "9": "Goodyear's vulcanisation 'led to the development of rubber tennis balls,' which players experimented with during the 1850s.",
+    "10": "In 1874 Wingfield 'had the idea of devising rules, which he published,' matching the published written rules.",
+    "11": "He 'introduced standardised equipment, including racquets, balls, posts, and a net... and sold in sets,' matching complete sets of equipment.",
+    "12": "His 'original court had the shape of an hourglass,' an unusual shape designed for the court.",
+    "13": "A 'major tennis tournament took place for the first time in Wimbledon, London in 1877,' the first large tournament.",
+    "14": "Section A discusses coins possibly becoming 'obsolete' and money becoming electronic credits, an uncertain future for coins.",
+    "15": "Section B says future archaeologists will study coins to learn about ancestors, calling them significant records of past societies.",
+    "16": "Section C explains coins let Greeks avoid carrying goods to barter, a simpler, more efficient way of trading.",
+    "17": "Section D covers intrinsic metal value, weighing coins, and Archimedes establishing content, all about calculating a coin's worth.",
+    "18": "Section E says coins advertised 'the qualities of each particular city-state,' a form of regional promotion.",
+    "19": "Section F says Athena's design was 'repeated virtually unaltered for many years' because a uniform design implied integrity, so unchanging coins signalled trustworthiness.",
+    "20": "Section G says Roman coin portraits mean 'the features of many great Romans have survived,' putting a face to famous historical names.",
+    "21": "A is supported: coins are 'the work of anonymous craftsmen'; C is supported: moulds were remade so coins with the same design showed 'endless variety.'",
+    "22": "Same as 21: A is supported by 'anonymous craftsmen' and C by the 'endless variety' from repeatedly remade moulds.",
+    "23": "The text says 'Their civilisation, which was composed of dozens of city-states,' matching the Greek civilisation made up of many city-states.",
+    "24": "'Before coins, trade was based on barter,' so before coins the Greeks traded through barter.",
+    "25": "Coin value was 'mostly silver,' and 'the discovery of silver mines on Greek territory' increased the money they could produce.",
+    "26": "Excess Spanish gold 'resulted in serious inflation,' the problem the Greeks avoided.",
+    "27": "Section D says in 1806 Wedgwood 'offered the Admiralty a similar type of telegraph,' the first electric telegraph submitted to the Admiralty.",
+    "28": "In 1870 he 'was knighted by Queen Victoria... in recognition of his... labours in telegraphic investigations,' official recognition.",
+    "29": "In 1837 Wheatstone and Cooke 'patented their design... the first of its kind to be officially registered.'",
+    "30": "Section A says 'In 1814, de Luc encouraged Ronalds to start work on this new discipline' of electricity.",
+    "31": "In a 1823 pamphlet Ronalds 'described his invention and listed some of its potential uses,' informing the public.",
+    "32": "On the dials 'letters and numbers were engraved,' so letters and numbers were marked.",
+    "33": "In his later version 'the wire was encased in glass tubes and buried in the ground.'",
+    "34": "Ronalds 'believed that his invention was capable of carrying messages some 800 km.'",
+    "35": "Wedgwood offered 'a similar type of telegraph based on frictional electricity.'",
+    "36": "Section G describes Wheatstone and Cooke seeing potential for railway companies and developing a telegraph, a commercial application.",
+    "37": "Section E quotes Barrow saying 'telegraphs of any kind are wholly unnecessary,' rejecting Ronalds's invention.",
+    "38": "Section C states 'The system was slow and depended on the two dials staying in step,' a drawback of his invention.",
+    "39": "Section A says meteorologist de Luc 'encouraged Ronalds to start work,' a fellow scientist's positive influence.",
+    "40": "Section F says Brooke developed a similar system but 'the British Association of Meteorologists confirmed Ronalds's priority,' preferring Ronalds's procedure."
   }
 }
