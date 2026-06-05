@@ -13,6 +13,7 @@ jest.mock('./recording', () => ({
   loadLastSubmission: (kind, id) => {
     try { const raw = global.localStorage.getItem(`iw.v1.lastSubmission.${kind}.${id}`); return raw ? JSON.parse(raw) : null; } catch { return null; }
   },
+  loadLastSubmissionCloud: () => Promise.resolve(null),
 }));
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -75,27 +76,30 @@ function answerEverything(spec) {
   }
 }
 
-test('V9T1 — answering correctly through the UI scores band 9 and records under the verbatim id', () => {
-  const test = findReadingTest('volume9', 1);
-  act(() => root.render(<ReadingTestPlayer test={test} />));
+test.each([1, 3])(
+  'V9T%s — answering correctly through the UI scores band 9 and records under the verbatim id',
+  (n) => {
+    const test = findReadingTest('volume9', n);
+    act(() => root.render(<ReadingTestPlayer test={test} />));
 
-  expect(container.querySelectorAll('.passage-section').length).toBe(3);
+    expect(container.querySelectorAll('.passage-section').length).toBe(3);
 
-  answerEverything(test.spec);
+    answerEverything(test.spec);
 
-  click(container.querySelector('#submitBtn'));
-  click(container.querySelector('#confirmSubmit'));
+    click(container.querySelector('#submitBtn'));
+    click(container.querySelector('#confirmSubmit'));
 
-  expect(container.querySelector('[data-testid="overall-score"]').textContent).toBe('9.0');
-  expect(container.querySelector('[data-testid="count-correct"]').textContent).toBe('40');
+    expect(container.querySelector('[data-testid="overall-score"]').textContent).toBe('9.0');
+    expect(container.querySelector('[data-testid="count-correct"]').textContent).toBe('40');
 
-  expect(recordAttempt).toHaveBeenCalledTimes(1);
-  const arg = recordAttempt.mock.calls[0][0];
-  expect(arg.kind).toBe('reading_full');
-  expect(arg.id).toBe('volume9_test1');
-  expect(arg.correct).toBe(40);
-  expect(arg.total).toBe(40);
-});
+    expect(recordAttempt).toHaveBeenCalledTimes(1);
+    const arg = recordAttempt.mock.calls[0][0];
+    expect(arg.kind).toBe('reading_full');
+    expect(arg.id).toBe(`volume9_test${n}`);
+    expect(arg.correct).toBe(40);
+    expect(arg.total).toBe(40);
+  }
+);
 
 function savedPerfect(spec) {
   const index = buildGradeIndex(spec);

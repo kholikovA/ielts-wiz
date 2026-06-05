@@ -6,9 +6,12 @@
 // The shapes here are matched byte-for-byte to the HTML; see grading parity test.
 
 import { logActivity } from '../../lib/progressStore';
-import { pushResult } from '../../lib/cloudSync';
+import { pushResult, fetchLastSubmission } from '../../lib/cloudSync';
 
 export const lastSubmissionKey = (kind, id) => `iw.v1.lastSubmission.${kind}.${id}`;
+
+// Cross-device fallback: the latest saved submission for this test from the cloud.
+export const loadLastSubmissionCloud = (kind, id) => fetchLastSubmission(kind, id);
 
 // Snapshot used to replay a submission in review mode.
 export function saveLastSubmission(kind, id, { answers, correct, total }) {
@@ -37,6 +40,6 @@ export function recordAttempt({ kind, id, answers, correct, total, replaying = f
   logActivity({ t: kind, id: String(id), correct, total });
   // 2. review snapshot
   saveLastSubmission(kind, id, { answers, correct, total });
-  // 3. cloud mirror (best-effort, silent on failure)
-  pushResult({ kind, test_id: id, correct, total, completed_at: new Date().toISOString() });
+  // 3. cloud mirror incl. answers, so review works cross-device (best-effort)
+  pushResult({ kind, test_id: id, correct, total, answers, completed_at: new Date().toISOString() });
 }

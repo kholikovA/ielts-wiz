@@ -6,7 +6,7 @@ import QuestionGroup from './components/QuestionGroup';
 import ResultsScreen from './components/ResultsScreen';
 import { buildLabelResolver } from './components/review';
 import { gradeTest } from './grading';
-import { recordAttempt, loadLastSubmission } from './recording';
+import { recordAttempt, loadLastSubmission, loadLastSubmissionCloud } from './recording';
 import { downloadResultImage } from './resultImage';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -40,17 +40,25 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
     });
   }, []);
 
-  // Review mode: load the saved submission, replay its answers, show the result.
+  // Review mode: load the saved submission (local first, cloud fallback for
+  // cross-device), replay its answers read-only, and show the result.
   useEffect(() => {
-    if (!review) return;
-    const saved = loadLastSubmission(kind, id);
-    if (saved && saved.answers && Object.keys(saved.answers).length) {
+    if (!review) return undefined;
+    const apply = (saved) => {
       setAnswers(saved.answers);
       setGrade(gradeTest(spec, saved.answers));
       setBanner('You are viewing your previous attempt. Answers are read-only.');
-    } else {
-      setBanner('No saved attempt found on this device — start the test to create one.');
-    }
+    };
+    const local = loadLastSubmission(kind, id);
+    if (local && local.answers && Object.keys(local.answers).length) { apply(local); return undefined; }
+    let cancelled = false;
+    setBanner('Loading your previous attempt…');
+    Promise.resolve(loadLastSubmissionCloud(kind, id)).then((remote) => {
+      if (cancelled) return;
+      if (remote && remote.answers && Object.keys(remote.answers).length) apply(remote);
+      else setBanner('No saved attempt found — start the test to create one.');
+    }).catch(() => { if (!cancelled) setBanner('No saved attempt found — start the test to create one.'); });
+    return () => { cancelled = true; };
   }, [review, kind, id, spec]);
 
   const { groupByKey, mhByPart } = useMemo(() => {
@@ -109,6 +117,22 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
   const [highlightOn, setHighlightOn] = useState(true);
   const { tip: hlTip, apply: applyHighlight } = useHighlighter(passageRef, highlightOn && !readOnly);
 
+  // Draggable split divider — resizes the passage/questions panes.
+  const containerRef = useRef(null);
+  const [splitPct, setSplitPct] = useState(50);
+  const draggingRef = useRef(false);
+  useEffect(() => {
+    const onMove = (e) => {
+      if (!draggingRef.current || !containerRef.current) return;
+      const r = containerRef.current.getBoundingClientRect();
+      setSplitPct(Math.min(75, Math.max(25, ((e.clientX - r.left) / r.width) * 100)));
+    };
+    const onUp = () => { draggingRef.current = false; try { document.body.style.cursor = ''; } catch { /* noop */ } };
+    window.addEventListener('mousemove', onMove);
+    window.addEventListener('mouseup', onUp);
+    return () => { window.removeEventListener('mousemove', onMove); window.removeEventListener('mouseup', onUp); };
+  }, []);
+
   const doSubmit = useCallback(() => {
     const g = gradeTest(spec, answers);
     recordAttempt({ kind, id, answers, correct: g.correct, total: g.total, replaying: review });
@@ -145,12 +169,16 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
   }
 
   const panes = (
-    <div className="split-container" id="splitContainer">
-      <div className="pane passage-pane" id="passagePane" ref={passageRef}>
+    <div className="split-container" id="splitContainer" ref={containerRef}>
+      <div className="pane passage-pane" id="passagePane" ref={passageRef} style={{ flex: `0 0 ${splitPct}%` }}>
         <PassagePane spec={spec} mhByPart={mhByPart} place={place} answers={answers} readOnly={readOnly} />
       </div>
-      <div className="divider" id="divider" />
-      <div className="pane questions-pane" id="questionsPane">
+      <div
+        className="divider"
+        id="divider"
+        onMouseDown={() => { draggingRef.current = true; try { document.body.style.cursor = 'col-resize'; } catch { /* noop */ } }}
+      />
+      <div className="pane questions-pane" id="questionsPane" style={{ flex: '1 1 0%' }}>
         {spec.parts.map((part) => (
           <div className="questions-section" data-part={part.part_number} key={part.part_number}>
             {part.question_groups.map((g) => (

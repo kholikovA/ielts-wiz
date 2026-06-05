@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useRef, useMemo, useEffect } from 'react';
 
 // Boxed text input bound to a question number. The number shows as a placeholder
 // until the gap is filled (CSS hides it via .gap-input.filled + .gap-num-placeholder).
@@ -67,3 +67,39 @@ export function InterleaveGaps({ html, qnums, answers, onChange, wordBank, disab
 export const HTML = ({ html, ...rest }) => (
   <span {...rest} dangerouslySetInnerHTML={{ __html: html || '' }} />
 );
+
+// Completion gaps embedded in complex HTML (tables / flowcharts / diagrams),
+// where splitting the markup into React fragments would break the structure.
+// We inject real <input> elements into the rendered HTML and capture answers via
+// event delegation, syncing values imperatively (for review/read-only).
+export function CompletionLayout({ bodyHtml, qnums, answers, onChange, readOnly }) {
+  const ref = useRef(null);
+  const html = useMemo(() => {
+    let i = 0;
+    return String(bodyHtml).replace(/___/g, () => {
+      const qn = qnums[i++];
+      return `<span class="gap-wrap"><input type="text" class="gap-input" data-qnum="${qn}" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">${qn}</span></span>`;
+    });
+  }, [bodyHtml, qnums]);
+
+  const onInput = (e) => {
+    const t = e.target;
+    if (!readOnly && t && t.classList && t.classList.contains('gap-input')) {
+      onChange(parseInt(t.dataset.qnum, 10), t.value);
+    }
+  };
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    el.querySelectorAll('input.gap-input').forEach((inp) => {
+      const qn = parseInt(inp.dataset.qnum, 10);
+      const v = answers[qn] == null ? '' : String(answers[qn]);
+      if (inp.value !== v) inp.value = v;
+      inp.disabled = !!readOnly;
+      inp.classList.toggle('filled', !!v);
+    });
+  }, [html, answers, readOnly]);
+
+  return <div className="completion-layout" ref={ref} onInput={onInput} dangerouslySetInnerHTML={{ __html: html }} />;
+}

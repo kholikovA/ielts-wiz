@@ -30,22 +30,47 @@ const safeParse = (raw, fb) => { try { return raw ? JSON.parse(raw) : fb; } catc
 //   - MasteryTest.js, after a passing grammar attempt
 //   - the HTML test pages, via the same REST endpoint (no JS bridge needed)
 // Failures are swallowed; the local copy is already saved.
-export const pushResult = async ({ kind, test_id, correct, total, completed_at }) => {
+export const pushResult = async ({ kind, test_id, correct, total, completed_at, answers }) => {
   try {
     const { data: { session } } = await supabase.auth.getSession();
     if (!session?.user) return { ok: false, reason: 'no-session' };
-    const { error } = await supabase.from('user_test_results').insert({
+    const row = {
       user_id: session.user.id,
       kind,
       test_id: String(test_id),
       correct,
       total,
       completed_at: completed_at || new Date().toISOString(),
-    });
+    };
+    // Persist the answer snapshot (nullable `answers` jsonb column) so a review
+    // can be replayed on any device, not just the one the test was taken on.
+    if (answers && Object.keys(answers).length) row.answers = answers;
+    const { error } = await supabase.from('user_test_results').insert(row);
     if (error) return { ok: false, reason: error.message };
     return { ok: true };
   } catch (e) {
     return { ok: false, reason: String(e?.message || e) };
+  }
+};
+
+// Most-recent saved submission (with its answer snapshot) for one test, from the
+// cloud — the cross-device fallback when there's no local snapshot to replay.
+export const fetchLastSubmission = async (kind, test_id) => {
+  try {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session?.user) return null;
+    const { data, error } = await supabase
+      .from('user_test_results')
+      .select('answers, correct, total, completed_at')
+      .eq('kind', kind)
+      .eq('test_id', String(test_id))
+      .not('answers', 'is', null)
+      .order('completed_at', { ascending: false })
+      .limit(1);
+    if (error || !data || !data.length || !data[0].answers) return null;
+    return { answers: data[0].answers, correct: data[0].correct, total: data[0].total };
+  } catch {
+    return null;
   }
 };
 
