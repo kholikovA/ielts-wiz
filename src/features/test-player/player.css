@@ -79,9 +79,9 @@
   }
 
 }
-.rtp-root [data-text-size="default"] { --fs-heading: 20px; --fs-subheading: 18px; --fs-content: 16px; --lh-content: 1.6; }
-.rtp-root [data-text-size="large"] { --fs-heading: 22px; --fs-subheading: 20px; --fs-content: 18px; --lh-content: 1.65; }
-.rtp-root [data-text-size="xl"] { --fs-heading: 24px; --fs-subheading: 22px; --fs-content: 20px; --lh-content: 1.7; }
+.rtp-root[data-text-size="default"] { --fs-heading: 20px; --fs-subheading: 18px; --fs-content: 16px; --lh-content: 1.6; }
+.rtp-root[data-text-size="large"] { --fs-heading: 22px; --fs-subheading: 20px; --fs-content: 18px; --lh-content: 1.65; }
+.rtp-root[data-text-size="xl"] { --fs-heading: 24px; --fs-subheading: 22px; --fs-content: 20px; --lh-content: 1.7; }
 .rtp-root * { box-sizing: border-box; margin: 0; padding: 0; }
 .rtp-root, .rtp-root { height: 100%; }
 .rtp-root {
