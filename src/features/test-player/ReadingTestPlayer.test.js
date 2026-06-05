@@ -6,7 +6,14 @@ import { recordAttempt } from './recording';
 import { buildGradeIndex } from './grading';
 import { findReadingTest } from '../../data/tests/manifest';
 
-jest.mock('./recording'); // auto-mock: recordAttempt becomes a jest.fn()
+// Mock only the cloud/record side; keep a real localStorage-backed loader so
+// review mode can replay. (Avoids pulling the supabase client into the test.)
+jest.mock('./recording', () => ({
+  recordAttempt: jest.fn(),
+  loadLastSubmission: (kind, id) => {
+    try { const raw = global.localStorage.getItem(`iw.v1.lastSubmission.${kind}.${id}`); return raw ? JSON.parse(raw) : null; } catch { return null; }
+  },
+}));
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
 const esc = (s) => String(s).replace(/(["\\])/g, '\\$1');
@@ -88,4 +95,35 @@ test('V9T1 — answering correctly through the UI scores band 9 and records unde
   expect(arg.id).toBe('volume9_test1');
   expect(arg.correct).toBe(40);
   expect(arg.total).toBe(40);
+});
+
+function savedPerfect(spec) {
+  const index = buildGradeIndex(spec);
+  const key = spec.answer_key;
+  const a = {};
+  for (const [q, info] of index) {
+    const k = key[q];
+    if (k == null) continue;
+    if (info.type === 'mcq_multi') a[q] = Array.isArray(k) ? k.join(',') : String(k);
+    else if (Array.isArray(k)) a[q] = k.join(',');
+    else a[q] = String(k).split(/\s*[/|]\s*/)[0].trim();
+  }
+  return a;
+}
+
+test('review mode replays the saved submission read-only and does NOT re-record', () => {
+  const test = findReadingTest('volume9', 1);
+  localStorage.setItem(
+    `iw.v1.lastSubmission.${test.kind}.${test.id}`,
+    JSON.stringify({ answers: savedPerfect(test.spec), correctCount: 40, total: 40, ts: '2026-01-01T00:00:00Z' })
+  );
+
+  act(() => root.render(<ReadingTestPlayer test={test} review />));
+
+  expect(container.querySelector('[data-testid="overall-score"]').textContent).toBe('9.0');
+  expect(container.querySelector('[data-testid="count-correct"]').textContent).toBe('40');
+  expect(container.textContent).toMatch(/previous attempt/i);
+  expect(recordAttempt).not.toHaveBeenCalled(); // replaying guard
+
+  localStorage.clear();
 });

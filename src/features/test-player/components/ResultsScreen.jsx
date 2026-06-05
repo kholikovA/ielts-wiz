@@ -1,6 +1,5 @@
-import React from 'react';
-
-const fmt = (v) => (Array.isArray(v) ? v.join(', ') : v == null ? '' : String(v));
+import React, { useMemo, useState } from 'react';
+import { buildLabelResolver, ResultMarker } from './review';
 
 const tierFor = (band, ratio) => {
   const r = band != null ? band / 9 : ratio;
@@ -10,19 +9,54 @@ const tierFor = (band, ratio) => {
   return 'low';
 };
 
-// Post-submit results: the headline overall card (score / band + counts) plus a
-// per-question review list. (The collapsible per-passage grouping and inline
-// in-context markers are a follow-up; this is the same data, flat.)
-export default function ResultsScreen({ grade, title, onRetake }) {
+function PassageGroup({ part, rows, resolver, defaultOpen }) {
+  const [open, setOpen] = useState(defaultOpen);
+  const correct = rows.filter((r) => r.correct).length;
+  return (
+    <div className="qreview-group">
+      <button type="button" className="qreview-toggle" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
+        <span>Reading Passage {part.part_number}{part.passage_title ? ` — ${part.passage_title}` : ''}</span>
+        <span style={{ fontVariantNumeric: 'tabular-nums', opacity: 0.8 }}>{correct}/{rows.length}</span>
+      </button>
+      {open && (
+        <div className="qreview-body">
+          {rows.map((r) => <ResultMarker key={r.q} r={r} resolver={resolver} />)}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Post-submit results: overall card (score / band + counts) and a collapsible
+// per-passage review of every question.
+export default function ResultsScreen({ grade, spec, banner, onReviewInContext, onRetake }) {
   const { correct, total, band, results } = grade;
   const wrong = results.filter((r) => !r.correct && !r.unanswered).length;
   const unanswered = results.filter((r) => r.unanswered).length;
   const tier = tierFor(band, correct / total);
+  const resolver = useMemo(() => buildLabelResolver(spec), [spec]);
+
+  const partOf = useMemo(() => {
+    const m = {};
+    spec.parts.forEach((p) => p.question_groups.forEach((g) => g.questions.forEach((q) => { m[q.number] = p.part_number; })));
+    return m;
+  }, [spec]);
+  const byPart = spec.parts.map((p) => ({ part: p, rows: results.filter((r) => partOf[r.q] === p.part_number) }));
 
   return (
     <div className="results-screen open" data-testid="results">
+      <div className="results-actions-top">
+        {onReviewInContext && (
+          <button className="results-action-btn" onClick={onReviewInContext}>Review in context</button>
+        )}
+        <div className="results-actions-top-right">
+          {onRetake && <button className="results-action-btn" onClick={onRetake}>Done</button>}
+        </div>
+      </div>
+
       <div className="results-header">
-        <h1>Test Complete</h1>
+        <h1>{banner ? 'Reviewing your attempt' : 'Test Complete'}</h1>
+        {banner && <p className="results-message" style={{ opacity: 0.8 }}>{banner}</p>}
         <div className="results-stats">
           <div className={`overall-card tier-${tier}`}>
             <div className="overall-main">
@@ -38,23 +72,12 @@ export default function ResultsScreen({ grade, title, onRetake }) {
             </div>
           </div>
         </div>
-        <p className="results-message">{correct} of {total} correct{title ? ` — ${title}` : ''}.</p>
-        {onRetake && (
-          <button className="btn-primary" onClick={onRetake} style={{ marginTop: 12 }}>Retake</button>
-        )}
+        <p className="results-message">{correct} of {total} correct.</p>
       </div>
+
       <div className="results-list">
-        {results.map((r) => (
-          <div key={r.q} className={`result-marker ${r.unanswered ? 'unanswered' : r.correct ? 'correct' : 'wrong'}`}>
-            <span className="label">Q{r.q}</span>
-            {r.unanswered ? (
-              <span><em>No answer</em> &middot; Correct: <span className="correct-answer">{fmt(r.correctAns)}</span></span>
-            ) : r.correct ? (
-              <span><span className="your-answer">{fmt(r.userAns)}</span> &middot; ✓</span>
-            ) : (
-              <span><span className="your-answer strike">{fmt(r.userAns)}</span> &middot; Correct: <span className="correct-answer">{fmt(r.correctAns)}</span></span>
-            )}
-          </div>
+        {byPart.map(({ part, rows }, i) => (
+          <PassageGroup key={part.part_number} part={part} rows={rows} resolver={resolver} defaultOpen={i === 0} />
         ))}
       </div>
     </div>
