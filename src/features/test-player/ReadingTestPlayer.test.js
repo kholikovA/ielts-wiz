@@ -13,6 +13,7 @@ jest.mock('./recording', () => ({
   loadLastSubmission: (kind, id) => {
     try { const raw = global.localStorage.getItem(`iw.v1.lastSubmission.${kind}.${id}`); return raw ? JSON.parse(raw) : null; } catch { return null; }
   },
+  loadLastSubmissionCloud: () => Promise.resolve(null),
 }));
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
