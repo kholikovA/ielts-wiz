@@ -10,10 +10,16 @@ import TestCard from '../ui/TestCard';
 import ViewToggle, { readViewMode, writeViewMode } from '../ui/ViewToggle';
 import { getCompletedIds, getLatestAttempt, hasLastSubmission } from '../../lib/progressStore';
 
+// The original part-practice tests are ARCHIVED while we rebuild the catalogue
+// from corrected sources. The data files (reading-passage1/2/3) are kept intact;
+// flip ARCHIVED to false to bring the old list back, or append new tests as they
+// are added. The standalone HTML files remain in public/reading/.
+const ARCHIVED = true;
+
 const PASSAGES = [
-  { id: 'passage1', label: 'Passage 1', tests: readingPassage1Tests, desc: 'Factual texts on accessible topics — the warm-up. Mostly T/F/NG, completion, matching, MCQ.' },
-  { id: 'passage2', label: 'Passage 2', tests: readingPassage2Tests, desc: 'Slightly more abstract texts — matching headings, MCQ, completion. The difficulty ramps here.' },
-  { id: 'passage3', label: 'Passage 3', tests: readingPassage3Tests, desc: 'Long, argumentative texts. The most demanding section — focus on global structure and inference.' },
+  { id: 'passage1', label: 'Passage 1', tests: ARCHIVED ? [] : readingPassage1Tests, desc: 'Factual texts on accessible topics — the warm-up. Mostly T/F/NG, completion, matching, MCQ.' },
+  { id: 'passage2', label: 'Passage 2', tests: ARCHIVED ? [] : readingPassage2Tests, desc: 'Slightly more abstract texts — matching headings, MCQ, completion. The difficulty ramps here.' },
+  { id: 'passage3', label: 'Passage 3', tests: ARCHIVED ? [] : readingPassage3Tests, desc: 'Long, argumentative texts. The most demanding section — focus on global structure and inference.' },
 ];
 
 const testHref = (passage, id) => `/reading/passage${passage}_${id}.html`;
@@ -91,6 +97,19 @@ export default function PartsView({ subPage, setSubPage, setCurrentPage }) {
           {current.desc}
         </p>
 
+        {current.tests.length === 0 ? (
+          <div className="card" style={{
+            padding: 'var(--space-8) var(--space-5)', border: '1px dashed var(--border-color)',
+            textAlign: 'center', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 'var(--space-2)',
+          }}>
+            <Icon name="layers" size={28} />
+            <h4 className="h4" style={{ margin: 0, color: 'var(--text-primary)' }}>Part Practice is being rebuilt</h4>
+            <p className="body" style={{ margin: 0, color: 'var(--text-tertiary)', maxWidth: '440px' }}>
+              We're re-checking these tests for accuracy and re-uploading them with the latest test engine.
+              New {current.label} tests will appear here soon.
+            </p>
+          </div>
+        ) : (
         <div style={viewMode === 'list'
           ? { display: 'flex', flexDirection: 'column', gap: 'var(--space-2)' }
           : { display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', gap: 'var(--space-3)' }}>
@@ -113,6 +132,7 @@ export default function PartsView({ subPage, setSubPage, setCurrentPage }) {
             );
           })}
         </div>
+        )}
       </div>
     </div>
   );

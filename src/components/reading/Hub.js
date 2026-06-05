@@ -21,8 +21,8 @@ const CARDS = [
   {
     key: 'parts',
     title: 'Part Practice',
-    summary: 'Drill one passage at a time. 40 P1 tests, 20 P2 tests, 9 P3 tests — auto-graded.',
-    stat: '69 tests',
+    summary: 'Drill one passage at a time — Passage 1, 2, or 3, auto-graded. Catalogue is being rebuilt with corrected tests; new ones coming soon.',
+    stat: 'Rebuilding',
     icon: 'layers',
     accent: 'var(--blue-500)',
   },
