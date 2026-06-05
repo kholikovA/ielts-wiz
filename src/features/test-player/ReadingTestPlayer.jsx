@@ -52,11 +52,13 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
   const [selected, setSelected] = useState(null);
   const [showConfirm, setShowConfirm] = useState(false);
   const [grade, setGrade] = useState(null);
+  const [submittedAt, setSubmittedAt] = useState(null);
   const [inContext, setInContext] = useState(false);
   const [banner, setBanner] = useState(null);
   const [secondsLeft, setSecondsLeft] = useState((spec.duration_minutes || 60) * 60);
 
   const setAnswer = useCallback((q, v) => {
+    setCurrentQ(q);
     setAnswers((a) => {
       const n = { ...a };
       if (v === '' || v == null) delete n[q];
@@ -72,6 +74,7 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
     const apply = (saved) => {
       setAnswers(saved.answers);
       setGrade(gradeTest(spec, saved.answers));
+      setSubmittedAt(saved.ts ? new Date(saved.ts) : new Date());
       setBanner('You are viewing your previous attempt. Answers are read-only.');
     };
     const local = loadLastSubmission(kind, id);
@@ -144,6 +147,24 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
 
   const readOnly = !!grade; // in-context review when graded
   const [activePart, setActivePart] = useState(1); // one part shown at a time
+  const [currentQ, setCurrentQ] = useState(null); // highlighted/active question number
+  const allQnums = useMemo(() => {
+    const ns = [];
+    spec.parts.forEach((p) => p.question_groups.forEach((g) => g.questions.forEach((q) => ns.push(q.number))));
+    return [...new Set(ns)].sort((a, b) => a - b);
+  }, [spec]);
+  const partOfQnum = useMemo(() => {
+    const m = {};
+    spec.parts.forEach((p) => p.question_groups.forEach((g) => g.questions.forEach((q) => { m[q.number] = p.part_number; })));
+    return m;
+  }, [spec]);
+  const scrollTimers = useRef({});
+  const onPaneScroll = useCallback((e) => {
+    const el = e.currentTarget;
+    el.classList.add('scrolling');
+    clearTimeout(scrollTimers.current[el.id]);
+    scrollTimers.current[el.id] = setTimeout(() => el.classList.remove('scrolling'), 900);
+  }, []);
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [theme, setTheme] = useState(() => (typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme')) || 'light');
   const [textSize, setTextSize] = useState('default');
@@ -178,6 +199,7 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
     const g = gradeTest(spec, answers);
     recordAttempt({ kind, id, answers, correct: g.correct, total: g.total, replaying: review });
     setGrade(g);
+    setSubmittedAt(new Date());
     setShowConfirm(false);
     try { window.scrollTo(0, 0); } catch { /* jsdom / unsupported */ }
   }, [spec, answers, kind, id, review]);
@@ -199,9 +221,22 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
   })();
   const scrollToQ = (qn) => {
     setTimeout(() => {
-      const el = document.querySelector(`#questionsPane [data-qnum="${qn}"]`);
+      const el = document.querySelector(`#questionsPane .question[data-qnum="${qn}"]:not(.hidden), #questionsPane [data-qnum="${qn}"]`);
       if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }, 40);
+  };
+  // Move to a specific question: switch to its part, mark it current, scroll to it.
+  const goToQuestion = (qn) => {
+    if (qn == null) return;
+    setCurrentQ(qn);
+    if (partOfQnum[qn]) setActivePart(partOfQnum[qn]);
+    scrollToQ(qn);
+  };
+  const stepQuestion = (dir) => {
+    const idx = currentQ == null ? -1 : allQnums.indexOf(currentQ);
+    const next = idx < 0 ? (dir > 0 ? allQnums[0] : allQnums[allQnums.length - 1])
+      : allQnums[Math.min(allQnums.length - 1, Math.max(0, idx + dir))];
+    goToQuestion(next);
   };
   const toggleFullscreen = () => {
     try {
@@ -223,13 +258,13 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
   // Results summary
   if (grade && !inContext) {
     return (
-      <div className="rtp-root" data-theme={theme} data-text-size={textSize} style={{ height: '100vh', overflowY: 'auto' }}>
+      <div className="rtp-root test-locked" data-theme={theme} data-text-size={textSize} style={{ height: '100vh', overflowY: 'auto' }}>
         <ResultsScreen
           grade={grade}
           spec={spec}
           banner={banner}
           onReviewInContext={() => setInContext(true)}
-          onDownloadImage={() => downloadResultImage({ spec, grade, solverName })}
+          onDownloadImage={() => downloadResultImage({ spec, grade, solverName, submittedAt })}
           onRetake={onExit}
         />
       </div>
@@ -238,7 +273,7 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
 
   const panes = (
     <div className="split-container" id="splitContainer" ref={containerRef}>
-      <div className="pane passage-pane" id="passagePane" ref={passageRef} style={{ flex: `0 0 ${splitPct}%` }}>
+      <div className="pane passage-pane" id="passagePane" ref={passageRef} onScroll={onPaneScroll} style={{ flex: `0 0 ${splitPct}%` }}>
         <PassagePane spec={spec} mhByPart={mhByPart} place={place} answers={answers} readOnly={readOnly} activePart={activePart} />
       </div>
       <div
@@ -251,7 +286,7 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="7 8 3 12 7 16" /><polyline points="17 8 21 12 17 16" /><line x1="3" y1="12" x2="21" y2="12" /></svg>
         </div>
       </div>
-      <div className="pane questions-pane" id="questionsPane" style={{ flex: '1 1 0%' }}>
+      <div className="pane questions-pane" id="questionsPane" onScroll={onPaneScroll} style={{ flex: '1 1 0%' }}>
         {spec.parts.map((part) => (
           <div className={`questions-section${part.part_number === activePart ? ' active' : ''}`} data-part={part.part_number} key={part.part_number}>
             {part.question_groups.map((g) => (
@@ -262,6 +297,7 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
                 onChange={setAnswer}
                 place={place}
                 readOnly={readOnly}
+                currentQ={currentQ}
                 results={readOnly ? resultsByQ : null}
                 resolver={readOnly ? resolver : null}
               />
@@ -273,7 +309,7 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
   );
 
   return (
-    <div className="rtp-root" data-theme={theme} data-text-size={textSize} style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div className={`rtp-root${readOnly ? ' test-locked' : ''}`} data-theme={theme} data-text-size={textSize} style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
       <header className="topbar">
         <div className="brand-area">
           <a href="/" className="brand-link" aria-label="IELTS Wiz home" onClick={(e) => { e.preventDefault(); if (onExit) onExit(); }}>
@@ -295,7 +331,10 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" /></svg>
           </button>
           {readOnly ? (
-            <button className="submit-btn" onClick={() => setInContext(false)}>Back to results</button>
+            <>
+              <button className="icon-btn" onClick={() => downloadResultImage({ spec, grade, solverName, submittedAt })} title="Download result image" aria-label="Download image" style={{ width: 'auto', padding: '0 10px', fontSize: 13 }}>Download image</button>
+              <button className="submit-btn" onClick={() => setInContext(false)}>Score</button>
+            </>
           ) : (
             <button className="submit-btn" id="submitBtn" onClick={() => setShowConfirm(true)}>Submit</button>
           )}
@@ -304,7 +343,11 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
 
       <div className="part-banner" id="partBanner">
         <h2>Reading Part {activePart}</h2>
-        <p>{readOnly ? 'Reviewing your answers — switch parts below.' : `Read the passage and answer questions ${activeRange}.`}</p>
+        <p>
+          {readOnly
+            ? `Reviewing your answers — ${grade.band != null ? `Band ${grade.band.toFixed(1)} · ` : ''}${grade.correct}/${grade.total} correct.`
+            : `Read the passage and answer questions ${activeRange}.`}
+        </p>
       </div>
 
       {banner && !readOnly && (
@@ -335,12 +378,13 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
               <div className="q-palette">
                 {paletteEntries(part).map((e) => {
                   const isAns = e.qnums.some((q) => answers[q] != null && answers[q] !== '');
+                  const isCur = e.qnums.includes(currentQ);
                   return (
                     <button
                       key={e.primary}
-                      className={`q-btn${isAns ? ' answered' : ''}`}
+                      className={`q-btn${isAns ? ' answered' : ''}${isCur ? ' current' : ''}`}
                       data-q={e.primary}
-                      onClick={(ev) => { ev.stopPropagation(); setActivePart(part.part_number); scrollToQ(e.primary); }}
+                      onClick={(ev) => { ev.stopPropagation(); goToQuestion(e.primary); }}
                     >
                       {e.label}
                     </button>
@@ -351,10 +395,10 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
           );
         })}
         <div className="nav-arrows" id="navArrows">
-          <button className="nav-arrow" onClick={() => setActivePart((p) => Math.max(1, p - 1))} title="Previous passage" aria-label="Previous">
+          <button className="nav-arrow" onClick={() => stepQuestion(-1)} title="Previous question" aria-label="Previous question">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
           </button>
-          <button className="nav-arrow" onClick={() => setActivePart((p) => Math.min(spec.parts.length, p + 1))} title="Next passage" aria-label="Next">
+          <button className="nav-arrow" onClick={() => stepQuestion(1)} title="Next question" aria-label="Next question">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
           </button>
         </div>

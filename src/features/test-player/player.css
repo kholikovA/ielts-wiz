@@ -170,11 +170,13 @@
 }
 .rtp-root .pane.passage-pane { flex: 1 1 50%; }
 .rtp-root .pane.questions-pane { flex: 1 1 50%; font-size: var(--fs-content); line-height: 1.6; }
-.rtp-root .pane::-webkit-scrollbar { width: 10px; }
-/* Auto-hiding scrollbar: the thumb is invisible until you interact with the
-   pane (hover), then fades back out — so the bar doesn't sit there persistently. */
-.rtp-root .pane::-webkit-scrollbar-thumb { background: transparent; border-radius: 5px; transition: background .4s ease .3s; }
-.rtp-root .pane:hover::-webkit-scrollbar-thumb, .rtp-root .pane:active::-webkit-scrollbar-thumb { background: var(--border-strong); transition: background .1s; }
+/* Overlay scrollbars: no reserved gutter; the bar appears while scrolling and is
+   hidden by a JS-toggled .scrolling class shortly after (see ReadingTestPlayer). */
+.rtp-root .pane { scrollbar-width: thin; scrollbar-color: transparent transparent; }
+.rtp-root .pane.scrolling { scrollbar-color: var(--border-strong) transparent; }
+.rtp-root .pane::-webkit-scrollbar { width: 8px; }
+.rtp-root .pane::-webkit-scrollbar-thumb { background: transparent; border-radius: 4px; }
+.rtp-root .pane.scrolling::-webkit-scrollbar-thumb { background: var(--border-strong); }
 .rtp-root .divider {
   width: 1px; background: var(--border);
   position: relative; cursor: col-resize;
@@ -460,7 +462,7 @@
 .rtp-root .note-section { margin-bottom: 18px; }
 .rtp-root .note-section-heading {
   font-family: var(--sans); font-weight: 700;
-  font-size: var(--fs-subheading); margin-bottom: 8px;
+  font-size: var(--fs-content); margin-bottom: 8px;
 }
 .rtp-root .note-list { list-style: disc; padding-left: 1.5em; }
 .rtp-root .note-list li {
@@ -967,10 +969,10 @@
 }
 .rtp-root .result-detail .your-answer.wrong { color: var(--wrong); text-decoration: line-through; }
 .rtp-root .result-detail .correct-answer { color: var(--correct); font-weight: 600; }
-.rtp-root .test-locked .options-list input, .rtp-root .test-locked .gap-input, .rtp-root .test-locked .heading-card, .rtp-root .test-locked .heading-gap, .rtp-root .test-locked .match-cell {
+.rtp-root.test-locked .options-list input, .rtp-root.test-locked .gap-input, .rtp-root.test-locked .heading-card, .rtp-root.test-locked .heading-gap, .rtp-root.test-locked .match-cell {
   pointer-events: none;
 }
-.rtp-root .test-locked .gap-input { background: var(--bg-elevated); cursor: default; }
+.rtp-root.test-locked .gap-input { background: var(--bg-elevated); cursor: default; }
 .rtp-root .result-marker {
   display: none;
   font-family: var(--sans);
@@ -981,7 +983,7 @@
   border-radius: 6px;
   line-height: 1.5;
 }
-.rtp-root .test-locked .result-marker { display: block; }
+.rtp-root.test-locked .result-marker { display: block; }
 .rtp-root .result-marker.correct {
   background: var(--correct-soft);
   color: var(--correct);
