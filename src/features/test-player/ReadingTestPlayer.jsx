@@ -56,6 +56,7 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
   const [inContext, setInContext] = useState(false);
   const [banner, setBanner] = useState(null);
   const [secondsLeft, setSecondsLeft] = useState((spec.duration_minutes || 60) * 60);
+  const [elapsedSec, setElapsedSec] = useState(null);
 
   const setAnswer = useCallback((q, v) => {
     setCurrentQ(q);
@@ -200,9 +201,10 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
     recordAttempt({ kind, id, answers, correct: g.correct, total: g.total, replaying: review });
     setGrade(g);
     setSubmittedAt(new Date());
+    setElapsedSec((spec.duration_minutes || 60) * 60 - secondsLeft);
     setShowConfirm(false);
     try { window.scrollTo(0, 0); } catch { /* jsdom / unsupported */ }
-  }, [spec, answers, kind, id, review]);
+  }, [spec, answers, kind, id, review, secondsLeft]);
 
   useEffect(() => {
     if (grade || review) return undefined;
@@ -268,6 +270,8 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
           onFinish={onExit}
           testKind={kind}
           testId={id}
+          elapsedSec={elapsedSec}
+          durationSec={(spec.duration_minutes || 60) * 60}
         />
       </div>
     );

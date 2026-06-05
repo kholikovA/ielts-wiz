@@ -89,6 +89,46 @@ export function perTypeStats(spec, grade) {
   return order.map((label) => ({ label, correct: agg[label].correct, total: agg[label].total, pct: agg[label].total ? Math.round((100 * agg[label].correct) / agg[label].total) : 0 }));
 }
 
+// Build a short, tailored coaching note for the results page from the score, the
+// per-type breakdown, and how long the test took. Returns up to 4 {tone, text}
+// items (tone drives the dot colour: good | warn | tip).
+export function generateFeedback({ grade, types, elapsedSec, durationSec }) {
+  const { correct, total, band, results } = grade;
+  const unanswered = results.filter((r) => r.unanswered).length;
+  const out = [];
+
+  if (band != null) {
+    if (band >= 8) out.push({ tone: 'good', text: `Band ${band.toFixed(1)} — expert level. You're exam-ready.` });
+    else if (band >= 7) out.push({ tone: 'good', text: `Band ${band.toFixed(1)} — a 7 clears most university requirements; tighten a couple of types to push higher.` });
+    else if (band >= 6) out.push({ tone: 'tip', text: `Band ${band.toFixed(1)} — you're one band off a 7, and the gaps below are where it's hiding.` });
+    else if (band >= 5) out.push({ tone: 'tip', text: `Band ${band.toFixed(1)} — a solid base; targeted practice on your weak types moves this quickly.` });
+    else out.push({ tone: 'warn', text: `Band ${band.toFixed(1)} — early days. Work the misses below and the score climbs fast.` });
+  } else {
+    const pct = total ? Math.round((100 * correct) / total) : 0;
+    out.push({ tone: pct >= 70 ? 'good' : 'tip', text: `${correct} of ${total} correct (${pct}%).` });
+  }
+
+  const ranked = types.filter((t) => t.total >= 2).slice().sort((a, b) => a.pct - b.pct);
+  const weakest = ranked[0];
+  if (weakest && weakest.pct < 70) out.push({ tone: 'warn', text: `Weakest type: ${weakest.label} (${weakest.correct}/${weakest.total}) — make this your next focus.` });
+
+  const strong = types.find((t) => t.total >= 3 && t.pct === 100);
+  if (strong) out.push({ tone: 'good', text: `Full marks on ${strong.label} — a reliable strength to lean on.` });
+
+  if (unanswered >= 3) out.push({ tone: 'tip', text: `${unanswered} questions left blank — there's no penalty for a wrong answer in IELTS, so always put something.` });
+
+  if (elapsedSec != null && durationSec) {
+    const spare = durationSec - elapsedSec;
+    if (spare > durationSec * 0.4 && total - correct > 0) {
+      out.push({ tone: 'tip', text: `You finished with about ${Math.max(1, Math.round(spare / 60))} minutes to spare — spend it re-reading the questions you weren't sure about.` });
+    } else if (elapsedSec >= durationSec * 0.95) {
+      out.push({ tone: 'good', text: 'You used nearly the full time — good exam-day pacing.' });
+    }
+  }
+
+  return out.slice(0, 4);
+}
+
 // Grade an entire test. `userAnswers` is a map qnum -> value (mcq_multi stores
 // the comma-joined selection on every shared qnum). Returns per-question results
 // plus the raw score and band (band only on full 40-question tests).

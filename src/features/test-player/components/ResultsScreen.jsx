@@ -1,6 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { buildLabelResolver } from './review';
-import { perTypeStats } from '../grading';
+import { perTypeStats, generateFeedback } from '../grading';
 import { submitTestReport } from '../../../lib/cloudSync';
 
 const TIER_DECO = {
@@ -48,57 +48,55 @@ function partUnits(part, byQ) {
   return units.sort((a, b) => (a.multi ? a.primary : a.r.q) - (b.multi ? b.primary : b.r.q));
 }
 
-function PassageGroup({ part, units, correctInPart, total, resolver, defaultOpen }) {
-  const [open, setOpen] = useState(defaultOpen);
-  return (
-    <div className={`qreview-group${open ? ' open' : ''}`}>
-      <button type="button" className="qreview-toggle" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
-        <Chev />
-        <span className="qreview-title">Passage {part.part_number}</span>
-        <span className="qreview-count">{correctInPart} / {total} correct</span>
-      </button>
-      {open && (
-        <div className="qreview-body">
-          {units.map((u) => {
-            if (u.multi) {
-              const gcls = u.hits === u.size ? 'correct' : 'wrong';
-              return (
-                <div className={`result-item ${gcls}`} key={`m${u.primary}`}>
-                  <div className={`result-num ${gcls}`}>{u.range}</div>
-                  <div className="result-detail">
-                    <span className="label">Your answers:</span>
-                    <span className="your-answer">{u.userLetters.join(', ') || <em style={{ color: 'var(--text-muted)' }}>No answer</em>}</span>
-                    <span className="label">Correct:</span>
-                    <span className="correct-answer">{u.correctLetters.join(', ')} <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>({u.hits}/{u.size})</span></span>
-                  </div>
-                </div>
-              );
-            }
-            const r = u.r;
-            const cls = r.unanswered ? 'unanswered' : r.correct ? 'correct' : 'wrong';
-            return (
-              <div className={`result-item ${cls}`} key={r.q}>
-                <div className={`result-num ${r.unanswered ? '' : cls}`}>{r.q}</div>
-                <div className="result-detail">
-                  <span className="label">Your answer:</span>
-                  {r.unanswered
-                    ? <span><em style={{ color: 'var(--text-muted)' }}>No answer</em></span>
-                    : <span className={`your-answer ${r.correct ? '' : 'wrong'}`}>{resolver(r.q, r.userAns)}</span>}
-                  <span className="label">Correct:</span>
-                  <span className="correct-answer">{resolver(r.q, r.correctAns)}</span>
-                </div>
-              </div>
-            );
-          })}
+function ResultItems({ units, resolver }) {
+  return units.map((u) => {
+    if (u.multi) {
+      const gcls = u.hits === u.size ? 'correct' : 'wrong';
+      return (
+        <div className={`result-item ${gcls}`} key={`m${u.primary}`}>
+          <div className={`result-num ${gcls}`}>{u.range}</div>
+          <div className="result-detail">
+            <span className="label">Your answers:</span>
+            <span className="your-answer">{u.userLetters.join(', ') || <em style={{ color: 'var(--text-muted)' }}>No answer</em>}</span>
+            <span className="label">Correct:</span>
+            <span className="correct-answer">{u.correctLetters.join(', ')} <span style={{ color: 'var(--text-muted)', fontWeight: 400 }}>({u.hits}/{u.size})</span></span>
+          </div>
         </div>
-      )}
+      );
+    }
+    const r = u.r;
+    const cls = r.unanswered ? 'unanswered' : r.correct ? 'correct' : 'wrong';
+    return (
+      <div className={`result-item ${cls}`} key={r.q}>
+        <div className={`result-num ${r.unanswered ? '' : cls}`}>{r.q}</div>
+        <div className="result-detail">
+          <span className="label">Your answer:</span>
+          {r.unanswered
+            ? <span><em style={{ color: 'var(--text-muted)' }}>No answer</em></span>
+            : <span className={`your-answer ${r.correct ? '' : 'wrong'}`}>{resolver(r.q, r.userAns)}</span>}
+          <span className="label">Correct:</span>
+          <span className="correct-answer">{resolver(r.q, r.correctAns)}</span>
+        </div>
+      </div>
+    );
+  });
+}
+
+function Collapsible({ title, defaultOpen, children }) {
+  const [open, setOpen] = useState(!!defaultOpen);
+  return (
+    <div className={`rsec${open ? ' open' : ''}`}>
+      <button type="button" className="rsec-head" aria-expanded={open} onClick={() => setOpen((o) => !o)}>
+        <Chev /><span className="rsec-title">{title}</span>
+      </button>
+      {open && <div className="rsec-body">{children}</div>}
     </div>
   );
 }
 
 function ReportModal({ onClose, testKind, testId, grade }) {
   const [msg, setMsg] = useState('');
-  const [state, setState] = useState('idle'); // idle | sending | sent | error
+  const [state, setState] = useState('idle');
   const send = async () => {
     setState('sending');
     const res = await submitTestReport({ kind: testKind, test_id: testId, message: msg, context: { correct: grade.correct, total: grade.total, band: grade.band } });
@@ -122,7 +120,7 @@ function ReportModal({ onClose, testKind, testId, grade }) {
   );
 }
 
-export default function ResultsScreen({ grade, spec, banner, onReviewInContext, onShare, onFinish, testKind, testId }) {
+export default function ResultsScreen({ grade, spec, banner, onReviewInContext, onShare, onFinish, testKind, testId, elapsedSec, durationSec }) {
   const { correct, total, band, results } = grade;
   const isFull = total >= 40;
   const wrong = results.filter((r) => !r.correct && !r.unanswered).length;
@@ -130,8 +128,10 @@ export default function ResultsScreen({ grade, spec, banner, onReviewInContext, 
   const ratio = total ? correct / total : 0;
   const tier = tierFor(band, ratio, isFull);
   const [reportOpen, setReportOpen] = useState(false);
+  const [activePassage, setActivePassage] = useState(0);
   const resolver = useMemo(() => buildLabelResolver(spec), [spec]);
   const types = useMemo(() => perTypeStats(spec, grade), [spec, grade]);
+  const feedback = useMemo(() => generateFeedback({ grade, types, elapsedSec, durationSec }), [grade, types, elapsedSec, durationSec]);
 
   const byQ = useMemo(() => { const m = {}; results.forEach((r) => { m[r.q] = r; }); return m; }, [results]);
   const partOf = useMemo(() => {
@@ -144,6 +144,7 @@ export default function ResultsScreen({ grade, spec, banner, onReviewInContext, 
     const c = rows.filter((r) => r.correct).length;
     return { part: p, units: partUnits(p, byQ), correctInPart: c, total: rows.length, color: colorFor(rows.length ? c / rows.length : 0) };
   });
+  const active = passages[Math.min(activePassage, passages.length - 1)] || passages[0];
 
   const bigNum = isFull ? (band != null ? band.toFixed(1) : '—') : `${correct} / ${total}`;
   const bigLabel = isFull ? 'Band Score' : 'Correct';
@@ -151,10 +152,10 @@ export default function ResultsScreen({ grade, spec, banner, onReviewInContext, 
   return (
     <div className="results-screen results-v2 open" data-testid="results">
       <h1 className="results-v2-title">{banner ? 'Reviewing your attempt' : 'Test Complete'}</h1>
-      {banner && <p className="results-message" style={{ opacity: 0.85, justifyContent: 'center' }}>{banner}</p>}
 
       <div className="results-grid">
         <div className="results-left">
+          {banner && <p className="results-message" style={{ opacity: 0.85, justifyContent: 'center', margin: 0 }}>{banner}</p>}
           <div className="results-stats">
             <div className={`overall-card tier-${tier}`}>
               <Svg html={TIER_DECO[tier]} />
@@ -172,7 +173,7 @@ export default function ResultsScreen({ grade, spec, banner, onReviewInContext, 
               <div className="passage-column">
                 {passages.map((ps) => (
                   <div className={`stat passage ${ps.color}`} key={ps.part.part_number}>
-                    <div className="stat-value">{ps.correctInPart} / {ps.total}</div>
+                    <div className="stat-value">{ps.correctInPart}</div>
                     <div className="stat-label">Passage {ps.part.part_number}</div>
                   </div>
                 ))}
@@ -195,19 +196,36 @@ export default function ResultsScreen({ grade, spec, banner, onReviewInContext, 
         </div>
 
         <div className="results-right">
-          <div className="results-list">
-            {passages.map((ps, i) => (
-              <PassageGroup key={ps.part.part_number} part={ps.part} units={ps.units} correctInPart={ps.correctInPart} total={ps.total} resolver={resolver} defaultOpen={i === 0} />
-            ))}
-          </div>
+          {feedback.length > 0 && (
+            <Collapsible title="Feedback" defaultOpen>
+              <ul className="feedback-list">
+                {feedback.map((f, i) => (
+                  <li className={`feedback-item ${f.tone}`} key={i}><span className="feedback-dot" />{f.text}</li>
+                ))}
+              </ul>
+            </Collapsible>
+          )}
+          <Collapsible title="Per-passage breakdown" defaultOpen>
+            <div className="passage-tabs">
+              {passages.map((ps, i) => (
+                <button key={ps.part.part_number} className={`passage-tab${active === ps ? ' active' : ''}`} onClick={() => setActivePassage(i)}>
+                  Passage {ps.part.part_number}
+                  <span className="passage-tab-count">{ps.correctInPart}/{ps.total}</span>
+                </button>
+              ))}
+            </div>
+            <div className="passage-tab-body">
+              <ResultItems units={active.units} resolver={resolver} />
+            </div>
+          </Collapsible>
         </div>
       </div>
 
       <div className="results-actions-bottom">
-        <button className="rbtn" onClick={() => setReportOpen(true)}>{ICON.report}<span>Report</span></button>
-        {onReviewInContext && <button className="rbtn" onClick={onReviewInContext}>{ICON.review}<span>Review mistakes</span></button>}
-        {onShare && <button className="rbtn rbtn-primary" onClick={onShare}>{ICON.share}<span>Share result</span></button>}
-        {onFinish && <button className="rbtn" onClick={onFinish}>{ICON.finish}<span>Finish</span></button>}
+        <button className="rbtn rbtn-report" onClick={() => setReportOpen(true)}>{ICON.report}<span>Report</span></button>
+        {onReviewInContext && <button className="rbtn rbtn-review" onClick={onReviewInContext}>{ICON.review}<span>Review mistakes</span></button>}
+        {onShare && <button className="rbtn rbtn-share" onClick={onShare}>{ICON.share}<span>Share result</span></button>}
+        {onFinish && <button className="rbtn rbtn-finish" onClick={onFinish}>{ICON.finish}<span>Finish</span></button>}
       </div>
 
       {reportOpen && <ReportModal onClose={() => setReportOpen(false)} testKind={testKind} testId={testId} grade={grade} />}
