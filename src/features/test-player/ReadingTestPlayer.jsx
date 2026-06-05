@@ -15,6 +15,31 @@ const keyOf = (g) => {
   return `${g.type}_${ns[0]}_${ns[ns.length - 1]}`;
 };
 
+// All question numbers in a part (sorted, deduped).
+const partQnums = (part) => {
+  const ns = [];
+  part.question_groups.forEach((g) => g.questions.forEach((q) => ns.push(q.number)));
+  return [...new Set(ns)].sort((a, b) => a - b);
+};
+
+// Footer palette entries — mcq_multi groups collapse to one range button, the
+// rest are individual question buttons. Mirrors build_test.py's render_footer.
+const paletteEntries = (part) => {
+  const used = new Set();
+  const entries = [];
+  part.question_groups.forEach((g) => {
+    if (g.type === 'mcq_multi') {
+      const gn = [...new Set(g.questions.map((q) => q.number))].sort((a, b) => a - b);
+      if (gn.length) {
+        entries.push({ label: gn.length > 1 ? `${gn[0]}–${gn[gn.length - 1]}` : `${gn[0]}`, primary: gn[0], qnums: gn });
+        gn.forEach((n) => used.add(n));
+      }
+    }
+  });
+  partQnums(part).forEach((q) => { if (!used.has(q)) entries.push({ label: `${q}`, primary: q, qnums: [q] }); });
+  return entries.sort((a, b) => a.primary - b.primary);
+};
+
 // `test` is a manifest entry { kind, id, spec, source, n }. `review` replays the
 // user's last saved submission read-only instead of starting a fresh attempt.
 export default function ReadingTestPlayer({ test, review = false, onExit }) {
@@ -114,6 +139,9 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
 
   const readOnly = !!grade; // in-context review when graded
   const [activePart, setActivePart] = useState(1); // one part shown at a time
+  const [settingsOpen, setSettingsOpen] = useState(false);
+  const [theme, setTheme] = useState(() => (typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme')) || 'light');
+  const [textSize, setTextSize] = useState('default');
   const passageRef = useRef(null);
   const [highlightOn, setHighlightOn] = useState(true);
   const { tip: hlTip, apply: applyHighlight } = useHighlighter(passageRef, highlightOn && !readOnly);
@@ -152,11 +180,28 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
 
   const mm = String(Math.floor(secondsLeft / 60)).padStart(2, '0');
   const ss = String(secondsLeft % 60).padStart(2, '0');
+  const minutesLeft = Math.max(0, Math.ceil(secondsLeft / 60));
+  const activeRange = (() => {
+    const qs = partQnums(spec.parts[activePart - 1] || spec.parts[0]);
+    return qs.length ? `${qs[0]}–${qs[qs.length - 1]}` : '';
+  })();
+  const scrollToQ = (qn) => {
+    setTimeout(() => {
+      const el = document.querySelector(`#questionsPane [data-qnum="${qn}"]`);
+      if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 40);
+  };
+  const toggleFullscreen = () => {
+    try {
+      if (!document.fullscreenElement) document.documentElement.requestFullscreen?.();
+      else document.exitFullscreen?.();
+    } catch { /* unsupported */ }
+  };
 
   // Results summary
   if (grade && !inContext) {
     return (
-      <div className="rtp-root" style={{ height: '100vh', overflowY: 'auto' }}>
+      <div className="rtp-root" data-theme={theme} data-text-size={textSize} style={{ height: '100vh', overflowY: 'auto' }}>
         <ResultsScreen
           grade={grade}
           spec={spec}
@@ -201,45 +246,92 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
   );
 
   return (
-    <div className="rtp-root" style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
-      <div className="rtp-topbar" style={{ flex: '0 0 auto', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 16, padding: '10px 16px', borderBottom: '1px solid var(--border)' }}>
-        <strong style={{ fontSize: 14 }}>{spec.title}</strong>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
+    <div className="rtp-root" data-theme={theme} data-text-size={textSize} style={{ height: '100vh', display: 'flex', flexDirection: 'column' }}>
+      <header className="topbar">
+        <div className="brand-area">
+          <a href="/" className="brand-link" aria-label="IELTS Wiz home" onClick={(e) => { e.preventDefault(); if (onExit) onExit(); }}>
+            <img className="brand-logo brand-logo-light" src="/logo-light.svg" alt="IELTS Wiz" />
+            <img className="brand-logo brand-logo-dark" src="/logo-dark.svg" alt="IELTS Wiz" />
+          </a>
+        </div>
+        {!review && !readOnly ? (
+          <div className="timer" id="timer">
+            <span className="timer-mins">{minutesLeft} minutes left</span>
+            <span className="timer-secs">{mm}:{ss} left</span>
+          </div>
+        ) : <div />}
+        <div className="topbar-actions">
+          <button className="icon-btn" onClick={toggleFullscreen} title="Toggle fullscreen" aria-label="Fullscreen">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M3 8V5a2 2 0 0 1 2-2h3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M21 16v3a2 2 0 0 1-2 2h-3" /></svg>
+          </button>
+          <button className="icon-btn" onClick={() => setSettingsOpen(true)} title="Settings" aria-label="Settings">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="3" y1="6" x2="21" y2="6" /><line x1="3" y1="12" x2="21" y2="12" /><line x1="3" y1="18" x2="21" y2="18" /></svg>
+          </button>
           {readOnly ? (
-            <button className="btn-secondary" onClick={() => setInContext(false)}>Back to results</button>
+            <button className="submit-btn" onClick={() => setInContext(false)}>Back to results</button>
           ) : (
-            <>
-              {!review && <span className="rtp-timer" style={{ fontVariantNumeric: 'tabular-nums', fontWeight: 600 }}>{mm}:{ss}</span>}
-              <button className="btn-secondary" onClick={() => setHighlightOn((h) => !h)} title="Toggle highlighter">
-                Highlighter: {highlightOn ? 'On' : 'Off'}
-              </button>
-              <button className="btn-primary" id="submitBtn" onClick={() => setShowConfirm(true)}>Submit</button>
-            </>
+            <button className="submit-btn" id="submitBtn" onClick={() => setShowConfirm(true)}>Submit</button>
           )}
         </div>
+      </header>
+
+      <div className="part-banner" id="partBanner">
+        <h2>Reading Part {activePart}</h2>
+        <p>{readOnly ? 'Reviewing your answers — switch parts below.' : `Read the passage and answer questions ${activeRange}.`}</p>
       </div>
 
       {banner && !readOnly && (
-        <div className="review-banner" style={{ padding: '8px 16px', background: 'var(--bg-banner)', fontSize: 13 }}>{banner}</div>
+        <div className="review-banner" style={{ padding: '8px 16px', background: 'var(--bg-banner)', fontSize: 13, flex: '0 0 auto' }}>{banner}</div>
       )}
 
       {panes}
 
-      <div className="rtp-footer" style={{ flex: '0 0 auto', display: 'flex', alignItems: 'center', gap: 8, padding: '8px 16px', borderTop: '1px solid var(--border)' }}>
-        {spec.parts.map((p) => (
-          <button
-            key={p.part_number}
-            onClick={() => setActivePart(p.part_number)}
-            className={p.part_number === activePart ? 'btn-primary' : 'btn-secondary'}
-            style={{ fontSize: 13 }}
-          >
-            Passage {p.part_number}
+      <footer className="footer">
+        <a className="back-link" href="/reading" aria-label="Back to tests" onClick={(e) => { e.preventDefault(); if (onExit) onExit(); }}>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
+          Back
+        </a>
+        {spec.parts.map((part) => {
+          const qns = partQnums(part);
+          const answered = qns.filter((q) => answers[q] != null && answers[q] !== '').length;
+          const isActive = part.part_number === activePart;
+          return (
+            <div
+              key={part.part_number}
+              className={`part-section${isActive ? ' active' : ''}`}
+              data-part={part.part_number}
+              onClick={() => { if (!isActive) setActivePart(part.part_number); }}
+              style={isActive ? undefined : { cursor: 'pointer' }}
+            >
+              <span className="part-label">Part {part.part_number}</span>
+              <span className="part-progress">{answered}/{qns.length}</span>
+              <div className="q-palette">
+                {paletteEntries(part).map((e) => {
+                  const isAns = e.qnums.some((q) => answers[q] != null && answers[q] !== '');
+                  return (
+                    <button
+                      key={e.primary}
+                      className={`q-btn${isAns ? ' answered' : ''}`}
+                      data-q={e.primary}
+                      onClick={(ev) => { ev.stopPropagation(); setActivePart(part.part_number); scrollToQ(e.primary); }}
+                    >
+                      {e.label}
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
+          );
+        })}
+        <div className="nav-arrows" id="navArrows">
+          <button className="nav-arrow" onClick={() => setActivePart((p) => Math.max(1, p - 1))} title="Previous passage" aria-label="Previous">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="15 18 9 12 15 6" /></svg>
           </button>
-        ))}
-        {!readOnly && (
-          <span style={{ marginLeft: 'auto', fontSize: 12, color: 'var(--text-muted)' }}>{answeredCount} / {totalQuestions} answered</span>
-        )}
-      </div>
+          <button className="nav-arrow" onClick={() => setActivePart((p) => Math.min(spec.parts.length, p + 1))} title="Next passage" aria-label="Next">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><polyline points="9 18 15 12 9 6" /></svg>
+          </button>
+        </div>
+      </footer>
 
       {hlTip && (
         <button
@@ -248,6 +340,44 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
         >
           Highlight
         </button>
+      )}
+
+      {settingsOpen && (
+        <div className="modal-overlay" style={{ display: 'flex' }} onClick={() => setSettingsOpen(false)}>
+          <div className="modal" onClick={(e) => e.stopPropagation()}>
+            <h3>Exam Settings
+              <button className="modal-close" onClick={() => setSettingsOpen(false)} aria-label="Close">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
+              </button>
+            </h3>
+            <div className="settings-section">
+              <div className="settings-label">Theme</div>
+              <div className="settings-options">
+                {['light', 'dark', 'system'].map((t) => (
+                  <button key={t} className={`settings-option${theme === t ? ' active' : ''}`} onClick={() => setTheme(t)}>
+                    {t[0].toUpperCase() + t.slice(1)}
+                  </button>
+                ))}
+              </div>
+            </div>
+            <div className="settings-section">
+              <div className="settings-label">Text Size</div>
+              <div className="settings-options">
+                {[['default', 'Default'], ['large', 'Large'], ['xl', 'Extra Large']].map(([v, l]) => (
+                  <button key={v} className={`settings-option${textSize === v ? ' active' : ''}`} onClick={() => setTextSize(v)}>{l}</button>
+                ))}
+              </div>
+            </div>
+            <div className="settings-section">
+              <div className="settings-label">Highlighter</div>
+              <div className="settings-options">
+                <button className={`settings-option${highlightOn ? ' active' : ''}`} onClick={() => setHighlightOn((h) => !h)}>
+                  Highlighter: {highlightOn ? 'On' : 'Off'}
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
       {showConfirm && (
