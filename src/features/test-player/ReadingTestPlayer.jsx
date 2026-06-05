@@ -197,6 +197,16 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
       else document.exitFullscreen?.();
     } catch { /* unsupported */ }
   };
+  const clearHighlights = () => {
+    const pane = passageRef.current;
+    if (!pane) return;
+    pane.querySelectorAll('mark.iw-hl').forEach((m) => {
+      const p = m.parentNode;
+      while (m.firstChild) p.insertBefore(m.firstChild, m);
+      p.removeChild(m);
+      p.normalize();
+    });
+  };
 
   // Results summary
   if (grade && !inContext) {
@@ -223,7 +233,11 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
         className="divider"
         id="divider"
         onMouseDown={() => { draggingRef.current = true; try { document.body.style.cursor = 'col-resize'; } catch { /* noop */ } }}
-      />
+      >
+        <div className="divider-handle">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="7 8 3 12 7 16" /><polyline points="17 8 21 12 17 16" /><line x1="3" y1="12" x2="21" y2="12" /></svg>
+        </div>
+      </div>
       <div className="pane questions-pane" id="questionsPane" style={{ flex: '1 1 0%' }}>
         {spec.parts.map((part) => (
           <div className={`questions-section${part.part_number === activePart ? ' active' : ''}`} data-part={part.part_number} key={part.part_number}>
@@ -345,34 +359,57 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
       {settingsOpen && (
         <div className="modal-overlay" style={{ display: 'flex' }} onClick={() => setSettingsOpen(false)}>
           <div className="modal" onClick={(e) => e.stopPropagation()}>
-            <h3>Exam Settings
+            <h3>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="3" /><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" /></svg>
+              Exam Settings
               <button className="modal-close" onClick={() => setSettingsOpen(false)} aria-label="Close">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18" /><line x1="6" y1="6" x2="18" y2="18" /></svg>
               </button>
             </h3>
             <div className="settings-section">
-              <div className="settings-label">Theme</div>
+              <div className="settings-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5" /></svg>
+                Theme
+              </div>
               <div className="settings-options">
-                {['light', 'dark', 'system'].map((t) => (
-                  <button key={t} className={`settings-option${theme === t ? ' active' : ''}`} onClick={() => setTheme(t)}>
-                    {t[0].toUpperCase() + t.slice(1)}
-                  </button>
-                ))}
+                <button className={`settings-option${theme === 'light' ? ' selected' : ''}`} onClick={() => setTheme('light')}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><circle cx="12" cy="12" r="5" /><line x1="12" y1="1" x2="12" y2="3" /><line x1="12" y1="21" x2="12" y2="23" /><line x1="4.22" y1="4.22" x2="5.64" y2="5.64" /><line x1="18.36" y1="18.36" x2="19.78" y2="19.78" /><line x1="1" y1="12" x2="3" y2="12" /><line x1="21" y1="12" x2="23" y2="12" /><line x1="4.22" y1="19.78" x2="5.64" y2="18.36" /><line x1="18.36" y1="5.64" x2="19.78" y2="4.22" /></svg>
+                  Light
+                </button>
+                <button className={`settings-option${theme === 'dark' ? ' selected' : ''}`} onClick={() => setTheme('dark')}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" /></svg>
+                  Dark
+                </button>
+                <button className={`settings-option${theme === 'system' ? ' selected' : ''}`} onClick={() => setTheme('system')}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="3" width="20" height="14" rx="2" ry="2" /><line x1="8" y1="21" x2="16" y2="21" /><line x1="12" y1="17" x2="12" y2="21" /></svg>
+                  System
+                </button>
               </div>
             </div>
             <div className="settings-section">
-              <div className="settings-label">Text Size</div>
+              <div className="settings-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="4 7 4 4 20 4 20 7" /><line x1="9" y1="20" x2="15" y2="20" /><line x1="12" y1="4" x2="12" y2="20" /></svg>
+                Text Size
+              </div>
               <div className="settings-options">
-                {[['default', 'Default'], ['large', 'Large'], ['xl', 'Extra Large']].map(([v, l]) => (
-                  <button key={v} className={`settings-option${textSize === v ? ' active' : ''}`} onClick={() => setTextSize(v)}>{l}</button>
-                ))}
+                <button className={`settings-option${textSize === 'default' ? ' selected' : ''}`} onClick={() => setTextSize('default')}>Default</button>
+                <button className={`settings-option${textSize === 'large' ? ' selected' : ''}`} onClick={() => setTextSize('large')}>Large</button>
+                <button className={`settings-option${textSize === 'xl' ? ' selected' : ''}`} onClick={() => setTextSize('xl')}>Extra Large</button>
               </div>
             </div>
             <div className="settings-section">
-              <div className="settings-label">Highlighter</div>
+              <div className="settings-label">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 20h9" /><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z" /></svg>
+                Highlighter
+              </div>
               <div className="settings-options">
-                <button className={`settings-option${highlightOn ? ' active' : ''}`} onClick={() => setHighlightOn((h) => !h)}>
+                <button className={`settings-option${highlightOn ? ' selected' : ''}`} onClick={() => setHighlightOn((h) => !h)}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 11l3 3L22 4" /><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11" /></svg>
                   Highlighter: {highlightOn ? 'On' : 'Off'}
+                </button>
+                <button className="settings-option" onClick={clearHighlights}>
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="3 6 5 6 21 6" /><path d="M19 6l-2 14a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2L5 6" /></svg>
+                  Clear all highlights
                 </button>
               </div>
             </div>
