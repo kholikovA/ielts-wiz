@@ -12,6 +12,35 @@ export const groupKey = (group) => {
 const headerLabel = (qnums) =>
   qnums.length > 1 ? `Questions ${qnums[0]}–${qnums[qnums.length - 1]}` : `Question ${qnums[0]}`;
 
+// Inline drop-zone gap for word-bank summary completion (drag a word card in).
+function WordDropGap({ qn, gkey, place, answers, readOnly }) {
+  const val = answers[qn];
+  return (
+    <span
+      className={`word-drop${val ? ' filled' : ''}`}
+      data-qnum={qn}
+      onClick={() => !readOnly && (val ? place.clearAt(qn) : place.placeAt(gkey, qn))}
+      onDragOver={(e) => e.preventDefault()}
+      onDrop={(e) => !readOnly && place.dropAt(gkey, qn, e)}
+    >
+      {val ? <HTML html={place.labelOf(gkey, val)} /> : qn}
+    </span>
+  );
+}
+
+// Like InterleaveGaps but drops WordDropGap zones in place of each ___ marker.
+function InterleaveDropGaps({ html, qnums, gkey, place, answers, readOnly }) {
+  const segments = String(html).split('___');
+  const nodes = [];
+  segments.forEach((seg, i) => {
+    if (seg) nodes.push(<span key={`s${i}`} dangerouslySetInnerHTML={{ __html: seg }} />);
+    if (i < segments.length - 1) {
+      nodes.push(<WordDropGap key={`g${i}`} qn={qnums[i]} gkey={gkey} place={place} answers={answers} readOnly={readOnly} />);
+    }
+  });
+  return <>{nodes}</>;
+}
+
 function RadioGroup({ qnum, options, value, onChange, disabled }) {
   return (
     <ul className="options-list">
@@ -124,11 +153,10 @@ export default function QuestionGroup({ group, answers, onChange, place, readOnl
                 <td><span className="row-num">{q.number}</span><HTML html={q.prompt} /></td>
                 {bank.map((b) => {
                   const on = answers[q.number] === b.letter;
+                  // The ✓ is drawn by the CSS .match-cell.selected::after — no inner glyph.
                   return (
                     <td key={b.letter} className={`match-cell${on ? ' selected' : ''}`} data-letter={b.letter}
-                      onClick={() => !ro && change(q.number, on ? '' : b.letter)} style={{ cursor: ro ? 'default' : 'pointer' }}>
-                      <span style={{ visibility: on ? 'visible' : 'hidden' }}>✓</span>
-                    </td>
+                      onClick={() => !ro && change(q.number, on ? '' : b.letter)} style={{ cursor: ro ? 'default' : 'pointer' }} />
                   );
                 })}
               </tr>
@@ -192,28 +220,54 @@ export default function QuestionGroup({ group, answers, onChange, place, readOnl
   } else if (qtype === 'summary_completion') {
     const layout = group.layout || {};
     const wordBank = layout.word_bank;
-    body = (
-      <>
-        {layout.title && <div className="completion-title">{layout.title}</div>}
-        {wordBank && (
-          <div className="completion-word-bank">
-            <div className="completion-word-bank-title">List of words</div>
-            <div className="completion-word-bank-grid">
-              {wordBank.map((it) => <div className="completion-word-bank-item" key={it.letter}><strong>{it.letter}</strong>&nbsp;&nbsp;<HTML html={it.text} /></div>)}
+    if (wordBank) {
+      // Drag-and-drop: draggable word cards + drop-zone gaps in the prose.
+      const placed = place.placedIds(key);
+      body = (
+        <>
+          {layout.title && <div className="completion-title">{layout.title}</div>}
+          <div className="completion-prose">
+            <InterleaveDropGaps html={layout.body_html} qnums={qnums} gkey={key} place={place} answers={answers} readOnly={ro} />
+          </div>
+          <div className="heading-bank word-bank">
+            <div className="heading-bank-list word-bank-list">
+              {wordBank.map((it) => {
+                const used = placed.has(it.letter);
+                const sel = place.selected && place.selected.key === key && place.selected.id === it.letter;
+                return (
+                  <div
+                    key={it.letter}
+                    className={`heading-card${used ? ' used' : ''}${sel ? ' selected' : ''}`}
+                    data-heading-id={it.letter}
+                    draggable={!ro && !used}
+                    onClick={() => !ro && !used && place.select(key, it.letter)}
+                    onDragStart={(e) => e.dataTransfer.setData('text/plain', JSON.stringify({ key, id: it.letter }))}
+                    style={used ? { opacity: 0.4, pointerEvents: 'none' } : sel ? { outline: '2px solid var(--accent)' } : undefined}
+                  >
+                    <HTML html={it.text} />
+                  </div>
+                );
+              })}
             </div>
           </div>
-        )}
-        {layout.body_html
-          ? <div className="completion-prose"><InterleaveGaps html={layout.body_html} qnums={qnums} answers={answers} onChange={change} wordBank={wordBank} disabled={ro} /></div>
-          : questions.map((q) => (
-              <div className="question" data-qnum={q.number} key={q.number}>
-                <div className="question-prompt"><span className="question-number">{q.number}</span>{' '}
-                  <span><InterleaveGaps html={q.prompt_html || q.prompt || ''} qnums={[q.number]} answers={answers} onChange={change} disabled={ro} /></span>
+        </>
+      );
+    } else {
+      body = (
+        <>
+          {layout.title && <div className="completion-title">{layout.title}</div>}
+          {layout.body_html
+            ? <div className="completion-prose"><InterleaveGaps html={layout.body_html} qnums={qnums} answers={answers} onChange={change} disabled={ro} /></div>
+            : questions.map((q) => (
+                <div className="question" data-qnum={q.number} key={q.number}>
+                  <div className="question-prompt"><span className="question-number">{q.number}</span>{' '}
+                    <span><InterleaveGaps html={q.prompt_html || q.prompt || ''} qnums={[q.number]} answers={answers} onChange={change} disabled={ro} /></span>
+                  </div>
                 </div>
-              </div>
-            ))}
-      </>
-    );
+              ))}
+        </>
+      );
+    }
   } else if (qtype === 'note_completion') {
     const layout = group.layout || {};
     body = (
