@@ -61,27 +61,28 @@ function RadioGroup({ qnum, options, value, onChange, disabled }) {
   );
 }
 
-export default function QuestionGroup({ group, answers, onChange, place, readOnly = false, results = null, resolver = null }) {
+export default function QuestionGroup({ group, answers, onChange, place, readOnly = false, currentQ = null, results = null, resolver = null }) {
   const qtype = group.type;
   const questions = group.questions || [];
   const qnums = questions.map((q) => q.number);
   const key = groupKey(group);
   const ro = readOnly;
   const change = ro ? () => {} : onChange;
+  const cur = (n) => (n === currentQ ? ' current' : '');
 
   let body = null;
 
   if (qtype === 'tfng' || qtype === 'yng') {
     const opts = qtype === 'tfng' ? ['TRUE', 'FALSE', 'NOT GIVEN'] : ['YES', 'NO', 'NOT GIVEN'];
     body = questions.map((q) => (
-      <div className="question" data-qnum={q.number} key={q.number}>
+      <div className={`question${cur(q.number)}`} data-qnum={q.number} key={q.number}>
         <div className="question-prompt"><span className="question-number">{q.number}</span> <HTML html={q.prompt} /></div>
         <RadioGroup qnum={q.number} options={opts} value={answers[q.number]} onChange={change} disabled={ro} />
       </div>
     ));
   } else if (qtype === 'mcq') {
     body = questions.map((q) => (
-      <div className="question" data-qnum={q.number} key={q.number}>
+      <div className={`question${cur(q.number)}`} data-qnum={q.number} key={q.number}>
         <div className="question-prompt"><span className="question-number">{q.number}</span> <HTML html={q.prompt} /></div>
         <RadioGroup qnum={q.number} options={q.options || []} value={answers[q.number]} onChange={change} disabled={ro} />
       </div>
@@ -92,24 +93,30 @@ export default function QuestionGroup({ group, answers, onChange, place, readOnl
     const primary = sorted[0];
     const prefix = sorted.length > 1 ? `${sorted[0]}-${sorted[sorted.length - 1]}` : `${sorted[0]}`;
     const current = String(answers[primary] || '').split(',').filter(Boolean);
+    const maxSel = sorted.length; // "Choose THREE" → 3 shared qnums → 3 picks
     const toggle = (letter) => {
-      const next = current.includes(letter) ? current.filter((l) => l !== letter) : [...current, letter];
-      const val = next.join(',');
-      sorted.forEach((qn) => change(qn, val));
+      const has = current.includes(letter);
+      if (!has && current.length >= maxSel) return; // cap reached
+      const next = has ? current.filter((l) => l !== letter) : [...current, letter];
+      sorted.forEach((qn) => change(qn, next.join(',')));
     };
     body = (
-      <div className="question" data-qnum={primary}>
+      <div className={`question${cur(primary)}`} data-qnum={primary}>
         <div className="question-prompt"><span className="question-number">{prefix}</span> <HTML html={first.prompt} /></div>
         <ul className="options-list">
-          {(first.options || []).map((o) => (
-            <li key={o.letter}>
-              <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', cursor: ro ? 'default' : 'pointer', width: '100%' }}>
-                <input type="checkbox" value={o.letter} checked={current.includes(o.letter)} disabled={ro} onChange={() => toggle(o.letter)} />
-                <span className="check-square" />
-                <span><HTML html={o.text} /></span>
-              </label>
-            </li>
-          ))}
+          {(first.options || []).map((o) => {
+            const checked = current.includes(o.letter);
+            const blocked = ro || (!checked && current.length >= maxSel);
+            return (
+              <li key={o.letter} style={blocked && !ro ? { opacity: 0.45 } : undefined}>
+                <label style={{ display: 'flex', gap: 10, alignItems: 'flex-start', cursor: blocked ? 'not-allowed' : 'pointer', width: '100%' }}>
+                  <input type="checkbox" value={o.letter} checked={checked} disabled={blocked} onChange={() => toggle(o.letter)} />
+                  <span className="check-square" />
+                  <span><HTML html={o.text} /></span>
+                </label>
+              </li>
+            );
+          })}
         </ul>
       </div>
     );
@@ -149,7 +156,7 @@ export default function QuestionGroup({ group, answers, onChange, place, readOnl
           <thead><tr><th>{col}</th>{bank.map((b) => <th key={b.letter}>{b.letter}</th>)}</tr></thead>
           <tbody>
             {questions.map((q) => (
-              <tr key={q.number} data-qnum={q.number} className="question" data-question-row="true">
+              <tr key={q.number} data-qnum={q.number} className={`question${cur(q.number)}`} data-question-row="true">
                 <td><span className="row-num">{q.number}</span><HTML html={q.prompt} /></td>
                 {bank.map((b) => {
                   const on = answers[q.number] === b.letter;
@@ -178,7 +185,7 @@ export default function QuestionGroup({ group, answers, onChange, place, readOnl
         {questions.map((q) => {
           const val = answers[q.number];
           return (
-            <div className="question" data-qnum={q.number} key={q.number}>
+            <div className={`question${cur(q.number)}`} data-qnum={q.number} key={q.number}>
               <div className="question-prompt"><span><HTML html={q.prompt} /></span></div>
               <div className="heading-gap" data-qnum={q.number}
                 onClick={() => !ro && (val ? place.clearAt(q.number) : place.placeAt(key, q.number))}
@@ -259,7 +266,7 @@ export default function QuestionGroup({ group, answers, onChange, place, readOnl
           {layout.body_html
             ? <div className="completion-prose"><InterleaveGaps html={layout.body_html} qnums={qnums} answers={answers} onChange={change} disabled={ro} /></div>
             : questions.map((q) => (
-                <div className="question" data-qnum={q.number} key={q.number}>
+                <div className={`question${cur(q.number)}`} data-qnum={q.number} key={q.number}>
                   <div className="question-prompt"><span className="question-number">{q.number}</span>{' '}
                     <span><InterleaveGaps html={q.prompt_html || q.prompt || ''} qnums={[q.number]} answers={answers} onChange={change} disabled={ro} /></span>
                   </div>

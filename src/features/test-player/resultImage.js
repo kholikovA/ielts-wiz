@@ -10,7 +10,7 @@ const COLOR_MAP = {
 };
 const colorFor = (ratio) => (ratio >= 0.7 ? 'green' : ratio >= 0.5 ? 'yellow' : 'red');
 
-export function downloadResultImage({ spec, grade, solverName }) {
+export function downloadResultImage({ spec, grade, solverName, submittedAt }) {
   const { correct, total, band, results } = grade;
   const isFullTest = total >= 40;
 
@@ -106,7 +106,9 @@ export function downloadResultImage({ spec, grade, solverName }) {
       drawCard(topPad + i * (ppCardW + 24), ppY, ppCardW, ppH, c.bg, `${ps.correctInPart} / ${ps.total}`, c.fg, `Passage ${ps.part}`);
     });
 
-    const dateStr = new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+    const when = submittedAt instanceof Date ? submittedAt : new Date();
+    const dateStr = when.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })
+      + ' · ' + when.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
     ctx.fillStyle = '#a3a3a3';
     ctx.font = "500 14px 'Inter', sans-serif";
     ctx.textAlign = 'center';
