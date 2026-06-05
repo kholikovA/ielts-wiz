@@ -27,14 +27,18 @@ function HeadingGap({ qn, mhKey, place, answers, readOnly }) {
 
 // Renders the reading passages. For a matching-headings part there are no A/B/C
 // letter labels — a drop-zone gap sits above each questioned section instead.
-export default function PassagePane({ spec, mhByPart, place, answers, readOnly }) {
+export default function PassagePane({ spec, mhByPart, place, answers, readOnly, activePart }) {
   return (
     <>
       {spec.parts.map((part, pi) => {
         const mh = mhByPart[pi];
         const isMH = !!mh;
         return (
-          <div className="passage-section" data-part={part.part_number} key={pi}>
+          <div
+            className={`passage-section${part.part_number === activePart ? ' active' : ''}`}
+            data-part={part.part_number}
+            key={pi}
+          >
             <h1 className="passage-title"><HTML html={part.passage_title} /></h1>
             {part.passage_subtitle && <div className="passage-subtitle"><HTML html={part.passage_subtitle} /></div>}
             <div className="passage-body">

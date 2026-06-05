@@ -113,6 +113,7 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
   }, [grade]);
 
   const readOnly = !!grade; // in-context review when graded
+  const [activePart, setActivePart] = useState(1); // one part shown at a time
   const passageRef = useRef(null);
   const [highlightOn, setHighlightOn] = useState(true);
   const { tip: hlTip, apply: applyHighlight } = useHighlighter(passageRef, highlightOn && !readOnly);
@@ -171,7 +172,7 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
   const panes = (
     <div className="split-container" id="splitContainer" ref={containerRef}>
       <div className="pane passage-pane" id="passagePane" ref={passageRef} style={{ flex: `0 0 ${splitPct}%` }}>
-        <PassagePane spec={spec} mhByPart={mhByPart} place={place} answers={answers} readOnly={readOnly} />
+        <PassagePane spec={spec} mhByPart={mhByPart} place={place} answers={answers} readOnly={readOnly} activePart={activePart} />
       </div>
       <div
         className="divider"
@@ -180,7 +181,7 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
       />
       <div className="pane questions-pane" id="questionsPane" style={{ flex: '1 1 0%' }}>
         {spec.parts.map((part) => (
-          <div className="questions-section" data-part={part.part_number} key={part.part_number}>
+          <div className={`questions-section${part.part_number === activePart ? ' active' : ''}`} data-part={part.part_number} key={part.part_number}>
             {part.question_groups.map((g) => (
               <QuestionGroup
                 key={keyOf(g)}
@@ -223,6 +224,22 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
       )}
 
       {panes}
+
+      <div className="rtp-footer" style={{ flex: '0 0 auto', display: 'flex', alignItems: 'center', gap: 8, padding: '8px 16px', borderTop: '1px solid var(--border)' }}>
+        {spec.parts.map((p) => (
+          <button
+            key={p.part_number}
+            onClick={() => setActivePart(p.part_number)}
+            className={p.part_number === activePart ? 'btn-primary' : 'btn-secondary'}
+            style={{ fontSize: 13 }}
+          >
+            Passage {p.part_number}
+          </button>
+        ))}
+        {!readOnly && (
+          <span style={{ marginLeft: 'auto', fontSize: 12, color: 'var(--text-muted)' }}>{answeredCount} / {totalQuestions} answered</span>
+        )}
+      </div>
 
       {hlTip && (
         <button
