@@ -7,7 +7,7 @@ import { typesForHref } from '../../lib/testMeta';
 import QuestionTypeChips from '../ui/QuestionTypeChips';
 import { CompletedPill, ScoreBadge, ReviewRetake, StartLink } from '../ui/testCardBits';
 import { getLatestAttempt } from '../../lib/progressStore';
-import { findReadingTestById } from '../../data/tests/manifest';
+import { slugForId } from '../../data/tests/manifest';
 
 // Full Test Practice catalogue — complete 60-minute, 3-passage exams (40 Q)
 // delivered as the standalone interactive HTML. Tests are grouped into volume
@@ -43,8 +43,10 @@ const VIEW_KEY = 'iw.v1.reading.fullTestView';
 // the rest still open their standalone HTML. `metaHref` keeps the question-type
 // chip lookup keyed by the original HTML path either way.
 const metaHref = (test) => `/reading/${test.id}.html`;
-const testHref = (test) =>
-  findReadingTestById(test.recordId) ? `/reading-test/${test.recordId}` : `/reading/${test.id}.html`;
+const testHref = (test) => {
+  const slug = slugForId(test.recordId);
+  return slug ? `/reading-test/${slug}` : `/reading/${test.id}.html`;
+};
 
 export default function FullView({ setSubPage, setCurrentPage }) {
   const { user } = useAuth();
@@ -72,9 +74,10 @@ export default function FullView({ setSubPage, setCurrentPage }) {
     }
     if (href.startsWith('/reading-test/')) {
       e.preventDefault();
-      const [path, search] = href.split('?');
-      const id = path.split('/').filter(Boolean)[1];
-      setCurrentPage('reading-test', id, search || '');
+      // sub = "<slug>" or "<slug>/review" — passed through as the path tail so
+      // the SPA URL becomes /reading-test/<slug>[/review] (no query param).
+      const sub = href.slice('/reading-test/'.length);
+      setCurrentPage('reading-test', sub);
     }
   };
 

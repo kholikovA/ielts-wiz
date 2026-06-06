@@ -75,9 +75,12 @@ const App = () => {
       case 'history': return <HistoryPage setCurrentPage={navigateTo} />;
       case 'admin': return <AdminUsersPage setCurrentPage={navigateTo} />;
       case 'reading-test': {
-        const id = window.location.pathname.split('/').filter(Boolean)[1];
-        const review = new URLSearchParams(window.location.search).get('review') === '1';
-        return <ReadingTestRoute key={`${id}:${review}`} testId={id} review={review} onExit={() => navigateTo('reading', 'full')} />;
+        // /reading-test/<slug>            → take the test
+        // /reading-test/<slug>/review     → review a saved attempt
+        const parts = window.location.pathname.split('/').filter(Boolean);
+        const slug = parts[1];
+        const review = parts[2] === 'review';
+        return <ReadingTestRoute key={`${slug}:${review}`} slug={slug} review={review} onExit={() => navigateTo('reading', 'full')} />;
       }
       default: return <HomePage setCurrentPage={navigateTo} />;
     }
