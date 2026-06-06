@@ -30,3 +30,30 @@ test('ReviewView renders rows, evidence badges, and Explain More without crashin
   act(() => root.unmount());
   container.remove();
 });
+
+// Completion answers with `|`/`/` alternatives (e.g. "colour-coding|colour coding")
+// must render as a single canonical answer, never leak the separators — checked
+// across every part of a test whose key uses them (Q40 of V9T6).
+test('ReviewQuestionList does not leak answer-key variant separators', () => {
+  // eslint-disable-next-line global-require
+  const v9t6 = require('../../../data/tests/reading/volume9/test6.json');
+  // eslint-disable-next-line global-require
+  const ReviewQuestionList = require('./ReviewQuestionList').default;
+  const grade = gradeTest(v9t6, {}); // all blank → correct answers shown filled
+  const resolver = buildLabelResolver(v9t6);
+  const resultsByQ = {};
+  grade.results.forEach((r) => { resultsByQ[r.q] = r; });
+
+  v9t6.parts.forEach((part) => {
+    const container = document.createElement('div');
+    document.body.appendChild(container);
+    const root = createRoot(container);
+    act(() => root.render(
+      <ReviewQuestionList part={part} resultsByQ={resultsByQ} resolver={resolver}
+        evidence={{}} answerKey={v9t6.answer_key} currentQ={null} onSelectQuestion={() => {}} />
+    ));
+    expect(container.textContent).not.toContain('|'); // no leaked variant separators
+    act(() => root.unmount());
+    container.remove();
+  });
+});
