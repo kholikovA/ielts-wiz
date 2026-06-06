@@ -1,0 +1,104 @@
+/* Full-site maintenance lock. Self-contained, themed via the app's CSS variables
+   (the screen renders inside ThemeProvider, so light/dark just work). */
+
+.mnt-root {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background:
+    radial-gradient(900px 600px at 50% -10%, var(--purple-600-10, rgba(147, 51, 234, 0.10)), transparent 70%),
+    var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-display, 'Outfit', sans-serif);
+}
+
+.mnt-card {
+  width: 100%;
+  max-width: 480px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+  animation: mnt-rise 0.5s var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1)) both;
+}
+
+.mnt-logo {
+  height: 44px;
+  width: auto;
+  object-fit: contain;
+}
+
+.mnt-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 13px;
+  border-radius: var(--r-pill, 999px);
+  background: var(--purple-600-10, rgba(147, 51, 234, 0.10));
+  border: 1px solid var(--purple-500-30, rgba(168, 85, 247, 0.30));
+  color: var(--purple-500, #a855f7);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.mnt-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--purple-500, #a855f7);
+  box-shadow: 0 0 0 0 var(--purple-500, #a855f7);
+  animation: mnt-pulse 2s ease-out infinite;
+}
+
+.mnt-title {
+  margin: 0;
+  font-size: clamp(26px, 6vw, 34px);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.mnt-text {
+  margin: 0;
+  max-width: 40ch;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.mnt-text.mnt-sub {
+  font-size: 14.5px;
+  color: var(--text-tertiary);
+}
+
+.mnt-contact {
+  margin-top: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--purple-500, #a855f7);
+  text-decoration: none;
+  border-bottom: 1px solid transparent;
+  transition: border-color var(--dur-fast, 0.15s) ease;
+}
+.mnt-contact:hover { border-bottom-color: currentColor; }
+
+@keyframes mnt-rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes mnt-pulse {
+  0%   { box-shadow: 0 0 0 0 var(--purple-500-30, rgba(168, 85, 247, 0.5)); }
+  70%  { box-shadow: 0 0 0 9px rgba(168, 85, 247, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(168, 85, 247, 0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mnt-card { animation: none; }
+  .mnt-dot { animation: none; }
+}
