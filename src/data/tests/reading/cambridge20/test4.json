@@ -480,45 +480,415 @@
     }
   ],
   "explanations": {
-    "1": "After training college she 'became an art teacher and taught in elementary schools, high schools, and colleges' across several US states.",
-    "2": "She 'began to experiment with creating abstract compositions in charcoal' and sent these drawings that were then exhibited in New York.",
-    "3": "She was 'widely known for the architectural pictures that dramatically depict the soaring skyscrapers of New York' city.",
-    "4": "Her 'magnified images depicting flowers, begun in 1924' brought the viewer right into the picture as innovative close-ups.",
-    "5": "In New Mexico, 'it was the numerous sun-bleached bones she came across' that first sparked her imagination.",
-    "6": "The region's 'spectacular landscape' held her imagination 'for more than four decades', matching the over-forty-years dramatic features.",
-    "7": "Flying inspired her last series, 'aerial views of rivers and expansive paintings of the sky viewed from just above clouds'.",
-    "8": "She 'remained independent from shifting art trends and her work stayed true to her own vision', contradicting being greatly influenced by changing fashions.",
-    "9": "By graduating high school in 1905 'she had determined to make her way as an artist', confirming she had decided her career.",
-    "10": "A friend showed the drawings to Stieglitz, who then exhibited them at his gallery; she did not send them to his gallery herself.",
-    "11": "Stieglitz's 'celebrated black-and-white portraits of O'Keeffe' were taken 'over the course of twenty years (1917-37)'.",
-    "12": "The passage notes she reinvented the patio in over thirty pictures but never states these were among her favourite works.",
-    "13": "The passage says the 1950s-1970s were productive but never compares this period's quantity of output against any other time.",
-    "14": "Paragraph C explains mangroves are 'ecosystems of trees and shrubs that help defend coastal areas by trapping sediment' and dampening waves.",
-    "15": "Paragraph A forecasts 'global warming would continue for around 40 years' even if CO2 emissions stopped tomorrow.",
-    "16": "Paragraph D states the floating houses are 'much cheaper... about a third of what it would cost to completely replace a building's foundations'.",
-    "17": "Paragraph F describes 'a Geographic Information System data mapping tool' used to identify streets with low tree canopy cover.",
-    "18": "Paragraph B says the city 'has set up new pumps that can remove up to 75,000 litres of water per minute'.",
-    "19": "Wetlands International began 'building semi-permeable dams... to mimic the role of mangrove roots and create favourable conditions for mangroves to grow back'.",
-    "20": "Homes in the Mekong Delta 'had been built to float', rising with the floodwaters.",
-    "21": "ICCO Cooperation worked with farmers 'to start cultivating naturally salt-tolerant crops' suited to the salty soil.",
-    "22": "The Cool Streets LA programme 'include the planting of trees', increasing the number of trees on streets.",
-    "23": "Tol says 'it's critical that we transition towards multifunctional approaches that... engage and benefit communities and local decision-makers'.",
-    "24": "Spotts says 'Urban cooling is literally a matter of life and death for our future in LA'.",
-    "25": "Pineda says 'in 20, 30, 40 years, we'll need to go back in there and adjust to the changing environment'.",
-    "26": "English says 'this technology is becoming necessary in places that didn't previously need it', showing the number of affected locations grew.",
-    "27": "Paragraph D describes Namibia, where introducing guard dogs cut livestock losses and made farmers 'less likely to kill predators' like cheetahs.",
-    "28": "Paragraph G concludes 'there may be a bright future for guard dogs in promoting harmonious coexistence between humans and wildlife'.",
-    "29": "Paragraph B describes dogs placing 'themselves between the livestock and any threat, barking loudly' and chasing away predators.",
-    "30": "Paragraph C cites Ribeiro, van Bommel and Johnson reporting that farmers rate the dogs highly effective at saving herds.",
-    "31": "Paragraph B explains dogs are 'raised from an early age with the animals' and their 'initial training' teaches them livestock is their life.",
-    "32": "Young says 'There is common ground from the livestock perspective and from the conservation perspective', saving both livestock and predators.",
-    "33": "Smith warned that the self-reported claims of farmers no longer killing predators 'must be taken with a pinch of salt'.",
-    "34": "Ribeiro warns that not working with everybody means 'transferring the wolf pressure to the neighbour's herd', who may poison wolves.",
-    "35": "Van Bommel says 'if they are managed and used properly, livestock guard dogs are the most efficient control method that we have'.",
-    "36": "Macon contrasts a dog given too much affection becoming 'great... for guarding the front porch, rather than a great livestock guard dog'.",
-    "37": "Paragraph F reports that despite the impact on cheetahs, 'the number of jackals killed by dogs and people actually increased'.",
-    "38": "The dogs 'have been found to spread diseases to wild animals, including endangered Ethiopian wolves'.",
-    "39": "The dogs 'may also compete with other carnivores for food', reducing the food available to certain wild animals.",
-    "40": "Dogs protect ground-nesting birds 'where foxes would normally raid' their nests."
-  }
+    "1": {
+      "evidence": "she became an art teacher and taught in elementary schools, high schools, and colleges in Virginia, Texas, and South Carolina from 1911 to 1918.",
+      "part": 1,
+      "paragraph": 1,
+      "rationale": "\"worked as a ___ in various places in the USA\" paraphrases \"became an art teacher\" who taught across several US states."
+    },
+    "2": {
+      "evidence": "O'Keeffe began to experiment with creating abstract compositions in charcoal",
+      "part": 1,
+      "paragraph": 2,
+      "rationale": "\"created drawings using ___\" matches the medium \"charcoal\" used for these compositions later exhibited in New York."
+    },
+    "3": {
+      "evidence": "widely known for the architectural pictures that dramatically depict the soaring skyscrapers of New York",
+      "part": 1,
+      "paragraph": 5,
+      "rationale": "\"famous for her paintings of the city's ___\" links to being \"widely known\" for pictures of New York's \"skyscrapers\"."
+    },
+    "4": {
+      "evidence": "In her magnified images depicting flowers, begun in 1924, O'Keeffe brings the viewer right into the picture.",
+      "part": 1,
+      "paragraph": 5,
+      "rationale": "\"innovative close-up paintings of ___\" matches the \"magnified images depicting flowers\"."
+    },
+    "5": {
+      "evidence": "it was the numerous sun-bleached bones she came across in the state's rugged terrain that sparked her imagination",
+      "part": 1,
+      "paragraph": 8,
+      "rationale": "\"initially inspired to paint the many ___\" paraphrases the \"sun-bleached bones\" that first \"sparked her imagination\"."
+    },
+    "6": {
+      "evidence": "it was the region's spectacular landscape, with its unusual geological formations, vivid colours, clarity of light, and exotic vegetation, that held the artist's imagination for more than four decades",
+      "part": 1,
+      "paragraph": 9,
+      "rationale": "\"dramatic ___ of New Mexico for over forty years\" matches the \"spectacular landscape\" that held her imagination \"for more than four decades\"."
+    },
+    "7": {
+      "evidence": "aerial views of rivers and expansive paintings of the sky viewed from just above clouds",
+      "part": 1,
+      "paragraph": 11,
+      "rationale": "\"clouds and ___ seen from above\" matches the \"aerial views of rivers\" plus paintings of the sky."
+    },
+    "8": {
+      "evidence": "she remained independent from shifting art trends and her work stayed true to her own vision",
+      "part": 1,
+      "paragraph": 0,
+      "rationale": "The statement says she was \"greatly influenced by the changing fashions,\" but the passage says the opposite — she stayed independent from shifting trends — so FALSE."
+    },
+    "9": {
+      "evidence": "By the time she graduated from high school in 1905, she had determined to make her way as an artist.",
+      "part": 1,
+      "paragraph": 1,
+      "rationale": "\"already made her mind up about the career\" matches \"had determined to make her way as an artist\" by graduation, so TRUE."
+    },
+    "10": {
+      "evidence": "She sent some of these drawings to a friend in New York, who showed them to art collector and photographer Alfred Stieglitz in January 1916.",
+      "part": 1,
+      "paragraph": 2,
+      "rationale": "The statement says she sent drawings to his gallery, but the passage says she sent them to a friend who showed them to Stieglitz, so FALSE."
+    },
+    "11": {
+      "evidence": "Stieglitz's celebrated black-and-white portraits of O'Keeffe, taken over the course of twenty years (1917-37)",
+      "part": 1,
+      "paragraph": 4,
+      "rationale": "\"subject of Stieglitz's photographic work for many years\" matches the portraits of O'Keeffe taken over twenty years, so TRUE."
+    },
+    "12": {
+      "evidence": "In more than thirty pictures between 1946 and 1960, she reinvented the patio into an abstract arrangement of geometric shapes.",
+      "part": 1,
+      "paragraph": 10,
+      "rationale": "The passage describes the many patio pictures but never states these were among the artist's favourite works, so NOT GIVEN."
+    },
+    "13": {
+      "evidence": "From the 1950s into the 1970s, O'Keeffe travelled widely, making trips to Asia, the Middle East, and Europe.",
+      "part": 1,
+      "paragraph": 11,
+      "rationale": "The passage covers this period but never compares the quantity of output to any other time in her life, so NOT GIVEN."
+    },
+    "14": {
+      "evidence": "ecosystems of trees and shrubs that help defend coastal areas by trapping sediment in their net-like root systems, elevating the sea bed and dampening the energy of waves and tidal currents",
+      "part": 2,
+      "paragraph": 2,
+      "rationale": "\"a type of plant functions as a natural protection for coastlines\" matches the mangroves that defend coastal areas — Paragraph C."
+    },
+    "15": {
+      "evidence": "with scientists forecasting that global warming would continue for around 40 years",
+      "part": 2,
+      "paragraph": 0,
+      "rationale": "\"a prediction about how long it could take to stop noticing the effects\" matches the forecast that warming would continue for around 40 years — Paragraph A."
+    },
+    "16": {
+      "evidence": "It's much cheaper than permanently elevating houses, English explains - about a third of what it would cost to completely replace a building's foundations.",
+      "part": 2,
+      "paragraph": 3,
+      "rationale": "\"a solution is particularly cost-effective\" matches the floating houses costing about a third of full foundation replacement — Paragraph D."
+    },
+    "17": {
+      "evidence": "Using a Geographic Information System data mapping tool, the programme identified streets with low tree canopy cover in three of the city's neighbourhoods",
+      "part": 2,
+      "paragraph": 5,
+      "rationale": "\"a technology used to locate areas most in need of intervention\" matches the GIS data mapping tool identifying low-canopy streets — Paragraph F."
+    },
+    "18": {
+      "evidence": "the city has set up new pumps that can remove up to 75,000 litres of water per minute",
+      "part": 2,
+      "paragraph": 1,
+      "rationale": "\"installation of efficient ___\" matches the new \"pumps\" set up by Miami Beach."
+    },
+    "19": {
+      "evidence": "building semi-permeable dams, made from bamboo poles and brushwood, to mimic the role of mangrove roots and create favourable conditions for mangroves to grow back naturally",
+      "part": 2,
+      "paragraph": 2,
+      "rationale": "\"construction of ___ was the first stage\" matches the semi-permeable \"dams\" built to help mangroves regrow."
+    },
+    "20": {
+      "evidence": "Homes in this part of Vietnam are traditionally built on stilts but these ones had been built to float.",
+      "part": 2,
+      "paragraph": 3,
+      "rationale": "\"houses that can ___\" matches the homes \"built to float\" in the Mekong Delta."
+    },
+    "21": {
+      "evidence": "to start cultivating naturally salt-tolerant crops in the region",
+      "part": 2,
+      "paragraph": 4,
+      "rationale": "\"various ___ that are suitable for areas of high salt content\" matches the salt-tolerant \"crops\" introduced in Bangladesh."
+    },
+    "22": {
+      "evidence": "which include the planting of trees and the installation of a 'cool pavement' system",
+      "part": 2,
+      "paragraph": 5,
+      "rationale": "\"increased the number of ___ on the city's streets\" matches the \"planting of trees\" in the Cool Streets LA programme."
+    },
+    "23": {
+      "evidence": "it's critical that we transition towards multifunctional approaches that embed natural processes and that engage and benefit communities and local decision-makers",
+      "part": 2,
+      "paragraph": 2,
+      "rationale": "\"strategies which involve and help residents\" matches Tol's call to engage and benefit communities — Susanna Toi (B)."
+    },
+    "24": {
+      "evidence": "'Urban cooling is literally a matter of life and death for our future in LA,' says Spotts.",
+      "part": 2,
+      "paragraph": 5,
+      "rationale": "\"interventions which reduce heat are absolutely vital for our survival\" matches Spotts' \"matter of life and death\" — Greg Spotts (E)."
+    },
+    "25": {
+      "evidence": "'We know that in 20, 30, 40 years, we'll need to go back in there and adjust to the changing environment,' she says.",
+      "part": 2,
+      "paragraph": 1,
+      "rationale": "\"more work will need to be done in future decades\" matches Pineda's statement about returning in coming decades — Yanira Pineda (A)."
+    },
+    "26": {
+      "evidence": "this technology is becoming necessary in places that didn't previously need it",
+      "part": 2,
+      "paragraph": 3,
+      "rationale": "\"number of locations requiring action... has grown\" matches English's point that the technology is now needed in new places — Elizabeth English (C)."
+    },
+    "27": {
+      "evidence": "When guard dogs were introduced, more than 90 per cent of farmers reported a dramatic reduction in livestock losses, and said that as a result they were less likely to kill predators.",
+      "part": 3,
+      "paragraph": 3,
+      "rationale": "\"one predator has been protected by the introduction of livestock guard dogs\" matches Namibia's cheetahs that farmers became less likely to kill — Paragraph D."
+    },
+    "28": {
+      "evidence": "there may be a bright future for guard dogs in promoting harmonious coexistence between humans and wildlife",
+      "part": 3,
+      "paragraph": 6,
+      "rationale": "\"an optimistic suggestion about possible positive developments\" matches the \"bright future\" conclusion — Paragraph G."
+    },
+    "29": {
+      "evidence": "The dogs will place themselves between the livestock and any threat, barking loudly. If necessary, they will chase away predators, but often their mere presence is sufficient.",
+      "part": 3,
+      "paragraph": 1,
+      "rationale": "\"the methods used... to keep predators away\" matches positioning between livestock and threats, barking, and chasing — Paragraph B."
+    },
+    "30": {
+      "evidence": "The evidence indicates that guard dogs are highly effective.",
+      "part": 3,
+      "paragraph": 2,
+      "rationale": "\"claims by different academics that the use of livestock guard dogs is a successful way of protecting farmers' herds\" matches the cited effectiveness findings — Paragraph C."
+    },
+    "31": {
+      "evidence": "Their initial training is to make them understand that livestock is going to be their life",
+      "part": 3,
+      "paragraph": 1,
+      "rationale": "\"how livestock guard dogs gain their skills\" matches the description of their initial training and being raised with the animals — Paragraph B."
+    },
+    "32": {
+      "evidence": "There is common ground from the livestock perspective and from the conservation perspective",
+      "part": 3,
+      "paragraph": 3,
+      "rationale": "\"may save the lives of both livestock and wild animals\" matches Young's \"common ground\" between livestock and conservation — Julie Young (D)."
+    },
+    "33": {
+      "evidence": "but warned that such self-reported results must be taken with a pinch of salt",
+      "part": 3,
+      "paragraph": 4,
+      "rationale": "\"claims of a change in behaviour... may not be totally accurate\" matches Smith's warning about self-reported results — Bethany Smith (E)."
+    },
+    "34": {
+      "evidence": "If we are not working with everybody, we are transferring the wolf pressure to the neighbour's herd and he can use poison and kill an entire pack of wolves.",
+      "part": 3,
+      "paragraph": 4,
+      "rationale": "\"negative results if... not sufficiently widespread\" matches Ribeiro's warning about transferring wolf pressure to neighbours — Silvia Ribeiro (B)."
+    },
+    "35": {
+      "evidence": "If they are managed and used properly, livestock guard dogs are the most efficient control method that we have in terms of the amount of livestock that they save from predation",
+      "part": 3,
+      "paragraph": 2,
+      "rationale": "\"best way of protecting farm animals, as long as the dogs are appropriately handled\" matches van Bommel's \"most efficient control method\" if managed properly — Linda van Bommel (C)."
+    },
+    "36": {
+      "evidence": "too much human affection makes it a great dog for guarding the front porch, rather than a great livestock guard dog",
+      "part": 3,
+      "paragraph": 1,
+      "rationale": "\"needs a different focus from teaching a house guard dog\" matches Macon's contrast between a porch dog and a livestock guard dog — Dan Macon (A)."
+    },
+    "37": {
+      "evidence": "the number of jackals killed by dogs and people actually increased",
+      "part": 3,
+      "paragraph": 5,
+      "rationale": "\"deaths of other predators, particularly ___\" matches the rise in \"jackals\" killed."
+    },
+    "38": {
+      "evidence": "They have been found to spread diseases to wild animals, including endangered Ethiopian wolves.",
+      "part": 3,
+      "paragraph": 5,
+      "rationale": "\"could have ___ which may affect other species\" matches the dogs spreading \"diseases\" to wild animals."
+    },
+    "39": {
+      "evidence": "They may also compete with other carnivores for food.",
+      "part": 3,
+      "paragraph": 5,
+      "rationale": "\"reduce the amount of ___ available to certain wild animals\" matches the dogs competing with other carnivores for \"food\"."
+    },
+    "40": {
+      "evidence": "their presence has been found to protect birds which build their nests on the ground in fields, where foxes would normally raid them",
+      "part": 3,
+      "paragraph": 6,
+      "rationale": "\"otherwise be threatened by predators such as ___\" matches the \"foxes\" that would normally raid ground nests."
+    }
+  },
+  "vocabulary": [
+    {
+      "word": "finesse",
+      "definition": "impressive delicacy and skill in handling something",
+      "context": "great finesse with a paintbrush",
+      "part": 1
+    },
+    {
+      "word": "nuances",
+      "definition": "very subtle differences in shade or quality",
+      "context": "recorded subtle nuances of colour, shape, and light",
+      "part": 1
+    },
+    {
+      "word": "abstract",
+      "definition": "art that does not depict things realistically but uses forms and colours",
+      "context": "creating abstract compositions in charcoal",
+      "part": 1
+    },
+    {
+      "word": "avant-garde",
+      "definition": "new and experimental, ahead of its time",
+      "context": "the works of many avant-garde artists",
+      "part": 1
+    },
+    {
+      "word": "soaring",
+      "definition": "rising very high",
+      "context": "the soaring skyscrapers of New York",
+      "part": 1
+    },
+    {
+      "word": "magnified",
+      "definition": "made to appear larger than actual size",
+      "context": "In her magnified images depicting flowers",
+      "part": 1
+    },
+    {
+      "word": "solitude",
+      "definition": "the state of being alone",
+      "context": "painting in relative solitude",
+      "part": 1
+    },
+    {
+      "word": "rugged terrain",
+      "definition": "rough, uneven land",
+      "context": "she came across in the state's rugged terrain",
+      "part": 1
+    },
+    {
+      "word": "concave",
+      "definition": "curving inward like the inside of a bowl",
+      "context": "between convex and concave surfaces",
+      "part": 1
+    },
+    {
+      "word": "legacy",
+      "definition": "something handed down from the past, here her body of work",
+      "context": "her rich legacy of some 900 paintings",
+      "part": 1
+    },
+    {
+      "word": "emissions",
+      "definition": "gases or substances released into the atmosphere",
+      "context": "if we stopped all CO2 emissions tomorrow",
+      "part": 2
+    },
+    {
+      "word": "breaching",
+      "definition": "breaking through a barrier",
+      "context": "seawater isn't just breaching the island city's walls",
+      "part": 2
+    },
+    {
+      "word": "vulnerable",
+      "definition": "exposed to the possibility of harm",
+      "context": "the lowest and most vulnerable neighbourhoods",
+      "part": 2
+    },
+    {
+      "word": "exacerbating",
+      "definition": "making a problem worse",
+      "context": "further exacerbating coastal erosion",
+      "part": 2
+    },
+    {
+      "word": "sediment",
+      "definition": "fine particles of soil or sand deposited by water",
+      "context": "trapping sediment in their net-like root systems",
+      "part": 2
+    },
+    {
+      "word": "semi-permeable",
+      "definition": "allowing some substances to pass through but not others",
+      "context": "building semi-permeable dams",
+      "part": 2
+    },
+    {
+      "word": "subsidence",
+      "definition": "the gradual sinking of land",
+      "context": "mainly in areas with less subsidence",
+      "part": 2
+    },
+    {
+      "word": "retrofitting",
+      "definition": "adding new features or technology to existing structures",
+      "context": "researching and retrofitting amphibious houses",
+      "part": 2
+    },
+    {
+      "word": "amphibious",
+      "definition": "able to function both on land and in water",
+      "context": "amphibious structures can be sensitively adapted",
+      "part": 2
+    },
+    {
+      "word": "salinity",
+      "definition": "the amount of salt present in soil or water",
+      "context": "affected by soil and water salinity",
+      "part": 2
+    },
+    {
+      "word": "barren",
+      "definition": "unable to produce plants or crops",
+      "context": "comparing a barren plot of land",
+      "part": 2
+    },
+    {
+      "word": "predators",
+      "definition": "animals that hunt and kill others for food",
+      "context": "to protect their sheep, goats and cattle from predators",
+      "part": 3
+    },
+    {
+      "word": "exterminated",
+      "definition": "completely destroyed or wiped out",
+      "context": "when such predators were largely exterminated",
+      "part": 3
+    },
+    {
+      "word": "revival",
+      "definition": "a return to use or activity after a decline",
+      "context": "guard dogs are enjoying an unexpected revival",
+      "part": 3
+    },
+    {
+      "word": "tolerant",
+      "definition": "willing to accept something one dislikes",
+      "context": "make farmers more tolerant of predators",
+      "part": 3
+    },
+    {
+      "word": "displace",
+      "definition": "to force something out of its usual place",
+      "context": "livestock guard dogs merely displace predators",
+      "part": 3
+    },
+    {
+      "word": "carnivores",
+      "definition": "animals that feed on other animals",
+      "context": "compete with other carnivores for food",
+      "part": 3
+    },
+    {
+      "word": "coexistence",
+      "definition": "living together at the same time or place",
+      "context": "promoting harmonious coexistence between humans and wildlife",
+      "part": 3
+    }
+  ]
 }

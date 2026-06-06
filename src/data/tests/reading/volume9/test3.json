@@ -482,45 +482,415 @@
     "40": "YES"
   },
   "explanations": {
-    "1": "Para 1 says 'All that is changing fast, as a growing number of researchers' study wild giraffes, confirming research has increased lately.",
-    "2": "The text quotes Strauss noting how little research existed, but never mentions her views on keeping giraffes in zoos.",
-    "3": "Para 2 states the population 'has fallen some 40 percent' in 15 years, contradicting the claim that numbers nearly doubled.",
-    "4": "The text says females 'can live 20 years or more' but never compares female lifespan with that of males.",
-    "5": "Para 4 says mothers 'fight valiantly... kicking forward and backward' to protect calves, confirming they use their legs.",
-    "6": "When a dominant bull appears, younger males 'instantly try to make themselves look small,' so they lower, not raise, their necks.",
-    "7": "Para 6 describes 'Clashes... between adults' where each bull 'necks' the other, confirming male giraffes have been seen fighting.",
-    "8": "Para 7 says the coat 'serves as camouflage, allowing them to blend in' with the trees they stand near.",
-    "9": "Para 8 says the mouth grasps and plucks leaves 'almost as humans would grab with their hands.'",
-    "10": "Para 9 says neck growth happens in childhood because mothers 'would have a difficult time giving birth' to longer-necked young.",
-    "11": "Para 10 states 'The outside of a giraffe's veins are extremely thick, to prevent blood leaking into surrounding tissue.'",
-    "12": "Para 11 says the giraffe 'does not have an unusually large heart,' matching the table's 'Normal size for such a large animal.'",
-    "13": "Para 12 explains reactions are slow because nerve signals 'have to travel' greater distances 'to reach the brain.'",
-    "14": "Section A stresses builders 'paid little attention to the health aspects of indoor spaces,' matching the low priority on healthy buildings.",
-    "15": "Section B contrasts a $40 per-person cost with a $6,500 productivity increase, highlighting the financial benefits of efficient workplaces.",
-    "16": "Section C describes 24 workers coming 'to the lab' for testing, so they were assessed outside their usual workplace.",
-    "17": "Section D compares people in '10 buildings... in two buildings in each of five cities,' assessing workplaces in several locations.",
-    "18": "Section E examines how green-designed Hillman Hall 'can affect health and behavior' of the people who work there.",
-    "19": "Section F says 'multidisciplinary collaboration' and 'teams of people with varied backgrounds' are key, matching involving a range of specialists.",
-    "20": "Zimring says if findings are replicated they could lead to designs 'promoting better health and performance.'",
-    "21": "MacNaughton notes 'how someone feels about their working environment, may also play a part' in cognitive scores.",
-    "22": "Eyler's study showed people 'were more likely to take part in spontaneous collaborations in the new space.'",
-    "23": "Zimring notes the study shows 'indoor air quality can significantly lower cognitive performance,' i.e. greatly reduced mental capacity.",
-    "24": "Section C calls the Syracuse Center 'an organization devoted to studying and developing sustainability.'",
-    "25": "Section C says workers 'performed their regular work under minimal supervision' during the day.",
-    "26": "Section C gives the example of a scenario 'such as running a city as a mayor.'",
-    "27": "Para D notes a 'toy industry' by 1300 and dolls 'commercially manufactured, imported and... taxed,' giving economic evidence.",
-    "28": "Para D recalls Gerald of Wales and his brothers who 'built towns, palaces, churches and monasteries from sand,' children making their own toys.",
-    "29": "Para E says boys 'shot arrows with bows and archery is an example of a sport encouraged by adults,' warlike play approved by grown-ups.",
-    "30": "Para F says after Richard II was overthrown, London children 'chose themselves kings' and 'made war,' mirroring a political event.",
-    "31": "Para B traces the debate to Philippe Ariès, who 'argued, in Centuries of Childhood,' that medieval childhood didn't exist in the modern sense.",
-    "32": "In 1400 London children 'made war upon each other whereby many died,' matching children's gang warfare (I).",
-    "33": "In 1518 Barclay records children's tops, fruit-gathering and footballs by season, a description of seasonal activities (J).",
-    "34": "Para D says poppets were 'in 1582, taxed at a halfpenny each,' matching dolls taxed in England (F).",
-    "35": "Newbolt's 1908 cricket poem Vitaï Lampada 'sums up views about play,' matching a poem about the value of games (C).",
-    "36": "Para C says 'We know... what their elders thought on the subject,' so adult attitudes are not little known.",
-    "37": "The text mentions dolls were imported but never states that most toys were imported before 1300.",
-    "38": "Para G says children 'had their own observances as well, semi-detached from their elders,' celebrating seasons in their own ways.",
-    "39": "The passage describes children playing and making toys but never mentions them making presents for parents.",
-    "40": "Para H concludes the adult-child relationship 'was, in major respects, a modern one' and 'Childhood has always been much the same.'"
-  }
+    "1": {
+      "evidence": "All that is changing fast, as a growing number of researchers seek to understand the biology and complex behavior of this graceful giant in its native habitat.",
+      "part": 1,
+      "paragraph": 0,
+      "rationale": "'A growing number of researchers' studying giraffes 'in its native habitat' paraphrases that research in the wild has increased lately, so TRUE."
+    },
+    "2": {
+      "evidence": "I was really surprised to see how little had been done,' said Megan Strauss, an animal researcher at the University of Minnesota, USA.",
+      "part": 1,
+      "paragraph": 0,
+      "rationale": "Strauss only comments on the scarcity of past research; her opinion about keeping giraffes in zoos is never stated, so NOT GIVEN."
+    },
+    "3": {
+      "evidence": "the population has fallen some 40 percent.",
+      "part": 1,
+      "paragraph": 1,
+      "rationale": "A 40 percent fall contradicts the claim that numbers have nearly doubled, so FALSE."
+    },
+    "4": {
+      "evidence": "Female giraffes can live 20 years or more, and it makes sense they might rely on each other for clues to the best feeding grounds, help with taking care of their young, or the reduction of stress, by staying in groups.",
+      "part": 1,
+      "paragraph": 2,
+      "rationale": "Female lifespan is given but never compared with male lifespan, so NOT GIVEN."
+    },
+    "5": {
+      "evidence": "though mothers will fight valiantly to keep their young alive - kicking forward and backward half of all calves are killed in their first year of life.",
+      "part": 1,
+      "paragraph": 3,
+      "rationale": "'Kicking forward and backward' to keep young alive paraphrases using their legs to defend their young, so TRUE."
+    },
+    "6": {
+      "evidence": "But should a dominant older bull come into view, the younger males instantly try to make themselves look small and innocent.",
+      "part": 1,
+      "paragraph": 4,
+      "rationale": "Younger bulls make themselves 'look small' near a dominant male, the opposite of holding their necks higher, so FALSE."
+    },
+    "7": {
+      "evidence": "Clashes have been witnessed between adults when each bull repeatedly 'necks' the other, using his massive neck to slam his head against his rival.",
+      "part": 1,
+      "paragraph": 5,
+      "rationale": "'Clashes have been witnessed between adults' confirms male giraffes have been observed fighting, so TRUE."
+    },
+    "8": {
+      "evidence": "The coat has dark patches separated by light hair, which serves as camouflage, allowing them to blend in with the light and shade patterns of the acacia trees from which they feed.",
+      "part": 1,
+      "paragraph": 6,
+      "rationale": "The coat 'serves as camouflage' to 'blend in' with trees matches the table's 'Provides ___ when standing near trees'; answer is camouflage."
+    },
+    "9": {
+      "evidence": "almost as humans would grab with their hands.",
+      "part": 1,
+      "paragraph": 7,
+      "rationale": "The mouth getting leaves 'almost as humans would grab with their hands' supplies 'used like ___'; answer is hands."
+    },
+    "10": {
+      "evidence": "The growth of the neck largely takes place during early childhood, as giraffe mothers would have a difficult time giving birth to young with longer necks.",
+      "part": 1,
+      "paragraph": 8,
+      "rationale": "Neck length develops in childhood to make 'giving birth' easier for mothers, matching 'easier ___ for mothers'; answer is birth."
+    },
+    "11": {
+      "evidence": "The outside of a giraffe's veins are extremely thick, to prevent blood leaking into surrounding tissue.",
+      "part": 1,
+      "paragraph": 9,
+      "rationale": "'Extremely thick' veins 'prevent blood leaking into surrounding tissue' matches the table's strong feature keeping blood from spilling; answer is veins."
+    },
+    "12": {
+      "evidence": "Researchers were also surprised to find that a giraffe does not have an unusually large heart.",
+      "part": 1,
+      "paragraph": 10,
+      "rationale": "A heart that is 'not... unusually large' matches the table row 'Normal size for such a large animal'; answer is heart."
+    },
+    "13": {
+      "evidence": "Given the greater distance they have to travel in the giraffe to reach the brain, it is possible the giraffe faces real challenges",
+      "part": 1,
+      "paragraph": 10,
+      "rationale": "Slow reaction because nerve signals travel 'greater distance... to reach the brain' matches 'need to go farther to the brain'; answer is signals."
+    },
+    "14": {
+      "evidence": "but builders in general have paid little attention to the health aspects of indoor spaces, instead focusing on superficial design features and on meeting minimum environmental standards to keep costs down.",
+      "part": 2,
+      "paragraph": 0,
+      "rationale": "Builders 'paid little attention to the health aspects' matches heading h4, the low priority given to making buildings healthy."
+    },
+    "15": {
+      "evidence": "about $40 per person, per year, compared with a $6,500 increase in employee productivity.",
+      "part": 2,
+      "paragraph": 1,
+      "rationale": "Contrasting a $40 cost with a $6,500 productivity gain matches heading h8, the financial benefits of efficient workplaces."
+    },
+    "16": {
+      "evidence": "24 office workers with administrative, technical, professional or managerial jobs came to the lab and performed their regular work under minimal supervision",
+      "part": 2,
+      "paragraph": 2,
+      "rationale": "Workers 'came to the lab' to be tested matches heading h6, that workers were assessed outside their usual workplace."
+    },
+    "17": {
+      "evidence": "they compared test scores of 109 people working in 10 buildings about 12 people per site - in two buildings in each of five cities.",
+      "part": 2,
+      "paragraph": 3,
+      "rationale": "Comparing people across 'two buildings in each of five cities' matches heading h3, the assessment of workplaces in several locations."
+    },
+    "18": {
+      "evidence": "A recently constructed building on the Washington University campus in St. Louis, US, is providing another opportunity to examine how green building design can affect health and behavior.",
+      "part": 2,
+      "paragraph": 4,
+      "rationale": "Examining how 'green building design can affect health and behavior' matches heading h1, the effects of a new environmentally friendly building on workers."
+    },
+    "19": {
+      "evidence": "Complex projects like this one need teams of people with varied backgrounds and expertise in order to solve them",
+      "part": 2,
+      "paragraph": 5,
+      "rationale": "Needing 'teams of people with varied backgrounds and expertise' matches heading h5, achieving design efficiency by involving a range of specialists."
+    },
+    "20": {
+      "evidence": "in turn, promoting better health and performance.",
+      "part": 2,
+      "paragraph": 2,
+      "rationale": "Zimring's claim that replicated findings would lead to 'better health and performance' matches 'improved wellbeing and efficiency', so B."
+    },
+    "21": {
+      "evidence": "such as how someone feels about their working environment, may also play a part, notes Harvard research fellow Piers MacNaughton, who led the study.",
+      "part": 2,
+      "paragraph": 3,
+      "rationale": "MacNaughton links 'how someone feels about their working environment' to performance, matching item 21, so C."
+    },
+    "22": {
+      "evidence": "Results showed that people were more likely to take part in spontaneous collaborations in the new space than in the older ones, and to be physically active.",
+      "part": 2,
+      "paragraph": 4,
+      "rationale": "Eyler's study showing more 'spontaneous collaborations' in the new building matches design impacting how much staff work together, so D."
+    },
+    "23": {
+      "evidence": "indoor air quality can significantly lower cognitive performance in buildings that would otherwise meet current building standards, notes environmental psychologist Craig Zimring",
+      "part": 2,
+      "paragraph": 2,
+      "rationale": "Zimring noting air quality 'can significantly lower cognitive performance' matches mental capacity considerably reduced by the environment, so B."
+    },
+    "24": {
+      "evidence": "a US research organization devoted to studying and developing sustainability.",
+      "part": 2,
+      "paragraph": 2,
+      "rationale": "The Syracuse Center is 'devoted to studying and developing sustainability', matching the summary's research focus; answer is sustainability."
+    },
+    "25": {
+      "evidence": "performed their regular work under minimal supervision",
+      "part": 2,
+      "paragraph": 2,
+      "rationale": "Staff did normal duties 'under minimal supervision', matching 'without much ___'; answer is supervision."
+    },
+    "26": {
+      "evidence": "such as running a city as a mayor.",
+      "part": 2,
+      "paragraph": 2,
+      "rationale": "The role-play scenario of 'running a city as a mayor' matches 'acting as ___'; answer is mayor."
+    },
+    "27": {
+      "evidence": "commercially manufactured, imported and, in 1582, taxed at a halfpenny each.",
+      "part": 3,
+      "paragraph": 3,
+      "rationale": "References to a toy industry, dolls 'commercially manufactured, imported and... taxed' are economic evidence for play, so paragraph D."
+    },
+    "28": {
+      "evidence": "making footballs by filling pigs' bladders with dried peas in autumn.",
+      "part": 3,
+      "paragraph": 6,
+      "rationale": "Children 'making footballs by filling pigs' bladders' is an example of them creating their own toys, so paragraph G."
+    },
+    "29": {
+      "evidence": "Boys in the later Middle Ages shot arrows with bows and archery is an example of a sport encouraged by adults, who wanted boys to grow up to play their part in what was, for most men, a warrior society.",
+      "part": 3,
+      "paragraph": 4,
+      "rationale": "Archery 'encouraged by adults' is warlike play approved by grown-ups, so paragraph E."
+    },
+    "30": {
+      "evidence": "six months after King Richard II had been overthrown by Henry IV, the children of London gathered together and chose themselves kings.",
+      "part": 3,
+      "paragraph": 5,
+      "rationale": "Children imitating the overthrow of Richard II by 'chose themselves kings' is a political event mirrored in play, so paragraph F."
+    },
+    "31": {
+      "evidence": "the French historian Philippe Ariès argued, in Centuries of Childhood, that childhood in the Middle Ages did not exist in its modern sense.",
+      "part": 3,
+      "paragraph": 1,
+      "rationale": "Ariès's argument in Centuries of Childhood is the origin of the academic debate about medieval life, so paragraph B."
+    },
+    "32": {
+      "evidence": "Adam of Usk tells us they congregated 'in thousands ... and made war upon each other whereby many died'.",
+      "part": 3,
+      "paragraph": 5,
+      "rationale": "The 1400 episode of London children who 'made war upon each other' matches event I, children's gang warfare."
+    },
+    "33": {
+      "evidence": "In 1518, the poet Alexander Barclay records children playing with tops in March, looking for fruit in summer and making footballs by filling pigs' bladders with dried peas in autumn.",
+      "part": 3,
+      "paragraph": 6,
+      "rationale": "Barclay's 1518 account of activities by month matches event J, a description of seasonal activities."
+    },
+    "34": {
+      "evidence": "Girls had dolls, known before the 17th century as 'poppets' or puppets, commercially manufactured, imported and, in 1582, taxed at a halfpenny each.",
+      "part": 3,
+      "paragraph": 3,
+      "rationale": "Dolls 'in 1582, taxed at a halfpenny each' matches event F, dolls taxed in England."
+    },
+    "35": {
+      "evidence": "The ringing chorus of Sir Henry Newbolt's celebrated cricket poem Vitaï Lampada (1908) sums up views about play in 19th- and early 20th-century Britain.",
+      "part": 3,
+      "paragraph": 0,
+      "rationale": "Newbolt's 1908 poem 'sums up views about play' matches event C, a poem about the value of games."
+    },
+    "36": {
+      "evidence": "We know not only how medieval English children played but what their elders thought on the subject.",
+      "part": 3,
+      "paragraph": 2,
+      "rationale": "Stating 'We know... what their elders thought' contradicts the claim that little is known about adult attitudes, so NO."
+    },
+    "37": {
+      "evidence": "Girls had dolls, known before the 17th century as 'poppets' or puppets, commercially manufactured, imported and, in 1582, taxed at a halfpenny each.",
+      "part": 3,
+      "paragraph": 3,
+      "rationale": "The text notes dolls were imported but never claims that most toys were imported before 1300, so NOT GIVEN."
+    },
+    "38": {
+      "evidence": "Children shared in the adult round of religious festivals, but had their own observances as well, semi-detached from their elders.",
+      "part": 3,
+      "paragraph": 6,
+      "rationale": "Children having 'their own observances... semi-detached from their elders' matches celebrating the seasons in their own ways, so YES."
+    },
+    "39": {
+      "evidence": "Parents took an indulgent interest in their children, providing them with toys and giving them time to play.",
+      "part": 3,
+      "paragraph": 7,
+      "rationale": "The passage describes children playing and making toys but never says they made presents for parents, so NOT GIVEN."
+    },
+    "40": {
+      "evidence": "It is clear from this evidence that the relationship between adults and children in medieval society was, in major respects, a modern one.",
+      "part": 3,
+      "paragraph": 7,
+      "rationale": "The conclusion that the adult-child relationship 'was, in major respects, a modern one' matches behaving much as they do today, so YES."
+    }
+  },
+  "vocabulary": [
+    {
+      "word": "overlook",
+      "definition": "to fail to notice or pay attention to something",
+      "context": "giraffes can be easy to overlook",
+      "part": 1
+    },
+    {
+      "word": "native habitat",
+      "definition": "the natural environment where an animal normally lives",
+      "context": "behavior of this graceful giant in its native habitat",
+      "part": 1
+    },
+    {
+      "word": "endangered",
+      "definition": "at serious risk of dying out as a species",
+      "context": "The giraffe is not listed as endangered",
+      "part": 1
+    },
+    {
+      "word": "vulnerable",
+      "definition": "easily harmed or attacked",
+      "context": "Giraffe calves are extremely vulnerable to predators",
+      "part": 1
+    },
+    {
+      "word": "valiantly",
+      "definition": "bravely and with great determination",
+      "context": "mothers will fight valiantly to keep their young alive",
+      "part": 1
+    },
+    {
+      "word": "dominance",
+      "definition": "power and influence over others",
+      "context": "older bulls display that dominance physically and behaviorally",
+      "part": 1
+    },
+    {
+      "word": "camouflage",
+      "definition": "coloring that lets an animal blend into its surroundings",
+      "context": "which serves as camouflage, allowing them to blend in",
+      "part": 1
+    },
+    {
+      "word": "cardiovascular",
+      "definition": "relating to the heart and blood vessels",
+      "context": "the greatest challenge to the giraffe's cardiovascular system",
+      "part": 1
+    },
+    {
+      "word": "vertebrae",
+      "definition": "the small bones that make up the spine",
+      "context": "due to the length of the vertebrae, not the number",
+      "part": 1
+    },
+    {
+      "word": "preservation",
+      "definition": "the act of protecting something from harm or loss",
+      "context": "increase their ability to work with preservation",
+      "part": 1
+    },
+    {
+      "word": "ventilation",
+      "definition": "the supply of fresh air into a building or room",
+      "context": "the degree or type of ventilation",
+      "part": 2
+    },
+    {
+      "word": "contaminants",
+      "definition": "harmful substances that pollute or spoil something",
+      "context": "airborne contaminants, lighting and noise levels",
+      "part": 2
+    },
+    {
+      "word": "cognitive performance",
+      "definition": "how well the mind carries out mental tasks like thinking and reasoning",
+      "context": "the effects of indoor air quality on workers' cognitive performance",
+      "part": 2
+    },
+    {
+      "word": "minuscule",
+      "definition": "extremely small",
+      "context": "performance significantly was minuscule compared with the related",
+      "part": 2
+    },
+    {
+      "word": "sustainability",
+      "definition": "the ability to be maintained without harming the environment over time",
+      "context": "devoted to studying and developing sustainability",
+      "part": 2
+    },
+    {
+      "word": "volatile organic compounds",
+      "definition": "carbon-based chemicals that evaporate easily and can pollute indoor air",
+      "context": "volatile organic compounds, or VOCs - the toxic by-products",
+      "part": 2
+    },
+    {
+      "word": "supervision",
+      "definition": "the act of watching over and directing people's work",
+      "context": "performed their regular work under minimal supervision",
+      "part": 2
+    },
+    {
+      "word": "certified",
+      "definition": "officially recognized as meeting a particular standard",
+      "context": "certified buildings had lower humidity levels and brighter light",
+      "part": 2
+    },
+    {
+      "word": "foster",
+      "definition": "to encourage the development of something",
+      "context": "design elements intended to foster more collaboration",
+      "part": 2
+    },
+    {
+      "word": "multidisciplinary",
+      "definition": "involving people from several different fields of expertise",
+      "context": "Eyler sees multidisciplinary collaboration as the key",
+      "part": 2
+    },
+    {
+      "word": "regulate",
+      "definition": "to control or direct according to rules",
+      "context": "adults should regulate and direct it",
+      "part": 3
+    },
+    {
+      "word": "endurance",
+      "definition": "the ability to keep going through difficulty or strain",
+      "context": "Games promoted endurance, self-discipline and team spirit",
+      "part": 3
+    },
+    {
+      "word": "affection",
+      "definition": "a feeling of fondness or warmth toward someone",
+      "context": "with relatively little affection",
+      "part": 3
+    },
+    {
+      "word": "contemporary",
+      "definition": "belonging to the same period of time",
+      "context": "pictures of children's activities in contemporary manuscripts",
+      "part": 3
+    },
+    {
+      "word": "recluse",
+      "definition": "a person who lives alone and avoids others",
+      "context": "a mysterious recluse known as Geoffrey",
+      "part": 3
+    },
+    {
+      "word": "congregated",
+      "definition": "gathered together in a crowd",
+      "context": "they congregated 'in thousands ...",
+      "part": 3
+    },
+    {
+      "word": "indulgent",
+      "definition": "tending to allow someone to have what they want; lenient",
+      "context": "Parents took an indulgent interest in their children",
+      "part": 3
+    },
+    {
+      "word": "thesis",
+      "definition": "a statement or theory put forward to be argued for or against",
+      "context": "We can answer Ariès's thesis, then, with a resounding 'No!'",
+      "part": 3
+    }
+  ]
 }

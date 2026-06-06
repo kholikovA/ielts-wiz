@@ -529,45 +529,403 @@
     }
   ],
   "explanations": {
-    "1": "The passage says the kakapo 'is the world's only flightless parrot', so no other parrots share this inability to fly.",
-    "2": "It states kakapo 'breed in summer and autumn, but only in years when food is plentiful', not every year.",
-    "3": "The passage says 'Males play no part in incubation or chick-rearing' and 'females alone... feed the chicks', so males bring no food.",
-    "4": "The passage describes both settlers eating kakapo and the rat preying on them, but never compares which posed the greater threat.",
-    "5": "It states 'predation by feral cats on Rakiura Island' led to decline, so 'the surviving population was evacuated to three island sanctuaries'.",
-    "6": "The Recovery Plan's intensive management included 'rescuing and hand-raising any failing chicks', matching caring for struggling young birds.",
-    "7": "The diet includes 'the leaves, roots and bark of trees as well as bulbs, and fern fronds', giving 'bulbs'.",
-    "8": "The passage says 'The 1-4 eggs are laid in soil', so nests where eggs are laid are created in soil.",
-    "9": "Early settlers 'used its feathers to make soft cloaks', so the feathers were used to make clothes.",
-    "10": "It states 'introduced species such as deer depleted the remaining forests of food', so deer ate the kakapo's food sources.",
-    "11": "The passage states 'in 1980 it was confirmed females were also present' on Rakiura.",
-    "12": "The 1996 Recovery Plan came 'together with... a higher amount of funding', so funding increased.",
-    "13": "A key goal is to 'ensure stakeholders continue to be fully engaged', matching maintaining the involvement of stakeholders.",
-    "14": "Section C says 'opportunities are limited as the number of these mature survivors is relatively small', a research problem.",
-    "15": "Section G contrasts Russell's strong environmental case for reintroduction with Elliot's wariness, a difference of opinion about its value.",
-    "16": "Section B explains the second epidemic 'was triggered by shipments of elm from Canada' carrying the beetles, i.e. how the disease arrived.",
-    "17": "Section E says Brighton's 'Strong winds from the sea make it difficult for the... beetle to attack', enabling its elms to survive.",
-    "18": "Section C states once an elm trunk 'reaches 10-15 centimetres or so in diameter, it becomes a perfect size for beetles', the vulnerable stage.",
-    "19": "Russell says of infected trees: 'The effects are very quick... trees that are... susceptible show leaf loss', so damage becomes visible rapidly.",
-    "20": "Elliot favours giving 'space to those elms that have survived' and that 'the best thing you can do is just give nature time'.",
-    "21": "Russell asks the reasons for survival and says 'I don't see how it can be entirely down to luck', expecting an explanation.",
-    "22": "Bourne warns 'The beetles can just march in if we're not careful, as the threat is right on our doorstep'.",
-    "23": "Elliot says the disease's impact is hard to picture and 'only then that you realise the impact' when seeing old photos of the prominent trees.",
-    "24": "The passage says 'elm ran a close second to oak as the hardwood tree of choice', so oak was more popular.",
-    "25": "In the 18th century elm's wood 'was used for items such as storage crates and flooring'.",
-    "26": "Elm 'was used to build the keel of the 19th-century sailing ship Cutty Sark'.",
-    "27": "The first paragraph ends by asking 'do we become better or worse at processing... information under such circumstances?', questioning an assumption.",
-    "28": "The paragraph stresses firefighters' 'ups and downs' of relaxed and hectic days 'presented the perfect setting for an experiment', i.e. ideal subjects.",
-    "29": "The fourth paragraph details asking firefighters to estimate events then giving good or bad news, describing the study's methodology.",
-    "30": "The seventh paragraph describes a 'switch' boosting learning 'in response to unexpected warning signs', i.e. heightened sensitivity to external threats.",
-    "31": "When relaxed, people 'will ignore bad news and embrace the good', so they took little notice of bad news.",
-    "32": "Under stress firefighters 'became hyper-vigilant to bad news' and 'altered their beliefs', thinking bad things more likely.",
-    "33": "The passage says 'stress didn't change how they responded to good news', so to good news they always responded the same way.",
-    "34": "Students told they 'had to give a surprise public speech' had cortisol and heart rate spikes, a stressful situation the researchers created.",
-    "35": "In both experiments subjects processed alarming information better when 'under stress', matching negative information processed better when stressed.",
-    "36": "The writer says observing positive feeds makes us 'post uplifting messages' and negative posts make us 'create more negative posts'.",
-    "37": "The passage links checking your phone to stress but never compares phones against other electronic media devices.",
-    "38": "The writer says alarming media after an event 'individuals become very aware of', enhancing, not reducing, their ability to take it in.",
-    "39": "The writer says collective fear means 'trips are cancelled, even if the disaster took place across the globe', unnecessary precautions.",
-    "40": "The writer says 'positive emotions, such as hope, are contagious too' and can help us 'become conscientious agents of change'."
-  }
+    "1": {
+      "evidence": "It is the world's only flightless parrot",
+      "part": 1,
+      "paragraph": 0,
+      "rationale": "\"only flightless parrot\" means no other parrots share this trait, contradicting the statement that other parrots cannot fly."
+    },
+    "2": {
+      "evidence": "Kākāpō breed in summer and autumn, but only in years when food is plentiful",
+      "part": 1,
+      "paragraph": 2,
+      "rationale": "\"only in years when food is plentiful\" contradicts the claim that chicks are produced \"every year\"."
+    },
+    "3": {
+      "evidence": "Males play no part in incubation or chick-rearing – females alone incubate eggs and feed the chicks",
+      "part": 1,
+      "paragraph": 2,
+      "rationale": "Males playing \"no part\" in chick-rearing and females feeding chicks \"alone\" contradicts males bringing food to females."
+    },
+    "4": {
+      "evidence": "They ate its meat and used its feathers to make soft cloaks. With them came the Polynesian dog and rat, which also preyed on kākāpō.",
+      "part": 1,
+      "paragraph": 3,
+      "rationale": "Both settlers and the rat are described as preying on kākāpō, but the passage never compares which posed the greater threat, so it is not given."
+    },
+    "5": {
+      "evidence": "predation by feral cats on Rakiura Island led to a rapid decline in kākāpō numbers. As a result, during 1980-97, the surviving population was evacuated to three island sanctuaries",
+      "part": 1,
+      "paragraph": 6,
+      "rationale": "\"feral cats\" causing decline so the population was \"evacuated\" matches transfer due to risk from feral cats, confirming the statement."
+    },
+    "6": {
+      "evidence": "rescuing and hand-raising any failing chicks",
+      "part": 1,
+      "paragraph": 7,
+      "rationale": "\"hand-raising any failing chicks\" paraphrases caring for struggling young birds as part of the management that grew the population."
+    },
+    "7": {
+      "evidence": "their diet including the leaves, roots and bark of trees as well as bulbs, and fern fronds",
+      "part": 1,
+      "paragraph": 1,
+      "rationale": "The diet lists parts of a tree plus \"bulbs\" and fern fronds; the missing single word from the passage is \"bulbs\"."
+    },
+    "8": {
+      "evidence": "The 1-4 eggs are laid in soil",
+      "part": 1,
+      "paragraph": 2,
+      "rationale": "Eggs \"laid in soil\" matches nests created in soil where eggs are laid; the answer word is \"soil\"."
+    },
+    "9": {
+      "evidence": "used its feathers to make soft cloaks",
+      "part": 1,
+      "paragraph": 3,
+      "rationale": "\"feathers\" used to make cloaks (clothes) gives the answer \"feathers\"."
+    },
+    "10": {
+      "evidence": "introduced species such as deer depleted the remaining forests of food",
+      "part": 1,
+      "paragraph": 3,
+      "rationale": "\"deer\" as an introduced species that depleted food sources matches an introduced animal that ate the kākāpō's food."
+    },
+    "11": {
+      "evidence": "in 1980 it was confirmed females were also present",
+      "part": 1,
+      "paragraph": 5,
+      "rationale": "Confirmation of females present on Rakiura in \"1980\" gives the year of the definite sighting."
+    },
+    "12": {
+      "evidence": "a specialist advisory group called the Kākāpō Scientific and Technical Advisory Committee and a higher amount of funding",
+      "part": 1,
+      "paragraph": 7,
+      "rationale": "\"a higher amount of funding\" matches an increase in funding included in the Recovery Plan."
+    },
+    "13": {
+      "evidence": "ensure stakeholders continue to be fully engaged in the preservation of the species",
+      "part": 1,
+      "paragraph": 9,
+      "rationale": "\"stakeholders continue to be fully engaged\" matches maintaining the involvement of stakeholders as a current goal."
+    },
+    "14": {
+      "evidence": "opportunities are limited as the number of these mature survivors is relatively small",
+      "part": 2,
+      "paragraph": 2,
+      "rationale": "Section C notes few mature survivors limit research opportunities, matching research problems from there being only a few surviving large elms."
+    },
+    "15": {
+      "evidence": "For her, the environmental case for reintroducing elm is strong. 'They will host wildlife, which is a good thing.' Others are more wary.",
+      "part": 2,
+      "paragraph": 6,
+      "rationale": "Section G contrasts Russell's strong case for reintroduction with others being \"more wary\", a difference of opinion about its value."
+    },
+    "16": {
+      "evidence": "in the '70s a second epidemic was triggered by shipments of elm from Canada",
+      "part": 2,
+      "paragraph": 1,
+      "rationale": "Section B explains the disease arrived via \"shipments of elm from Canada\" carrying the beetles, matching how it was brought into Britain."
+    },
+    "17": {
+      "evidence": "Strong winds from the sea make it difficult for the determined elm bark beetle to attack this coastal city's elm population",
+      "part": 2,
+      "paragraph": 4,
+      "rationale": "Section E describes Brighton's strong sea winds hindering the beetle, the conditions enabling a location to escape the disease."
+    },
+    "18": {
+      "evidence": "Once the trunk of the elm reaches 10-15 centimetres or so in diameter, it becomes a perfect size for beetles to lay eggs and for the fungus to take hold",
+      "part": 2,
+      "paragraph": 2,
+      "rationale": "Section C states elms become vulnerable once the trunk reaches a certain diameter, identifying the stage young elms become susceptible."
+    },
+    "19": {
+      "evidence": "The effects are very quick,' says Russell. 'You return in four to six weeks and trees that are resistant show no symptoms, whereas those that are susceptible show leaf loss",
+      "part": 2,
+      "paragraph": 5,
+      "rationale": "Russell describes quick, visible effects (leaf loss) on susceptible trees, matching damage rapidly becoming visible; the speaker is Karen Russell (B)."
+    },
+    "20": {
+      "evidence": "Sometimes the best thing you can do is just give nature time to recover ... over time, you might get resistance,' says Elliot",
+      "part": 2,
+      "paragraph": 6,
+      "rationale": "Elliot recommends giving surviving elms time, matching waiting to see if mature survivors flourish; the speaker is Matt Elliot (A)."
+    },
+    "21": {
+      "evidence": "I don't see how it can be entirely down to luck.",
+      "part": 2,
+      "paragraph": 2,
+      "rationale": "Russell rejecting pure luck implies an explanation for survival exists; the speaker is Karen Russell (B)."
+    },
+    "22": {
+      "evidence": "The beetles can just march in if we're not careful, as the threat is right on our doorstep,' says Bourne",
+      "part": 2,
+      "paragraph": 4,
+      "rationale": "Bourne warns the disease-carrying beetles are nearby (\"on our doorstep\"), matching the statement; the speaker is Peter Bourne (C)."
+    },
+    "23": {
+      "evidence": "You look at old photographs from the 1960s and it's only then that you realise the impact [elms had]",
+      "part": 2,
+      "paragraph": 0,
+      "rationale": "Elliot says the impact is understood only when seeing how prominent elms once were; the speaker is Matt Elliot (A)."
+    },
+    "24": {
+      "evidence": "elm ran a close second to oak as the hardwood tree of choice in Britain",
+      "part": 2,
+      "paragraph": 3,
+      "rationale": "Elm being a \"close second to oak\" means oak was the only more popular tree; the answer is \"oak\"."
+    },
+    "25": {
+      "evidence": "its wood was used for items such as storage crates and flooring",
+      "part": 2,
+      "paragraph": 3,
+      "rationale": "\"storage crates\" (boxes) and \"flooring\" are the 18th-century uses; the missing word is \"flooring\"."
+    },
+    "26": {
+      "evidence": "was used to build the keel of the 19th-century sailing ship Cutty Sark",
+      "part": 2,
+      "paragraph": 3,
+      "rationale": "Elm built the \"keel\" of the Cutty Sark; the answer is \"keel\"."
+    },
+    "27": {
+      "evidence": "But do we become better or worse at processing and using information under such circumstances?",
+      "part": 3,
+      "paragraph": 0,
+      "rationale": "The opening question challenges the assumption about how we handle information under stress, matching questioning a widely held assumption."
+    },
+    "28": {
+      "evidence": "These ups and downs presented the perfect setting for an experiment on how people's ability to use information changes when they feel under pressure.",
+      "part": 3,
+      "paragraph": 1,
+      "rationale": "The varying stress levels (\"ups and downs\") making firefighters a \"perfect setting\" matches them being ideal study subjects."
+    },
+    "29": {
+      "evidence": "We asked the firefighters to estimate their likelihood of experiencing 40 different adverse events in their life",
+      "part": 3,
+      "paragraph": 3,
+      "rationale": "The paragraph details the procedure of estimating events then receiving good/bad news, describing the study's methodology."
+    },
+    "30": {
+      "evidence": "this 'switch' is related to a sudden boost in a neural signal important for learning, specifically in response to unexpected warning signs",
+      "part": 3,
+      "paragraph": 6,
+      "rationale": "The brain \"switch\" boosting learning in response to warning signs matches heightened sensitivity to indications of external threats."
+    },
+    "31": {
+      "evidence": "People are normally quite optimistic - they will ignore bad news and embrace the good. This is what happened when the firefighters were relaxed",
+      "part": 3,
+      "paragraph": 4,
+      "rationale": "When relaxed, firefighters \"ignore bad news\", matching ending B (took relatively little notice of bad news)."
+    },
+    "32": {
+      "evidence": "they became hyper-vigilant to bad news, even when it had nothing to do with their job",
+      "part": 3,
+      "paragraph": 4,
+      "rationale": "Stressed firefighters became hyper-vigilant and altered beliefs toward bad news, matching ending G (thought it more likely something bad would happen)."
+    },
+    "33": {
+      "evidence": "stress didn't change how they responded to good news",
+      "part": 3,
+      "paragraph": 4,
+      "rationale": "Their response to good news was unchanged by stress, matching ending F (behaved in a similar manner, regardless of the circumstances)."
+    },
+    "34": {
+      "evidence": "students who were told they had to give a surprise public speech, which would be judged by a panel, recorded and posted online. Sure enough, their cortisol levels spiked, their heart rates went up",
+      "part": 3,
+      "paragraph": 5,
+      "rationale": "Cortisol and heart-rate spikes followed being made to give a surprise speech, matching ending E (put them in a stressful situation)."
+    },
+    "35": {
+      "evidence": "they suddenly became better at processing unrelated, yet alarming, information",
+      "part": 3,
+      "paragraph": 5,
+      "rationale": "Negative information was processed better under stress in both studies, matching ending D (were feeling under stress)."
+    },
+    "36": {
+      "evidence": "if we observe positive feeds on social media, such as images of a pink sunset, we are more likely to post uplifting messages ourselves",
+      "part": 3,
+      "paragraph": 8,
+      "rationale": "Our posts mirror the tone of our feeds, agreeing with the statement (YES)."
+    },
+    "37": {
+      "evidence": "Repeatedly checking your phone, according to a survey conducted by the American Psychological Association, is related to stress.",
+      "part": 3,
+      "paragraph": 9,
+      "rationale": "Phone-checking is linked to stress, but the passage never compares phones with other electronic media devices, so it is not given."
+    },
+    "38": {
+      "evidence": "there is often a wave of alarming information in traditional and social media, which individuals become very aware of",
+      "part": 3,
+      "paragraph": 10,
+      "rationale": "Reading more alarming media makes individuals more aware and more likely to take it in, contradicting the claim that we become less able to absorb it (NO)."
+    },
+    "39": {
+      "evidence": "trips are cancelled, even if the disaster took place across the globe; stocks are sold, even when holding on is the best thing to do",
+      "part": 3,
+      "paragraph": 10,
+      "rationale": "Stress-driven cancellations and sales when unwarranted match taking unnecessary precautions, agreeing with the statement (YES)."
+    },
+    "40": {
+      "evidence": "positive emotions, such as hope, are contagious too, and are powerful in inducing people to act to find solutions",
+      "part": 3,
+      "paragraph": 11,
+      "rationale": "Contagious positive emotions used to prompt solutions show our susceptibility to others' moods can be positive, agreeing with the statement (YES)."
+    }
+  },
+  "vocabulary": [
+    {
+      "word": "solitary",
+      "definition": "living alone rather than in a group",
+      "context": "Kākāpō are solitary birds",
+      "part": 1
+    },
+    {
+      "word": "confined to",
+      "definition": "restricted or limited to a particular area",
+      "context": "kākāpō had become confined to the central North Island",
+      "part": 1
+    },
+    {
+      "word": "forage",
+      "definition": "to search widely for food",
+      "context": "They forage on the ground and climb high into trees",
+      "part": 1
+    },
+    {
+      "word": "incubation",
+      "definition": "the keeping of eggs warm so they develop and hatch",
+      "context": "Males play no part in incubation or chick-rearing",
+      "part": 1
+    },
+    {
+      "word": "predators",
+      "definition": "animals that hunt and kill other animals for food",
+      "context": "particularly vulnerable to predators",
+      "part": 1
+    },
+    {
+      "word": "prey",
+      "definition": "an animal hunted and killed by another for food",
+      "context": "the flightless kākāpō was easy prey",
+      "part": 1
+    },
+    {
+      "word": "habitat",
+      "definition": "the natural home or environment of a plant or animal",
+      "context": "A great deal of habitat was lost through forest clearance",
+      "part": 1
+    },
+    {
+      "word": "eradicated",
+      "definition": "completely removed or destroyed",
+      "context": "Cats were eradicated from Little Barrier Island",
+      "part": 1
+    },
+    {
+      "word": "genetic diversity",
+      "definition": "the range of different genes within a population",
+      "context": "minimise the loss of genetic diversity in the kākāpō population",
+      "part": 1
+    },
+    {
+      "word": "stakeholders",
+      "definition": "people or groups with an interest or involvement in something",
+      "context": "ensure stakeholders continue to be fully engaged",
+      "part": 1
+    },
+    {
+      "word": "aftermath",
+      "definition": "the period following a damaging or unpleasant event",
+      "context": "In the aftermath, the elm",
+      "part": 2
+    },
+    {
+      "word": "vascular",
+      "definition": "relating to the vessels that carry fluids in a plant or body",
+      "context": "blocks the elms' vascular (water, nutrient and food transport) system",
+      "part": 2
+    },
+    {
+      "word": "epidemic",
+      "definition": "a widespread outbreak of a disease in a population",
+      "context": "A first epidemic, which occurred in the 1920s",
+      "part": 2
+    },
+    {
+      "word": "virulent",
+      "definition": "extremely severe, harmful or fast-spreading",
+      "context": "the beetles carried a much more virulent strain",
+      "part": 2
+    },
+    {
+      "word": "hedgerows",
+      "definition": "lines of bushes or low trees forming a boundary between fields",
+      "context": "mostly only in low hedgerows between fields",
+      "part": 2
+    },
+    {
+      "word": "succumbed",
+      "definition": "gave way to or was overcome by something harmful",
+      "context": "when millions of others succumbed",
+      "part": 2
+    },
+    {
+      "word": "ingrained",
+      "definition": "firmly fixed and deeply established",
+      "context": "Given how ingrained elm is in British culture",
+      "part": 2
+    },
+    {
+      "word": "precarious",
+      "definition": "uncertain and likely to become dangerous",
+      "context": "However, the situation is precarious",
+      "part": 2
+    },
+    {
+      "word": "tolerant",
+      "definition": "able to endure something harmful without serious damage",
+      "context": "trees being either resistant to, or tolerant of, the disease",
+      "part": 2
+    },
+    {
+      "word": "weigh up",
+      "definition": "to carefully assess or consider before deciding",
+      "context": "required to weigh up information under stressful conditions",
+      "part": 3
+    },
+    {
+      "word": "hectic",
+      "definition": "full of frantic, busy activity",
+      "context": "Other days can be hectic, with numerous life-threatening incidents",
+      "part": 3
+    },
+    {
+      "word": "hyper-vigilant",
+      "definition": "in a state of unusually heightened alertness to threats",
+      "context": "they became hyper-vigilant to bad news",
+      "part": 3
+    },
+    {
+      "word": "cortisol",
+      "definition": "a hormone released by the body in response to stress",
+      "context": "their cortisol levels spiked",
+      "part": 3
+    },
+    {
+      "word": "physiological",
+      "definition": "relating to the normal functioning of a living body",
+      "context": "a physiological change is triggered",
+      "part": 3
+    },
+    {
+      "word": "contagious",
+      "definition": "spreading quickly from one person to another",
+      "context": "positive emotions, such as hope, are contagious too",
+      "part": 3
+    },
+    {
+      "word": "conscientious",
+      "definition": "careful, responsible and thorough in one's actions",
+      "context": "become conscientious agents of change",
+      "part": 3
+    }
+  ]
 }

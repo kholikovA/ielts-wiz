@@ -582,45 +582,427 @@
     }
   ],
   "explanations": {
-    "1": "The Andeans froze, trampled and dried potatoes, which 'preserved their nutritional value', matching the note about conserving nutritional value.",
-    "2": "In 1851 railroads put ice in insulated rail cars 'to send butter' from Ogdensburg to Boston, the food kept cool in adapted trains.",
-    "3": "The 1880 shipment to England was 'Australian beef and mutton' sent frozen, so the answer is two kinds of meat.",
-    "4": "Quick-freezing 'reduced the damage that crystals caused'; the crystals forming in cells were what spoilt the food.",
-    "5": "Birdseye 'introduced the use of cellophane, the first transparent material for food packaging', which let consumers see the product.",
-    "6": "WWII boosted frozen food because 'tin was being used for munitions' and canned foods were rationed to save tin.",
-    "7": "By 1953 '33 million US families owned a refrigerator', matching a large number of homes having one.",
-    "8": "The passage says Boston owners had Arctic ice towed for preservation but never states this made them wealthy.",
-    "9": "Crystals burst the cells and 'this spoilt the flavor and texture of the food', confirming taste was affected.",
-    "10": "Birdseye went to Labrador 'to trap and trade furs' after running out of money, not to learn Inuit freezing.",
-    "11": "The TV Dinner launched 'with the help of a clever name and a huge advertising budget', confirming heavy promotion spending.",
-    "12": "The TV Dinner used 'the same segmented aluminum tray that was used by airlines', not a newly developed container.",
-    "13": "The passage gives US turnover figures but never compares it to other countries' industries worldwide.",
-    "14": "Section A states two aims: showing how wonderful reefs are and highlighting conservation, matching 'Two clear educational goals'.",
-    "15": "Section B describes algae giving polyps colour and getting protection in return, a symbiotic relationship, matching 'Cooperation beneath the waves'.",
-    "16": "Section C centres on Attenborough disputing the 'rainforests of the sea' label, matching 'Disagreement about the accuracy of a certain phrase'.",
-    "17": "Section D says thermal stress is the start and lists further menaces, with 90% of reefs lost by 2050, matching 'A warning of further trouble ahead'.",
-    "18": "Section E describes scientists researching hardy corals and boosting breeding rates, matching 'Working to lessen the problems'.",
-    "19": "Section F says progress shown to the public should 'encourage them to believe that we can do something', matching 'Promoting hope'.",
-    "20": "Section D lists 'pollution by humans' (waste contamination, C) and 'ocean current changes' (altered water flow, E).",
-    "21": "Section D lists 'pollution by humans' (waste contamination, C) and 'ocean current changes' (altered water flow, E).",
-    "22": "Section E says they want corals 'that can survive best in warm, acidic waters' (B) and aim 'to increase coral breeding rates' (D).",
-    "23": "Section E says they want corals 'that can survive best in warm, acidic waters' (B) and aim 'to increase coral breeding rates' (D).",
-    "24": "Polyps have 'tentacles for capturing small marine creatures in the sea water', matching what corals use to collect food.",
-    "25": "Algae living within the polyps 'in turn get protection', matching what algae gain from being inside.",
-    "26": "Bleaching events 'strip reefs of their colour', so warmer water removes the colour from coral.",
-    "27": "Rees says 'we should ensure that robots remain as no more than \"idiot savants\" lacking the capacity to outwit us', restricting their abilities.",
-    "28": "Wolpert says 'the benefits that they will bring are likely to outweigh these negative aspects', downplaying the danger.",
-    "29": "Wolpert says expecting 'a machine close to the creative intelligence of a human within the next 50 years would be highly ambitious'.",
-    "30": "Rees raises 'Should we feel guilty about exploiting [sophisticated robots]?', questioning whether we treat robots fairly.",
-    "31": "Wolpert says 'Using robots to gather resources nearer to home would seem to be a better use of our robotic tools'.",
-    "32": "Rees advises 'it's better to read first-rate science fiction than second-rate science... perhaps no more likely to be wrong'.",
-    "33": "Richardson says 'many people welcome machine intelligence', confirming some look forward to more intelligent robots.",
-    "34": "Rees says colonised planets should be preserved like Antarctica and Richardson finds colonisation 'morally dubious', sharing ethical concern about altering planets.",
-    "35": "Rees and Wolpert both say machine intelligence already outstrips humans in limited ways like calculation, navigation and memory.",
-    "36": "Wolpert says AI's benefits outweigh harm done by viruses, while Richardson stresses robots have never challenged human supremacy.",
-    "37": "Richardson says fear 'stems from humans' tendency to personify inanimate objects', attributing human traits to non-human entities.",
-    "38": "Rees worries computer networks 'could behave like a single \"brain\" with a mind of its own', independent thought contrary to human welfare.",
-    "39": "Wolpert notes 'almost no science fiction envisages a future without robots', emphasising how fundamental robots are to the genre.",
-    "40": "Richardson urges bringing reality and fantasy understandings 'together to get a whole perspective', recommending a change in how people view them."
-  }
+    "1": {
+      "evidence": "the inhabitants of South America's Andean mountains had a unique means of conserving potatoes for later consumption",
+      "part": 1,
+      "paragraph": 0,
+      "rationale": "The note's 'conserved the nutritional value' paraphrases 'conserving potatoes ... This preserved their nutritional value', so the one-word answer is 'potatoes'."
+    },
+    "2": {
+      "evidence": "railroads first began putting blocks of ice in insulated rail cars to send butter from Ogdensburg, New York, to Boston",
+      "part": 1,
+      "paragraph": 1,
+      "rationale": "'specially adapted trains' paraphrases 'insulated rail cars' and 'kept cool by ice' matches the ice, so the item transported was 'butter'."
+    },
+    "3": {
+      "evidence": "In 1880, a shipment of Australian beef and mutton was sent, frozen, to England.",
+      "part": 1,
+      "paragraph": 3,
+      "rationale": "Beef and mutton are 'two kinds of' meat, the first frozen food shipped to England, matching the note's gap."
+    },
+    "4": {
+      "evidence": "He developed quick-freezing techniques that reduced the damage that crystals caused",
+      "part": 1,
+      "paragraph": 6,
+      "rationale": "'quick-freezing methods, so that ___ did not spoil the food' paraphrases reducing the damage that crystals caused; the answer is 'crystals'."
+    },
+    "5": {
+      "evidence": "He also introduced the use of cellophane, the first transparent material for food packaging, which allowed consumers to see the quality of the product.",
+      "part": 1,
+      "paragraph": 6,
+      "rationale": "'packaging products with ___ , so the product was visible' matches cellophane being transparent and letting consumers see the product."
+    },
+    "6": {
+      "evidence": "World War II gave a boost to the frozen food industry because tin was being used for munitions",
+      "part": 1,
+      "paragraph": 8,
+      "rationale": "'a shortage of ___' paraphrases tin being used for munitions and rationed, so frozen food became popular; the answer is 'tin'."
+    },
+    "7": {
+      "evidence": "By 1953, 33 million US families owned a refrigerator",
+      "part": 1,
+      "paragraph": 8,
+      "rationale": "'A large number of homes now had a ___' matches 33 million families owning a refrigerator."
+    },
+    "8": {
+      "evidence": "ship owners from Boston, USA, had enormous blocks of Arctic ice towed all over the Atlantic for the purpose of food preservation",
+      "part": 1,
+      "paragraph": 1,
+      "rationale": "The passage describes the Boston owners' ice trade but never states it made them wealthy, so the specific claim about wealth is not given."
+    },
+    "9": {
+      "evidence": "this spoilt the flavor and texture of the food",
+      "part": 1,
+      "paragraph": 3,
+      "rationale": "'affected the taste' paraphrases the freezing process spoiling the flavor of the food, confirming the statement is TRUE."
+    },
+    "10": {
+      "evidence": "went to Labrador in Canada to trap and trade furs",
+      "part": 1,
+      "paragraph": 4,
+      "rationale": "Birdseye travelled to Labrador to trap and trade furs, not to learn Inuit freezing (which he only became fascinated by once there), so the statement is FALSE."
+    },
+    "11": {
+      "evidence": "with the help of a clever name and a huge advertising budget, it launched the first 'TV Dinner'",
+      "part": 1,
+      "paragraph": 9,
+      "rationale": "'invested a great deal of money in the promotion' matches the 'huge advertising budget', confirming the statement is TRUE."
+    },
+    "12": {
+      "evidence": "served in the same segmented aluminum tray that was used by airlines",
+      "part": 1,
+      "paragraph": 9,
+      "rationale": "The tray was the same one already used by airlines, not a new style of container, so the statement is FALSE."
+    },
+    "13": {
+      "evidence": "Today, the US frozen food industry has a turnover of over $67 billion annually",
+      "part": 1,
+      "paragraph": 10,
+      "rationale": "The passage gives US turnover figures but never compares the US industry to other countries' industries, so the 'largest in the world' claim is not given."
+    },
+    "14": {
+      "evidence": "we also want to highlight the research and conservation efforts that are now being carried out to try to save them",
+      "part": 2,
+      "paragraph": 0,
+      "rationale": "Section A states two aims, showing how wonderful reefs are and highlighting conservation, matching heading v 'Two clear educational goals'."
+    },
+    "15": {
+      "evidence": "This comfortable symbiotic relationship has led to the growth of coral reefs",
+      "part": 2,
+      "paragraph": 1,
+      "rationale": "The symbiotic relationship between polyps and algae beneath the sea matches heading ii 'Cooperation beneath the waves'."
+    },
+    "16": {
+      "evidence": "the comparison is dismissed by some naturalists, including David Attenborough",
+      "part": 2,
+      "paragraph": 2,
+      "rationale": "Attenborough disputing the 'rainforests of the sea' phrase matches heading iv 'Disagreement about the accuracy of a certain phrase'."
+    },
+    "17": {
+      "evidence": "And that is just the start. Other menaces include ocean acidification, sea level increase, pollution by humans, deoxygenation and ocean current changes",
+      "part": 2,
+      "paragraph": 3,
+      "rationale": "'just the start' plus a list of further menaces and 90% loss by 2050 matches heading vii 'A warning of further trouble ahead'."
+    },
+    "18": {
+      "evidence": "scientists are trying to pinpoint hardy types of coral that could survive our overheated oceans",
+      "part": 2,
+      "paragraph": 4,
+      "rationale": "Research into hardy corals and boosting breeding to restore reefs matches heading iii 'Working to lessen the problems'."
+    },
+    "19": {
+      "evidence": "encourage them to believe that we can do something to save the planet's reefs",
+      "part": 2,
+      "paragraph": 5,
+      "rationale": "Encouraging the public to believe reefs can be saved matches heading vi 'Promoting hope'."
+    },
+    "20": {
+      "evidence": "Other menaces include ocean acidification, sea level increase, pollution by humans, deoxygenation and ocean current changes",
+      "part": 2,
+      "paragraph": 3,
+      "rationale": "'pollution by humans' supports option C (contamination from waste) and 'ocean current changes' supports option E (alterations in water flow)."
+    },
+    "21": {
+      "evidence": "Other menaces include ocean acidification, sea level increase, pollution by humans, deoxygenation and ocean current changes",
+      "part": 2,
+      "paragraph": 3,
+      "rationale": "Same list as Q20: 'pollution by humans' gives C and 'ocean current changes' gives E."
+    },
+    "22": {
+      "evidence": "One aim will be to carry out research on species to find those that can survive best in warm, acidic waters. Another will be to try to increase coral breeding rates.",
+      "part": 2,
+      "paragraph": 4,
+      "rationale": "Finding corals that survive in warm, acidic waters supports option B (cope with changed sea conditions) and increasing breeding rates supports option D (speed up reproduction)."
+    },
+    "23": {
+      "evidence": "One aim will be to carry out research on species to find those that can survive best in warm, acidic waters. Another will be to try to increase coral breeding rates.",
+      "part": 2,
+      "paragraph": 4,
+      "rationale": "Same sentences as Q22: surviving in warm/acidic water gives B and increasing breeding rates gives D."
+    },
+    "24": {
+      "evidence": "polyps, with tentacles for capturing small marine creatures in the sea water",
+      "part": 2,
+      "paragraph": 1,
+      "rationale": "'which they use to collect their food' paraphrases tentacles for capturing small marine creatures, so the answer is 'tentacles'."
+    },
+    "25": {
+      "evidence": "from algae that live within them, which in turn get protection",
+      "part": 2,
+      "paragraph": 1,
+      "rationale": "'Algae gain ___ from being inside the coral' matches the algae which 'in turn get protection', so the answer is 'protection'."
+    },
+    "26": {
+      "evidence": "Rising ocean temperatures are triggering bleaching events that strip reefs of their colour",
+      "part": 2,
+      "paragraph": 3,
+      "rationale": "'warmth of the sea water can remove the ___' paraphrases rising temperatures stripping reefs of their colour, so the answer is 'colour'."
+    },
+    "27": {
+      "evidence": "we should ensure that robots remain as no more than \"idiot savants\" lacking the capacity to outwit us",
+      "part": 3,
+      "paragraph": 6,
+      "rationale": "Rees (A) argues we should keep robots from being able to outwit us, matching 'humans will need to restrict the abilities of robots'."
+    },
+    "28": {
+      "evidence": "the benefits that they will bring are likely to outweigh these negative aspects",
+      "part": 3,
+      "paragraph": 7,
+      "rationale": "Wolpert (B) says robotics' benefits outweigh the negatives, matching 'the risk of robots harming us is less serious than humans believe'."
+    },
+    "29": {
+      "evidence": "Expecting a machine close to the creative intelligence of a human within the next 50 years would be highly ambitious.",
+      "part": 3,
+      "paragraph": 4,
+      "rationale": "Wolpert (B) says human-level creative intelligence within 50 years is highly ambitious, matching 'many decades for robot intelligence to be as imaginative as human'."
+    },
+    "30": {
+      "evidence": "Should we feel guilty about exploiting [sophisticated robots]?",
+      "part": 3,
+      "paragraph": 3,
+      "rationale": "Rees (A) raises whether we should feel guilty about exploiting robots, matching 'whether we are treating robots fairly'."
+    },
+    "31": {
+      "evidence": "Using robots to gather resources nearer to home would seem to be a better use of our robotic tools.",
+      "part": 3,
+      "paragraph": 1,
+      "rationale": "Wolpert (B) says using robots nearer home is a better use than colonising other planets, matching 'more help on Earth than in space'."
+    },
+    "32": {
+      "evidence": "it's better to read first-rate science fiction than second-rate science - more stimulating, and perhaps no more likely to be wrong",
+      "part": 3,
+      "paragraph": 9,
+      "rationale": "Rees (A) says first-rate sci-fi is no more likely to be wrong than second-rate science, matching the statement comparing high-quality sci-fi to mediocre scientists' work."
+    },
+    "33": {
+      "evidence": "Not all fear [robots]; many people welcome machine intelligence.",
+      "part": 3,
+      "paragraph": 8,
+      "rationale": "Richardson (C) says many people welcome machine intelligence, matching 'those who look forward to robots developing greater intelligence'."
+    },
+    "34": {
+      "evidence": "should be preserved with a status that is analogous to Antarctica here on Earth",
+      "part": 3,
+      "paragraph": 0,
+      "rationale": "Rees wants colonised planets preserved like Antarctica and Richardson finds colonisation 'morally dubious', so both express ethical concern about ending C 'changes made to other planets for our own benefit'."
+    },
+    "35": {
+      "evidence": "Machines can already navigate, remember and search for items with an ability that far outstrips humans.",
+      "part": 3,
+      "paragraph": 4,
+      "rationale": "Wolpert says machine intelligence already outstrips humans in limited ways, like Rees, so both share a view on ending B 'advances made in machine intelligence so far'."
+    },
+    "36": {
+      "evidence": "the benefits of computers outweigh the damage that computer viruses cause",
+      "part": 3,
+      "paragraph": 7,
+      "rationale": "Wolpert downplays the harm of AI (viruses), disagreeing with the framing of ending D 'the harm already done by artificial intelligence'."
+    },
+    "37": {
+      "evidence": "it stems from humans' tendency to personify inanimate objects",
+      "part": 3,
+      "paragraph": 5,
+      "rationale": "Richardson attributes fear of machines to personifying inanimate objects, matching option B 'our inclination to attribute human characteristics to non-human entities'."
+    },
+    "38": {
+      "evidence": "these could behave like a single \"brain\" with a mind of its own, and with goals that may be contrary to human welfare",
+      "part": 3,
+      "paragraph": 6,
+      "rationale": "Rees fears computer networks acting like a brain with its own mind, matching option C 'artificial intelligence developing independent thought'."
+    },
+    "39": {
+      "evidence": "almost no science fiction envisages a future without robots",
+      "part": 3,
+      "paragraph": 10,
+      "rationale": "Wolpert stresses that nearly all sci-fi includes robots, matching option B 'how fundamental robots are to the science fiction genre'."
+    },
+    "40": {
+      "evidence": "we need to bring these different understandings together to get a whole perspective",
+      "part": 3,
+      "paragraph": 11,
+      "rationale": "Richardson urges combining reality and fantasy understandings, matching option C 'recommending a change of approach in how people view them'."
+    }
+  },
+  "vocabulary": [
+    {
+      "word": "preserve",
+      "definition": "to keep food in a condition that prevents it from decaying",
+      "context": "humans discovered that ice preserved food",
+      "part": 1
+    },
+    {
+      "word": "conserving",
+      "definition": "protecting something from loss or harm so it lasts longer",
+      "context": "a unique means of conserving potatoes",
+      "part": 1
+    },
+    {
+      "word": "aesthetic appeal",
+      "definition": "attractiveness in appearance",
+      "context": "if not their aesthetic appeal",
+      "part": 1
+    },
+    {
+      "word": "refrigeration",
+      "definition": "the process of keeping things cold to preserve them",
+      "context": "the main form of refrigeration",
+      "part": 1
+    },
+    {
+      "word": "insulated",
+      "definition": "covered with material that stops heat passing through",
+      "context": "putting blocks of ice in insulated rail cars",
+      "part": 1
+    },
+    {
+      "word": "compressor",
+      "definition": "a machine that squeezes a gas into a smaller space",
+      "context": "They used a compressor to force a gas",
+      "part": 1
+    },
+    {
+      "word": "palatable",
+      "definition": "pleasant enough to eat",
+      "context": "the food frozen this way was still palatable",
+      "part": 1
+    },
+    {
+      "word": "deterioration",
+      "definition": "the process of becoming gradually worse in quality",
+      "context": "there was some deterioration",
+      "part": 1
+    },
+    {
+      "word": "methodically",
+      "definition": "in an orderly, systematic way",
+      "context": "Birdseye methodically kept inventing better freezers",
+      "part": 1
+    },
+    {
+      "word": "rationed",
+      "definition": "limited in supply, with each person allowed only a fixed amount",
+      "context": "Canned foods were rationed to save tin",
+      "part": 1
+    },
+    {
+      "word": "turnover",
+      "definition": "the total amount of money a business takes in",
+      "context": "has a turnover of over $67 billion annually",
+      "part": 1
+    },
+    {
+      "word": "ecosystems",
+      "definition": "communities of living things interacting with their environment",
+      "context": "the most diverse ecosystems on Earth",
+      "part": 2
+    },
+    {
+      "word": "invertebrate",
+      "definition": "an animal without a backbone",
+      "context": "the minuscule invertebrate creatures that sustain life",
+      "part": 2
+    },
+    {
+      "word": "polyps",
+      "definition": "tiny animals that build coral reefs",
+      "context": "tiny animals, known as polyps",
+      "part": 2
+    },
+    {
+      "word": "tentacles",
+      "definition": "long flexible limbs used for grasping or feeding",
+      "context": "with tentacles for capturing small marine creatures",
+      "part": 2
+    },
+    {
+      "word": "symbiotic relationship",
+      "definition": "a close interaction between two species that benefits both",
+      "context": "This comfortable symbiotic relationship",
+      "part": 2
+    },
+    {
+      "word": "photosynthesising",
+      "definition": "converting sunlight into energy and nutrients",
+      "context": "their photosynthesising of the sun's rays",
+      "part": 2
+    },
+    {
+      "word": "thermal stress",
+      "definition": "strain on living things caused by changes in temperature",
+      "context": "the most immediate problem coming in the form of thermal stress",
+      "part": 2
+    },
+    {
+      "word": "bleaching",
+      "definition": "the loss of colour in coral when it expels its algae under stress",
+      "context": "triggering bleaching events that strip reefs of their colour",
+      "part": 2
+    },
+    {
+      "word": "acidification",
+      "definition": "the process of water becoming more acidic",
+      "context": "Other menaces include ocean acidification",
+      "part": 2
+    },
+    {
+      "word": "deoxygenation",
+      "definition": "the removal or loss of oxygen from water",
+      "context": "pollution by humans, deoxygenation",
+      "part": 2
+    },
+    {
+      "word": "spawn",
+      "definition": "to release eggs or reproduce, especially in water",
+      "context": "Coral spawn just once a year",
+      "part": 2
+    },
+    {
+      "word": "blighted",
+      "definition": "spoiled or damaged",
+      "context": "a big help in restoring blighted reefs",
+      "part": 2
+    },
+    {
+      "word": "terraforming",
+      "definition": "modifying a planet's atmosphere to suit human needs",
+      "context": "than the ... \"terraforming\"* of planets",
+      "part": 3
+    },
+    {
+      "word": "fabrication",
+      "definition": "the act of building or manufacturing something",
+      "context": "enabling fabrication of large structures in space",
+      "part": 3
+    },
+    {
+      "word": "benign",
+      "definition": "harmless and not damaging",
+      "context": "more realistic and benign than the",
+      "part": 3
+    },
+    {
+      "word": "personify",
+      "definition": "to treat an object as if it were a person",
+      "context": "humans' tendency to personify inanimate objects",
+      "part": 3
+    },
+    {
+      "word": "autonomous",
+      "definition": "acting independently, without outside control",
+      "context": "see them as an autonomous threat",
+      "part": 3
+    },
+    {
+      "word": "idiot savants",
+      "definition": "beings highly skilled at one narrow task but otherwise limited",
+      "context": "robots remain as no more than \"idiot savants\"",
+      "part": 3
+    },
+    {
+      "word": "dystopian",
+      "definition": "relating to an imagined future of great suffering or oppression",
+      "context": "to dystopian robotic societies",
+      "part": 3
+    }
+  ]
 }

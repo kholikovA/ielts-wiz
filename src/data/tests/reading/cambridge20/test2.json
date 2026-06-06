@@ -544,45 +544,409 @@
     }
   ],
   "explanations": {
-    "1": "The passage says the manatee has 'a broad, rounded tail, whereas the dugong's is fluked,' so the tail shape differs.",
-    "2": "To look left or right a manatee 'must turn its entire body, steering with its flippers,' so flippers help it turn.",
-    "3": "They have 'hairs covering their bodies which help them sense vibrations in the water,' matching the skin-vibration note.",
-    "4": "'Seagrasses and other marine plants make up most of a manatee's diet,' giving seagrasses as an example of aquatic vegetation.",
-    "5": "Manatees 'have lips which function like a pair of hands to help tear food away from the seafloor,' grasping and pulling plants.",
-    "6": "They 'use their muscular diaphragm and breathing to adjust their buoyancy,' matching regulating the body's buoyancy by storing air.",
-    "7": "The West Indian manatee 'moves between fresh water and salt water,' using mangroves, reefs, rivers, lakes and lagoons - varied habitats.",
-    "8": "The passage gives both species' locations but never compares the water temperatures of the Florida and Antillean manatees.",
-    "9": "It is also found in 'rivers,' seen in landlocked Mali and Niger, so its range is not limited to coastal waters.",
-    "10": "The passage gives the kill estimate for 1935-1954 but never states this loss was only revealed many years later.",
-    "11": "Both West Indian subspecies 'are also expected to undergo a decline of 20% over the next 40 years,' a predicted future fall.",
-    "12": "The review counts cases from 2009-2020 but does not state the risk increased significantly over that period.",
-    "13": "'Laws in certain parts of Florida now limit boat speeds during winter,' aiming to reduce boat strikes on manatees.",
-    "14": "Paragraph B opens 'Contrary to popular belief, procrastination is not due to laziness,' correcting a false assumption about its cause.",
-    "15": "Paragraph F advises reminding ourselves 'we're not the first person to procrastinate, nor the last,' the realisation that others do it too.",
-    "16": "Paragraph B reports brain-imaging found areas 'linked to detection of threats and emotion regulation' differ in chronic procrastinators.",
-    "17": "Paragraph B states procrastination 'is not due to laziness,' the popular but mistaken belief being laziness.",
-    "18": "If thinking about a task 'threatens our sense of self-worth or makes us anxious, we will be more likely to put it off.'",
-    "19": "Brain areas 'linked to detection of threats and emotion regulation' differ, so the regions identify threats.",
-    "20": "'Tasks that are emotionally loaded or difficult, such as preparing for exams, are prime candidates for procrastination.'",
-    "21": "'Another group of people who tend to procrastinate are perfectionists,' alongside those with low self-esteem.",
-    "22": "Afterwards 'people tend to be left with a sense of guilt that not only increases their negative mood' and reinforces procrastination.",
-    "23": "The survey found procrastinating employees 'had less annual income' (A) 'and less employment stability' (C).",
-    "24": "Same passage: lower 'annual income' (A) and 'less employment stability,' meaning they don't keep jobs as long (C).",
-    "25": "Paragraph F recommends 'Forgiving ourselves' (A) and strategies to 'fend off distractions' when we should focus (E).",
-    "26": "Same paragraph: not being 'overly critical of ourselves' (A) and fending off 'distractions' that occupy our minds (E).",
-    "27": "DeJesus made no judgments himself; decisions were 'fed to him through an earpiece,' so he did not share decision-making.",
-    "28": "After complaints 'about some strange calls,' MLB 'decided to tweak the dimensions of the zone,' confirming the amendment.",
-    "29": "The passage discusses ABS's accuracy but never says MLB wants to justify money spent on improving it.",
-    "30": "The fastball 'flattened the game into strikeouts, walks, and home runs - a type of play lacking much action,' not more exciting.",
-    "31": "Sword's team 'talked about changing' rules including bats, but no fierce debate over bat proposals is mentioned.",
-    "32": "'Once you get the technology right, you can load any strike zone you want,' a triangle, blob or Texas shape - so reshaping is feasible.",
-    "33": "MLB wanted umpires to announce calls 'just as they would have done in the past,' matching their former roles.",
-    "34": "'Previously, calling a strike was a judgment call on the part of the umpire,' a subjective assessment.",
-    "35": "The strike zone is 'an imaginary zone' from knees to mid-chest - a perceived area, not a physical one.",
-    "36": "'Countless arguments... have taken place over its boundaries,' matching numerous disputes over strike calls.",
-    "37": "At DeJesus's first game 'there was no heckling and no shouted disagreement. Nobody said a word' - total silence.",
-    "38": "The writer asks 'whether controversy is worth reducing, or whether it is the sign of a human hand,' hinting ABS may lessen the game's appeal.",
-    "39": "Sword says ABS aimed to make baseball exciting because 'executives are terrified of losing younger fans,' retaining a young audience.",
-    "40": "Noe and Russo argue 'accuracy is not the answer' and 'perfect would be weird,' showing accuracy differs from enjoyment."
-  }
+    "1": {
+      "evidence": "the manatee has a broad, rounded tail, whereas the dugong's is fluked, like that of a whale",
+      "part": 1,
+      "paragraph": 0,
+      "rationale": "The note's 'differently shaped' tail matches the contrast between the manatee's rounded tail and the dugong's fluked one."
+    },
+    "2": {
+      "evidence": "a manatee must turn its entire body, steering with its flippers",
+      "part": 1,
+      "paragraph": 1,
+      "rationale": "'Steering with its flippers' to turn its body paraphrases using flippers to turn around and look sideways."
+    },
+    "3": {
+      "evidence": "They also have some hairs covering their bodies which help them sense vibrations in the water around them.",
+      "part": 1,
+      "paragraph": 1,
+      "rationale": "The note's 'sense vibrations by means of ___ on their skin' maps directly to the hairs that sense vibrations."
+    },
+    "4": {
+      "evidence": "Seagrasses and other marine plants make up most of a manatee's diet.",
+      "part": 1,
+      "paragraph": 2,
+      "rationale": "'Seagrasses' is the example of aquatic vegetation that makes up most of the diet."
+    },
+    "5": {
+      "evidence": "manatees have lips which function like a pair of hands to help tear food away from the seafloor",
+      "part": 1,
+      "paragraph": 3,
+      "rationale": "Lips working 'like a pair of hands' to tear food paraphrases grasping and pulling up plants."
+    },
+    "6": {
+      "evidence": "manatees use their muscular diaphragm and breathing to adjust their buoyancy",
+      "part": 1,
+      "paragraph": 4,
+      "rationale": "'Adjust their buoyancy' using the diaphragm matches regulating the body's buoyancy by storing air internally."
+    },
+    "7": {
+      "evidence": "It moves between fresh water and salt water, taking advantage of coastal mangroves and coral reefs, rivers, lakes and inland lagoons.",
+      "part": 1,
+      "paragraph": 5,
+      "rationale": "The list of fresh/salt-water habitats (mangroves, reefs, rivers, lakes, lagoons) supports 'a variety of different aquatic habitats' (TRUE)."
+    },
+    "8": {
+      "evidence": "When the ambient water temperature drops below 20°C, it takes refuge in naturally and artificially warmed water, such as at the warm-water outfalls from powerplants.",
+      "part": 1,
+      "paragraph": 5,
+      "rationale": "The passage describes Florida manatee water temperatures but never compares them with the Antillean manatee's, so the comparison is NOT GIVEN."
+    },
+    "9": {
+      "evidence": "The species also makes use of rivers, with the mammals seen in landlocked countries such as Mali and Niger.",
+      "part": 1,
+      "paragraph": 6,
+      "rationale": "Use of rivers in landlocked Mali and Niger contradicts the claim that the range is limited to coastal waters (FALSE)."
+    },
+    "10": {
+      "evidence": "It is estimated that 140,000 Amazonian manatees were killed between 1935 and 1954 for their meat, fat and skin, with the latter used to make leather.",
+      "part": 1,
+      "paragraph": 8,
+      "rationale": "The kill estimate for 1935-1954 is given, but whether this loss was only revealed many years later is never stated (NOT GIVEN)."
+    },
+    "11": {
+      "evidence": "Both are also expected to undergo a decline of 20% over the next 40 years.",
+      "part": 1,
+      "paragraph": 9,
+      "rationale": "An expected 20% decline over the next 40 years supports the prediction that populations will fall in the coming decades (TRUE)."
+    },
+    "12": {
+      "evidence": "A review of almost 1,800 cases of entanglement in fishing nets and of plastic consumption among marine mammals in US waters from 2009 to 2020 found that at least 700 cases involved manatees.",
+      "part": 1,
+      "paragraph": 9,
+      "rationale": "The review only counts cases across 2009-2020; it never claims the risk increased significantly over that period (NOT GIVEN)."
+    },
+    "13": {
+      "evidence": "laws in certain parts of Florida now limit boat speeds during winter, allowing slow-moving manatees more time to respond",
+      "part": 1,
+      "paragraph": 9,
+      "rationale": "Laws limiting boat speeds to give manatees time to respond is legislation aimed at reducing boat strikes (TRUE)."
+    },
+    "14": {
+      "evidence": "Contrary to popular belief, procrastination is not due to laziness or poor time management.",
+      "part": 2,
+      "paragraph": 1,
+      "rationale": "'Contrary to popular belief' correcting laziness/time-management as causes is the false assumption about why people procrastinate (Paragraph B)."
+    },
+    "15": {
+      "evidence": "We should remind ourselves that we're not the first person to procrastinate, nor the last.",
+      "part": 2,
+      "paragraph": 5,
+      "rationale": "Reminding ourselves we're not the first or last to procrastinate is the realisation that others also procrastinate (Paragraph F)."
+    },
+    "16": {
+      "evidence": "Research involving brain imaging has found that areas of the brain linked to detection of threats and emotion regulation are actually different in people who chronically procrastinate",
+      "part": 2,
+      "paragraph": 1,
+      "rationale": "Brain-imaging of regions tied to threat detection and emotion is neurological evidence linking procrastination and emotion (Paragraph B)."
+    },
+    "17": {
+      "evidence": "procrastination is not due to laziness or poor time management",
+      "part": 2,
+      "paragraph": 1,
+      "rationale": "The summary's first mistaken belief is 'laziness', which the passage explicitly lists as a non-cause."
+    },
+    "18": {
+      "evidence": "If just thinking about the task threatens our sense of self-worth or makes us anxious, we will be more likely to put it off.",
+      "part": 2,
+      "paragraph": 1,
+      "rationale": "Tasks that 'makes us anxious' supplies the gap word 'anxious' for what tasks make us feel."
+    },
+    "19": {
+      "evidence": "areas of the brain linked to detection of threats and emotion regulation",
+      "part": 2,
+      "paragraph": 1,
+      "rationale": "'Detection of threats' gives 'threats' as what the brain regions identify."
+    },
+    "20": {
+      "evidence": "Tasks that are emotionally loaded or difficult, such as preparing for exams, are prime candidates for procrastination.",
+      "part": 2,
+      "paragraph": 2,
+      "rationale": "'Preparing for exams' as a typical emotionally loaded task supplies 'exams' for the gap on getting ready to take ___."
+    },
+    "21": {
+      "evidence": "Another group of people who tend to procrastinate are perfectionists, who worry their work will be judged harshly by others.",
+      "part": 2,
+      "paragraph": 2,
+      "rationale": "'Perfectionists' is the other group besides those with low self-esteem who procrastinate."
+    },
+    "22": {
+      "evidence": "people tend to be left with a sense of guilt that not only increases their negative mood, but also reinforces their tendency to procrastinate",
+      "part": 2,
+      "paragraph": 2,
+      "rationale": "The 'sense of guilt' that worsens mood and leads to more procrastination supplies 'guilt'."
+    },
+    "23": {
+      "evidence": "participants who said they regularly procrastinated had less annual income and less employment stability",
+      "part": 2,
+      "paragraph": 3,
+      "rationale": "'Less annual income' (A, lower salaries) and 'less employment stability' (C, don't keep jobs as long) are the two compared outcomes."
+    },
+    "24": {
+      "evidence": "participants who said they regularly procrastinated had less annual income and less employment stability",
+      "part": 2,
+      "paragraph": 3,
+      "rationale": "Same survey sentence: lower income (A) and reduced employment stability (C) are the only two comparisons mentioned."
+    },
+    "25": {
+      "evidence": "Forgiving ourselves and feeling compassion when we procrastinate can help break the procrastination cycle.",
+      "part": 2,
+      "paragraph": 5,
+      "rationale": "Forgiving ourselves / not being overly critical (A) and strategies to fend off distractions (E) are the two recommendations."
+    },
+    "26": {
+      "evidence": "strategies that can help us fend off distractions that can occupy our minds when we should be focusing",
+      "part": 2,
+      "paragraph": 5,
+      "rationale": "Fending off distractions that occupy our minds matches avoiding things that stop us concentrating (E), paired with not judging ourselves harshly (A)."
+    },
+    "27": {
+      "evidence": "Instead of making any judgments himself about a strike*, DeJesus had decisions fed to him through an earpiece",
+      "part": 3,
+      "paragraph": 0,
+      "rationale": "Decisions were fed to DeJesus rather than made by him, contradicting the claim he shared decision-making (NO)."
+    },
+    "28": {
+      "evidence": "players complained about some strange calls. In response, MLB decided to tweak the dimensions of the zone",
+      "part": 3,
+      "paragraph": 3,
+      "rationale": "Tweaking the zone's dimensions in response to player complaints agrees that MLB amended the strike zone's size (YES)."
+    },
+    "29": {
+      "evidence": "MLB says the device is near-perfect, precise to within fractions of an inch.",
+      "part": 3,
+      "paragraph": 3,
+      "rationale": "Accuracy is described, but the passage never says MLB wants to justify money spent improving it, so the writer's view is NOT GIVEN."
+    },
+    "30": {
+      "evidence": "It flattened the game into strikeouts, walks, and home runs - a type of play lacking much action.",
+      "part": 3,
+      "paragraph": 5,
+      "rationale": "The fastball 'flattened the game' into play 'lacking much action', contradicting that it led to a more exciting style (NO)."
+    },
+    "31": {
+      "evidence": "Any rule that existed, they talked about changing - from changing the bats to changing the geometry of the field.",
+      "part": 3,
+      "paragraph": 6,
+      "rationale": "The team merely 'talked about' changing bats; no fierce debate over bat proposals is stated, so it is NOT GIVEN."
+    },
+    "32": {
+      "evidence": "once you get the technology right, you can load any strike zone you want into the system",
+      "part": 3,
+      "paragraph": 6,
+      "rationale": "Being able to load any strike zone shape into the system agrees that ABS makes reshaping the zone feasible (YES)."
+    },
+    "33": {
+      "evidence": "wanted human umpires to announce the calls, just as they would have done in the past",
+      "part": 3,
+      "paragraph": 1,
+      "rationale": "Announcing calls 'just as they would have done in the past' matches doing it as in their former roles (F)."
+    },
+    "34": {
+      "evidence": "Previously, calling a strike was a judgment call on the part of the umpire.",
+      "part": 3,
+      "paragraph": 1,
+      "rationale": "A 'judgment call on the part of the umpire' paraphrases a subjective assessment (D)."
+    },
+    "35": {
+      "evidence": "a pitch that passes through the 'strike zone' (an imaginary zone about seventeen inches wide, stretching from the batter's knees to the middle of his chest)",
+      "part": 3,
+      "paragraph": 1,
+      "rationale": "The 'imaginary zone' from knees to mid-chest is a perceived area (H), not a physical boundary."
+    },
+    "36": {
+      "evidence": "countless arguments between a team's manager and the umpire have taken place over its boundaries",
+      "part": 3,
+      "paragraph": 2,
+      "rationale": "'Countless arguments' over the zone's boundaries matches numerous disputes (B) over strike calls in the past."
+    },
+    "37": {
+      "evidence": "there was no heckling and no shouted disagreement. Nobody said a word.",
+      "part": 3,
+      "paragraph": 1,
+      "rationale": "No heckling, no disagreement and 'nobody said a word' equals the total silence (G) that met DeJesus's calls."
+    },
+    "38": {
+      "evidence": "the question is whether controversy is worth reducing, or whether it is the sign of a human hand",
+      "part": 3,
+      "paragraph": 3,
+      "rationale": "Questioning whether reducing controversy strips away 'the sign of a human hand' suggests ABS may reduce the game's appeal (B)."
+    },
+    "39": {
+      "evidence": "ABS was part of a larger project to make baseball more exciting since executives are terrified of losing younger fans",
+      "part": 3,
+      "paragraph": 5,
+      "rationale": "Fear of 'losing younger fans' shows ABS aimed to ensure baseball retained a young audience (D)."
+    },
+    "40": {
+      "evidence": "believing that accuracy is not the answer",
+      "part": 3,
+      "paragraph": 8,
+      "rationale": "Noe and Russo's view that 'accuracy is not the answer' (and perfect would be weird) shows accuracy is not the same as enjoyment (C)."
+    }
+  },
+  "vocabulary": [
+    {
+      "word": "aquatic",
+      "definition": "living or growing in or near water",
+      "context": "are aquatic mammals",
+      "part": 1
+    },
+    {
+      "word": "flippers",
+      "definition": "flat, broad limbs used by sea animals for swimming",
+      "context": "both have flexible flippers for forelimbs",
+      "part": 1
+    },
+    {
+      "word": "fluked",
+      "definition": "having a flat, divided tail like that of a whale",
+      "context": "whereas the dugong's is fluked",
+      "part": 1
+    },
+    {
+      "word": "propulsion",
+      "definition": "the force that drives something forward",
+      "context": "only a tail for propulsion",
+      "part": 1
+    },
+    {
+      "word": "herbivores",
+      "definition": "animals that feed only on plants",
+      "context": "manatees are both herbivores",
+      "part": 1
+    },
+    {
+      "word": "molars",
+      "definition": "broad back teeth used for grinding food",
+      "context": "teeth are all molars",
+      "part": 1
+    },
+    {
+      "word": "abrasive",
+      "definition": "rough and tending to wear surfaces down",
+      "context": "manatees' abrasive aquatic plant diet",
+      "part": 1
+    },
+    {
+      "word": "buoyancy",
+      "definition": "the ability to float in water",
+      "context": "to adjust their buoyancy",
+      "part": 1
+    },
+    {
+      "word": "ambient",
+      "definition": "relating to the surrounding conditions, e.g. temperature",
+      "context": "the ambient water temperature drops",
+      "part": 1
+    },
+    {
+      "word": "entanglement",
+      "definition": "the state of being caught or trapped in something",
+      "context": "of entanglement in fishing nets",
+      "part": 1
+    },
+    {
+      "word": "procrastination",
+      "definition": "the habit of putting off tasks that should be done",
+      "context": "Procrastination is the habit of delaying a necessary task",
+      "part": 2
+    },
+    {
+      "word": "berating",
+      "definition": "criticising or scolding angrily",
+      "context": "berating ourselves won't stop us",
+      "part": 2
+    },
+    {
+      "word": "self-worth",
+      "definition": "the sense of one's own value or worth as a person",
+      "context": "threatens our sense of self-worth",
+      "part": 2
+    },
+    {
+      "word": "chronically",
+      "definition": "persistently or continually over a long period",
+      "context": "people who chronically procrastinate",
+      "part": 2
+    },
+    {
+      "word": "perfectionists",
+      "definition": "people who refuse to accept anything less than flawless work",
+      "context": "tend to procrastinate are perfectionists",
+      "part": 2
+    },
+    {
+      "word": "fraudulent",
+      "definition": "intended to deceive; dishonest",
+      "context": "using fraudulent excuses to get deadline extensions",
+      "part": 2
+    },
+    {
+      "word": "plagiarism",
+      "definition": "passing off someone else's work as one's own",
+      "context": "such as cheating and plagiarism",
+      "part": 2
+    },
+    {
+      "word": "vicious cycle",
+      "definition": "a self-reinforcing chain of harmful events",
+      "context": "the vicious cycle of procrastination",
+      "part": 2
+    },
+    {
+      "word": "compassion",
+      "definition": "sympathetic concern for suffering, including one's own",
+      "context": "feeling compassion when we procrastinate",
+      "part": 2
+    },
+    {
+      "word": "umpire",
+      "definition": "an official who enforces the rules in a sports match",
+      "context": "the first umpire in a minor league baseball game",
+      "part": 3
+    },
+    {
+      "word": "contraption",
+      "definition": "a strange or awkwardly built machine or device",
+      "context": "The contraption looked like a large black pizza box",
+      "part": 3
+    },
+    {
+      "word": "heckling",
+      "definition": "interrupting with rude or aggressive shouted comments",
+      "context": "there was no heckling",
+      "part": 3
+    },
+    {
+      "word": "pedantic",
+      "definition": "overly concerned with tiny rules and details",
+      "context": "unforgiving and pedantic, almost legalistic",
+      "part": 3
+    },
+    {
+      "word": "legalistic",
+      "definition": "excessively strict in following rules to the letter",
+      "context": "pedantic, almost legalistic",
+      "part": 3
+    },
+    {
+      "word": "consensus",
+      "definition": "general agreement among a group",
+      "context": "the consensus was that ABS is profoundly consistent",
+      "part": 3
+    },
+    {
+      "word": "discretion",
+      "definition": "freedom to make one's own judgments or decisions",
+      "context": "a certain discretion has been appreciated",
+      "part": 3
+    },
+    {
+      "word": "dissenting",
+      "definition": "expressing disagreement with a prevailing view",
+      "context": "take a dissenting stance toward the robots",
+      "part": 3
+    }
+  ]
 }

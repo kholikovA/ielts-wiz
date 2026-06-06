@@ -11,7 +11,8 @@ The build script `scripts/build_test.py` consumes a single JSON file describing 
   "parts": [ ... ],
   "answer_key": { "1": "TRUE", "2": "FALSE", ... },
   "answer_key_status": "complete",
-  "explanations": { "1": "The text says six of eight species are found only there...", ... }
+  "explanations": { "1": { "evidence": "...", "part": 1, "paragraph": 4, "rationale": "..." }, ... },
+  "vocabulary": [ { "word": "...", "definition": "...", "context": "...", "part": 1 }, ... ]
 }
 ```
 
@@ -22,17 +23,31 @@ The build script `scripts/build_test.py` consumes a single JSON file describing 
 | `parts` | yes | Array of 1–3 part objects |
 | `answer_key` | no | Map from question-number string to correct answer |
 | `answer_key_status` | no | `"complete"`, `"partial"`, or `"missing"` — triggers warning banner if not complete |
-| `explanations` | yes (full tests) | Map from question-number string to a one-sentence rationale, shown under each question in **Review in context**. ALWAYS generate these for every question. |
+| `explanations` | yes (full tests) | Map from question-number string to a **structured** rationale object, powering the review page's evidence highlight + Explain More. ALWAYS generate for every question. |
+| `vocabulary` | recommended (full tests) | Array of `{ word, definition, context, part }` shown in the review's Vocabulary tab. |
 
 ### Explanations (`explanations`)
 
-For every full test, provide an `explanations` map with **one entry per `answer_key` key** (same key set). Each value is a single plain-text sentence (~12–28 words) telling the student why the keyed answer is correct:
+For every full test, provide an `explanations` map with **one entry per `answer_key` key** (same key set). Each value is an object:
 
-- **Grounded only in the passage** — never invent facts. Point to the specific passage detail and how it paraphrases the question wording.
-- TRUE/YES → cite the confirming statement. FALSE/NO → state what the passage actually says that contradicts the prompt. NOT GIVEN → say the passage never states/compares that specific claim (justify the absence).
-- Headings/matching/features → name the matching section detail. Completion/short-answer → quote the passage phrase containing the answer word.
-- For `mcq_multi`, mirror the same explanation on each shared question number, just like the answer key.
-- Plain text only — no HTML, no markdown, no leading "Q".
+```json
+"2": {
+  "evidence": "named after two great 19th-century French botanists, Michel Adanson and Alfred Grandidier",
+  "part": 1,
+  "paragraph": 4,
+  "rationale": "Confirms they were French botanists, but the text never says they were the FIRST to visit, so the answer is NOT GIVEN."
+}
+```
+
+- `evidence` MUST be a **verbatim, character-for-character substring** of ONE paragraph's `text` (same punctuation, curly quotes, casing). Never paraphrase, normalize, or join across paragraphs. One sentence/clause (~5–30 words). The review page locates this exact text to highlight it — a non-verbatim span won't highlight. The `evidence-integrity` test fails the build if any span isn't verbatim.
+- `part` = the paragraph's `part_number`; `paragraph` = its **0-based index** within that part's `passage_paragraphs`.
+- `rationale` = 1–2 plain-text sentences naming the paraphrase/synonym link. No HTML/markdown, no leading "Q", and don't re-quote the whole evidence.
+- TRUE/YES → evidence is the confirming statement. FALSE/NO → the contradicting statement. NOT GIVEN → the closest on-topic sentence that exists verbatim, with the rationale explaining the claim is never stated.
+- For `mcq_multi`, key the entry on the group's first question number.
+
+### Vocabulary (`vocabulary`)
+
+18–28 useful academic/topic words that **actually appear** in the passages. Each `context` must be a verbatim phrase from the passage; spread items across all three parts.
 
 ## Part object
 
