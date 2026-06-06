@@ -12,6 +12,11 @@ export function buildLabelResolver(spec) {
         const labels = {};
         (g.heading_bank || g.ending_bank || []).forEach((it) => { labels[it.id ?? it.letter] = it.text; });
         g.questions.forEach((q) => { byQnum[q.number] = labels; });
+      } else if (g.type === 'summary_completion' && g.layout?.word_bank) {
+        // Drag-and-drop summary: stored value is a bank letter — show its word.
+        const labels = {};
+        g.layout.word_bank.forEach((it) => { labels[it.letter] = it.text; });
+        g.questions.forEach((q) => { byQnum[q.number] = labels; });
       }
     });
   });

@@ -49,7 +49,19 @@
 .rv-q-num.wrong { background: var(--wrong); }
 .rv-q-num.partial { background: var(--amber-400, #f59e0b); }
 .rv-q-num.unanswered { background: var(--text-muted); }
-.rv-q-prompt { flex: 1; min-width: 0; font-size: 14px; line-height: 1.45; padding-top: 2px; }
+.rv-q-prompt { flex: 1; min-width: 0; font-size: 14px; line-height: 1.6; padding-top: 2px; }
+
+/* filled cloze (completion questions) */
+.rv-cloze { display: inline; }
+.rv-cloze-label { color: var(--text-muted); font-weight: 600; }
+.rv-fill { display: inline-flex; align-items: baseline; gap: 4px; padding: 0 5px; margin: 0 1px; border-radius: 5px; font-weight: 700; white-space: normal; }
+.rv-fill.correct { background: color-mix(in srgb, var(--correct) 16%, transparent); color: var(--correct); }
+.rv-fill.wrong { background: color-mix(in srgb, var(--wrong) 12%, transparent); }
+.rv-fill.blank { background: var(--bg-hover); color: var(--text-muted); }
+.rv-fill.ctx { background: transparent; padding: 0; margin: 0; font-weight: 600; color: var(--text-muted); }
+.rv-fill-your { color: var(--wrong); text-decoration: line-through; }
+.rv-fill-correct { color: var(--correct); }
+.rv-fill.wrong .rv-fill-correct::before, .rv-fill.blank .rv-fill-correct::before { content: '→'; margin-right: 4px; color: var(--text-muted); text-decoration: none; }
 .rv-mark { flex: 0 0 auto; width: 18px; height: 18px; margin-top: 3px; }
 .rv-mark.correct { color: var(--correct); }
 .rv-mark.wrong { color: var(--wrong); }
