@@ -23,6 +23,7 @@ const Dashboard = lazy(() => import('./components/Dashboard'));
 const HistoryPage = lazy(() => import('./components/HistoryPage'));
 const AdminUsersPage = lazy(() => import('./components/admin/AdminUsersPage'));
 const ReadingTestRoute = lazy(() => import('./components/reading/ReadingTestRoute'));
+const Onboarding = lazy(() => import('./components/Onboarding'));
 
 const App = () => {
   const initial = parseUrlToState();
@@ -34,7 +35,7 @@ const App = () => {
     grammar: initial.page === 'grammar' && initial.subPage ? initial.subPage : DEFAULT_SUBPAGE.grammar,
     writing: initial.page === 'writing' && initial.subPage ? initial.subPage : DEFAULT_SUBPAGE.writing,
   });
-  const { loading } = useAuth();
+  const { loading, user, profile } = useAuth();
 
   useEffect(() => {
     const handlePopState = () => {
@@ -93,6 +94,18 @@ const App = () => {
       <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-primary)' }}>
         <div className="spinner" />
       </div>
+    );
+  }
+
+  // First-run onboarding: a signed-in user who hasn't completed onboarding gets
+  // the questionnaire as a full-screen takeover before anything else. (Guarded
+  // on === false so it stays hidden until the profile row actually carries the
+  // flag — never on a still-loading or pre-migration profile.)
+  if (user && profile && profile.onboarded === false) {
+    return (
+      <Suspense fallback={<div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-primary)' }}><div className="spinner" /></div>}>
+        <Onboarding />
+      </Suspense>
     );
   }
 

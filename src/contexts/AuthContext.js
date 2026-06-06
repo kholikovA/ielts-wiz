@@ -82,39 +82,22 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const signUp = async (email, password, name, additionalInfo = {}) => {
-    const { data, error } = await supabase.auth.signUp({
-      email, password, options: { 
-        data: { 
-          name,
-          target_score: additionalInfo.target_score,
-          prep_duration: additionalInfo.prep_duration,
-          referral_source: additionalInfo.referral_source,
-          goals: additionalInfo.goals
-        } 
-      }
+  // Google is the only way in. No passwords to share, leak, or reset — and one
+  // Google identity per person makes account-sharing far harder to do casually.
+  // After Google redirects back, supabaseClient's detectSessionInUrl parses the
+  // token and onAuthStateChange fires SIGNED_IN; the handle_new_user trigger has
+  // already created the profile row from Google's name/email metadata.
+  const signInWithGoogle = async (next) => {
+    const path = typeof next === 'string' && next.startsWith('/') ? next : '/dashboard';
+    return supabase.auth.signInWithOAuth({
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}${path}`,
+        // Always show Google's account chooser so people on a shared device
+        // can't silently reuse whoever signed in last.
+        queryParams: { prompt: 'select_account' },
+      },
     });
-    // The handle_new_user trigger writes the row; this upsert is a belt-and-
-    // suspenders fallback in case the trigger fails for any reason. Anything
-    // already set by the trigger is left alone (upsert is idempotent on PK).
-    if (data?.user && !error) {
-      await supabase.from('profiles').upsert({
-        id: data.user.id,
-        email: email,
-        name: name,
-        target_score: additionalInfo.target_score || 7.0,
-        prep_duration: additionalInfo.prep_duration || null,
-        referral_source: additionalInfo.referral_source || null,
-        goals: additionalInfo.goals || [],
-        created_at: new Date().toISOString(),
-      });
-    }
-    return { data, error };
-  };
-
-  const signIn = async (email, password) => {
-    const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-    return { data, error };
   };
 
   const signOut = async () => {
@@ -143,7 +126,7 @@ export const AuthProvider = ({ children }) => {
   const isAdmin = Boolean(profile?.is_admin);
 
   return (
-    <AuthContext.Provider value={{ user, profile, isAdmin, loading, signUp, signIn, signOut, updateProfile, fetchProfile }}>
+    <AuthContext.Provider value={{ user, profile, isAdmin, loading, signInWithGoogle, signOut, updateProfile, fetchProfile }}>
       {children}
     </AuthContext.Provider>
   );

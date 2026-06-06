@@ -1,0 +1,122 @@
+/* One-time onboarding takeover after first Google sign-in. */
+
+.onb-root {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background:
+    radial-gradient(900px 600px at 50% -10%, var(--purple-600-10, rgba(147, 51, 234, 0.10)), transparent 70%),
+    var(--bg-primary);
+  color: var(--text-primary);
+  font-family: var(--font-display, 'Outfit', sans-serif);
+}
+
+.onb-card {
+  width: 100%;
+  max-width: 520px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  padding: var(--space-8);
+  border-radius: var(--r-3xl);
+  background: var(--card-bg);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-elevated);
+  animation: onb-rise 0.45s var(--ease-out, cubic-bezier(0.16, 1, 0.3, 1)) both;
+}
+
+.onb-logo { height: 36px; width: auto; object-fit: contain; align-self: center; }
+
+.onb-title {
+  margin: 0;
+  text-align: center;
+  font-size: clamp(24px, 5vw, 30px);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.onb-sub {
+  margin: 0 0 var(--space-2);
+  text-align: center;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--text-secondary);
+}
+
+.onb-error {
+  padding: 10px 12px;
+  border-radius: var(--r-md);
+  background: var(--incorrect-bg, rgba(239, 68, 68, 0.12));
+  color: var(--incorrect-text, #ef4444);
+  font-size: 13.5px;
+}
+
+.onb-field { display: flex; flex-direction: column; gap: var(--space-2); }
+
+.onb-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+/* segmented band selector */
+.onb-segmented {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+.onb-seg {
+  padding: 10px 0;
+  border-radius: var(--r-md, 10px);
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  cursor: pointer;
+  transition: border-color var(--dur-fast, 0.15s) ease, color var(--dur-fast, 0.15s) ease, background var(--dur-fast, 0.15s) ease;
+}
+.onb-seg:hover { border-color: var(--purple-500, #a855f7); }
+.onb-seg.is-selected {
+  border-color: var(--purple-500, #a855f7);
+  background: var(--purple-600-10, rgba(147, 51, 234, 0.12));
+  color: var(--purple-500, #a855f7);
+}
+
+.onb-chips { display: flex; flex-wrap: wrap; gap: var(--space-2); }
+
+.onb-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+.onb-primary { width: 100%; justify-content: center; }
+.onb-skip {
+  background: none;
+  border: none;
+  padding: 4px;
+  color: var(--text-tertiary);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+}
+.onb-skip:hover { color: var(--text-secondary); }
+.onb-skip:disabled { opacity: 0.5; cursor: default; }
+
+@keyframes onb-rise {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@media (prefers-reduced-motion: reduce) { .onb-card { animation: none; } }
+
+@media (max-width: 520px) {
+  .onb-segmented { grid-template-columns: repeat(4, 1fr); }
+}

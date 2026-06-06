@@ -1,240 +1,80 @@
 import React, { useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
+import { useTheme } from '../contexts/ThemeContext';
+import './AuthPage.css';
 
-const GOAL_OPTIONS = [
-  'Practice speaking skills',
-  'Improve listening comprehension',
-  'Learn grammar structures',
-  'Get band 9 sample answers',
-  'Take mock tests',
-  'Track my progress',
-];
-
-const TARGET_OPTIONS = [
-  { value: '5.5', label: 'Band 5.5' },
-  { value: '6.0', label: 'Band 6.0' },
-  { value: '6.5', label: 'Band 6.5' },
-  { value: '7.0', label: 'Band 7.0' },
-  { value: '7.5', label: 'Band 7.5' },
-  { value: '8.0', label: 'Band 8.0' },
-  { value: '8.5+', label: 'Band 8.5+' },
-];
-
-const PREP_OPTIONS = [
-  { value: '', label: 'Select an option' },
-  { value: 'just-started', label: 'Just getting started' },
-  { value: 'less-1-month', label: 'Less than 1 month' },
-  { value: '1-3-months', label: '1–3 months' },
-  { value: '3-6-months', label: '3–6 months' },
-  { value: '6-months-plus', label: 'More than 6 months' },
-];
-
-const SOURCE_OPTIONS = [
-  { value: '', label: 'Select an option' },
-  { value: 'google', label: 'Google search' },
-  { value: 'youtube', label: 'YouTube' },
-  { value: 'instagram', label: 'Instagram' },
-  { value: 'tiktok', label: 'TikTok' },
-  { value: 'friend', label: 'Friend or family' },
-  { value: 'teacher', label: 'Teacher recommendation' },
-  { value: 'other', label: 'Other' },
-];
-
-const StepDots = ({ step, total }) => (
-  <div style={{ display: 'flex', justifyContent: 'center', gap: 'var(--space-2)', marginBottom: 'var(--space-6)' }}>
-    {Array.from({ length: total }, (_, i) => (
-      <span
-        key={i}
-        style={{
-          width: i + 1 === step ? '24px' : '8px',
-          height: '8px',
-          borderRadius: 'var(--r-pill)',
-          background: i + 1 <= step ? 'var(--purple-500)' : 'var(--border-color)',
-          transition: 'width var(--dur-base) var(--ease), background var(--dur-base) var(--ease)',
-        }}
-      />
-    ))}
-  </div>
+// Official Google "G" mark (multi-colour), per Google's branding guidelines.
+const GoogleMark = () => (
+  <svg className="auth-g" viewBox="0 0 48 48" aria-hidden="true" focusable="false">
+    <path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z" />
+    <path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z" />
+    <path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34A21.99 21.99 0 0 0 2 24c0 3.55.85 6.91 2.34 9.88l7.35-5.7z" />
+    <path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z" />
+  </svg>
 );
 
-const AuthPage = ({ type, setCurrentPage }) => {
-  const { signIn, signUp } = useAuth();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [name, setName] = useState('');
-  const [error, setError] = useState('');
+const ButtonSpinner = () => (
+  <span className="auth-btn-spinner" aria-hidden="true" />
+);
+
+// Google is the only sign-in method. login/signup routes both land here — with
+// OAuth there's no separate "register" step, so we show one clean screen.
+const AuthPage = () => {
+  const { signInWithGoogle } = useAuth();
+  const { isDark } = useTheme();
   const [loading, setLoading] = useState(false);
-  const [success, setSuccess] = useState('');
-  const [step, setStep] = useState(1);
+  const [error, setError] = useState('');
 
-  const [targetScore, setTargetScore] = useState('7.0');
-  const [prepDuration, setPrepDuration] = useState('');
-  const [hearAboutUs, setHearAboutUs] = useState('');
-  const [goals, setGoals] = useState([]);
-
-  const isSignup = type === 'signup';
-
-  const handleGoalToggle = (goal) => {
-    setGoals(prev => prev.includes(goal) ? prev.filter(g => g !== goal) : [...prev, goal]);
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError(''); setSuccess(''); setLoading(true);
-
-    if (isSignup) {
-      if (step === 1) {
-        if (!email || !password || !name) { setError('Please fill in all fields'); setLoading(false); return; }
-        if (password.length < 6) { setError('Password must be at least 6 characters'); setLoading(false); return; }
-        setStep(2); setLoading(false); return;
-      }
-      try {
-        const { error } = await signUp(email, password, name, {
-          target_score: targetScore,
-          prep_duration: prepDuration,
-          referral_source: hearAboutUs,
-          goals,
-        });
-        if (error) throw error;
-        setSuccess('Account created! Check your email to confirm.');
-      } catch (err) { setError(err.message); }
-      finally { setLoading(false); }
-    } else {
-      if (!email || !password) { setError('Please fill in all fields'); setLoading(false); return; }
-      try {
-        const { error } = await signIn(email, password);
-        if (error) throw error;
-        const params = new URLSearchParams(window.location.search);
-        const next = params.get('next');
-        if (next && next.startsWith('/')) {
-          window.location.href = next;
-        } else {
-          setCurrentPage('dashboard');
-        }
-      } catch (err) { setError(err.message); }
-      finally { setLoading(false); }
+  const handleGoogle = async () => {
+    setError('');
+    setLoading(true);
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const next = params.get('next');
+      const { error: oauthError } = await signInWithGoogle(next);
+      if (oauthError) throw oauthError;
+      // Success → the browser is now redirecting to Google; nothing more to do.
+    } catch (err) {
+      setError(err?.message || 'Could not start sign-in. Please try again.');
+      setLoading(false);
     }
   };
 
-  const wide = isSignup && step === 2;
-  const heading = !isSignup ? 'Welcome back' : step === 1 ? 'Create account' : 'Tell us about you';
-  const sub = !isSignup ? 'Sign in to continue' : step === 1 ? 'Start your IELTS journey in two quick steps.' : 'A few quick questions to tailor your practice.';
-
   return (
     <div className="page-shell--centered">
-      <div style={{ width: '100%', maxWidth: wide ? '540px' : '440px', padding: 'var(--space-6)' }}>
-        <div className="card" style={{ padding: 'var(--space-8)', borderRadius: 'var(--r-3xl)' }}>
-          {isSignup && <StepDots step={step} total={2} />}
+      <div className="auth-wrap">
+        <div className="auth-card">
+          <img
+            className="auth-logo"
+            src={isDark ? '/logo-dark.svg' : '/logo-light.svg'}
+            alt="IELTS Wiz"
+          />
 
-          <h1 className="h2" style={{ textAlign: 'center', marginBottom: 'var(--space-2)', color: 'var(--text-primary)' }}>
-            {heading}
-          </h1>
-          <p className="body" style={{ textAlign: 'center', marginBottom: 'var(--space-6)' }}>
-            {sub}
+          <h1 className="auth-title">Sign in to IELTS&nbsp;Wiz</h1>
+          <p className="auth-sub">
+            Continue with Google to save your progress, track your band scores, and pick up
+            on any device.
           </p>
 
-          {error && <div className="form-error">{error}</div>}
-          {success && <div className="form-success">{success}</div>}
+          {error && <div className="auth-error" role="alert">{error}</div>}
 
-          <form onSubmit={handleSubmit}>
-            {isSignup && step === 1 && (
-              <>
-                <div className="form-field">
-                  <label className="form-label" htmlFor="name">Full name</label>
-                  <input id="name" type="text" className="form-input" value={name} onChange={(e) => setName(e.target.value)} placeholder="Jane Doe" autoComplete="name" />
-                </div>
-                <div className="form-field">
-                  <label className="form-label" htmlFor="email">Email</label>
-                  <input id="email" type="email" className="form-input" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" autoComplete="email" />
-                </div>
-                <div className="form-field">
-                  <label className="form-label" htmlFor="password">Password</label>
-                  <input id="password" type="password" className="form-input" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="At least 6 characters" autoComplete="new-password" />
-                </div>
-              </>
-            )}
+          <button
+            type="button"
+            className="google-btn"
+            onClick={handleGoogle}
+            disabled={loading}
+          >
+            {loading ? <ButtonSpinner /> : <GoogleMark />}
+            <span>{loading ? 'Connecting…' : 'Continue with Google'}</span>
+          </button>
 
-            {isSignup && step === 2 && (
-              <>
-                <div className="form-field">
-                  <label className="form-label" htmlFor="target">What's your target band score?</label>
-                  <select id="target" className="form-select" value={targetScore} onChange={(e) => setTargetScore(e.target.value)}>
-                    {TARGET_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
-                  </select>
-                </div>
-                <div className="form-field">
-                  <label className="form-label" htmlFor="prep">How long have you been preparing?</label>
-                  <select id="prep" className="form-select" value={prepDuration} onChange={(e) => setPrepDuration(e.target.value)}>
-                    {PREP_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
-                  </select>
-                </div>
-                <div className="form-field">
-                  <label className="form-label" htmlFor="source">How did you hear about IELTS Wiz?</label>
-                  <select id="source" className="form-select" value={hearAboutUs} onChange={(e) => setHearAboutUs(e.target.value)}>
-                    {SOURCE_OPTIONS.map(o => <option key={o.value} value={o.value}>{o.label}</option>)}
-                  </select>
-                </div>
-                <div className="form-field">
-                  <span className="form-label">What do you want to achieve?</span>
-                  <div style={{ display: 'flex', flexWrap: 'wrap', gap: 'var(--space-2)' }}>
-                    {GOAL_OPTIONS.map(goal => (
-                      <button
-                        key={goal}
-                        type="button"
-                        onClick={() => handleGoalToggle(goal)}
-                        className={`chip ${goals.includes(goal) ? 'is-selected' : ''}`}
-                        aria-pressed={goals.includes(goal)}
-                      >
-                        {goal}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </>
-            )}
+          <p className="auth-reassure">
+            No extra passwords to remember — your Google account keeps you secure.
+          </p>
 
-            {!isSignup && (
-              <>
-                <div className="form-field">
-                  <label className="form-label" htmlFor="email">Email</label>
-                  <input id="email" type="email" className="form-input" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@example.com" autoComplete="email" />
-                </div>
-                <div className="form-field">
-                  <label className="form-label" htmlFor="password">Password</label>
-                  <input id="password" type="password" className="form-input" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="••••••••" autoComplete="current-password" />
-                </div>
-              </>
-            )}
-
-            <div style={{ display: 'flex', gap: 'var(--space-3)', marginTop: 'var(--space-6)' }}>
-              {isSignup && step === 2 && (
-                <button type="button" className="btn btn-secondary btn-lg" onClick={() => setStep(1)} style={{ flex: 1 }}>
-                  Back
-                </button>
-              )}
-              <button type="submit" className="btn btn-primary btn-lg" disabled={loading} style={{ flex: 1, justifyContent: 'center' }}>
-                {loading ? 'Please wait…' : !isSignup ? 'Sign in' : step === 1 ? 'Continue' : 'Create account'}
-              </button>
-            </div>
-          </form>
-
-          <div style={{ marginTop: 'var(--space-6)', textAlign: 'center', fontSize: 'var(--text-sm)', color: 'var(--text-secondary)' }}>
-            {!isSignup ? (
-              <>
-                Don't have an account?{' '}
-                <button type="button" onClick={() => setCurrentPage('signup')} style={{ color: 'var(--purple-400)', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 500, fontSize: 'inherit', padding: 0 }}>
-                  Sign up
-                </button>
-              </>
-            ) : (
-              <>
-                Already have an account?{' '}
-                <button type="button" onClick={() => setCurrentPage('login')} style={{ color: 'var(--purple-400)', background: 'none', border: 'none', cursor: 'pointer', fontWeight: 500, fontSize: 'inherit', padding: 0 }}>
-                  Sign in
-                </button>
-              </>
-            )}
-          </div>
+          <p className="auth-legal">
+            By continuing you agree to our Terms of Service and Privacy Policy.
+          </p>
         </div>
       </div>
     </div>

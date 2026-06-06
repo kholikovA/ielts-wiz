@@ -26,7 +26,6 @@ const SECTIONS = [
     title: 'Account',
     links: [
       { label: 'Sign In', page: 'login' },
-      { label: 'Create Account', page: 'signup' },
     ],
   },
 ];
