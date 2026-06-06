@@ -4,6 +4,8 @@ import { AuthProvider, useAuth } from './contexts/AuthContext';
 import Navigation from './components/Navigation';
 import HomePage from './components/HomePage';
 import Footer from './components/Footer';
+import MaintenanceScreen from './components/MaintenanceScreen';
+import { isMaintenanceLocked } from './lib/maintenance';
 import { PAGES_WITH_SUBPAGES, DEFAULT_SUBPAGE, parseUrlToState, stateToUrl } from './lib/routes';
 
 // Route-level code splitting. The shell (Navigation, Footer, HomePage) loads
@@ -115,9 +117,14 @@ const App = () => {
 
 const AppWithProviders = () => (
   <ThemeProvider>
-    <AuthProvider>
-      <App />
-    </AuthProvider>
+    {isMaintenanceLocked() ? (
+      // Full-site lock during the accounts rebuild — no auth, no routes mount.
+      <MaintenanceScreen />
+    ) : (
+      <AuthProvider>
+        <App />
+      </AuthProvider>
+    )}
   </ThemeProvider>
 );
 
