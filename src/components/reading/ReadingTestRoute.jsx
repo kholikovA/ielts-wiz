@@ -1,12 +1,12 @@
 import React from 'react';
 import ReadingTestPlayer from '../../features/test-player/ReadingTestPlayer';
-import { findReadingTestById } from '../../data/tests/manifest';
+import { findReadingTestBySlug } from '../../data/tests/manifest';
 
-// Full-screen route that resolves a manifest test by id and runs the player.
-// Tests not yet migrated to a committed spec aren't linked here (the catalogue
-// falls back to their standalone HTML), so a miss is an unexpected/typed URL.
-export default function ReadingTestRoute({ testId, review, onExit }) {
-  const test = findReadingTestById(testId);
+// Full-screen route that resolves a manifest test by its opaque URL slug and
+// runs the player. Old guessable id-based URLs no longer resolve (slug miss),
+// nor do typed/stale URLs — both land on the friendly "not available" screen.
+export default function ReadingTestRoute({ slug, review, onExit }) {
+  const test = findReadingTestBySlug(slug);
   if (!test) {
     return (
       <div style={{ minHeight: '60vh', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: 16 }}>

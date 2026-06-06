@@ -7,7 +7,7 @@ import { typesForHref } from '../../lib/testMeta';
 import QuestionTypeChips from '../ui/QuestionTypeChips';
 import { CompletedPill, ScoreBadge, ReviewRetake, StartLink } from '../ui/testCardBits';
 import { getLatestAttempt, hasLastSubmission } from '../../lib/progressStore';
-import { findReadingTestById } from '../../data/tests/manifest';
+import { slugForId } from '../../data/tests/manifest';
 
 const RECORD_KIND = 'reading_full';
 const recordIdFor = (bookId, testId) =>
@@ -53,9 +53,9 @@ export default function CambridgeView({ setSubPage, setCurrentPage }) {
     }
     if (href.startsWith('/reading-test/')) {
       e.preventDefault();
-      const [path, search] = href.split('?');
-      const id = path.split('/').filter(Boolean)[1];
-      setCurrentPage('reading-test', id, search || '');
+      // sub = "<slug>" or "<slug>/review" — passed through as the path tail.
+      const sub = href.slice('/reading-test/'.length);
+      setCurrentPage('reading-test', sub);
     }
   };
 
@@ -106,8 +106,9 @@ export default function CambridgeView({ setSubPage, setCurrentPage }) {
               {book.tests.map((test) => {
                 const metaHref = testHref(book.id, test.id);
                 const recordId = recordIdFor(book.id, test.id);
-                // Migrated tests open in the in-app player; the rest, their HTML.
-                const href = findReadingTestById(recordId) ? `/reading-test/${recordId}` : metaHref;
+                // Migrated tests open in the in-app player (opaque slug); the rest, their HTML.
+                const slug = slugForId(recordId);
+                const href = slug ? `/reading-test/${slug}` : metaHref;
                 const latest = getLatestAttempt(RECORD_KIND, recordId);
                 const canReview = hasLastSubmission(RECORD_KIND, recordId);
                 const done = !!latest;
