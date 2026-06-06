@@ -120,12 +120,15 @@ export function buildEvidenceIndex(spec) {
       }
     }
 
-    let evidenceText = exp.evidence || null;
+    // Only ever surface text we VERIFIED exists in the passage — an unlocated
+    // (possibly drifted/hallucinated) span is never shown, so the quote a user
+    // sees is always real passage text.
+    let evidenceText = null;
     if (located) {
       const text = paraText(located.part, located.paragraph).slice(located.start, located.end);
-      evidenceText = text;
       // Skip spans that would split inline HTML (rare) — keep rationale, drop highlight.
       if (!/[<>]/.test(text)) {
+        evidenceText = text;
         const k = `${located.part}:${located.paragraph}`;
         if (!byParagraph.has(k)) byParagraph.set(k, []);
         byParagraph.get(k).push({ qnum, start: located.start, end: located.end });

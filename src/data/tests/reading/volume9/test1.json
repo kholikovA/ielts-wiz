@@ -556,45 +556,403 @@
     "40": "C"
   },
   "explanations": {
-    "1": "The text says six of eight species are found only there plus a seventh that crossed from mainland Africa, so not all are unique.",
-    "2": "The passage names Adanson and Grandidier as the botanists the tree honours but never states they were the first to visit Madagascar.",
-    "3": "Baobabs grow only along the western margin and not in the populous central highlands, contradicting the claim of most areas.",
-    "4": "The Morondava plain was cleared for rice and sugar-cane fields, so the surrounding landscape resulted from agricultural development.",
-    "5": "Baobabs were spared because they are valuable as a food source and renewable building material, confirming useful products for locals.",
-    "6": "The text states the exact cause of falling baobabs is uncertain and only some people blame irrigation water, so there is no agreement.",
-    "7": "The passage says the water used to irrigate nearby fields is partly to blame, giving the answer water.",
-    "8": "Lone trees separated from the forest are susceptible to cyclones, which can uproot even a 30-metre baobab.",
-    "9": "The main threat is land clearance for farming, matching burning carried out to create space for farming activity.",
-    "10": "Human disturbance such as logging promotes shrubby undergrowth that fills the gaps needed for baobab germination.",
-    "11": "Seed dispersal is limited by the absence of two now-extinct animals that once spread the seeds.",
-    "12": "Bond works with local people to search for and create maps of baobab distribution in undamaged forest.",
-    "13": "He plans to compile an illustrated children's book of local folk-tales to spread the word about the baobab's cultural importance.",
-    "14": "Section A ends by raising doubt that coins may one day be obsolete, matching the heading about an uncertain future.",
-    "15": "Section B calls coins durable artefacts that future archaeologists will study, fitting significant records of past societies.",
-    "16": "Section C explains coins were more portable than bartered goods, letting Greeks trade without carrying goods, a simpler way of trading.",
-    "17": "Section D discusses determining coin worth by weighing metal and Archimedes' method of measuring purity, calculating what a coin was worth.",
-    "18": "Section E says coins advertised the qualities of each city-state as a symbol of its identity, a form of regional promotion.",
-    "19": "Section F notes Athens' unchanging design implied integrity like the US dollar, matching unchanging coins signalled trustworthiness.",
-    "20": "Section G explains coins preserved the features of great Romans for modern generations, putting a face to famous historical names.",
-    "21": "The text states coins are the work of anonymous craftsmen (A) and that the same designs looked different due to remade moulds (C).",
-    "22": "The text states coins are the work of anonymous craftsmen (A) and that the same designs looked different due to remade moulds (C).",
-    "23": "Their civilisation was composed of dozens of city-states and was highly decentralised, matching spread over a large area.",
-    "24": "Before coins trade was based on barter, the direct trade of commodities, so they traded through barter.",
-    "25": "The value was based mostly on silver, and discovering silver mines on Greek territory increased the money they could produce.",
-    "26": "Larger-scale mining could have caused problems like the Spanish faced when New World gold caused serious inflation.",
-    "27": "Paragraph B describes the test with cups labelled 304 and 305 tasted by five people, an experiment in taste comparison.",
-    "28": "Paragraph H says bitter blockers could dampen the bitterness of drugs like antihistamines and antibiotics.",
-    "29": "Paragraph E says about 75% are sensitive to bitter compounds and the differences appear to be genetic, a biological reason.",
-    "30": "Paragraph F describes taste buds, receptors capturing tastants, G proteins and signals to the brain, how the taste process works.",
-    "31": "Paragraph C says bitterness is of special interest to the food industry because it is present in so many foods.",
-    "32": "Paragraph H explains AMP could replace part of the salt in canned soup, indirectly benefiting health.",
-    "33": "Paragraph D says humans are the only species that enjoys bitter taste while every other species is averse to it.",
-    "34": "Juice packagers select grapefruit with low naringin content, so the substance present in smaller amount is naringin.",
-    "35": "Bitter compounds protect animals by letting them know when a plant may be poisonous.",
-    "36": "The text says capacities for tasting bitterness vary and the differences appear to be genetic.",
-    "37": "People with an unusually high number of taste buds, especially sensitive to bitter compounds, are known as supertasters.",
-    "38": "Receptors that capture taste molecules sit at the top of the taste buds on the tongue.",
-    "39": "Margolskee's G protein triggers reactions delivering a signal that registers as bitter, so it transmits bitter tastes.",
-    "40": "AMP has no bitterness of its own and attaches to bitter-taste receptors, though it may not dampen every bitter taste, so it reduces some bitter tastes."
-  }
+    "1": {
+      "evidence": "Of the eight known species, six are found only there, while a seventh has made its way across the Mozambique Channel from mainland Africa with a certain amount of human help.",
+      "part": 1,
+      "paragraph": 0,
+      "rationale": "Only six of eight species are unique to Madagascar (plus a seventh arrival), so the claim that 'all' are unique is false."
+    },
+    "2": {
+      "evidence": "Adansonia grandidieri, named after two great 19th-century French botanists, Michel Adanson and Alfred Grandidier.",
+      "part": 1,
+      "paragraph": 0,
+      "rationale": "The text only says the tree is named after the two botanists; it never states they were the first foreigners to visit Madagascar, so this is NOT GIVEN."
+    },
+    "3": {
+      "evidence": "they only grow along the western margin of the island and not in the more populous central highlands",
+      "part": 1,
+      "paragraph": 1,
+      "rationale": "Growing only along the western margin contradicts the claim that baobabs are found in 'most areas'."
+    },
+    "4": {
+      "evidence": "Back in the early 20th century, much of the Morondava plain was cleared for rice and sugar-cane fields.",
+      "part": 1,
+      "paragraph": 2,
+      "rationale": "Clearing for rice and sugar-cane fields is the 'agricultural development' that created the landscape, so the statement is TRUE."
+    },
+    "5": {
+      "evidence": "many baobabs were spared because they are valuable as a food source and renewable building material",
+      "part": 1,
+      "paragraph": 2,
+      "rationale": "'Food source and renewable building material' confirms the baobab provides useful products for local people."
+    },
+    "6": {
+      "evidence": "The exact cause of the falling baobabs is uncertain, but some people think that the water used to irrigate the nearby fields is partly to blame.",
+      "part": 1,
+      "paragraph": 2,
+      "rationale": "The cause being 'uncertain' with only 'some people' blaming irrigation contradicts the idea of 'general agreement', so FALSE."
+    },
+    "7": {
+      "evidence": "some people think that the water used to irrigate the nearby fields is partly to blame",
+      "part": 1,
+      "paragraph": 2,
+      "rationale": "'water' used to irrigate nearby fields is the suspected cause of trees falling down."
+    },
+    "8": {
+      "evidence": "Lone trees separated from the surrounding forest are also susceptible to cyclones, which reach speeds of over 200 kph in the area, and can easily uproot even a 30-metre baobab.",
+      "part": 1,
+      "paragraph": 2,
+      "rationale": "'Lone trees' = 'lone trees are at risk from' and the hazard named is 'cyclones'."
+    },
+    "9": {
+      "evidence": "The main threat to their survival is land clearance for farming, which probably suppresses regeneration",
+      "part": 1,
+      "paragraph": 3,
+      "rationale": "Land cleared (by burning) creates space for 'farming' activity."
+    },
+    "10": {
+      "evidence": "Human disturbance in the forest, such as logging, is also a problem.",
+      "part": 1,
+      "paragraph": 3,
+      "rationale": "The practice of 'logging' promotes undergrowth that makes seed germination difficult."
+    },
+    "11": {
+      "evidence": "dispersal is being limited by the absence of two large, now extinct animals - a gorilla-sized lemur and the three-metre-tall elephant bird",
+      "part": 1,
+      "paragraph": 3,
+      "rationale": "The disappeared seed-dispersers are 'animals' (the now-extinct lemur and elephant bird)."
+    },
+    "12": {
+      "evidence": "Bond works closely with local people to search for, and create maps of baobab distribution",
+      "part": 1,
+      "paragraph": 4,
+      "rationale": "'create maps' = making 'maps' of relatively undamaged baobab forest."
+    },
+    "13": {
+      "evidence": "He also plans to compile an illustrated children's book of the many local folk-tales about the tree",
+      "part": 1,
+      "paragraph": 4,
+      "rationale": "The 'illustrated children's book' is the 'book' showing the baobab's importance in local culture."
+    },
+    "14": {
+      "evidence": "There is even a belief that they will one day be obsolete, as will paper or plastic notes",
+      "part": 2,
+      "paragraph": 0,
+      "rationale": "Coins possibly becoming 'obsolete' matches heading h7 'An uncertain future' for section A."
+    },
+    "15": {
+      "evidence": "future archaeologists will scrutinise coins in order to learn about their distant ancestors",
+      "part": 2,
+      "paragraph": 1,
+      "rationale": "Coins as durable evidence studied to learn about past peoples matches h11 'Significant records of past societies'."
+    },
+    "16": {
+      "evidence": "they could benefit enormously from a system that used coins, because it meant that they no longer had to carry goods with them to barter",
+      "part": 2,
+      "paragraph": 2,
+      "rationale": "No longer carrying goods to barter is 'A simpler, more efficient way of trading' (h5) for section C."
+    },
+    "17": {
+      "evidence": "coins could be weighed to determine the amount of metal they contained",
+      "part": 2,
+      "paragraph": 3,
+      "rationale": "Weighing coins to determine metal content matches h4 'Calculating what a coin was worth' for section D."
+    },
+    "18": {
+      "evidence": "coins, which circulated around the trading world, were a way of advertising the qualities of each particular city-state",
+      "part": 2,
+      "paragraph": 4,
+      "rationale": "Advertising a city-state's qualities is 'A form of regional promotion' (h2) for section E."
+    },
+    "19": {
+      "evidence": "a uniform design implied integrity",
+      "part": 2,
+      "paragraph": 5,
+      "rationale": "A 'uniform' (unchanging) design implying integrity matches h9 'Unchanging coins signalled trustworthiness' for section F."
+    },
+    "20": {
+      "evidence": "the features of many great Romans have survived and are known to modern generations",
+      "part": 2,
+      "paragraph": 6,
+      "rationale": "Surviving portraits of famous Romans match h6 'Putting a face to famous historical names' for section G."
+    },
+    "21": {
+      "evidence": "they are the work of anonymous craftsmen",
+      "part": 2,
+      "paragraph": 4,
+      "rationale": "'anonymous craftsmen' supports option A (no record of the coin makers' names); option C is supported by the moulds being remade so identical designs varied."
+    },
+    "22": {
+      "evidence": "the moulds had to be remade repeatedly, by many different artisans",
+      "part": 2,
+      "paragraph": 4,
+      "rationale": "Repeatedly remade moulds explain why coins with the same designs looked quite different, supporting option C (paired with A)."
+    },
+    "23": {
+      "evidence": "Their civilisation, which was composed of dozens of city-states, was highly decentralised.",
+      "part": 2,
+      "paragraph": 2,
+      "rationale": "The Greek 'civilisation' was made up of many city-states spread out, giving the answer 'civilisation'."
+    },
+    "24": {
+      "evidence": "Before coins, trade was based on barter: the direct trade of commodities.",
+      "part": 2,
+      "paragraph": 2,
+      "rationale": "Before coins, trading was done through 'barter'."
+    },
+    "25": {
+      "evidence": "the discovery of silver mines on Greek territory actually increased the quantity of money they could produce",
+      "part": 2,
+      "paragraph": 3,
+      "rationale": "The plentiful self-mined metal was 'silver'."
+    },
+    "26": {
+      "evidence": "so much gold from the New World was brought into their economy that it resulted in serious inflation",
+      "part": 2,
+      "paragraph": 3,
+      "rationale": "The problem the Greeks avoided but the Spanish suffered was 'inflation'."
+    },
+    "27": {
+      "evidence": "sets of two miniature white paper cups, labelled 304 and 305, were placed before five people seated around a conference table",
+      "part": 3,
+      "paragraph": 1,
+      "rationale": "The cups-304-and-305 tasting by five people is the 'experiment in taste comparison', located in paragraph B."
+    },
+    "28": {
+      "evidence": "they could dampen the bitterness of drugs like antihistamines, antibiotics and other similar products",
+      "part": 3,
+      "paragraph": 7,
+      "rationale": "'antihistamines, antibiotics' are the example medications improved by bitter-removing compounds, in paragraph H."
+    },
+    "29": {
+      "evidence": "People have varying capacities for tasting bitterness and the differences appear to be genetic.",
+      "part": 3,
+      "paragraph": 4,
+      "rationale": "Genetic differences are the biological reason some people dislike bitter foods, in paragraph E."
+    },
+    "30": {
+      "evidence": "At the top is a group of receptors that captures the taste molecules, known as tastants, in food and drink.",
+      "part": 3,
+      "paragraph": 5,
+      "rationale": "Paragraph F explains how taste buds, receptors, tastants and G proteins make the taste process work."
+    },
+    "31": {
+      "evidence": "bitterness is of special interest to the food industry because it is present in so many different types of food",
+      "part": 3,
+      "paragraph": 2,
+      "rationale": "Bitterness's special interest to the food industry is why it is more commercially interesting, in paragraph C."
+    },
+    "32": {
+      "evidence": "compounds like AMP will help make processed foods less unhealthy",
+      "part": 3,
+      "paragraph": 7,
+      "rationale": "Making processed foods less unhealthy is the indirect health benefit of bitter blockers, in paragraph H."
+    },
+    "33": {
+      "evidence": "'Humans are the only species that enjoys a bitter taste,'",
+      "part": 3,
+      "paragraph": 3,
+      "rationale": "Humans being the only species to enjoy bitterness explains why their taste preferences differ from animals, in paragraph D."
+    },
+    "34": {
+      "evidence": "juice packagers often select grapefruit with low naringin content",
+      "part": 3,
+      "paragraph": 0,
+      "rationale": "Drink-makers choose grapefruit low in 'naringin', the bitter substance."
+    },
+    "35": {
+      "evidence": "protect animals by letting them know when a plant may be poisonous",
+      "part": 3,
+      "paragraph": 2,
+      "rationale": "Animals link bitterness with 'poisonous' plants."
+    },
+    "36": {
+      "evidence": "the differences appear to be genetic",
+      "part": 3,
+      "paragraph": 4,
+      "rationale": "Varying sensitivity to bitterness is thought to be 'genetic'."
+    },
+    "37": {
+      "evidence": "are known as 'supertasters', are especially sensitive to these compounds",
+      "part": 3,
+      "paragraph": 4,
+      "rationale": "People extremely aware of bitter tastes are called 'supertasters'."
+    },
+    "38": {
+      "evidence": "The tongue is covered with taste buds.",
+      "part": 3,
+      "paragraph": 5,
+      "rationale": "The receptors detecting taste sit on the 'taste buds' of the tongue."
+    },
+    "39": {
+      "evidence": "Ultimately, this delivers a signal to the brain that registers as bitter.",
+      "part": 3,
+      "paragraph": 5,
+      "rationale": "The G protein triggers reactions delivering a 'bitter' signal to the brain, so it is responsible for transmitting bitter tastes (option A)."
+    },
+    "40": {
+      "evidence": "AMP may not be able to dampen every type of bitter taste because it probably doesn't attach to all 30 bitter-taste receptors",
+      "part": 3,
+      "paragraph": 6,
+      "rationale": "AMP dampens some but not all bitterness, supporting option C 'able to reduce some bitter tastes'."
+    }
+  },
+  "vocabulary": [
+    {
+      "word": "distinctive",
+      "definition": "having a special quality or feature that makes something easily recognisable",
+      "context": "their massive trunks and distinctive horizontal root-like branches",
+      "part": 1
+    },
+    {
+      "word": "straddle",
+      "definition": "to stand or extend across both sides of something",
+      "context": "a dozen trees straddle a narrow sandy road",
+      "part": 1
+    },
+    {
+      "word": "endangered",
+      "definition": "at serious risk of dying out or disappearing",
+      "context": "increasing awareness not only of the endangered forests",
+      "part": 1
+    },
+    {
+      "word": "deciduous",
+      "definition": "(of trees) shedding their leaves seasonally",
+      "context": "the fires that were set to clear the dry deciduous forest around them",
+      "part": 1
+    },
+    {
+      "word": "ethnobotanist",
+      "definition": "a scientist who studies how people use and relate to plants",
+      "context": "says Jim Bond, an ethnobotanist who has studied Madagascar's baobabs",
+      "part": 1
+    },
+    {
+      "word": "waterlogged",
+      "definition": "saturated with water; soaked through",
+      "context": "their roots can't cope with constantly waterlogged soils",
+      "part": 1
+    },
+    {
+      "word": "susceptible",
+      "definition": "likely to be affected or harmed by something",
+      "context": "Lone trees separated from the surrounding forest are also susceptible to cyclones",
+      "part": 1
+    },
+    {
+      "word": "regeneration",
+      "definition": "the natural process of new growth replacing what is lost",
+      "context": "land clearance for farming, which probably suppresses regeneration",
+      "part": 1
+    },
+    {
+      "word": "germination",
+      "definition": "the process of a seed beginning to grow and develop",
+      "context": "the bright forest gaps needed for baobab germination",
+      "part": 1
+    },
+    {
+      "word": "dispersal",
+      "definition": "the spreading of things, such as seeds, over a wide area",
+      "context": "Another problem the trees face is the dispersal of their seeds",
+      "part": 1
+    },
+    {
+      "word": "intrinsic value",
+      "definition": "worth that comes from the thing itself (here, the metal a coin is made of)",
+      "context": "a monetary system based on intrinsic or actual value",
+      "part": 2
+    },
+    {
+      "word": "obsolete",
+      "definition": "no longer in use; out of date",
+      "context": "they will one day be obsolete, as will paper or plastic notes",
+      "part": 2
+    },
+    {
+      "word": "durable",
+      "definition": "able to last a long time without being damaged",
+      "context": "coins are among the most durable of our artefacts",
+      "part": 2
+    },
+    {
+      "word": "artefacts",
+      "definition": "objects made by humans, often of historical interest",
+      "context": "coins are among the most durable of our artefacts",
+      "part": 2
+    },
+    {
+      "word": "barter",
+      "definition": "trading by exchanging goods directly rather than using money",
+      "context": "trade was based on barter: the direct trade of commodities",
+      "part": 2
+    },
+    {
+      "word": "decentralised",
+      "definition": "organised so that power is shared among many separate parts rather than one centre",
+      "context": "composed of dozens of city-states, was highly decentralised",
+      "part": 2
+    },
+    {
+      "word": "inflation",
+      "definition": "a general rise in prices that reduces the value of money",
+      "context": "it resulted in serious inflation",
+      "part": 2
+    },
+    {
+      "word": "alloyed",
+      "definition": "mixed with another metal",
+      "context": "whether gold was alloyed with silver",
+      "part": 2
+    },
+    {
+      "word": "artisans",
+      "definition": "skilled workers who make things by hand",
+      "context": "the moulds had to be remade repeatedly, by many different artisans",
+      "part": 2
+    },
+    {
+      "word": "naringin",
+      "definition": "a natural chemical compound that gives grapefruit its bitter taste",
+      "context": "a natural chemical compound found in grapefruit, naringin, has a bitter taste",
+      "part": 3
+    },
+    {
+      "word": "antioxidant",
+      "definition": "a substance that protects body cells from damage",
+      "context": "the compound has antioxidant properties",
+      "part": 3
+    },
+    {
+      "word": "palatable",
+      "definition": "pleasant enough to eat or drink",
+      "context": "could make a whole range of foods, drinks and medicines more palatable",
+      "part": 3
+    },
+    {
+      "word": "averse",
+      "definition": "strongly disliking or opposed to something",
+      "context": "Every other species is averse to bitter because it means bad news",
+      "part": 3
+    },
+    {
+      "word": "supertasters",
+      "definition": "people with an unusually high number of taste buds who taste flavours very intensely",
+      "context": "known as 'supertasters', are especially sensitive to these compounds",
+      "part": 3
+    },
+    {
+      "word": "tastants",
+      "definition": "the molecules in food and drink that produce a taste",
+      "context": "captures the taste molecules, known as tastants, in food and drink",
+      "part": 3
+    },
+    {
+      "word": "cascade",
+      "definition": "a series of events where each one triggers the next",
+      "context": "triggers a cascade of chemical reactions",
+      "part": 3
+    }
+  ]
 }

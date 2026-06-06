@@ -551,45 +551,409 @@
     "40": "F"
   },
   "explanations": {
-    "1": "False: the passage says 'No drawings or descriptions of any tennis-like games have been discovered,' so no surviving documents exist.",
-    "2": "True: French monks first played 'handball against their monastery buildings,' a game called jeu de paume, 'game of the hand or palm.'",
-    "3": "Not Given: table tennis is mentioned only as resembling a solid paddle; the passage never states when table tennis itself developed.",
-    "4": "False: the game 'remained exclusive to the upper classes,' so it did not become popular with all sections of French society.",
-    "5": "Not Given: it says outdoor courtyards 'were modified into indoor courts' but never compares whether the indoor courts were larger.",
-    "6": "True: 'both the pope and the French king tried to ban it,' showing attempts to prevent aristocrats from playing.",
-    "7": "The text says in 'real tennis' the ball 'can be bounced off any of the surfaces,' matching being hit against the surfaces around the court.",
-    "8": "The net 'is just over 1.5 metres high at each end, but drops to just under a metre in the middle,' so the net is lower in the centre.",
-    "9": "Goodyear's vulcanisation 'led to the development of rubber tennis balls,' which players experimented with during the 1850s.",
-    "10": "In 1874 Wingfield 'had the idea of devising rules, which he published,' matching the published written rules.",
-    "11": "He 'introduced standardised equipment, including racquets, balls, posts, and a net... and sold in sets,' matching complete sets of equipment.",
-    "12": "His 'original court had the shape of an hourglass,' an unusual shape designed for the court.",
-    "13": "A 'major tennis tournament took place for the first time in Wimbledon, London in 1877,' the first large tournament.",
-    "14": "Section A discusses coins possibly becoming 'obsolete' and money becoming electronic credits, an uncertain future for coins.",
-    "15": "Section B says future archaeologists will study coins to learn about ancestors, calling them significant records of past societies.",
-    "16": "Section C explains coins let Greeks avoid carrying goods to barter, a simpler, more efficient way of trading.",
-    "17": "Section D covers intrinsic metal value, weighing coins, and Archimedes establishing content, all about calculating a coin's worth.",
-    "18": "Section E says coins advertised 'the qualities of each particular city-state,' a form of regional promotion.",
-    "19": "Section F says Athena's design was 'repeated virtually unaltered for many years' because a uniform design implied integrity, so unchanging coins signalled trustworthiness.",
-    "20": "Section G says Roman coin portraits mean 'the features of many great Romans have survived,' putting a face to famous historical names.",
-    "21": "A is supported: coins are 'the work of anonymous craftsmen'; C is supported: moulds were remade so coins with the same design showed 'endless variety.'",
-    "22": "Same as 21: A is supported by 'anonymous craftsmen' and C by the 'endless variety' from repeatedly remade moulds.",
-    "23": "The text says 'Their civilisation, which was composed of dozens of city-states,' matching the Greek civilisation made up of many city-states.",
-    "24": "'Before coins, trade was based on barter,' so before coins the Greeks traded through barter.",
-    "25": "Coin value was 'mostly silver,' and 'the discovery of silver mines on Greek territory' increased the money they could produce.",
-    "26": "Excess Spanish gold 'resulted in serious inflation,' the problem the Greeks avoided.",
-    "27": "Section D says in 1806 Wedgwood 'offered the Admiralty a similar type of telegraph,' the first electric telegraph submitted to the Admiralty.",
-    "28": "In 1870 he 'was knighted by Queen Victoria... in recognition of his... labours in telegraphic investigations,' official recognition.",
-    "29": "In 1837 Wheatstone and Cooke 'patented their design... the first of its kind to be officially registered.'",
-    "30": "Section A says 'In 1814, de Luc encouraged Ronalds to start work on this new discipline' of electricity.",
-    "31": "In a 1823 pamphlet Ronalds 'described his invention and listed some of its potential uses,' informing the public.",
-    "32": "On the dials 'letters and numbers were engraved,' so letters and numbers were marked.",
-    "33": "In his later version 'the wire was encased in glass tubes and buried in the ground.'",
-    "34": "Ronalds 'believed that his invention was capable of carrying messages some 800 km.'",
-    "35": "Wedgwood offered 'a similar type of telegraph based on frictional electricity.'",
-    "36": "Section G describes Wheatstone and Cooke seeing potential for railway companies and developing a telegraph, a commercial application.",
-    "37": "Section E quotes Barrow saying 'telegraphs of any kind are wholly unnecessary,' rejecting Ronalds's invention.",
-    "38": "Section C states 'The system was slow and depended on the two dials staying in step,' a drawback of his invention.",
-    "39": "Section A says meteorologist de Luc 'encouraged Ronalds to start work,' a fellow scientist's positive influence.",
-    "40": "Section F says Brooke developed a similar system but 'the British Association of Meteorologists confirmed Ronalds's priority,' preferring Ronalds's procedure."
-  }
+    "1": {
+      "evidence": "No drawings or descriptions of any tennis-like games have been discovered",
+      "part": 1,
+      "paragraph": 1,
+      "rationale": "FALSE: 'surviving documents' is contradicted directly — no drawings or descriptions have been found, so nothing survives showing ancient tennis-like play."
+    },
+    "2": {
+      "evidence": "French monks were the first to play a basic game of handball against their monastery buildings",
+      "part": 1,
+      "paragraph": 2,
+      "rationale": "TRUE: 'handball' and the later phrase 'game of the hand or palm' match hitting a ball with just the hand."
+    },
+    "3": {
+      "evidence": "a solid paddle, similar to the ones used in table tennis today",
+      "part": 1,
+      "paragraph": 2,
+      "rationale": "NOT GIVEN: table tennis is mentioned only as a comparison for paddles; the passage never states when table tennis itself developed."
+    },
+    "4": {
+      "evidence": "The game, which remained exclusive to the upper classes, gained more popularity over the 14th and 15th centuries.",
+      "part": 1,
+      "paragraph": 3,
+      "rationale": "FALSE: 'remained exclusive to the upper classes' contradicts the claim that it became popular with all sections of society."
+    },
+    "5": {
+      "evidence": "outdoor courtyards were modified into indoor courts",
+      "part": 1,
+      "paragraph": 3,
+      "rationale": "NOT GIVEN: the conversion of courtyards into indoor courts is stated, but no comparison of their relative size is ever given."
+    },
+    "6": {
+      "evidence": "both the pope and the French king tried to ban it",
+      "part": 1,
+      "paragraph": 3,
+      "rationale": "TRUE: attempts to 'ban' the game by pope and king match attempts to prevent aristocrats from playing."
+    },
+    "7": {
+      "evidence": "the ball can be bounced off any of the surfaces",
+      "part": 1,
+      "paragraph": 4,
+      "rationale": "'surfaces' off which the ball can bounce matches the ball being hit against the surfaces around the court."
+    },
+    "8": {
+      "evidence": "The net is just over 1.5 metres high at each end, but drops to just under a metre in the middle.",
+      "part": 1,
+      "paragraph": 4,
+      "rationale": "The 'net' dropping in the middle is the answer; 'drops... in the middle' paraphrases 'lower in the centre'."
+    },
+    "9": {
+      "evidence": "This led to the development of rubber tennis balls.",
+      "part": 1,
+      "paragraph": 5,
+      "rationale": "'rubber tennis balls' that players experimented with in the 1850s matches balls made out of rubber."
+    },
+    "10": {
+      "evidence": "had the idea of devising rules, which he published",
+      "part": 1,
+      "paragraph": 6,
+      "rationale": "'rules, which he published' matches publishing written rules for the game."
+    },
+    "11": {
+      "evidence": "introduced standardised equipment, including racquets, balls, posts, and a net, which he patented and sold in sets",
+      "part": 1,
+      "paragraph": 6,
+      "rationale": "'equipment... sold in sets' matches producing complete sets of tennis equipment for sale."
+    },
+    "12": {
+      "evidence": "his original court had the shape of an hourglass, with the net across its narrowest section",
+      "part": 1,
+      "paragraph": 7,
+      "rationale": "The hourglass 'shape' of the court matches the unusual shape he designed."
+    },
+    "13": {
+      "evidence": "A major tennis tournament took place for the first time in Wimbledon, London in 1877",
+      "part": 1,
+      "paragraph": 7,
+      "rationale": "'major tennis tournament... for the first time' in 1877 matches the first large tournament being held."
+    },
+    "14": {
+      "evidence": "There is even a belief that they will one day be obsolete, as will paper or plastic notes",
+      "part": 2,
+      "paragraph": 0,
+      "rationale": "Section A speculates coins may become obsolete and money purely electronic — matching heading h7 'An uncertain future'."
+    },
+    "15": {
+      "evidence": "future archaeologists will scrutinise coins in order to learn about their distant ancestors",
+      "part": 2,
+      "paragraph": 1,
+      "rationale": "Section B frames coins as durable documentary evidence of past societies — matching h11 'Significant records of past societies'."
+    },
+    "16": {
+      "evidence": "they could benefit enormously from a system that used coins, because it meant that they no longer had to carry goods with them to barter",
+      "part": 2,
+      "paragraph": 2,
+      "rationale": "Section C contrasts barter with coins that removed the need to carry goods — matching h5 'A simpler, more efficient way of trading'."
+    },
+    "17": {
+      "evidence": "coins could be weighed to determine the amount of metal they contained",
+      "part": 2,
+      "paragraph": 3,
+      "rationale": "Section D is about establishing a coin's worth via metal content and weighing — matching h4 'Calculating what a coin was worth'."
+    },
+    "18": {
+      "evidence": "coins, which circulated around the trading world, were a way of advertising the qualities of each particular city-state",
+      "part": 2,
+      "paragraph": 4,
+      "rationale": "Section E describes coins advertising each city-state — matching h2 'A form of regional promotion'."
+    },
+    "19": {
+      "evidence": "seem to have been repeated virtually unaltered for many years. Perhaps this was because the Athenian currency had grown increasingly to be the international standard and, like the US dollar today, a uniform design implied integrity.",
+      "part": 2,
+      "paragraph": 5,
+      "rationale": "Section F links the unchanged Athenian design to implied integrity — matching h9 'Unchanging coins signalled trustworthiness'."
+    },
+    "20": {
+      "evidence": "the features of many great Romans have survived and are known to modern generations",
+      "part": 2,
+      "paragraph": 6,
+      "rationale": "Section G describes coin portraits preserving the faces of famous Romans — matching h6 'Putting a face to famous historical names'."
+    },
+    "21": {
+      "evidence": "they are the work of anonymous craftsmen",
+      "part": 2,
+      "paragraph": 4,
+      "rationale": "Option A ('no record of the names of the coin makers') is supported by coins being the work of 'anonymous craftsmen'."
+    },
+    "22": {
+      "evidence": "the moulds often cracked and new ones had to be engraved. This explains the endless variety encountered in coins with the same designs",
+      "part": 2,
+      "paragraph": 4,
+      "rationale": "Option C ('coins with the same design often looked quite different') is supported by the 'endless variety' from repeatedly remade moulds."
+    },
+    "23": {
+      "evidence": "Their civilisation, which was composed of dozens of city-states, was highly decentralised.",
+      "part": 2,
+      "paragraph": 2,
+      "rationale": "'civilisation... composed of dozens of city-states' fills the gap for the Greek civilisation made up of many city-states."
+    },
+    "24": {
+      "evidence": "Before coins, trade was based on barter: the direct trade of commodities.",
+      "part": 2,
+      "paragraph": 2,
+      "rationale": "Before coins the Greeks traded through 'barter', the gap word."
+    },
+    "25": {
+      "evidence": "the discovery of silver mines on Greek territory actually increased the quantity of money they could produce",
+      "part": 2,
+      "paragraph": 3,
+      "rationale": "'silver mines on Greek territory' which they mined matches the plentiful supply of silver."
+    },
+    "26": {
+      "evidence": "so much gold from the New World was brought into their economy that it resulted in serious inflation",
+      "part": 2,
+      "paragraph": 3,
+      "rationale": "The Spanish problem the Greeks avoided was 'inflation', the gap word."
+    },
+    "27": {
+      "evidence": "in 1806, the inventor Ralph Wedgwood had offered the Admiralty a similar type of telegraph based on frictional electricity",
+      "part": 3,
+      "paragraph": 3,
+      "rationale": "1806 (option A) is when Wedgwood first submitted an electric telegraph to the Admiralty."
+    },
+    "28": {
+      "evidence": "In 1870, three years before he died, he was knighted by Queen Victoria, a belated honour in recognition of his 'early and remarkable labours in telegraphic investigations.'",
+      "part": 3,
+      "paragraph": 6,
+      "rationale": "1870 (option H) is when Ronalds received the knighthood recognising his telegraphy work."
+    },
+    "29": {
+      "evidence": "in 1837 they developed the Wheatstone-Cooke five-needle telegraph. The pair patented their design in the same year, the first of its kind to be officially registered",
+      "part": 3,
+      "paragraph": 6,
+      "rationale": "1837 (option E) is when the first electric telegraph was patented and officially registered."
+    },
+    "30": {
+      "evidence": "In 1814, de Luc encouraged Ronalds to start work on this new discipline.",
+      "part": 3,
+      "paragraph": 0,
+      "rationale": "1814 (option B) is when Ronalds began work on electricity, the 'new discipline'."
+    },
+    "31": {
+      "evidence": "in a small pamphlet published in 1823, he described his invention and listed some of its potential uses",
+      "part": 3,
+      "paragraph": 5,
+      "rationale": "1823 (option D) is when Ronalds informed the public of his telegraph's uses via the pamphlet."
+    },
+    "32": {
+      "evidence": "on which letters and numbers were engraved",
+      "part": 3,
+      "paragraph": 2,
+      "rationale": "The revolving discs had 'letters and numbers' engraved on them, the marked content."
+    },
+    "33": {
+      "evidence": "the wire was encased in glass tubes and buried in the ground",
+      "part": 3,
+      "paragraph": 2,
+      "rationale": "In his later version the wire was 'encased in glass tubes', what enclosed the wires."
+    },
+    "34": {
+      "evidence": "Ronalds believed that his invention was capable of carrying messages some 800 km",
+      "part": 3,
+      "paragraph": 4,
+      "rationale": "He believed the telegraph could carry messages 'some 800 km', the transmission distance."
+    },
+    "35": {
+      "evidence": "a similar type of telegraph based on frictional electricity",
+      "part": 3,
+      "paragraph": 3,
+      "rationale": "Wedgwood's system was 'based on frictional electricity', what it used."
+    },
+    "36": {
+      "evidence": "They saw the potential of a rapid communication system for the growing number of private railway companies",
+      "part": 3,
+      "paragraph": 6,
+      "rationale": "Paragraph G describes a commercial railway application of the electric telegraph by Wheatstone and Cooke."
+    },
+    "37": {
+      "evidence": "John Barrow, Secretary to the Admiralty, wrote back to Ronalds on 5 August, saying that 'telegraphs of any kind are wholly unnecessary, and NO other than the one now in use will be adopted.'",
+      "part": 3,
+      "paragraph": 4,
+      "rationale": "Paragraph E contains the Admiralty's rejection of Ronalds's invention."
+    },
+    "38": {
+      "evidence": "The system was slow and depended on the two dials staying in step",
+      "part": 3,
+      "paragraph": 2,
+      "rationale": "Paragraph C states the system was 'slow and depended on the two dials staying in step', a drawback of his invention."
+    },
+    "39": {
+      "evidence": "In 1814, de Luc encouraged Ronalds to start work on this new discipline.",
+      "part": 3,
+      "paragraph": 0,
+      "rationale": "Paragraph A describes meteorologist de Luc positively encouraging Ronalds, a fellow scientist's influence."
+    },
+    "40": {
+      "evidence": "A similar system was developed independently by Charles Brooke, but the British Association of Meteorologists confirmed Ronalds's priority.",
+      "part": 3,
+      "paragraph": 5,
+      "rationale": "Paragraph F shows Ronalds's procedure being preferred over Brooke's, with his priority confirmed."
+    }
+  },
+  "vocabulary": [
+    {
+      "word": "distinguish",
+      "definition": "to recognise or treat something as different from another",
+      "context": "to distinguish it from the older game",
+      "part": 1
+    },
+    {
+      "word": "derived from",
+      "definition": "developed or obtained from a particular source",
+      "context": "the name 'tennis' is derived from the Egyptian town",
+      "part": 1
+    },
+    {
+      "word": "dispute",
+      "definition": "to argue against or question the truth of something",
+      "context": "Those who dispute more ancient origins",
+      "part": 1
+    },
+    {
+      "word": "nobility",
+      "definition": "people belonging to the highest social class; aristocrats",
+      "context": "The French nobility learned the game from the monks",
+      "part": 1
+    },
+    {
+      "word": "diversion",
+      "definition": "an activity that provides entertainment or amusement",
+      "context": "such a widespread diversion among the aristocracy",
+      "part": 1
+    },
+    {
+      "word": "avid",
+      "definition": "extremely keen or enthusiastic about something",
+      "context": "Henry VIII were avid players",
+      "part": 1
+    },
+    {
+      "word": "vulcanisation",
+      "definition": "a process that hardens rubber so it can resist heat and cold",
+      "context": "Charles Goodyear invented vulcanisation",
+      "part": 1
+    },
+    {
+      "word": "patented",
+      "definition": "obtained the official legal right to be the sole maker of an invention",
+      "context": "which he patented and sold in sets",
+      "part": 1
+    },
+    {
+      "word": "intrinsic",
+      "definition": "belonging naturally to something; essential and inherent",
+      "context": "a monetary system based on intrinsic or actual value",
+      "part": 2
+    },
+    {
+      "word": "obsolete",
+      "definition": "no longer used or needed; out of date",
+      "context": "they will one day be obsolete",
+      "part": 2
+    },
+    {
+      "word": "artefacts",
+      "definition": "objects made by humans, especially of historical interest",
+      "context": "coins are among the most durable of our artefacts",
+      "part": 2
+    },
+    {
+      "word": "scrutinise",
+      "definition": "to examine closely and carefully",
+      "context": "future archaeologists will scrutinise coins",
+      "part": 2
+    },
+    {
+      "word": "exquisite",
+      "definition": "extremely beautiful and finely made",
+      "context": "produced with exquisite craftsmanship",
+      "part": 2
+    },
+    {
+      "word": "barter",
+      "definition": "the exchange of goods directly without using money",
+      "context": "trade was based on barter",
+      "part": 2
+    },
+    {
+      "word": "decentralised",
+      "definition": "having power and control spread out rather than in one place",
+      "context": "was highly decentralised",
+      "part": 2
+    },
+    {
+      "word": "inflation",
+      "definition": "a general rise in prices and fall in the value of money",
+      "context": "it resulted in serious inflation",
+      "part": 2
+    },
+    {
+      "word": "alloyed",
+      "definition": "mixed with another metal",
+      "context": "whether gold was alloyed with silver",
+      "part": 2
+    },
+    {
+      "word": "anonymous",
+      "definition": "having a name that is not known or made public",
+      "context": "the work of anonymous craftsmen",
+      "part": 2
+    },
+    {
+      "word": "divinity",
+      "definition": "a god or goddess",
+      "context": "the head of a divinity",
+      "part": 2
+    },
+    {
+      "word": "meteorology",
+      "definition": "the scientific study of the atmosphere and weather",
+      "context": "his passions for chemical experiments and for meteorology",
+      "part": 3
+    },
+    {
+      "word": "telegraphy",
+      "definition": "the sending of messages over distance by electrical signals along wires",
+      "context": "the idea of electric telegraphy",
+      "part": 3
+    },
+    {
+      "word": "impulses",
+      "definition": "short bursts of electrical energy",
+      "context": "using electrical impulses carried along metal wires",
+      "part": 3
+    },
+    {
+      "word": "revolving",
+      "definition": "turning round and round on a central point",
+      "context": "At either end of the wire was a revolving disc",
+      "part": 3
+    },
+    {
+      "word": "semaphore",
+      "definition": "a system of sending signals using movable arms or flags",
+      "context": "the late eighteenth-century telegraphic system of semaphore",
+      "part": 3
+    },
+    {
+      "word": "pamphlet",
+      "definition": "a small booklet with information or arguments on a subject",
+      "context": "in a small pamphlet published in 1823",
+      "part": 3
+    },
+    {
+      "word": "prophecies",
+      "definition": "predictions of what will happen in the future",
+      "context": "Ronalds lived long enough to see his prophecies come to fruition",
+      "part": 3
+    },
+    {
+      "word": "belated",
+      "definition": "coming later than it should have done",
+      "context": "a belated honour in recognition",
+      "part": 3
+    }
+  ]
 }

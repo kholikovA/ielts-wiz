@@ -576,45 +576,415 @@
     "40": "NO"
   },
   "explanations": {
-    "1": "The passage says seaweed has supplemented the diet of sheep in the Orkneys, islands off Scotland, since Neolithic times, roughly 5000 years ago.",
-    "2": "The text states seaweed was a key part of people's regular diet and even used to pay taxes, not reserved for special occasions.",
-    "3": "The findings led to a re-evaluation, suggesting women, responsible for gathering plants, played an important part in providing food.",
-    "4": "The passage only states Norway exported 1500 tonnes of potash in 1800; it never says potash was the country's largest export.",
-    "5": "The text says hardly anyone has heard of her in the UK, yet she is known as the 'Mother of the Sea' in Japan.",
-    "6": "The notes say production was destroyed by pollution and the gap word; the text cites 'a series of typhoons combined with increased pollution'.",
-    "7": "Drew-Baker was studying a seaweed called 'laver', the Welsh equivalent of nori, whose research saved the industry.",
-    "8": "Yarish's new harvesting techniques made kelp, a large brown seaweed, an economically viable crop in the USA.",
-    "9": "His work helped New England 'fishermen' whose livelihoods were threatened, giving an alternative source of income.",
-    "10": "Seaweed's ability to absorb environmentally unfriendly 'chemicals' discharged by farms, factories and wastewater plants reduces pollution.",
-    "11": "The main constraints in Europe were 'the lack of markets' and the relative expense of European production.",
-    "12": "Hitting 500 million dry tons would generate 50 million 'jobs', creating very large numbers of new jobs.",
-    "13": "As a biofuel it could replace about 1.5% of the fossil fuels used by 'vehicles', powering a small percentage of them.",
-    "14": "Paragraph E describes specialists long debating which country was the Indo-European homeland, a difference of opinion about origin.",
-    "15": "Paragraph A mentions a statue of Mars, the Roman god of war, a reference to a mythological figure.",
-    "16": "Paragraph G says Dr April McMahon had less confidence in the dating method, expressing doubt about that analytical method.",
-    "17": "Paragraph B explains Breton was a Celtic tongue carried to Brittany by emigrants from Cornwall, spread by movement of people.",
-    "18": "Paragraph C states that because languages change so fast, historical linguists have little faith in language trees going back millennia.",
-    "19": "Forster and Toth noted many linguists restrict research to how words in only one single language have changed, a narrow focus.",
-    "20": "Dr April McMahon said language changes irregularly based on social factors like the size of the speaker's group.",
-    "21": "Forster and Toth say Celtic became a language in its own right and entered the British Isles much earlier than supposed.",
-    "22": "Dr Colin Renfrew advocated the theory that Indo-European spread by agriculture, supported by Forster's farming-spread date.",
-    "23": "The bronze tablet from Coligny bore words in 'Gaulish', a version of the Celtic language.",
-    "24": "After the Romans defeated the Celts, their language, 'Latin', and its successor languages displaced Celtic.",
-    "25": "The 'divergence' between the mainland European and British versions of Gaelic took place in 3200 BC.",
-    "26": "McMahon said language changes in an 'irregular' way based on social factors.",
-    "27": "The passage says 47% of start-up companies that pioneered new products later went out of business, almost half collapsing.",
-    "28": "The writer calls the bad-idea explanation 'too simple', saying we must delve into the psychology of behaviour change.",
-    "29": "Kahneman and Tversky's second characteristic states consumers evaluate new products relative to the products they already own.",
-    "30": "In trials Sellers priced the mug far higher than Choosers, always demanding at least twice as much as Choosers would pay.",
-    "31": "The second group were given mugs but later allowed to exchange them for a chocolate bar, choosing between what they had and a new product.",
-    "32": "Only about 10-11% wished to swap; approximately 90% were unwilling to give up what they already had.",
-    "33": "Relative advantage assumed objectively superior products give consumers sufficient incentive to buy, that better products will always be bought.",
-    "34": "Kahneman won the 2002 Nobel for research into why individuals deviate from rational economic behaviour, not following expected patterns.",
-    "35": "The first characteristic says people evaluate an alternative on its subjective or perceived value, their own idea of a product's value.",
-    "36": "Rogers' relative-advantage theory is said to fail to capture the psychological biases affecting decision-making, contradicting the prompt.",
-    "37": "Loss aversion leads people to value products they already possess more than new ones, helping explain why they avoid new products.",
-    "38": "The text says developers, having worked years on a product, are convinced it works and are biased in its favour.",
-    "39": "The passage notes developers work on products for years but never claims they waste too much time perfecting them.",
-    "40": "A product champion is described as a developer who believes in the product, not someone who develops a best-selling product."
-  }
+    "1": {
+      "evidence": "it has supplemented the diet of sheep in the Orkneys, islands off the coast of Scotland, since Neolithic times, roughly 5000 years ago",
+      "part": 1,
+      "paragraph": 0,
+      "rationale": "\"feed animals on some Scottish islands for thousands of years\" paraphrases sheep on the Orkneys since Neolithic times, ~5000 years ago."
+    },
+    "2": {
+      "evidence": "seaweed was already such a key part of people's regular diet that legislation was introduced giving people the right to pay their taxes to the Emperor in the form of seaweed",
+      "part": 1,
+      "paragraph": 0,
+      "rationale": "\"regular diet\" contradicts the claim that eating seaweed was \"reserved for special occasions\", so FALSE."
+    },
+    "3": {
+      "evidence": "these findings suggest that women, known to be responsible for the gathering of plants such as seaweed, also played an important part in the provision of food",
+      "part": 1,
+      "paragraph": 0,
+      "rationale": "\"new information about the significance of women's roles\" matches the re-evaluation showing women played an important part in providing food."
+    },
+    "4": {
+      "evidence": "In 1800, Norway exported 1500 tonnes of potash.",
+      "part": 1,
+      "paragraph": 1,
+      "rationale": "The text only gives the export tonnage; it never states potash was Norway's largest export, so NOT GIVEN."
+    },
+    "5": {
+      "evidence": "Although hardly anyone has heard of Dr Drew-Baker in the UK, she is known as the 'Mother of the Sea' in Japan",
+      "part": 1,
+      "paragraph": 2,
+      "rationale": "\"more famous in Japan than in the UK\" matches being celebrated in Japan while barely known in the UK, so TRUE."
+    },
+    "6": {
+      "evidence": "a series of typhoons combined with increased pollution in coastal waters led to a total collapse in Japanese production of nori",
+      "part": 1,
+      "paragraph": 1,
+      "rationale": "\"pollution and ___\" is completed by typhoons, the second cause of the 1948 collapse."
+    },
+    "7": {
+      "evidence": "she was studying a seaweed called laver, which is the Welsh equivalent of nori",
+      "part": 1,
+      "paragraph": 2,
+      "rationale": "\"a seaweed species similar to nori\" matches laver, the Welsh equivalent of nori."
+    },
+    "8": {
+      "evidence": "Yarish has helped make it an economically viable crop for the New England fishermen",
+      "part": 1,
+      "paragraph": 3,
+      "rationale": "\"successful crop\" matches making kelp an economically viable crop; \"it\" refers to kelp from the previous sentence."
+    },
+    "9": {
+      "evidence": "for the New England fishermen whose livelihoods were threatened by a combination of overfishing, pollution, and warming waters",
+      "part": 1,
+      "paragraph": 3,
+      "rationale": "\"alternative source of income\" matches restoring livelihoods for fishermen whose income was threatened."
+    },
+    "10": {
+      "evidence": "Its ability to absorb a number of environmentally unfriendly chemicals discharged by farms, factories and wastewater treatment plants also makes it valuable as a means of reducing pollution",
+      "part": 1,
+      "paragraph": 4,
+      "rationale": "\"harmful effects of various ___ produced by different industries\" matches absorbing chemicals discharged by farms, factories and wastewater plants."
+    },
+    "11": {
+      "evidence": "The main constraints on the development of seaweed farming in Europe have been the lack of markets and the relative expense of European production",
+      "part": 1,
+      "paragraph": 4,
+      "rationale": "\"shortage of ___\" plus \"cost of production\" matches the lack of markets and the relative expense in Europe."
+    },
+    "12": {
+      "evidence": "Hitting that 500 million mark would boost the world's food supply by 10% from the current level, generating 50 million jobs in the process",
+      "part": 1,
+      "paragraph": 4,
+      "rationale": "\"very large numbers of new ___\" matches generating 50 million jobs."
+    },
+    "13": {
+      "evidence": "As a biofuel for vehicles, it could also replace about 1.5% of the fossil fuels used today",
+      "part": 1,
+      "paragraph": 4,
+      "rationale": "\"used instead of oil to power a small percentage of ___\" matches replacing fossil fuels used by vehicles."
+    },
+    "14": {
+      "evidence": "Specialists have long debated which country was the homeland of the Indo-Europeans and whether their language was spread by conquest",
+      "part": 2,
+      "paragraph": 4,
+      "rationale": "\"a difference of opinion about where a group of languages originated\" matches the long debate over the Indo-European homeland in paragraph E."
+    },
+    "15": {
+      "evidence": "One was an imposing statue of Mars, the Roman god of war.",
+      "part": 2,
+      "paragraph": 0,
+      "rationale": "\"a reference to a mythological figure\" matches the statue of Mars, the Roman god of war, in paragraph A."
+    },
+    "16": {
+      "evidence": "She had less confidence in the dating method, she said, because language changes in an irregular way based on social factors",
+      "part": 2,
+      "paragraph": 6,
+      "rationale": "\"one person's doubt about a particular method\" matches McMahon's lesser confidence in the dating method in paragraph G."
+    },
+    "17": {
+      "evidence": "the Brythonic branch, formed mainly of Welsh and Breton, a Celtic tongue carried to Brittany in France by emigrants from Cornwall",
+      "part": 2,
+      "paragraph": 1,
+      "rationale": "\"one particular Celtic language spread due to the movement of people\" matches Breton carried to Brittany by emigrants from Cornwall in paragraph B."
+    },
+    "18": {
+      "evidence": "Because languages change so fast, historical linguists have little faith in language trees that go back more than a few thousand years",
+      "part": 2,
+      "paragraph": 2,
+      "rationale": "\"the reason why some language experts distrust language trees\" matches linguists' little faith because languages change fast, in paragraph C."
+    },
+    "19": {
+      "evidence": "many of whom restrict their research to how words in only one single language have changed over time",
+      "part": 2,
+      "paragraph": 5,
+      "rationale": "\"too narrow a focus\" matches Forster & Toth's point that many linguists restrict research to a single language; this is in paragraph F (group A)."
+    },
+    "20": {
+      "evidence": "language changes in an irregular way based on social factors like the size of the speaker's group and its degree of contact with others",
+      "part": 2,
+      "paragraph": 6,
+      "rationale": "\"number of people who use a language has an effect\" matches McMahon's (group D) point about the size of the speaker's group."
+    },
+    "21": {
+      "evidence": "They say that Celtic became a language in its own right and entered the British Isles much earlier than supposed.",
+      "part": 2,
+      "paragraph": 1,
+      "rationale": "\"a distinct language for longer than experts previously thought\" matches Forster & Toth's (group A) claim that Celtic became its own language much earlier than supposed."
+    },
+    "22": {
+      "evidence": "The second theory, that it was spread by agriculture, has been advocated by archaeologist Dr Colin Renfrew.",
+      "part": 2,
+      "paragraph": 4,
+      "rationale": "\"became more extensive due to farming practices\" matches Renfrew's (group C) theory that Indo-European spread by agriculture."
+    },
+    "23": {
+      "evidence": "but the words were in Gaulish, a version of the Celtic language spoken by the inhabitants of France before the Roman conquest",
+      "part": 2,
+      "paragraph": 0,
+      "rationale": "The Coligny tablet's words were in Gaulish, the form of Celtic the sentence requires."
+    },
+    "24": {
+      "evidence": "the Romans defeated the Celts, both in France and in Britain, so decisively that their language, Latin, and its successor languages displaced Celtic over much of its former territory",
+      "part": 2,
+      "paragraph": 1,
+      "rationale": "\"predominant languages\" after Roman conquest matches Latin and its successor languages displacing Celtic."
+    },
+    "25": {
+      "evidence": "the divergence between the mainland European and British versions of Gaelic took place in 3200 BC",
+      "part": 2,
+      "paragraph": 3,
+      "rationale": "\"___ is known to have occurred among the various versions of the Gaelic language around 3200 BC\" matches divergence."
+    },
+    "26": {
+      "evidence": "because language changes in an irregular way based on social factors like the size of the speaker's group",
+      "part": 2,
+      "paragraph": 6,
+      "rationale": "\"For social reasons, developments in languages are ___\" matches language changing in an irregular way due to social factors."
+    },
+    "27": {
+      "evidence": "47% of the start-up companies that pioneered new products later went out of business altogether",
+      "part": 3,
+      "paragraph": 0,
+      "rationale": "Option A (\"Almost half of all businesses that added new products collapse\") matches the 47% of start-ups that went out of business."
+    },
+    "28": {
+      "evidence": "But surely that's too simple an explanation.",
+      "part": 3,
+      "paragraph": 1,
+      "rationale": "Option D (reasons are more complex than commonly thought) matches the writer rejecting the \"bad ideas\" view as too simple."
+    },
+    "29": {
+      "evidence": "consumers evaluate new products relative to the products they already own",
+      "part": 3,
+      "paragraph": 3,
+      "rationale": "Option A (compare new products with things bought previously) matches evaluating new products relative to ones already owned."
+    },
+    "30": {
+      "evidence": "the Sellers always demanded at least twice as much to give up the mugs as the Choosers would pay to obtain them",
+      "part": 3,
+      "paragraph": 4,
+      "rationale": "Option B (Sellers valued mugs more than Choosers) matches Sellers demanding at least twice as much as Choosers would pay."
+    },
+    "31": {
+      "evidence": "He gave a second group the coffee mugs but later allowed each student to exchange their mugs for a chocolate bar.",
+      "part": 3,
+      "paragraph": 5,
+      "rationale": "Option B (choose between what they had and a new product) matches the second group being given mugs then offered an exchange for chocolate."
+    },
+    "32": {
+      "evidence": "only 11% of the students with mugs and 10% of those with chocolate bars wanted to exchange their products",
+      "part": 3,
+      "paragraph": 5,
+      "rationale": "Option C (almost all unwilling to swap) matches roughly 90% of students declining to exchange their products."
+    },
+    "33": {
+      "evidence": "Companies have long assumed that they have only to develop innovations that are objectively superior to existing products, and consumers will have sufficient incentive to purchase them.",
+      "part": 3,
+      "paragraph": 2,
+      "rationale": "Ending B (people always buy products better than what they own) matches the assumption that objectively superior products give sufficient incentive to buy."
+    },
+    "34": {
+      "evidence": "psychologist Daniel Kahneman won the Nobel Prize in economics for his research into the reasons why individuals deviate from rational economic behavior",
+      "part": 3,
+      "paragraph": 2,
+      "rationale": "Ending A (consumers do not follow expected purchasing patterns) matches the Nobel research into why individuals deviate from rational economic behavior."
+    },
+    "35": {
+      "evidence": "people evaluate the attractiveness of an alternative based not on its objective or actual value, but on its subjective or perceived value",
+      "part": 3,
+      "paragraph": 3,
+      "rationale": "Ending D (consumers have their own idea of a product's value) matches judging an alternative on its subjective or perceived value."
+    },
+    "36": {
+      "evidence": "the theory has one major flaw: it fails to capture the psychological biases that affect decision-making",
+      "part": 3,
+      "paragraph": 2,
+      "rationale": "The statement (Rogers' theory explains consumer psychology) is contradicted because the text says it fails to capture psychological biases, so NO."
+    },
+    "37": {
+      "evidence": "Loss aversion leads people to value products they already possess more than those that they don't.",
+      "part": 3,
+      "paragraph": 3,
+      "rationale": "\"helps explain why people fail to buy new products\" agrees with loss aversion making people overvalue what they already possess, so YES."
+    },
+    "38": {
+      "evidence": "They're convinced that the product works and they are keenly aware of the shortcomings of existing alternatives.",
+      "part": 3,
+      "paragraph": 7,
+      "rationale": "\"always believe their latest product will be a success\" agrees with developers being convinced the product works, so YES."
+    },
+    "39": {
+      "evidence": "Having worked on a new product for years, developers operate in a world where their innovation is the reference point.",
+      "part": 3,
+      "paragraph": 7,
+      "rationale": "The text mentions developers working for years but never claims they waste too much time perfecting products, so NOT GIVEN."
+    },
+    "40": {
+      "evidence": "Companies call those developers \"product champions\" or \"believers\", suggesting that they have embraced a world the rest of us haven't yet.",
+      "part": 3,
+      "paragraph": 7,
+      "rationale": "A product champion is defined as a developer who believes in the product, not one who develops a best-selling product, so NO."
+    }
+  },
+  "vocabulary": [
+    {
+      "word": "fertilizer",
+      "definition": "a substance added to soil to help plants grow",
+      "context": "an important food, fuel, and fertilizer since prehistoric times",
+      "part": 1
+    },
+    {
+      "word": "supplemented",
+      "definition": "added to something to improve or complete it",
+      "context": "it has supplemented the diet of sheep in the Orkneys",
+      "part": 1
+    },
+    {
+      "word": "legislation",
+      "definition": "a law or set of laws made by a government",
+      "context": "legislation was introduced giving people the right to pay their taxes",
+      "part": 1
+    },
+    {
+      "word": "habitation",
+      "definition": "a place where people live",
+      "context": "one of the oldest human habitation sites in the Americas",
+      "part": 1
+    },
+    {
+      "word": "re-evaluation",
+      "definition": "the act of considering or judging something again",
+      "context": "led to a re-evaluation of the importance of plants",
+      "part": 1
+    },
+    {
+      "word": "potash",
+      "definition": "a potassium compound used in making glass and soap",
+      "context": "gathered and burnt seaweed to produce potash",
+      "part": 1
+    },
+    {
+      "word": "cultivation",
+      "definition": "the growing of plants or crops on a large scale",
+      "context": "Simple seaweed cultivation techniques were first developed in Japan",
+      "part": 1
+    },
+    {
+      "word": "depleted",
+      "definition": "greatly reduced in amount or quantity",
+      "context": "to repopulate the depleted seaweed beds",
+      "part": 1
+    },
+    {
+      "word": "viable",
+      "definition": "capable of working successfully; practicable",
+      "context": "make it an economically viable crop",
+      "part": 1
+    },
+    {
+      "word": "sustainable",
+      "definition": "able to continue over time without using up resources or causing harm",
+      "context": "an industry offering sustainable employment",
+      "part": 1
+    },
+    {
+      "word": "unearthed",
+      "definition": "dug up out of the ground; discovered",
+      "context": "a local inhabitant unearthed two strange objects",
+      "part": 2
+    },
+    {
+      "word": "imposing",
+      "definition": "grand and impressive in appearance",
+      "context": "an imposing statue of Mars, the Roman god of war",
+      "part": 2
+    },
+    {
+      "word": "extinct",
+      "definition": "no longer in existence or use",
+      "context": "one of the most important sources of words from this extinct language",
+      "part": 2
+    },
+    {
+      "word": "displaced",
+      "definition": "forced out of a position and replaced by something else",
+      "context": "its successor languages displaced Celtic over much of its former territory",
+      "part": 2
+    },
+    {
+      "word": "divergence",
+      "definition": "the process of two or more things becoming different",
+      "context": "the divergence between the mainland European and British versions of Gaelic",
+      "part": 2
+    },
+    {
+      "word": "fragmented",
+      "definition": "broke apart into separate pieces or parts",
+      "context": "the Indo-European language initially fragmented in Europe around 8100 BC",
+      "part": 2
+    },
+    {
+      "word": "vindicate",
+      "definition": "to prove that something is right or justified",
+      "context": "does seem to vindicate Renfrew's archaeological idea",
+      "part": 2
+    },
+    {
+      "word": "advocated",
+      "definition": "publicly supported or argued for",
+      "context": "has been advocated by archaeologist Dr Colin Renfrew",
+      "part": 2
+    },
+    {
+      "word": "posited",
+      "definition": "put forward as a fact or basis for argument",
+      "context": "much earlier than the usual date, 600 BC, posited on the basis of archaeological evidence",
+      "part": 2
+    },
+    {
+      "word": "calibrating",
+      "definition": "adjusting or checking something against a known standard",
+      "context": "to date the splits in the tree by calibrating them with known historical events",
+      "part": 2
+    },
+    {
+      "word": "innovation",
+      "definition": "a new product, idea, or method",
+      "context": "If only marketing innovation was that simple",
+      "part": 3
+    },
+    {
+      "word": "staggering",
+      "definition": "shockingly high or astonishing",
+      "context": "new products fail at the staggering rate of between 40% and 90%",
+      "part": 3
+    },
+    {
+      "word": "misguided",
+      "definition": "based on mistaken thinking or judgement",
+      "context": "If these innovations were so misguided",
+      "part": 3
+    },
+    {
+      "word": "biases",
+      "definition": "tendencies that influence judgement, often unfairly",
+      "context": "it fails to capture the psychological biases that affect decision-making",
+      "part": 3
+    },
+    {
+      "word": "deviate",
+      "definition": "to move away from an expected standard or course",
+      "context": "the reasons why individuals deviate from rational economic behavior",
+      "part": 3
+    },
+    {
+      "word": "loss aversion",
+      "definition": "the tendency to feel losses more strongly than equivalent gains",
+      "context": "a phenomenon that Kahneman and Tversky called \"loss aversion\"",
+      "part": 3
+    },
+    {
+      "word": "incumbent",
+      "definition": "currently existing or established (here, products already owned)",
+      "context": "consumers irrationally overvalue incumbent products",
+      "part": 3
+    },
+    {
+      "word": "oblivious",
+      "definition": "not aware of or not noticing something",
+      "context": "most people seem oblivious to the existence of the behaviors",
+      "part": 3
+    }
+  ]
 }

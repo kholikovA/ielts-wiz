@@ -535,45 +535,415 @@
     "40": "colour-coding|colour coding|color-coding|color coding"
   },
   "explanations": {
-    "1": "The text says Dr Engel has spent \"the past decade\" collating examples of self-medicating behaviour in wild animals, matching ten years of gathering evidence.",
-    "2": "The passage says the idea \"has been generally regarded with some skepticism by other animal behaviourists,\" contradicting the claim that they always believed it.",
-    "3": "The text describes Dr Karesh studying animal health and using blood tests, but never mentions a medical team assisting his research.",
-    "4": "The passage states that if healthy wild animals are brought into captivity \"their health often deteriorates unless great care is taken,\" confirming a decline.",
-    "5": "The text says chimps with worms \"would dose themselves with the pith ... of a plant called Veronia.\"",
-    "6": "The passage says Veronia \"produces poisonous chemicals called terpenes,\" a strong enough concentration \"to kill gut parasites.\"",
-    "7": "The text reports the clay-fed macaws had \"60% less alkaloid in their bloodstreams,\" so clay reduced alkaloid levels in the blood.",
-    "8": "The passage says everyone's \"assumption was that Aspilia released a drug,\" a hypothesis later shown wrong since the leaves trapped worms.",
-    "9": "The text says chimps were \"wrinkling their noses as they swallowed these leaves, suggesting the experience was unpleasant.\"",
-    "10": "The passage states many species \"consume dirt a behaviour known as geophagy,\" naming the medicinal soil-eating behaviour.",
-    "11": "The text says the preferred explanation \"was that soil supplies minerals such as salt,\" the mineral people first thought animals sought.",
-    "12": "The passage says clay \"helps to detoxify the defensive poisons that some plants produce,\" matching the idea clay can detoxify poisons.",
-    "13": "The text says African market stalls \"frequently sell tablets made of different sorts of clays,\" the clay-based products sold to treat illnesses.",
-    "14": "Section A discusses unhappy jobs like security guards and truck drivers \"characterised by a lack of conversation or by meaningless small talk.\"",
-    "15": "Section B describes Mehl and Vazire cataloguing each conversation as \"small talk\" or \"substantive,\" categorising types of spoken exchanges.",
-    "16": "Section C links vocal exchanges and grooming in lemurs, showing how sounds and physical contact \"indicate strong social bonds.\"",
-    "17": "Section D's commuter study had \"Participants had predicted precisely the opposite outcome,\" a surprising result about talking to strangers.",
-    "18": "Section E lists everyday situations - cafés, galleries, waiting rooms - that were improved when people engaged in small talk, enhancing connection.",
-    "19": "Section F examines curious versus less curious and outgoing versus reserved people, identifying personality types who find small talk more difficult.",
-    "20": "Sandstrom and Dunn found coffee-shop customers who socially interacted \"felt better\" than those \"in a rush,\" so interaction beats hurrying a transaction.",
-    "21": "Mehl and Vazire found people with \"more substantive conversations were more likely to say they were feeling happy and fulfilled.\"",
-    "22": "Kulahci's lemur research showed \"even among animals, vocal exchanges indicate strong social bonds,\" so another species communicates socially.",
-    "23": "Kashdan's study found \"curious people needed no help transforming conversations,\" so some change a conversation's subject more easily than others.",
-    "24": "Epley and Schroeder's train study had volunteers chat with \"other commuters who usually took the same train to work every day.\"",
-    "25": "In the gallery study, visitors who chatted \"felt happier and more connected to the paintings.\"",
-    "26": "Less curious people \"had greater luck ... when they were supplied with topics that encouraged people to open up.\"",
-    "27": "Section A conveys \"Unlimited enthusiasm\" and belief that hard work \"would bring about a new world,\" optimism about transforming the country.",
-    "28": "Section B describes admiration for Taylor and Ford, \"Emulating and surpassing such capitalist models,\" showing inspiration from abroad.",
-    "29": "Section D presents Larin's idea for a \"continuous working week so that the machines could operate to their full capacity every day,\" factories running seven days.",
-    "30": "Section E explains the five-group, colour-coded, staggered rest-day scheme, detailing how the continuous working week was organised.",
-    "31": "Section F lists the scheme's benefits plus \"The only objection concerned the family,\" giving the pros and cons of the continuous week.",
-    "32": "Section G says \"many managers simply claimed that their factories had gone over to the new week, without actually applying it,\" so it was not consistently introduced.",
-    "33": "Section H says the week \"was far from having the vaunted effect on production,\" the failure to achieve expected improvements.",
-    "34": "Section I says both schemes \"were finally abandoned in 1940\" and \"The experiment had failed,\" the end of two short-lived schemes.",
-    "35": "The text says Communists admired Taylor's time-and-motion studies and Ford's mass production - the methods of increasing productivity.",
-    "36": "Larin proposed the week so \"the machines could operate to their full capacity every day,\" ensuring machinery was in continuous use.",
-    "37": "The passage says \"The only objection concerned the family,\" so family life was the aspect thought unlikely to improve.",
-    "38": "The text names \"Taylor, the American management expert whose time and motion studies had discovered ways of streamlining effort.\"",
-    "39": "The passage says \"the economist Larin came up with an idea\" for the continuous working week.",
-    "40": "The text says each group was \"assigned a colour which appeared on the new calendars,\" calling this \"colour-coding ... a valuable device.\""
-  }
+    "1": {
+      "evidence": "For the past decade, Dr Cindy Engel, a lecturer in Environmental Sciences at Britain's Open University, has been collating examples of self-medicating behaviour in wild animals.",
+      "part": 1,
+      "paragraph": 0,
+      "rationale": "\"For the past decade\" equals ten years, and \"collating examples of self-medicating behaviour\" matches gathering evidence that animals treat their own illnesses."
+    },
+    "2": {
+      "evidence": "the idea that animals can treat themselves has been generally regarded with some skepticism by other animal behaviourists",
+      "part": 1,
+      "paragraph": 0,
+      "rationale": "\"Generally regarded with some skepticism\" contradicts the claim that behaviourists have always believed animals can heal themselves."
+    },
+    "3": {
+      "evidence": "has studied the health of a wide range of wild animals, including anaconda snakes, macaws, penguins, impala and buffalo",
+      "part": 1,
+      "paragraph": 1,
+      "rationale": "The passage describes Karesh's study and his use of blood tests, but a medical team assisting him is never stated, so the claim is unverifiable from the text."
+    },
+    "4": {
+      "evidence": "if healthy wild animals are brought into captivity, their health often deteriorates unless great care is taken over their living conditions",
+      "part": 1,
+      "paragraph": 1,
+      "rationale": "\"Their health often deteriorates\" matches \"experience a decline in health\" for wild animals taken into captivity."
+    },
+    "5": {
+      "evidence": "would dose themselves with the pith (the white substance between the skin and the flesh) of a plant called Veronia",
+      "part": 1,
+      "paragraph": 2,
+      "rationale": "Chimps with worms eat the \"pith\" of the Veronia plant as the self-treatment named in the table."
+    },
+    "6": {
+      "evidence": "This plant produces poisonous chemicals called terpenes.",
+      "part": 1,
+      "paragraph": 2,
+      "rationale": "The toxins that kill parasites are named \"terpenes,\" matching the table's blank for the chemical that kills parasites."
+    },
+    "7": {
+      "evidence": "the macaws that had eaten the clay had 60% less alkaloid in their bloodstreams than those that had not",
+      "part": 1,
+      "paragraph": 4,
+      "rationale": "\"60% less alkaloid in their bloodstreams\" is the reduction in blood-level the table asks about: clay lowered alkaloid."
+    },
+    "8": {
+      "evidence": "His (and everybody else's) assumption was that Aspilia released a drug",
+      "part": 1,
+      "paragraph": 6,
+      "rationale": "The mistaken belief was that the leaves released a \"drug,\" the wrongly assumed active substance in the table."
+    },
+    "9": {
+      "evidence": "wrinkling their noses as they swallowed these leaves, suggesting the experience was unpleasant",
+      "part": 1,
+      "paragraph": 5,
+      "rationale": "The nose-wrinkling indicates the leaves had an \"unpleasant\" taste, matching the table's blank."
+    },
+    "10": {
+      "evidence": "consume dirt a behaviour known as geophagy",
+      "part": 1,
+      "paragraph": 3,
+      "rationale": "Eating soil for medicinal reasons is the named behaviour \"geophagy\" in the summary."
+    },
+    "11": {
+      "evidence": "the preferred explanation was that soil supplies minerals such as salt",
+      "part": 1,
+      "paragraph": 3,
+      "rationale": "The mineral animals were first thought to seek from dirt is \"salt,\" matching the summary's blank."
+    },
+    "12": {
+      "evidence": "soil and particularly the clay in it helps to detoxify the defensive poisons that some plants produce",
+      "part": 1,
+      "paragraph": 4,
+      "rationale": "Clay \"helps to detoxify\" plant poisons, so the summary verb is \"detoxify.\""
+    },
+    "13": {
+      "evidence": "The medical stalls in African markets frequently sell tablets made of different sorts of clays, appropriate to different medical conditions.",
+      "part": 1,
+      "paragraph": 7,
+      "rationale": "The clay-based products sold in African markets are \"tablets,\" matching the summary blank."
+    },
+    "14": {
+      "evidence": "they're characterised by a lack of conversation or by meaningless small talk, which unfortunately represents an obligatory part of the job",
+      "part": 2,
+      "paragraph": 0,
+      "rationale": "Section A says certain jobs involve a lack of conversation or only meaningless small talk, matching heading h7 about occupations with little interesting conversation."
+    },
+    "15": {
+      "evidence": "catalogued each overheard conversation as either \"small talk\" (\"What do you have there? Popcorn? That looks good!\") or \"substantive\"",
+      "part": 2,
+      "paragraph": 1,
+      "rationale": "Section B sorts conversations into small talk versus substantive, matching heading h4 about a study categorising types of spoken exchanges."
+    },
+    "16": {
+      "evidence": "tested the relationship between vocal exchanges and grooming in lemurs",
+      "part": 2,
+      "paragraph": 2,
+      "rationale": "Section C links vocal exchanges (sounds) and grooming (physical contact) to social bonds, matching heading h1."
+    },
+    "17": {
+      "evidence": "Participants had predicted precisely the opposite outcome.",
+      "part": 2,
+      "paragraph": 3,
+      "rationale": "Section D's commuter experiment produced an outcome opposite to what participants expected, matching heading h3 about surprising results."
+    },
+    "18": {
+      "evidence": "Every day we have opportunities to transform potentially impersonal exchanges into genuine social interactions",
+      "part": 2,
+      "paragraph": 4,
+      "rationale": "Section E covers everyday situations (cafés, galleries, waiting rooms) improved by small talk, matching heading h9 about common situations enhanced by small talk."
+    },
+    "19": {
+      "evidence": "people who were rated by the researchers as 'less curious about all aspects of life' had trouble getting a conversation going on their own",
+      "part": 2,
+      "paragraph": 5,
+      "rationale": "Section F contrasts curious/less-curious and outgoing/reserved people and who struggles with small talk, matching heading h5 about personality types that find small talk more difficult."
+    },
+    "20": {
+      "evidence": "people who had a social interaction with a server in a coffee shop felt better emotionally than people who were in a rush to get everything done",
+      "part": 2,
+      "paragraph": 4,
+      "rationale": "Sandstrom and Dunn (D) found socially interacting beat being in a rush, matching \"interacting socially is preferable to hurrying through a transaction.\""
+    },
+    "21": {
+      "evidence": "people who had more substantive conversations were more likely to say they were feeling happy and fulfilled overall",
+      "part": 2,
+      "paragraph": 1,
+      "rationale": "Mehl and Vazire (A) found those with more substantive (personal, meaningful) conversations were happier and more fulfilled with their lives."
+    },
+    "22": {
+      "evidence": "even among animals, vocal exchanges indicate strong social bonds between the group members",
+      "part": 2,
+      "paragraph": 2,
+      "rationale": "Kulahci (B) showed lemurs, another species, communicate for social bonding, matching \"more than one species whose members communicate for social reasons.\""
+    },
+    "23": {
+      "evidence": "people who were deemed 'curious' needed no help transforming conversations about ordinary things like favourite holidays into other areas of conversation",
+      "part": 2,
+      "paragraph": 5,
+      "rationale": "Kashdan (E) found curious people transform/change conversation topics easily while others need help, matching \"some find it easier than others to change the subject.\""
+    },
+    "24": {
+      "evidence": "gave volunteers varying directions about whether to talk with other commuters who usually took the same train to work every day",
+      "part": 2,
+      "paragraph": 3,
+      "rationale": "The train-study volunteers approached \"commuters\" who regularly took the same train, the one-word answer."
+    },
+    "25": {
+      "evidence": "when volunteers broke the silence at a gallery to chat with other visitors, the visitors felt happier and more connected to the paintings",
+      "part": 2,
+      "paragraph": 4,
+      "rationale": "In the gallery study, those drawn into conversation related more to the \"paintings,\" the one-word answer."
+    },
+    "26": {
+      "evidence": "they had greater luck building closeness with others when they were supplied with topics that encouraged people to open up about themselves",
+      "part": 2,
+      "paragraph": 5,
+      "rationale": "Less curious (introverted) people were helped by being given \"topics\" to start a conversation, the one-word answer."
+    },
+    "27": {
+      "evidence": "Unlimited enthusiasm was the mood of the day, with the Communists believing that iron will and hard-working manpower alone would bring about a new world.",
+      "part": 3,
+      "paragraph": 0,
+      "rationale": "Section A's \"unlimited enthusiasm\" and belief in bringing about a new world match heading h9 about optimism over transforming the country."
+    },
+    "28": {
+      "evidence": "Emulating and surpassing such capitalist models formed part of the training of the new Soviet Man.",
+      "part": 3,
+      "paragraph": 1,
+      "rationale": "Section B describes admiring and copying American models (Taylor, Ford), matching heading h7 about inspiration from abroad."
+    },
+    "29": {
+      "evidence": "Why not abolish that wasted day by instituting a continuous working week so that the machines could operate to their full capacity every day of the week?",
+      "part": 3,
+      "paragraph": 3,
+      "rationale": "Section D proposes the continuous working week so machines run every day, matching heading h1 about factories operating seven days a week."
+    },
+    "30": {
+      "evidence": "Workers in each establishment were divided into five groups, each assigned a colour which appeared on the new calendars distributed all over the country.",
+      "part": 3,
+      "paragraph": 4,
+      "rationale": "Section E details the five-group, colour-coded, staggered rest-day arrangement, matching heading h6 about how the continuous working week was organised."
+    },
+    "31": {
+      "evidence": "The only objection concerned the family, where normally more than one member was working",
+      "part": 3,
+      "paragraph": 5,
+      "rationale": "Section F lists the scheme's benefits then its one objection, matching heading h11 about pros and cons of the continuous working week."
+    },
+    "32": {
+      "evidence": "many managers simply claimed that their factories had gone over to the new week, without actually applying it",
+      "part": 3,
+      "paragraph": 6,
+      "rationale": "Section G shows the scheme was claimed but not actually applied, matching heading h4 about not being consistently introduced everywhere."
+    },
+    "33": {
+      "evidence": "Furthermore, the new week was far from having the vaunted effect on production.",
+      "part": 3,
+      "paragraph": 7,
+      "rationale": "Section H reports production fell short of the promised gains, matching heading h10 about the failure of factories to achieve expected improvements."
+    },
+    "34": {
+      "evidence": "Both were finally abandoned in 1940, as part of the general reversion to more traditional methods, and Sunday returned as the universal day of rest.",
+      "part": 3,
+      "paragraph": 8,
+      "rationale": "Section I describes both schemes being abandoned and the experiment failing, matching heading h2 about the end of two short-lived schemes."
+    },
+    "35": {
+      "evidence": "Taylor, the American management expert whose time and motion studies had discovered ways of streamlining effort so that every worker could produce the maximum",
+      "part": 3,
+      "paragraph": 1,
+      "rationale": "Taylor's time-and-motion methods to maximise output match option C, \"the methods of increasing productivity.\""
+    },
+    "36": {
+      "evidence": "instituting a continuous working week so that the machines could operate to their full capacity every day of the week",
+      "part": 3,
+      "paragraph": 3,
+      "rationale": "The week aimed to keep machines running at full capacity every day, matching option B, \"machinery was in continuous use.\""
+    },
+    "37": {
+      "evidence": "The only objection concerned the family, where normally more than one member was working",
+      "part": 3,
+      "paragraph": 5,
+      "rationale": "Family life was the sole drawback raised, so it was the aspect thought unlikely to improve, matching option A, \"family life.\""
+    },
+    "38": {
+      "evidence": "Taylor, the American management expert whose time and motion studies had discovered ways of streamlining effort",
+      "part": 3,
+      "paragraph": 1,
+      "rationale": "The person whose theories inspired efficiency efforts is named \"Taylor.\""
+    },
+    "39": {
+      "evidence": "the economist Larin came up with an idea for even greater efficiency",
+      "part": 3,
+      "paragraph": 3,
+      "rationale": "The proposer of the continuous working week is the economist \"Larin.\""
+    },
+    "40": {
+      "evidence": "This colour-coding was a valuable device, since without it workers might have trouble remembering what their day off was going to be",
+      "part": 3,
+      "paragraph": 4,
+      "rationale": "Groups were identified on the calendars by \"colour-coding,\" the system the question asks for."
+    }
+  },
+  "vocabulary": [
+    {
+      "word": "collating",
+      "definition": "collecting and combining examples or information together in an organised way",
+      "context": "has been collating examples of self-medicating behaviour",
+      "part": 1
+    },
+    {
+      "word": "self-medicating",
+      "definition": "treating one's own illness without professional medical help",
+      "context": "examples of self-medicating behaviour in wild animals",
+      "part": 1
+    },
+    {
+      "word": "skepticism",
+      "definition": "an attitude of doubt or disbelief toward a claim",
+      "context": "regarded with some skepticism by other animal behaviourists",
+      "part": 1
+    },
+    {
+      "word": "in captivity",
+      "definition": "kept in confinement rather than living freely in the wild",
+      "context": "diseases that are often fatal in captive animals",
+      "part": 1
+    },
+    {
+      "word": "deteriorates",
+      "definition": "becomes progressively worse",
+      "context": "their health often deteriorates unless great care is taken",
+      "part": 1
+    },
+    {
+      "word": "intestinal worms",
+      "definition": "parasites that live in the gut and cause illness",
+      "context": "chimpanzees suffering from intestinal worms",
+      "part": 1
+    },
+    {
+      "word": "pith",
+      "definition": "the soft white tissue lying just beneath a plant's skin",
+      "context": "the white substance between the skin and the flesh",
+      "part": 1
+    },
+    {
+      "word": "geophagy",
+      "definition": "the practice of deliberately eating soil or earth",
+      "context": "consume dirt a behaviour known as geophagy",
+      "part": 1
+    },
+    {
+      "word": "detoxify",
+      "definition": "to remove or neutralise harmful poisons from something",
+      "context": "the clay in it helps to detoxify the defensive poisons",
+      "part": 1
+    },
+    {
+      "word": "alkaloids",
+      "definition": "a class of naturally occurring chemicals, some highly toxic",
+      "context": "seeds containing alkaloids, a group of chemicals",
+      "part": 1
+    },
+    {
+      "word": "egested",
+      "definition": "expelled or passed out of the body as waste",
+      "context": "he found that the egested leaves were full of intestinal worms",
+      "part": 1
+    },
+    {
+      "word": "obligatory",
+      "definition": "required as a necessary or compulsory part of something",
+      "context": "an obligatory part of the job",
+      "part": 2
+    },
+    {
+      "word": "substantive",
+      "definition": "having real depth or meaningful content rather than being trivial",
+      "context": "people who had more substantive conversations were more likely to say they were feeling happy",
+      "part": 2
+    },
+    {
+      "word": "eavesdropped",
+      "definition": "secretly listened to other people's private conversations",
+      "context": "the researchers eavesdropped on undergraduates for four days",
+      "part": 2
+    },
+    {
+      "word": "grooming",
+      "definition": "the act of cleaning or tending another animal's fur or skin",
+      "context": "the relationship between vocal exchanges and grooming in lemurs",
+      "part": 2
+    },
+    {
+      "word": "chitchat",
+      "definition": "casual, light conversation about unimportant matters",
+      "context": "conversations, equivalent to human chitchat",
+      "part": 2
+    },
+    {
+      "word": "in close proximity",
+      "definition": "physically very near to one another",
+      "context": "strangers in close proximity routinely ignore each other",
+      "part": 2
+    },
+    {
+      "word": "solitude",
+      "definition": "the state of being alone, often by choice",
+      "context": "told to 'enjoy your solitude'",
+      "part": 2
+    },
+    {
+      "word": "contagious",
+      "definition": "tending to spread easily from one person to another",
+      "context": "The pleasure of connection seems contagious",
+      "part": 2
+    },
+    {
+      "word": "introverted",
+      "definition": "reserved and inwardly focused in social situations",
+      "context": "instructed to act extroverted than when instructed to act introverted",
+      "part": 2
+    },
+    {
+      "word": "proletariat",
+      "definition": "the class of industrial workers who do manual labour",
+      "context": "millions from the land to swell the industrial proletariat",
+      "part": 3
+    },
+    {
+      "word": "collectivised",
+      "definition": "reorganised into state- or group-owned collective units",
+      "context": "as collectivised farming drove millions from the land",
+      "part": 3
+    },
+    {
+      "word": "streamlining",
+      "definition": "making a process more efficient by removing wasted effort",
+      "context": "discovered ways of streamlining effort",
+      "part": 3
+    },
+    {
+      "word": "emulating",
+      "definition": "trying to match or imitate something admired",
+      "context": "Emulating and surpassing such capitalist models",
+      "part": 3
+    },
+    {
+      "word": "staggering",
+      "definition": "arranging at different times so they do not all coincide",
+      "context": "Staggering the rest days between groups of workers",
+      "part": 3
+    },
+    {
+      "word": "haphazardly",
+      "definition": "in a disorganised, unplanned manner",
+      "context": "the new plan was implemented haphazardly",
+      "part": 3
+    },
+    {
+      "word": "vaunted",
+      "definition": "praised or boasted about, often more than deserved",
+      "context": "far from having the vaunted effect on production",
+      "part": 3
+    },
+    {
+      "word": "reversion",
+      "definition": "a return to a previous state or practice",
+      "context": "the general reversion to more traditional methods",
+      "part": 3
+    }
+  ]
 }

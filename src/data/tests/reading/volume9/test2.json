@@ -640,45 +640,415 @@
     "40": "B"
   },
   "explanations": {
-    "1": "Andrew worked in the cotton factory where his father William also found a job, so the shared workplace was his father.",
-    "2": "After his father died he educated himself and became 'an avid reader, a theatergoer, and a lover of music', giving music as the third item.",
-    "3": "Thomas A. Scott 'made the eighteen-year-old his secretary', so Carnegie became secretary to Scott at the Pennsylvania Railroad.",
-    "4": "He 'began to see that steel was eventually going to replace iron' for rails, shapes, pipe and wire, signalling greater demand for steel.",
-    "5": "In 1873 he built the rail business 'by cutting prices', matching 'reducing' prices.",
-    "6": "He obtained capital from profit 'and when necessary from banks', so he sometimes borrowed money from banks.",
-    "7": "'Carnegie planned new projects and the improvement of existing plants', so his responsibility was arranging future projects.",
-    "8": "Triumphant Democracy 'pointed out... the advantages of life in the United States over the unequal societies of Britain and other European countries', confirming more opportunities.",
-    "9": "After acquiring Homestead he 'automated many of the mill's operations, cutting down the number of workers that were needed', so a smaller workforce was required.",
-    "10": "He 'believed that workers had a right to join unions', which contradicts the claim that he prevented them from joining.",
-    "11": "The text says Frick wanted to lower wages and Carnegie was criticised for inaction, but never states Carnegie blamed Frick for the strike.",
-    "12": "He 'refused to enter into any agreements with other companies' and decided to fight back, so he did not negotiate with competitors.",
-    "13": "He 'built some three thousand public libraries all over the English-speaking world', not limited to the United States.",
-    "14": "Paragraph E states 'success of translation depends on the purpose for which it was made, which... reflects the needs of the people for whom it was made'.",
-    "15": "Paragraph H contrasts countries that view translation as 'a menial, clerical task' with others that regard it as 'a major intellectual discipline'.",
-    "16": "Paragraph C states 'the aim of translation is to provide semantic equivalence between source and target language'.",
-    "17": "Paragraph E says 'the success of translation depends on the purpose for which it was made', so translations are judged by purpose.",
-    "18": "Paragraph E says a scientific article 'requires careful attention to meaning but little attention to stylistic features', so style is not considered.",
-    "19": "Paragraph E says a dubbed film script warrants care over lip synchronisation 'often at the expense of content', so content is given low value.",
-    "20": "A pragmatic translation 'emphasises accuracy and knowledge of the subject', matching focus on reproducing content accurately (E).",
-    "21": "Ethnographic or sociolinguistic translations 'aim to pay full attention to the cultural backgrounds', matching important cultural aspects (B).",
-    "22": "In a literal translation 'the linguistic structure of the source text is followed, but is normalised according to the rules of the target language' (D).",
-    "23": "In a free translation 'the linguistic structure of the source language is ignored, and an equivalent is found based on the meaning it conveys' (C).",
-    "24": "B, D and F are stated: a translator considers culture (para B), 'there is no such thing as a best translation' (para E), and texts should read 'as if... written originally in the target language' (para H).",
-    "25": "Same three correct options: target-language culture (B), difficulty defining a best translation (D), and reading as an original work (F).",
-    "26": "Same three correct options: cultural awareness (B), no single best translation (D), and the aim to read like an original (F).",
-    "27": "There were 'no forests on the island', so no wood was available to help build the statues, matching D.",
-    "28": "Their canoes were 'leaky and frail', describing the poor quality of the inhabitants' boats, matching C.",
-    "29": "The islanders were 'living in extremely poor conditions', i.e. living in poverty, matching A.",
-    "30": "'There was no cultivation of crops', so there was no successful agriculture, matching B.",
-    "31": "His theory 'for a short period of time... appealed to those fascinated with space travel', confirming brief acceptance by some.",
-    "32": "The text mentions a slave trade and disease taking population but never states archaeologists removed valuable artefacts from the island.",
-    "33": "Smallpox is named as an introduced disease but the text never says it affected inhabitants for centuries.",
-    "34": "The writer says 'there is no doubt that the island was once covered in palm trees', so it is not open to question.",
-    "35": "'It is an indisputable fact that rats found their way to the island, although exactly how is a matter of debate', so the means is still unestablished.",
-    "36": "Diamond says trees were cut to build 'canoe ladders' to move statues, with each requiring several trees, blaming a method of transportation (C).",
-    "37": "Hunt and Lipo say the first people 'came around AD1200, about 400 years later than other scientists have suggested', matching settlers arriving much later (B).",
-    "38": "Almost all palm seed shells 'were found to have been gnawed by rats which would have made them unable to germinate', so rats likely caused deforestation (A).",
-    "39": "Flenley 'refutes the arguments of the sceptics' and says they are ignoring evidence, so he dismisses their theory (A).",
-    "40": "The article presents Roggeveen's reactions and the competing views of Diamond, Hunt, Lipo and Flenley, giving an overview of arguments (B)."
-  }
+    "1": {
+      "evidence": "William found a job in a cotton factory",
+      "part": 1,
+      "paragraph": 1,
+      "rationale": "Andrew 'also worked in the cotton factory' where his father William had found a job, so the shared workplace was his father."
+    },
+    "2": {
+      "evidence": "He became an avid reader, a theatergoer, and a lover of music.",
+      "part": 1,
+      "paragraph": 1,
+      "rationale": "'Books' (reader), 'theatrical performances' (theatergoer) and the third item, music, list how he educated himself."
+    },
+    "3": {
+      "evidence": "made the eighteen-year-old his secretary",
+      "part": 1,
+      "paragraph": 2,
+      "rationale": "Scott 'made the eighteen-year-old his secretary', so Carnegie became secretary to him at the Pennsylvania Railroad."
+    },
+    "4": {
+      "evidence": "Carnegie began to see that steel was eventually going to replace iron for the manufacture of rails, structural shapes, pipe, and wire.",
+      "part": 1,
+      "paragraph": 3,
+      "rationale": "'Changing engineering needs' paraphrases steel replacing iron for rails, shapes, pipe and wire, signalling demand for steel."
+    },
+    "5": {
+      "evidence": "by cutting prices",
+      "part": 1,
+      "paragraph": 3,
+      "rationale": "'Reducing' matches 'cutting' and the answer is prices."
+    },
+    "6": {
+      "evidence": "and when necessary from banks",
+      "part": 1,
+      "paragraph": 3,
+      "rationale": "He obtained capital from profit and when necessary from banks, i.e. sometimes borrowing money from banks."
+    },
+    "7": {
+      "evidence": "Carnegie planned new projects and the improvement of existing plants",
+      "part": 1,
+      "paragraph": 4,
+      "rationale": "'Arranging future projects' paraphrases planning new projects; improvement of plants matches 'innovations for factories'."
+    },
+    "8": {
+      "evidence": "the advantages of life in the United States over the unequal societies of Britain and other European countries",
+      "part": 1,
+      "paragraph": 5,
+      "rationale": "'Advantages of life in the US over... European countries' supports that the USA offered more opportunities. TRUE."
+    },
+    "9": {
+      "evidence": "automated many of the mill's operations, cutting down the number of workers that were needed",
+      "part": 1,
+      "paragraph": 6,
+      "rationale": "Cutting down the number of workers needed means a smaller workforce was required after he took control. TRUE."
+    },
+    "10": {
+      "evidence": "Carnegie believed that workers had a right to join unions and to bargain with management through their unions.",
+      "part": 1,
+      "paragraph": 6,
+      "rationale": "He believed workers had a right to join unions, contradicting the claim that he prevented them. FALSE."
+    },
+    "11": {
+      "evidence": "Frick wanted to lower the minimum wage because of the need for fewer workers.",
+      "part": 1,
+      "paragraph": 6,
+      "rationale": "The text reports Frick's wage proposal and that Carnegie was criticised for inaction, but never states Carnegie blamed Frick for the strike. NOT GIVEN."
+    },
+    "12": {
+      "evidence": "He refused to enter into any agreements with other companies.",
+      "part": 1,
+      "paragraph": 7,
+      "rationale": "Refusing any agreements and deciding to fight back contradicts the claim that he negotiated with competitors. FALSE."
+    },
+    "13": {
+      "evidence": "He built some three thousand public libraries all over the English-speaking world",
+      "part": 1,
+      "paragraph": 8,
+      "rationale": "Libraries were built all over the English-speaking world, not limited to the United States. FALSE."
+    },
+    "14": {
+      "evidence": "The success of translation depends on the purpose for which it was made, which in turn reflects the needs of the people for whom it was made.",
+      "part": 2,
+      "paragraph": 4,
+      "rationale": "Paragraph E ties translation success to the client's purpose and needs, matching the effect of requirements on the translation."
+    },
+    "15": {
+      "evidence": "Some countries view translation as a menial, clerical task, and pay their translators accordingly, while others regard it as a major intellectual discipline in its own right.",
+      "part": 2,
+      "paragraph": 7,
+      "rationale": "Paragraph H contrasts countries treating translation as menial versus a major discipline, i.e. contrasting attitudes toward translators."
+    },
+    "16": {
+      "evidence": "The aim of translation is to provide semantic equivalence between source and target language.",
+      "part": 2,
+      "paragraph": 2,
+      "rationale": "Paragraph C states the aim is to provide semantic equivalence with the source text."
+    },
+    "17": {
+      "evidence": "The success of translation depends on the purpose for which it was made",
+      "part": 2,
+      "paragraph": 4,
+      "rationale": "Translations are best judged by their purpose, as success depends on the purpose for which they were made."
+    },
+    "18": {
+      "evidence": "A translation of a scientific article requires careful attention to meaning but little attention to stylistic features.",
+      "part": 2,
+      "paragraph": 4,
+      "rationale": "A scientific text needs little attention to stylistic features, so the translator need not consider its style."
+    },
+    "19": {
+      "evidence": "warrant scrupulous care over the synchronisation of lip movements, often at the expense of content",
+      "part": 2,
+      "paragraph": 4,
+      "rationale": "Dubbing prioritises lip synchronisation at the expense of content, giving content a relatively low value."
+    },
+    "20": {
+      "evidence": "A pragmatic translation emphasises accuracy and knowledge of the subject",
+      "part": 2,
+      "paragraph": 5,
+      "rationale": "Pragmatic translation emphasises accuracy, matching focus on reproducing content accurately (E)."
+    },
+    "21": {
+      "evidence": "Ethnographic or sociolinguistic translations aim to pay full attention to the cultural backgrounds of the authors and the recipients",
+      "part": 2,
+      "paragraph": 5,
+      "rationale": "Ethnographic translation pays full attention to cultural backgrounds, matching important cultural aspects (B)."
+    },
+    "22": {
+      "evidence": "In a literal translation the linguistic structure of the source text is followed, but is normalised according to the rules of the target language.",
+      "part": 2,
+      "paragraph": 6,
+      "rationale": "Literal translation follows the structure but normalises it to the target language's rules, matching D."
+    },
+    "23": {
+      "evidence": "In a free translation the linguistic structure of the source language is ignored, and an equivalent is found based on the meaning it conveys.",
+      "part": 2,
+      "paragraph": 6,
+      "rationale": "Free translation ignores grammatical structure and finds an equivalent based on meaning, matching C."
+    },
+    "24": {
+      "evidence": "they must also have a thorough understanding in the field of knowledge covered by the source text, and of any social, cultural, or emotional connotations",
+      "part": 2,
+      "paragraph": 1,
+      "rationale": "Option B (consider the culture of the target language) is supported here; D and E are supported in paragraphs E and H, giving B, D, F as the three correct."
+    },
+    "25": {
+      "evidence": "they must also have a thorough understanding in the field of knowledge covered by the source text, and of any social, cultural, or emotional connotations",
+      "part": 2,
+      "paragraph": 1,
+      "rationale": "Same answer set; this evidence supports option B that the translator must consider target-language culture."
+    },
+    "26": {
+      "evidence": "yet that reads as if it were written originally in the target language",
+      "part": 2,
+      "paragraph": 7,
+      "rationale": "Same answer set; this evidence supports option F, that a translation should read like an original work."
+    },
+    "27": {
+      "evidence": "But as there were no forests on the island, he could not comprehend how people devoid of heavy timber could build and erect something that size.",
+      "part": 3,
+      "paragraph": 0,
+      "rationale": "No forests/heavy timber means no wood was available to help construct the statues (D)."
+    },
+    "28": {
+      "evidence": "Their canoes were leaky and frail, not the sort of ocean-going craft that could survive a three-week sea journey.",
+      "part": 3,
+      "paragraph": 0,
+      "rationale": "Leaky and frail canoes describe the poor quality of the inhabitants' boats (C)."
+    },
+    "29": {
+      "evidence": "it seemed evident the islanders were living in extremely poor conditions",
+      "part": 3,
+      "paragraph": 0,
+      "rationale": "Living in extremely poor conditions equals living in poverty (A)."
+    },
+    "30": {
+      "evidence": "there was no cultivation of crops",
+      "part": 3,
+      "paragraph": 0,
+      "rationale": "No cultivation of crops means no evidence of successful agriculture (B)."
+    },
+    "31": {
+      "evidence": "for a short period of time his theory appealed to those fascinated with space travel",
+      "part": 3,
+      "paragraph": 1,
+      "rationale": "His theory briefly appealed to some space-travel enthusiasts, confirming it was briefly accepted by some sections of society. YES."
+    },
+    "32": {
+      "evidence": "a slave trade that stole a huge proportion of its indigenous population",
+      "part": 3,
+      "paragraph": 1,
+      "rationale": "The text mentions disease and a slave trade removing people but never states archaeologists removed valuable artefacts. NOT GIVEN."
+    },
+    "33": {
+      "evidence": "The island, these scholars argue, suffered at the hands of introduced diseases, notably smallpox",
+      "part": 3,
+      "paragraph": 1,
+      "rationale": "Smallpox is named as an introduced disease, but the text never says it affected inhabitants for centuries. NOT GIVEN."
+    },
+    "34": {
+      "evidence": "There is no doubt that the island was once covered in palm trees.",
+      "part": 3,
+      "paragraph": 2,
+      "rationale": "The writer says there is no doubt the island was once forested, so it is not open to question. NO."
+    },
+    "35": {
+      "evidence": "It is an indisputable fact that rats found their way to the island, although exactly how is a matter of debate.",
+      "part": 3,
+      "paragraph": 2,
+      "rationale": "How the rats arrived is a matter of debate, i.e. still to be established. YES."
+    },
+    "36": {
+      "evidence": "they needed to cut large logs for the construction of long 'canoe ladders' to carry them to the coast",
+      "part": 3,
+      "paragraph": 3,
+      "rationale": "Diamond blames the felling of trees to build canoe ladders for moving the statues, i.e. a method of transportation (C)."
+    },
+    "37": {
+      "evidence": "They say the first people to arrive came around AD1200, about 400 years later than other scientists have suggested from radio-carbon dating.",
+      "part": 3,
+      "paragraph": 4,
+      "rationale": "Hunt and Lipo date the first settlers about 400 years later than others, i.e. much later than widely accepted (B)."
+    },
+    "38": {
+      "evidence": "almost all of the palm seed shells discovered on the island were found to have been gnawed by rats which would have made them unable to germinate",
+      "part": 3,
+      "paragraph": 5,
+      "rationale": "Rats gnawing palm seeds so they could not germinate makes them a likely cause of deforestation (A)."
+    },
+    "39": {
+      "evidence": "He refutes the arguments of the sceptics",
+      "part": 3,
+      "paragraph": 6,
+      "rationale": "Flenley refutes the sceptics' arguments and says they ignore evidence, i.e. he dismisses their theory (A)."
+    },
+    "40": {
+      "evidence": "Others, meanwhile, take a different view.",
+      "part": 3,
+      "paragraph": 1,
+      "rationale": "The article lays out Roggeveen's reactions and the competing views of Diamond, Hunt, Lipo and Flenley, providing an overview of arguments (B)."
+    }
+  },
+  "vocabulary": [
+    {
+      "word": "philanthropist",
+      "definition": "a person who donates large sums of money to good causes",
+      "context": "industrialist and philanthropist Andrew Carnegie",
+      "part": 1
+    },
+    {
+      "word": "weaver",
+      "definition": "a person whose job is making cloth on a loom",
+      "context": "the son of William Carnegie, a weaver",
+      "part": 1
+    },
+    {
+      "word": "handloom",
+      "definition": "a weaving machine operated by hand rather than power",
+      "context": "to return to his home handloom, making linens",
+      "part": 1
+    },
+    {
+      "word": "avid",
+      "definition": "extremely keen or enthusiastic about an activity",
+      "context": "He became an avid reader",
+      "part": 1
+    },
+    {
+      "word": "superintendent",
+      "definition": "a person who manages or oversees an organisation or division",
+      "context": "superintendent of the western division of the Pennsylvania Railroad",
+      "part": 1
+    },
+    {
+      "word": "went public",
+      "definition": "sold shares of a company on the open market to raise money",
+      "context": "He never went public",
+      "part": 1
+    },
+    {
+      "word": "bachelor",
+      "definition": "a man who has never married",
+      "context": "Carnegie remained a bachelor until his mother died",
+      "part": 1
+    },
+    {
+      "word": "automated",
+      "definition": "made a process operate by machines instead of people",
+      "context": "automated many of the mill's operations",
+      "part": 1
+    },
+    {
+      "word": "trust funds",
+      "definition": "funds of money set aside and managed for a particular purpose",
+      "context": "Carnegie began to set up trust funds",
+      "part": 1
+    },
+    {
+      "word": "connotations",
+      "definition": "ideas or feelings a word suggests beyond its literal meaning",
+      "context": "social, cultural, or emotional connotations",
+      "part": 2
+    },
+    {
+      "word": "mother tongue",
+      "definition": "the first language a person learns from birth",
+      "context": "translators work into their mother tongue",
+      "part": 2
+    },
+    {
+      "word": "semantic equivalence",
+      "definition": "the matching of meaning between two pieces of text",
+      "context": "to provide semantic equivalence between source and target language",
+      "part": 2
+    },
+    {
+      "word": "abstracting",
+      "definition": "producing a short summary of the main points of a text",
+      "context": "such as adapting, precise writing, and abstracting",
+      "part": 2
+    },
+    {
+      "word": "allusions",
+      "definition": "indirect references to other works, people or events",
+      "context": "such respects as rhythm, puns and cultural allusions",
+      "part": 2
+    },
+    {
+      "word": "rough-and-ready",
+      "definition": "done quickly and crudely but good enough for the purpose",
+      "context": "A rough-and-ready translation of a letter",
+      "part": 2
+    },
+    {
+      "word": "scrupulous",
+      "definition": "showing great care, precision and attention to detail",
+      "context": "scrupulous care over the synchronisation of lip movements",
+      "part": 2
+    },
+    {
+      "word": "archaisms",
+      "definition": "old-fashioned words or expressions no longer in common use",
+      "context": "emphasising such features as archaisms, dialecticisms",
+      "part": 2
+    },
+    {
+      "word": "menial",
+      "definition": "(of work) low-skilled and considered lacking in status",
+      "context": "view translation as a menial, clerical task",
+      "part": 2
+    },
+    {
+      "word": "perplexed",
+      "definition": "confused or puzzled by something hard to understand",
+      "context": "have perplexed archaeologists ever since",
+      "part": 3
+    },
+    {
+      "word": "draught animals",
+      "definition": "animals used to pull heavy loads or machinery",
+      "context": "as no draught animals could be seen either",
+      "part": 3
+    },
+    {
+      "word": "extraterrestrial",
+      "definition": "originating from outside the planet Earth",
+      "context": "the statues were the work of extraterrestrial beings",
+      "part": 3
+    },
+    {
+      "word": "indigenous",
+      "definition": "originating or occurring naturally in a particular place",
+      "context": "stole a huge proportion of its indigenous population",
+      "part": 3
+    },
+    {
+      "word": "deforestation",
+      "definition": "the clearing or destruction of an area's forests",
+      "context": "the issue of the island's deforestation",
+      "part": 3
+    },
+    {
+      "word": "denuded",
+      "definition": "stripped bare of covering such as vegetation",
+      "context": "caused the island to become completely denuded",
+      "part": 3
+    },
+    {
+      "word": "ecocide",
+      "definition": "severe and widespread destruction of the natural environment",
+      "context": "would have caused such a fast ecocide",
+      "part": 3
+    },
+    {
+      "word": "germinate",
+      "definition": "(of a seed) to begin to grow and put out shoots",
+      "context": "would have made them unable to germinate",
+      "part": 3
+    },
+    {
+      "word": "sceptics",
+      "definition": "people who doubt or question accepted claims",
+      "context": "He refutes the arguments of the sceptics",
+      "part": 3
+    },
+    {
+      "word": "sedimentological",
+      "definition": "relating to the study of deposited rock and soil layers",
+      "context": "archaeological, botanical and sedimentological evidence",
+      "part": 3
+    }
+  ]
 }
