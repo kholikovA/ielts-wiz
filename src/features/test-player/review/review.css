@@ -1,0 +1,103 @@
+/* Reading review page. Rendered inside .rtp-root[data-theme] so it inherits the
+   player's themed CSS variables. */
+
+.rv-root { display: flex; flex-direction: column; height: 100%; min-height: 0; background: var(--bg); color: var(--text); font-family: var(--sans); }
+
+/* ---- top bar ---- */
+.rv-top { flex: 0 0 auto; display: flex; align-items: center; gap: 16px; padding: 12px 24px; border-bottom: 1px solid var(--border); }
+.rv-back { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 8px; border: 1px solid var(--border-strong); background: var(--bg); color: var(--text); font-size: 13.5px; font-weight: 600; cursor: pointer; }
+.rv-back:hover { background: var(--bg-hover); }
+.rv-back svg { width: 16px; height: 16px; }
+.rv-title { flex: 1; margin: 0; font-size: 17px; font-weight: 700; text-align: center; }
+.rv-tabs { display: inline-flex; gap: 4px; border: 1px solid var(--border-strong); border-radius: 9px; padding: 3px; }
+.rv-tabs button { padding: 6px 14px; border: none; background: transparent; color: var(--text-muted); font-family: var(--sans); font-size: 13px; font-weight: 600; border-radius: 7px; cursor: pointer; }
+.rv-tabs button.active { background: var(--accent); color: #fff; }
+
+/* ---- body: two panes ---- */
+.rv-body { flex: 1 1 auto; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 0; }
+.rv-passage { overflow-y: auto; padding: 24px 32px; border-right: 1px solid var(--border); font-family: var(--serif); line-height: 1.75; }
+.rv-right { overflow-y: auto; padding: 18px 22px; }
+.rv-passage-title { font-family: var(--sans); font-size: 22px; font-weight: 700; margin: 0 0 6px; }
+.rv-passage-subtitle { font-style: italic; color: var(--text-muted); margin-bottom: 14px; }
+.rv-para { margin: 0 0 14px; }
+.rv-para-row { display: flex; gap: 12px; margin-bottom: 14px; }
+.rv-para-letter { flex: 0 0 26px; height: 26px; border-radius: 6px; background: var(--bg-elevated); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: var(--sans); font-weight: 700; font-size: 13px; }
+.rv-para-row > div:last-child { flex: 1; min-width: 0; }
+.rv-para-row .rv-para { margin: 0; }
+
+/* ---- evidence highlight + badge ---- */
+.rv-root .ev-span { background: color-mix(in srgb, var(--highlight) 26%, transparent); border-radius: 3px; padding: 0 1px; cursor: pointer; transition: background .2s; }
+.rv-root .ev-span:hover { background: color-mix(in srgb, var(--highlight) 40%, transparent); }
+.rv-root .ev-span.current { background: color-mix(in srgb, var(--highlight) 50%, transparent); }
+.rv-root .ev-badge { font-family: var(--sans); font-size: 9.5px; font-weight: 800; color: var(--accent); background: var(--bg); border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent); border-radius: 4px; padding: 0 3px; margin-right: 3px; vertical-align: super; line-height: 1.5; white-space: nowrap; }
+@keyframes rv-flash { 0% { background: color-mix(in srgb, var(--highlight) 75%, transparent); } 100% { background: color-mix(in srgb, var(--highlight) 50%, transparent); } }
+.rv-root .ev-span.flash { animation: rv-flash 1.2s ease-out; }
+@media (prefers-reduced-motion: reduce) { .rv-root .ev-span.flash { animation: none; } }
+
+/* ---- right pane: question rows ---- */
+.rv-qlist { display: flex; flex-direction: column; gap: 10px; }
+.rv-q { border: 1px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--bg); border-left: 3px solid var(--border); }
+.rv-q.correct { border-left-color: var(--correct); }
+.rv-q.wrong { border-left-color: var(--wrong); }
+.rv-q.partial { border-left-color: var(--amber-400, #f59e0b); }
+.rv-q.unanswered { border-left-color: var(--text-subtle, var(--text-muted)); }
+.rv-q.current { box-shadow: 0 0 0 2px var(--accent-soft); }
+.rv-q-head { width: 100%; display: flex; align-items: flex-start; gap: 11px; padding: 12px 14px; background: none; border: none; text-align: left; cursor: pointer; color: var(--text); }
+.rv-q-head:hover { background: var(--bg-hover); }
+.rv-q-num { flex: 0 0 auto; min-width: 26px; height: 24px; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; font-family: var(--sans); font-weight: 800; font-size: 12.5px; color: #fff; background: var(--text-muted); }
+.rv-q-num.correct { background: var(--correct); }
+.rv-q-num.wrong { background: var(--wrong); }
+.rv-q-num.partial { background: var(--amber-400, #f59e0b); }
+.rv-q-num.unanswered { background: var(--text-muted); }
+.rv-q-prompt { flex: 1; min-width: 0; font-size: 14px; line-height: 1.45; padding-top: 2px; }
+.rv-mark { flex: 0 0 auto; width: 18px; height: 18px; margin-top: 3px; }
+.rv-mark.correct { color: var(--correct); }
+.rv-mark.wrong { color: var(--wrong); }
+.rv-mark.unanswered { color: var(--text-muted); }
+
+.rv-q-answers { display: flex; flex-wrap: wrap; gap: 6px 18px; padding: 0 14px 12px 51px; font-size: 13px; }
+.rv-ans { display: inline-flex; align-items: baseline; gap: 7px; }
+.rv-ans-label { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .04em; font-weight: 700; }
+.rv-your { font-weight: 700; }
+.rv-your.correct { color: var(--correct); }
+.rv-your.wrong { color: var(--wrong); text-decoration: line-through; }
+.rv-correct { font-weight: 700; color: var(--correct); }
+.rv-blank { color: var(--text-muted); }
+.rv-extra { color: var(--text-muted); font-size: 12px; }
+
+.rv-explain { display: inline-flex; align-items: center; gap: 6px; margin: 0 14px 12px 51px; padding: 5px 10px; border: 1px solid var(--border-strong); border-radius: 7px; background: var(--bg); color: var(--accent); font-family: var(--sans); font-size: 12.5px; font-weight: 600; cursor: pointer; }
+.rv-explain:hover { background: var(--accent-soft); }
+.rv-explain-chev { width: 14px; height: 14px; transition: transform .2s; }
+.rv-explain.open .rv-explain-chev { transform: rotate(180deg); }
+.rv-q-panel { padding: 0 14px 14px 51px; display: flex; flex-direction: column; gap: 12px; }
+.rv-ev-label, .rv-why-label { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; font-weight: 700; color: var(--text-muted); margin-bottom: 5px; }
+.rv-ev-quote { margin: 0; padding: 9px 12px; border-left: 3px solid var(--accent); background: var(--bg-elevated); border-radius: 0 8px 8px 0; font-family: var(--serif); font-size: 13.5px; line-height: 1.55; color: var(--text); }
+.rv-ev-quote.jump { cursor: pointer; }
+.rv-ev-quote.jump:hover { background: var(--accent-soft); }
+.rv-why p { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--text); }
+
+/* ---- footer: parts + question chips ---- */
+.rv-foot { flex: 0 0 auto; display: flex; align-items: center; gap: 18px; padding: 10px 24px; border-top: 1px solid var(--border); background: var(--bg); overflow-x: auto; }
+.rv-parts { display: inline-flex; gap: 8px; flex: 0 0 auto; }
+.rv-part { display: inline-flex; align-items: center; gap: 7px; padding: 7px 13px; border-radius: 8px; border: 1px solid var(--border-strong); background: var(--bg); color: var(--text-muted); font-size: 13px; font-weight: 700; cursor: pointer; white-space: nowrap; }
+.rv-part.active { border-color: var(--accent); color: var(--text); }
+.rv-part-score { font-size: 11px; font-variant-numeric: tabular-nums; color: var(--text-muted); }
+.rv-qchips { display: inline-flex; gap: 5px; flex-wrap: nowrap; }
+.rv-chip { width: 27px; height: 27px; border-radius: 7px; border: 1px solid var(--border); background: var(--bg); color: var(--text-muted); font-size: 12px; font-weight: 700; cursor: pointer; flex: 0 0 auto; }
+.rv-chip.correct { border-color: var(--correct); color: var(--correct); }
+.rv-chip.wrong { border-color: var(--wrong); color: var(--wrong); }
+.rv-chip.unanswered { color: var(--text-muted); }
+.rv-chip.current { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* ---- vocabulary ---- */
+.rv-vocab { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.rv-vocab-item { border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; background: var(--bg); }
+.rv-vocab-word { font-weight: 700; font-size: 15px; }
+.rv-vocab-def { font-size: 13.5px; color: var(--text); margin-top: 3px; line-height: 1.5; }
+.rv-vocab-context { font-family: var(--serif); font-size: 13px; color: var(--text-muted); margin-top: 6px; font-style: italic; }
+.rv-vocab-empty { color: var(--text-muted); font-size: 14px; padding: 20px; text-align: center; }
+
+@media (max-width: 880px) {
+  .rv-body { grid-template-columns: 1fr; }
+  .rv-passage { border-right: none; border-bottom: 1px solid var(--border); }
+}

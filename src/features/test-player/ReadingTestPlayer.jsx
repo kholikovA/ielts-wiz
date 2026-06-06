@@ -4,6 +4,7 @@ import { useHighlighter } from './useHighlighter';
 import PassagePane from './components/PassagePane';
 import QuestionGroup from './components/QuestionGroup';
 import ResultsScreen from './components/ResultsScreen';
+import ReviewView from './review/ReviewView';
 import { buildLabelResolver } from './components/review';
 import { gradeTest } from './grading';
 import { recordAttempt, loadLastSubmission, loadLastSubmissionCloud } from './recording';
@@ -257,6 +258,15 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
       p.normalize();
     });
   };
+
+  // Detailed review (passage evidence + per-question Explain More).
+  if (grade && inContext) {
+    return (
+      <div className="rtp-root test-locked" data-theme={theme} data-text-size={textSize} style={{ height: '100vh', overflow: 'hidden' }}>
+        <ReviewView spec={spec} grade={grade} resolver={resolver} onExit={() => setInContext(false)} />
+      </div>
+    );
+  }
 
   // Results summary
   if (grade && !inContext) {
