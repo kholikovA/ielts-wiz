@@ -49,6 +49,26 @@ The code sends users back to `${window.location.origin}/dashboard` (or the
 - First sign-in shows the onboarding questionnaire (target band, prep, goals),
   gated on `profiles.onboarded` (migration `20260607_profiles_onboarded.sql`).
 
+## Consent-screen branding
+
+The "to continue to **X**" line and the logo come from the **OAuth consent screen
+/ Branding** of the Google Cloud project that owns the client — not from our code.
+- If **App name** is blank, Google falls back to the **redirect host** (you'll see
+  "to continue to `…supabase.co`"). Set **App name = IELTS Wiz** to fix it.
+- The **OAuth client must live in the same project** where you set the branding.
+- **App logo** (`public/brand/logo-square.png`) can trigger a short Google brand
+  verification before it appears; the app name shows immediately.
+
+## What we capture about a user
+
+On default scopes (no Google verification needed), the `handle_new_user` trigger
+stores from Google: `name`, `email` + `email_verified`, `avatar_url`, `google_sub`
+(stable id), `auth_provider`. The client (AuthContext + `lib/marketing.js`) adds
+passive signals once at first sign-in: `locale`, `timezone`, `signup_device`, and
+first-touch `signup_referrer` / `signup_utm` / `signup_landing_path`. Richer Google
+fields (phone, birthday, gender) need **sensitive scopes** + verification and hurt
+conversion — deliberately skipped; the onboarding questionnaire covers the rest.
+
 ## Notes
 
 - **Removing email/password:** existing email/password users can no longer sign
