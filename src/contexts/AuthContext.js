@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 import { reconcile, flushToCloud } from '../lib/cloudSync';
 import { flush as flushOutbox } from '../lib/syncQueue';
+import { snapshotAcquisition, readAcquisition, deviceClass } from '../lib/marketing';
 
 const AuthContext = createContext({});
 
@@ -13,6 +14,9 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    // Capture first-touch attribution before any OAuth round-trip can wipe it.
+    snapshotAcquisition();
+
     // If env vars are missing or the auth endpoint is unreachable, getSession
     // rejects. Without this catch the app sits forever on `loading=true` and
     // renders a blank spinner. Treat any init failure as a signed-out boot.
@@ -51,12 +55,37 @@ export const AuthProvider = ({ children }) => {
       subscription.unsubscribe();
       window.removeEventListener('online', onOnline);
     };
+    // Mount-only: auth listener + one-time boot. fetchProfile is stable here.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // First-touch enrichment: stamp acquisition + environment signals (timezone,
+  // locale, device, referrer/UTM, landing path) onto the profile exactly once.
+  // No-op until the capture migration adds the columns (guarded on the key being
+  // present) and after first_seen_at is set (guarded so it runs a single time).
+  const captureSignupContext = async (userId, profileRow) => {
+    if (!profileRow || !('first_seen_at' in profileRow) || profileRow.first_seen_at) return;
+    const acq = readAcquisition() || {};
+    const updates = {
+      timezone: Intl.DateTimeFormat().resolvedOptions().timeZone || null,
+      locale: navigator.language || null,
+      signup_device: deviceClass(),
+      signup_referrer: acq.referrer || null,
+      signup_utm: acq.utm || null,
+      signup_landing_path: acq.landingPath || null,
+      first_seen_at: new Date().toISOString(),
+    };
+    try {
+      const { data } = await supabase.from('profiles').update(updates).eq('id', userId).select().single();
+      if (data) setProfile(data);
+    } catch { /* columns not present yet / offline — best-effort */ }
+  };
 
   const fetchProfile = async (userId) => {
     try {
       const { data } = await supabase.from('profiles').select('*').eq('id', userId).single();
       setProfile(data);
+      if (data) captureSignupContext(userId, data);
     } catch (error) {
       console.error('Error fetching profile:', error);
     } finally {
