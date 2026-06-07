@@ -6,15 +6,14 @@ import './Onboarding.css';
 
 const BANDS = ['5.5', '6.0', '6.5', '7.0', '7.5', '8.0', '8.5', '9.0'];
 
-// "When's your test?" as an ordered spectrum (soonest → later). Keeps the
-// original options and adds 3–6 months and 6 months+.
+// "When's your test?" as a slider — "Not booked" first, then soonest → latest.
 const TIMEFRAMES = [
-  { value: 'lt2w', short: '2 weeks' },
-  { value: 'lt1m', short: '1 month' },
-  { value: '1to3m', short: '1–3 mo' },
-  { value: '3to6m', short: '3–6 mo' },
-  { value: '6plus', short: '6 mo+' },
-  { value: 'not_booked', short: 'Not booked' },
+  { value: 'not_booked', tick: 'Not booked', label: 'Not booked yet' },
+  { value: 'lt2w', tick: '2 wks', label: 'In 2 weeks' },
+  { value: 'lt1m', tick: '1 mo', label: 'Within a month' },
+  { value: '1to3m', tick: '1–3 mo', label: '1–3 months' },
+  { value: '3to6m', tick: '3–6 mo', label: '3–6 months' },
+  { value: '6plus', tick: '6 mo+', label: '6 months+' },
 ];
 
 const PURPOSES = [
@@ -53,10 +52,10 @@ const LANGUAGES = [
 
 // "How much can you study per week?" as a slider with four stops.
 const WEEKLY = [
-  { value: 'lt2', label: 'Under 2 hours' },
-  { value: '2to5', label: '2–5 hours' },
-  { value: '5to10', label: '5–10 hours' },
-  { value: '10plus', label: '10+ hours' },
+  { value: 'lt2', tick: '<2', label: 'Under 2 hours' },
+  { value: '2to5', tick: '2–5', label: '2–5 hours' },
+  { value: '5to10', tick: '5–10', label: '5–10 hours' },
+  { value: '10plus', tick: '10+', label: '10+ hours' },
 ];
 
 const FOCUS = [
@@ -78,6 +77,7 @@ const VALUE_LINES = {
 };
 
 const TOTAL_STEPS = 4;
+const isEmail = (s) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(s).trim());
 
 /* -------------------------------------------------------------------- icons */
 
@@ -93,6 +93,32 @@ const PurposeIcon = ({ name }) => {
   if (name === 'work') return <svg viewBox="0 0 24 24" fill="none"><rect x="3" y="7" width="18" height="13" rx="2" stroke="currentColor" strokeWidth="1.8" /><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2M3 12h18" stroke="currentColor" strokeWidth="1.8" /></svg>;
   return <svg viewBox="0 0 24 24" fill="none"><path d="M12 3l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-.5L12 3z" stroke="currentColor" strokeWidth="1.7" strokeLinejoin="round" /></svg>;
 };
+
+// Slider whose fill, thumb and tick labels all line up on the same stop centres.
+function Slider({ stops, idx, onIdx, readout, caption, ariaLabel }) {
+  const n = stops.length;
+  const at = (i) => `calc(11px + (100% - 22px) * ${n > 1 ? i / (n - 1) : 0})`;
+  return (
+    <div className="slider-wrap">
+      <div className="slider-readout">
+        <span className="val">{readout}</span>
+        {caption && <span className="unit">{caption}</span>}
+      </div>
+      <div className="slider-rail">
+        <input
+          type="range" className="slider" min={0} max={n - 1} step={1}
+          value={idx} onChange={(e) => onIdx(Number(e.target.value))}
+          style={{ '--fill': at(idx) }} aria-label={ariaLabel} aria-valuetext={readout}
+        />
+        <div className="slider-ticks">
+          {stops.map((s, i) => (
+            <span key={s.value} className={i === idx ? 'is-on' : ''} style={{ left: at(i) }}>{s.tick}</span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 const firstName = (profile) => {
   const n = (profile?.name || '').trim();
@@ -125,7 +151,7 @@ export default function Onboarding() {
   const [errors, setErrors] = useState({});
 
   const [targetBand, setTargetBand] = useState(null);
-  const [timeframe, setTimeframe] = useState(null);
+  const [timeframeIdx, setTimeframeIdx] = useState(0);
   const [purpose, setPurpose] = useState(null);
   const [destination, setDestination] = useState('');
   const [takenBefore, setTakenBefore] = useState(null);
@@ -137,22 +163,33 @@ export default function Onboarding() {
   const [optIn, setOptIn] = useState(true);
 
   const name = firstName(profile);
+  const timeframe = TIMEFRAMES[timeframeIdx].value;
   const showCountry = purpose && purpose !== 'personal';
   const countryLabel = purpose === 'immigration' ? 'Which country are you applying to?'
     : purpose === 'work' ? 'Where will you be working?' : 'Where are you headed?';
 
   const toggleFocus = (v) =>
     setFocusAreas((prev) => (prev.includes(v) ? prev.filter((x) => x !== v) : [...prev, v]));
-
   const clearErr = (key) => setErrors((e) => (e[key] ? { ...e, [key]: false } : e));
 
+  // Every question is required (sliders always have a value, so they pass).
   const validate = () => {
-    const need = step === 1 ? ['targetBand', 'timeframe'] : step === 2 ? ['purpose'] : [];
-    const vals = { targetBand, timeframe, purpose };
-    const next = {};
-    need.forEach((k) => { if (!vals[k]) next[k] = true; });
-    setErrors(next);
-    return Object.keys(next).length === 0;
+    const e = {};
+    if (step === 1) {
+      if (!targetBand) e.targetBand = true;
+    } else if (step === 2) {
+      if (!purpose) e.purpose = true;
+      else if (showCountry && !destination) e.destination = true;
+    } else if (step === 3) {
+      if (!takenBefore) e.takenBefore = true;
+      if (takenBefore === 'retaking' && !previousBand) e.previousBand = true;
+      if (!firstLanguage) e.firstLanguage = true;
+    } else if (step === 4) {
+      if (focusAreas.length === 0) e.focusAreas = true;
+      if (!isEmail(email)) e.email = true;
+    }
+    setErrors(e);
+    return Object.keys(e).length === 0;
   };
 
   const buildPayload = () => ({
@@ -160,24 +197,21 @@ export default function Onboarding() {
     targetBand,
     timeframe,
     purpose,
-    destination: showCountry ? (destination || null) : null,
+    destination: showCountry ? destination : null,
     takenBefore,
     previousBand: takenBefore === 'retaking' ? previousBand : null,
-    firstLanguage: firstLanguage || null,
+    firstLanguage,
     weeklyTime: WEEKLY[weeklyIdx].value,
     focusAreas,
-    reminderEmail: email.trim() || profile?.email || null,
+    reminderEmail: email.trim(),
     remindersOptIn: optIn,
   });
 
-  // Save the questionnaire. Core fields go to typed columns; the full payload
-  // goes to a jsonb `onboarding` column when it exists, falling back gracefully
-  // if that migration hasn't run yet. Does NOT flip `onboarded` — that happens
-  // on "Start practising" so the completion screen gets to show.
+  // Save the questionnaire. Core fields → typed columns; full payload → the
+  // jsonb `onboarding` column, falling back if that migration hasn't run. Does
+  // NOT flip `onboarded` — that happens on "Start practising".
   const persist = async () => {
-    const base = {};
-    if (targetBand) base.target_score = Number(targetBand);
-    if (focusAreas.length) base.goals = focusAreas;
+    const base = { target_score: Number(targetBand), goals: focusAreas };
     let res = await updateProfile({ ...base, onboarding: buildPayload() });
     if (res && res.error) res = await updateProfile(base);
     return res;
@@ -195,12 +229,6 @@ export default function Onboarding() {
   const finishToApp = async () => {
     setSaving(true);
     const { error } = await updateProfile({ onboarded: true }); // flips the gate → unmounts
-    if (error) setSaving(false); // let them retry; otherwise component unmounts
-  };
-
-  const skip = async () => {
-    setSaving(true);
-    const { error } = await updateProfile({ onboarded: true });
     if (error) setSaving(false);
   };
 
@@ -255,15 +283,12 @@ export default function Onboarding() {
                     <div className="err-msg">Choose your target band.</div>
                   </div>
 
-                  <div className={`field reveal${errors.timeframe ? ' is-error' : ''}`}>
+                  <div className="field reveal">
                     <div className="field__label">When&rsquo;s your test? <span className="field__opt">— helps us pace you</span></div>
-                    <div className="spectrum" role="group" aria-label="Test timeframe">
-                      {TIMEFRAMES.map((t) => (
-                        <button key={t.value} type="button" className={`spectrum__seg${timeframe === t.value ? ' is-sel' : ''}`}
-                          aria-pressed={timeframe === t.value} onClick={() => { setTimeframe(t.value); clearErr('timeframe'); }}>{t.short}</button>
-                      ))}
-                    </div>
-                    <div className="err-msg">Roughly when are you sitting the exam?</div>
+                    <Slider stops={TIMEFRAMES} idx={timeframeIdx} onIdx={setTimeframeIdx}
+                      readout={TIMEFRAMES[timeframeIdx].label}
+                      caption={timeframe === 'not_booked' ? 'no date yet' : 'until your test'}
+                      ariaLabel="Test timeframe" />
                   </div>
                 </section>
               )}
@@ -274,7 +299,7 @@ export default function Onboarding() {
                   <h2 className="step-title reveal">Your <span className="accent">goal</span></h2>
                   <p className="step-sub reveal">Knowing why you&rsquo;re taking IELTS lets us prioritise the right skills and examples.</p>
 
-                  <div className={`field reveal${errors.purpose ? ' is-error' : ''}`}>
+                  <div className={`field reveal${errors.purpose || errors.destination ? ' is-error' : ''}`}>
                     <div className="field__label">What&rsquo;s the IELTS for?</div>
                     <div className="opt-grid">
                       {PURPOSES.map((p) => (
@@ -286,13 +311,13 @@ export default function Onboarding() {
                         </button>
                       ))}
                     </div>
-                    <div className="err-msg">Let us know your goal so we can personalise.</div>
+                    <div className="err-msg">{errors.destination ? 'Select your destination.' : 'Let us know your goal so we can personalise.'}</div>
 
                     {showCountry && (
                       <div className="conditional">
                         <div className="field__label">{countryLabel}</div>
                         <div className="select-wrap">
-                          <select value={destination} onChange={(e) => setDestination(e.target.value)}>
+                          <select value={destination} onChange={(e) => { setDestination(e.target.value); clearErr('destination'); }}>
                             <option value="" disabled>Select a country</option>
                             {DESTINATIONS.map((c) => <option key={c} value={c}>{c}</option>)}
                           </select>
@@ -310,15 +335,15 @@ export default function Onboarding() {
                   <h2 className="step-title reveal">Your <span className="accent">starting point</span></h2>
                   <p className="step-sub reveal">We&rsquo;ll calibrate the plan to exactly where you are right now.</p>
 
-                  <div className="field reveal">
+                  <div className={`field reveal${errors.takenBefore || errors.previousBand ? ' is-error' : ''}`}>
                     <div className="field__label">Have you taken IELTS before?</div>
                     <div className="opt-grid cols-2">
                       <button type="button" className={`opt${takenBefore === 'first_time' ? ' is-sel' : ''}`} aria-pressed={takenBefore === 'first_time'}
-                        onClick={() => { setTakenBefore('first_time'); setPreviousBand(null); }}>
+                        onClick={() => { setTakenBefore('first_time'); setPreviousBand(null); clearErr('takenBefore'); }}>
                         <span className="txt"><span className="t">First time</span></span><span className="check"><Check /></span>
                       </button>
                       <button type="button" className={`opt${takenBefore === 'retaking' ? ' is-sel' : ''}`} aria-pressed={takenBefore === 'retaking'}
-                        onClick={() => setTakenBefore('retaking')}>
+                        onClick={() => { setTakenBefore('retaking'); clearErr('takenBefore'); }}>
                         <span className="txt"><span className="t">Improving my score</span></span><span className="check"><Check /></span>
                       </button>
                     </div>
@@ -328,41 +353,30 @@ export default function Onboarding() {
                         <div className="pill-row">
                           {PREV_BANDS.map((b) => (
                             <button key={b} type="button" className={`pill band${previousBand === b ? ' is-sel' : ''}`}
-                              aria-pressed={previousBand === b} onClick={() => setPreviousBand(b)}>{b}</button>
+                              aria-pressed={previousBand === b} onClick={() => { setPreviousBand(b); clearErr('previousBand'); }}>{b}</button>
                           ))}
                         </div>
                       </div>
                     )}
+                    <div className="err-msg">{errors.previousBand ? 'Select your most recent band.' : 'Let us know if this is your first attempt.'}</div>
                   </div>
 
-                  <div className="field reveal">
+                  <div className={`field reveal${errors.firstLanguage ? ' is-error' : ''}`}>
                     <div className="field__label">Your first language <span className="field__opt">— tailors common-error tips</span></div>
                     <div className="select-wrap">
-                      <select value={firstLanguage} onChange={(e) => setFirstLanguage(e.target.value)}>
+                      <select value={firstLanguage} onChange={(e) => { setFirstLanguage(e.target.value); clearErr('firstLanguage'); }}>
                         <option value="" disabled>Select language</option>
                         {LANGUAGES.map((l) => <option key={l} value={l}>{l}</option>)}
                       </select>
                       <Chevron />
                     </div>
+                    <div className="err-msg">Pick your first language.</div>
                   </div>
 
                   <div className="field reveal">
                     <div className="field__label">How much can you study per week?</div>
-                    <div className="slider-wrap">
-                      <div className="slider-readout">
-                        <span className="val">{WEEKLY[weeklyIdx].label}</span>
-                        <span className="unit">per week</span>
-                      </div>
-                      <input
-                        type="range" className="slider" min={0} max={WEEKLY.length - 1} step={1}
-                        value={weeklyIdx} onChange={(e) => setWeeklyIdx(Number(e.target.value))}
-                        style={{ '--fill': `${(weeklyIdx / (WEEKLY.length - 1)) * 100}%` }}
-                        aria-label="Weekly study time" aria-valuetext={WEEKLY[weeklyIdx].label}
-                      />
-                      <div className="slider-ticks">
-                        {WEEKLY.map((w, i) => <span key={w.value} className={i === weeklyIdx ? 'is-on' : ''}>{w.label.replace(' hours', '').replace('Under ', '<')}</span>)}
-                      </div>
-                    </div>
+                    <Slider stops={WEEKLY} idx={weeklyIdx} onIdx={setWeeklyIdx}
+                      readout={WEEKLY[weeklyIdx].label} caption="per week" ariaLabel="Weekly study time" />
                   </div>
                 </section>
               )}
@@ -373,19 +387,21 @@ export default function Onboarding() {
                   <h2 className="step-title reveal">Build your <span className="accent">plan</span></h2>
                   <p className="step-sub reveal">Last step — pick what matters most and we&rsquo;ll put it front and centre.</p>
 
-                  <div className="field reveal">
-                    <div className="field__label">What do you want to focus on? <span className="field__opt">— choose any</span></div>
+                  <div className={`field reveal${errors.focusAreas ? ' is-error' : ''}`}>
+                    <div className="field__label">What do you want to focus on? <span className="field__opt">— choose at least one</span></div>
                     <div className="pill-row">
                       {FOCUS.map((f) => (
                         <button key={f.value} type="button" className={`pill${focusAreas.includes(f.value) ? ' is-sel' : ''}`}
-                          aria-pressed={focusAreas.includes(f.value)} onClick={() => toggleFocus(f.value)}>{f.label}</button>
+                          aria-pressed={focusAreas.includes(f.value)} onClick={() => { toggleFocus(f.value); clearErr('focusAreas'); }}>{f.label}</button>
                       ))}
                     </div>
+                    <div className="err-msg">Pick at least one focus area.</div>
                   </div>
 
-                  <div className="field reveal" style={{ marginBottom: 6 }}>
+                  <div className={`field reveal${errors.email ? ' is-error' : ''}`} style={{ marginBottom: 6 }}>
                     <div className="field__label">Where should we send your study plan?</div>
-                    <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="you@email.com" autoComplete="email" />
+                    <input type="email" value={email} onChange={(e) => { setEmail(e.target.value); clearErr('email'); }} placeholder="you@email.com" autoComplete="email" />
+                    <div className="err-msg">Enter a valid email address.</div>
                     <button type="button" className={`optin${optIn ? ' is-on' : ''}`} aria-pressed={optIn} onClick={() => setOptIn(!optIn)}>
                       <span className="box"><Check /></span>
                       <span className="ot"><b>Email me my personalised plan</b> plus weekly tips and a reminder before test day.</span>
@@ -402,20 +418,19 @@ export default function Onboarding() {
         </div>
 
         {!done && (
-          <>
-            <div className="nav">
-              <button type="button" className="btn btn--ghost" onClick={() => setStep(step - 1)} style={{ visibility: step === 1 ? 'hidden' : 'visible' }}>
+          <div className="nav">
+            {step > 1 && (
+              <button type="button" className="btn btn--ghost" onClick={() => setStep(step - 1)} disabled={saving}>
                 <svg viewBox="0 0 24 24" fill="none"><path d="M15 18l-6-6 6-6" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" /></svg>Back
               </button>
-              <button type="button" className="btn btn--primary" onClick={next} disabled={saving}>
-                {step === TOTAL_STEPS ? (saving ? 'Building…' : 'Build my study plan') : 'Continue'}
-                {step === TOTAL_STEPS
-                  ? <svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
-                  : <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>}
-              </button>
-            </div>
-            <button type="button" className="skip" onClick={skip} disabled={saving}>Skip for now</button>
-          </>
+            )}
+            <button type="button" className="btn btn--primary" onClick={next} disabled={saving}>
+              {step === TOTAL_STEPS ? (saving ? 'Building…' : 'Build my study plan') : 'Continue'}
+              {step === TOTAL_STEPS
+                ? <svg viewBox="0 0 24 24" fill="none"><path d="M5 13l4 4L19 7" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>
+                : <svg viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" strokeWidth="2.4" strokeLinecap="round" strokeLinejoin="round" /></svg>}
+            </button>
+          </div>
         )}
       </main>
     </div>

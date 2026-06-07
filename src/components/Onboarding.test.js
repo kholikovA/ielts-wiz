@@ -13,6 +13,12 @@ const Onboarding = require('./Onboarding').default;
 
 const byText = (sel, re) => Array.from(container.querySelectorAll(sel)).find((el) => re.test(el.textContent));
 const click = async (el) => { await act(async () => { el.dispatchEvent(new MouseEvent('click', { bubbles: true })); }); };
+const selectOption = (sel, value) => act(() => {
+  const s = container.querySelector(sel);
+  s.value = value;
+  s.dispatchEvent(new Event('change', { bubbles: true }));
+});
+const primary = () => container.querySelector('.btn--primary');
 const stepCount = () => container.querySelector('.step-count').textContent;
 
 let container; let root;
@@ -41,60 +47,68 @@ test('is academic-only — no General Training / Not sure test-type question', (
   expect(container.textContent).not.toMatch(/Not sure/i);
 });
 
-test('step 1 blocks advancing until band + timeframe are chosen', async () => {
+test('"When\'s your test?" is a slider with Not booked first, incl. 3–6 mo and 6 mo+', () => {
   mount();
-  await click(container.querySelector('.btn--primary')); // Continue with nothing picked
-  expect(container.querySelectorAll('.field.is-error').length).toBe(2);
-  expect(stepCount()).toMatch(/Step\s*1\s*of\s*4/); // still on step 1
+  expect(container.querySelector('.slider')).toBeTruthy();
+  const ticks = Array.from(container.querySelectorAll('.slider-ticks span')).map((s) => s.textContent);
+  expect(ticks[0]).toBe('Not booked');
+  expect(ticks).toEqual(expect.arrayContaining(['3–6 mo', '6 mo+']));
 });
 
-test('timeframe spectrum includes the new 3–6 mo and 6 mo+ stops', () => {
+test('there is no "Skip for now" — onboarding is mandatory', () => {
   mount();
-  const segs = Array.from(container.querySelectorAll('.spectrum__seg')).map((s) => s.textContent);
-  expect(segs).toEqual(expect.arrayContaining(['3–6 mo', '6 mo+']));
+  expect(container.querySelector('.skip')).toBeNull();
+  expect(container.textContent).not.toMatch(/Skip for now/i);
 });
 
-test('picking band + timeframe advances to the goal step', async () => {
+test('step 1 requires a target band before advancing', async () => {
+  mount();
+  await click(primary());
+  expect(container.querySelectorAll('.field.is-error').length).toBe(1); // band only (slider is always set)
+  expect(stepCount()).toMatch(/Step\s*1\s*of\s*4/);
+  await click(byText('.pill.band', /^7\.0$/));
+  await click(primary());
+  expect(stepCount()).toMatch(/Step\s*2\s*of\s*4/);
+});
+
+test('step 3 requires taken-before and first language', async () => {
   mount();
   await click(byText('.pill.band', /^7\.0$/));
-  await click(byText('.spectrum__seg', /^1 month$/));
-  await click(container.querySelector('.btn--primary'));
-  expect(stepCount()).toMatch(/Step\s*2\s*of\s*4/);
-  expect(container.textContent).toMatch(/What.s the IELTS for/);
+  await click(primary());                        // → step 2
+  await click(byText('.opt', /Personal goal/));
+  await click(primary());                        // → step 3
+  await click(primary());                        // blocked
+  expect(stepCount()).toMatch(/Step\s*3\s*of\s*4/);
+  expect(container.querySelectorAll('.field.is-error').length).toBe(2); // takenBefore + language
 });
 
 test('full flow saves the questionnaire then marks onboarded on finish', async () => {
   mount();
   // step 1
   await click(byText('.pill.band', /^7\.0$/));
-  await click(byText('.spectrum__seg', /^1–3 mo$/));
-  await click(container.querySelector('.btn--primary'));
+  await click(primary());
   // step 2
-  await click(byText('.opt', /Studying abroad/));
-  await click(container.querySelector('.btn--primary'));
-  // step 3 (nothing required)
-  await click(container.querySelector('.btn--primary'));
-  // step 4 → build
-  await click(container.querySelector('.btn--primary'));
+  await click(byText('.opt', /Personal goal/));
+  await click(primary());
+  // step 3
+  await click(byText('.opt', /First time/));
+  selectOption('.select-wrap select', 'Russian');
+  await click(primary());
+  // step 4
+  await click(byText('.pill', /Listening/));
+  await click(primary()); // Build my study plan
 
-  // persist() ran with the typed cols + the onboarding payload
   const saveCall = mockUpdateProfile.mock.calls[0][0];
   expect(saveCall.target_score).toBe(7);
-  expect(saveCall.onboarding).toMatchObject({ testType: 'academic', targetBand: '7.0', purpose: 'study', timeframe: '1to3m' });
-  expect(saveCall.onboarding.onboarded).toBeUndefined(); // not flipped yet
+  expect(saveCall.onboarding).toMatchObject({
+    testType: 'academic', targetBand: '7.0', purpose: 'personal',
+    timeframe: 'not_booked', firstLanguage: 'Russian', focusAreas: ['listening'],
+  });
+  expect(saveCall.onboarding.onboarded).toBeUndefined();
 
-  // completion screen
   expect(container.querySelector('.complete')).toBeTruthy();
   expect(container.textContent).toMatch(/You.re all set, Jane/);
 
-  // Start practising flips the gate
   await click(byText('.btn--primary', /Start practising/));
   expect(mockUpdateProfile).toHaveBeenLastCalledWith({ onboarded: true });
-});
-
-test('Skip for now marks onboarded without saving answers', async () => {
-  mount();
-  await click(byText('.skip', /Skip for now/));
-  expect(mockUpdateProfile).toHaveBeenCalledWith({ onboarded: true });
-  expect(mockUpdateProfile).toHaveBeenCalledTimes(1);
 });
