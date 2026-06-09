@@ -3,6 +3,8 @@ import { createRoot } from 'react-dom/client';
 import { act } from 'react-dom/test-utils';
 import { gradeTest } from './grading';
 import ListeningQuestionGroup from './components/ListeningQuestionGroup';
+import ListeningReviewView from './review/ListeningReviewView';
+import { buildEvidenceIndex } from './review/evidence';
 import demo from '../../data/tests/listening/demo1.json';
 
 const groupByType = (t) => {
@@ -62,4 +64,20 @@ test('flowchart completion renders native boxes (no images) with bound gaps', ()
   expect(container.querySelectorAll('.fc-box').length).toBe(g.flowchart.steps.length);
   expect(container.querySelectorAll('img').length).toBe(0);
   expect(container.querySelector('textarea[data-qnum="26"]').value).toBe('sampling');
+});
+
+test('every answer is located verbatim in the transcript (evidence index)', () => {
+  const { byQuestion } = buildEvidenceIndex(demo);
+  const unlocated = [];
+  for (let n = 1; n <= 40; n++) { if (!byQuestion[n] || !byQuestion[n].located) unlocated.push(n); }
+  expect(unlocated).toEqual([]); // a mismatch means an evidence string drifted from the transcript
+});
+
+test('transcript review renders the transcript, highlights, and question rows', () => {
+  const grade = gradeTest(demo, { ...demo.answer_key, 1: 'wrong' }); // 1 wrong → has a "Correct" line
+  act(() => root.render(<ListeningReviewView spec={demo} grade={grade} onExit={() => {}} />));
+  expect(container.querySelector('.rv-passage')).toBeTruthy();
+  expect(container.querySelectorAll('.ev-span').length).toBeGreaterThan(0); // transcript highlights
+  expect(container.querySelectorAll('.rv-q').length).toBeGreaterThan(0);    // question rows
+  expect(container.querySelectorAll('.rv-part').length).toBe(demo.parts.length); // section switcher
 });
