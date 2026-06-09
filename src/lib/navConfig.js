@@ -1,23 +1,56 @@
 // Single source of truth for the site's primary information architecture —
-// shared by Navigation, the mobile drawer, the Footer, and the command palette
-// so every navigation surface stays in lockstep. Add a destination once here and
+// shared by the sidebar, the top bar, the Footer, and the command palette so
+// every navigation surface stays in lockstep. Add a destination once here and
 // it shows up everywhere it should.
 //
-// Keep this module LIGHTWEIGHT. It's imported by the eager app shell
-// (Navigation), so it must not pull in heavy catalogues — test specs, the
-// grammar curriculum, etc. The command palette imports those itself, inside its
-// own lazy chunk.
+// Keep this module LIGHTWEIGHT. It's imported by the eager app shell (Sidebar),
+// so it must not pull in heavy catalogues — test specs, the grammar curriculum,
+// etc. The command palette imports those itself, inside its own lazy chunk.
 
 import { getActivity } from './progressStore';
 
-// Core product nav — the five IELTS skills, in exam order.
+// Core product nav — the IELTS skills, in exam order, plus Vocabulary.
 export const SKILLS = [
-  { id: 'listening', label: 'Listening', icon: 'headphones' },
-  { id: 'reading',   label: 'Reading',   icon: 'book' },
-  { id: 'writing',   label: 'Writing',   icon: 'pen' },
-  { id: 'speaking',  label: 'Speaking',  icon: 'mic' },
-  { id: 'grammar',   label: 'Grammar',   icon: 'graduation' },
+  { id: 'listening',  label: 'Listening',  icon: 'headphones' },
+  { id: 'reading',    label: 'Reading',    icon: 'book' },
+  { id: 'writing',    label: 'Writing',    icon: 'pen' },
+  { id: 'speaking',   label: 'Speaking',   icon: 'mic' },
+  { id: 'grammar',    label: 'Grammar',    icon: 'graduation' },
+  { id: 'vocabulary', label: 'Vocabulary', icon: 'layers', comingSoon: true },
 ];
+
+// Study-tool destinations (sidebar "Study Tools" group).
+export const STUDY_TOOLS = [
+  { id: 'articles',  label: 'Articles',  icon: 'bookOpen', comingSoon: true },
+  { id: 'dictation', label: 'Dictation', icon: 'type',     comingSoon: true },
+];
+
+// Sidebar layout — ordered groups, each with a label and its items. The single
+// source the left nav, footer, and palette read from.
+export const NAV_GROUPS = [
+  { title: 'Practice',    items: SKILLS },
+  { title: 'Study Tools', items: STUDY_TOOLS },
+];
+
+// Copy for the "coming soon" placeholder pages (Vocabulary / Articles /
+// Dictation). Keyed by page id.
+export const COMING_SOON_COPY = {
+  vocabulary: {
+    icon: 'layers',
+    title: 'Vocabulary',
+    lead: 'Targeted IELTS word lists, collocations, and spaced-repetition flashcards.',
+  },
+  articles: {
+    icon: 'bookOpen',
+    title: 'Articles',
+    lead: 'Strategy guides and band-boosting reads for every section of the exam.',
+  },
+  dictation: {
+    icon: 'type',
+    title: 'Dictation',
+    lead: 'Train listening and spelling together with sentence-by-sentence dictation.',
+  },
+};
 
 // Signed-in account destinations (avatar menu + mobile drawer). Admin is gated
 // on `isAdmin` and appended where relevant rather than living in this list.

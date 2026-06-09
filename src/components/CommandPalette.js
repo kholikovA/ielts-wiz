@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useMemo } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import Icon from './ui/icons';
-import { SKILLS, ACCOUNT_LINKS } from '../lib/navConfig';
+import { SKILLS, STUDY_TOOLS, ACCOUNT_LINKS } from '../lib/navConfig';
 // Catalogue metadata for jump-to-test entries. Imported here (a lazy chunk)
 // rather than in navConfig so the eager shell never pulls test specs.
 import { READING_TESTS, LISTENING_TESTS } from '../data/tests/manifest';
@@ -29,6 +29,7 @@ export default function CommandPalette({ navigateTo, onClose }) {
     // Navigate
     out.push({ id: 'go-home', group: 'Navigate', icon: 'sparkle', label: 'Home', keywords: 'landing start', run: () => go('home') });
     SKILLS.forEach(s => out.push({ id: `go-${s.id}`, group: 'Navigate', icon: s.icon, label: s.label, keywords: 'skill section', run: () => go(s.id) }));
+    STUDY_TOOLS.forEach(t => out.push({ id: `go-${t.id}`, group: 'Navigate', icon: t.icon, label: t.label, keywords: 'study tools', run: () => go(t.id) }));
     if (user) ACCOUNT_LINKS.forEach(a => out.push({ id: `go-${a.id}`, group: 'Navigate', icon: a.icon, label: a.label, keywords: 'account progress stats', run: () => go(a.id) }));
     if (isAdmin) out.push({ id: 'go-admin', group: 'Navigate', icon: 'user', label: 'Admin · Users', keywords: 'admin manage users', run: () => go('admin') });
 
