@@ -290,15 +290,16 @@ select:focus-visible {
    Inline-style components import these via className.
    ============================================================ */
 
-/* Page shell — top padding clears the fixed nav. Every routed page wraps in
-   .page-shell (or .page-shell--centered for auth/placeholder screens). */
+/* Page shell — content sits below the sticky top bar (which occupies its own
+   flow space), so we only need a little breathing room here. Every routed page
+   wraps in .page-shell (or .page-shell--centered for auth/placeholder screens). */
 .page-shell {
-  padding-top: 100px;
-  min-height: 100vh;
+  padding-top: var(--space-8);
+  min-height: calc(100vh - var(--topbar-h));
 }
 .page-shell--centered {
-  padding-top: 100px;
-  min-height: 100vh;
+  padding-top: var(--space-8);
+  min-height: calc(100vh - var(--topbar-h));
   display: flex;
   align-items: center;
   justify-content: center;
@@ -552,7 +553,7 @@ select:focus-visible {
   max-width: 1200px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: 2fr 1fr 1fr 1fr;
+  grid-template-columns: 2fr 1fr 1fr 1fr 1fr;
   gap: var(--space-10);
 }
 .site-footer h4 {
@@ -1153,6 +1154,260 @@ body.modal-open { overflow: hidden; }
 .cmdk-item:focus-visible,
 .mobile-search:focus-visible,
 .mobile-resume:focus-visible {
+  outline: 2px solid var(--purple-500);
+  outline-offset: 2px;
+}
+
+/* ============================================================
+   App shell — left sidebar navigation + sticky top bar.
+   Supersedes the top-header nav classes above (kept harmless).
+   ============================================================ */
+:root {
+  --sidebar-w: 252px;
+  --sidebar-w-collapsed: 76px;
+  --topbar-h: 60px;
+}
+
+.app-shell { min-height: 100vh; }
+
+/* --- Sidebar rail --- */
+.app-sidebar {
+  position: fixed;
+  top: 0; left: 0; bottom: 0;
+  width: var(--sidebar-w);
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-secondary);
+  border-right: 1px solid var(--border-color);
+  z-index: 1000;
+  transition: width var(--dur-base) var(--ease), transform var(--dur-base) var(--ease-out);
+}
+.app-shell.is-collapsed .app-sidebar { width: var(--sidebar-w-collapsed); }
+
+.sidebar-head {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: var(--topbar-h);
+  padding: 0 var(--space-4);
+  border-bottom: 1px solid var(--border-color);
+  flex-shrink: 0;
+}
+.sidebar-brand { display: flex; align-items: center; min-width: 0; overflow: hidden; }
+.sidebar-collapse { margin-left: auto; flex-shrink: 0; }
+.sidebar-close { display: none; margin-left: auto; flex-shrink: 0; }
+.app-shell.is-collapsed .sidebar-brand { display: none; }
+.app-shell.is-collapsed .sidebar-collapse { margin-left: 0; margin-inline: auto; }
+
+.sidebar-nav {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: var(--space-4) var(--space-3);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+.sidebar-group { display: flex; flex-direction: column; gap: 2px; }
+.sidebar-group-label {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-tertiary);
+  padding: var(--space-3) var(--space-3) var(--space-1);
+  white-space: nowrap;
+}
+.app-shell.is-collapsed .sidebar-group-label { visibility: hidden; height: var(--space-4); }
+
+.sidebar-link {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-3);
+  border-radius: var(--r-md);
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background var(--dur-fast) var(--ease), color var(--dur-fast) var(--ease);
+}
+.sidebar-link:hover { background: var(--tag-bg); color: var(--text-primary); }
+.sidebar-link.is-active { background: var(--purple-600-20); color: var(--text-primary); font-weight: 600; }
+.sidebar-link-icon { flex-shrink: 0; }
+.sidebar-link-label { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; }
+.soon-tag {
+  flex-shrink: 0;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--text-tertiary);
+  background: var(--tag-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-pill);
+  padding: 2px 7px;
+}
+.app-shell.is-collapsed .sidebar-link { justify-content: center; padding-inline: 0; }
+.app-shell.is-collapsed .sidebar-link-label,
+.app-shell.is-collapsed .soon-tag { display: none; }
+
+.sidebar-foot {
+  flex-shrink: 0;
+  padding: var(--space-3);
+  border-top: 1px solid var(--border-color);
+}
+.sidebar-resume {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-3);
+  border-radius: var(--r-md);
+  background: var(--purple-600-10);
+  border: 1px solid var(--purple-500-30);
+  color: var(--text-primary);
+  text-decoration: none;
+  transition: background var(--dur-fast) var(--ease);
+}
+.sidebar-resume:hover { background: var(--purple-600-20); }
+.sidebar-resume .sidebar-link-label { display: flex; flex-direction: column; line-height: 1.25; }
+.sidebar-resume strong { font-size: var(--text-sm); }
+.sidebar-resume small { font-size: var(--text-xs); color: var(--text-secondary); }
+.app-shell.is-collapsed .sidebar-resume { justify-content: center; padding-inline: 0; }
+.app-shell.is-collapsed .sidebar-resume .sidebar-link-label { display: none; }
+
+/* --- Main column --- */
+.app-main {
+  margin-left: var(--sidebar-w);
+  min-height: 100vh;
+  transition: margin-left var(--dur-base) var(--ease);
+}
+.app-shell.is-collapsed .app-main { margin-left: var(--sidebar-w-collapsed); }
+
+.app-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 900;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  height: var(--topbar-h);
+  padding: 0 var(--space-6);
+  background: var(--nav-bg);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border-color);
+}
+.topbar-menu { display: none; }
+.topbar-spacer { flex: 1; }
+.topbar-search {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  padding: var(--space-2) var(--space-3);
+  min-width: 200px;
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-md);
+  background: var(--bg-secondary);
+  color: var(--text-tertiary);
+  font-size: var(--text-sm);
+  cursor: pointer;
+  transition: color var(--dur-fast) var(--ease), border-color var(--dur-fast) var(--ease);
+}
+.topbar-search:hover { color: var(--text-secondary); border-color: var(--purple-500-30); }
+.topbar-search-text { flex: 1; text-align: left; }
+.topbar-search .nav-kbd { margin-left: var(--space-2); }
+.topbar-signin { text-decoration: none; }
+
+/* --- Mobile: sidebar becomes an off-canvas drawer --- */
+.sidebar-backdrop {
+  position: fixed; inset: 0;
+  z-index: 999;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+}
+@media (max-width: 1024px) {
+  .app-sidebar {
+    width: min(82vw, 300px);
+    transform: translateX(-100%);
+    box-shadow: var(--shadow-elevated);
+  }
+  .app-shell.is-mobile-open .app-sidebar { transform: translateX(0); }
+  .app-shell .app-main,
+  .app-shell.is-collapsed .app-main { margin-left: 0; }
+  .app-shell.is-collapsed .app-sidebar { width: min(82vw, 300px); }
+  /* In the drawer, never show the collapsed/icon-only treatment. */
+  .app-shell.is-collapsed .sidebar-brand,
+  .app-shell.is-collapsed .sidebar-link-label,
+  .app-shell.is-collapsed .soon-tag,
+  .app-shell.is-collapsed .sidebar-resume .sidebar-link-label { display: revert; }
+  .app-shell.is-collapsed .sidebar-group-label { visibility: visible; height: auto; }
+  .app-shell.is-collapsed .sidebar-link,
+  .app-shell.is-collapsed .sidebar-resume { justify-content: flex-start; padding-inline: var(--space-3); }
+  .sidebar-collapse { display: none; }
+  .sidebar-close { display: inline-flex; }
+  .topbar-menu { display: inline-flex; }
+}
+@media (max-width: 560px) {
+  .topbar-search { min-width: 0; }
+  .topbar-search-text, .topbar-search .nav-kbd { display: none; }
+}
+
+/* --- Coming-soon placeholder pages --- */
+.coming-soon {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 60vh;
+}
+.coming-soon-card {
+  max-width: 480px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-4);
+  padding: var(--space-12) var(--space-6);
+}
+.coming-soon-icon {
+  width: 72px; height: 72px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: var(--r-2xl);
+  background: var(--purple-600-10);
+  border: 1px solid var(--purple-500-30);
+  color: var(--purple-400);
+}
+.coming-soon-badge {
+  font-family: var(--font-mono);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--purple-400);
+  background: var(--purple-600-10);
+  border: 1px solid var(--purple-500-30);
+  border-radius: var(--r-pill);
+  padding: var(--space-1) var(--space-4);
+}
+.coming-soon-card h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-3xl);
+  color: var(--text-primary);
+  margin: 0;
+}
+.coming-soon-lead { font-size: var(--text-lg); color: var(--text-secondary); margin: 0; max-width: 38ch; }
+.coming-soon-note { font-size: var(--text-sm); color: var(--text-tertiary); margin: 0; }
+
+/* --- Footer responsive: stay readable as a 5-column grid collapses --- */
+@media (max-width: 900px) {
+  .site-footer-inner { grid-template-columns: 1fr 1fr; }
+}
+
+/* --- Sidebar focus-visible --- */
+.sidebar-link:focus-visible,
+.sidebar-resume:focus-visible,
+.topbar-search:focus-visible {
   outline: 2px solid var(--purple-500);
   outline-offset: 2px;
 }

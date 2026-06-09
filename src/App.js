@@ -1,18 +1,21 @@
 import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { ThemeProvider } from './contexts/ThemeContext';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
-import Navigation from './components/Navigation';
+import Sidebar from './components/Sidebar';
+import TopBar from './components/TopBar';
 import HomePage from './components/HomePage';
 import Footer from './components/Footer';
+import ComingSoon from './components/ComingSoon';
 import MaintenanceScreen from './components/MaintenanceScreen';
 import { isMaintenanceLocked } from './lib/maintenance';
 import { PAGES_WITH_SUBPAGES, DEFAULT_SUBPAGE, parseUrlToState, stateToUrl } from './lib/routes';
 
-// Route-level code splitting. The shell (Navigation, Footer, HomePage) loads
-// eagerly; every other page — and the heavy data it imports (grammar
-// curriculum, reading-passage catalogues, etc.) — ships in its own chunk that
-// downloads only when that route is opened. Keeps the initial bundle small so
-// the app loads fast, including when returning from a standalone test page.
+// Route-level code splitting. The shell (Sidebar, TopBar, Footer, HomePage,
+// ComingSoon) loads eagerly; every other page — and the heavy data it imports
+// (grammar curriculum, reading-passage catalogues, etc.) — ships in its own
+// chunk that downloads only when that route is opened. Keeps the initial bundle
+// small so the app loads fast, including when returning from a standalone test.
+const CommandPalette = lazy(() => import('./components/CommandPalette'));
 const SpeakingPage = lazy(() => import('./components/SpeakingPage'));
 const ListeningPage = lazy(() => import('./components/ListeningPage'));
 const ReadingPage = lazy(() => import('./components/ReadingPage'));
@@ -37,6 +40,29 @@ const App = () => {
     writing: initial.page === 'writing' && initial.subPage ? initial.subPage : DEFAULT_SUBPAGE.writing,
   });
   const { loading, user, profile } = useAuth();
+
+  // App-shell UI state: sidebar collapse (persisted), mobile drawer, palette.
+  const [collapsed, setCollapsed] = useState(() => {
+    try { return localStorage.getItem('iw.v1.navCollapsed') === '1'; } catch { return false; }
+  });
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
+  const [paletteOpen, setPaletteOpen] = useState(false);
+
+  useEffect(() => {
+    try { localStorage.setItem('iw.v1.navCollapsed', collapsed ? '1' : '0'); } catch { /* storage off */ }
+  }, [collapsed]);
+
+  // Global ⌘K / Ctrl-K toggles the command palette from anywhere.
+  useEffect(() => {
+    const onKey = (e) => {
+      if ((e.metaKey || e.ctrlKey) && (e.key === 'k' || e.key === 'K')) {
+        e.preventDefault();
+        setPaletteOpen(p => !p);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
 
   useEffect(() => {
     const handlePopState = () => {
@@ -73,6 +99,9 @@ const App = () => {
       case 'reading': return <ReadingPage subPage={subPages.reading} setSubPage={updateSubPage('reading')} setCurrentPage={navigateTo} />;
       case 'grammar': return <GrammarPage subPage={subPages.grammar} setSubPage={updateSubPage('grammar')} />;
       case 'writing': return <WritingPage subPage={subPages.writing} setSubPage={updateSubPage('writing')} setCurrentPage={navigateTo} />;
+      case 'vocabulary': return <ComingSoon section="vocabulary" />;
+      case 'articles': return <ComingSoon section="articles" />;
+      case 'dictation': return <ComingSoon section="dictation" />;
       case 'login': return <AuthPage type="login" setCurrentPage={navigateTo} />;
       case 'signup': return <AuthPage type="signup" setCurrentPage={navigateTo} />;
       case 'dashboard': return <Dashboard setCurrentPage={navigateTo} />;
@@ -117,21 +146,49 @@ const App = () => {
     );
   }
 
-  // The reading / listening test players are full-screen takeovers — no app nav/footer.
+  // The reading / listening test players are full-screen takeovers — no app shell.
   const fullscreen = currentPage === 'reading-test' || currentPage === 'listening-test';
   // Hide the footer on auth screens so it doesn't push the form below the fold.
   const showFooter = !['login', 'signup'].includes(currentPage) && !fullscreen;
 
+  const pageContent = (
+    <Suspense fallback={<div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><div className="spinner" /></div>}>
+      {renderPage()}
+    </Suspense>
+  );
+
+  if (fullscreen) {
+    return <main id="main">{pageContent}</main>;
+  }
+
   return (
     <>
       <a href="#main" className="skip-link">Skip to main content</a>
-      {!fullscreen && <Navigation currentPage={currentPage} setCurrentPage={navigateTo} />}
-      <main id="main">
-        <Suspense fallback={<div style={{ minHeight: '60vh', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><div className="spinner" /></div>}>
-          {renderPage()}
+      <div className={`app-shell${collapsed ? ' is-collapsed' : ''}${mobileNavOpen ? ' is-mobile-open' : ''}`}>
+        <Sidebar
+          currentPage={currentPage}
+          navigate={navigateTo}
+          collapsed={collapsed}
+          onToggleCollapse={() => setCollapsed(c => !c)}
+          mobileOpen={mobileNavOpen}
+          onCloseMobile={() => setMobileNavOpen(false)}
+        />
+        {mobileNavOpen && <div className="sidebar-backdrop" onClick={() => setMobileNavOpen(false)} aria-hidden="true" />}
+        <div className="app-main">
+          <TopBar
+            navigate={navigateTo}
+            onOpenMobileNav={() => setMobileNavOpen(true)}
+            onOpenPalette={() => setPaletteOpen(true)}
+          />
+          <main id="main">{pageContent}</main>
+          {showFooter && <Footer setCurrentPage={navigateTo} />}
+        </div>
+      </div>
+      {paletteOpen && (
+        <Suspense fallback={null}>
+          <CommandPalette navigateTo={navigateTo} onClose={() => setPaletteOpen(false)} />
         </Suspense>
-      </main>
-      {showFooter && <Footer setCurrentPage={navigateTo} />}
+      )}
     </>
   );
 };
