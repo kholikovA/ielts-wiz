@@ -1,0 +1,40 @@
+/* Native flowchart — scoped under .rtp-root so it inherits the player's themed
+   CSS variables. No images: boxes are DOM, arrows are CSS. */
+
+.rtp-root .fc { margin: 18px 0; }
+.rtp-root .fc-title {
+  font-family: var(--sans); font-weight: 700; font-size: var(--fs-subheading, 19px);
+  text-align: center; margin-bottom: 14px; color: var(--text);
+}
+.rtp-root .fc-flow { display: flex; flex-direction: column; align-items: center; }
+
+.rtp-root .fc-box {
+  width: 100%; max-width: 460px; min-height: 46px;
+  display: flex; align-items: center; justify-content: center; text-align: center;
+  padding: 11px 16px;
+  border: 1.5px solid var(--border-strong); border-radius: 12px;
+  background: var(--bg-elevated); color: var(--text);
+  font-family: var(--sans); font-size: var(--fs-content, 17px); line-height: 1.45;
+}
+.rtp-root .fc-box--accent {
+  border-color: var(--accent); background: var(--accent-soft); font-weight: 600;
+}
+
+/* connector: a short vertical line capped with a CSS arrowhead */
+.rtp-root .fc-arrow {
+  position: relative; width: 2px; height: 30px; background: var(--border-strong);
+}
+.rtp-root .fc-arrow::after {
+  content: ''; position: absolute; bottom: 0; left: 50%; transform: translateX(-50%);
+  border-left: 6px solid transparent; border-right: 6px solid transparent;
+  border-top: 8px solid var(--border-strong);
+}
+.rtp-root .fc-arrow-label {
+  position: absolute; left: 10px; top: 50%; transform: translateY(-50%);
+  white-space: nowrap; font-family: var(--sans); font-size: 13px;
+  color: var(--text-subtle); background: var(--bg); padding: 0 5px;
+}
+
+@media (max-width: 600px) {
+  .rtp-root .fc-box { max-width: 100%; font-size: 15px; }
+}
