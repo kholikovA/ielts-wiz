@@ -1,0 +1,19 @@
+/* Non-extractable image — scoped under .rtp-root. The image is painted into a
+   <canvas>, so there is no <img> with a grabbable src and no native "Save image". */
+
+.rtp-root .simg {
+  position: relative; display: inline-block; max-width: 100%;
+  user-select: none; -webkit-user-select: none;
+}
+.rtp-root .simg-canvas {
+  display: block; max-width: 100%; height: auto; border-radius: 8px;
+  -webkit-user-drag: none; user-drag: none;
+}
+.rtp-root .simg-state {
+  position: absolute; inset: 0;
+  display: flex; align-items: center; justify-content: center;
+  min-width: 220px; min-height: 130px;
+  color: var(--text-subtle); font-family: var(--sans); font-size: 14px;
+  background: var(--bg-elevated);
+  border: 1px dashed var(--border-strong); border-radius: 8px;
+}
