@@ -1,0 +1,261 @@
+{
+  "title": "IELTS Wiz — Listening Practice Test 1",
+  "skill": "listening",
+  "demo": true,
+  "duration_minutes": 30,
+  "audio_url": "",
+  "audio_note": "Demo test — audio not included. Read each section as if you were listening; the engine, question types and scoring all work end to end.",
+  "answer_key_status": "complete",
+  "answer_key": {
+    "1": "Brookside",
+    "2": "GL7 2RD",
+    "3": "07700 916482",
+    "4": "family",
+    "5": "swimming",
+    "6": "Tuesday",
+    "7": "32",
+    "8": "students",
+    "9": "leaflet",
+    "10": "address",
+    "11": "C",
+    "12": "F",
+    "13": "A",
+    "14": "H",
+    "15": "D",
+    "16": "B",
+    "17": "C",
+    "18": "A",
+    "19": "B",
+    "20": "C",
+    "21": "B",
+    "22": "A",
+    "23": "C",
+    "24": "A",
+    "25": "B",
+    "26": "sampling",
+    "27": "data",
+    "28": "spreadsheet",
+    "29": "patterns",
+    "30": "report",
+    "31": "Berlin",
+    "32": "temperature",
+    "33": "succulent",
+    "34": "maintenance",
+    "35": "membrane",
+    "36": "drainage",
+    "37": "substrate",
+    "38": "weight",
+    "39": "cost",
+    "40": "watering"
+  },
+  "parts": [
+    {
+      "part_number": 1,
+      "section_title": "Section 1",
+      "section_subtitle": "A phone enquiry about joining a community centre.",
+      "question_groups": [
+        {
+          "type": "note_completion",
+          "instructions_html": "Complete the form below. Write <strong>NO MORE THAN TWO WORDS AND/OR A NUMBER</strong> for each answer.",
+          "layout": {
+            "title": "MAPLEWOOD COMMUNITY CENTRE — New member form",
+            "sections": [
+              {
+                "heading": "Personal details",
+                "items": [
+                  { "html": "Name: Sarah Bennett <em>(example)</em>" },
+                  { "qnum": 1, "html": "Address: flat 4, ___ House" },
+                  { "qnum": 2, "html": "Postcode: ___" },
+                  { "qnum": 3, "html": "Phone: ___" }
+                ]
+              },
+              {
+                "heading": "Membership",
+                "items": [
+                  { "qnum": 4, "html": "Type wanted: ___ membership" },
+                  { "qnum": 5, "html": "Main activity: ___ classes" },
+                  { "qnum": 6, "html": "Preferred evening: ___" },
+                  { "qnum": 7, "html": "Monthly fee: £___" }
+                ]
+              },
+              {
+                "heading": "Other",
+                "items": [
+                  { "qnum": 8, "html": "Discount available for: ___" },
+                  { "qnum": 9, "html": "Heard about the centre from a ___" },
+                  { "qnum": 10, "html": "Must bring: proof of ___" }
+                ]
+              }
+            ]
+          },
+          "questions": [
+            { "number": 1 }, { "number": 2 }, { "number": 3 }, { "number": 4 }, { "number": 5 },
+            { "number": 6 }, { "number": 7 }, { "number": 8 }, { "number": 9 }, { "number": 10 }
+          ]
+        }
+      ]
+    },
+    {
+      "part_number": 2,
+      "section_title": "Section 2",
+      "section_subtitle": "A talk introducing Riverside Park to new visitors.",
+      "question_groups": [
+        {
+          "type": "map_labelling",
+          "instructions_html": "Label the map below. Choose the correct letter, <strong>A–H</strong>, for each place.",
+          "image_url": "/listening/demo1-map.svg",
+          "image_alt": "Map of Riverside Park showing a lake, a river, paths and eight lettered locations.",
+          "bank": ["A", "B", "C", "D", "E", "F", "G", "H"],
+          "questions": [
+            { "number": 11, "prompt": "Café" },
+            { "number": 12, "prompt": "Children's playground" },
+            { "number": 13, "prompt": "Boat hire" },
+            { "number": 14, "prompt": "Bird hide" },
+            { "number": 15, "prompt": "Information centre" }
+          ]
+        },
+        {
+          "type": "mcq",
+          "instructions_html": "Choose the correct letter, <strong>A, B or C</strong>.",
+          "questions": [
+            {
+              "number": 16,
+              "prompt": "The park is busiest on",
+              "options": [
+                { "letter": "A", "text": "weekdays." },
+                { "letter": "B", "text": "Saturdays." },
+                { "letter": "C", "text": "Sundays." }
+              ]
+            },
+            {
+              "number": 17,
+              "prompt": "The new feature this year is",
+              "options": [
+                { "letter": "A", "text": "a maze." },
+                { "letter": "B", "text": "a sculpture trail." },
+                { "letter": "C", "text": "a wildflower meadow." }
+              ]
+            },
+            {
+              "number": 18,
+              "prompt": "Throughout the park, dogs must be",
+              "options": [
+                { "letter": "A", "text": "kept on a lead." },
+                { "letter": "B", "text": "left at home." },
+                { "letter": "C", "text": "kept away from the lake." }
+              ]
+            },
+            {
+              "number": 19,
+              "prompt": "The free guided walk starts at",
+              "options": [
+                { "letter": "A", "text": "10 a.m." },
+                { "letter": "B", "text": "11 a.m." },
+                { "letter": "C", "text": "2 p.m." }
+              ]
+            },
+            {
+              "number": 20,
+              "prompt": "To become a volunteer, visitors should",
+              "options": [
+                { "letter": "A", "text": "email the park office." },
+                { "letter": "B", "text": "attend a meeting." },
+                { "letter": "C", "text": "fill in a form online." }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "part_number": 3,
+      "section_title": "Section 3",
+      "section_subtitle": "Two students, Maria and Tom, plan a river-study project.",
+      "question_groups": [
+        {
+          "type": "matching",
+          "instructions_html": "Who will be responsible for each task? Choose the correct letter, <strong>A, B or C</strong>, for each task.",
+          "bank": [
+            { "letter": "A", "text": "Maria" },
+            { "letter": "B", "text": "Tom" },
+            { "letter": "C", "text": "both students" }
+          ],
+          "questions": [
+            { "number": 21, "prompt": "collecting water samples" },
+            { "number": 22, "prompt": "booking the minibus" },
+            { "number": 23, "prompt": "writing the introduction" },
+            { "number": 24, "prompt": "making the graphs" },
+            { "number": 25, "prompt": "checking the references" }
+          ]
+        },
+        {
+          "type": "flowchart_completion",
+          "instructions_html": "Complete the flow-chart below. Write <strong>ONE WORD ONLY</strong> for each answer.",
+          "flowchart": {
+            "title": "River study — project stages",
+            "steps": [
+              { "html": "Choose a ___ site on the river", "qnums": [26] },
+              { "html": "Collect ___ over two weeks", "qnums": [27] },
+              { "html": "Enter the results into a ___", "qnums": [28] },
+              { "html": "Identify ___ in the results", "qnums": [29] },
+              { "html": "Write the final ___", "qnums": [30], "emphasis": true }
+            ]
+          },
+          "questions": [
+            { "number": 26 }, { "number": 27 }, { "number": 28 }, { "number": 29 }, { "number": 30 }
+          ]
+        }
+      ]
+    },
+    {
+      "part_number": 4,
+      "section_title": "Section 4",
+      "section_subtitle": "A short lecture on urban rooftop gardens.",
+      "question_groups": [
+        {
+          "type": "note_completion",
+          "instructions_html": "Complete the notes below. Write <strong>ONE WORD ONLY</strong> for each answer.",
+          "layout": {
+            "title": "Urban rooftop gardens",
+            "sections": [
+              {
+                "heading": "Background",
+                "items": [
+                  { "qnum": 31, "html": "First became popular in the city of ___" },
+                  { "qnum": 32, "html": "Main benefit: they lower a building's ___" }
+                ]
+              },
+              {
+                "heading": "Two types",
+                "items": [
+                  { "qnum": 33, "html": "Extensive gardens use mainly ___ plants" },
+                  { "qnum": 34, "html": "Intensive gardens need much more ___" }
+                ]
+              },
+              {
+                "heading": "How they are built",
+                "items": [
+                  { "qnum": 35, "html": "A waterproof ___ is laid down first" },
+                  { "qnum": 36, "html": "Next comes a layer for ___" },
+                  { "qnum": 37, "html": "A lightweight ___ replaces ordinary soil" }
+                ]
+              },
+              {
+                "heading": "Challenges",
+                "items": [
+                  { "qnum": 38, "html": "The extra ___ placed on the roof" },
+                  { "qnum": 39, "html": "The higher initial ___" },
+                  { "qnum": 40, "html": "The need for regular ___ in summer" }
+                ]
+              }
+            ]
+          },
+          "questions": [
+            { "number": 31 }, { "number": 32 }, { "number": 33 }, { "number": 34 }, { "number": 35 },
+            { "number": 36 }, { "number": 37 }, { "number": 38 }, { "number": 39 }, { "number": 40 }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -23,6 +23,7 @@ const Dashboard = lazy(() => import('./components/Dashboard'));
 const HistoryPage = lazy(() => import('./components/HistoryPage'));
 const AdminUsersPage = lazy(() => import('./components/admin/AdminUsersPage'));
 const ReadingTestRoute = lazy(() => import('./components/reading/ReadingTestRoute'));
+const ListeningTestRoute = lazy(() => import('./components/listening/ListeningTestRoute'));
 const Onboarding = lazy(() => import('./components/Onboarding'));
 
 const App = () => {
@@ -85,6 +86,13 @@ const App = () => {
         const review = parts[2] === 'review';
         return <ReadingTestRoute key={`${slug}:${review}`} slug={slug} review={review} onExit={() => navigateTo('reading', 'full')} />;
       }
+      case 'listening-test': {
+        // /listening-test/<slug> → take the test; /listening-test/<slug>/review → review
+        const parts = window.location.pathname.split('/').filter(Boolean);
+        const slug = parts[1];
+        const review = parts[2] === 'review';
+        return <ListeningTestRoute key={`${slug}:${review}`} slug={slug} review={review} onExit={() => navigateTo('listening', 'hub')} />;
+      }
       default: return <HomePage setCurrentPage={navigateTo} />;
     }
   };
@@ -109,8 +117,8 @@ const App = () => {
     );
   }
 
-  // The reading test player is a full-screen takeover — no app nav/footer.
-  const fullscreen = currentPage === 'reading-test';
+  // The reading / listening test players are full-screen takeovers — no app nav/footer.
+  const fullscreen = currentPage === 'reading-test' || currentPage === 'listening-test';
   // Hide the footer on auth screens so it doesn't push the form below the fold.
   const showFooter = !['login', 'signup'].includes(currentPage) && !fullscreen;
 

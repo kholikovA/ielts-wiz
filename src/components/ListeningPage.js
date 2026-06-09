@@ -13,7 +13,7 @@ import FullStub from './listening/FullStub';
 // accepts those values as initial-tab hints.
 export default function ListeningPage({ subPage, setSubPage, setCurrentPage }) {
   if (subPage === 'about') return <AboutGuide setSubPage={setSubPage} />;
-  if (subPage === 'full')  return <FullStub setSubPage={setSubPage} />;
+  if (subPage === 'full')  return <FullStub setSubPage={setSubPage} setCurrentPage={setCurrentPage} />;
   if (subPage === 'parts' || (typeof subPage === 'string' && subPage.startsWith('part'))) {
     return <PartsView subPage={subPage} setSubPage={setSubPage} setCurrentPage={setCurrentPage} />;
   }

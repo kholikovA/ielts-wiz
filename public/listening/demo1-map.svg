@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 430" width="640" height="430" font-family="Inter, system-ui, sans-serif">
+  <rect width="640" height="430" fill="#eef3ec"/>
+  <!-- lake -->
+  <path d="M70 70 q70 -30 150 -10 q60 16 40 70 q-20 54 -110 50 q-90 -4 -90 -55 q0 -32 10 -45 z" fill="#bcd6ef" stroke="#7aa7d6" stroke-width="2"/>
+  <text x="150" y="120" fill="#3f6695" font-size="16" text-anchor="middle">Lake</text>
+  <!-- river -->
+  <path d="M0 300 q160 -40 320 0 q160 40 320 0 l0 40 q-160 40 -320 0 q-160 -40 -320 0 z" fill="#bcd6ef" stroke="#7aa7d6" stroke-width="2"/>
+  <text x="500" y="328" fill="#3f6695" font-size="15" text-anchor="middle">River</text>
+  <!-- main path -->
+  <path d="M40 400 L40 200 L300 200 L300 90 L600 90" fill="none" stroke="#cdbfa6" stroke-width="14" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M300 200 L300 260" fill="none" stroke="#cdbfa6" stroke-width="14" stroke-linecap="round"/>
+  <!-- entrance -->
+  <rect x="20" y="398" width="120" height="24" rx="5" fill="#fff" stroke="#9a9385"/>
+  <text x="80" y="415" font-size="13" text-anchor="middle" fill="#555">Entrance</text>
+  <!-- lettered markers -->
+  <g font-size="16" font-weight="700" text-anchor="middle">
+    <rect x="232" y="150" width="30" height="30" rx="6" fill="#fff" stroke="#444" stroke-width="1.5"/><text x="247" y="171" fill="#222">A</text>
+    <rect x="116" y="232" width="30" height="30" rx="6" fill="#fff" stroke="#444" stroke-width="1.5"/><text x="131" y="253" fill="#222">B</text>
+    <rect x="330" y="120" width="30" height="30" rx="6" fill="#fff" stroke="#444" stroke-width="1.5"/><text x="345" y="141" fill="#222">C</text>
+    <rect x="448" y="56" width="30" height="30" rx="6" fill="#fff" stroke="#444" stroke-width="1.5"/><text x="463" y="77" fill="#222">D</text>
+    <rect x="520" y="118" width="30" height="30" rx="6" fill="#fff" stroke="#444" stroke-width="1.5"/><text x="535" y="139" fill="#222">E</text>
+    <rect x="262" y="248" width="30" height="30" rx="6" fill="#fff" stroke="#444" stroke-width="1.5"/><text x="277" y="269" fill="#222">F</text>
+    <rect x="408" y="208" width="30" height="30" rx="6" fill="#fff" stroke="#444" stroke-width="1.5"/><text x="423" y="229" fill="#222">G</text>
+    <rect x="566" y="250" width="30" height="30" rx="6" fill="#fff" stroke="#444" stroke-width="1.5"/><text x="581" y="271" fill="#222">H</text>
+  </g>
+  <rect x="1" y="1" width="638" height="428" fill="none" stroke="#cfd6cb" stroke-width="2" rx="6"/>
+</svg>

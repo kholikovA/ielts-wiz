@@ -1,8 +1,9 @@
 import React from 'react';
 import PageHeader from '../ui/PageHeader';
 import Icon from '../ui/icons';
+import { LISTENING_TESTS } from '../../data/tests/manifest';
 
-export default function FullStub({ setSubPage }) {
+export default function FullStub({ setSubPage, setCurrentPage }) {
   return (
     <div className="page-shell">
       <div className="page-section" style={{ maxWidth: '780px' }}>
@@ -16,9 +17,26 @@ export default function FullStub({ setSubPage }) {
         </button>
         <PageHeader
           eyebrow="Listening · Full Test"
-          title={<>The 30-minute, 4-section <span className="gradient-text">mock — coming soon.</span></>}
-          lead="A full Listening test under exam conditions: four sections, 40 questions, single-pass audio, Cambridge band conversion."
+          title={<>The 30-minute, 4-section <span className="gradient-text">listening mock.</span></>}
+          lead="A full Listening test in the exam player: four sections, 40 questions, every question type, native flowcharts, and Cambridge band conversion."
         />
+
+        {LISTENING_TESTS.length > 0 && (
+          <div className="card" style={{ padding: 'var(--space-6)', marginBottom: 'var(--space-5)' }}>
+            <h3 className="h3" style={{ color: 'var(--text-primary)', marginBottom: 'var(--space-4)' }}>Available now</h3>
+            {LISTENING_TESTS.map((t) => (
+              <div key={t.id} style={{ display: 'flex', alignItems: 'center', gap: 'var(--space-4)', justifyContent: 'space-between', flexWrap: 'wrap' }}>
+                <div>
+                  <div style={{ fontWeight: 600, color: 'var(--text-primary)' }}>{t.spec.title}</div>
+                  <div className="body" style={{ fontSize: 'var(--text-sm)' }}>4 sections · 40 questions · {t.spec.duration_minutes || 30} minutes{t.spec.demo ? ' · demo (no audio)' : ''}</div>
+                </div>
+                <button type="button" className="btn btn-primary btn-sm" onClick={() => setCurrentPage('listening-test', t.slug)} style={{ gap: 'var(--space-1)' }}>
+                  <Icon name="play" size={14} /> Start test
+                </button>
+              </div>
+            ))}
+          </div>
+        )}
         <div className="card" style={{
           padding: 'var(--space-6)',
           borderColor: 'var(--purple-500-30)',
