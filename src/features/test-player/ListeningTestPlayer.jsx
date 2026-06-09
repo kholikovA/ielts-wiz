@@ -3,6 +3,7 @@ import './player.css';
 import './listening.css';
 import ListeningQuestionGroup from './components/ListeningQuestionGroup';
 import ResultsScreen from './components/ResultsScreen';
+import ListeningReviewView from './review/ListeningReviewView';
 import { gradeTest } from './grading';
 import { recordAttempt, loadLastSubmission, loadLastSubmissionCloud } from './recording';
 import { shareResultImage } from './resultImage';
@@ -102,7 +103,16 @@ export default function ListeningTestPlayer({ test, review = false, onExit }) {
   const ss = String(secondsLeft % 60).padStart(2, '0');
   const minutesLeft = Math.max(0, Math.ceil(secondsLeft / 60));
 
-  // Results summary (before the read-only review).
+  // Transcript review: transcript (left) with answer locations + question list.
+  if (grade && inReview) {
+    return (
+      <div className="rtp-root test-locked" data-theme={theme} data-text-size={textSize} style={{ height: '100vh', overflow: 'hidden' }}>
+        <ListeningReviewView spec={spec} grade={grade} onExit={() => setInReview(false)} />
+      </div>
+    );
+  }
+
+  // Results summary (before the transcript review).
   if (grade && !inReview) {
     return (
       <div className="rtp-root test-locked" data-theme={theme} data-text-size={textSize} style={{ height: '100vh', overflowY: 'auto' }}>

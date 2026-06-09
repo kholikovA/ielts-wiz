@@ -48,11 +48,58 @@
     "39": "cost",
     "40": "watering"
   },
+  "explanations": {
+    "1": { "evidence": "flat 4, Brookside House", "part": 1, "paragraph": 0, "rationale": "She gives her address as flat 4, Brookside House." },
+    "2": { "evidence": "The postcode is GL7 2RD", "part": 1, "paragraph": 0, "rationale": "The caller reads out the postcode." },
+    "3": { "evidence": "it's 07700 916482", "part": 1, "paragraph": 0, "rationale": "The phone number is given directly." },
+    "4": { "evidence": "A family membership, please", "part": 1, "paragraph": 1, "rationale": "She asks for a family membership." },
+    "5": { "evidence": "Mainly the swimming classes", "part": 1, "paragraph": 1, "rationale": "Her main interest is the swimming classes." },
+    "6": { "evidence": "Tuesday evening would be ideal", "part": 1, "paragraph": 1, "rationale": "She prefers Tuesday evening." },
+    "7": { "evidence": "The family rate is £32 a month", "part": 1, "paragraph": 1, "rationale": "The monthly fee is £32." },
+    "8": { "evidence": "a discount for students", "part": 1, "paragraph": 2, "rationale": "A discount is available for students." },
+    "9": { "evidence": "I picked up a leaflet at the library", "part": 1, "paragraph": 2, "rationale": "She heard about the centre from a leaflet." },
+    "10": { "evidence": "please bring proof of address", "part": 1, "paragraph": 2, "rationale": "Members must bring proof of address." },
+    "11": { "evidence": "the café is the first building you reach, right where the path meets the lake", "part": 2, "paragraph": 0, "rationale": "The café (C) is where the path meets the lake." },
+    "12": { "evidence": "The children's playground is a little further on, beside the river bend just below the café", "part": 2, "paragraph": 0, "rationale": "The playground (F) is by the river bend below the café." },
+    "13": { "evidence": "boat hire is up at the top of the lake", "part": 2, "paragraph": 0, "rationale": "Boat hire (A) is at the top of the lake." },
+    "14": { "evidence": "the bird hide sits at the far eastern end, across the river", "part": 2, "paragraph": 1, "rationale": "The bird hide (H) is at the far eastern end." },
+    "15": { "evidence": "the information centre is right at the top of the main path", "part": 2, "paragraph": 1, "rationale": "The information centre (D) is at the top of the path." },
+    "16": { "evidence": "The park is busiest on Saturdays", "part": 2, "paragraph": 2, "rationale": "The busiest day is Saturday." },
+    "17": { "evidence": "we've added a new wildflower meadow", "part": 2, "paragraph": 2, "rationale": "The new feature is a wildflower meadow." },
+    "18": { "evidence": "dogs must be kept on a lead", "part": 2, "paragraph": 2, "rationale": "Dogs must be kept on a lead." },
+    "19": { "evidence": "free guided walk leaves the café at 11 a.m.", "part": 2, "paragraph": 2, "rationale": "The guided walk starts at 11 a.m." },
+    "20": { "evidence": "fill in a form online", "part": 2, "paragraph": 2, "rationale": "Volunteers fill in a form online." },
+    "21": { "evidence": "Tom: I'll handle collecting the water samples", "part": 3, "paragraph": 0, "rationale": "Tom collects the water samples." },
+    "22": { "evidence": "I'll book the minibus, then", "part": 3, "paragraph": 0, "rationale": "Maria books the minibus." },
+    "23": { "evidence": "both of us on the introduction", "part": 3, "paragraph": 0, "rationale": "Both students write the introduction." },
+    "24": { "evidence": "Maria: I can make the graphs once we have the numbers", "part": 3, "paragraph": 0, "rationale": "Maria makes the graphs." },
+    "25": { "evidence": "Tom: And I'll check all the references at the end", "part": 3, "paragraph": 0, "rationale": "Tom checks the references." },
+    "26": { "evidence": "we choose a sampling site on the river", "part": 3, "paragraph": 1, "rationale": "First they choose a sampling site." },
+    "27": { "evidence": "we collect data over two weeks", "part": 3, "paragraph": 1, "rationale": "They collect data over two weeks." },
+    "28": { "evidence": "we enter the results into a spreadsheet", "part": 3, "paragraph": 1, "rationale": "Results are entered into a spreadsheet." },
+    "29": { "evidence": "We look for patterns in the figures", "part": 3, "paragraph": 1, "rationale": "They look for patterns in the data." },
+    "30": { "evidence": "we write the report", "part": 3, "paragraph": 1, "rationale": "Finally they write the report." },
+    "31": { "evidence": "in the city of Berlin", "part": 4, "paragraph": 0, "rationale": "Rooftop gardens first became popular in Berlin." },
+    "32": { "evidence": "lower a building's temperature", "part": 4, "paragraph": 0, "rationale": "They lower the building's temperature." },
+    "33": { "evidence": "use mainly succulent plants", "part": 4, "paragraph": 1, "rationale": "Extensive gardens use succulent plants." },
+    "34": { "evidence": "need much more maintenance", "part": 4, "paragraph": 1, "rationale": "Intensive gardens need more maintenance." },
+    "35": { "evidence": "A waterproof membrane is laid down first", "part": 4, "paragraph": 2, "rationale": "A waterproof membrane is laid first." },
+    "36": { "evidence": "a layer for drainage", "part": 4, "paragraph": 2, "rationale": "Next comes a drainage layer." },
+    "37": { "evidence": "a lightweight substrate replaces ordinary soil", "part": 4, "paragraph": 2, "rationale": "A lightweight substrate replaces soil." },
+    "38": { "evidence": "The extra weight placed on the roof", "part": 4, "paragraph": 3, "rationale": "A challenge is the extra weight on the roof." },
+    "39": { "evidence": "The higher initial cost", "part": 4, "paragraph": 3, "rationale": "A challenge is the higher initial cost." },
+    "40": { "evidence": "the need for regular watering in summer", "part": 4, "paragraph": 3, "rationale": "A challenge is regular watering in summer." }
+  },
   "parts": [
     {
       "part_number": 1,
       "section_title": "Section 1",
       "section_subtitle": "A phone enquiry about joining a community centre.",
+      "passage_paragraphs": [
+        "Receptionist: Good morning, Maplewood Community Centre. Caller: Hi, I'd like to become a member. Receptionist: Of course — can I take your name? Caller: It's Sarah Bennett. Receptionist: And your address? Caller: I'm at flat 4, Brookside House. Receptionist: Could you spell that? Caller: B-R-O-O-K-S-I-D-E. The postcode is GL7 2RD. Receptionist: And a phone number? Caller: Yes, it's 07700 916482.",
+        "Receptionist: What type of membership would you like? Caller: A family membership, please — it's for me and my two children. Receptionist: And which activity interests you most? Caller: Mainly the swimming classes. Receptionist: Those run on several evenings; which suits you? Caller: Tuesday evening would be ideal. Receptionist: The family rate is £32 a month.",
+        "Caller: Is there any discount available? Receptionist: We offer a discount for students, though the family rate is already reduced. Receptionist: How did you hear about us? Caller: I picked up a leaflet at the library. Receptionist: Lovely. When you come in, please bring proof of address, such as a recent utility bill."
+      ],
       "question_groups": [
         {
           "type": "note_completion",
@@ -99,6 +146,11 @@
       "part_number": 2,
       "section_title": "Section 2",
       "section_subtitle": "A talk introducing Riverside Park to new visitors.",
+      "passage_paragraphs": [
+        "Welcome to Riverside Park. Let me point out the main facilities. As you come through the entrance, the café is the first building you reach, right where the path meets the lake. The children's playground is a little further on, beside the river bend just below the café. If you'd like to get out on the water, boat hire is up at the top of the lake.",
+        "For quieter visitors, the bird hide sits at the far eastern end, across the river. And the information centre is right at the top of the main path, over on the far side near the trees.",
+        "A few things to know. The park is busiest on Saturdays, so come early at the weekend. This year we've added a new wildflower meadow near the south gate. Throughout the park, dogs must be kept on a lead. Our free guided walk leaves the café at 11 a.m. every day. And if you'd like to volunteer, the easiest way is to fill in a form online."
+      ],
       "question_groups": [
         {
           "type": "map_labelling",
@@ -171,6 +223,10 @@
       "part_number": 3,
       "section_title": "Section 3",
       "section_subtitle": "Two students, Maria and Tom, plan a river-study project.",
+      "passage_paragraphs": [
+        "Maria: So, let's divide up the river project. Tom: I'll handle collecting the water samples, since I've already got the kit. Maria: Great — I'll book the minibus, then. Tom: The introduction we should probably write together. Maria: Agreed, both of us on the introduction. Maria: I can make the graphs once we have the numbers. Tom: And I'll check all the references at the end.",
+        "Maria: Let's agree the stages. First we choose a sampling site on the river. Then we collect data over two weeks. After that we enter the results into a spreadsheet. We look for patterns in the figures, and finally we write the report."
+      ],
       "question_groups": [
         {
           "type": "matching",
@@ -211,6 +267,12 @@
       "part_number": 4,
       "section_title": "Section 4",
       "section_subtitle": "A short lecture on urban rooftop gardens.",
+      "passage_paragraphs": [
+        "Today I'll talk about urban rooftop gardens. The idea first became popular in the city of Berlin, and has since spread worldwide. Their main benefit is that they lower a building's temperature, which cuts cooling costs in summer.",
+        "There are two broad types. Extensive gardens are light and use mainly succulent plants that need very little care. Intensive gardens are more like ordinary gardens and need much more maintenance.",
+        "Construction follows a clear sequence. A waterproof membrane is laid down first to protect the roof. Next comes a layer for drainage, so that water doesn't pool. Then a lightweight substrate replaces ordinary soil, because normal earth is far too heavy.",
+        "There are challenges too. The extra weight placed on the roof has to be checked by an engineer. The higher initial cost can put owners off. And in hot climates, the need for regular watering in summer adds to the workload."
+      ],
       "question_groups": [
         {
           "type": "note_completion",
