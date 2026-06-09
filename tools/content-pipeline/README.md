@@ -5,14 +5,29 @@ content-agnostic, dependency-free Node scripts (Node 18+). They operate on whate
 spec you give them — sourcing and rights to that content are your responsibility.
 
 ```
-extract (IELTSX extension)  →  spec.json
-        │
+saved test .html  →  extract_listening.py  →  spec.json
+                                                  │
         ├─ host-assets.mjs   (listening only: audio + images → your GitHub → URLs in spec)
         ├─ schema.mjs        (validate it will play + grade)
         └─ ingest.mjs        (slug + place file + register in manifest.js)
               │
               └─ (reading only, optional) AI evidence/vocabulary enrichment → PR
 ```
+
+## 0. Extract (listening) — `extract_listening.py`
+Reads a **rendered** listening test HTML (Save Page As → "Webpage, HTML Only" from
+a page that shows the questions) and emits a listening spec. Structure-driven —
+it reads the `question-part` / `question-prompt` / `answer-input` / `mcq-item` /
+`map-container` markup and the embedded `correctAnswers` object, covering table /
+sentence completion, MCQ, matching, and map labelling. Needs Python + BeautifulSoup
+(`pip install beautifulsoup4`).
+
+```bash
+python3 tools/content-pipeline/extract_listening.py "saved test.html" out.json --title "Listening Test 2"
+```
+Audio isn't in the source HTML, so `audio_url` is left empty — fill it in or run
+`host-assets.mjs`. Map images ARE captured as URLs for `host-assets` to rehost.
+(Reading uses the existing `tools/reading-test-skill/scripts/extract_spec_from_html.py`.)
 
 ## 1. Validate — `schema.mjs`
 Checks the spec matches what the React players consume (types, gaps vs questions,
