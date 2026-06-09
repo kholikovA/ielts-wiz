@@ -3,7 +3,7 @@ import Icon from './ui/icons';
 import AppLink from './ui/AppLink';
 import { hrefFor } from '../lib/routes';
 import { useAuth } from '../contexts/AuthContext';
-import { SKILLS, ACCOUNT_LINKS, RESOURCE_LINKS } from '../lib/navConfig';
+import { SKILLS, STUDY_TOOLS, ACCOUNT_LINKS, RESOURCE_LINKS } from '../lib/navConfig';
 
 const Footer = ({ setCurrentPage }) => {
   const { user } = useAuth();
@@ -32,6 +32,13 @@ const Footer = ({ setCurrentPage }) => {
           <h4>Practice</h4>
           {SKILLS.map(s => (
             <AppLink key={s.id} href={hrefFor(s.id)} onNavigate={onNav(s.id)}>{s.label}</AppLink>
+          ))}
+        </div>
+
+        <div>
+          <h4>Study Tools</h4>
+          {STUDY_TOOLS.map(t => (
+            <AppLink key={t.id} href={hrefFor(t.id)} onNavigate={onNav(t.id)}>{t.label}</AppLink>
           ))}
         </div>
 
