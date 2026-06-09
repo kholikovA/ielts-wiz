@@ -23,6 +23,7 @@ import c20t1 from './reading/cambridge20/test1.json';
 import c20t2 from './reading/cambridge20/test2.json';
 import c20t3 from './reading/cambridge20/test3.json';
 import c20t4 from './reading/cambridge20/test4.json';
+import ldemo1 from './listening/demo1.json';
 
 // source = catalogue folder, n = test number within it.
 export const READING_TESTS = [
@@ -38,6 +39,18 @@ export const READING_TESTS = [
   { source: 'cambridge20', n: 3, kind: 'reading_full', id: 'cam20_t3', slug: 'zoe47s2neymlvxao', spec: c20t3 },
   { source: 'cambridge20', n: 4, kind: 'reading_full', id: 'cam20_t4', slug: '1yta8xnt9gpznt6y', spec: c20t4 },
 ];
+
+// Listening tests served by the React listening player. Same id/slug contract as
+// reading: `kind`+`id` are the stable stats key, `slug` is the opaque URL alias.
+export const LISTENING_TESTS = [
+  { source: 'iw_practice', n: 1, kind: 'listening_full', id: 'iw_listening_1', slug: 'k7m2qf9xln1ptr6z', spec: ldemo1 },
+];
+
+export const findListeningTestById = (id) =>
+  LISTENING_TESTS.find((t) => t.id === id) || null;
+
+export const findListeningTestBySlug = (slug) =>
+  LISTENING_TESTS.find((t) => t.slug === slug) || null;
 
 export const findReadingTest = (source, n) =>
   READING_TESTS.find((t) => t.source === source && t.n === Number(n)) || null;

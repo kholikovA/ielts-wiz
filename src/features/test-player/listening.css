@@ -1,0 +1,84 @@
+/* Listening player + question renderer. Scoped under .rtp-root so it reuses the
+   reading player's themed CSS variables, topbar, footer and modals. */
+
+/* ---- player layout (single scrolling column, audio header instead of passage) ---- */
+.rtp-root .ltp-audio {
+  flex: 0 0 auto; display: flex; align-items: center; gap: 14px;
+  padding: 10px 18px; border-bottom: 1px solid var(--border); background: var(--bg-elevated);
+}
+.rtp-root .ltp-audio audio { width: 100%; max-width: 520px; height: 38px; }
+.rtp-root .ltp-audio-note {
+  font-family: var(--sans); font-size: 13px; color: var(--text-subtle); line-height: 1.4;
+}
+.rtp-root .ltp-body { flex: 1 1 auto; min-height: 0; overflow-y: auto; }
+.rtp-root .ltp-section { max-width: 820px; margin: 0 auto; padding: 22px 24px 60px; }
+.rtp-root .ltp-section:not(.active) { display: none; }
+
+/* ---- question group ---- */
+.rtp-root .lq-group { margin: 0 0 30px; }
+.rtp-root .lq-instructions {
+  font-family: var(--sans); font-size: 14px; color: var(--text-muted);
+  line-height: 1.55; margin-bottom: 14px; padding-bottom: 10px; border-bottom: 1px solid var(--border);
+}
+.rtp-root .lq-range {
+  display: block; font-size: 15px; color: var(--text); margin-bottom: 3px;
+}
+
+/* note / form completion */
+.rtp-root .lq-note { border: 1px solid var(--border-strong); border-radius: 12px; padding: 16px 18px; background: var(--bg-elevated); }
+.rtp-root .lq-note-title { font-family: var(--sans); font-weight: 700; text-align: center; font-size: var(--fs-subheading, 19px); margin-bottom: 12px; }
+.rtp-root .lq-note-head { font-family: var(--sans); font-weight: 700; font-size: 14px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .04em; margin: 14px 0 6px; }
+.rtp-root .lq-note-sec:first-child .lq-note-head { margin-top: 0; }
+
+.rtp-root .lq-item { display: flex; align-items: flex-start; gap: 10px; padding: 7px 0; font-family: var(--serif); font-size: var(--fs-content, 17px); line-height: var(--lh-content, 1.6); }
+.rtp-root .lq-item--label { padding-left: 34px; color: var(--text-muted); }
+.rtp-root .lq-num {
+  flex: 0 0 auto; min-width: 24px; height: 24px; padding: 0 6px; margin-top: 2px;
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 6px; background: var(--accent-soft); color: var(--accent-strong);
+  font-family: var(--sans); font-weight: 800; font-size: 12.5px;
+}
+.rtp-root .lq-item-body { flex: 1; min-width: 0; }
+
+.rtp-root .lq-prose { font-family: var(--serif); font-size: var(--fs-content, 17px); line-height: 1.9; }
+
+/* mcq */
+.rtp-root .lq-mcq { border: none; margin: 0 0 16px; padding: 0; }
+.rtp-root .lq-mcq-stem { display: flex; align-items: baseline; gap: 9px; font-family: var(--serif); font-size: var(--fs-content, 17px); font-weight: 600; margin-bottom: 8px; padding: 0; }
+.rtp-root .lq-opt {
+  display: flex; align-items: flex-start; gap: 9px; padding: 9px 12px; margin: 6px 0;
+  border: 1.5px solid var(--border-strong); border-radius: 10px; cursor: pointer;
+  font-family: var(--serif); font-size: var(--fs-content, 17px); transition: border-color .12s, background .12s;
+}
+.rtp-root .lq-opt:hover { border-color: var(--accent); }
+.rtp-root .lq-opt.chosen { border-color: var(--accent); background: var(--accent-soft); }
+.rtp-root .lq-opt input { margin-top: 4px; }
+.rtp-root .lq-opt-letter { font-family: var(--sans); font-weight: 800; min-width: 18px; }
+.rtp-root .lq-opt.is-correct { border-color: var(--correct); background: var(--correct-soft); }
+.rtp-root .lq-opt.is-wrong { border-color: var(--wrong); background: var(--wrong-soft); }
+
+/* matching / labelling */
+.rtp-root .lq-bank { list-style: none; margin: 0 0 14px; padding: 12px 14px; border: 1px dashed var(--border-strong); border-radius: 10px; background: var(--bg-elevated); display: flex; flex-wrap: wrap; gap: 6px 22px; font-family: var(--sans); font-size: 14px; }
+.rtp-root .lq-bank b { color: var(--accent-strong); }
+.rtp-root .lq-select {
+  flex: 0 0 auto; font-family: var(--sans); font-size: 15px; padding: 6px 10px;
+  border: 1.5px solid var(--border-input); border-radius: 8px; background: var(--bg-input); color: var(--text); cursor: pointer;
+}
+.rtp-root .lq-image { display: flex; justify-content: center; margin: 4px 0 16px; }
+
+/* review markers */
+.rtp-root .lq-mark { flex: 0 0 auto; font-family: var(--sans); font-weight: 800; margin-left: 6px; }
+.rtp-root .lq-mark.ok { color: var(--correct); }
+.rtp-root .lq-mark.no { color: var(--wrong); }
+.rtp-root .lq-mark.dash { color: var(--text-subtle); }
+.rtp-root .lq-sol { margin-left: 8px; font-family: var(--sans); font-size: 14px; }
+.rtp-root .lq-your { color: var(--wrong); text-decoration: line-through; margin-right: 7px; font-style: normal; }
+.rtp-root .lq-correct { color: var(--correct); font-weight: 700; }
+.rtp-root .lq-keyrow { display: flex; flex-wrap: wrap; gap: 8px 16px; margin-top: 12px; padding-top: 10px; border-top: 1px solid var(--border); }
+.rtp-root .lq-keychip { font-family: var(--sans); font-size: 13.5px; }
+.rtp-root .lq-keychip b { color: var(--accent-strong); }
+.rtp-root .lq-unknown { color: var(--wrong); font-family: var(--sans); }
+
+@media (max-width: 600px) {
+  .rtp-root .ltp-section { padding: 18px 16px 60px; }
+}
