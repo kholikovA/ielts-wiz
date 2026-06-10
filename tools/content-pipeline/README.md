@@ -65,6 +65,23 @@ node tools/content-pipeline/ingest.mjs spec.json --skill listening --id iw_liste
 ```
 The test is then live at `/<skill>-test/<slug>` after a build.
 
+## Audio (listening) — TTS synthesis
+For an **authored** test (your own transcript), turn `parts[].passage_paragraphs`
+into an MP3. Two engines:
+
+- **`synthesize-azure.mjs`** (recommended) — Azure Neural TTS + SSML. Adds the
+  exam scaffolding that makes it sound like IELTS: a formal narrator, accent-varied
+  character voices (en-GB/AU/US/NZ), measured pacing, and SSML-timed reading pauses
+  between sections.
+  ```bash
+  AZURE_SPEECH_KEY=... node tools/content-pipeline/synthesize-azure.mjs spec.json --region uksouth --out public/listening/test2.mp3
+  ```
+- **`synthesize-audio.mjs`** — OpenAI TTS, simpler, cheaper, fewer distinct voices.
+
+Both run dry (voice plan + cost estimate) with no key / no `--out`. After
+synthesis, host the file and set the test's `audio_url` (e.g. via `host-assets`).
+Only use on transcripts you authored — never to reconstruct a third party's audio.
+
 ## Reading enrichment (separate, AI)
 The structured `explanations` (verbatim evidence + paragraph + rationale) and
 `vocabulary` that power the reading review aren't in the source page — they're
