@@ -6,6 +6,7 @@ import ListeningQuestionGroup from './components/ListeningQuestionGroup';
 import ListeningReviewView from './review/ListeningReviewView';
 import { buildEvidenceIndex } from './review/evidence';
 import demo from '../../data/tests/listening/demo1.json';
+import test2 from '../../data/tests/listening/iw_listening_2.json';
 
 const groupByType = (t) => {
   for (const part of demo.parts) {
@@ -71,6 +72,16 @@ test('every answer is located verbatim in the transcript (evidence index)', () =
   const unlocated = [];
   for (let n = 1; n <= 40; n++) { if (!byQuestion[n] || !byQuestion[n].located) unlocated.push(n); }
   expect(unlocated).toEqual([]); // a mismatch means an evidence string drifted from the transcript
+});
+
+test('authored Test 2 grades 40/40 and every answer locates in its transcript', () => {
+  const g = gradeTest(test2, { ...test2.answer_key });
+  expect(g.total).toBe(40);
+  expect(g.correct).toBe(40);
+  const { byQuestion } = buildEvidenceIndex(test2);
+  const unlocated = [];
+  for (let n = 1; n <= 40; n++) { if (!byQuestion[n] || !byQuestion[n].located) unlocated.push(n); }
+  expect(unlocated).toEqual([]);
 });
 
 test('transcript review renders the transcript, highlights, and question rows', () => {

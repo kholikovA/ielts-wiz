@@ -1,0 +1,811 @@
+{
+  "title": "IELTS Wiz — Listening Practice Test 2",
+  "skill": "listening",
+  "duration_minutes": 30,
+  "audio_url": "",
+  "audio_note": "Original transcript — generate the audio with TTS or a recording.",
+  "answer_key_status": "complete",
+  "answer_key": {
+    "1": "Bradley",
+    "2": "07771304986",
+    "3": "Saturday",
+    "4": "meadow",
+    "5": "25",
+    "6": "tools",
+    "7": "boots",
+    "8": "Mill",
+    "9": "Priya",
+    "10": "9:30",
+    "11": "A",
+    "12": "C",
+    "13": "E",
+    "14": "D",
+    "15": "F",
+    "16": "B",
+    "17": "B",
+    "18": "B",
+    "19": "A",
+    "20": "B",
+    "21": "A",
+    "22": "B",
+    "23": "C",
+    "24": "D",
+    "25": "F",
+    "26": "weighed",
+    "27": "filter",
+    "28": "barcode",
+    "29": "sugar",
+    "30": "compare",
+    "31": "honey",
+    "32": "variety",
+    "33": "crop",
+    "34": "rooftops",
+    "35": "wax",
+    "36": "hive",
+    "37": "wind",
+    "38": "water",
+    "39": "navigate",
+    "40": "indicator"
+  },
+  "explanations": {
+    "1": {
+      "evidence": "it's B-R-A-D-L-E-Y",
+      "part": 1,
+      "paragraph": 1,
+      "rationale": "Tom spells out his surname letter by letter as Bradley."
+    },
+    "2": {
+      "evidence": "It's 0-7-double-7-1, 3-0-4-9-8-6.",
+      "part": 1,
+      "paragraph": 1,
+      "rationale": "The phone number is read out, with 'double 7' meaning two sevens, giving 07771304986."
+    },
+    "3": {
+      "evidence": "Most of our new members come along on a Saturday, actually, because that's when we have the most help available.",
+      "part": 1,
+      "paragraph": 1,
+      "rationale": "Saturday is identified as the best day to attend because most help is available then."
+    },
+    "4": {
+      "evidence": "this year we've added a wildflower meadow",
+      "part": 1,
+      "paragraph": 2,
+      "rationale": "The new area added this year is a wildflower meadow."
+    },
+    "5": {
+      "evidence": "There is a small annual membership fee of 25 pounds.",
+      "part": 1,
+      "paragraph": 2,
+      "rationale": "The annual membership fee is stated as 25 pounds."
+    },
+    "6": {
+      "evidence": "That covers your insurance and all the tools you'll need while you're there.",
+      "part": 1,
+      "paragraph": 2,
+      "rationale": "The fee includes insurance and the use of all tools."
+    },
+    "7": {
+      "evidence": "we do ask is that you wear sturdy boots, because the ground can get very muddy",
+      "part": 1,
+      "paragraph": 3,
+      "rationale": "Members are asked to wear boots because of the muddy ground."
+    },
+    "8": {
+      "evidence": "We gather at the main gate on Mill Lane.",
+      "part": 1,
+      "paragraph": 3,
+      "rationale": "The meeting point is the main gate on Mill Lane."
+    },
+    "9": {
+      "evidence": "ask for Priya, our volunteer coordinator",
+      "part": 1,
+      "paragraph": 4,
+      "rationale": "On the first visit, new members should ask for Priya, the volunteer coordinator."
+    },
+    "10": {
+      "evidence": "Sessions begin at 9:30 and usually finish around lunchtime.",
+      "part": 1,
+      "paragraph": 4,
+      "rationale": "Sessions start at 9:30."
+    },
+    "11": {
+      "evidence": "That's just below the car park, in the top-left area of the park",
+      "part": 2,
+      "paragraph": 1,
+      "rationale": "The information point is just below the car park in the top-left area, which is position A."
+    },
+    "12": {
+      "evidence": "Right next to the woods, over on the top-right edge of the map, you'll find the bird-watching hide",
+      "part": 2,
+      "paragraph": 1,
+      "rationale": "The bird-watching hide is at the top-right edge by the woods, which is position C."
+    },
+    "13": {
+      "evidence": "follow the path round to the eastern shore — that's the right-hand side as you look at the map — you'll come to the boat house",
+      "part": 2,
+      "paragraph": 2,
+      "rationale": "The boat house is on the eastern (right-hand) shore of the lake, which is position E."
+    },
+    "14": {
+      "evidence": "the western shore on your left, there's a lovely little café looking out over the water",
+      "part": 2,
+      "paragraph": 2,
+      "rationale": "The café is on the western (left) shore of the lake, which is position D."
+    },
+    "15": {
+      "evidence": "the playground is in the bottom-left corner, right beside the stream",
+      "part": 2,
+      "paragraph": 3,
+      "rationale": "The playground is in the bottom-left corner beside the stream, which is position F."
+    },
+    "16": {
+      "evidence": "the day-to-day work is actually done entirely by us volunteers — there are no paid staff on site at all",
+      "part": 2,
+      "paragraph": 4,
+      "rationale": "The day-to-day work is done entirely by unpaid volunteers, so B is correct."
+    },
+    "17": {
+      "evidence": "outside the holidays, they only run at weekends",
+      "part": 2,
+      "paragraph": 5,
+      "rationale": "At this time of year, outside the holidays, the walks run only at weekends, so B is correct."
+    },
+    "18": {
+      "evidence": "during the spring and early summer they must be kept on a lead near the lake",
+      "part": 2,
+      "paragraph": 6,
+      "rationale": "Dogs must be on a lead near the lake during spring and early summer, so B is correct."
+    },
+    "19": {
+      "evidence": "It was supposed to be sunny all day, but in fact we're now expecting heavy rain to move in around three o'clock",
+      "part": 2,
+      "paragraph": 7,
+      "rationale": "The forecast changed from sunny to heavy rain in the afternoon, so A is correct."
+    },
+    "20": {
+      "evidence": "my advice would be to get there before midday if you want a table",
+      "part": 2,
+      "paragraph": 8,
+      "rationale": "The guide advises arriving before midday to get a table, so B is correct."
+    },
+    "21": {
+      "evidence": "Priya did the literature review. She was keen to get into the academic papers",
+      "part": 3,
+      "paragraph": 1,
+      "rationale": "Priya read the academic papers for the literature review, matching option A."
+    },
+    "22": {
+      "evidence": "Marco handled the budget side of things — he's an accounting student, so the costings and the funding application were exactly his thing",
+      "part": 3,
+      "paragraph": 1,
+      "rationale": "Marco did the costings and funding application, matching option B."
+    },
+    "23": {
+      "evidence": "I looked after contacting the local beekeepers and arranging the site visits",
+      "part": 3,
+      "paragraph": 1,
+      "rationale": "Tariq contacted the local beekeepers, matching option C."
+    },
+    "24": {
+      "evidence": "I designed the questionnaire that we sent round to residents",
+      "part": 3,
+      "paragraph": 2,
+      "rationale": "Hannah designed the questionnaire, matching option D."
+    },
+    "25": {
+      "evidence": "Priya also volunteered to put together the final presentation slides",
+      "part": 3,
+      "paragraph": 2,
+      "rationale": "Priya created the final presentation slides, matching option F."
+    },
+    "26": {
+      "evidence": "the very first thing we do is each sample is weighed and the figure is written on the label",
+      "part": 3,
+      "paragraph": 4,
+      "rationale": "The first processing step is that each sample is weighed, so the answer is 'weighed'."
+    },
+    "27": {
+      "evidence": "we filter the honey to remove any wax or bits of debris",
+      "part": 3,
+      "paragraph": 4,
+      "rationale": "The honey is filtered to remove wax and debris, so the answer is 'filter'."
+    },
+    "28": {
+      "evidence": "every jar gets a barcode, so nothing can get mixed up in the lab",
+      "part": 3,
+      "paragraph": 4,
+      "rationale": "A barcode is added to every jar to prevent mix-ups."
+    },
+    "29": {
+      "evidence": "We measure the sugar content of each sample using a refractometer",
+      "part": 3,
+      "paragraph": 5,
+      "rationale": "The sugar content is measured with a refractometer, so the answer is 'sugar'."
+    },
+    "30": {
+      "evidence": "we compare the results across the different neighbourhoods",
+      "part": 3,
+      "paragraph": 5,
+      "rationale": "Results are compared across neighbourhoods, so the answer is 'compare'."
+    },
+    "31": {
+      "evidence": "city hives often produce more honey than rural ones",
+      "part": 4,
+      "paragraph": 0,
+      "rationale": "The lecturer states directly that city hives produce more honey than rural ones."
+    },
+    "32": {
+      "evidence": "The main reason for this is variety.",
+      "part": 4,
+      "paragraph": 0,
+      "rationale": "Variety is named as the key advantage that benefits city bees."
+    },
+    "33": {
+      "evidence": "dominated by a single crop",
+      "part": 4,
+      "paragraph": 0,
+      "rationale": "The countryside is described as dominated by a single crop."
+    },
+    "34": {
+      "evidence": "showing hives kept on rooftops",
+      "part": 4,
+      "paragraph": 1,
+      "rationale": "Ancient Egyptian hives were kept on rooftops."
+    },
+    "35": {
+      "evidence": "monasteries maintained bees largely for the wax, which was needed to make candles",
+      "part": 4,
+      "paragraph": 1,
+      "rationale": "Monasteries kept bees mainly for wax used in candles."
+    },
+    "36": {
+      "evidence": "a new design of hive made it far safer to collect the honey",
+      "part": 4,
+      "paragraph": 1,
+      "rationale": "A new hive design made honey collection safer and helped beekeeping become a hobby."
+    },
+    "37": {
+      "evidence": "A flat roof offers warmth, shelter from the wind",
+      "part": 4,
+      "paragraph": 2,
+      "rationale": "The roof provides warmth and shelter from the wind."
+    },
+    "38": {
+      "evidence": "the bees need access to clean water",
+      "part": 4,
+      "paragraph": 2,
+      "rationale": "Colonies must have access to clean water nearby."
+    },
+    "39": {
+      "evidence": "can damage its ability to navigate",
+      "part": 4,
+      "paragraph": 3,
+      "rationale": "Pesticides can damage a bee's ability to navigate."
+    },
+    "40": {
+      "evidence": "acts as an indicator of the overall health of the urban environment",
+      "part": 4,
+      "paragraph": 4,
+      "rationale": "Healthy bees serve as an indicator of the urban environment's health."
+    }
+  },
+  "parts": [
+    {
+      "part_number": 1,
+      "section_title": "Section 1",
+      "section_subtitle": "A phone call to enquire about joining a community gardening club.",
+      "passage_paragraphs": [
+        "Lauren: Good morning, Riverbend Gardening Club, Lauren speaking. How can I help you?\n\nTom: Oh, hi. I saw a poster about your club at the library and I'd like to find out a bit more about joining, if that's okay.",
+        "Lauren: Of course, I'd be happy to help. Let me just take a few details first. Can I start with your name?\n\nTom: Yes, it's Tom Bradley.\n\nLauren: Could you spell the surname for me?\n\nTom: Sure, it's B-R-A-D-L-E-Y.\n\nLauren: Lovely, thank you. And what's the best phone number to reach you on?\n\nTom: It's 0-7-double-7-1, 3-0-4-9-8-6.\n\nLauren: Great, I've got that. And which day works best for you? Most of our new members come along on a Saturday, actually, because that's when we have the most help available.",
+        "Tom: That works well for me. So what does the club actually do?\n\nLauren: Well, we look after three main areas in the park. The biggest one is the vegetable plot, where members grow things to take home. We also have a small orchard, and this year we've added a wildflower meadow to bring in more bees and butterflies.\n\nTom: That sounds great. Is there a fee to join?\n\nLauren: There is a small annual membership fee of 25 pounds. That covers your insurance and all the tools you'll need while you're there.",
+        "Tom: And do I need to bring anything myself?\n\nLauren: Not really, we provide everything. The only thing we do ask is that you wear sturdy boots, because the ground can get very muddy. Oh, and bring a water bottle in summer.\n\nTom: Right, I'll remember that. Where exactly do we meet?\n\nLauren: We gather at the main gate on Mill Lane. That's M-I-L-L. There's a noticeboard there with the day's jobs pinned up.",
+        "Tom: Perfect. Is there anything else I should know before I come along?\n\nLauren: Just one thing. For your first visit, ask for Priya, our volunteer coordinator. She'll show you around and get you started. Sessions begin at 9:30 and usually finish around lunchtime.\n\nTom: Brilliant. Thanks so much for your help, Lauren.\n\nLauren: You're very welcome. We'll see you on Saturday."
+      ],
+      "question_groups": [
+        {
+          "type": "note_completion",
+          "instructions_html": "<p>Complete the notes below.</p><p>Write <strong>ONE WORD AND/OR A NUMBER</strong> for each answer.</p>",
+          "layout": {
+            "title": "Riverbend Gardening Club - New Member Enquiry",
+            "sections": [
+              {
+                "heading": "Personal details",
+                "items": [
+                  {
+                    "qnum": 1,
+                    "html": "Name: Tom ___"
+                  },
+                  {
+                    "qnum": 2,
+                    "html": "Phone number: ___"
+                  },
+                  {
+                    "qnum": 3,
+                    "html": "Best day to attend: ___"
+                  }
+                ]
+              },
+              {
+                "heading": "About the club",
+                "items": [
+                  {
+                    "html": "The club looks after three areas in the park:"
+                  },
+                  {
+                    "html": "- the vegetable plot"
+                  },
+                  {
+                    "html": "- a small orchard"
+                  },
+                  {
+                    "qnum": 4,
+                    "html": "- a new wildflower ___"
+                  },
+                  {
+                    "qnum": 5,
+                    "html": "Annual membership fee: ___ pounds"
+                  },
+                  {
+                    "qnum": 6,
+                    "html": "Fee includes insurance and use of all ___"
+                  }
+                ]
+              },
+              {
+                "heading": "Practical information",
+                "items": [
+                  {
+                    "qnum": 7,
+                    "html": "Members must wear ___ because of the mud"
+                  },
+                  {
+                    "qnum": 8,
+                    "html": "Meeting point: the main gate on ___ Lane"
+                  },
+                  {
+                    "qnum": 9,
+                    "html": "On first visit, ask for ___ (the volunteer coordinator)"
+                  },
+                  {
+                    "qnum": 10,
+                    "html": "Sessions start at ___"
+                  }
+                ]
+              }
+            ]
+          },
+          "questions": [
+            {
+              "number": 1
+            },
+            {
+              "number": 2
+            },
+            {
+              "number": 3
+            },
+            {
+              "number": 4
+            },
+            {
+              "number": 5
+            },
+            {
+              "number": 6
+            },
+            {
+              "number": 7
+            },
+            {
+              "number": 8
+            },
+            {
+              "number": 9
+            },
+            {
+              "number": 10
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "part_number": 2,
+      "section_title": "Section 2",
+      "section_subtitle": "A volunteer guide welcomes a group of visitors to Marlowe Heath Country Park.",
+      "passage_paragraphs": [
+        "Good morning everyone, and welcome to Marlowe Heath Country Park. My name's Gavin, and I'm one of the volunteer guides here. Before we set off, I'd like to point out a few facilities on this map so you can find your way around during the day. We're standing here at the main entrance, at the bottom of the map in the centre.",
+        "Now, a lot of you arrived by car this morning, and you'll have seen the car park up in the top-left corner. The first thing I want to show you is the information point, where you can pick up leaflets and trail guides. That's just below the car park, in the top-left area of the park — so as you walk in from the car park, it's the very first building you'll reach. Right next to the woods, over on the top-right edge of the map, you'll find the bird-watching hide. It's tucked away at the edge of the trees, which is the best spot for seeing the woodland birds.",
+        "The lake, as you can see, sits right in the middle of the park. If you walk down to the lake and follow the path round to the eastern shore — that's the right-hand side as you look at the map — you'll come to the boat house, where you can hire a rowing boat in the summer. On the opposite side of the lake, the western shore on your left, there's a lovely little café looking out over the water, which is the perfect place to stop for lunch.",
+        "Finally, for those of you with younger children, the playground is very easy to find. As you come in through the main entrance, head over to your left and follow the stream down on the west side — the playground is in the bottom-left corner, right beside the stream. So that's the information point, the bird-watching hide, the boat house, the café, and the playground all marked for you.",
+        "Right, let me tell you a little about how the park is run and what's on today. The park is owned by the local council, but the day-to-day work is actually done entirely by us volunteers — there are no paid staff on site at all, which surprises a lot of people. We rely completely on donations and the small charge for the car park to keep things going.",
+        "A word about the guided walks. We do offer them every day during the school holidays, but at this time of year, outside the holidays, they only run at weekends. So if you're here on a weekday, you're very welcome to follow the marked trails on your own using one of the leaflets from the information point. The walks themselves are free, although we always appreciate a small donation in the box by the gate.",
+        "If you're thinking of bringing a dog next time, do remember our policy. Dogs are welcome throughout the park, but during the spring and early summer they must be kept on a lead near the lake, because that's when the ground-nesting birds have their chicks, and an off-lead dog can do a lot of damage in just a few minutes.",
+        "Now, the weather. The forecast for this afternoon has changed since this morning. It was supposed to be sunny all day, but in fact we're now expecting heavy rain to move in around three o'clock, so I'd suggest you plan to be back near the café by then. The good news is the wind will stay light, so it shouldn't feel too cold.",
+        "And one last practical note about lunch. The café does serve hot meals, but on busy days like today it can get very full, so my advice would be to get there before midday if you want a table. Alternatively, there are plenty of picnic benches by the lake, so if you've brought your own food, that's a lovely option too. Right, shall we make a start?"
+      ],
+      "question_groups": [
+        {
+          "type": "map_labelling",
+          "instructions_html": "<p>Label the map below.</p><p>Write the correct letter, <strong>A–H</strong>, next to questions 11–15.</p>",
+          "image_url": "/listening/test2-map.svg",
+          "image_alt": "Map of Marlowe Heath Country Park",
+          "bank": [
+            "A",
+            "B",
+            "C",
+            "D",
+            "E",
+            "F",
+            "G",
+            "H"
+          ],
+          "questions": [
+            {
+              "number": 11,
+              "prompt": "information point"
+            },
+            {
+              "number": 12,
+              "prompt": "bird-watching hide"
+            },
+            {
+              "number": 13,
+              "prompt": "boat house"
+            },
+            {
+              "number": 14,
+              "prompt": "café"
+            },
+            {
+              "number": 15,
+              "prompt": "playground"
+            }
+          ]
+        },
+        {
+          "type": "mcq",
+          "instructions_html": "<p>Choose the correct letter, <strong>A</strong>, <strong>B</strong> or <strong>C</strong>.</p>",
+          "questions": [
+            {
+              "number": 16,
+              "prompt": "Who carries out the day-to-day running of the park?",
+              "options": [
+                {
+                  "letter": "A",
+                  "text": "paid council staff"
+                },
+                {
+                  "letter": "B",
+                  "text": "unpaid volunteers"
+                },
+                {
+                  "letter": "C",
+                  "text": "a private company"
+                }
+              ]
+            },
+            {
+              "number": 17,
+              "prompt": "At this time of year, the guided walks take place",
+              "options": [
+                {
+                  "letter": "A",
+                  "text": "every day."
+                },
+                {
+                  "letter": "B",
+                  "text": "only at weekends."
+                },
+                {
+                  "letter": "C",
+                  "text": "only during school holidays."
+                }
+              ]
+            },
+            {
+              "number": 18,
+              "prompt": "What does the guide say about bringing dogs?",
+              "options": [
+                {
+                  "letter": "A",
+                  "text": "They are not allowed in spring."
+                },
+                {
+                  "letter": "B",
+                  "text": "They must be on a lead near the lake at certain times."
+                },
+                {
+                  "letter": "C",
+                  "text": "They must stay on a lead everywhere in the park."
+                }
+              ]
+            },
+            {
+              "number": 19,
+              "prompt": "What change has there been to the weather forecast?",
+              "options": [
+                {
+                  "letter": "A",
+                  "text": "Rain is now expected in the afternoon."
+                },
+                {
+                  "letter": "B",
+                  "text": "Strong winds are now expected."
+                },
+                {
+                  "letter": "C",
+                  "text": "It will be colder than first thought."
+                }
+              ]
+            },
+            {
+              "number": 20,
+              "prompt": "What does the guide advise visitors about the café?",
+              "options": [
+                {
+                  "letter": "A",
+                  "text": "to book a table in advance"
+                },
+                {
+                  "letter": "B",
+                  "text": "to arrive before midday"
+                },
+                {
+                  "letter": "C",
+                  "text": "to avoid the hot meals"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "part_number": 3,
+      "section_title": "Section 3",
+      "section_subtitle": "Two students, Tariq and Hannah, meet their tutor to discuss a group project on urban beekeeping.",
+      "passage_paragraphs": [
+        "Dr Voss: Right, Tariq, Hannah, thanks for coming in. So this is the planning meeting for your group project on urban beekeeping. I've read your proposal and I think the topic is strong. Shall we start by going over how the four of you split the work? Who took on what?",
+        "Tariq: Sure. Well, Priya did the literature review. She was keen to get into the academic papers, and honestly she read far more than the rest of us, so it made sense. Then Marco handled the budget side of things — he's an accounting student, so the costings and the funding application were exactly his thing. I looked after contacting the local beekeepers and arranging the site visits, because I already knew a couple of them. And Hannah here built the survey.",
+        "Hannah: That's right. I designed the questionnaire that we sent round to residents. I'd done a statistics module last year, so coding the responses afterwards wasn't a problem. Oh, and one more thing — Priya also volunteered to put together the final presentation slides at the end, since she'd seen all the material first.",
+        "Dr Voss: Good, that sounds balanced. Now, the part I really want to nail down today is your method — specifically how you'll process the honey samples you collect, because that's where projects like this tend to go wrong. Talk me through it.",
+        "Hannah: Okay. So once a beekeeper gives us a jar, the very first thing we do is each sample is weighed and the figure is written on the label. After that, we filter the honey to remove any wax or bits of debris. Then — and this is the step Marco insisted on — every jar gets a barcode, so nothing can get mixed up in the lab.",
+        "Tariq: Yes, and only then do we test it. We measure the sugar content of each sample using a refractometer. Once we've got those readings, the final stage is that we compare the results across the different neighbourhoods to see whether bees in the city centre produce sweeter honey than those near the river. That comparison is basically the whole point of the study."
+      ],
+      "question_groups": [
+        {
+          "type": "matching",
+          "instructions_html": "<p>Which task did each member of the group take on?</p><p>Choose <strong>FIVE</strong> answers from the box and write the correct letter, <strong>A–G</strong>, next to questions 21–25.</p>",
+          "bank": [
+            {
+              "letter": "A",
+              "text": "reading the academic papers"
+            },
+            {
+              "letter": "B",
+              "text": "preparing the costings and funding"
+            },
+            {
+              "letter": "C",
+              "text": "contacting local beekeepers"
+            },
+            {
+              "letter": "D",
+              "text": "designing the questionnaire"
+            },
+            {
+              "letter": "E",
+              "text": "booking the laboratory time"
+            },
+            {
+              "letter": "F",
+              "text": "creating the final slides"
+            },
+            {
+              "letter": "G",
+              "text": "photographing the sites"
+            }
+          ],
+          "questions": [
+            {
+              "number": 21,
+              "prompt": "Priya (literature)"
+            },
+            {
+              "number": 22,
+              "prompt": "Marco"
+            },
+            {
+              "number": 23,
+              "prompt": "Tariq"
+            },
+            {
+              "number": 24,
+              "prompt": "Hannah"
+            },
+            {
+              "number": 25,
+              "prompt": "Priya (presentation)"
+            }
+          ]
+        },
+        {
+          "type": "flowchart_completion",
+          "instructions_html": "<p>Complete the flow-chart below.</p><p>Write <strong>ONE WORD ONLY</strong> for each answer.</p>",
+          "flowchart": {
+            "title": "Processing the honey samples",
+            "steps": [
+              {
+                "qnums": [
+                  26
+                ],
+                "html": "Each sample is ___ and the figure is written on the label."
+              },
+              {
+                "qnums": [
+                  27
+                ],
+                "html": "The honey is ___ to remove wax and debris."
+              },
+              {
+                "qnums": [
+                  28
+                ],
+                "html": "A ___ is added to every jar to avoid mix-ups."
+              },
+              {
+                "qnums": [
+                  29
+                ],
+                "html": "The ___ content is measured with a refractometer."
+              },
+              {
+                "qnums": [
+                  30
+                ],
+                "html": "Results are ___ across the different neighbourhoods."
+              }
+            ]
+          },
+          "questions": [
+            {
+              "number": 26
+            },
+            {
+              "number": 27
+            },
+            {
+              "number": 28
+            },
+            {
+              "number": 29
+            },
+            {
+              "number": 30
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "part_number": 4,
+      "section_title": "Section 4",
+      "section_subtitle": "A university lecture on the history and ecology of urban beekeeping",
+      "passage_paragraphs": [
+        "Good morning everyone. Today I want to talk about a subject that has grown enormously in popularity over the past two decades: urban beekeeping, that is, the practice of keeping honeybees within towns and cities. Many people assume bees can only thrive in the countryside, but the evidence suggests otherwise. In fact, surveys carried out across several European capitals have shown that city hives often produce more honey than rural ones. The main reason for this is variety. A typical urban garden contains an extraordinary mixture of flowering plants, whereas the modern countryside, dominated by a single crop, can be surprisingly barren. So the diversity of the city actually works in the bees' favour.",
+        "Let me give you some historical background. Beekeeping in cities is not a new invention. There are records from ancient Egypt showing hives kept on rooftops, and in medieval Europe monasteries maintained bees largely for the wax, which was needed to make candles. It was only in the nineteenth century, however, that beekeeping became a genuine hobby for ordinary townspeople, partly because a new design of hive made it far safer to collect the honey. By the early twentieth century, many city households kept a single hive in the garden, and bees were considered a normal feature of suburban life.",
+        "Now, where exactly do urban beekeepers place their hives? The most popular location, perhaps surprisingly, is the roof. A flat roof offers warmth, shelter from the wind, and crucially, distance from people walking below. Some keepers prefer a balcony, though this can cause friction with neighbours. Others use community allotments. Whatever the site, one factor is essential: the bees need access to clean water. Without a reliable supply nearby, a colony will quickly weaken, so experienced keepers always position a shallow dish close to the entrance of the hive.",
+        "Of course, urban environments bring particular threats. The greatest of these is pollution, which can settle on flowers and contaminate the nectar the bees collect. A second problem is the use of pesticides in parks and gardens, chemicals that may not kill a bee outright but can damage its ability to navigate. And we should not forget disease; in crowded cities, where hives are close together, an infection can spread from one colony to the next with alarming speed. For this reason, regular inspection of each hive is absolutely vital.",
+        "Finally, let me say a word about the wider benefits. Urban beekeeping is not merely a charming pastime. By pollinating plants across the city, bees improve the yield of fruit and vegetables grown in gardens and on balconies. They also play a valuable role in education, since schools increasingly use hives to teach children about nature. And perhaps most importantly, the presence of healthy bees acts as an indicator of the overall health of the urban environment. If the bees are flourishing, the city itself is likely to be in good condition. Thank you, and I'll take any questions now."
+      ],
+      "question_groups": [
+        {
+          "type": "note_completion",
+          "instructions_html": "<p>Complete the notes below.</p><p>Write <strong>ONE WORD ONLY</strong> for each answer.</p>",
+          "layout": {
+            "title": "Urban Beekeeping",
+            "sections": [
+              {
+                "heading": "Why city bees succeed",
+                "items": [
+                  {
+                    "html": "Keeping honeybees in towns and cities has become more popular over the past two decades."
+                  },
+                  {
+                    "qnum": 31,
+                    "html": "City hives often produce more ___ than rural ones."
+                  },
+                  {
+                    "qnum": 32,
+                    "html": "The key advantage of the city is the ___ of flowering plants."
+                  },
+                  {
+                    "qnum": 33,
+                    "html": "The modern countryside is often dominated by a single ___."
+                  }
+                ]
+              },
+              {
+                "heading": "Historical background",
+                "items": [
+                  {
+                    "qnum": 34,
+                    "html": "In ancient Egypt, hives were kept on ___."
+                  },
+                  {
+                    "qnum": 35,
+                    "html": "Medieval monasteries kept bees mainly to obtain ___ for candles."
+                  },
+                  {
+                    "qnum": 36,
+                    "html": "In the nineteenth century, a new ___ made collecting honey safer and turned beekeeping into a hobby."
+                  }
+                ]
+              },
+              {
+                "heading": "Choosing a location",
+                "items": [
+                  {
+                    "qnum": 37,
+                    "html": "The most popular site is the roof, which gives warmth and shelter from the ___."
+                  },
+                  {
+                    "qnum": 38,
+                    "html": "Every colony must have access to clean ___ nearby."
+                  }
+                ]
+              },
+              {
+                "heading": "Threats and benefits",
+                "items": [
+                  {
+                    "qnum": 39,
+                    "html": "Pesticides can harm a bee's ability to ___."
+                  },
+                  {
+                    "qnum": 40,
+                    "html": "Healthy bees act as an ___ of the urban environment's overall health."
+                  }
+                ]
+              }
+            ]
+          },
+          "questions": [
+            {
+              "number": 31
+            },
+            {
+              "number": 32
+            },
+            {
+              "number": 33
+            },
+            {
+              "number": 34
+            },
+            {
+              "number": 35
+            },
+            {
+              "number": 36
+            },
+            {
+              "number": 37
+            },
+            {
+              "number": 38
+            },
+            {
+              "number": 39
+            },
+            {
+              "number": 40
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "demo": false
+}
