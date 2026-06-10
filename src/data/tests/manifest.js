@@ -26,6 +26,7 @@ import c20t4 from './reading/cambridge20/test4.json';
 import ldemo1 from './listening/demo1.json';
 
 // source = catalogue folder, n = test number within it.
+import lsn_iwlistening2 from './listening/iw_listening_2.json';
 export const READING_TESTS = [
   { source: 'volume9', n: 1, kind: 'reading_full', id: 'volume9_test1', slug: '17diso21so1v821j', spec: v9t1 },
   { source: 'volume9', n: 2, kind: 'reading_full', id: 'volume9_test2', slug: 'o3xci1520xtc2v3z', spec: v9t2 },
@@ -44,6 +45,7 @@ export const READING_TESTS = [
 // reading: `kind`+`id` are the stable stats key, `slug` is the opaque URL alias.
 export const LISTENING_TESTS = [
   { source: 'iw_practice', n: 1, kind: 'listening_full', id: 'iw_listening_1', slug: 'k7m2qf9xln1ptr6z', spec: ldemo1 },
+  { source: 'iw_practice', n: 2, kind: 'listening_full', id: 'iw_listening_2', slug: 'jdbtd9qtqz2feo8o', spec: lsn_iwlistening2 },
 ];
 
 export const findListeningTestById = (id) =>

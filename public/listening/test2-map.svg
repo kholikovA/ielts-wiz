@@ -1,0 +1,77 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 470" font-family="Arial, Helvetica, sans-serif">
+  <defs>
+    <style>
+      .base { fill:#eef1ec; }
+      .grass { fill:#e7efe1; }
+      .water { fill:#cfe4f2; stroke:#9cc4dd; stroke-width:2; }
+      .path { fill:none; stroke:#cdbfa6; stroke-width:10; stroke-linecap:round; }
+      .label { fill:#5a6b54; font-size:15px; font-weight:700; }
+      .sub { fill:#7a8a74; font-size:12px; }
+      .mk { fill:#ffffff; stroke:#2f7d4f; stroke-width:2.5; }
+      .mkt { fill:#1f5d3a; font-size:16px; font-weight:800; text-anchor:middle; }
+      .compass { fill:#9aa79a; font-size:13px; font-weight:700; text-anchor:middle; }
+    </style>
+  </defs>
+
+  <rect class="base" x="0" y="0" width="720" height="470" rx="10"/>
+  <rect class="grass" x="14" y="14" width="692" height="442" rx="8"/>
+
+  <!-- compass -->
+  <g transform="translate(678,44)">
+    <line x1="0" y1="14" x2="0" y2="-14" stroke="#9aa79a" stroke-width="2"/>
+    <polygon points="0,-20 5,-8 -5,-8" fill="#9aa79a"/>
+    <text class="compass" x="0" y="-24">N</text>
+  </g>
+
+  <!-- woods (top-right) -->
+  <g>
+    <ellipse cx="560" cy="95" rx="120" ry="68" class="grass" fill="#d4e6c8"/>
+    <g fill="#8bb872">
+      <circle cx="505" cy="80" r="13"/><circle cx="540" cy="62" r="15"/><circle cx="585" cy="72" r="14"/>
+      <circle cx="620" cy="92" r="13"/><circle cx="560" cy="105" r="16"/><circle cx="600" cy="120" r="12"/>
+      <circle cx="515" cy="118" r="12"/>
+    </g>
+    <text class="label" x="560" y="150" text-anchor="middle">Woods</text>
+  </g>
+
+  <!-- car park (top-left) -->
+  <g>
+    <rect x="40" y="42" width="118" height="70" rx="6" fill="#dfe2dd" stroke="#b9bfb6" stroke-width="2"/>
+    <line x1="70" y1="46" x2="70" y2="108" stroke="#c4cabf" stroke-width="2"/>
+    <line x1="99" y1="46" x2="99" y2="108" stroke="#c4cabf" stroke-width="2"/>
+    <line x1="128" y1="46" x2="128" y2="108" stroke="#c4cabf" stroke-width="2"/>
+    <text class="label" x="99" y="130" text-anchor="middle">Car park</text>
+  </g>
+
+  <!-- lake (centre) -->
+  <ellipse class="water" cx="350" cy="235" rx="120" ry="74"/>
+  <text class="label" x="350" y="240" text-anchor="middle" fill="#5b87a3">Lake</text>
+
+  <!-- stream (west) -->
+  <path d="M70,150 q-14,70 6,150 q12,55 -4,120" fill="none" stroke="#9cc4dd" stroke-width="9" stroke-linecap="round"/>
+  <text class="sub" x="44" y="300" transform="rotate(-90 44,300)" text-anchor="middle" fill="#5b87a3">Stream</text>
+
+  <!-- paths -->
+  <path class="path" d="M360,452 L360,360 L360,300"/>
+  <path class="path" d="M150,360 L600,360"/>
+  <path class="path" d="M150,360 L150,120 L505,120"/>
+  <path class="path" d="M600,360 L600,140"/>
+
+  <!-- entrance (bottom-centre) -->
+  <g>
+    <polygon points="360,456 348,438 372,438" fill="#2f7d4f"/>
+    <text class="label" x="360" y="432" text-anchor="middle">Main entrance</text>
+  </g>
+
+  <!-- lettered positions A–H -->
+  <g>
+    <g transform="translate(120,150)"><rect class="mk" x="-15" y="-15" width="30" height="30" rx="5"/><text class="mkt" x="0" y="6">A</text></g>
+    <g transform="translate(330,92)"><rect class="mk" x="-15" y="-15" width="30" height="30" rx="5"/><text class="mkt" x="0" y="6">B</text></g>
+    <g transform="translate(505,150)"><rect class="mk" x="-15" y="-15" width="30" height="30" rx="5"/><text class="mkt" x="0" y="6">C</text></g>
+    <g transform="translate(214,235)"><rect class="mk" x="-15" y="-15" width="30" height="30" rx="5"/><text class="mkt" x="0" y="6">D</text></g>
+    <g transform="translate(486,235)"><rect class="mk" x="-15" y="-15" width="30" height="30" rx="5"/><text class="mkt" x="0" y="6">E</text></g>
+    <g transform="translate(150,392)"><rect class="mk" x="-15" y="-15" width="30" height="30" rx="5"/><text class="mkt" x="0" y="6">F</text></g>
+    <g transform="translate(360,330)"><rect class="mk" x="-15" y="-15" width="30" height="30" rx="5"/><text class="mkt" x="0" y="6">G</text></g>
+    <g transform="translate(600,392)"><rect class="mk" x="-15" y="-15" width="30" height="30" rx="5"/><text class="mkt" x="0" y="6">H</text></g>
+  </g>
+</svg>
