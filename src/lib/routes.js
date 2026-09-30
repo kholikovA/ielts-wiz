@@ -1,7 +1,7 @@
 // Single source of truth for page ⇄ URL mapping, shared by App.js (the router)
 // and AppLink (so links render the same real URLs the router produces).
 
-export const PAGES_WITH_SUBPAGES = new Set(['speaking', 'listening', 'reading', 'grammar', 'writing']);
+export const PAGES_WITH_SUBPAGES = new Set(['speaking', 'listening', 'reading', 'grammar', 'writing', 'articles']);
 
 // Default subPage when a section is opened without one in the URL.
 export const DEFAULT_SUBPAGE = {
@@ -10,6 +10,7 @@ export const DEFAULT_SUBPAGE = {
   reading: 'hub',
   grammar: 'hub',
   writing: 'practice',
+  articles: 'hub',
 };
 
 export const parseUrlToState = () => {

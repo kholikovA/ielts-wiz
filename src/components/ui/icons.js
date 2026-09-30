@@ -23,6 +23,7 @@ const PATHS = {
   chevronRight: <polyline points="9 18 15 12 9 6"/>,
   chevronDown: <polyline points="6 9 12 15 18 9"/>,
   check: <polyline points="20 6 9 17 4 12"/>,
+  plus: <><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></>,
   // Actions / states
   play: <polygon points="5 3 19 12 5 21 5 3"/>,
   target: <><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></>,

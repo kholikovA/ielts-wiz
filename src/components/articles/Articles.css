@@ -1,0 +1,148 @@
+/* Styling that needs real media queries (the popup's anchored-vs-bottom-sheet
+   layout switch) — everything else in the Articles section follows the
+   codebase convention of inline styles against the shared CSS custom
+   properties in index.css. */
+
+.vocab-word {
+  background: linear-gradient(120deg, var(--highlight-bg) 0%, var(--highlight-bg) 100%);
+  background-size: 100% 40%;
+  background-repeat: no-repeat;
+  background-position: 0 90%;
+  color: var(--highlight-text);
+  font: inherit;
+  font-weight: 500;
+  border: none;
+  border-bottom: 2px dotted var(--purple-400);
+  padding: 0 0 1px;
+  margin: 0;
+  cursor: pointer;
+}
+
+.vocab-word-anchor {
+  position: relative;
+  display: inline;
+}
+
+.vocab-popup-backdrop {
+  position: fixed;
+  inset: 0;
+  background: transparent;
+  z-index: 1000;
+}
+
+.vocab-popup-card {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  width: max-content;
+  max-width: min(340px, 88vw);
+  z-index: 1001;
+  background: var(--tooltip-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-lg, 12px);
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+  padding: var(--space-4, 16px);
+  text-align: left;
+}
+
+.vocab-popup-close {
+  position: absolute;
+  top: var(--space-2, 8px);
+  right: var(--space-2, 8px);
+  background: none;
+  border: none;
+  color: var(--text-tertiary);
+  cursor: pointer;
+  display: flex;
+  padding: 4px;
+  border-radius: var(--r-sm, 6px);
+}
+.vocab-popup-close:hover { background: var(--tag-bg); color: var(--text-primary); }
+
+.vocab-popup-headword {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-2, 8px);
+  padding-right: 20px;
+}
+.vocab-popup-word {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-lg, 1.1rem);
+  color: var(--text-primary);
+}
+.vocab-popup-ipa {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm, 0.85rem);
+  color: var(--purple-400);
+}
+.vocab-popup-pos {
+  font-size: var(--text-xs, 0.75rem);
+  font-style: italic;
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-2, 8px);
+}
+.vocab-popup-definition {
+  color: var(--text-primary);
+  font-size: var(--text-sm, 0.9rem);
+  line-height: 1.5;
+  margin: 0 0 var(--space-2, 8px);
+}
+.vocab-popup-example {
+  color: var(--text-secondary);
+  font-size: var(--text-sm, 0.88rem);
+  font-style: italic;
+  line-height: 1.5;
+  margin: 0 0 var(--space-3, 12px);
+}
+.vocab-popup-collocations-label {
+  font-size: var(--text-xs, 0.7rem);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--text-tertiary);
+  margin-bottom: var(--space-2, 6px);
+}
+.vocab-popup-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-2, 6px);
+  margin-bottom: var(--space-4, 16px);
+}
+.vocab-popup-chip {
+  background: var(--tag-bg);
+  border: 1px solid var(--border-color);
+  border-radius: var(--r-pill, 999px);
+  padding: 3px 10px;
+  font-size: var(--text-xs, 0.75rem);
+  color: var(--text-secondary);
+}
+.vocab-popup-save {
+  width: 100%;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2, 8px);
+}
+
+/* Bottom sheet on narrow viewports — anchored positioning would run off the
+   edge of the screen and content is too tall for a hover-style tooltip. */
+@media (max-width: 640px) {
+  .vocab-popup-backdrop {
+    background: rgba(0, 0, 0, 0.5);
+  }
+  .vocab-popup-card {
+    position: fixed;
+    top: auto;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transform: none;
+    width: 100%;
+    max-width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    border-radius: var(--r-lg, 12px) var(--r-lg, 12px) 0 0;
+    box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.4);
+  }
+}

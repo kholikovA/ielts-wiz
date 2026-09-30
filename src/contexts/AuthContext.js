@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 import { reconcile, flushToCloud } from '../lib/cloudSync';
 import { flush as flushOutbox } from '../lib/syncQueue';
+import { pullVocabList } from '../lib/vocabList';
 import { snapshotAcquisition, readAcquisition, deviceClass } from '../lib/marketing';
 
 const AuthContext = createContext({});
@@ -28,6 +29,7 @@ export const AuthProvider = ({ children }) => {
         // local-only history UP, then pull cloud progress DOWN, so this device
         // holds the union of every device's history.
         reconcile().catch(() => {});
+        pullVocabList().catch(() => {});
       } else {
         setLoading(false);
       }
@@ -40,7 +42,10 @@ export const AuthProvider = ({ children }) => {
       setUser(session?.user ?? null);
       if (session?.user) {
         fetchProfile(session.user.id);
-        if (_event === 'SIGNED_IN') reconcile().catch(() => {});
+        if (_event === 'SIGNED_IN') {
+          reconcile().catch(() => {});
+          pullVocabList().catch(() => {});
+        }
       } else {
         setProfile(null);
         setLoading(false);

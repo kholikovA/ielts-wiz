@@ -21,6 +21,8 @@ const ListeningPage = lazy(() => import('./components/ListeningPage'));
 const ReadingPage = lazy(() => import('./components/ReadingPage'));
 const GrammarPage = lazy(() => import('./components/GrammarPage'));
 const WritingPage = lazy(() => import('./components/WritingPage'));
+const ArticlesPage = lazy(() => import('./components/articles/ArticlesPage'));
+const VocabularyPage = lazy(() => import('./components/VocabularyPage'));
 const AuthPage = lazy(() => import('./components/AuthPage'));
 const Dashboard = lazy(() => import('./components/Dashboard'));
 const HistoryPage = lazy(() => import('./components/HistoryPage'));
@@ -38,6 +40,7 @@ const App = () => {
     reading: initial.page === 'reading' && initial.subPage ? initial.subPage : DEFAULT_SUBPAGE.reading,
     grammar: initial.page === 'grammar' && initial.subPage ? initial.subPage : DEFAULT_SUBPAGE.grammar,
     writing: initial.page === 'writing' && initial.subPage ? initial.subPage : DEFAULT_SUBPAGE.writing,
+    articles: initial.page === 'articles' && initial.subPage ? initial.subPage : DEFAULT_SUBPAGE.articles,
   });
   const { loading, user, profile } = useAuth();
 
@@ -99,8 +102,8 @@ const App = () => {
       case 'reading': return <ReadingPage subPage={subPages.reading} setSubPage={updateSubPage('reading')} setCurrentPage={navigateTo} />;
       case 'grammar': return <GrammarPage subPage={subPages.grammar} setSubPage={updateSubPage('grammar')} />;
       case 'writing': return <WritingPage subPage={subPages.writing} setSubPage={updateSubPage('writing')} setCurrentPage={navigateTo} />;
-      case 'vocabulary': return <ComingSoon section="vocabulary" />;
-      case 'articles': return <ComingSoon section="articles" />;
+      case 'vocabulary': return <VocabularyPage />;
+      case 'articles': return <ArticlesPage subPage={subPages.articles} setSubPage={updateSubPage('articles')} />;
       case 'dictation': return <ComingSoon section="dictation" />;
       case 'login': return <AuthPage type="login" setCurrentPage={navigateTo} />;
       case 'signup': return <AuthPage type="signup" setCurrentPage={navigateTo} />;

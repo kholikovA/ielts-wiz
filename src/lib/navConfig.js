@@ -16,12 +16,12 @@ export const SKILLS = [
   { id: 'writing',    label: 'Writing',    icon: 'pen' },
   { id: 'speaking',   label: 'Speaking',   icon: 'mic' },
   { id: 'grammar',    label: 'Grammar',    icon: 'graduation' },
-  { id: 'vocabulary', label: 'Vocabulary', icon: 'layers', comingSoon: true },
+  { id: 'vocabulary', label: 'Vocabulary', icon: 'layers' },
 ];
 
 // Study-tool destinations (sidebar "Study Tools" group).
 export const STUDY_TOOLS = [
-  { id: 'articles',  label: 'Articles',  icon: 'bookOpen', comingSoon: true },
+  { id: 'articles',  label: 'Articles',  icon: 'bookOpen' },
   { id: 'dictation', label: 'Dictation', icon: 'type',     comingSoon: true },
 ];
 
@@ -32,19 +32,8 @@ export const NAV_GROUPS = [
   { title: 'Study Tools', items: STUDY_TOOLS },
 ];
 
-// Copy for the "coming soon" placeholder pages (Vocabulary / Articles /
-// Dictation). Keyed by page id.
+// Copy for the "coming soon" placeholder pages. Keyed by page id.
 export const COMING_SOON_COPY = {
-  vocabulary: {
-    icon: 'layers',
-    title: 'Vocabulary',
-    lead: 'Targeted IELTS word lists, collocations, and spaced-repetition flashcards.',
-  },
-  articles: {
-    icon: 'bookOpen',
-    title: 'Articles',
-    lead: 'Strategy guides and band-boosting reads for every section of the exam.',
-  },
   dictation: {
     icon: 'type',
     title: 'Dictation',
