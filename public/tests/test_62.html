@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>IELTS Listening — Test 62</title>
+<title>IELTS Listening — Test 62: Preparing and Giving a Presentation</title>
 <script>
 // Auth gate — must run BEFORE the page renders. Looks for a Supabase session
 // in localStorage (set by the React app on the same origin); if missing or
@@ -1011,6 +1011,202 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
   .footer { font-size: 12px; }
   .q-btn { width: 26px; height: 28px; }
 }
+
+/* =====================================================================
+   CDI question types — drag-and-drop matching, radio-grid labelling and
+   classification, flow-charts, image gaps, summaries, two-part gaps.
+   ===================================================================== */
+
+/* Worked example (non-interactive) */
+.q-example {
+  border: 1px dashed var(--border-strong); border-radius: 6px;
+  padding: 10px 14px 4px; margin: 0 0 22px;
+}
+.q-example-label {
+  font-family: var(--sans); font-weight: 700; font-size: 13px;
+  color: var(--text-muted); margin-bottom: 6px;
+}
+.q-example .options-list li { cursor: default; }
+.q-example .options-list li:hover .radio-circle { border-color: var(--border-input); }
+.q-example .radio-circle.on { border-color: var(--accent); }
+.q-example .radio-circle.on::after {
+  content: ""; position: absolute; inset: 3px;
+  background: var(--accent); border-radius: 50%;
+}
+
+/* Boxed option list shared by drag-drop banks and grid legends */
+.opt-box {
+  border: 1.5px solid var(--border-strong); border-radius: 6px;
+  padding: 12px 16px; background: var(--bg-elevated);
+  font-family: var(--serif); font-size: var(--fs-content);
+}
+.opt-box-title {
+  font-family: var(--sans); font-weight: 700; text-align: center;
+  margin-bottom: 10px;
+}
+.legend-list { list-style: none; padding: 0; margin: 0; }
+.legend-list li { display: flex; gap: 12px; padding: 3px 0; line-height: 1.5; }
+.legend-list .lg-letter { font-family: var(--sans); font-weight: 700; min-width: 16px; }
+
+/* ---- Drag-and-drop matching ---- */
+.dd-group { margin-top: 4px; }
+.dd-layout {
+  display: grid; grid-template-columns: minmax(0, 1fr) minmax(220px, 320px);
+  gap: 24px; align-items: start;
+}
+.dd-layout.bank-top { grid-template-columns: minmax(0, 1fr); }
+.dd-layout.bank-top .dd-bank-box { order: -1; }
+@media (max-width: 760px) {
+  .dd-layout { grid-template-columns: minmax(0, 1fr); }
+  .dd-layout .dd-bank-box { order: -1; }
+}
+.dd-bank { display: flex; flex-direction: column; gap: 8px; min-height: 42px; }
+.dd-bank-box.over { border-color: var(--accent); }
+.dd-chip {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 7px 12px; border: 1.5px solid var(--border-input); border-radius: 4px;
+  background: var(--bg-input); color: var(--text);
+  cursor: grab; user-select: none; -webkit-user-select: none;
+  font-family: var(--serif); line-height: 1.45; text-align: left;
+}
+.dd-chip:hover, .dd-chip:focus-visible { border-color: var(--accent); outline: none; }
+.dd-chip .dd-letter { font-family: var(--sans); font-weight: 700; flex-shrink: 0; }
+.dd-chip.selected { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+.dd-chip.dragging { opacity: .45; }
+.dd-chip.used { display: none; }
+.dd-items { display: flex; flex-direction: column; gap: 4px; }
+.dd-row {
+  display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  margin-bottom: 4px; padding: 6px 4px;
+}
+.dd-row .dd-prompt { flex: 1 1 200px; line-height: 1.5; }
+.dd-row .dd-prompt-num { font-weight: 700; font-family: var(--sans); }
+.dd-slot {
+  min-width: 230px; max-width: 100%; min-height: 38px;
+  border: 1.5px dashed var(--border-input); border-radius: 4px;
+  display: inline-flex; align-items: center; justify-content: center;
+  padding: 3px 6px; background: var(--bg-input); cursor: pointer;
+  vertical-align: middle; box-sizing: border-box;
+}
+.dd-slot.inline { min-width: 200px; margin: 0 4px; }
+.dd-slot .dd-ph {
+  font-family: var(--sans); font-weight: 600; font-size: 13px;
+  color: var(--text-subtle); pointer-events: none;
+}
+.dd-slot.over, .dd-slot.current { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+.dd-slot.filled { border-style: solid; border-color: var(--accent); justify-content: flex-start; }
+.dd-slot .dd-chip { border: 0; padding: 2px 4px; background: transparent; width: 100%; }
+.test-locked .dd-slot, .test-locked .dd-chip { cursor: default; }
+
+/* ---- Radio grid (map/plan labelling with letters, classification) ---- */
+.matrix-wrap { margin-top: 6px; }
+.matrix.options-list { padding-left: 0; }
+.matrix {
+  border: 1px solid var(--border-strong); border-radius: 6px; overflow: hidden;
+  font-family: var(--serif); font-size: var(--fs-content);
+}
+.matrix-head, .matrix-row {
+  display: grid;
+  grid-template-columns: minmax(150px, 2.4fr) repeat(var(--cols), minmax(34px, 1fr));
+  align-items: center;
+}
+.matrix-head {
+  background: var(--table-header-bg); font-family: var(--sans); font-weight: 700;
+  border-bottom: 1px solid var(--border-strong);
+}
+.matrix-head > div { padding: 8px 4px; text-align: center; }
+.matrix-row { border-bottom: 1px solid var(--border); margin: 0; padding: 0; border-radius: 0; }
+.matrix-row:last-child { border-bottom: 0; }
+.matrix-row:nth-child(odd) { background: var(--table-row-bg); }
+.matrix-row .m-label {
+  display: flex; gap: 10px; align-items: center; padding: 8px 10px; line-height: 1.4;
+}
+.matrix-row label {
+  display: flex; justify-content: center; align-items: center;
+  padding: 10px 0; cursor: pointer; position: relative; height: 100%;
+}
+.matrix-row label .radio-circle { margin-top: 0; }
+.matrix-row label:hover .radio-circle { border-color: var(--accent); }
+.matrix-row .result-marker { grid-column: 1 / -1; margin: 0 10px 8px; }
+
+/* ---- Image with write-in gaps placed on the picture ---- */
+.img-gaps { position: relative; display: inline-block; max-width: 100%; }
+.img-gaps img { display: block; max-width: 100%; height: auto; }
+.img-gaps .ov-gap {
+  position: absolute; transform: translateY(-50%);
+  display: block; margin: 0;
+}
+.img-gaps .ov-gap .gap-input {
+  width: 100%; min-width: 0; max-width: none; box-sizing: border-box;
+  padding: 1px 4px; font-size: 13px; background: rgba(255,255,255,.97); color: #0a0a0a;
+}
+.img-gaps .ov-gap .gap-num-placeholder { font-size: 12px; }
+.figure-wrap { text-align: center; }
+.figure-box {
+  display: inline-block; max-width: 100%;
+  border: 1px solid var(--border-strong); border-radius: 6px; overflow: hidden;
+  background: #fff; margin: 6px auto 14px;
+}
+.figure-box > img { display: block; max-width: 100%; height: auto; }
+
+/* Answer rows shown under a picture / summary after submission */
+.result-hosts { display: none; }
+.test-locked .result-hosts { display: block; margin-top: 10px; }
+.result-host:empty { display: none; }
+
+/* ---- Flow-chart ---- */
+.flow { display: flex; flex-direction: column; align-items: center; margin: 6px 0 4px; }
+.fc-box {
+  width: 100%; max-width: 600px; box-sizing: border-box;
+  border: 1.5px solid var(--border-strong); border-radius: 6px;
+  padding: 10px 16px; text-align: center; line-height: 2;
+  font-family: var(--serif); font-size: var(--fs-content); background: var(--bg);
+}
+.fc-box.question { margin: 0; padding: 10px 16px; }
+.fc-arrow { position: relative; width: 2px; height: 28px; background: var(--border-strong); margin: 3px 0 9px; }
+.fc-arrow::after {
+  content: ""; position: absolute; left: 50%; bottom: -8px; transform: translateX(-50%);
+  border-left: 7px solid transparent; border-right: 7px solid transparent;
+  border-top: 9px solid var(--border-strong);
+}
+
+/* ---- Summary completion ---- */
+.summary-box {
+  border: 1px solid var(--border-strong); border-radius: 6px; padding: 14px 18px;
+  font-family: var(--serif); font-size: var(--fs-content); line-height: 2.2;
+}
+.summary-box p { margin: 0 0 8px; }
+.summary-box p:last-child { margin-bottom: 0; }
+
+/* ---- Two-part gap: one question, two boxes (e.g. "between … and …") ---- */
+.gap-sub {
+  font-family: var(--serif); font-size: inherit;
+  background: var(--bg-input); color: var(--text);
+  border: 1.5px solid var(--border-input); border-radius: 4px;
+  padding: 4px 10px; min-width: 96px; max-width: 180px;
+  outline: none; text-align: center;
+}
+.gap-sub:focus, .gap-sub.current { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-soft); }
+.gap-sub.filled { border-color: var(--accent); }
+.test-locked .gap-sub { opacity: .9; }
+
+/* Picture options (e.g. pie charts) inside MCQ */
+.opt-figure { display: inline-flex; flex-direction: column; align-items: center; gap: 2px; }
+.opt-figure svg { width: 74px; height: 74px; }
+.pie-legend { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; margin: 0 0 10px 32px; }
+.pie-swatch { width: 16px; height: 16px; border: 1px solid currentColor; background: repeating-linear-gradient(45deg, currentColor 0 1px, transparent 1px 4px); }
+
+/* Layout details used by the book's forms / notes / tables */
+.form-section-heading {
+  grid-column: 1 / -1; font-family: var(--sans); font-weight: 700;
+  margin-top: 8px;
+}
+.note-list li.no-bullet::before { content: none; }
+.note-list li.no-bullet { padding-left: 0; }
+.cell-list { margin: 0; padding-left: 18px; }
+.cell-list li { margin: 0; }
+.ex-ans { font-style: italic; color: var(--text-muted); font-weight: 500; }
+
 </style>
 </head>
 <body>
@@ -1062,7 +1258,7 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
 
 <div class="questions-container">
   <div class="pane" id="questionsPane">
-    <div class="pane-inner"><div class="questions-section" data-part="4" data-part-title="Listening Part 4" data-part-range="31–40"><div class="question-group" data-type="note_completion"><div class="question-group-header">Questions 31–40</div><div class="question-group-instructions">Complete the notes below. Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</div><div class="completion-title">Preparing and Giving a Presentation</div><div class="note-section"><div class="note-section-heading">Initial thoughts</div><ul class="note-list"><li>Most important consideration: your audience</li><li>Three points to bear in mind:</li><li>- what they need to know</li><li class="question" data-qnum="31">- how <span class="gap-wrap"><input type="text" class="gap-input" data-qnum="31" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">31</span></span> they will be</li><li>- how big the audience will be</li></ul></div><div class="note-section"><div class="note-section-heading">Structure</div><ul class="note-list"><li class="question" data-qnum="32">Start with information that makes the audience <span class="gap-wrap"><input type="text" class="gap-input" data-qnum="32" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">32</span></span></li><li class="question" data-qnum="33">End with <span class="gap-wrap"><input type="text" class="gap-input" data-qnum="33" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">33</span></span></li></ul></div><div class="note-section"><div class="note-section-heading">Design</div><ul class="note-list"><li class="question" data-qnum="34">The presentation needs to be <span class="gap-wrap"><input type="text" class="gap-input" data-qnum="34" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">34</span></span></li><li class="question" data-qnum="35">Vary content by using a mix of words and <span class="gap-wrap"><input type="text" class="gap-input" data-qnum="35" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">35</span></span></li></ul></div><div class="note-section"><div class="note-section-heading">Presenting</div><ul class="note-list"><li>Look at the audience, be enthusiastic and energetic</li><li class="question" data-qnum="36">Voice - vary speed and <span class="gap-wrap"><input type="text" class="gap-input" data-qnum="36" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">36</span></span></li><li class="question" data-qnum="37">Occasionally add <span class="gap-wrap"><input type="text" class="gap-input" data-qnum="37" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">37</span></span> for greater impact</li><li class="question" data-qnum="38">Do not use <span class="gap-wrap"><input type="text" class="gap-input" data-qnum="38" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">38</span></span> (e.g. appears, seems)</li></ul></div><div class="note-section"><div class="note-section-heading">Questions and Interruptions</div><ul class="note-list"><li class="question" data-qnum="39">When asked a question, first of all you should <span class="gap-wrap"><input type="text" class="gap-input" data-qnum="39" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">39</span></span></li><li class="question" data-qnum="40">Minimise interruptions by <span class="gap-wrap"><input type="text" class="gap-input" data-qnum="40" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">40</span></span> them</li></ul></div></div></div></div>
+    <div class="pane-inner"><div class="questions-section" data-part="4" data-part-title="Listening Part 4" data-part-range="31–40"><div class="question-group" data-type="notes"><div class="question-group-header">Questions 31–40</div><div class="question-group-instructions">Complete the notes below.<br>Write <strong>NO MORE THAN TWO WORDS</strong> for each answer.</div><div class="completion-title">Preparing and Giving a Presentation</div><div class="note-section"><div class="note-section-heading">Initial thoughts</div><ul class="note-list"><li class="no-bullet">Most important consideration: your audience</li><li class="no-bullet">Three points to bear in mind:</li><li class="no-bullet" style="padding-left:28px">– what they need to know</li><li class="question no-bullet" data-qnum="31" style="padding-left:28px">– how <span class="gap-wrap"><input type="text" class="gap-input" data-qnum="31" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">31</span></span> they will be</li><li class="no-bullet" style="padding-left:28px">– how big the audience will be</li></ul></div><div class="note-section"><div class="note-section-heading">Structure</div><ul class="note-list"><li class="question no-bullet" data-qnum="32">Start with information that makes the audience <span class="gap-wrap"><input type="text" class="gap-input" data-qnum="32" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">32</span></span></li><li class="question no-bullet" data-qnum="33">End with <span class="gap-wrap"><input type="text" class="gap-input" data-qnum="33" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">33</span></span></li></ul></div><div class="note-section"><div class="note-section-heading">Design</div><ul class="note-list"><li class="question no-bullet" data-qnum="34">The presentation needs to be <span class="gap-wrap"><input type="text" class="gap-input" data-qnum="34" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">34</span></span></li><li class="question no-bullet" data-qnum="35">Vary content by using a mix of words and <span class="gap-wrap"><input type="text" class="gap-input" data-qnum="35" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">35</span></span></li></ul></div><div class="note-section"><div class="note-section-heading">Presenting</div><ul class="note-list"><li class="no-bullet">Look at the audience, be enthusiastic and energetic</li><li class="question no-bullet" data-qnum="36">Voice – vary speed and <span class="gap-wrap"><input type="text" class="gap-input" data-qnum="36" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">36</span></span></li><li class="question no-bullet" data-qnum="37">Occasionally add <span class="gap-wrap"><input type="text" class="gap-input" data-qnum="37" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">37</span></span> for greater impact</li><li class="question no-bullet" data-qnum="38">Do not use <span class="gap-wrap"><input type="text" class="gap-input" data-qnum="38" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">38</span></span> (e.g. appears, seems)</li></ul></div><div class="note-section"><div class="note-section-heading">Questions and Interruptions</div><ul class="note-list"><li class="question no-bullet" data-qnum="39">When asked a question, first of all you should <span class="gap-wrap"><input type="text" class="gap-input" data-qnum="39" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">39</span></span></li><li class="question no-bullet" data-qnum="40">Minimise interruptions by <span class="gap-wrap"><input type="text" class="gap-input" data-qnum="40" autocomplete="off" spellcheck="false"><span class="gap-num-placeholder">40</span></span> them</li></ul></div></div></div></div>
   </div>
 </div>
 
@@ -1096,7 +1292,7 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
       Back
     </a>
-    <div class="part-section" data-part="4" data-questions="[31, 32, 33, 34, 35, 36, 37, 38, 39, 40]" data-entry-count="10">  <span class="part-label">Part 4</span>  <span class="part-progress">0/10</span>  <div class="q-palette"><button class="q-btn" data-part="4" data-q="31" data-qnums='[31]'>31</button><button class="q-btn" data-part="4" data-q="32" data-qnums='[32]'>32</button><button class="q-btn" data-part="4" data-q="33" data-qnums='[33]'>33</button><button class="q-btn" data-part="4" data-q="34" data-qnums='[34]'>34</button><button class="q-btn" data-part="4" data-q="35" data-qnums='[35]'>35</button><button class="q-btn" data-part="4" data-q="36" data-qnums='[36]'>36</button><button class="q-btn" data-part="4" data-q="37" data-qnums='[37]'>37</button><button class="q-btn" data-part="4" data-q="38" data-qnums='[38]'>38</button><button class="q-btn" data-part="4" data-q="39" data-qnums='[39]'>39</button><button class="q-btn" data-part="4" data-q="40" data-qnums='[40]'>40</button></div></div>
+    <div class="part-section" data-part="4" data-questions="[31,32,33,34,35,36,37,38,39,40]" data-entry-count="10">  <span class="part-label">Part 4</span>  <span class="part-progress">0/10</span>  <div class="q-palette"><button class="q-btn" data-part="4" data-q="31" data-qnums='[31]'>31</button><button class="q-btn" data-part="4" data-q="32" data-qnums='[32]'>32</button><button class="q-btn" data-part="4" data-q="33" data-qnums='[33]'>33</button><button class="q-btn" data-part="4" data-q="34" data-qnums='[34]'>34</button><button class="q-btn" data-part="4" data-q="35" data-qnums='[35]'>35</button><button class="q-btn" data-part="4" data-q="36" data-qnums='[36]'>36</button><button class="q-btn" data-part="4" data-q="37" data-qnums='[37]'>37</button><button class="q-btn" data-part="4" data-q="38" data-qnums='[38]'>38</button><button class="q-btn" data-part="4" data-q="39" data-qnums='[39]'>39</button><button class="q-btn" data-part="4" data-q="40" data-qnums='[40]'>40</button></div></div>
     <div class="nav-arrows" id="navArrows">
       <button class="nav-arrow" id="prevBtn" title="Previous question" aria-label="Previous">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
@@ -1180,9 +1376,10 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
   </div>
 </div>
 
-<script id="answerKey" type="application/json">{"31": "supportive", "32": "pay attention", "33": "next steps", "34": "consistent", "35": "graphics", "36": "tone", "37": "(a) silence / silences", "38": "weak verbs", "39": "repeat it", "40": "predicting"}</script>
+<script id="answerKey" type="application/json">{"31":"supportive","32":"pay attention","33":"next steps","34":"consistent","35":"graphics","36":"tone","37":"(a) silence / silences","38":"weak verbs","39":"repeat it","40":"predicting"}</script>
+<script id="eitherOrder" type="application/json">[]</script>
 <script id="partAudioMap" type="application/json">{}</script>
-<script id="partLabelMap" type="application/json">{"4": "<span class=\"part-pill\">Part 4</span><span class=\"label-sep\">/</span><strong>Test 62</strong>"}</script>
+<script id="partLabelMap" type="application/json">{"4":"<span class=\"part-pill\">Part 4</span><span class=\"label-sep\">/</span><strong>Test 62</strong>"}</script>
 
 <script>
 (() => {
@@ -1371,14 +1568,14 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
     document.querySelectorAll(".question").forEach(q => {
       q.classList.toggle("current", parseInt(q.dataset.qnum, 10) === qNum);
     });
-    document.querySelectorAll(".gap-input").forEach(inp => {
+    document.querySelectorAll(".gap-input, .gap-sub, .dd-slot").forEach(inp => {
       inp.classList.toggle("current", parseInt(inp.dataset.qnum, 10) === qNum);
     });
     updateNavArrows();
   }
 
   function jumpToQuestion(qNum) {
-    const targetQ = document.querySelector(`.question[data-qnum="${qNum}"]:not(.hidden)`);
+    const targetQ = document.querySelector(`.question[data-qnum="${qNum}"]:not(.hidden)`) || document.querySelector(`[data-jump="${qNum}"]`);
     const gapInput = document.querySelector(`.gap-input[data-qnum="${qNum}"]`);
     const target = targetQ || gapInput;
 
@@ -1396,7 +1593,7 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
     }
 
     function scrollAndFocus() {
-      const t2 = document.querySelector(`.question[data-qnum="${qNum}"]:not(.hidden)`)
+      const t2 = document.querySelector(`.question[data-qnum="${qNum}"]:not(.hidden)`) || document.querySelector(`[data-jump="${qNum}"]`)
               || document.querySelector(`.gap-input[data-qnum="${qNum}"]`);
       if (t2) {
         try {
@@ -1573,6 +1770,197 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
     });
   });
 
+  /* ===================================================================
+     CDI question types
+     ------------------------------------------------------------------
+     Every new control writes its answer into a hidden .gap-input (or a
+     data-qnum radio), so recording, palette, review replay and grading all
+     keep using the engine's existing paths.
+     =================================================================== */
+  const isLocked = () => document.body.classList.contains("test-locked");
+  function fire(el) { el.dispatchEvent(new Event("input", { bubbles: true })); }
+
+  /* ---- Drag-and-drop matching (click-to-place fallback for touch/keyboard) ---- */
+  document.querySelectorAll(".dd-group").forEach(group => {
+    const reuse = group.dataset.reuse === "1";
+    const bankBox = group.querySelector(".dd-bank-box");
+    const chips = {};
+    group.querySelectorAll(".dd-bank .dd-chip").forEach(c => { chips[c.dataset.letter] = c; });
+    const slots = Array.from(group.querySelectorAll(".dd-slot"));
+    const inputFor = qn => group.querySelector(`.gap-input.dd-input[data-qnum="${qn}"]`);
+    let selected = null; // { letter, from }
+
+    function clearSelection() {
+      selected = null;
+      group.querySelectorAll(".dd-chip.selected").forEach(c => c.classList.remove("selected"));
+    }
+    function refreshUsed() {
+      if (reuse) return;
+      const used = new Set(slots.map(s => inputFor(s.dataset.qnum).value).filter(Boolean));
+      Object.keys(chips).forEach(l => chips[l].classList.toggle("used", used.has(l)));
+    }
+    function render(slot) {
+      const val = inputFor(slot.dataset.qnum).value;
+      slot.innerHTML = "";
+      if (val && chips[val]) {
+        const c = chips[val].cloneNode(true);
+        c.classList.remove("used", "selected");
+        c.dataset.from = slot.dataset.qnum;
+        bindChip(c);
+        slot.appendChild(c);
+        slot.classList.add("filled");
+      } else {
+        const ph = document.createElement("span");
+        ph.className = "dd-ph";
+        ph.textContent = slot.dataset.qnum;
+        slot.appendChild(ph);
+        slot.classList.remove("filled");
+      }
+      refreshUsed();
+    }
+    function setValue(qn, letter) {
+      const inp = inputFor(qn);
+      if (!inp || inp.value === (letter || "")) return;
+      inp.value = letter || "";
+      fire(inp);
+    }
+    function place(slot, letter, from) {
+      if (isLocked()) return;
+      const qn = slot.dataset.qnum;
+      if (from && from !== qn) setValue(from, "");
+      if (!reuse && letter) {
+        slots.forEach(s => {
+          if (s.dataset.qnum !== qn && inputFor(s.dataset.qnum).value === letter) setValue(s.dataset.qnum, "");
+        });
+      }
+      setValue(qn, letter);
+      setCurrentQuestion(parseInt(qn, 10));
+      clearSelection();
+    }
+    function bindChip(c) {
+      c.setAttribute("draggable", "true");
+      c.addEventListener("dragstart", e => {
+        if (isLocked()) { e.preventDefault(); return; }
+        e.dataTransfer.setData("text/plain", JSON.stringify({ letter: c.dataset.letter, from: c.dataset.from || "" }));
+        e.dataTransfer.effectAllowed = "move";
+        c.classList.add("dragging");
+      });
+      c.addEventListener("dragend", () => c.classList.remove("dragging"));
+      c.addEventListener("click", e => {
+        e.stopPropagation();
+        if (isLocked()) return;
+        if (c.dataset.from) {            // a placed answer: click sends it back
+          setValue(c.dataset.from, "");
+          clearSelection();
+          return;
+        }
+        const was = c.classList.contains("selected");
+        clearSelection();
+        if (!was) { c.classList.add("selected"); selected = { letter: c.dataset.letter, from: "" }; }
+      });
+      c.addEventListener("keydown", e => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); c.click(); }
+      });
+    }
+    Object.values(chips).forEach(bindChip);
+
+    function readDrop(e) {
+      try { return JSON.parse(e.dataTransfer.getData("text/plain")); } catch (err) { return null; }
+    }
+    slots.forEach(slot => {
+      inputFor(slot.dataset.qnum).addEventListener("input", () => render(slot));
+      slot.addEventListener("dragover", e => { if (!isLocked()) { e.preventDefault(); slot.classList.add("over"); } });
+      slot.addEventListener("dragleave", () => slot.classList.remove("over"));
+      slot.addEventListener("drop", e => {
+        e.preventDefault(); slot.classList.remove("over");
+        const d = readDrop(e);
+        if (d && d.letter) place(slot, d.letter, d.from);
+      });
+      slot.addEventListener("click", () => {
+        if (isLocked()) return;
+        if (selected) place(slot, selected.letter, selected.from);
+        else setCurrentQuestion(parseInt(slot.dataset.qnum, 10));
+      });
+      slot.addEventListener("keydown", e => {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); slot.click(); }
+        if ((e.key === "Backspace" || e.key === "Delete") && !isLocked()) setValue(slot.dataset.qnum, "");
+      });
+      render(slot);
+    });
+    if (bankBox) {
+      bankBox.addEventListener("dragover", e => { if (!isLocked()) { e.preventDefault(); bankBox.classList.add("over"); } });
+      bankBox.addEventListener("dragleave", () => bankBox.classList.remove("over"));
+      bankBox.addEventListener("drop", e => {
+        e.preventDefault(); bankBox.classList.remove("over");
+        const d = readDrop(e);
+        if (d && d.from) setValue(d.from, "");
+      });
+    }
+  });
+
+  /* ---- Two-part gaps: one question number, two boxes ---- */
+  (() => {
+    const byQ = {};
+    document.querySelectorAll(".gap-sub[data-qnum]").forEach(s => {
+      (byQ[s.dataset.qnum] = byQ[s.dataset.qnum] || []).push(s);
+    });
+    Object.keys(byQ).forEach(qn => {
+      const subs = byQ[qn];
+      const hidden = document.querySelector(`.gap-input.joined-input[data-qnum="${qn}"]`);
+      if (!hidden) return;
+      const joiner = hidden.dataset.joiner || " ";
+      let syncing = false;
+      subs.forEach(s => {
+        s.addEventListener("input", () => {
+          s.classList.toggle("filled", s.value.trim().length > 0);
+          const vals = subs.map(x => x.value.trim());
+          syncing = true;
+          hidden.value = vals.every(v => !v) ? "" : vals.filter(Boolean).join(joiner);
+          fire(hidden);
+          syncing = false;
+        });
+        s.addEventListener("focus", () => setCurrentQuestion(parseInt(qn, 10)));
+      });
+      hidden.addEventListener("input", () => {
+        if (syncing) return;            // review replay: split the stored value back
+        const parts = hidden.value.split(joiner);
+        subs.forEach((s, i) => {
+          s.value = (i === subs.length - 1 ? parts.slice(i).join(joiner) : parts[i] || "").trim();
+          s.classList.toggle("filled", s.value.length > 0);
+        });
+      });
+    });
+  })();
+
+  /* ---- "In either order" pairs ---- */
+  const EITHER_GROUPS = (() => {
+    try { return JSON.parse(document.getElementById("eitherOrder").textContent || "[]"); } catch (e) { return []; }
+  })();
+  function gradeEitherOrder() {
+    const ok = {}, label = {};
+    EITHER_GROUPS.forEach(g => {
+      const qs = g.q, targets = g.targets;
+      const answers = qs.map(q => userAnswers[q]);
+      const fits = (ans, t) => ans != null && ans !== "" && expandAnswerKey(t).includes(normalizeAnswer(ans));
+      // Best assignment of answers to distinct targets (groups are tiny).
+      let best = null;
+      (function perm(rest, chosen) {
+        if (!rest.length) {
+          const marks = chosen.map((t, i) => fits(answers[i], t));
+          const score = marks.filter(Boolean).length;
+          if (!best || score > best.score) best = { score, marks };
+          return;
+        }
+        rest.forEach((t, i) => perm(rest.slice(0, i).concat(rest.slice(i + 1)), chosen.concat([t])));
+      })(targets, []);
+      qs.forEach((q, i) => {
+        ok[q] = !!(best && best.marks[i]);
+        label[q] = targets.join(" ; ") + " (in either order)";
+      });
+    });
+    return { ok, label };
+  }
+
   updatePartProgress();
 
   /* Highlighter */
@@ -1743,12 +2131,6 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
         }
       }
     }
-    for (const piece of pre.split("/")) {
-      for (const v of expandParens(piece)) {
-        const n = normalizeAnswer(v.trim());
-        if (n) acceptable.add(n);
-      }
-    }
     acceptable.add(normalizeAnswer(key));
     acceptable.delete("");
     return Array.from(acceptable);
@@ -1853,11 +2235,11 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
 
     results.forEach(r => {
       if (r.skipDisplay) return;
-      let host = document.querySelector(`.question[data-qnum="${r.q}"]:not(.hidden)`);
+      let host = document.querySelector(`.result-host[data-qnum="${r.q}"]`) || document.querySelector(`.question[data-qnum="${r.q}"]:not(.hidden)`);
       if (!host) {
         const inp = document.querySelector(`.gap-input[data-qnum="${r.q}"]`);
         if (inp) {
-          host = inp.closest("li, .completion-prose, .form-row-value, .question, .note-section, .map-pin");
+          host = inp.closest("li, td, .completion-prose, .form-row-value, .question, .note-section, .map-pin");
         }
       }
       if (!host) return;
@@ -1998,6 +2380,7 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
     try { audioEl.pause(); } catch (e) {}
 
     let correctCount = 0;
+    const { ok: EITHER_OK, label: EITHER_LABEL } = gradeEitherOrder();
     const results = [];
     const resultsByQ = {};
     ALL_QNUMS.forEach(q => {
@@ -2018,11 +2401,11 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
         if (MCQ_MULTI_PRIMARY[q] === q) r.multi = mcqMultiReview(q);
         else r.skipDisplay = true;
       } else {
-        const correct_ = isAnswered && isCorrect(q, userAns);
+        const correct_ = isAnswered && (q in EITHER_OK ? EITHER_OK[q] : isCorrect(q, userAns));
         if (correct_) correctCount++;
         r = {
           q, userAns: isAnswered ? userAns : null,
-          correctAns: Array.isArray(correct) ? correct : correct,
+          correctAns: (q in EITHER_LABEL) ? EITHER_LABEL[q] : correct,
           correct: correct_, unanswered: !isAnswered
         };
       }
@@ -2198,7 +2581,7 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
     injectResultMarkers(results);
 
     document.body.classList.add("test-locked");
-    document.querySelectorAll(".options-list input, .gap-input").forEach(el => el.disabled = true);
+    document.querySelectorAll(".options-list input, .gap-input, .gap-sub").forEach(el => el.disabled = true);
 
     switchToResultsView();
 
