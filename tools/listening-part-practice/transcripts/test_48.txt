@@ -1,0 +1,100 @@
+# Test 48
+[0.0] Test 48.
+
+[1.4] You will hear a tutor and a student discussing a project the student is working on.
+
+[7.4] First, you have some time to look at questions 21 to 27.
+
+[51.4] Right, Stewart.
+[52.9] Well, I've read your draft report on your work placement at the Central Museum Association.
+[60.6] Sounds as if you had an interesting time.
+[63.7] So you ended up making a film for them.
+[66.9] Yeah, it was a film to train the employees in different museums in the techniques they should use for labelling ancient objects without damaging them.
+[77.7] Some of them are really fragile.
+[79.6] OK.
+[81.3] So, in your report, you go through the main stages in making the film.
+[87.0] Let's discuss that in a little more detail.
+
+[90.3] You had to find a location, somewhere to shoot the film.
+[94.3] That took quite a few days because I had to look at different museums all over the country, but I'd allowed time for it.
+[103.8] And even though it was the middle of winter, [[21|there wasn't any snow, so I didn't have any transport problems]].
+[111.9] Right.
+[112.5] Did you have to decide what equipment you'd need for the filming?
+[116.6] Yes, I think they were quite surprised at how well I managed that.
+[122.1] It was just the luck of the draw, actually.
+[125.0] [[22|I'd done that project with you last year]].
+[128.6] Oh, on recording technology.
+
+[131.0] So you knew a bit about it from that, right?
+[134.6] Yeah.
+[135.5] What I found really hard was actually writing the script.
+[140.8] I had a deadline for that, but the association [[23|had to extend it]].
+[145.7] I couldn't have done it otherwise.
+[148.2] Would it have helped if you'd had some training there?
+[151.4] I think you're right.
+[152.6] I probably needed that, yeah.
+[155.4] Right.
+
+[156.6] Now, from your draft report, it sounds as if you had one or two problems deciding who was going to actually appear in the video.
+[165.7] The casting, yeah.
+[167.7] I'd expected that the people who worked for the association would be really keen on taking part.
+[174.8] But they weren't.
+[176.1] The thing was, they were all so busy and it did mean some of them had to travel.
+[183.0] But [[24|Janice King, who I was reporting to for the project, she was great]].
+[189.3] She arranged for people to have time off and for their work to be covered.
+[194.3] So that was a big help for me.
+[196.8] Right.
+
+[197.4] And it sounds like the filming itself went well.
+[200.6] I gather you found a company who provided an [[25|online introduction to the techniques]].
+[207.1] Yeah, it was really informative and very user-friendly.
+[211.6] I learned a lot from it.
+[213.3] And then the editing?
+[215.2] For that, the association put me in touch with [[26|someone who works for one of the big movie companies]], and I went down to the studio and sat with him in front of his computer for a day, learning how to cut and paste and deal with the soundtrack and so on.
+[233.6] So was that all?
+[235.2] No, I didn't include this in my draft report but I had to design the cover for the DVD as well, the lettering and everything.
+[245.9] Have you done any of that sort of design work before?
+
+[249.4] No, but I did a rough draft and then [[27|talked it through with a couple of my mates and they gave me some more ideas]]. And when I'd finished it, I showed it to the people who worked at the association and they really liked it.
+[265.6] Excellent.
+
+[281.2] Now listen and answer questions 28 to 30.
+
+[286.4] Now, as well as your own draft report, I've also received some written evaluation from the association on the work you did during your placement and how it was of benefit to them.
+[299.7] I noticed that you haven't included anything on that in your report yet.
+[304.9] How my project benefited the association, you mean?
+[308.7] So, do I have to include that?
+[311.8] Yes.
+
+[314.5] Well, let's think.
+[316.8] I suppose if I hadn't made the film for them, they'd have had to get an outside company to do it.
+[323.4] But because I was actually working for the association, I'd got much more of a feeling for what their [[28|aims]] are.
+[332.1] Things like their responsibility for the conservation of the exhibits.
+[336.6] I don't think an outside company would have had that understanding.
+[342.0] They'd have been more detached.
+[344.5] Right.
+[345.1] And the association also said that because of your background, you had a good idea of where to go to get the best deal for the equipment you needed.
+[355.3] They said the saving in expense made it worthwhile, even though sourcing it took quite a bit of time.
+
+[362.4] Yes, that's true.
+[363.3] The association also said making the film had a very positive effect in getting [[29|staff]] to work together more closely.
+[372.1] Oh, I hadn't heard that.
+[374.2] That's good.
+[375.5] And certainly people weren't afraid to tell me what they thought about it as I was making it, so I was able to get lots of [[30|feedback]] at every stage.
+[386.8] That was useful for me, but it also meant the final product worked better for them.
+[392.9] Can you think of any other benefits?
+[396.4] Well, I don't think they'd really thought out what they'd do with the film once it was made.
+[403.0] I made quite a few suggestions for the distribution, other people we could send it to, as well as museum staff.
+
+[412.0] Yes, they mentioned that.
+[413.9] OK, good.
+[415.8] Well, it sounds like they certainly...
+
+@21 Location: it was winter, but there was no snow, so travelling was easy.
+@22 Equipment: he had done a project on recording technology the year before.
+@23 Script: the association extended his deadline. Training is only something the tutor suggests.
+@24 Casting: Janice King, who he reported to, arranged time off for people.
+@25 Filming: a company's online introduction (a website) taught him the techniques.
+@26 Editing: he spent a day with someone from a big movie company.
+@27 DVD cover: his mates gave him ideas.
+@28 Working inside the association, he understood its aims, such as conservation of exhibits.

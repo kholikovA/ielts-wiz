@@ -1,0 +1,112 @@
+# Test 2
+[0.0] Test 2.
+
+[1.2] You will hear a telephone conversation between the organiser of a short story competition and someone who wishes to take part in the competition.
+
+[11.0] First, you have some time to look at questions 1 to 6.
+
+[44.0] Good morning, Dave speaking.
+[46.5] Oh, hi.
+[47.5] I'm phoning about a short story competition.
+[51.1] I saw an advert in a magazine and I was just calling to get some details.
+[56.6] Yes, certainly.
+[58.2] I'm the competition organiser, so I should be able to help.
+[62.3] What kind of details are you looking for?
+[65.5] Well, um, does it cost anything to enter?
+[69.1] Yes, there's an entry fee of £5.
+
+[72.6] OK, that should be fine.
+
+[76.1] It's a short story competition, so how many words is that?
+[81.1] Well, we want to give people a reasonable amount of freedom, but the guidelines are around [[1|3,000 words]].
+[89.0] Oh, that sounds quite a lot.
+[91.4] Well, it's not as much as it used to be.
+[94.2] We did have a limit of 5,000 words, but some people thought that was too many, so this year we've reduced it.
+[101.8] Right.
+[102.4] And does the story need to be about anything in particular?
+[106.3] No, you can write about any topic you like.
+[109.5] But the main point of the competition is that it has to have a [[2|surprise ending]].
+
+[115.4] Oh, I see.
+[116.8] That sounds interesting.
+[118.6] I don't think I've ever written a story like that before.
+[122.2] Yes, it's something we've introduced for this year's competition.
+[126.0] Right.
+[127.4] Um, I'm 18.
+[129.1] Is there any age limit?
+[131.0] Yes, you need to be [[3|16]] or over.
+[133.8] So, if you're 18, that's fine.
+
+[136.1] Great.
+[137.2] So, you have the competition once a year.
+[140.1] Is that right?
+[141.0] Yes.
+[142.1] We start advertising in January and the competition takes up a lot of the year.
+[147.4] We give people a few months to write their story and then it takes quite a long time to judge all the entries and to announce the winners.
+[155.1] I see.
+[156.3] So when is the closing date for the competition?
+[159.6] It's already April.
+
+[161.3] I hope I'm not too late.
+[163.0] No, you've still got plenty of time.
+[165.3] You need to submit your entry by the 1st of [[4|August]].
+[169.1] After then it will be too late, although you can always enter next year's competition.
+[174.5] OK, good.
+[175.6] So how do I enter?
+[177.6] Well, we have a website, and the best way to enter is to complete the entry form online.
+[184.0] We also have more details of the competition on the site.
+[187.8] Shall I give you the web address?
+
+[189.6] Yes, please.
+
+[192.1] OK, it's www dot [[5|c-o-m-p-4-s-s]] dot com.
+[204.3] And that's the number four, not the word "for".
+[207.7] OK, thanks, I've got that.
+[210.1] So, I can complete the entry form online.
+[214.4] But how do I send the story?
+[217.0] Do I print it out and send it to you?
+[219.3] Well, you may want to print the story out so you can review it, but don't [[6|post]] it to us.
+[226.4] When you've finished your story, you will need to email it to us.
+[230.9] The email address is on the website I gave you.
+
+[234.3] OK, that's fine.
+
+[238.6] Before you hear the rest of the conversation, you will have some time to look at the questions 7 to 10.
+
+[264.2] Now listen and answer questions 7 to 10.
+
+[269.5] Um, can you tell me a bit about how the competition is judged and what the prizes are?
+[276.3] Yes, of course.
+[278.4] Well, once we have all the entries, I send them to all the judges.
+[284.2] Our competition is quite popular, so we are lucky to be able to use [[7|famous authors]] who are very interested in the competition.
+[292.6] That's fantastic!
+[294.2] It's great to know that someone famous will be reading my story.
+[297.9] Yes, that's right.
+[299.8] It takes them quite a while to read through the entries, but eventually they decide on the top five stories.
+[308.1] I see.
+
+[308.9] And what happens then?
+[311.1] Well, they will be published [[8|online]] so everyone can read them.
+[316.7] They will not be in any order at this point.
+[320.0] They will just be the five stories that the judges think are the best.
+[324.6] And do all the top five stories get prizes?
+[327.9] No, it's just the top story and the runner-up.
+[333.0] So how is the top story decided?
+[336.3] Well, once the top five stories are available, it will be the [[9|public]] who will vote for their favourite story.
+[343.9] Right, I see.
+
+[345.4] So I need to get all my friends to vote for me then.
+[349.2] Er, yes, that's a good idea.
+[352.3] And what is the prize?
+[353.7] Well, the runner-up gets a prize of £300, but the winner gets a trip to [[10|Spain]] to attend a workshop for writers.
+[364.8] Wow, that's brilliant.
+[366.5] I'd better get writing straight away.
+[369.2] Yes.
+[370.0] Good luck.
+[371.1] Thanks.
+
+@1 The limit used to be 5,000 words; this year it is around 3,000.
+@3 You must be 16 or over; 18 is the caller's own age.
+@6 The story must be emailed, not posted. Printing it is only for checking it yourself.
+@9 The judges choose the top five; the public then votes for the winner.
+@10 The runner-up gets £300; the winner goes to a writers' workshop in Spain.

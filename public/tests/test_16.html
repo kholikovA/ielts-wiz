@@ -2140,7 +2140,8 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
   const MCQ_MULTI_SLOT = {};
   const MCQ_MULTI_GROUP = {};
   const MCQ_MULTI_PRIMARY = {};
-  document.querySelectorAll('.question-group[data-type="mcq_multi"]').forEach(group => {
+  // build.mjs emits data-type="multi"; "mcq_multi" is the older name.
+  document.querySelectorAll('.question-group[data-type="mcq_multi"], .question-group[data-type="multi"]').forEach(group => {
     const cb = group.querySelector('input[type="checkbox"][data-qnums]');
     if (!cb) return;
     let qnums = [];
@@ -2580,6 +2581,20 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
 
     injectResultMarkers(results);
 
+    // Publish the grade for the transcript review (review.js, inlined by build.mjs).
+    try {
+      window.__iwGrade = {
+        correct: correctCount, total: TOTAL_QUESTIONS,
+        rows: results.map(r => ({
+          q: r.q, correct: !!r.correct, unanswered: !!r.unanswered,
+          user: r.unanswered ? null : displayAnswer(r.q, r.userAns),
+          answer: displayAnswer(r.q, r.correctAns),
+          multi: r.multi ? { userHtml: r.multi.userHtml, correctHtml: r.multi.correctHtml, hits: r.multi.hits, size: r.multi.size } : null
+        }))
+      };
+      document.dispatchEvent(new CustomEvent("iw:graded", { detail: window.__iwGrade }));
+    } catch (e) {}
+
     document.body.classList.add("test-locked");
     document.querySelectorAll(".options-list input, .gap-input, .gap-sub").forEach(el => el.disabled = true);
 
@@ -2848,6 +2863,493 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
       }, 250);
     }, 400);
   } catch (e) {}
+})();
+</script>
+<style id="iw-review-css">
+/* Listening transcript review (Part Practice). Same look as the reading review
+   (src/features/test-player/review/review.css), adapted for the static page:
+   transcript with answer locations on the left, questions on the right, and an
+   audio bar that can play from any line. Uses the page's theme variables. */
+
+.rv-open-btn { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; padding: 11px 18px; border-radius: 10px; border: 1px solid var(--accent); background: var(--accent); color: #fff; font-family: var(--sans); font-size: 14px; font-weight: 700; cursor: pointer; }
+.rv-open-btn:hover { background: var(--accent-strong); border-color: var(--accent-strong); }
+.rv-open-btn svg { width: 16px; height: 16px; }
+
+body.rv-active { overflow: hidden; }
+.rv-root { position: fixed; inset: 0; z-index: 900; display: none; flex-direction: column; background: var(--bg); color: var(--text); font-family: var(--sans); }
+.rv-root.open { display: flex; }
+
+/* ---- top bar ---- */
+.rv-top { flex: 0 0 auto; display: flex; align-items: center; gap: 16px; padding: 12px 24px; border-bottom: 1px solid var(--border); }
+.rv-back { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 8px; border: 1px solid var(--border-strong); background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 13.5px; font-weight: 600; cursor: pointer; }
+.rv-back:hover { background: var(--bg-hover); }
+.rv-back svg { width: 16px; height: 16px; }
+.rv-title { flex: 1; min-width: 0; margin: 0; font-size: 17px; font-weight: 700; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rv-score { flex: 0 0 auto; font-size: 13px; font-weight: 700; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+
+/* ---- audio bar ---- */
+.rv-audio { flex: 0 0 auto; display: flex; align-items: center; gap: 12px; padding: 8px 24px; background: var(--bg-audio); border-bottom: 1px solid var(--border); }
+.rv-play { flex: 0 0 auto; width: 34px; height: 34px; border-radius: 50%; border: none; background: var(--accent); color: #fff; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
+.rv-play:hover { background: var(--accent-strong); }
+.rv-play svg { width: 15px; height: 15px; }
+.rv-time { flex: 0 0 auto; font-size: 12.5px; font-variant-numeric: tabular-nums; color: var(--text-muted); min-width: 92px; }
+.rv-seek { flex: 1; min-width: 60px; accent-color: var(--accent); cursor: pointer; }
+.rv-speed { flex: 0 0 auto; padding: 4px 6px; border-radius: 6px; border: 1px solid var(--border-strong); background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 12.5px; }
+.rv-follow { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--text-muted); cursor: pointer; user-select: none; }
+.rv-follow input { accent-color: var(--accent); }
+
+/* ---- body: two panes ---- */
+.rv-body { flex: 1 1 auto; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; }
+.rv-passage { overflow-y: auto; padding: 24px 32px 40px; border-right: 1px solid var(--border); font-family: var(--serif); font-size: 15.5px; line-height: 1.8; }
+.rv-right { overflow-y: auto; padding: 18px 22px 40px; }
+.rv-passage-title { font-family: var(--sans); font-size: 21px; font-weight: 700; margin: 0 0 4px; line-height: 1.3; }
+.rv-passage-sub { font-size: 13px; color: var(--text-muted); margin: 0 0 18px; font-family: var(--sans); line-height: 1.5; }
+.rv-para { margin: 0 0 14px; }
+.rv-cue { cursor: pointer; border-radius: 3px; transition: background .15s; }
+.rv-cue:hover { background: var(--bg-hover); }
+.rv-cue.speaking { background: var(--accent-soft); }
+.rv-cue-time { display: none; }
+
+/* ---- answer locations ---- */
+.rv-root .ev-span { background: color-mix(in srgb, var(--highlight) 30%, transparent); border-radius: 3px; padding: 0 1px; cursor: pointer; transition: background .2s; }
+.rv-root .ev-span:hover { background: color-mix(in srgb, var(--highlight) 45%, transparent); }
+.rv-root .ev-span.current { background: color-mix(in srgb, var(--highlight) 60%, transparent); box-shadow: 0 0 0 1px color-mix(in srgb, var(--highlight) 80%, transparent); }
+.rv-root .ev-badge { font-family: var(--sans); font-size: 9.5px; font-weight: 800; color: #fff; background: var(--text-muted); border-radius: 4px; padding: 0 4px; margin-right: 3px; vertical-align: super; line-height: 1.5; white-space: nowrap; }
+.rv-root .ev-badge.correct { background: var(--correct); }
+.rv-root .ev-badge.wrong { background: var(--wrong); }
+@keyframes rv-flash { 0% { background: color-mix(in srgb, var(--highlight) 85%, transparent); } 100% { background: color-mix(in srgb, var(--highlight) 60%, transparent); } }
+.rv-root .ev-span.flash { animation: rv-flash 1.2s ease-out; }
+@media (prefers-reduced-motion: reduce) { .rv-root .ev-span.flash { animation: none; } }
+
+/* ---- right pane: question rows ---- */
+.rv-group-head { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--text-muted); margin: 16px 2px 8px; }
+.rv-group-head:first-child { margin-top: 0; }
+.rv-q { border: 1px solid var(--border); border-left: 3px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--bg); margin-bottom: 10px; }
+.rv-q.correct { border-left-color: var(--correct); }
+.rv-q.wrong { border-left-color: var(--wrong); }
+.rv-q.unanswered { border-left-color: var(--text-subtle); }
+.rv-q.current { box-shadow: 0 0 0 2px var(--accent-soft); }
+.rv-q-head { width: 100%; display: flex; align-items: flex-start; gap: 11px; padding: 12px 14px; background: none; border: none; text-align: left; cursor: pointer; color: var(--text); font-family: var(--sans); }
+.rv-q-head:hover { background: var(--bg-hover); }
+.rv-q-num { flex: 0 0 auto; min-width: 26px; height: 24px; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; font-weight: 800; font-size: 12.5px; color: #fff; background: var(--text-muted); }
+.rv-q-num.correct { background: var(--correct); }
+.rv-q-num.wrong { background: var(--wrong); }
+.rv-q-prompt { flex: 1; min-width: 0; font-size: 14px; line-height: 1.6; padding-top: 2px; }
+.rv-q-prompt .rv-gap { display: inline-block; min-width: 46px; border-bottom: 2px solid var(--accent); margin: 0 2px; }
+.rv-mark { flex: 0 0 auto; width: 18px; height: 18px; margin-top: 3px; }
+.rv-mark.correct { color: var(--correct); }
+.rv-mark.wrong { color: var(--wrong); }
+.rv-mark.unanswered { color: var(--text-subtle); }
+.rv-q-answers { display: flex; flex-wrap: wrap; gap: 6px 18px; padding: 0 14px 12px 51px; font-size: 13px; }
+.rv-ans { display: inline-flex; align-items: baseline; gap: 7px; flex-wrap: wrap; }
+.rv-ans-label { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .04em; font-weight: 700; }
+.rv-your { font-weight: 700; }
+.rv-your.correct { color: var(--correct); }
+.rv-your.wrong { color: var(--wrong); text-decoration: line-through; }
+.rv-correct { font-weight: 700; color: var(--correct); }
+.rv-blank { color: var(--text-subtle); font-style: italic; }
+.rv-q-answers .your-answer { color: var(--correct); font-weight: 700; }
+.rv-q-answers .your-answer.strike { color: var(--wrong); text-decoration: line-through; }
+.rv-q-answers .correct-answer { color: var(--correct); font-weight: 700; }
+.rv-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 14px 12px 51px; }
+.rv-btn { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border: 1px solid var(--border-strong); border-radius: 7px; background: var(--bg); color: var(--accent); font-family: var(--sans); font-size: 12.5px; font-weight: 600; cursor: pointer; }
+.rv-btn:hover { background: var(--accent-soft); }
+.rv-btn svg { width: 14px; height: 14px; }
+.rv-btn .rv-chev { transition: transform .2s; }
+.rv-btn.open .rv-chev { transform: rotate(180deg); }
+.rv-q-panel { padding: 0 14px 14px 51px; display: flex; flex-direction: column; gap: 12px; }
+.rv-q-panel[hidden] { display: none; }
+.rv-also { color: var(--text-subtle); font-size: 12px; font-weight: 500; }
+.rv-ev-label, .rv-why-label { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; font-weight: 700; color: var(--text-muted); margin-bottom: 5px; }
+.rv-ev-quote { margin: 0 0 6px; padding: 9px 12px; border-left: 3px solid var(--accent); background: var(--bg-elevated); border-radius: 0 8px 8px 0; font-family: var(--serif); font-size: 13.5px; line-height: 1.55; color: var(--text); cursor: pointer; }
+.rv-ev-quote:hover { background: var(--accent-soft); }
+.rv-ev-quote b { background: color-mix(in srgb, var(--highlight) 45%, transparent); font-weight: 700; border-radius: 2px; padding: 0 1px; }
+.rv-ev-quote .rv-ev-q { font-family: var(--sans); font-size: 11px; font-weight: 800; color: var(--text-muted); margin-right: 6px; }
+.rv-why p { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--text); }
+
+/* ---- footer: question chips ---- */
+.rv-foot { flex: 0 0 auto; display: flex; align-items: center; gap: 6px; padding: 10px 24px; border-top: 1px solid var(--border); background: var(--bg); overflow-x: auto; }
+.rv-foot-label { font-size: 12.5px; font-weight: 700; color: var(--text-muted); margin-right: 8px; white-space: nowrap; }
+.rv-chip { width: 29px; height: 29px; border-radius: 7px; border: 1px solid var(--border); background: var(--bg); color: var(--text-muted); font-family: var(--sans); font-size: 12px; font-weight: 700; cursor: pointer; flex: 0 0 auto; }
+.rv-chip.correct { border-color: var(--correct); color: var(--correct); }
+.rv-chip.wrong { border-color: var(--wrong); color: var(--wrong); }
+.rv-chip.current { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+@media (max-width: 880px) {
+  .rv-top { padding: 10px 16px; gap: 10px; }
+  .rv-title { font-size: 15px; text-align: left; }
+  .rv-audio { padding: 8px 16px; flex-wrap: wrap; }
+  .rv-follow { display: none; }
+  .rv-body { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); }
+  .rv-passage { border-right: none; border-bottom: 1px solid var(--border); padding: 16px 16px 24px; }
+  .rv-right { padding: 14px 16px 24px; }
+  .rv-foot { padding: 8px 16px; }
+  .rv-q-answers, .rv-q-panel { padding-left: 14px; }
+  .rv-actions { margin-left: 14px; }
+}
+</style>
+<script id="iwReviewData" type="application/json">{"title":"Test 16: West Bay Hotel – Details of Job","audio":"https://raw.githubusercontent.com/kholikovA/80-listening-audios/main/TEST%2016.mp3","paras":[[{"t":0,"parts":["Test 16."]}],[{"t":1.6,"parts":["You will hear a man telephoning to ask about a job in a hotel."]}],[{"t":7,"parts":["First, you have some time to look at questions 1 to 4."]}],[{"t":34.2,"parts":["Hello, West Bay Hotel."]},{"t":36.4,"parts":["Can I help you?"]},{"t":37.4,"parts":["Oh, good morning."]},{"t":38.6,"parts":["I'm ringing about your advertisement in the Evening Gazette."]},{"t":41.9,"parts":["Is that the one for temporary staff?"]},{"t":44.3,"parts":["That's right."]},{"t":45.6,"parts":["Yes, I'm afraid the person who's dealing with that isn't in today, but I can give you the main details if you like."]},{"t":53.1,"parts":["Yes, please."]},{"t":54.3,"parts":["Could you tell me what kind of staff you're looking for?"]}],[{"t":57.1,"parts":["We are looking for ",{"q":1,"x":"waiters"}," at the moment."]},{"t":59.7,"parts":["There was one post for a cook, but that's already been taken."]},{"t":63.6,"parts":["Oh, right."]},{"t":64.8,"parts":["What are the hours of work?"]},{"t":67.2,"parts":["There are two different shifts."]},{"t":69.1,"parts":["There is a day shift from 7 to 2 and a late shift from 4 till 11."]},{"t":75.4,"parts":["And can people choose which one they want to do?"]},{"t":78.1,"parts":["Not normally, because everyone would choose the day shift, I suppose."]},{"t":81.8,"parts":["You alternate from one week to another."]}],[{"t":84.5,"parts":["OK, I'm just writing all this down."]},{"t":87.3,"parts":["What about time off?"]},{"t":88.9,"parts":["You get one ",{"q":2,"x":"day off"},", and I think you can negotiate which one you want."]},{"t":94,"parts":["It's more or less up to you, but it has to be the same one every week."]},{"t":98.2,"parts":["Do you know what the rates of pay are?"]},{"t":101,"parts":["Yes, I've got them here."]},{"t":103.8,"parts":["You get £5.50 an hour, and that includes a ",{"q":3,"x":"break"},"."]},{"t":108.5,"parts":["Do I have to go home to eat, or...?"]},{"t":110.6,"parts":["You don't have to."]}],[{"t":111.9,"parts":["You can get a ",{"q":4,"x":"meal"}," in the hotel if you want to, and there's no charge for it, so you might as well."]},{"t":117.5,"parts":["Oh, good."]},{"t":118.4,"parts":["Yes, so let's see."]},{"t":119.6,"parts":["I get £221... no, £231 a week."]},{"t":125.1,"parts":["You'd also get tips."]},{"t":126.7,"parts":["Our guests tend to be quite generous."]}],[{"t":132.2,"parts":["Before you hear the rest of the conversation, you have some time to look at questions 5 to 10."]}],[{"t":158.1,"parts":["Now listen and answer questions 5 to 10."]}],[{"t":166.5,"parts":["Um, is there a uniform?"]},{"t":168.7,"parts":["What about clothes?"]},{"t":170.4,"parts":["Yes, I forgot to mention that."]},{"t":172.2,"parts":["You need to wear a white shirt, just a plain one, and ",{"q":5,"x":"dark"}," trousers."]},{"t":176.8,"parts":["You know, not green or anything like that."]},{"t":179.1,"parts":["And we don't supply those."]},{"t":180.8,"parts":["That's OK, I've got trousers."]},{"t":182.5,"parts":["I just have to buy a couple of shirts."]},{"t":184.5,"parts":["What about anything else?"]}],[{"t":185.7,"parts":["Do I need a waistcoat or anything?"]},{"t":187.5,"parts":["You have to wear a ",{"q":6,"x":"jacket"},", but the hotel lends you that."]},{"t":190.5,"parts":["I see."]},{"t":191.5,"parts":["One last thing."]},{"t":192.9,"parts":["I don't know what the starting date is."]},{"t":195.7,"parts":["Just a minute."]},{"t":196.5,"parts":["I think it's sometime around the end of June."]},{"t":200.5,"parts":["Yes, the ",{"q":7,"x":"28th"},", in time for the summer."]},{"t":203.6,"parts":["That's great."]}],[{"t":204.5,"parts":["I'm available from the 10th."]},{"t":205.9,"parts":["Oh, good."]},{"t":206.9,"parts":["Well, if you can call again, you need to speak to the service manager."]},{"t":211,"parts":["Her name's Jane Urwin."]},{"t":213.3,"parts":["That's ",{"q":8,"x":"U-R-W-I-N"},"."]},{"t":216.9,"parts":["And she'll probably arrange to meet you."]},{"t":219.5,"parts":["OK."]},{"t":220.5,"parts":["And when's the best time to ring?"]},{"t":222.4,"parts":["Could you call tomorrow?"]}],[{"t":223.5,"parts":["Um, she usually starts checking the rooms at ",{"q":9,"x":"midday, so before then"}," if you can, so she'll have more time to chat."]},{"t":231.7,"parts":["I'll just give you her number because she's got a direct line."]},{"t":235,"parts":["Thanks."]},{"t":235.8,"parts":["It's 832 009."]}],[{"t":240.9,"parts":["823 009."]},{"t":243,"parts":["832."]},{"t":244.6,"parts":["Oh, OK."]},{"t":245.6,"parts":["Yes, I'll do that."]},{"t":246.7,"parts":["And by the way, she will ask you for a ",{"q":10,"x":"reference"},", so you might like to be thinking about that."]},{"t":251.9,"parts":["You know, just someone who knows you and can vouch for you."]},{"t":255.1,"parts":["Yes, no problem."]},{"t":256.3,"parts":["Well, thanks very much for your help."]},{"t":258,"parts":["You're welcome."]}],[{"t":258.9,"parts":["Bye."]},{"t":259.6,"parts":["Bye."]}]],"why":{"1":"The one post for a cook has already been taken; the vacancies are for waiters.","2":"You can't choose your shift (they alternate weekly), but you can choose your day off.","4":"Meals in the hotel are free.","5":"Trousers must be dark, not a colour like green, and the hotel doesn't supply them.","6":"You don't need a waistcoat; the hotel lends you a jacket.","7":"The job starts on the 28th (of June); the 10th is when the caller is available.","9":"She starts checking rooms at midday, so call before then."},"groups":[{"label":"Questions 1–10","nums":[1,2,3,4,5,6,7,8,9,10],"multi":false}],"order":[1,2,3,4,5,6,7,8,9,10],"answers":{"1":"waiter(s)","2":"day off","3":"break","4":"(free) meal","5":"dark (coloured/colored)","6":"jacket","7":"28(th) June","8":"Urwin","9":"12.00 (pm)","10":"reference"},"prompts":{"1":"Vacancies for {{_}}","2":"Can choose your {{_}} (must be the same each week)","3":"Pay: £5.50 per hour, including a {{_}}","4":"A {{_}} is provided in the hotel","5":"Dress: a white shirt and {{_}} trousers (not supplied)","6":"a {{_}} (supplied)","7":"Starting date: {{_}}","8":"Call Jane {{_}} (Service Manager) before … tomorrow (Tel: 832009)","9":"Call Jane … (Service Manager) before {{_}} tomorrow (Tel: 832009)","10":"She'll require a {{_}}"}}</script>
+<script id="iw-review-js">
+// Listening transcript review (Part Practice). Inlined by build.mjs after the
+// page's own scripts. Data comes from #iwReviewData (built from
+// transcripts/test_N.txt); the grade comes from the page's submitTest(), which
+// publishes window.__iwGrade and fires "iw:graded".
+(function () {
+  "use strict";
+  var dataEl = document.getElementById("iwReviewData");
+  if (!dataEl) return;
+  var D = JSON.parse(dataEl.textContent);
+  var grade = null;
+  var built = false;
+  var currentQ = null;
+  var root, passage, right, foot, audio, playBtn, seek, timeLbl, followBox;
+  var cueEls = [];
+  var cueTimes = [];
+
+  var ICON = {
+    back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>',
+    play: '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>',
+    pause: '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="5" y="4" width="4.5" height="16" rx="1"/><rect x="14.5" y="4" width="4.5" height="16" rx="1"/></svg>',
+    ok: '<svg class="rv-mark correct" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+    bad: '<svg class="rv-mark wrong" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
+    none: '<svg class="rv-mark unanswered" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>',
+    chev: '<svg class="rv-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>',
+    ear: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg>',
+    doc: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>'
+  };
+
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function fmt(t) {
+    if (!isFinite(t)) t = 0;
+    var m = Math.floor(t / 60), s = Math.floor(t % 60);
+    return m + ":" + (s < 10 ? "0" : "") + s;
+  }
+
+  // ---- evidence index: question -> { cue index, cue time, quote html }
+  var EV = {};
+  D.paras.forEach(function (para) {
+    para.forEach(function (cue) {
+      cue.parts.forEach(function (p) {
+        if (typeof p === "object") EV[p.q] = { t: cue.t, cue: cue };
+      });
+    });
+  });
+  function quoteHtml(cue, q) {
+    return cue.parts.map(function (p) {
+      if (typeof p === "string") return esc(p);
+      return p.q === q ? "<b>" + esc(p.x) + "</b>" : esc(p.x);
+    }).join("");
+  }
+
+  // The grader's key lists every accepted spelling ("5/five km/kilometres",
+  // "website / web site"); show the first one and keep the rest as a note.
+  function primary(key) {
+    var s = String(key == null ? "" : key);
+    var tail = "";
+    var m = s.match(/\s*\(in either order\)$/);
+    if (m) { tail = " (in either order)"; s = s.slice(0, m.index); }
+    return s.split(/\s*;\s*/).map(function (one) {
+      return one.split(/\s+\/\s+|\s*\|\s*/)[0].split(/\s+/).map(function (w) {
+        return w.indexOf("/") > 0 ? w.split("/")[0] : w;
+      }).join(" ").replace(/(^|\s)\([^)]*\)\s+/g, "$1").replace(/\(([^)]*)\)/g, "$1").trim();
+    }).join("; ") + tail;
+  }
+  function correctHtml(key) {
+    var p = primary(key);
+    var also = String(key).replace(/\s*\(in either order\)$/, "") !== p.replace(/ \(in either order\)$/, "");
+    return '<span class="rv-correct">' + esc(p) + '</span>' + (also ? ' <span class="rv-also" title="' + esc(key) + '">(other spellings accepted)</span>' : '');
+  }
+
+  function statusOf(q) {
+    var r = grade && grade.byQ[q];
+    if (!r) return "unanswered";
+    return r.unanswered ? "unanswered" : (r.correct ? "correct" : "wrong");
+  }
+
+  // ---- build the overlay once
+  function build() {
+    built = true;
+    root = document.createElement("div");
+    root.className = "rv-root";
+    root.setAttribute("role", "dialog");
+    root.setAttribute("aria-label", "Transcript and answers");
+    root.innerHTML =
+      '<header class="rv-top">'
+      + '<button type="button" class="rv-back" id="rvBack">' + ICON.back + 'Results</button>'
+      + '<h2 class="rv-title">' + esc(D.title) + ' · Transcript</h2>'
+      + '<span class="rv-score" id="rvScore"></span>'
+      + '</header>'
+      + '<div class="rv-audio">'
+      + '<button type="button" class="rv-play" id="rvPlay" aria-label="Play">' + ICON.play + '</button>'
+      + '<span class="rv-time" id="rvTime">0:00 / 0:00</span>'
+      + '<input type="range" class="rv-seek" id="rvSeek" min="0" max="1000" value="0" step="1" aria-label="Seek">'
+      + '<select class="rv-speed" id="rvSpeed" aria-label="Playback speed"><option value="0.75">0.75x</option><option value="1" selected>1x</option><option value="1.25">1.25x</option><option value="1.5">1.5x</option></select>'
+      + '<label class="rv-follow"><input type="checkbox" id="rvFollow" checked> Follow along</label>'
+      + '</div>'
+      + '<div class="rv-body"><div class="rv-passage" id="rvPassage"></div><div class="rv-right" id="rvRight"></div></div>'
+      + '<footer class="rv-foot" id="rvFoot"></footer>';
+    document.body.appendChild(root);
+    passage = root.querySelector("#rvPassage");
+    right = root.querySelector("#rvRight");
+    foot = root.querySelector("#rvFoot");
+    playBtn = root.querySelector("#rvPlay");
+    seek = root.querySelector("#rvSeek");
+    timeLbl = root.querySelector("#rvTime");
+    followBox = root.querySelector("#rvFollow");
+
+    audio = new Audio();
+    audio.preload = "metadata";
+    audio.src = D.audio;
+    audio.addEventListener("timeupdate", onTime);
+    audio.addEventListener("loadedmetadata", onTime);
+    audio.addEventListener("play", function () { playBtn.innerHTML = ICON.pause; playBtn.setAttribute("aria-label", "Pause"); });
+    audio.addEventListener("pause", function () { playBtn.innerHTML = ICON.play; playBtn.setAttribute("aria-label", "Play"); });
+    playBtn.addEventListener("click", function () { if (audio.paused) audio.play().catch(function () {}); else audio.pause(); });
+    seek.addEventListener("input", function () {
+      if (audio.duration) audio.currentTime = (seek.value / 1000) * audio.duration;
+    });
+    root.querySelector("#rvSpeed").addEventListener("change", function (e) { audio.playbackRate = parseFloat(e.target.value) || 1; });
+    root.querySelector("#rvBack").addEventListener("click", close);
+    document.addEventListener("keydown", function (e) {
+      if (!root.classList.contains("open")) return;
+      if (e.key === "Escape") close();
+    });
+
+    renderPassage();
+  }
+
+  function renderPassage() {
+    var h = '<h1 class="rv-passage-title">' + esc(D.title) + '</h1>'
+      + '<p class="rv-passage-sub">Highlighted text shows where each answer is heard. Click any line to play the recording from there.</p>';
+    var idx = 0;
+    D.paras.forEach(function (para) {
+      h += '<p class="rv-para">';
+      para.forEach(function (cue, ci) {
+        cueTimes.push(cue.t);
+        h += (ci ? " " : "") + '<span class="rv-cue" data-i="' + idx + '" data-t="' + cue.t + '">';
+        cue.parts.forEach(function (p) {
+          if (typeof p === "string") { h += esc(p); return; }
+          h += '<mark class="ev-span" id="rv-ev' + p.q + '" data-q="' + p.q + '"><sup class="ev-badge" data-q="' + p.q + '">Q' + p.q + '</sup>' + esc(p.x) + '</mark>';
+        });
+        h += '</span>';
+        idx++;
+      });
+      h += '</p>';
+    });
+    passage.innerHTML = h;
+    cueEls = Array.prototype.slice.call(passage.querySelectorAll(".rv-cue"));
+    passage.addEventListener("click", function (e) {
+      var mark = e.target.closest(".ev-span");
+      if (mark) { select(+mark.dataset.q, { scrollPassage: false }); return; }
+      var cue = e.target.closest(".rv-cue");
+      if (cue) playFrom(+cue.dataset.t);
+    });
+  }
+
+  function renderRight() {
+    var byQ = grade ? grade.byQ : {};
+    var h = "";
+    D.groups.forEach(function (g) {
+      h += '<div class="rv-group-head">' + esc(g.label) + '</div>';
+      if (g.multi) { h += rowMulti(g, byQ); return; }
+      g.nums.forEach(function (n) { h += rowSingle(n, byQ[n]); });
+    });
+    right.innerHTML = h;
+    right.querySelectorAll("[data-sel]").forEach(function (b) {
+      b.addEventListener("click", function () { select(+b.dataset.sel, { scrollRight: false }); });
+    });
+    right.querySelectorAll("[data-play]").forEach(function (b) {
+      b.addEventListener("click", function () { var q = +b.dataset.play; select(q, { scrollRight: false }); playFrom(EV[q] ? EV[q].t : 0); });
+    });
+    right.querySelectorAll("[data-explain]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var panel = right.querySelector("#rv-panel" + b.dataset.explain);
+        var open = panel.hidden;
+        panel.hidden = !open;
+        b.classList.toggle("open", open);
+        b.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+    });
+    right.querySelectorAll("[data-jump]").forEach(function (b) {
+      b.addEventListener("click", function () { select(+b.dataset.jump, { scrollRight: false }); });
+    });
+
+    var score = grade ? grade.correct + " / " + grade.total + " correct" : "";
+    root.querySelector("#rvScore").textContent = score;
+
+    var f = '<span class="rv-foot-label">Questions</span>';
+    D.order.forEach(function (n) {
+      f += '<button type="button" class="rv-chip ' + statusOf(n) + '" data-chip="' + n + '">' + n + '</button>';
+    });
+    foot.innerHTML = f;
+    foot.querySelectorAll("[data-chip]").forEach(function (b) {
+      b.addEventListener("click", function () { select(+b.dataset.chip, {}); });
+    });
+
+    // colour the transcript badges by result
+    passage.querySelectorAll(".ev-badge").forEach(function (b) {
+      b.classList.remove("correct", "wrong");
+      var st = statusOf(+b.dataset.q);
+      if (st !== "unanswered") b.classList.add(st);
+    });
+  }
+
+  function promptHtml(n) {
+    var p = D.prompts[n];
+    if (!p) return '<span class="rv-blank">Question ' + n + '</span>';
+    return esc(p).replace(/\{\{_\}\}/g, '<span class="rv-gap"></span>');
+  }
+  function explainPanel(key, qs) {
+    var h = '<div class="rv-q-panel" id="rv-panel' + key + '" hidden>';
+    var quotes = qs.filter(function (q) { return EV[q]; });
+    if (quotes.length) {
+      h += '<div class="rv-ev"><div class="rv-ev-label">In the recording</div>';
+      quotes.forEach(function (q) {
+        h += '<blockquote class="rv-ev-quote" data-jump="' + q + '" title="Show in transcript">'
+          + (qs.length > 1 ? '<span class="rv-ev-q">Q' + q + '</span>' : '')
+          + '“' + quoteHtml(EV[q].cue, q) + '”</blockquote>';
+      });
+      h += '</div>';
+    }
+    var whys = qs.map(function (q) { return D.why[q]; }).filter(Boolean);
+    if (whys.length) {
+      h += '<div class="rv-why"><div class="rv-why-label">Why</div>' + whys.map(function (w) { return '<p>' + esc(w) + '</p>'; }).join("") + '</div>';
+    }
+    return h + '</div>';
+  }
+  function actions(key, q) {
+    return '<div class="rv-actions">'
+      + '<button type="button" class="rv-btn" data-explain="' + key + '" aria-expanded="false">' + ICON.chev + 'Explain</button>'
+      + (EV[q] ? '<button type="button" class="rv-btn" data-play="' + q + '">' + ICON.ear + 'Listen from ' + fmt(EV[q].t) + '</button>' : '')
+      + '</div>';
+  }
+  function rowSingle(n, r) {
+    var st = statusOf(n);
+    var mark = st === "correct" ? ICON.ok : st === "wrong" ? ICON.bad : ICON.none;
+    var ans;
+    if (!r) ans = '<span class="rv-ans"><span class="rv-ans-label">Answer</span>' + correctHtml(D.answers[n]) + '</span>';
+    else if (st === "correct") ans = '<span class="rv-ans"><span class="rv-ans-label">Your answer</span><span class="rv-your correct">' + esc(r.user) + '</span></span>';
+    else ans = '<span class="rv-ans"><span class="rv-ans-label">Your answer</span>' + (r.user ? '<span class="rv-your wrong">' + esc(r.user) + '</span>' : '<span class="rv-blank">No answer</span>') + '</span>'
+      + '<span class="rv-ans"><span class="rv-ans-label">Correct</span>' + correctHtml(r.answer) + '</span>';
+    return '<div class="rv-q ' + st + '" id="rv-q' + n + '">'
+      + '<button type="button" class="rv-q-head" data-sel="' + n + '"><span class="rv-q-num ' + st + '">' + n + '</span><span class="rv-q-prompt">' + promptHtml(n) + '</span>' + mark + '</button>'
+      + '<div class="rv-q-answers">' + ans + '</div>'
+      + actions(n, n) + explainPanel(n, [n])
+      + '</div>';
+  }
+  function rowMulti(g, byQ) {
+    var first = g.nums[0];
+    var r = byQ[first];
+    var m = r && r.multi;
+    var hits = g.nums.filter(function (n) { return statusOf(n) === "correct"; }).length;
+    var st = !r ? "unanswered" : hits === g.nums.length ? "correct" : (g.nums.every(function (n) { return statusOf(n) === "unanswered"; }) ? "unanswered" : "wrong");
+    var mark = st === "correct" ? ICON.ok : st === "wrong" ? ICON.bad : ICON.none;
+    var ans = m
+      ? '<span class="rv-ans"><span class="rv-ans-label">Your answers</span>' + m.userHtml + '</span>'
+        + '<span class="rv-ans"><span class="rv-ans-label">Correct</span>' + m.correctHtml + ' <span class="rv-blank">(' + m.hits + '/' + m.size + ')</span></span>'
+      : '<span class="rv-ans"><span class="rv-ans-label">Answer</span>' + correctHtml(D.answers[first]) + '</span>';
+    var ids = g.nums.map(function (n) { return '<span id="rv-q' + n + '"></span>'; }).join("");
+    return '<div class="rv-q ' + st + '" id="rv-qg' + first + '">' + ids
+      + '<button type="button" class="rv-q-head" data-sel="' + first + '"><span class="rv-q-num ' + st + '">' + g.nums[0] + '–' + g.nums[g.nums.length - 1] + '</span><span class="rv-q-prompt">' + promptHtml(first) + '</span>' + mark + '</button>'
+      + '<div class="rv-q-answers">' + ans + '</div>'
+      + actions("g" + first, first) + explainPanel("g" + first, g.nums)
+      + '</div>';
+  }
+
+  // ---- selection + audio
+  function select(q, opt) {
+    opt = opt || {};
+    currentQ = q;
+    root.querySelectorAll(".ev-span.current").forEach(function (el) { el.classList.remove("current"); });
+    root.querySelectorAll(".rv-q.current, .rv-chip.current").forEach(function (el) { el.classList.remove("current"); });
+    var ev = passage.querySelector("#rv-ev" + q);
+    if (ev) {
+      ev.classList.add("current");
+      if (opt.scrollPassage !== false) ev.scrollIntoView({ behavior: "smooth", block: "center" });
+      ev.classList.remove("flash"); void ev.offsetWidth; ev.classList.add("flash");
+    }
+    var row = right.querySelector("#rv-q" + q);
+    var card = row && (row.classList.contains("rv-q") ? row : row.closest(".rv-q"));
+    if (card) {
+      card.classList.add("current");
+      if (opt.scrollRight !== false) card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+    var chip = foot.querySelector('[data-chip="' + q + '"]');
+    if (chip) chip.classList.add("current");
+  }
+  // Seeking only sticks once the metadata is in, so wait for it on first use.
+  function playFrom(t) {
+    var go = function () {
+      try { audio.currentTime = Math.max(0, t - 0.6); } catch (e) {}
+      audio.play().catch(function () {});
+    };
+    if (audio.readyState >= 1) go();
+    else { audio.addEventListener("loadedmetadata", go, { once: true }); audio.load(); }
+  }
+  var lastCue = -1;
+  function onTime() {
+    var d = audio.duration || 0, t = audio.currentTime || 0;
+    timeLbl.textContent = fmt(t) + " / " + fmt(d);
+    if (d) seek.value = Math.round((t / d) * 1000);
+    // the cue being spoken: last cue whose start <= t
+    var lo = 0, hi = cueTimes.length - 1, k = -1;
+    while (lo <= hi) { var mid = (lo + hi) >> 1; if (cueTimes[mid] <= t + 0.05) { k = mid; lo = mid + 1; } else hi = mid - 1; }
+    if (audio.paused && t === 0) k = -1;
+    if (k === lastCue) return;
+    if (lastCue >= 0 && cueEls[lastCue]) cueEls[lastCue].classList.remove("speaking");
+    lastCue = k;
+    if (k >= 0 && cueEls[k]) {
+      cueEls[k].classList.add("speaking");
+      if (followBox.checked && !audio.paused) {
+        var box = passage.getBoundingClientRect(), r = cueEls[k].getBoundingClientRect();
+        if (r.top < box.top + 40 || r.bottom > box.bottom - 40) cueEls[k].scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+  }
+
+  function open(q) {
+    if (!built) build();
+    renderRight();
+    try { var a = document.getElementById("testAudio"); if (a) a.pause(); } catch (e) {}
+    root.classList.add("open");
+    document.body.classList.add("rv-active");
+    passage.scrollTop = 0;
+    right.scrollTop = 0;
+    if (q) select(q, {});
+  }
+  function close() {
+    if (audio) audio.pause();
+    root.classList.remove("open");
+    document.body.classList.remove("rv-active");
+  }
+
+  function setGrade(g) {
+    var byQ = {};
+    (g.rows || []).forEach(function (r) { byQ[r.q] = r; });
+    grade = { byQ: byQ, correct: g.correct, total: g.total };
+    var btn = document.getElementById("rvOpenBtn");
+    if (btn) btn.hidden = false;
+    if (built && root.classList.contains("open")) renderRight();
+  }
+  if (window.__iwGrade) setGrade(window.__iwGrade);
+  document.addEventListener("iw:graded", function (e) { setGrade(e.detail); });
+
+  // Entry point on the results screen.
+  var host = document.getElementById("resultsStats");
+  if (host && host.parentNode) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.id = "rvOpenBtn";
+    b.className = "rv-open-btn";
+    b.innerHTML = ICON.doc + "Transcript &amp; answer locations";
+    b.hidden = !grade;
+    b.addEventListener("click", function () { open(null); });
+    host.parentNode.insertBefore(b, host.nextSibling);
+  }
 })();
 </script>
 </body>

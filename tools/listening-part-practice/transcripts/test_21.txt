@@ -1,0 +1,65 @@
+# Test 21
+[0.0] Test 21.
+
+[1.9] You will hear a recorded message about a bus tour.
+
+[5.9] First, you have some time to look at questions 11 to 14.
+
+[39.8] Thank you for calling the phone line for the Pacton-on-Sea Bus Tour.
+[45.8] This is a recorded message lasting approximately four minutes, and it provides general information on the town bus tour.
+
+[57.1] Pacton-on-Sea is a beautiful West Coast town and has attracted tourists for many years.
+[65.1] One of the best ways of getting to know the town is to take the bus tour, which provides a wonderful viewing experience from one of our open-top buses.
+[76.5] The tour is a round trip of the town, and there are a total of four stops, where passengers can get on and off the bus.
+[87.3] A lot of people start at the first stop, which is at the train station, as this is where many tourists arrive in the town.
+[96.6] The next stop after the station is the aquarium, which is famous for its dolphin show and which has recently expanded to include [[11|sharks]].
+[108.5] This is well worth a visit and is very reasonably priced.
+[114.1] Leaving the aquarium, the bus tour goes along the coast road and after a few kilometers comes to the [[12|old fishing village]], where you can get off to stroll along the waterfront.
+[126.6] There are some original buildings here, but most of the area has been modernized and is now used as a harbor for all kinds of sea craft, including yachts and some amazing powerboats.
+[141.3] The tour then heads off to the last stop, and this is where most of the shops are.
+
+[147.4] So for those of you keen to do a bit of [[13|shopping]], this is the place for you.
+[154.0] Our advice is to go to this part of the town in the morning when it is relatively quiet.
+[160.4] It does get very busy in the afternoons, especially at the height of the season.
+[167.1] This area of the town includes an ancient [[14|water fountain]], where many people like to have their photograph taken.
+[174.5] So do look out for this.
+
+[179.4] Before you hear the rest of the conversation, you will have some time to look at the questions 15 to 20.
+
+[215.2] Now listen and answer questions 15 to 20.
+
+[220.2] Now, some details of the costs and timings.
+[224.3] A family ticket, which includes two adults and up to three children, costs $30.
+[232.1] An adult ticket costs $15.
+[236.1] Children under the age of 15 are $5, and student tickets are $10, as long as you have a [[15|student card]].
+[245.9] All tickets are valid for 24 hours, which means that you can get on and off the bus as many times as you like within a 24-hour period.
+[256.7] So you could, for example, start the tour in the afternoon and complete it the following morning.
+[264.9] The first bus of the day leaves the station at 10 a.m., and the last one of the day leaves at 6 p.m.
+[273.9] Buses leave every 30 minutes, and each tour takes a total of [[16|50 minutes]].
+[281.1] There are many attractions at each of the stops, so wherever you get off the bus, there will be plenty to do.
+
+[289.5] The bus tour tickets do not include entrance to any of these attractions apart from the [[17|museum]], which is located near the aquarium.
+[299.5] Some buses have local guides who will point out places of interest and will provide information on the town.
+[307.6] However, we cannot guarantee that every bus will have a guide, and so we also have an audio commentary that has been specially recorded for the bus tour by the [[18|tourist office]].
+[320.9] Headphones are available on the bus, and these are easy to operate.
+[325.5] There is no extra charge for these.
+[328.7] Just plug in, select the required language, and adjust the volume.
+[334.6] Due to the winter months being rather cold and wet in Pacton-on-Sea, the bus tours only operate from March to September.
+[343.9] The weather is usually warm and sunny during these months, so remember to bring some sun protection, especially on hot days.
+[352.8] And, of course, it does occasionally rain here in the summer, so if the weather looks bad, remember to bring some [[19|rainwear]].
+
+[362.1] The bus tours are available no matter what the weather.
+[366.2] At the height of the summer, the tours can get very busy, so you are advised to book.
+[372.6] You can book tickets online, over the phone, and also at the station, and at any of the other tour stops.
+[382.2] When booking over the phone, you can collect your tickets at any of the stops at the start of your tour.
+[388.8] When you do it online, you can print your [[20|e-ticket]], which you must remember to bring with you.
+[395.1] Thank you for calling the Pacton-on-Sea phone line, and we look forward to seeing you soon on one of our tour buses.
+
+@12 The old fishing village is now mostly modernised and used as a harbour for yachts and power boats.
+@13 The last stop is where most of the shops are.
+@14 The ancient water fountain is in the shopping area.
+@15 Student tickets cost 10 as long as you have a student card.
+@16 Buses leave every 30 minutes; each tour takes 50 minutes.
+@17 Tickets don't include entrance to the attractions, apart from the museum near the aquarium.
+@18 Not every bus has a local guide, so there is an audio commentary recorded by the tourist office.
+@19 Sun protection is for hot days; for bad weather, bring rainwear.

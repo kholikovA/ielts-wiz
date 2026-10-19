@@ -23,6 +23,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { loadTranscript, markers } from './transcript.mjs';
 
 const HERE = path.dirname(fileURLToPath(import.meta.url));
 const ROOT = path.resolve(HERE, '../..');
@@ -31,6 +32,9 @@ const AUDIO = (n) => `https://raw.githubusercontent.com/kholikovA/80-listening-a
 const HOME = 'https://ielts-wiz.com/listening/80-tests';
 const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
 const PDF_ANSWERS = JSON.parse(fs.readFileSync(path.join(HERE, 'pdf-answers.json'), 'utf8'));
+const TRANSCRIPTS = path.join(HERE, 'transcripts');
+const REVIEW_CSS = fs.readFileSync(path.join(HERE, 'review.css'), 'utf8');
+const REVIEW_JS = fs.readFileSync(path.join(HERE, 'review.js'), 'utf8');
 
 const esc = (s) => String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
 const attr = (s) => String(s).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
@@ -276,6 +280,145 @@ function bankBox(g) {
   return `<div class="opt-box dd-bank-box">${g.bankTitle ? `<div class="opt-box-title">${g.bankTitle}</div>` : ''}<div class="dd-bank">${g.bank.map((t, i) => `<span class="dd-chip" data-letter="${LETTERS[i]}" tabindex="0" role="button"><span class="dd-letter">${LETTERS[i]}</span><span>${t}</span></span>`).join('')}</div></div>`;
 }
 
+// ---------------------------------------------------------------- review
+/** Plain-text prompt per question for the transcript review; the question's own
+ *  gap becomes {{_}}, other gaps in the same line become "…". */
+function prompts(test) {
+  const out = {};
+  const txt = (html, n) => plain(String(html)
+    .replace(new RegExp(`\\{\\{d?${n}\\}\\}`, 'g'), ' \u0000 ')
+    .replace(/\{\{d?\d+\}\}/g, ' … ')).replace(/\u0000/g, '{{_}}').replace(/\s+([.,?;:!])/g, '$1').trim();
+  const each = (html, fn) => { for (const m of String(html).matchAll(/\{\{d?(\d+)\}\}/g)) fn(+m[1]); };
+  const set = (n, s) => { if (!(n in out)) out[n] = s; };
+  for (const g of test.groups) {
+    switch (g.t) {
+      case 'form':
+        for (const r of g.rows) {
+          if (!Array.isArray(r)) continue;
+          const [label, val] = r;
+          if (typeof val !== 'string') continue;
+          each(val, (n) => set(n, (label ? `${plain(label).replace(/[?:]$/, '')}: ` : '') + txt(val, n)));
+        }
+        break;
+      case 'notes':
+        for (const sec of g.sections) for (const it of sec.items) {
+          const html = typeof it === 'object' ? it.html : it;
+          if (!html) continue;
+          each(html, (n) => set(n, txt(html, n)));
+        }
+        break;
+      case 'sentences': case 'short':
+        for (const s of g.items) each(s, (n) => set(n, txt(s, n)));
+        break;
+      case 'table':
+        for (const r of g.rows) {
+          const cells = (Array.isArray(r) ? r : r.cells).map((c) => (typeof c === 'object' && c !== null ? c.html : c));
+          cells.forEach((c) => each(c, (n) => set(n, cells.map((x) => txt(x, n)).filter(Boolean).join(' · '))));
+        }
+        break;
+      case 'summary':
+        for (const p of g.paras) for (const sent of p.split(/(?<=[.?!])\s+/)) each(sent, (n) => set(n, txt(sent, n)));
+        break;
+      case 'flow':
+        for (const b of g.boxes) each(b, (n) => set(n, txt(b, n)));
+        break;
+      case 'imggaps':
+        for (const p of g.gaps) set(p.n, `${plain(g.title || '') || 'Label'} — {{_}}`);
+        break;
+      case 'mcq':
+        for (const it of g.items) set(it.n, plain(it.q));
+        break;
+      case 'multi':
+        for (const n of g.n) set(n, plain(g.q));
+        break;
+      case 'match': case 'grid':
+        for (const it of g.items) set(it.n, plain(it.html));
+        break;
+    }
+  }
+  return out;
+}
+
+const NUMW = { zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9, ten: 10, eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15, sixteen: 16, seventeen: 17, eighteen: 18, nineteen: 19, twenty: 20, thirty: 30, forty: 40, fifty: 50, sixty: 60, seventy: 70, eighty: 80, ninety: 90, hundred: 100 };
+const norm = (s) => String(s).toLowerCase().replace(/\b[a-z]+\b/g, (w) => (w in NUMW ? String(NUMW[w]) : w)).replace(/(^|\s)(the|of|a|an)(?=\s|$)/g, ' ').replace(/[^a-z0-9£$%]/g, '');
+/** Accepted spellings of a typed answer, as the grader expands them. */
+function variants(key) {
+  const out = [];
+  for (const whole of String(key).split(/\s+\/\s+|\s*\|\s*/)) {
+    let alts = [''];
+    for (const word of whole.trim().split(/\s+/)) {
+      const opt = word.match(/^\((.*)\)$/);
+      const opts = opt ? ['', ...opt[1].split('/')] : word.split('/');
+      const next = [];
+      for (const a of alts) for (const o of opts) next.push(a && o ? `${a} ${o}` : a || o);
+      alts = next;
+    }
+    for (const a of alts) {
+      out.push(a.replace(/[()]/g, ''));
+      out.push(a.replace(/\([^)]*\)/g, ''));
+    }
+  }
+  return [...new Set(out.map(norm).filter(Boolean))];
+}
+
+function reviewData(test, key, kinds) {
+  const file = path.join(TRANSCRIPTS, `test_${test.id}.txt`);
+  const tr = loadTranscript(file);
+  if (!tr) return { block: '', errors: [`no transcript (${path.relative(ROOT, file)})`] };
+  const errors = [];
+  const part = Math.ceil(test.id / 20);
+  const lo = (part - 1) * 10 + 1;
+  const expected = Array.from({ length: 10 }, (_, i) => lo + i);
+  const ms = markers(tr);
+  const seen = {};
+  for (const m of ms) seen[m.q] = (seen[m.q] || 0) + 1;
+  for (const n of expected) if (seen[n] !== 1) errors.push(`transcript: Q${n} marked ${seen[n] || 0} times`);
+  for (const q of Object.keys(seen)) if (!expected.includes(+q)) errors.push(`transcript: stray marker Q${q}`);
+  for (const q of Object.keys(tr.why)) if (!expected.includes(+q)) errors.push(`transcript: stray @${q}`);
+  for (const q of Object.keys(tr.exempt)) if (!expected.includes(+q)) errors.push(`transcript: stray !${q}`);
+  // answers are heard in question order
+  const order = ms.map((m) => m.q);
+  for (let i = 1; i < order.length; i++) if (order[i] < order[i - 1]) errors.push(`transcript: Q${order[i]} located before Q${order[i - 1]}`);
+  // a typed answer must be what the marked words say
+  const exempt = tr.exempt;
+  const either = {};
+  for (const e of test._either || []) for (const q of e.q) either[q] = e.targets;
+  for (const m of ms) {
+    if (!['gap', 'joined', 'dd'].includes(kinds[m.q]) || kinds[m.q] === 'dd' || m.q in exempt) continue;
+    const cands = either[m.q] ? either[m.q].flatMap(variants) : variants(key[m.q]);
+    const hay = norm(m.x);
+    if (!cands.some((v) => hay.includes(v))) errors.push(`transcript: Q${m.q} marked "${m.x}" does not contain the answer (${key[m.q]})`);
+  }
+  // multi-select: one marker per correct letter, all present
+  // (checked above by the exactly-once rule)
+
+  const groups = [];
+  for (const g of test.groups) {
+    const nums = [];
+    if (g.t === 'multi') nums.push(...g.n);
+    else {
+      const html = JSON.stringify(g);
+      for (const mm of html.matchAll(/\{\{d?(\d+)\}\}/g)) if (!nums.includes(+mm[1])) nums.push(+mm[1]);
+      for (const it of g.items || []) if (it.n && !nums.includes(it.n)) nums.push(it.n);
+      for (const p of g.gaps || []) if (!nums.includes(p.n)) nums.push(p.n);
+    }
+    nums.sort((a, b) => a - b);
+    const label = nums.length > 1 ? `Questions ${nums[0]}–${nums[nums.length - 1]}` : `Question ${nums[0]}`;
+    groups.push({ label, nums, multi: g.t === 'multi' });
+  }
+  const answers = {};
+  for (const n of expected) answers[n] = Array.isArray(key[n]) ? key[n].join(', ') : String(key[n]).split(/\s+\/\s+/)[0];
+  const data = {
+    title: `Test ${test.id}: ${plain(test.title)}`,
+    audio: AUDIO(test.id),
+    paras: tr.paras, why: tr.why, groups, order: expected, answers,
+    prompts: prompts(test),
+  };
+  const json = JSON.stringify(data).replace(/</g, '\\u003c');
+  const block = `<style id="iw-review-css">\n${REVIEW_CSS}</style>\n<script id="iwReviewData" type="application/json">${json}</script>\n<script id="iw-review-js">\n${REVIEW_JS}</script>`;
+  return { block, errors };
+}
+
 // ---------------------------------------------------------------- test
 export function buildTest(test) {
   const part = Math.ceil(test.id / 20);
@@ -330,6 +473,8 @@ export function buildTest(test) {
       for (const it of g.items) if (!L.includes(key[it.n])) errors.push(`Q${it.n} answer ${key[it.n]} not in ${g.letters}`);
     }
   }
+  const review = reviewData(test, key, kinds);
+  errors.push(...review.errors);
   if (errors.length) throw new Error(`Test ${test.id}: ${errors.join('; ')}`);
 
   // ---- footer palette
@@ -357,6 +502,7 @@ export function buildTest(test) {
     PART_LABEL_JSON: JSON.stringify({ [part]: label }),
     TOTAL_QUESTIONS: '10',
     TEST_ID: String(test.id),
+    REVIEW_BLOCK: review.block,
   };
   const out = tpl.replace(/\{\{([A-Z_]+)\}\}/g, (m, k) => {
     if (!(k in fill)) throw new Error(`no value for ${m}`);

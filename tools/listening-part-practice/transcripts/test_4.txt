@@ -1,0 +1,101 @@
+# Test 4
+[0.0] Test 4.
+
+[1.5] You will hear a conversation between an assistant at a community centre and a man who wants to join some evening classes.
+
+[10.0] First, you have some time to look at questions 1 to 6.
+
+[53.4] Hello, Eastwood Community Centre.
+[56.4] Oh, hello.
+[57.5] My name's Andrew Dyson.
+[59.4] I'm calling about the evening classes you offer.
+[62.6] OK, Mr Dyson.
+[64.3] Are there any classes in particular that you're interested in?
+[67.8] Yes, you've got a class called Painting with Watercolours, I believe.
+[72.2] That's right.
+[73.3] It's a popular class, so this term it'll be moving to the hall, so they've got more room.
+
+[79.2] Right.
+[80.0] I know it's on Tuesdays, but what time exactly?
+[83.8] It was 6.30 last term, but let me just have a look at the details.
+[89.7] OK, it'll be [[1|7.30]] this time.
+[93.0] Probably it suits more people.
+[95.0] Well, it's my wife who's really interested and that'll be good for her because she's home from work by 7.15.
+[101.5] That'll give her just enough time to get there.
+[104.2] Um, what does she need to bring?
+[106.7] OK, well, paints are provided by the tutor, I know that.
+
+[111.9] Um, the information says she'll need just a jar for water and some [[2|pencils]] for drawing.
+[119.4] There are also lots of aprons here, so she needn't worry what she's wearing.
+[123.9] And the cost for four classes is $45, including paints, as I said.
+[130.3] OK.
+[131.1] Now, we're both quite keen on the Maori language class.
+[135.1] There are spaces on the next course, so you could join that.
+[140.1] Oh, good.
+[141.1] Which room will that be in?
+[143.1] When you come in through the entrance of the community centre building, you'll need to go straight up the stairs in front of you all the way to the [[3|top]] and it's the small room you'll find there.
+
+[154.9] I see.
+[156.0] All right, and let me just check when it's starting.
+[159.0] I heard from someone that the July course has been delayed until [[4|August]].
+[163.5] I'm afraid so and we're halfway through the June course at the moment so there's not much point to you taking that.
+[171.5] I guess we'll have to wait then.
+[173.7] Well, when you do come the tutor recommends bringing a small recorder with you just so you can listen again later.
+[181.9] And the cost for five classes is currently $40.
+[187.4] OK, useful information to know.
+[190.0] Um, there's one more class I'm interested in.
+
+[193.0] That's the digital photography class.
+[195.5] Oh, I've taken that class myself.
+[198.3] The tutor's very good.
+[200.6] That'll be in room nine and it's starting in two weeks' time, in the evening, every Wednesday at six o'clock.
+[209.0] Um, obviously I need to bring the camera with me.
+[212.0] I suppose it'd be useful to have the [[5|instructions]] that go with the camera too?
+[216.5] I'd say so.
+[218.3] Um, some people bring along a lot of accessories like extra lenses, but there's really no need for this class.
+[227.0] It's mainly focusing on composition, really, and getting the most out of the basic camera.
+
+[232.9] That's exactly what I need.
+[234.7] And how much does it cost?
+[236.8] Let's see.
+[238.5] For four classes, it's $35.
+[241.9] But if you take eight, it works out as $[[6|55]].
+[246.5] So you're making a bit of a saving.
+[249.3] $15, that is.
+[251.0] I see.
+
+[254.2] Before you hear the rest of the conversation, you will have some time to look at the questions 7 to 10.
+
+[279.8] Now listen and answer questions 7 to 10.
+
+[285.1] OK, now just another question for the watercolours class.
+[289.1] I've just remembered that my wife asked me to find out about the level.
+[293.2] Who's it for?
+[294.9] OK, well, you don't have to be very skilled or anything like that.
+[299.9] It's designed for [[7|beginners]], actually.
+[302.9] People who might see art as a hobby rather than as a professional opportunity.
+[308.4] That sounds like my wife.
+[310.1] And who do I talk to if I want to find out some more about the Maori language classes?
+[316.4] Probably best to talk to the tutor directly.
+
+[319.5] He'll be in the office in about half an hour.
+[322.3] His name's Jason Kahui.
+[325.1] That's [[8|K-A-H-U-I]].
+[330.0] Good.
+[330.6] I'll give him a call.
+[331.9] Oh, if you do decide to come to the photography class, don't forget to look at your camera [[9|battery]] and make sure it's charged.
+[340.6] I know it sounds obvious, but I've seen a few people suddenly find the cameras stopped working right in the middle of class.
+[348.8] Yes, I can imagine it'd be easy to forget that.
+[352.3] Oh, that reminds me.
+
+[354.0] In the final week of the photography course, is it right that there's a visit to a [[10|show]] in the local area?
+[359.7] I work in the city, you see, so I might have to come home early for that one.
+[364.7] Yes.
+[365.5] They'll decide the date once the class has started.
+[369.2] Is there anything else I can...
+
+@1 6.30 was last term's time; this term it is 7.30.
+@2 Paints are provided by the tutor, and aprons are available, so she only needs a water jar and pencils.
+@4 The June course is already halfway through and the July course has been delayed until August.
+@5 Extra lenses are not needed for this class.
+@6 £35 is the price of four classes; eight classes cost 55 (a saving of 15).

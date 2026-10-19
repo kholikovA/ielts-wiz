@@ -1,0 +1,62 @@
+# Test 26
+[0.0] Test 26.
+
+[1.2] You will hear a police officer giving advice on protection against local crime.
+
+[6.9] First, you have some time to look at questions 11 to 15.
+
+[40.6] Well, good afternoon.
+[42.5] I'm Constable James MacDonald and, as you may know, I'm the community police officer for the local area.
+[50.1] That means that, as part of my job, I try to get out in the community as much as possible, talk to the people that live in this neighbourhood, people like yourselves, and make sure there's an effective level of communication between the public and the police, hence the reason for this meeting.
+[69.6] There have been several burglaries in the area in the last few weeks, and I'd like to talk about ways you can keep your home and property safe.
+[79.0] So I'd suggest that a good way to start is by talking to your neighbours and exchanging [[11|contact details]] with them.
+[86.1] This will allow you to get in touch immediately if there's anything suspicious happening next door.
+[93.1] Then make sure you have a good discussion about the best course of action to take in case of [[12|emergency]].
+[100.5] Make sure everyone is clear about what to do and who to call.
+[105.3] If you plan ahead, this will prevent uncertainty and even panic should anything happen later.
+
+[112.7] Another thing that I would advise you to do is always leave your [[13|radio]] playing, even when you go out.
+[119.8] And if you keep your curtains closed, burglars are less likely to try and break in because they can't be sure whether someone's home or not.
+[130.4] Now, none of us want to be in the situation where we can't get into our own home, but do take time to think where the best and safest place is to leave your [[14|spare keys]].
+[144.0] Putting them under the doormat or anywhere near the front door is just asking for trouble.
+[151.1] You'd be surprised how many people actually do this, and it makes life really easy for burglars.
+[158.4] All these things will help keep your community safe and will cost you nothing.
+[163.3] However, if you are going to spend some money, what I'd recommend more than anything else is that you invest in some well-made [[15|window locks]] for your house.
+[174.3] This will give you peace of mind.
+
+[179.1] Before you hear the rest of the conversation, you will have some time to look at the questions 16 to 20.
+
+[215.0] Now listen and answer questions 16 to 20.
+
+[219.8] OK, moving on.
+[222.5] Unfortunately, there's been an increase in the number of minor crimes and antisocial behaviour in the general area, and I want to talk about some specific prevention measures that are being proposed.
+[235.2] First of all, the skate park.
+[237.7] As you probably know, it's well used by younger people in our community, but unfortunately we're getting more and more reports of broken glass, making it especially dangerous for younger children.
+[252.4] One possible solution here is to [[16|get rid of some of the trees and bushes around the park]], making it more visible to passers-by and vehicles.
+[262.9] If the vandals know they're being watched, this might act as a deterrent.
+[268.6] As you will have heard, a couple of local primary schools have also been vandalised recently, despite the presence of security guards.
+[278.1] The schools don't have the funds for video surveillance, so we need people in the neighbourhood to [[17|call their nearest police station]] and report any suspicious activity immediately.
+[291.4] Please don't hesitate to do this.
+
+[294.2] I expect most of you are familiar with the problems facing Abbotsford Street.
+[300.0] It seems that no amount of warning signs or speed cameras will slow speeding drivers down.
+[307.1] I'm happy to say, however, that the council have agreed to begin work over the next few months to [[18|put in a new roundabout]].
+[315.6] What else?
+[316.9] Oh yes, the newsagent and the gift shop on Victoria Street were both broken into last week, and although no money was taken, the properties have suffered some serious damage.
+[330.9] Access was gained to these shops through the small alleyway at the back of the properties.
+[336.8] It's dark, and as you can imagine, no one saw the thief or thieves in action.
+[343.1] So we've been advising shop owners along there about what kind of [[19|video recording equipment]] they can have put in.
+[351.9] We'll then be able to get evidence of any criminal activity on film.
+
+[356.7] The supermarket car park is also on our list of problem areas.
+[362.7] We've talked to the supermarket managers and council authorities, and we've advised them to [[20|get graffiti cleaned off immediately and get the smashed lights replaced]].
+[373.8] If you don't deal with this sort of thing at once, there's a strong possibility that the activity will increase and spread.
+
+@13 Leaving the radio on (and the curtains closed) makes burglars unsure whether anyone is home.
+@14 Spare keys should not go under the doormat or near the front door.
+@15 Everything else costs nothing; if you spend money, buy good window locks.
+@16 Removing trees and bushes makes the skate park visible to passers-by and vehicles.
+@17 The schools can't afford video surveillance and already have security guards, so neighbours should contact the police.
+@18 Warning signs and speed cameras haven't worked; a new roundabout will change the road layout.
+@19 The alleyway behind the shops is dark, so owners are advised to install video recording equipment (security cameras).
+@20 Cleaning graffiti and replacing smashed lights at once is fixing damage quickly, not adding more lighting.

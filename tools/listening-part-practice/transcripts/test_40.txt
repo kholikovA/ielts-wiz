@@ -1,0 +1,95 @@
+# Test 40
+[0.0] Test 40.
+
+[1.5] You will hear a man who owns a holiday home talking on the phone to a woman who is staying there.
+
+[8.5] First, you have some time to look at questions 11 to 13.
+
+[43.3] Now listen carefully and answer questions 11 to 13.
+
+[51.6] Hello?
+[53.3] Hi, it's Laura Carlton here.
+[55.9] We've just arrived at the holiday flat, but I can't get the hot water and heating to work.
+[61.1] Oh, right, that's easy.
+[63.7] Don't worry.
+[64.8] In the upstairs cupboard, you'll find the water heater.
+[68.3] You'll see three main controls on the left at the bottom of the heater.
+[72.7] The first one, the round one on the far left, is the most important one for the heating and hot water.
+[79.1] It's the [[11|main control switch]].
+[81.1] Make sure it's in the on position.
+[83.5] The switch itself doesn't light up, but the little square below will be black if the switch is off.
+[90.3] That's probably what's happened.
+[92.0] It's got switched off by mistake.
+[94.5] The middle one of these three controls, you'll see it's slightly larger than the first one, controls the radiators.
+[101.7] If you feel cold while you're there and need the radiators on, this needs to be turned to maximum.
+[107.7] The last of the three controls, the one on the right, is usually on about a number four setting, which for the water in the taps, is usually quite hot enough.
+[117.7] Below the heating controls in the middle is a small round plastic button.
+[123.0] If there isn't enough water in the pipes, sometimes the heater goes out.
+
+[127.3] If this happens, you'll need to press this button to [[12|reset the heater]].
+[131.8] Hold it in for about five seconds and the heater should come on again.
+[137.0] Then there's a little square indicator under the third knob that's a kind of [[13|alarm light]].
+[142.7] It'll flash if you need to reset the heater.
+[145.7] It sounds complicated.
+[148.3] I'm sure you won't have any problems with it.
+[151.2] There should be some more instructions on the side of the heater.
+[154.8] Call me back if you can't make it work.
+[157.2] OK.
+
+[160.9] Before you hear the rest of the conversation, you have some time to look at questions 14 to 20.
+
+[197.7] Now listen and answer questions 14 to 20.
+
+[205.6] While you're on the phone, we haven't managed to find a few things we need, like extra pillows for the beds and some washing powder.
+[213.3] Is there any here?
+[215.5] Pillows, yes.
+[217.4] If you look in the cupboard, [[14|the large white one upstairs, to the left of the bathroom door]], there should be four or five on the top shelf.
+[227.6] And if you want to do some washing, there's some powder for that, um, [[15|probably by the back door. There's a kind of shelf there]] above the sink.
+[238.8] In fact, I'm sure there's some there in a large blue box.
+[242.6] You need about half a cupful for each wash.
+[246.2] Oh, and that reminds me.
+[248.3] The spare key to the back door is hanging on a hook [[16|on the wall by the sitting room window]].
+[254.3] Please make sure to put it back when you've used it.
+[257.1] The previous guest lost it in the garden and I had to get another one made.
+[261.3] And if you have any trouble with the lamps, you'll find some spare bulbs in a large cardboard box.
+
+[267.7] It's [[17|on top of the washing machine]] with all kinds of useful things in it.
+[272.3] Oh, and another thing I forgot to mention when we last spoke.
+[275.8] Yes?
+[276.6] I've left you a local map so you'll be able to find your way around easily.
+[281.2] It shows the whole area.
+[283.4] I put it in the [[18|top drawer of the chest]] under the TV in your bedroom.
+[288.0] There's a whole file of local information in there too.
+[291.2] Thanks.
+[292.1] What about visiting the town?
+
+[294.1] Can you give us any advice?
+[296.8] Yes.
+[297.3] You'll need to take the car.
+[299.2] It's too far to walk from the flat, really.
+[302.1] You have to pay to leave your car in all the car parks now, I'm afraid.
+[305.9] I like the one that's by the station best, and you can walk to the town centre from there in five minutes.
+[312.1] That's where all the best restaurants are.
+[314.3] But if you want a takeaway, the Italian one does really good pasta and pizzas.
+[319.6] Call [[19|732281]] for that one, or 766119 for the Chinese.
+[328.6] They're both good, and they'll both deliver to the flat.
+[332.5] As for places to visit, yes, do go and see the Railway Museum.
+[338.3] The exhibition is small but really good.
+[341.6] It gets very crowded on Sundays, so I suggest you visit it on a quieter day, later in the week, but not on [[20|Thursdays]], which is market day.
+[351.1] You won't find anywhere to park.
+
+[353.6] And it's also the only day of the week when they're not open.
+[357.6] Anything else?
+[358.8] Not for the moment.
+[359.9] Thanks.
+
+@11 The round control on the far left is the main on/off switch.
+@12 The small round plastic button resets the heater if it goes out.
+@13 The little square under the third knob is an alarm light that flashes when the heater needs resetting.
+@14 The large white cupboard upstairs, by the bathroom door: on the landing.
+@15 The washing powder is on a shelf by the back door, above the sink.
+@16 The spare key hangs by the sitting room window.
+@17 The spare bulbs are in a cardboard box on top of the washing machine.
+@18 The map is in the top drawer of the chest under the TV.
+@19 732281 is the Italian (pizzas); 766119 is the Chinese.
+@20 Thursday is market day and the only day the museum is closed.

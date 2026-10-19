@@ -1,0 +1,65 @@
+# Test 75
+[0.0] Test 75.
+
+[1.4] You will hear a lecture about success in business systems.
+
+[6.4] First, you have some time to look at questions 31 to 40.
+
+
+
+[61.3] Now listen carefully and answer questions 31 to 40.
+
+[69.2] Good morning, everyone.
+[71.8] In the last few lectures, I've been dealing with business finance, but now I'm going to move on to business systems.
+[79.7] And in today's lecture, I'm going to talk about what can go wrong when businesses try to copy their own best practices.
+[88.8] Once a business has successfully introduced a new process, managing a branch bank, say, or selling a new product, the parent organisation naturally wants to repeat that success and capture it, if possible, on a bigger scale.
+[106.5] The goal, then, is to utilise existing knowledge and not to generate new knowledge.
+[114.1] It's a less glamorous activity than pure innovation, but it actually [[31|happens more often]], as a matter of fact.
+[122.9] However, surprisingly, getting things right the second time is not necessarily any simpler than it was the first time.
+[131.8] Now, there's been a lot of research into how companies can repeat their previous successes, and it certainly hasn't been confined to the United States.
+[142.2] It seems that most large industries are trying to repeat their own successes and manage the knowledge they've acquired.
+[152.0] But even so, it has been shown that the overwhelming majority of attempts fail.
+
+[159.2] [[32|A host of studies confirm this]], covering a wide range of business settings: branch banks, retail stores, real estate agencies, factories, call centres, to name but a few.
+[173.6] So why do so few managers get things right the second or third time?
+[180.2] Let's consider one reason for failure.
+[183.7] Placing too much trust in the people who are running the successful operation, the experts, shall we say.
+[191.7] Managers who want to apply existing knowledge typically start off by going to an expert, such as the person who designed and is running a successful department store, and picking their brains.
+[204.7] Now, [[33|this approach can be used if you want to gain a rough understanding of a particular system]] or understand smaller, isolated problems.
+[215.7] The trouble is, even the expert doesn't fully grasp the whole thing, because when it comes to complex systems, the individual components of the process are interwoven with one another.
+[229.0] The expert never has complete access to the necessary information.
+[234.2] And the situation's complicated even further by the fact that experts are usually not aware of their own ignorance.
+[244.1] The ignorance can take various forms.
+[247.8] For instance, a lot of details of the system are invisible to managers.
+[253.9] [[34|Some may be difficult to describe]], learned on the job and well-known by workers, perhaps, but impossible to describe in a way that's helpful.
+
+[264.6] And there are some things that people know or do that they're not even aware of.
+
+[275.4] Now, let's consider two types of mistake that can occur when a manager actually starts to set up a duplicate system to replicate a successful process.
+[287.4] Firstly, perhaps he forgets that he was just trying to copy another process and starts trying to improve on it.
+[297.8] Another mistake is trying to use the best parts of various different systems in the hope of creating the perfect [[35|combination]].
+
+[308.2] Unfortunately, attempts like these usually turn out to be misguided and lead to problems.
+[315.8] Why?
+[317.1] Well, for various reasons.
+[320.2] Perhaps there weren't really any advantages after all, because the information wasn't accurate.
+[326.9] Or perhaps the business settings weren't really comparable.
+
+[332.5] More typically, the advantages are real enough, but there are also disadvantages that have been overlooked.
+[341.7] For example, the modifications might compromise [[36|safety]] in some way.
+[348.7] So what's the solution?
+[351.2] Well, I don't intend to suggest that it's easy to get things right the second time.
+[357.7] It's not.
+[359.2] But the underlying problem has more to do with attitudes than the actual difficulty of the task, and there are ways of getting it right.
+[370.4] These involve adjusting [[37|attitudes]], first of all.
+[375.3] Being more realistic and cautious, really.
+[380.0] Secondly, they involve exerting strict [[38|controls]] on the organisational and operational systems.
+
+[388.8] And this, in turn, means copying the original as closely as possible.
+[394.9] Not merely duplicating the physical characteristics of the [[39|factory]], but also duplicating the [[40|skills]] that the original employees had.
+[406.4] Reliance on a template like this offers the huge advantage of built-in consistency.
+
+@31 Copying is less glamorous than innovation, happens more often, and is not any simpler.
+@32 Many studies across many kinds of business agree: most attempts fail. The research was not limited to the US.
+@33 Asking an expert works for a rough understanding or small isolated problems, but not for the whole system.
+@34 Some details are known to workers but hard to describe; others people aren't even aware of.

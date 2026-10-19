@@ -1,0 +1,72 @@
+# Test 69
+[0.0] Test 69.
+
+[1.3] You will hear part of a lecture about cave paintings and other types of rock art.
+
+[8.1] First you have some time to look at questions 31 to 40.
+
+[52.9] Now listen carefully and answer questions 31 to 40.
+
+[60.7] Good afternoon, everyone.
+[62.5] This is the first seminar in preparation for our archaeological fieldwork in Namibia.
+[68.1] We are fantastically lucky to have received partial research funding for this trip from our institute, so I shall expect 200% attention and participation from you all.
+
+[80.2] First in this seminar, I'm going to give a brief introduction to contemporary research on rock art.
+[86.6] And in the second part, I'm going to give you some do's and don'ts for our fieldwork trip in [[31|April]].
+[92.4] So please listen very carefully.
+[95.8] I'm first going to focus on the interpretation of rock art in Namibia.
+[100.6] We are very fortunate to be going to an area where you can find some of the most important sites in the entire world.
+[107.0] And I hope to show you how easy it is for everyone to make mistakes in looking at cultures which are different from our own.
+[113.3] The first and most important lesson we have to learn:
+[117.1] In Namibia there are both paintings and engravings.
+[120.7] That's where the surface of the rock is cut out.
+
+[123.8] Many of the engravings show footprints of animals and most scholars used to think that the purpose of these was simple and obvious.
+[131.8] This rock art was like a school book with pictures to teach [[32|children]] about tracks, which track belonged to which animal, giraffe, lion and so on.
+[141.6] But there were some mysteries.
+[143.8] First, when you look at a typical Namibian painting or engraving, you see the tracks are [[33|repeated]].
+
+[150.4] There are dozens of tracks for the same animal.
+[153.2] You'd expect just one clear illustration if the reason, the aim, was to teach tracking.
+[159.6] Now, there were two more problems.
+[162.6] Why are some of the engravings of animals very accurate, as you'd expect, all clearly identifiable, and others quite unrealistic?
+
+[172.3] And another mystery.
+[174.0] Some of these unrealistic animals, that's in the engravings, seem to be half [[34|human]].
+[180.1] Some, for example, have got human faces.
+[183.4] Many researchers now think that these were pictures the wise men engraved of themselves.
+[188.9] They believed they could use [[35|magic]] to control the animals they had drawn, so the hunters could then catch them for food.
+[196.4] This shows you some of the dangers of coming from one culture to another, as we'll be doing, without understanding it fully.
+[204.3] Scholars imagined that children looked at rock art pictures to learn to track, just because they themselves had learnt skills from pictures.
+[212.2] Many researchers now believe that rock art had a much more complex purpose, and we'll talk more about it next week.
+
+[224.7] Now, before I invite you to join in a discussion in this second part of the seminar, I'd like to make some very important points about our fieldwork, and in fact any field trip to look at rock art.
+[236.1] We're going to a number of sites, and we won't always be together.
+[240.4] The single largest problem faced by people who manage the sites is, yes, I'm sure you've guessed, damage caused by visitors, even though it's usually unintentional.
+[251.5] Whenever you do go to a site, don't forget you can learn many things from observing at a [[36|distance]] instead of walking all over it.
+[259.7] This can really help to reduce visitor pressure.
+[263.0] People often say, well there's only two of us and just this one time.
+[267.8] But maybe thousands of people are saying the same thing.
+[272.4] And then some basic rules to guide you.
+[275.5] We'll have our own camp near a village but remember never to camp on a site if you go on your own.
+
+[281.8] It may be disrespectful to the people of that [[37|culture]], and certainly don't make [[38|fires]], however romantic it may seem.
+[289.8] It's really dangerous in dry areas and you can easily burn priceless undiscovered material by doing so.
+[297.4] So, how are we going to enjoy the rock art on our field trip?
+[301.0] By looking at it, drawing it and photographing it.
+[305.2] Never by [[39|touching]] it or even tracing it.
+[308.2] Rock art is fragile and precious.
+[312.3] Remember that climbing on rocks and in caves can destroy in a moment what has lasted for centuries.
+[318.5] So no heroics in Namibia, please.
+[321.9] Try to be extra careful and help others to be too.
+
+[325.3] Oh, and lastly, please don't even move rocks or branches to take photographs.
+[330.7] You should leave the site [[40|intact]].
+[333.1] I'm sure I can rely on you to do that.
+
+[336.5] Well, that's about all I want to say before today's first discussion, but if you have any questions, please ask them now.
+[343.7] Oh, and don't forget you'll find some fascinating information about worldwide sites on the internet.
+[349.9] Right, first question then.
+
+@33 If the engravings were for teaching tracking, one clear print would do; instead the tracks are repeated dozens of times.
+@38 Fires are dangerous in dry areas and can burn undiscovered material.

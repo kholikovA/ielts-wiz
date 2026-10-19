@@ -1,0 +1,102 @@
+# Test 15
+[0.0] Test 15.
+
+[1.1] You will hear an estate agent talking to a customer who wants to rent a house.
+
+[6.7] First, you have some time to look at questions 1 to 8.
+
+[53.6] Good morning.
+[54.8] How can I help you?
+[55.9] Hello.
+[56.6] I'm interested in renting a house somewhere in the town.
+[59.4] Right.
+[60.9] Could I have your name, please?
+[62.9] Yes, it's Stephen Godfrey.
+[65.6] And tell me how many bedrooms you're looking for.
+[68.9] Well, we'd need four because I'm going to share the house with three friends.
+
+[74.1] OK.
+[75.1] There are several of that size on our books.
+[77.4] They mostly belong to families who are working abroad at the moment.
+[81.1] What about the location?
+[82.8] It'd be nice to be [[1|central]].
+[85.5] That might be difficult, as most houses of that size are in the suburbs.
+[90.1] Still, there are a few.
+[92.3] What's your upper limit for the rent?
+[94.8] We'd like something around £500 a month, but we could go up to £[[2|600]] if we have to.
+
+[101.6] But we can't go beyond that.
+[104.2] Do you know how long you want to rent the house for?
+[107.2] The minimum let is six months, as you probably realise.
+[110.6] We're at college here for [[3|two years]], and we don't want to have to move during that time if we can avoid it.
+[116.6] Right.
+[117.6] And how soon do you want to move in?
+[119.9] All our lets start on the first of the month.
+[122.4] Well, as soon as possible, really.
+[124.9] So that means September 1st.
+
+[127.0] OK.
+[127.8] Let me have a look at what we've got.
+[129.7] We have photographs of all the houses on our books, so you can get an idea of what they're like.
+[135.6] There's this one in Oakington Avenue at £550 a month.
+[140.4] Combined living room and dining room with a separate kitchen.
+[143.9] It doesn't have a [[4|garage]], though you can park in the road.
+[147.6] Ah, we'd prefer to have one if possible.
+[150.6] Right, then have a look at this house in Mead Street.
+[155.1] It's got a very large living room and kitchen, bathroom, cloakroom.
+
+[159.8] How much is it?
+[160.9] That one's £580.
+[162.8] It's very well furnished and equipped.
+[165.5] It also has plenty of space for parking and it's available for a minimum of a year.
+[170.8] Oh, and there's a big [[5|garden]].
+[173.0] I don't think we could cope with that, to be honest.
+[175.7] We'll be too busy to look after it.
+[178.1] OK.
+[180.0] Then there's this older house in Hamilton Road.
+[182.8] Living room, kitchen-diner, and it has a [[6|study]].
+
+[186.2] £550 a month.
+[188.1] That looks rather nice.
+[189.8] But whereabouts in Hamilton Road?
+[192.5] Towards the western end.
+[194.3] Oh, that'll be very [[7|noisy]].
+[196.3] I know the area.
+[197.4] Yes, it's pretty lively.
+[199.1] But some people like it, though.
+[201.5] Well, what about this house in Devon Close?
+
+[205.5] That looks lovely.
+[207.1] There's a big demand for houses in that area, so prices tend to be quite high.
+[211.0] But this one hasn't been decorated for a few years, which has kept the rent down a bit.
+[215.8] It's got a living room, dining room and small kitchen, and it's [[8|595]] a month.
+[222.1] I think it would suit you from what you've said.
+[224.9] Hmm, it sounds fine.
+
+[226.5] Before you hear the rest of the conversation, you have some time to look at questions 9 and 10.
+
+[245.7] Now listen and answer questions 9 and 10.
+
+[252.7] Why is that part of town so popular?
+[255.4] Well, there's a big scheme to improve the district, and it'll soon have the best facilities for miles around.
+[260.6] What sort of thing?
+[261.8] There's a big sports centre under construction, which will be very impressive when it's finished.
+[266.5] In fact, the [[9|swimming pool's already opened]] ahead of schedule, and it's attracting a lot of people.
+[272.1] What about cinemas?
+[273.3] Are there any in the area?
+
+[275.3] The only one closed down last year, and it's now in the process of being converted into a film museum.
+[280.9] The local people are trying to get a new cinema added to the scheme.
+[284.8] I think I heard something about a plan to replace the [[10|existing concert hall]] with a larger one.
+[290.5] Ah, that's due to start next year.
+[293.1] Well, it sounds an interesting area to live in.
+[296.1] Could I go and see the house, please?
+[297.8] Yes, of course.
+
+@2 They would like about £500 a month but could go up to £600, and no higher.
+@3 The minimum let is six months, but they are at college for two years.
+@5 Mead Street has parking, but the big garden would be too much work.
+@7 The western end of Hamilton Road is very lively, so it would be noisy.
+@8 Rents in that area are high, but this house hasn't been decorated for a few years, so it is £595.
+@9 The sports centre is still being built, but its swimming pool has already opened.
+@10 The cinema has closed and is becoming a film museum. The existing concert hall is still open; work on a bigger one starts next year.

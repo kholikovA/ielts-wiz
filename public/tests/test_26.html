@@ -2140,7 +2140,8 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
   const MCQ_MULTI_SLOT = {};
   const MCQ_MULTI_GROUP = {};
   const MCQ_MULTI_PRIMARY = {};
-  document.querySelectorAll('.question-group[data-type="mcq_multi"]').forEach(group => {
+  // build.mjs emits data-type="multi"; "mcq_multi" is the older name.
+  document.querySelectorAll('.question-group[data-type="mcq_multi"], .question-group[data-type="multi"]').forEach(group => {
     const cb = group.querySelector('input[type="checkbox"][data-qnums]');
     if (!cb) return;
     let qnums = [];
@@ -2580,6 +2581,20 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
 
     injectResultMarkers(results);
 
+    // Publish the grade for the transcript review (review.js, inlined by build.mjs).
+    try {
+      window.__iwGrade = {
+        correct: correctCount, total: TOTAL_QUESTIONS,
+        rows: results.map(r => ({
+          q: r.q, correct: !!r.correct, unanswered: !!r.unanswered,
+          user: r.unanswered ? null : displayAnswer(r.q, r.userAns),
+          answer: displayAnswer(r.q, r.correctAns),
+          multi: r.multi ? { userHtml: r.multi.userHtml, correctHtml: r.multi.correctHtml, hits: r.multi.hits, size: r.multi.size } : null
+        }))
+      };
+      document.dispatchEvent(new CustomEvent("iw:graded", { detail: window.__iwGrade }));
+    } catch (e) {}
+
     document.body.classList.add("test-locked");
     document.querySelectorAll(".options-list input, .gap-input, .gap-sub").forEach(el => el.disabled = true);
 
@@ -2848,6 +2863,493 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
       }, 250);
     }, 400);
   } catch (e) {}
+})();
+</script>
+<style id="iw-review-css">
+/* Listening transcript review (Part Practice). Same look as the reading review
+   (src/features/test-player/review/review.css), adapted for the static page:
+   transcript with answer locations on the left, questions on the right, and an
+   audio bar that can play from any line. Uses the page's theme variables. */
+
+.rv-open-btn { display: inline-flex; align-items: center; gap: 8px; margin-top: 18px; padding: 11px 18px; border-radius: 10px; border: 1px solid var(--accent); background: var(--accent); color: #fff; font-family: var(--sans); font-size: 14px; font-weight: 700; cursor: pointer; }
+.rv-open-btn:hover { background: var(--accent-strong); border-color: var(--accent-strong); }
+.rv-open-btn svg { width: 16px; height: 16px; }
+
+body.rv-active { overflow: hidden; }
+.rv-root { position: fixed; inset: 0; z-index: 900; display: none; flex-direction: column; background: var(--bg); color: var(--text); font-family: var(--sans); }
+.rv-root.open { display: flex; }
+
+/* ---- top bar ---- */
+.rv-top { flex: 0 0 auto; display: flex; align-items: center; gap: 16px; padding: 12px 24px; border-bottom: 1px solid var(--border); }
+.rv-back { display: inline-flex; align-items: center; gap: 6px; padding: 7px 12px; border-radius: 8px; border: 1px solid var(--border-strong); background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 13.5px; font-weight: 600; cursor: pointer; }
+.rv-back:hover { background: var(--bg-hover); }
+.rv-back svg { width: 16px; height: 16px; }
+.rv-title { flex: 1; min-width: 0; margin: 0; font-size: 17px; font-weight: 700; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.rv-score { flex: 0 0 auto; font-size: 13px; font-weight: 700; color: var(--text-muted); font-variant-numeric: tabular-nums; }
+
+/* ---- audio bar ---- */
+.rv-audio { flex: 0 0 auto; display: flex; align-items: center; gap: 12px; padding: 8px 24px; background: var(--bg-audio); border-bottom: 1px solid var(--border); }
+.rv-play { flex: 0 0 auto; width: 34px; height: 34px; border-radius: 50%; border: none; background: var(--accent); color: #fff; display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
+.rv-play:hover { background: var(--accent-strong); }
+.rv-play svg { width: 15px; height: 15px; }
+.rv-time { flex: 0 0 auto; font-size: 12.5px; font-variant-numeric: tabular-nums; color: var(--text-muted); min-width: 92px; }
+.rv-seek { flex: 1; min-width: 60px; accent-color: var(--accent); cursor: pointer; }
+.rv-speed { flex: 0 0 auto; padding: 4px 6px; border-radius: 6px; border: 1px solid var(--border-strong); background: var(--bg); color: var(--text); font-family: var(--sans); font-size: 12.5px; }
+.rv-follow { flex: 0 0 auto; display: inline-flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--text-muted); cursor: pointer; user-select: none; }
+.rv-follow input { accent-color: var(--accent); }
+
+/* ---- body: two panes ---- */
+.rv-body { flex: 1 1 auto; min-height: 0; display: grid; grid-template-columns: 1fr 1fr; }
+.rv-passage { overflow-y: auto; padding: 24px 32px 40px; border-right: 1px solid var(--border); font-family: var(--serif); font-size: 15.5px; line-height: 1.8; }
+.rv-right { overflow-y: auto; padding: 18px 22px 40px; }
+.rv-passage-title { font-family: var(--sans); font-size: 21px; font-weight: 700; margin: 0 0 4px; line-height: 1.3; }
+.rv-passage-sub { font-size: 13px; color: var(--text-muted); margin: 0 0 18px; font-family: var(--sans); line-height: 1.5; }
+.rv-para { margin: 0 0 14px; }
+.rv-cue { cursor: pointer; border-radius: 3px; transition: background .15s; }
+.rv-cue:hover { background: var(--bg-hover); }
+.rv-cue.speaking { background: var(--accent-soft); }
+.rv-cue-time { display: none; }
+
+/* ---- answer locations ---- */
+.rv-root .ev-span { background: color-mix(in srgb, var(--highlight) 30%, transparent); border-radius: 3px; padding: 0 1px; cursor: pointer; transition: background .2s; }
+.rv-root .ev-span:hover { background: color-mix(in srgb, var(--highlight) 45%, transparent); }
+.rv-root .ev-span.current { background: color-mix(in srgb, var(--highlight) 60%, transparent); box-shadow: 0 0 0 1px color-mix(in srgb, var(--highlight) 80%, transparent); }
+.rv-root .ev-badge { font-family: var(--sans); font-size: 9.5px; font-weight: 800; color: #fff; background: var(--text-muted); border-radius: 4px; padding: 0 4px; margin-right: 3px; vertical-align: super; line-height: 1.5; white-space: nowrap; }
+.rv-root .ev-badge.correct { background: var(--correct); }
+.rv-root .ev-badge.wrong { background: var(--wrong); }
+@keyframes rv-flash { 0% { background: color-mix(in srgb, var(--highlight) 85%, transparent); } 100% { background: color-mix(in srgb, var(--highlight) 60%, transparent); } }
+.rv-root .ev-span.flash { animation: rv-flash 1.2s ease-out; }
+@media (prefers-reduced-motion: reduce) { .rv-root .ev-span.flash { animation: none; } }
+
+/* ---- right pane: question rows ---- */
+.rv-group-head { font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .04em; color: var(--text-muted); margin: 16px 2px 8px; }
+.rv-group-head:first-child { margin-top: 0; }
+.rv-q { border: 1px solid var(--border); border-left: 3px solid var(--border); border-radius: 12px; overflow: hidden; background: var(--bg); margin-bottom: 10px; }
+.rv-q.correct { border-left-color: var(--correct); }
+.rv-q.wrong { border-left-color: var(--wrong); }
+.rv-q.unanswered { border-left-color: var(--text-subtle); }
+.rv-q.current { box-shadow: 0 0 0 2px var(--accent-soft); }
+.rv-q-head { width: 100%; display: flex; align-items: flex-start; gap: 11px; padding: 12px 14px; background: none; border: none; text-align: left; cursor: pointer; color: var(--text); font-family: var(--sans); }
+.rv-q-head:hover { background: var(--bg-hover); }
+.rv-q-num { flex: 0 0 auto; min-width: 26px; height: 24px; padding: 0 6px; display: inline-flex; align-items: center; justify-content: center; border-radius: 6px; font-weight: 800; font-size: 12.5px; color: #fff; background: var(--text-muted); }
+.rv-q-num.correct { background: var(--correct); }
+.rv-q-num.wrong { background: var(--wrong); }
+.rv-q-prompt { flex: 1; min-width: 0; font-size: 14px; line-height: 1.6; padding-top: 2px; }
+.rv-q-prompt .rv-gap { display: inline-block; min-width: 46px; border-bottom: 2px solid var(--accent); margin: 0 2px; }
+.rv-mark { flex: 0 0 auto; width: 18px; height: 18px; margin-top: 3px; }
+.rv-mark.correct { color: var(--correct); }
+.rv-mark.wrong { color: var(--wrong); }
+.rv-mark.unanswered { color: var(--text-subtle); }
+.rv-q-answers { display: flex; flex-wrap: wrap; gap: 6px 18px; padding: 0 14px 12px 51px; font-size: 13px; }
+.rv-ans { display: inline-flex; align-items: baseline; gap: 7px; flex-wrap: wrap; }
+.rv-ans-label { color: var(--text-muted); font-size: 11px; text-transform: uppercase; letter-spacing: .04em; font-weight: 700; }
+.rv-your { font-weight: 700; }
+.rv-your.correct { color: var(--correct); }
+.rv-your.wrong { color: var(--wrong); text-decoration: line-through; }
+.rv-correct { font-weight: 700; color: var(--correct); }
+.rv-blank { color: var(--text-subtle); font-style: italic; }
+.rv-q-answers .your-answer { color: var(--correct); font-weight: 700; }
+.rv-q-answers .your-answer.strike { color: var(--wrong); text-decoration: line-through; }
+.rv-q-answers .correct-answer { color: var(--correct); font-weight: 700; }
+.rv-actions { display: flex; flex-wrap: wrap; gap: 8px; margin: 0 14px 12px 51px; }
+.rv-btn { display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border: 1px solid var(--border-strong); border-radius: 7px; background: var(--bg); color: var(--accent); font-family: var(--sans); font-size: 12.5px; font-weight: 600; cursor: pointer; }
+.rv-btn:hover { background: var(--accent-soft); }
+.rv-btn svg { width: 14px; height: 14px; }
+.rv-btn .rv-chev { transition: transform .2s; }
+.rv-btn.open .rv-chev { transform: rotate(180deg); }
+.rv-q-panel { padding: 0 14px 14px 51px; display: flex; flex-direction: column; gap: 12px; }
+.rv-q-panel[hidden] { display: none; }
+.rv-also { color: var(--text-subtle); font-size: 12px; font-weight: 500; }
+.rv-ev-label, .rv-why-label { font-size: 11px; text-transform: uppercase; letter-spacing: .04em; font-weight: 700; color: var(--text-muted); margin-bottom: 5px; }
+.rv-ev-quote { margin: 0 0 6px; padding: 9px 12px; border-left: 3px solid var(--accent); background: var(--bg-elevated); border-radius: 0 8px 8px 0; font-family: var(--serif); font-size: 13.5px; line-height: 1.55; color: var(--text); cursor: pointer; }
+.rv-ev-quote:hover { background: var(--accent-soft); }
+.rv-ev-quote b { background: color-mix(in srgb, var(--highlight) 45%, transparent); font-weight: 700; border-radius: 2px; padding: 0 1px; }
+.rv-ev-quote .rv-ev-q { font-family: var(--sans); font-size: 11px; font-weight: 800; color: var(--text-muted); margin-right: 6px; }
+.rv-why p { margin: 0; font-size: 13.5px; line-height: 1.6; color: var(--text); }
+
+/* ---- footer: question chips ---- */
+.rv-foot { flex: 0 0 auto; display: flex; align-items: center; gap: 6px; padding: 10px 24px; border-top: 1px solid var(--border); background: var(--bg); overflow-x: auto; }
+.rv-foot-label { font-size: 12.5px; font-weight: 700; color: var(--text-muted); margin-right: 8px; white-space: nowrap; }
+.rv-chip { width: 29px; height: 29px; border-radius: 7px; border: 1px solid var(--border); background: var(--bg); color: var(--text-muted); font-family: var(--sans); font-size: 12px; font-weight: 700; cursor: pointer; flex: 0 0 auto; }
+.rv-chip.correct { border-color: var(--correct); color: var(--correct); }
+.rv-chip.wrong { border-color: var(--wrong); color: var(--wrong); }
+.rv-chip.current { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+@media (max-width: 880px) {
+  .rv-top { padding: 10px 16px; gap: 10px; }
+  .rv-title { font-size: 15px; text-align: left; }
+  .rv-audio { padding: 8px 16px; flex-wrap: wrap; }
+  .rv-follow { display: none; }
+  .rv-body { grid-template-columns: 1fr; grid-template-rows: minmax(0, 1fr) minmax(0, 1fr); }
+  .rv-passage { border-right: none; border-bottom: 1px solid var(--border); padding: 16px 16px 24px; }
+  .rv-right { padding: 14px 16px 24px; }
+  .rv-foot { padding: 8px 16px; }
+  .rv-q-answers, .rv-q-panel { padding-left: 14px; }
+  .rv-actions { margin-left: 14px; }
+}
+</style>
+<script id="iwReviewData" type="application/json">{"title":"Test 26: Neighbourhood Crime Prevention","audio":"https://raw.githubusercontent.com/kholikovA/80-listening-audios/main/TEST%2026.mp3","paras":[[{"t":0,"parts":["Test 26."]}],[{"t":1.2,"parts":["You will hear a police officer giving advice on protection against local crime."]}],[{"t":6.9,"parts":["First, you have some time to look at questions 11 to 15."]}],[{"t":40.6,"parts":["Well, good afternoon."]},{"t":42.5,"parts":["I'm Constable James MacDonald and, as you may know, I'm the community police officer for the local area."]},{"t":50.1,"parts":["That means that, as part of my job, I try to get out in the community as much as possible, talk to the people that live in this neighbourhood, people like yourselves, and make sure there's an effective level of communication between the public and the police, hence the reason for this meeting."]},{"t":69.6,"parts":["There have been several burglaries in the area in the last few weeks, and I'd like to talk about ways you can keep your home and property safe."]},{"t":79,"parts":["So I'd suggest that a good way to start is by talking to your neighbours and exchanging ",{"q":11,"x":"contact details"}," with them."]},{"t":86.1,"parts":["This will allow you to get in touch immediately if there's anything suspicious happening next door."]},{"t":93.1,"parts":["Then make sure you have a good discussion about the best course of action to take in case of ",{"q":12,"x":"emergency"},"."]},{"t":100.5,"parts":["Make sure everyone is clear about what to do and who to call."]},{"t":105.3,"parts":["If you plan ahead, this will prevent uncertainty and even panic should anything happen later."]}],[{"t":112.7,"parts":["Another thing that I would advise you to do is always leave your ",{"q":13,"x":"radio"}," playing, even when you go out."]},{"t":119.8,"parts":["And if you keep your curtains closed, burglars are less likely to try and break in because they can't be sure whether someone's home or not."]},{"t":130.4,"parts":["Now, none of us want to be in the situation where we can't get into our own home, but do take time to think where the best and safest place is to leave your ",{"q":14,"x":"spare keys"},"."]},{"t":144,"parts":["Putting them under the doormat or anywhere near the front door is just asking for trouble."]},{"t":151.1,"parts":["You'd be surprised how many people actually do this, and it makes life really easy for burglars."]},{"t":158.4,"parts":["All these things will help keep your community safe and will cost you nothing."]},{"t":163.3,"parts":["However, if you are going to spend some money, what I'd recommend more than anything else is that you invest in some well-made ",{"q":15,"x":"window locks"}," for your house."]},{"t":174.3,"parts":["This will give you peace of mind."]}],[{"t":179.1,"parts":["Before you hear the rest of the conversation, you will have some time to look at the questions 16 to 20."]}],[{"t":215,"parts":["Now listen and answer questions 16 to 20."]}],[{"t":219.8,"parts":["OK, moving on."]},{"t":222.5,"parts":["Unfortunately, there's been an increase in the number of minor crimes and antisocial behaviour in the general area, and I want to talk about some specific prevention measures that are being proposed."]},{"t":235.2,"parts":["First of all, the skate park."]},{"t":237.7,"parts":["As you probably know, it's well used by younger people in our community, but unfortunately we're getting more and more reports of broken glass, making it especially dangerous for younger children."]},{"t":252.4,"parts":["One possible solution here is to ",{"q":16,"x":"get rid of some of the trees and bushes around the park"},", making it more visible to passers-by and vehicles."]},{"t":262.9,"parts":["If the vandals know they're being watched, this might act as a deterrent."]},{"t":268.6,"parts":["As you will have heard, a couple of local primary schools have also been vandalised recently, despite the presence of security guards."]},{"t":278.1,"parts":["The schools don't have the funds for video surveillance, so we need people in the neighbourhood to ",{"q":17,"x":"call their nearest police station"}," and report any suspicious activity immediately."]},{"t":291.4,"parts":["Please don't hesitate to do this."]}],[{"t":294.2,"parts":["I expect most of you are familiar with the problems facing Abbotsford Street."]},{"t":300,"parts":["It seems that no amount of warning signs or speed cameras will slow speeding drivers down."]},{"t":307.1,"parts":["I'm happy to say, however, that the council have agreed to begin work over the next few months to ",{"q":18,"x":"put in a new roundabout"},"."]},{"t":315.6,"parts":["What else?"]},{"t":316.9,"parts":["Oh yes, the newsagent and the gift shop on Victoria Street were both broken into last week, and although no money was taken, the properties have suffered some serious damage."]},{"t":330.9,"parts":["Access was gained to these shops through the small alleyway at the back of the properties."]},{"t":336.8,"parts":["It's dark, and as you can imagine, no one saw the thief or thieves in action."]},{"t":343.1,"parts":["So we've been advising shop owners along there about what kind of ",{"q":19,"x":"video recording equipment"}," they can have put in."]},{"t":351.9,"parts":["We'll then be able to get evidence of any criminal activity on film."]}],[{"t":356.7,"parts":["The supermarket car park is also on our list of problem areas."]},{"t":362.7,"parts":["We've talked to the supermarket managers and council authorities, and we've advised them to ",{"q":20,"x":"get graffiti cleaned off immediately and get the smashed lights replaced"},"."]},{"t":373.8,"parts":["If you don't deal with this sort of thing at once, there's a strong possibility that the activity will increase and spread."]}]],"why":{"13":"Leaving the radio on (and the curtains closed) makes burglars unsure whether anyone is home.","14":"Spare keys should not go under the doormat or near the front door.","15":"Everything else costs nothing; if you spend money, buy good window locks.","16":"Removing trees and bushes makes the skate park visible to passers-by and vehicles.","17":"The schools can't afford video surveillance and already have security guards, so neighbours should contact the police.","18":"Warning signs and speed cameras haven't worked; a new roundabout will change the road layout.","19":"The alleyway behind the shops is dark, so owners are advised to install video recording equipment (security cameras).","20":"Cleaning graffiti and replacing smashed lights at once is fixing damage quickly, not adding more lighting."},"groups":[{"label":"Questions 11–15","nums":[11,12,13,14,15],"multi":false},{"label":"Questions 16–20","nums":[16,17,18,19,20],"multi":false}],"order":[11,12,13,14,15,16,17,18,19,20],"answers":{"11":"contact details","12":"(an) emergency","13":"radio","14":"(spare/extra) keys","15":"(window) locks","16":"C","17":"D","18":"F","19":"G","20":"E"},"prompts":{"11":"The police officer suggests neighbours give each other their {{_}}.","12":"Neighbours should discuss what to do if there's any kind of {{_}}.","13":"It's a good idea to leave on the {{_}}.","14":"Think carefully about where you put any {{_}}.","15":"It's a good idea to buy good-quality {{_}}.","16":"skate park","17":"local primary schools","18":"Abbotsford Street","19":"shops on Victoria Street","20":"supermarket car park"}}</script>
+<script id="iw-review-js">
+// Listening transcript review (Part Practice). Inlined by build.mjs after the
+// page's own scripts. Data comes from #iwReviewData (built from
+// transcripts/test_N.txt); the grade comes from the page's submitTest(), which
+// publishes window.__iwGrade and fires "iw:graded".
+(function () {
+  "use strict";
+  var dataEl = document.getElementById("iwReviewData");
+  if (!dataEl) return;
+  var D = JSON.parse(dataEl.textContent);
+  var grade = null;
+  var built = false;
+  var currentQ = null;
+  var root, passage, right, foot, audio, playBtn, seek, timeLbl, followBox;
+  var cueEls = [];
+  var cueTimes = [];
+
+  var ICON = {
+    back: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>',
+    play: '<svg viewBox="0 0 24 24" fill="currentColor"><polygon points="6 4 20 12 6 20 6 4"/></svg>',
+    pause: '<svg viewBox="0 0 24 24" fill="currentColor"><rect x="5" y="4" width="4.5" height="16" rx="1"/><rect x="14.5" y="4" width="4.5" height="16" rx="1"/></svg>',
+    ok: '<svg class="rv-mark correct" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>',
+    bad: '<svg class="rv-mark wrong" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>',
+    none: '<svg class="rv-mark unanswered" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>',
+    chev: '<svg class="rv-chev" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>',
+    ear: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.5 8.5a5 5 0 0 1 0 7"/><path d="M19 5a10 10 0 0 1 0 14"/></svg>',
+    doc: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="13" y2="17"/></svg>'
+  };
+
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function fmt(t) {
+    if (!isFinite(t)) t = 0;
+    var m = Math.floor(t / 60), s = Math.floor(t % 60);
+    return m + ":" + (s < 10 ? "0" : "") + s;
+  }
+
+  // ---- evidence index: question -> { cue index, cue time, quote html }
+  var EV = {};
+  D.paras.forEach(function (para) {
+    para.forEach(function (cue) {
+      cue.parts.forEach(function (p) {
+        if (typeof p === "object") EV[p.q] = { t: cue.t, cue: cue };
+      });
+    });
+  });
+  function quoteHtml(cue, q) {
+    return cue.parts.map(function (p) {
+      if (typeof p === "string") return esc(p);
+      return p.q === q ? "<b>" + esc(p.x) + "</b>" : esc(p.x);
+    }).join("");
+  }
+
+  // The grader's key lists every accepted spelling ("5/five km/kilometres",
+  // "website / web site"); show the first one and keep the rest as a note.
+  function primary(key) {
+    var s = String(key == null ? "" : key);
+    var tail = "";
+    var m = s.match(/\s*\(in either order\)$/);
+    if (m) { tail = " (in either order)"; s = s.slice(0, m.index); }
+    return s.split(/\s*;\s*/).map(function (one) {
+      return one.split(/\s+\/\s+|\s*\|\s*/)[0].split(/\s+/).map(function (w) {
+        return w.indexOf("/") > 0 ? w.split("/")[0] : w;
+      }).join(" ").replace(/(^|\s)\([^)]*\)\s+/g, "$1").replace(/\(([^)]*)\)/g, "$1").trim();
+    }).join("; ") + tail;
+  }
+  function correctHtml(key) {
+    var p = primary(key);
+    var also = String(key).replace(/\s*\(in either order\)$/, "") !== p.replace(/ \(in either order\)$/, "");
+    return '<span class="rv-correct">' + esc(p) + '</span>' + (also ? ' <span class="rv-also" title="' + esc(key) + '">(other spellings accepted)</span>' : '');
+  }
+
+  function statusOf(q) {
+    var r = grade && grade.byQ[q];
+    if (!r) return "unanswered";
+    return r.unanswered ? "unanswered" : (r.correct ? "correct" : "wrong");
+  }
+
+  // ---- build the overlay once
+  function build() {
+    built = true;
+    root = document.createElement("div");
+    root.className = "rv-root";
+    root.setAttribute("role", "dialog");
+    root.setAttribute("aria-label", "Transcript and answers");
+    root.innerHTML =
+      '<header class="rv-top">'
+      + '<button type="button" class="rv-back" id="rvBack">' + ICON.back + 'Results</button>'
+      + '<h2 class="rv-title">' + esc(D.title) + ' · Transcript</h2>'
+      + '<span class="rv-score" id="rvScore"></span>'
+      + '</header>'
+      + '<div class="rv-audio">'
+      + '<button type="button" class="rv-play" id="rvPlay" aria-label="Play">' + ICON.play + '</button>'
+      + '<span class="rv-time" id="rvTime">0:00 / 0:00</span>'
+      + '<input type="range" class="rv-seek" id="rvSeek" min="0" max="1000" value="0" step="1" aria-label="Seek">'
+      + '<select class="rv-speed" id="rvSpeed" aria-label="Playback speed"><option value="0.75">0.75x</option><option value="1" selected>1x</option><option value="1.25">1.25x</option><option value="1.5">1.5x</option></select>'
+      + '<label class="rv-follow"><input type="checkbox" id="rvFollow" checked> Follow along</label>'
+      + '</div>'
+      + '<div class="rv-body"><div class="rv-passage" id="rvPassage"></div><div class="rv-right" id="rvRight"></div></div>'
+      + '<footer class="rv-foot" id="rvFoot"></footer>';
+    document.body.appendChild(root);
+    passage = root.querySelector("#rvPassage");
+    right = root.querySelector("#rvRight");
+    foot = root.querySelector("#rvFoot");
+    playBtn = root.querySelector("#rvPlay");
+    seek = root.querySelector("#rvSeek");
+    timeLbl = root.querySelector("#rvTime");
+    followBox = root.querySelector("#rvFollow");
+
+    audio = new Audio();
+    audio.preload = "metadata";
+    audio.src = D.audio;
+    audio.addEventListener("timeupdate", onTime);
+    audio.addEventListener("loadedmetadata", onTime);
+    audio.addEventListener("play", function () { playBtn.innerHTML = ICON.pause; playBtn.setAttribute("aria-label", "Pause"); });
+    audio.addEventListener("pause", function () { playBtn.innerHTML = ICON.play; playBtn.setAttribute("aria-label", "Play"); });
+    playBtn.addEventListener("click", function () { if (audio.paused) audio.play().catch(function () {}); else audio.pause(); });
+    seek.addEventListener("input", function () {
+      if (audio.duration) audio.currentTime = (seek.value / 1000) * audio.duration;
+    });
+    root.querySelector("#rvSpeed").addEventListener("change", function (e) { audio.playbackRate = parseFloat(e.target.value) || 1; });
+    root.querySelector("#rvBack").addEventListener("click", close);
+    document.addEventListener("keydown", function (e) {
+      if (!root.classList.contains("open")) return;
+      if (e.key === "Escape") close();
+    });
+
+    renderPassage();
+  }
+
+  function renderPassage() {
+    var h = '<h1 class="rv-passage-title">' + esc(D.title) + '</h1>'
+      + '<p class="rv-passage-sub">Highlighted text shows where each answer is heard. Click any line to play the recording from there.</p>';
+    var idx = 0;
+    D.paras.forEach(function (para) {
+      h += '<p class="rv-para">';
+      para.forEach(function (cue, ci) {
+        cueTimes.push(cue.t);
+        h += (ci ? " " : "") + '<span class="rv-cue" data-i="' + idx + '" data-t="' + cue.t + '">';
+        cue.parts.forEach(function (p) {
+          if (typeof p === "string") { h += esc(p); return; }
+          h += '<mark class="ev-span" id="rv-ev' + p.q + '" data-q="' + p.q + '"><sup class="ev-badge" data-q="' + p.q + '">Q' + p.q + '</sup>' + esc(p.x) + '</mark>';
+        });
+        h += '</span>';
+        idx++;
+      });
+      h += '</p>';
+    });
+    passage.innerHTML = h;
+    cueEls = Array.prototype.slice.call(passage.querySelectorAll(".rv-cue"));
+    passage.addEventListener("click", function (e) {
+      var mark = e.target.closest(".ev-span");
+      if (mark) { select(+mark.dataset.q, { scrollPassage: false }); return; }
+      var cue = e.target.closest(".rv-cue");
+      if (cue) playFrom(+cue.dataset.t);
+    });
+  }
+
+  function renderRight() {
+    var byQ = grade ? grade.byQ : {};
+    var h = "";
+    D.groups.forEach(function (g) {
+      h += '<div class="rv-group-head">' + esc(g.label) + '</div>';
+      if (g.multi) { h += rowMulti(g, byQ); return; }
+      g.nums.forEach(function (n) { h += rowSingle(n, byQ[n]); });
+    });
+    right.innerHTML = h;
+    right.querySelectorAll("[data-sel]").forEach(function (b) {
+      b.addEventListener("click", function () { select(+b.dataset.sel, { scrollRight: false }); });
+    });
+    right.querySelectorAll("[data-play]").forEach(function (b) {
+      b.addEventListener("click", function () { var q = +b.dataset.play; select(q, { scrollRight: false }); playFrom(EV[q] ? EV[q].t : 0); });
+    });
+    right.querySelectorAll("[data-explain]").forEach(function (b) {
+      b.addEventListener("click", function () {
+        var panel = right.querySelector("#rv-panel" + b.dataset.explain);
+        var open = panel.hidden;
+        panel.hidden = !open;
+        b.classList.toggle("open", open);
+        b.setAttribute("aria-expanded", open ? "true" : "false");
+      });
+    });
+    right.querySelectorAll("[data-jump]").forEach(function (b) {
+      b.addEventListener("click", function () { select(+b.dataset.jump, { scrollRight: false }); });
+    });
+
+    var score = grade ? grade.correct + " / " + grade.total + " correct" : "";
+    root.querySelector("#rvScore").textContent = score;
+
+    var f = '<span class="rv-foot-label">Questions</span>';
+    D.order.forEach(function (n) {
+      f += '<button type="button" class="rv-chip ' + statusOf(n) + '" data-chip="' + n + '">' + n + '</button>';
+    });
+    foot.innerHTML = f;
+    foot.querySelectorAll("[data-chip]").forEach(function (b) {
+      b.addEventListener("click", function () { select(+b.dataset.chip, {}); });
+    });
+
+    // colour the transcript badges by result
+    passage.querySelectorAll(".ev-badge").forEach(function (b) {
+      b.classList.remove("correct", "wrong");
+      var st = statusOf(+b.dataset.q);
+      if (st !== "unanswered") b.classList.add(st);
+    });
+  }
+
+  function promptHtml(n) {
+    var p = D.prompts[n];
+    if (!p) return '<span class="rv-blank">Question ' + n + '</span>';
+    return esc(p).replace(/\{\{_\}\}/g, '<span class="rv-gap"></span>');
+  }
+  function explainPanel(key, qs) {
+    var h = '<div class="rv-q-panel" id="rv-panel' + key + '" hidden>';
+    var quotes = qs.filter(function (q) { return EV[q]; });
+    if (quotes.length) {
+      h += '<div class="rv-ev"><div class="rv-ev-label">In the recording</div>';
+      quotes.forEach(function (q) {
+        h += '<blockquote class="rv-ev-quote" data-jump="' + q + '" title="Show in transcript">'
+          + (qs.length > 1 ? '<span class="rv-ev-q">Q' + q + '</span>' : '')
+          + '“' + quoteHtml(EV[q].cue, q) + '”</blockquote>';
+      });
+      h += '</div>';
+    }
+    var whys = qs.map(function (q) { return D.why[q]; }).filter(Boolean);
+    if (whys.length) {
+      h += '<div class="rv-why"><div class="rv-why-label">Why</div>' + whys.map(function (w) { return '<p>' + esc(w) + '</p>'; }).join("") + '</div>';
+    }
+    return h + '</div>';
+  }
+  function actions(key, q) {
+    return '<div class="rv-actions">'
+      + '<button type="button" class="rv-btn" data-explain="' + key + '" aria-expanded="false">' + ICON.chev + 'Explain</button>'
+      + (EV[q] ? '<button type="button" class="rv-btn" data-play="' + q + '">' + ICON.ear + 'Listen from ' + fmt(EV[q].t) + '</button>' : '')
+      + '</div>';
+  }
+  function rowSingle(n, r) {
+    var st = statusOf(n);
+    var mark = st === "correct" ? ICON.ok : st === "wrong" ? ICON.bad : ICON.none;
+    var ans;
+    if (!r) ans = '<span class="rv-ans"><span class="rv-ans-label">Answer</span>' + correctHtml(D.answers[n]) + '</span>';
+    else if (st === "correct") ans = '<span class="rv-ans"><span class="rv-ans-label">Your answer</span><span class="rv-your correct">' + esc(r.user) + '</span></span>';
+    else ans = '<span class="rv-ans"><span class="rv-ans-label">Your answer</span>' + (r.user ? '<span class="rv-your wrong">' + esc(r.user) + '</span>' : '<span class="rv-blank">No answer</span>') + '</span>'
+      + '<span class="rv-ans"><span class="rv-ans-label">Correct</span>' + correctHtml(r.answer) + '</span>';
+    return '<div class="rv-q ' + st + '" id="rv-q' + n + '">'
+      + '<button type="button" class="rv-q-head" data-sel="' + n + '"><span class="rv-q-num ' + st + '">' + n + '</span><span class="rv-q-prompt">' + promptHtml(n) + '</span>' + mark + '</button>'
+      + '<div class="rv-q-answers">' + ans + '</div>'
+      + actions(n, n) + explainPanel(n, [n])
+      + '</div>';
+  }
+  function rowMulti(g, byQ) {
+    var first = g.nums[0];
+    var r = byQ[first];
+    var m = r && r.multi;
+    var hits = g.nums.filter(function (n) { return statusOf(n) === "correct"; }).length;
+    var st = !r ? "unanswered" : hits === g.nums.length ? "correct" : (g.nums.every(function (n) { return statusOf(n) === "unanswered"; }) ? "unanswered" : "wrong");
+    var mark = st === "correct" ? ICON.ok : st === "wrong" ? ICON.bad : ICON.none;
+    var ans = m
+      ? '<span class="rv-ans"><span class="rv-ans-label">Your answers</span>' + m.userHtml + '</span>'
+        + '<span class="rv-ans"><span class="rv-ans-label">Correct</span>' + m.correctHtml + ' <span class="rv-blank">(' + m.hits + '/' + m.size + ')</span></span>'
+      : '<span class="rv-ans"><span class="rv-ans-label">Answer</span>' + correctHtml(D.answers[first]) + '</span>';
+    var ids = g.nums.map(function (n) { return '<span id="rv-q' + n + '"></span>'; }).join("");
+    return '<div class="rv-q ' + st + '" id="rv-qg' + first + '">' + ids
+      + '<button type="button" class="rv-q-head" data-sel="' + first + '"><span class="rv-q-num ' + st + '">' + g.nums[0] + '–' + g.nums[g.nums.length - 1] + '</span><span class="rv-q-prompt">' + promptHtml(first) + '</span>' + mark + '</button>'
+      + '<div class="rv-q-answers">' + ans + '</div>'
+      + actions("g" + first, first) + explainPanel("g" + first, g.nums)
+      + '</div>';
+  }
+
+  // ---- selection + audio
+  function select(q, opt) {
+    opt = opt || {};
+    currentQ = q;
+    root.querySelectorAll(".ev-span.current").forEach(function (el) { el.classList.remove("current"); });
+    root.querySelectorAll(".rv-q.current, .rv-chip.current").forEach(function (el) { el.classList.remove("current"); });
+    var ev = passage.querySelector("#rv-ev" + q);
+    if (ev) {
+      ev.classList.add("current");
+      if (opt.scrollPassage !== false) ev.scrollIntoView({ behavior: "smooth", block: "center" });
+      ev.classList.remove("flash"); void ev.offsetWidth; ev.classList.add("flash");
+    }
+    var row = right.querySelector("#rv-q" + q);
+    var card = row && (row.classList.contains("rv-q") ? row : row.closest(".rv-q"));
+    if (card) {
+      card.classList.add("current");
+      if (opt.scrollRight !== false) card.scrollIntoView({ behavior: "smooth", block: "nearest" });
+    }
+    var chip = foot.querySelector('[data-chip="' + q + '"]');
+    if (chip) chip.classList.add("current");
+  }
+  // Seeking only sticks once the metadata is in, so wait for it on first use.
+  function playFrom(t) {
+    var go = function () {
+      try { audio.currentTime = Math.max(0, t - 0.6); } catch (e) {}
+      audio.play().catch(function () {});
+    };
+    if (audio.readyState >= 1) go();
+    else { audio.addEventListener("loadedmetadata", go, { once: true }); audio.load(); }
+  }
+  var lastCue = -1;
+  function onTime() {
+    var d = audio.duration || 0, t = audio.currentTime || 0;
+    timeLbl.textContent = fmt(t) + " / " + fmt(d);
+    if (d) seek.value = Math.round((t / d) * 1000);
+    // the cue being spoken: last cue whose start <= t
+    var lo = 0, hi = cueTimes.length - 1, k = -1;
+    while (lo <= hi) { var mid = (lo + hi) >> 1; if (cueTimes[mid] <= t + 0.05) { k = mid; lo = mid + 1; } else hi = mid - 1; }
+    if (audio.paused && t === 0) k = -1;
+    if (k === lastCue) return;
+    if (lastCue >= 0 && cueEls[lastCue]) cueEls[lastCue].classList.remove("speaking");
+    lastCue = k;
+    if (k >= 0 && cueEls[k]) {
+      cueEls[k].classList.add("speaking");
+      if (followBox.checked && !audio.paused) {
+        var box = passage.getBoundingClientRect(), r = cueEls[k].getBoundingClientRect();
+        if (r.top < box.top + 40 || r.bottom > box.bottom - 40) cueEls[k].scrollIntoView({ behavior: "smooth", block: "center" });
+      }
+    }
+  }
+
+  function open(q) {
+    if (!built) build();
+    renderRight();
+    try { var a = document.getElementById("testAudio"); if (a) a.pause(); } catch (e) {}
+    root.classList.add("open");
+    document.body.classList.add("rv-active");
+    passage.scrollTop = 0;
+    right.scrollTop = 0;
+    if (q) select(q, {});
+  }
+  function close() {
+    if (audio) audio.pause();
+    root.classList.remove("open");
+    document.body.classList.remove("rv-active");
+  }
+
+  function setGrade(g) {
+    var byQ = {};
+    (g.rows || []).forEach(function (r) { byQ[r.q] = r; });
+    grade = { byQ: byQ, correct: g.correct, total: g.total };
+    var btn = document.getElementById("rvOpenBtn");
+    if (btn) btn.hidden = false;
+    if (built && root.classList.contains("open")) renderRight();
+  }
+  if (window.__iwGrade) setGrade(window.__iwGrade);
+  document.addEventListener("iw:graded", function (e) { setGrade(e.detail); });
+
+  // Entry point on the results screen.
+  var host = document.getElementById("resultsStats");
+  if (host && host.parentNode) {
+    var b = document.createElement("button");
+    b.type = "button";
+    b.id = "rvOpenBtn";
+    b.className = "rv-open-btn";
+    b.innerHTML = ICON.doc + "Transcript &amp; answer locations";
+    b.hidden = !grade;
+    b.addEventListener("click", function () { open(null); });
+    host.parentNode.insertBefore(b, host.nextSibling);
+  }
 })();
 </script>
 </body>

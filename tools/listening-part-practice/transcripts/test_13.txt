@@ -1,0 +1,93 @@
+# Test 13
+[0.0] Test 13.
+
+[1.2] You will hear a conversation between two friends called George and Nina about a summer music festival.
+
+[9.1] First, you have some time to look at questions 1 and 2.
+
+[30.6] George says that he found a brochure from a festival, so B has been circled as the answer.
+
+[41.9] Hi, George.
+[43.6] Glad you're back.
+[45.2] Loads of people have phoned you.
+[47.4] Really?
+[47.9] I felt just like your secretary.
+[50.2] Sorry.
+[50.9] I went into the library this afternoon to have a look at a newspaper, and I came across something really interesting.
+[56.9] What?
+[57.5] A book?
+
+[58.2] No, a brochure from a summer festival, mainly Spanish music.
+[61.9] Look, I've got it here.
+[63.6] Spanish music?
+[64.9] I really love the guitar.
+[67.5] Let's have a look.
+[69.3] So what's this group, Guitarrini?
+[73.1] They're really good.
+[74.9] They had a [[1|video with all the highlights of the festival]] at a stand in the lobby to the library, so I heard them.
+[81.0] They play fantastic instruments, drums and flutes and old kinds of guitars.
+
+[86.5] I've never heard anything like it before.
+[89.0] Sounds great.
+[90.5] OK, shall we go then?
+[92.0] Spoil ourselves?
+[93.5] Yes, let's.
+[95.1] The only problem is there aren't any cheap seats.
+[98.3] It's all one price.
+[99.8] Hmm.
+[100.9] Well, in that case, we could sit right at the front.
+
+[104.0] We'd have a really good view.
+[106.2] Yeah, though I think that if you sit at the back, you can actually [[2|hear the whole thing better]].
+[111.2] Mmm, yes.
+[112.8] Anyway, we can decide when we get there.
+
+[118.3] Before you hear the rest of the conversation, you have some time to look at questions 3 to 10.
+
+[164.0] Now listen and answer questions 3 to 10.
+
+[171.3] So will you fill in the form or shall I?
+[174.5] I'll do it.
+[175.1] Name, George O'Neil.
+[178.5] Address, [[3|48 North Avenue]], Westsea.
+[183.4] Do you remember our new postcode?
+[185.5] Still can't remember it.
+[187.3] Just a minute.
+[188.7] I've got it written down here.
+[191.0] Ah, [[4|WS6 2YH]].
+
+[196.2] Do you need the phone too?
+[198.0] Please, I'm really bad at numbers.
+[202.5] [[5|01674 553242]].
+[208.7] So let's book two tickets for Guitarrini.
+[211.7] OK, if you're sure £7.50 each is all right.
+[215.1] How do you feel about the singer?
+[217.1] Hmm, I haven't quite decided, but I've noticed something on the booking form that might just persuade me.
+[223.1] What's that, then?
+[224.0] Free refreshments.
+[225.8] Really?
+[226.5] Yes, look here.
+[228.1] Sunday, 17th of June, singer, ticket £6, includes [[6|drinks]] in the garden.
+[234.6] Sounds like a bargain to me.
+[236.4] Yes, let's book two tickets for that.
+[239.7] So, what else?
+[241.1] I'm feeling quite keen now.
+[243.3] How about the [[7|pianist]] on the 22nd of June?
+[246.3] Anna Ventura?
+[247.9] I've just remembered that's my evening class night.
+[250.9] That's OK.
+[251.8] I'll just have to go on my own.
+[253.8] But we can go to the Spanish dance and guitar concert together, can't we?
+[257.6] Yes, I'm sure Tom and Kieran would enjoy that too.
+[260.6] Good heavens, £[[8|10.50]] a ticket.
+[264.1] I can see we're going to have to go without food for the rest of the week.
+[267.9] We'll need to book [[9|four]].
+
+[269.7] Wish we were students.
+[271.0] Look, children, students, and senior citizens get a [[10|50%]] discount on everything.
+[277.9] If only.
+
+@1 George went to the library to read a newspaper. In the lobby there was a stand showing a video of the festival highlights, which is how he heard the group.
+@2 Sitting at the front gives the best view, but George thinks you hear the whole thing better at the back. All seats cost the same.
+@6 The £6 singer ticket includes drinks ("free refreshments") in the garden.
+@9 Tom and Kieran are coming too, so they book four tickets.

@@ -1,0 +1,94 @@
+# Test 46
+[0.0] Test 46.
+
+[1.3] You will hear two students discussing their assignments.
+
+[5.4] First, you have some time to look at questions 21 to 26.
+
+[39.3] Hi Mike, how's it going?
+[41.8] Actually, I was up last night with an assignment, so yeah, I'm tired, but I guess we'd better sort this presentation out.
+[50.9] Well, we've done enough background reading, but I think we need to organise exactly what we're going to say about biofuels during the presentation and the order.
+[63.2] I thought we could start by asking our audience [[21|what car engines were first designed to run on, fossil fuels or biofuels]].
+[73.0] Nice idea.
+[74.2] Yes.
+[74.8] When most people think about cars and fuel, they think about all the carbon dioxide that's produced, but they don't realise that that wasn't always the case.
+[85.7] You're probably right.
+[87.6] The earliest car engines ran on fuel made from corn and peanut oil, didn't they?
+
+[93.5] Yes.
+[94.3] The manufacturers used the corn and peanut oil and turned them into a kind of very pure alcohol.
+[102.2] You mean ethanol?
+[103.8] Yes.
+[104.4] In fact, most biofuels are still based on ethanol.
+[109.1] Actually, I've got some notes here about the process of turning plant matter into ethanol, the chemical reactions and the fermentation stages.
+[120.8] It's interesting.
+[121.9] The other students would appreciate it, but different biofuels use different processes.
+[129.2] And if we give a general description, [[22|there's a risk we'll get it wrong]], and then the tutor might mark us down.
+
+[137.5] I'd rather we focus on the environmental issues.
+[141.0] Fair enough.
+[141.8] So the main plants that are used for biofuel production now are sugarcane, corn and canola.
+[153.0] Of all of them, canola is probably the least harmful,
+[157.4] because machines that use it don't produce as much carbon monoxide.
+[163.4] Sugarcane seems to be controversial.
+[166.1] It doesn't require as much fertiliser as corn does to grow, but when they burn the sugarcane fields, that releases loads of greenhouse gases.
+[178.4] Yes, but some critics have suggested that the production of corn ethanol uses up more fossil fuel energy than the biofuel energy it eventually produces.
+[189.9] For that reason, I'd say [[23|it was more harmful to the environment]].
+
+[193.7] I see what you mean.
+[194.7] You're probably right.
+[196.1] It's interesting how everyone saw the biofuel industry as the answer to our energy problems but in some ways biofuels have created new problems.
+[208.0] Well in the USA I wouldn't say that farmers are having problems.
+[213.1] The biofuel industry for them has turned out to be really profitable.
+[218.0] I think though that even in the USA ethanol is still only used as an additive to gasoline or petrol.
+[226.1] The problem is that it still has to be transported by trucks or rail because [[24|they haven't built any pipelines to move it]].
+[235.8] Once they do, it'll be cheaper and the industry might move forward.
+[241.0] That'll have to happen one day.
+
+[243.6] At least the government are in favour of biofuel development.
+[247.8] Yes, but Brazil's probably in the lead as far as biofuels are concerned.
+[254.6] They've got to the point where they don't need to import any oil now.
+[260.1] Which is great.
+[261.7] And the industry in Brazil employs a huge number of people.
+[266.3] But is it sustainable?
+[268.7] I mean, as the population grows and there are more vehicles on the roads and there's more machinery, [[25|surely they can't depend so much on sugar cane]].
+[280.7] At some point, there has to be a limit on how much land can be used for sugar cane production, certainly if you want to preserve natural habitats and native wildlife.
+[292.0] I think that whatever problems Brazil's facing now, the same will be true for any country.
+
+[298.7] You have to weigh up the pros and cons.
+[301.8] Well, we probably won't see an increase in biofuel use.
+[306.3] I mean, they won't replace fossil fuels until we can find ways to produce them cheaply and quickly and with less cost to the environment.
+[317.0] [[26|Making sure they require minimal energy to produce]].
+[320.8] Exactly.
+[321.8] And in a way, that means they have to cost less than fossil fuels, certainly when you're filling up your car.
+[329.6] Yes, and whatever other kind of engines use fossil fuels at the moment.
+[364.9] Now listen and answer questions 27 to 30.
+[370.1] All right.
+
+[371.5] So in the last section of the presentation, what problems are we focusing on?
+[377.3] Well, we've already had a look at different types of pollution in the first section, so we can leave that out.
+[385.6] But the biggest issue related to biofuels is that land is now being used to grow biofuel crops, and that's contributing to [[27|global hunger]].
+[396.9] Indeed.
+[398.0] It doesn't seem right we're using corn to run cars when people can't afford to buy it to eat.
+[406.3] Yes, let's talk about that.
+[409.0] The other thing is that in some countries, the way that biofuel crops are grown and harvested still produces a great deal of [[28|pollution]], really damaging to the atmosphere.
+[421.6] OK, that's definitely an issue we should look at.
+[425.8] Let's not finish on a negative note, though.
+
+[429.4] Why don't we talk about the potential new sources of biofuel?
+[434.1] So rather than corn and sugarcane, what other plants could be used?
+[439.9] Good.
+[440.9] Some companies are exploring the possibility of using [[29|wood]] and seeing how that can be used to make ethanol.
+[448.4] Yes, and algae is another possibility.
+[451.9] You can grow it in any water and it absorbs pollutants too.
+[456.6] I read that.
+[457.9] And [[30|grasses]], they're another plant that researchers are investigating as a biofuel.
+[464.2] And these kind of plants aren't used as food.
+
+@21 They will ask whether the first car engines ran on fossil fuels or biofuels: early engines used fuel made from corn and peanut oil.
+@22 Different biofuels use different processes, so a general description might be wrong.
+@23 Canola is the least harmful. Sugar cane is controversial, but corn ethanol may use more fossil fuel energy than it produces.
+@24 Farmers are doing well and the government supports biofuels; the problem is that ethanol must travel by truck or rail because there are no pipelines.
+@25 Brazil employs many people in the industry, but with more vehicles and machinery it can't keep depending on sugar cane.
+@26 Biofuels will only replace fossil fuels if they can be produced cheaply with minimal energy.
+@28 Types of pollution were covered in the first section, but the pollution caused by growing and harvesting biofuel crops is a problem to discuss.

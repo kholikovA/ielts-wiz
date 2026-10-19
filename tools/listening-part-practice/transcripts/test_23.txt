@@ -1,0 +1,73 @@
+# Test 23
+[0.0] Test 23.
+
+[1.2] You will hear a hotel manager talking to her staff about the arrangements for an event to be held at the weekend.
+
+[10.0] First, you have some time to look at questions 11 to 15.
+
+[43.9] Good morning everyone.
+[46.0] I hope you're all feeling okay after the activities of the last week or so.
+[50.9] I know you've all been working very hard recently and we've been exceptionally busy, especially with the wedding last weekend and the trade fair straight after that.
+[62.7] And now we have only three days to prepare for the [[11|birthday party this weekend]].
+[68.9] The events recently have gone extremely well and the hotel is beginning to get a very good reputation, so we need to keep it up.
+[79.1] At the moment, we don't have exact numbers of guests and though we usually only cater for groups of less than 50, we will have quite a few more than that.
+[90.1] So, as I said, not sure of numbers, but of course we [[12|won't go over the maximum of 100]].
+[98.3] But it's likely that we will need all of you to work this weekend.
+[102.3] So if any of you can't, please let me know as soon as possible.
+
+[107.7] Right.
+[108.6] So what time will the event start?
+[111.3] Well, the invitation says guests should arrive between 7.30 and 7.45, but our experience is that there are always a few who like to arrive early, so [[13|we'll expect the first people at 7.15]].
+[126.7] As the numbers are quite large, this will certainly be the case.
+[131.6] Food will be served at around 8.30 and then, depending on how long the meal takes, the entertainment will start about two hours later.
+[141.4] Now, for this, we were expecting a live band for the occasion, which is always fun.
+[148.0] But apparently this has been cancelled due to illness.
+[151.9] So, the hosts know someone who is a [[14|comedian who will be replacing the band]].
+[157.9] We had hoped that the resident magician who worked here through the summer would be able to help out, but they weren't keen on that idea.
+
+[168.7] Before you hear the rest of the conversation, you will have some time to look at the questions 16 to 20.
+
+[205.4] Now listen and answer questions 16 to 20.
+
+[210.7] So, I'd just like to go through who's doing what when the guests arrive, and I think we'll make a few changes from the last party held here.
+[221.5] If I remember correctly, it was Olav who coordinated the task of providing the guests with drinks.
+[228.7] Or was it Ahmed?
+[230.9] Um, I'm not sure, but [[15|Gary asked to do it this time]], so that will be his job.
+[237.6] There's been no decision yet on what the drinks are going to be, but I hope they decide soon in case we need to order something special.
+[246.1] Now, for receiving the guests' coats and hats, it's important we have someone experienced doing this, as we don't want guests losing their belongings.
+[256.1] And [[16|Monica, last time this was your responsibility]].
+[260.5] Susan, I know you wanted to do this, but as the numbers are quite high for this event, I won't make a change here.
+[268.0] Right.
+
+[269.3] Now, last time there was some confusion as to where guests were supposed to go once they had deposited their things and we had guests roaming around the whole hotel.
+[280.4] So, Ahmed and Olav, I believe you discussed the problems with Susan and thought [[17|she would be good at guiding guests]] after they had arrived.
+[289.6] And I'm fine with that.
+[292.7] Right, and now for some general instructions.
+[296.9] Once the guests have arrived, they will be in and around the lounge area and then at around 8.30, we need to get them to move to the restaurant for their meal.
+[307.3] This often proves difficult and can take a long time, so I will [[18|ring a bell]] so that everyone knows it's time to eat.
+[316.9] Hopefully, this will speed things up a bit.
+[320.0] Also, for this event, there'll be a seating plan so the guests won't be able to decide for themselves where to sit.
+[327.5] They'll have to sit according to the plan.
+
+[330.5] There will be a plan on each table and I've been thinking about where to put the master plan so everyone can view it before they enter the restaurant.
+[339.6] As they'll be spending quite a while [[19|in the lounge, I've decided to also put a plan there]].
+[345.5] This should speed up the start of the meal.
+[349.1] Once the meal starts, you'll all be very busy waiting on the tables and I'm sure I don't need to tell you to be good-humoured and polite to all the guests.
+[360.2] The organiser of the event will be saying a few words and so will two of his colleagues.
+[367.1] So when the [[20|speeches]] start, all activity must stop in the restaurant so that the three people giving them can be heard.
+[376.0] This shouldn't take long and it should be towards the end of the meal.
+[381.2] After that, the guests will move back to the lounge for the entertainment.
+[386.3] So, I think that's it.
+
+[388.5] Any questions?
+[389.7] Come and see me later.
+
+@11 The wedding was last weekend and the trade fair straight after; the next event is the birthday party.
+@12 They usually cater for fewer than 50, and this time there will be more than that, but no more than the maximum of 100.
+@13 The invitation says 7.30 to 7.45, but some guests always come early, so the first will arrive at 7.15.
+@14 The live band has cancelled and the resident magician didn't want to help, so a comedian is replacing the band.
+@15 Olav or Ahmed did the drinks last time; this time it is Gary's job.
+@16 Susan wanted this job, but Monica did it last time and the manager won't change that.
+@17 Ahmed and Olav suggested Susan for guiding guests after they arrive, and the manager agrees.
+@19 Besides the plan on each table, a master plan will go in the lounge, where guests wait before the meal.
+@20 The organiser and two colleagues will speak: three speeches.

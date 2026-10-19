@@ -1,0 +1,61 @@
+# Test 22
+[0.0] Test 22.
+
+[1.4] You will hear a guide talking about a sea life centre.
+
+[5.5] First, you have some time to look at questions 11 to 17.
+
+[54.9] OK, so hi everybody, and welcome to the Sea Life Centre.
+
+[60.3] Before you start on your tour, I'd just like to give you some information about things to look out for as you go.
+[69.5] Well, first of all, I guess some of you may have been here before and may be surprised to see the name has changed.
+[78.2] We're not called [[11|World of Water]] anymore.
+[81.7] Since the beginning of this summer, we've been renamed and we've also made a few other changes.
+[88.1] However, the main attractions like the aquarium, the crocodiles, the penguins and so on are still here.
+[97.5] But we have a new restaurant and picnic area and the latest thing that we have, and it was only finished last week, is the [[12|splash ride]].
+[110.1] This is an exciting new area of the centre and is pretty scary and of course you do get a bit wet, so make sure you're not wearing your best clothes.
+[123.2] As I said, the main attractions are still here, and the most popular thing that everyone wants to see is feeding time, especially for the crocodiles and the seals.
+[137.1] We used to have the main feeding time in the afternoon at around 3pm, but we found that some of the animals got a bit hungry waiting until then, and so we now have it at [[13|noon]].
+
+[152.3] They seem much happier with the new time, although it's a bit difficult to know what they're thinking.
+[159.8] Now, I'd like to mention something new that we've introduced this year that we're very excited about.
+[167.6] It's called a VIP ticket.
+[171.3] The VIP ticket costs an extra £2 per person and you will be amazed at what it allows you to do.
+[181.1] With this, you'll be allowed to [[14|feed the sharks]].
+[186.3] Now, I know that for some people this might be quite a frightening thing to do, but it is perfectly safe.
+[194.5] For those of you who are a bit unsure, we do have a video you can watch to see what happens.
+[202.9] It's a great experience and your friends will be very impressed.
+[208.9] Speaking of friends, I'd just like to remind you that the Sea Life Centre will be more than happy to organise a [[15|birthday party]] for you and your family and friends.
+
+[221.4] If you need more details, you can speak to me afterwards and there are also forms at the entrance that you can fill in.
+[232.0] I'd also like to bring your attention to the good work that the Sea Life Centre is doing in support of animal conservation.
+[241.7] I'm sure you're all aware of the worrying situation with a large number of species facing extinction.
+[250.9] Here at the Sea Life Centre, we're taking action by asking as many people as possible to sign a petition.
+[259.8] Once we have over 5,000 signatures, we are planning to send it to the [[16|government]], in the hope that more people will begin to take it seriously.
+
+[271.7] Right, well, there's obviously a lot going on at the centre, and a lot of things to discover.
+[278.8] At all the attractions, there is helpful information, so please read as much as you can, and if you want to see what you've remembered, please do the [[17|quiz]] after your visit.
+[293.5] There are no prizes, of course, but I'm sure you'll be surprised by how much you've learnt.
+
+[302.6] Before you hear the rest of the conversation, you will have some time to look at the questions 18 to 20.
+
+[323.7] Now listen and answer questions 18 to 20.
+
+[329.0] So, before I leave you all to start your tour, I've just got a few tips.
+[335.6] There are a large number of attractions, and you may not have time to see them all.
+[341.8] Of course, there are the old favourites like the Aquarium and the Crocodile Cave, but if you don't have time to see everything, make sure you visit [[18|Turtle Town]], which is beyond the Aquarium and the Seal Centre.
+[357.9] This is very special and has a large number of endangered species, and as it's at the far corner of the Sea Life Centre, it often gets overlooked.
+[370.2] I also have to apologise for the [[19|Penguin Park]].
+[374.8] This has needed some urgent work to be done, and so will not be open for the next week.
+[381.7] We're very sorry about this, but I'm sure you'll find the Seal Centre, which is directly opposite it, will keep you entertained just as much, if not more.
+[394.0] We're also very busy today, as you may have noticed on your way in.
+[399.7] Everyone starts here at the aquarium, but as it's so big, there's no waiting to get in.
+
+[407.8] But today, we're expecting a lot of people to want to see the [[20|Crocodile Cave]], as a couple of eggs have hatched out.
+[416.6] So expect delays there and, if you like, move on to the seal centre first and then go back when things are quieter towards the end of the day.
+[429.5] So I'll leave you now, but if you have any questions, I won't be far away and have a great time at the Sea Life Centre.
+
+@13 Feeding time used to be at about 3 pm; it is now at noon.
+@18 Turtle Town is in the far corner, so it often gets overlooked: visit it even if you can't see everything.
+@19 Penguin Park needs urgent work and won't be open for the next week.
+@20 A couple of eggs have hatched, so expect delays at the Crocodile Cave. The Aquarium is big, so there is no waiting there.

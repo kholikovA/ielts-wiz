@@ -12,7 +12,10 @@ Tests* (Proper English School); the PDF itself is not in the repo.
 | `template.html` | Page shell: grading, review mode, result image, CDI styles |
 | `build.mjs` | Renders content + key into `public/tests/test_N.html` |
 | `verify.mjs` | Cross-checks the content against the PDF's text layer |
-| `smoke.mjs` | Browser test: answers every question via the UI, expects 10/10 |
+| `transcripts/test_N.txt` | Timed audio transcript with answer locations and explanations |
+| `transcript.mjs` | Parser for the transcript format |
+| `review.js`, `review.css` | Transcript review screen, inlined into every page |
+| `smoke.mjs` | Browser test: answers every question via the UI, expects 10/10, opens the review |
 
 ## Workflow
 
@@ -49,6 +52,42 @@ Grading: an unspaced `/` swaps single words (`5/five km` accepts "5 km" and
 "five km"). A spaced ` / ` separates whole answers. `( )` marks optional text.
 Where the printed key does not fit that format, the test's `fix` restates it
 without changing what is accepted. "In either order" pairs are graded as a set.
+
+Multiple-choice "Choose TWO/THREE" groups score one mark per correct letter
+(the grader once looked for `data-type="mcq_multi"` only, so the `multi`
+groups that `build.mjs` emits were scored all-or-nothing).
+
+## Transcripts and review
+
+After submitting, "Transcript & answer locations" opens a review screen: the
+full transcript with every answer location highlighted and badged by result,
+one row per question (your answer, the correct answer, the quoted evidence, a
+short explanation), and an audio bar that plays from any line or answer
+("Listen from m:ss"), with optional follow-along highlighting.
+
+```
+# comment
+[12.4] One cue (usually one sentence), starting 12.4 s into the audio.
+[15.0] Answer locations are marked inline: it's on the [[5|website]].
+                                         <- blank line = new paragraph
+@5 Why the answer is right / why the distractor is wrong.
+!6 Reason the marked words need not contain the key.
+```
+
+`build.mjs` refuses a page unless each question is marked exactly once, the
+markers run in question order, cue times never go backwards, and, for typed
+gaps, the marked words contain an accepted answer (case, number words,
+"the/of/a/an" and punctuation are ignored; `!n` exempts a question, e.g. when
+the speaker spells the word out). In "Choose TWO/THREE" groups and either-order
+pairs, the markers are numbered in the order the answers are heard.
+
+The text started from the book's tapescripts and was checked line by line
+against a Whisper transcription of each recording, with timings taken from
+the audio. Where they disagreed the recording wins: the book drops several
+intros and announcer lines, whole passages in Tests 6, 13, 15, 21, 34 and 60,
+and gets some numbers wrong (Test 1 phone number, Test 16 price). Names keep
+the book's spelling. Audio quirks: the Test 35 recording announces itself as
+"Test 36"; the Test 25 and 71 recordings stop slightly early.
 
 ## Corrections to the book
 

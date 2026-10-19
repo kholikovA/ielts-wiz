@@ -1,0 +1,78 @@
+# Test 62
+[0.0] Test 62.
+
+[1.2] You will hear someone talking about creating a presentation.
+
+[5.4] First, you have some time to look at questions 31 to 40.
+
+
+
+[69.0] Now listen carefully and answer questions 31 to 40.
+
+[74.7] Hello, everyone.
+[76.5] You've all been given an assignment for your sociology course, which will involve giving a presentation to the rest of the group.
+[84.8] And so today, I'm going to be giving you a few tips on how to prepare your presentations.
+[91.5] This should help you with your current assignment, but a lot of the principles I'll be putting across will be general principles which will, of course, help you with all your future presentations.
+[104.7] So, first of all, the most important thing to consider is your audience, and in this instance, your audience are the other students in your group.
+[114.9] There are three points to bear in mind.
+[118.1] Firstly, you need to ask yourself what they need to know.
+[123.5] Secondly, it's useful to consider whether they'll be [[31|supportive]] or not.
+[129.3] And thirdly, will it be a small group, say three or four, a moderate gathering of 20 or so people, as for your current assignment, or will there be hundreds of people?
+
+[147.5] Having said all that, what I'm about to tell you will apply equally to any audience.
+[154.9] So, how do you structure your presentation?
+[158.9] Right at the beginning, you should tell them something that forces them to [[32|pay attention]].
+[164.2] This could be something surprising or even shocking, but it needs to be relevant.
+[171.9] After that, you need a list of items or topics showing them what you'll be covering, rather like an agenda.
+[180.6] And then the main part of the presentation will follow.
+[184.7] This main part will be the detailed information you'll be presenting and could include facts, statistics, personal experiences, etc.
+[195.9] After this, you should summarise what you've presented and close with what I call [[33|next steps]].
+[204.1] For this assignment, you could simply point the group to other sociology reference material.
+
+[210.6] In other cases, you may want to suggest some actions that people can take.
+[216.4] Now, what about the design of the slides for your laptop?
+[221.7] Well, the important thing here is to be [[34|consistent]].
+[226.3] You need to have the same type of font and use the same colour and size for the same elements.
+[233.7] For example, all headers need to look the same.
+[237.9] All bullet points need to be presented in the same way.
+[241.8] And don't just stick to words.
+[244.4] Bring the presentation to life by adding [[35|graphics]].
+[248.4] These could be in several forms, such as pictures, flowcharts, diagrams, histograms, and so on.
+
+[258.5] And so, let's move on now to presenting.
+[261.9] You have your presentation prepared, and you're ready to start.
+[266.5] Well, it's important to give a good impression from the start.
+[271.4] So take three deep breaths, look at the audience, no matter how frightening they may be, and be enthusiastic and energetic.
+[281.9] As you go through the presentation, remember to provide some variety in the way you speak.
+[288.2] So, for example, you can talk fairly rapidly for information that may be familiar, but then slow down for more unfamiliar sections.
+[298.8] And change your [[36|tone]] as you speak.
+[301.4] Don't keep it at the same level all the way through.
+[307.0] As I mentioned, look at your audience.
+
+[311.4] A good tip is to pick people out and look at them for around five seconds.
+[317.7] Not looking at the audience gives the impression that you're either not interested in them or terrified of them.
+[324.8] Looking too long at one particular person may make them feel rather uncomfortable.
+[331.2] There may be points in your presentation that you want your audience to really absorb, and in order to make important points stand out, you may consider adding [[37|silence]] right after these.
+[345.5] It will give people time to reflect on what you've just said.
+[350.8] Also, you may be presenting complicated ideas or technical details, but try to keep everything as simple as possible.
+[360.9] Use simple words, and as few as possible.
+[365.5] And be clear.
+[367.4] If you say something like, this appears to be, it implies uncertainty.
+
+[372.7] So using [[38|weak verbs]] such as appears, seems, could be, etc. needs to be avoided.
+[382.6] I'll just finish off with a few thoughts on questions and interruptions from the audience.
+[388.6] You may choose to invite questions from the audience as you go, or ask them to wait until the end.
+[396.1] Either way, questions should be encouraged, as it provides you with some feedback on how interested the audience is and how well they're understanding you.
+[406.5] When a question is asked, you need to provide an answer that is as accurate as possible.
+[412.9] So, initially, my tip is to [[39|repeat it]].
+[417.0] This will ensure you have heard it correctly and will give you a few seconds to gather your thoughts.
+
+[424.6] Interruptions, on the other hand, can be unwelcome, and you may get them for a variety of reasons.
+[431.6] It's likely, however, that there's something in your presentation that's unclear or confusing.
+[437.6] So, my advice is to reduce problems by reading through your presentation beforehand and [[40|predicting]] potential points which could cause interruptions.
+[447.4] You may then want to change that part of your presentation, or at least you'll be prepared if someone does interrupt you.
+[456.5] Now, do you have any questions?
+
+@31 The three points: what they need to know, whether they'll be supportive, and the size of the group.
+@33 After the main part, summarise and close with "next steps".
+@36 Vary your speed (faster for familiar parts, slower for new ones) and your tone.

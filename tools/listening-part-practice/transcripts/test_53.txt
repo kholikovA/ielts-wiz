@@ -1,0 +1,107 @@
+# Test 53
+[0.0] Test 53.
+
+[1.2] You will hear a student called Sandra talking to her tutor about a draft proposal she has written for a competition.
+
+[10.5] First, you have some time to look at questions 21 to 24.
+
+[45.0] Now listen carefully and answer questions 21 to 24.
+
+[53.8] Right, Sandra.
+[54.9] You wanted to see me to get some feedback on your group's proposal, the one you're submitting for the Geography Society field trip competition.
+[64.2] I've had a look through your proposal, and I think it's a really good choice.
+[68.1] In fact, I only have a few things to say about it, but even in an outline document like this, you really have to be careful to avoid typos and problems with layout in the proposal, and even in the contents page.
+[84.2] So read it through carefully before submitting it, okay?
+[87.9] Will do.
+[89.0] And I've made a few notes on the proposal about [[21|things which could have been better sequenced]].
+[95.0] Okay.
+[96.1] As for the writing itself, I've annotated the proposal as and where I thought it could be improved.
+
+[102.7] Generally speaking, I feel you've often used complex structures and long sentences for the sake of it, and as a consequence, although your paragraphing and inclusion of subheadings help, it's quite hard to follow your train of thought at times.
+[119.0] So [[22|cut them down a bit]], can you?
+[121.8] Really?
+[122.1] Yes, and don't forget simple formatting like numbering.
+[127.2] Didn't I use page numbers?
+[129.2] I didn't mean that.
+[130.8] Look, you've remembered to include headers and footers, which is good, but [[23|listing ideas clearly is important]].
+[139.3] Number them or use bullet points, which is even clearer.
+[143.7] Then you'll focus the reader on your main points.
+
+[147.4] I thought your suggestion to go to the Navajo Tribal Park was a very good idea.
+[152.9] I've always wanted to go there.
+[155.2] My father was a great fan of cowboy films and the Wild West, so I was subjected to [[24|seeing all the epics, many of which were shot there]].
+[165.0] As a consequence, it feels very familiar to me, and it's awesome both geographically and visually.
+[172.9] So it's somewhere I've always wanted to visit.
+[175.3] The subsequent research I did and the online photographs made me even keener.
+
+[184.3] Before you hear the rest of the conversation, you have some time to look at questions 25 to 30.
+
+[220.8] Now listen and answer questions 25 to 30.
+
+[228.5] Interesting.
+[229.7] Right.
+[230.3] Let's look at the content of your proposal now.
+[233.4] Did you find it comprehensive enough?
+[235.7] Well, yes and no.
+[238.1] You've listed several different topics on your contents page, but I'm not sure they're all relevant.
+[245.0] No?
+[245.8] Well, I thought that from the perspective of a field trip, one thing I needed to focus on was the sandstone plateau and cliffs themselves.
+[255.7] The way they tower up from the flat landscape is just amazing.
+
+[260.3] The fact that the surrounding softer rocks were eroded by wind and rain, leaving these huge outcrops high above the plain.
+[268.6] It's hardly surprising that tourists flock to see the area.
+[272.5] Well, yes, [[25|I'd agree with including those points]].
+[276.3] And then the fact that it's been home to Native American Navajos and all the social history that goes with that.
+[283.0] The hardships they endured trying to save their territory from the invading settlers.
+[288.7] Their culture is so rich.
+[290.8] All those wonderful stories.
+[293.0] Well, I agree it's interesting, but it's not immediately relevant to your proposal, Sandra.
+[299.1] So at this stage, I suggest you focus on other considerations.
+
+[304.4] I think an indication of [[26|what the students on the trip could actually do when they get there]] should be far more central, so that certainly needs to be included and to be expanded upon.
+[316.3] And I'd like to see something about the [[27|local wildlife and vegetation]], too.
+[322.0] Not that I imagine there's much to see.
+[325.0] Presumably the tourist invasion hasn't helped.
+[327.8] Okay, I'll do some work on those two areas as well.
+[332.6] But you're right.
+[333.8] There's not much apart from some very shallow-rooted species.
+[338.1] Although it's cold and snowy there in the winter, the earth is baked so hard in the summer sun that rainwater can't penetrate.
+[346.9] So it's a case of flood or drought, really.
+
+[349.6] So I understand.
+[351.2] Now, before we look at everything in more detail, I've got a few factual questions for you.
+[358.7] It would be a good idea to include the answers in your finished proposal, because they're missing from your draft.
+[365.7] Fine.
+[366.7] So you mentioned the monoliths and the spires, which was good.
+[370.9] But what area does the tribal park cover?
+[374.2] Do you know?
+[375.7] [[28|12,000]] hectares, and the plain is at about 5,850 metres above sea level.
+[384.9] Larger than I expected.
+
+[386.9] Okay, where's the nearest accommodation?
+[390.0] That's a practical detail that you haven't included.
+[393.3] Have you done any research on that?
+[395.3] Yes.
+[396.2] There's nowhere to stay in the park itself, but there's an old trading post called Goulding quite near.
+[403.9] All kinds of tours start from Goulding, too.
+[407.1] What kind of tours?
+[408.6] Well, the most popular are in four-wheel drive Jeeps, but I wouldn't recommend hiring those.
+[416.1] I think the best way to appreciate the area would be to hire [[29|horses]] instead and trek around on those.
+
+[424.9] Biking is not allowed, and it's impossible to drive around the area in private vehicles.
+[430.8] The tracks are too rough.
+[433.7] Okay.
+[434.3] Lastly, what else is worth visiting there?
+[437.5] There are several [[30|caves]], but I haven't looked into any details.
+[442.9] I'll find out about them.
+[445.0] Okay, good.
+[446.5] Now what I'd like to know is more about...
+
+@21 Apart from typos and layout, the tutor noted parts that could have been better sequenced.
+@22 Her paragraphs and subheadings help; the problem is long, complex sentences.
+@23 She did use page numbers; what was missing was numbering or bullet points for separate ideas.
+@24 Her father's cowboy films, many shot there, made her want to go. The photos only made her keener later.
+@25 The tutor agrees to include the sandstone plateau and cliffs: geographical features.
+@26 What students could do on the trip (field trip activities) must be included.
+@27 The tutor also wants the local wildlife and vegetation. Navajo social history is "not immediately relevant".
+@29 She would not hire jeeps; she suggests hiring horses.

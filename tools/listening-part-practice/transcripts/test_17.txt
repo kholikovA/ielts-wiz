@@ -1,0 +1,123 @@
+# Test 17
+[0.0] Test 17.
+
+[2.3] You will hear a man phoning to inquire about a job vacancy.
+
+[7.6] First, you have some time to look at questions 1 to 4.
+
+[38.3] Good evening, King's Restaurant.
+[40.4] Good evening.
+[41.5] I'm ringing about the job.
+[43.6] I understand you have vacant?
+[45.2] Oh, yes.
+[46.0] I'd like to find out a few more details, if I may.
+[49.0] Yes, of course.
+[49.8] Can I take your name?
+[50.9] It's Peter Chin.
+
+[53.1] OK, Peter.
+[54.5] Well, if you want to ask about the job, and then if we're both still interested, we could arrange for you to come for an interview.
+[62.0] Great, thanks.
+[63.7] I'm afraid I missed the advert for the job but heard about it from a friend.
+[68.0] That's no problem at all.
+[69.4] What would you like to know?
+[70.9] Well, what sort of work is it?
+[74.3] Washing up?
+[75.4] It's [[1|answering the phone]].
+
+[77.3] Oh, right, fine.
+[79.7] And not waiting at table.
+[82.5] That'd be good.
+[84.0] And how many nights a week would it be?
+[86.7] Well, we're really only busy at the weekend.
+[89.6] So, two nights?
+[91.1] Three, actually.
+[92.2] So it would work out at 12 hours a week.
+[95.1] That'd be fine.
+
+[96.3] It wouldn't interfere with my studies.
+[98.4] Are you at the university?
+[99.8] Yes.
+[100.5] First year physics student.
+[102.1] Oh, right.
+[103.4] Um, and because I'm not an EU national, would I need a work permit?
+[108.5] Yes, you would.
+[109.9] Just get your tutor to sign it.
+[111.6] That wouldn't be a problem if I were to get the job.
+
+[114.2] Um, where exactly is the restaurant?
+[118.2] Well, we have two branches.
+[119.8] The one we're recruiting for is in Hillsdunne Road.
+[124.2] I don't know that.
+[126.1] How do you spell it, please?
+[128.2] It's [[2|H-I-L-L-S-D-U-N-N-E Road]].
+[135.2] Got that.
+[136.5] Thanks.
+[137.6] Is it near a bus stop?
+
+[139.3] Yes.
+[140.1] The nearest one would probably be just beside the [[3|library]].
+[142.8] Oh, yes, I know it.
+[145.2] That'd be fine for me.
+[146.7] And could I ask about the pay?
+[149.4] We're offering £[[4|4.45]] an hour.
+[152.3] That's very good.
+[153.6] My last job was £3.95 an hour.
+
+[159.9] Before you hear the rest of the conversation, you have some time to look at questions 5 to 10.
+
+[196.2] Now listen and answer questions 5 to 10.
+
+[204.5] We feel it's pretty good and we also offer some good fringe benefits.
+[208.6] Really?
+[209.4] Well, we give you a free dinner so you eat well.
+[212.9] Right.
+[213.6] Better than hostel food.
+[215.1] We certainly hope so.
+[216.8] And we also offer extra pay for working on [[5|national holidays]].
+[220.4] Oh, that's a really good perk, isn't it?
+[222.8] Yes, we think so.
+
+[224.1] And then because of the difficulties of getting public transport, if you're working [[6|after 11 o'clock]], we drive you home.
+[230.3] Oh, that's good to know.
+[232.5] Well, we'd certainly be interested in inviting you for an interview, if you're still interested.
+[237.5] Oh, yes, certainly.
+[239.2] Could I just also ask what qualities you're looking for?
+[244.0] Well, for this particular job, we want a [[7|clear voice]], which you obviously do have.
+
+[251.2] Thanks.
+[252.5] And you must be able to [[8|think quickly]], you know.
+[255.3] Well, I hope I...
+[256.9] So, when could you come in for an interview?
+[259.3] We're actually quite quiet tonight.
+[261.8] Uh, sorry, I couldn't come tonight.
+[264.1] Or tomorrow, I'm afraid.
+[266.0] Uh, Thursday's OK.
+[267.8] That'll be [[9|22nd of October]].
+
+[270.3] Fine.
+[271.0] After 5pm?
+[272.3] Yes, fine.
+[273.3] Would 6 o'clock be OK?
+[275.8] Perfect.
+[276.6] And could you bring along the names of two referees?
+[279.6] Yes, that's fine.
+[280.8] No problem.
+[281.7] Good.
+
+[282.0] I look forward to seeing you.
+[283.8] Oh, uh, by the way, who should I ask for?
+[287.1] Oh, yes, of course.
+[288.0] Sorry.
+[288.5] My name is Samira Manuja.
+[291.6] Can you spell that, please?
+[293.7] [[10|M-A-N-U-J-A]].
+
+[298.5] OK.
+[299.1] I've got that.
+[300.3] Thanks very much.
+[301.5] Look forward to seeing you later on, then.
+
+@1 The job isn't washing up or waiting at table; it's answering the phone.
+@4 £3.95 an hour was his last job; this one pays £4.45.
+@9 He can't come tonight or tomorrow; Thursday is the 22nd of October, at 6 pm.

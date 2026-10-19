@@ -1,0 +1,49 @@
+# Test 71
+[0.0] Test 71.
+
+[1.1] You will hear part of a lecture about hotels and the tourist industry.
+
+[7.1] First, you have some time to look at questions 31 to 40.
+
+[46.6] Now listen carefully and answer questions 31 to 40.
+
+[54.6] Good morning, everyone.
+[57.3] Today's lecture forms part of the Hospitality and Tourism module.
+[62.4] Last week, I looked at the economy end of the hotel business.
+[66.6] This week, I'm going to discuss the luxury end of the market.
+[71.0] Let's consider the following scenario.
+[74.2] You wake up in the middle of the night in a strange hotel miles away from home, disoriented most probably from jet lag, when even the most expensive surroundings can seem [[31|empty and dispiriting]].
+[88.8] You have paid a great deal of money to stay in this first-class hotel with its contemporary technology, but according to recent research carried out by an international travel and public relations company, all is not well.
+[103.8] The research suggests that even the most opulent, luxurious hotels seem to have underestimated the most basic needs of their customers, be they travelling for work or pleasure: [[32|the need to feel at home in surroundings which are both familiar and inviting]].
+[125.0] Do these findings, however, apply only to hotels situated in particular areas?
+
+[131.5] Is it possible that the external environment can affect a guest's well-being?
+[136.3] The company's research covered [[33|a whole range of different hotel types]], both independent hotels and those which are part of large chains.
+[146.8] They investigated chic so-called boutique hotels in the heart of downtown business districts, stately mansions located in the depths of beautiful countryside, and plush hotels built at the edge of tropical beaches surrounded by palm trees and idyllic blue ocean.
+[167.5] And the research concluded that what was outside the hotel building [[34|simply didn't matter]].
+[174.9] This is a fascinating revelation, and those of you hoping to move into careers in the travel and leisure industry would be well advised to look at the findings in more detail.
+[186.7] But back to the main point of this lecture, the need to feel at home.
+[191.6] What can the hotel industry do about it?
+[195.7] And is the very idea so subjective that it's impossible to do anything about it on a global basis?
+
+[207.5] However, nothing stands still in this world.
+[211.9] One company has come up with a slogan, "take your home with you", and aims to provide clients with luxury serviced apartments.
+[220.4] Those in the business travel industry maintain that these serviced apartments dispense with all the unwanted and expensive hotel services that [[35|business]] travellers don't want, while maximising the facilities they do want.
+[235.1] For example, not only sleeping and living accommodation, but also a sleek modern [[36|kitchen]] that allows guests to cook and entertain, if they wish, at no additional cost.
+[248.0] The attractions of such facilities are obvious, and it'll be interesting to see whether the company manages to establish a trend all over the [[37|world]] and make a lasting impact on the luxury accommodation market.
+[262.4] Now, finally, I want to consider the psychology underpinning the traditional holiday hotel industry.
+[270.3] As a hotelier, how do you go about attracting people to give up the security of their own home and entrust themselves to staying in a completely strange place and sleeping in an unfamiliar bed?
+[285.2] Firstly, hotels exploit people's need to [[38|escape]] the predictability of their everyday lives.
+[292.7] For a few days, people can pretend they are free of responsibilities and can indulge themselves.
+
+[300.2] Secondly, there is something very powerful in our need to be pampered and looked after.
+[306.5] It's almost as if we returned to being a [[39|baby]] when everything was done for us and we felt safe and secure.
+[314.2] And not far removed from this is the pleasure in being spoilt and given little treats, like the minuscule bottles of shampoo and tiny bars of soap, the [[40|chocolate]] on your pillow at night.
+[328.7] And we actually forget that we are paying for it all.
+
+[333.5] Next week, I'm going to look at eco-hotels, a fairly new phenomenon, but increasingly popular, particularly...
+
+@31 Even expensive surroundings can feel empty and dispiriting in the middle of the night: depressing.
+@32 Luxury hotels underestimate the basic need to feel at home somewhere familiar and inviting.
+@33 The research covered many hotel types: independent and chain, city, country and beach.
+@34 The research found that what was outside the hotel simply didn't matter.

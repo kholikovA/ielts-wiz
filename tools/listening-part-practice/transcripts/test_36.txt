@@ -1,0 +1,62 @@
+# Test 36
+[0.0] Test 36.
+
+[1.5] You will hear a man being interviewed on local radio about a plan to improve a suburb called Red Hill.
+
+[10.2] First, you have some time to look at questions 11 to 13.
+
+[39.5] Now listen carefully and answer questions 11 to 13.
+
+[47.6] Good morning and welcome again to Your City Today.
+[52.3] With me today is Graham Campbell, a councillor from the City Council.
+[57.5] He'll be telling us about the plan to improve the fast-growing suburb of Red Hill.
+[62.7] Good morning, Graham, and welcome to the show.
+[64.7] Good morning, Carol.
+[66.0] Now, Graham, I understand that there has been a lot of community consultation for the new plan.
+[71.8] Yes, we've tried to address some of the concerns that local groups told us about.
+[76.6] People we've heard from are mainly worried about traffic in the area, and in particular the [[11|increasing speed of cars near schools]].
+[85.0] They feel that it's only a matter of time before there's an accident as a lot of children walk to the school.
+
+[90.4] So we're trying to do something about that.
+[94.3] Another area of concern is the overhead power lines.
+[97.7] These are very old and a lot of people we spoke to asked if something could be done about them.
+[103.1] Well, I'm happy to report that the power company have agreed to [[12|move the power lines underground]] at a cost of $800,000.
+[112.2] I think that will really improve the look of the area as well as being safer.
+[116.8] That's good to know.
+[118.5] But will that mean an increase in rates for the local businesses in that area?
+[123.3] Well, [[13|the power company have agreed to bear the cost]] of this themselves after a lot of discussion with the council.
+[129.8] This is wonderful news as the council now has some extra funds for us to put into other things like tree planting and artwork.
+
+[140.7] Before you hear the rest of the interview, you have some time to look at questions 14 to 20.
+
+[182.2] Now listen and answer questions 14 to 20.
+
+[189.9] Now, we've also put together a map which we've sent out to all the residents in the area, and on the map we've marked the proposed changes.
+[198.3] Firstly, we'll plant [[14|mature pine trees to provide shelter and shade just to the right of the supermarket]] in Days Road.
+[205.8] In order to address the traffic problems, the [[15|pavements on the corner of Carberry and Thomas Street will be widened]].
+[212.8] This will help to reduce the speed of vehicles entering Thomas Street.
+[217.2] We think it's very important to separate the local residential streets from the main road, so the [[16|roadway at the entrance to Thomas Street from Days Road will be painted red]].
+[227.5] This should mark it more clearly and act as a signal for traffic to slow down.
+[232.9] One way of making sure that the pedestrians are safe is to increase signage at the intersections.
+[238.6] A [[17|keep clear sign will be erected at the junction of Evelyn Street and Hill Street]] to enable traffic to exit at all times.
+[246.4] Something we're planning to do to help control the flow of traffic in the area is to install [[18|traffic lights halfway down Hill Street, where it crosses Days Road]].
+
+[256.0] Now, we haven't only thought about the cars and traffic, of course.
+[260.1] There's also something for the children.
+[262.2] We're going to get schoolchildren in the area to research a local story, the life of a local sports hero, perhaps.
+[269.2] And an artist will incorporate that story into [[19|paintings on the wall of a building on the other side of Hill Street from the supermarket]].
+[276.9] And finally, we've agreed to build a new children's playground, which will be [[20|at the other end of Hill Street, close to the intersection with Carberry Street]].
+[285.7] Wonderful.
+[287.4] Now, what's the next stage?
+[289.9] Well, the final plan will be...
+
+@11 The worry is the speed of cars near schools, because many children walk there: pedestrian safety.
+@12 The old overhead lines will be moved underground.
+@13 Local businesses were worried about higher rates, but the power company will pay.
+@14 To the right of the supermarket on Days Road.
+@15 The corner of Carberry Street and Thomas Street.
+@16 The entrance to Thomas Street from Days Road.
+@17 The junction of Evelyn Street and Hill Street.
+@18 Halfway down Hill Street, where it crosses Days Road.
+@19 Across Hill Street from the supermarket.
+@20 The other end of Hill Street, near Carberry Street.

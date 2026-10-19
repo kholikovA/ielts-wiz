@@ -1,0 +1,98 @@
+# Test 18
+[0.0] Test 18.
+
+[1.8] You will hear a student talking to the student accommodation officer at a college.
+
+[8.3] First, you have some time to look at questions 1 to 5.
+
+[46.6] Good morning.
+[47.6] Can I help you?
+[48.6] Yes.
+[49.4] I've just been accepted on a course at the university, and I'd like to try and arrange accommodation in the Hall of Residence.
+[56.6] Yes, certainly.
+[58.1] Please sit down.
+[59.5] What I'll do is fill in a form with you to find out a little more about your preferences and so forth.
+[64.4] Thank you.
+[65.5] So, first of all, can I take your name?
+
+[68.5] It's Anu Bhatt.
+[70.0] Could you spell your name, please?
+[71.7] Yes.
+[72.6] A-N-U, [[1|B-H-A-T-T]].
+[78.2] Thanks.
+[79.0] And could I ask your date of birth?
+[80.9] The [[2|31st of March]], 1972.
+[84.4] Thank you.
+[85.3] And where are you from?
+
+[86.7] India.
+[87.6] Oh, right.
+[88.7] And what will you be studying?
+[91.0] I'm doing a course in [[3|nursing]].
+[93.2] Right, thank you.
+[95.0] And how long would you want to stay in hall, do you think?
+[98.0] Well, it'll take three years, but I'd only like to stay in hall for [[4|two]].
+[104.1] I'd like to think about living outside for the third year.
+[107.5] Fine.
+
+[108.3] And what did you have in mind for catering?
+[111.1] Do you want to cook for yourself or have all your meals provided?
+[114.5] That's full board.
+[116.0] Is there something in between?
+[118.1] Yes, you can just have evening meal provided, which is half board.
+[122.1] That's what I'd prefer.
+[123.7] Yes, a lot of students opt for that.
+[126.3] Now, with that in mind, do you have any special diet?
+[129.6] Anything we should know about?
+
+[131.3] Yes, I don't take red [[5|meat]].
+[134.1] No red meat.
+
+[138.4] Before you hear the rest of the conversation, you have some time to look at questions 6 to 10.
+
+
+
+[175.4] Now listen and answer questions 6 to 10.
+
+[183.1] Now, thinking about the room itself, we have a number of options.
+[187.4] You can have a single study bedroom or you can have a shared one.
+[191.2] These are both what we call simple rooms.
+[194.1] The other alternative is to opt for a single bedsit, which actually has more space and better facilities.
+[200.8] There's about £20 a week difference between them.
+
+[204.9] Well, actually my grant is quite generous and I think the [[6|bedsit]] sounds the best option.
+[210.0] Lovely, I'll put you down for that and we'll see what availability is like.
+[214.7] Now, can I ask some other personal details which we like to have on record?
+[218.6] Yes, of course.
+[219.6] I wonder if you could let us know what your interests are.
+[222.7] This might help us get a closer match for placing you in a particular hall.
+
+[228.2] Um, well, I love the [[7|theatre]].
+[231.0] Right. And I enjoy sports, particularly badminton.
+[235.7] Ah, that's worth knowing.
+[237.4] Now, what we finish with on the form is really a list from you of what your priorities are in choosing a hall.
+[243.6] And we'll do our best to take these into account.
+[247.1] Well, the first thing is I'd prefer a hall where there are other [[8|mature]] students, if possible.
+[253.3] Yes, we do have halls which tend to cater for slightly older students.
+
+[258.8] And I'd prefer to be out of [[9|town]].
+[262.3] That's actually very good for you because we tend to have more vacancies in out-of-town halls.
+[267.1] Lucky.
+[268.7] Yes.
+[269.2] Anything else?
+[270.6] Well, I would like somewhere with a [[10|shared]] area.
+[273.5] A TV room, for example, or something like that.
+[276.8] It's a good way to socialise.
+[278.9] It certainly is.
+
+[280.0] That's it.
+[281.2] Now, we just need a contact telephone number for you.
+[284.0] Oh, sure, I'll just find it.
+
+[291.7] It's 667549.
+[293.2] Great.
+[294.0] So we'll be in contact with you as soon as possible.
+
+@4 The course takes three years, but she only wants to stay in hall for two.
+@6 Single and shared study bedrooms are the simple rooms; she chooses the bedsit, which has more space.
+@8 She wants other mature (slightly older) students.

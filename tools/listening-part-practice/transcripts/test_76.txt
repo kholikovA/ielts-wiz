@@ -1,0 +1,60 @@
+# Test 76
+[0.0] Test 76.
+
+[1.8] You will hear a lecturer giving a talk about Australian rock art to a group of archaeology students.
+
+[10.0] First, you have some time to look at questions 31 to 40.
+
+
+
+[65.0] Now listen carefully and answer questions 31 to 40.
+
+[73.3] Good morning, everyone.
+[75.2] I've been invited to talk about my research project into Australian Aboriginal rock paintings.
+[81.3] The Australian Aborigines have recorded both real and symbolic images of their time on rock walls for many thousands of years.
+[89.3] Throughout the long history of this tradition, new images have appeared and new painting styles have developed.
+[96.0] And these characteristics can be used to categorise the different artistic styles.
+[101.3] Among these are what we call the Dynamic, Yam and Modern styles of painting.
+[107.5] One of the most significant characteristics of the different styles is the way that humans are depicted in the paintings.
+[114.5] The more recent paintings show people in static poses.
+[119.0] But the first human images to dominate rock art paintings over 8,000 years ago were full of movement.
+
+[126.5] These paintings showed people hunting and cooking food, and so they were given the name dynamic to reflect this energy.
+[133.7] It's quite amazing considering they were painted in such a simple stick-like form.
+[139.0] In the Yam period, there was a movement away from stick figures to a more naturalistic shape.
+[145.5] However, they didn't go as far as the Modern style, which is known as X-ray because it [[31|actually makes a feature of the internal skeleton]] as well as the organs of animals and humans.
+[156.2] The Yam style of painting got its name from the fact that it featured [[32|much curvier figures]] that actually resemble the vegetable called a yam, which is similar to a sweet potato.
+[167.2] The modern paintings are interesting because they include paintings at the time of the first contact with European settlers.
+[175.2] Aborigines managed to convey the idea of the settlers' clothing by simply [[33|painting the Europeans without any hands]], indicating the habit of standing with their hands in their pockets.
+[185.7] Size is another characteristic.
+[188.0] The more recent images tend to be life-size or even larger, but the [[34|dynamic figures are painted in miniature]].
+
+[196.5] Aboriginal rock art also records the environmental changes that occurred over thousands of years.
+[202.7] For example, we know from the dynamic paintings that over 8,000 years ago, Aborigines would have rarely eaten fish and sea levels were much lower at this time.
+[213.5] In fact, [[35|fish didn't start to appear in paintings until the yam period]], along with shells and other marine images.
+[221.8] The paintings of the yam tradition also suggest that, during this time, the Aborigines moved away from animals as their main food source and began [[36|including vegetables in their diet, as these feature prominently]].
+[236.0] Freshwater creatures didn't appear in the paintings until the modern period from 4,000 years ago.
+
+[246.6] So these paintings have already taught us a lot.
+[250.3] But one image that has always intrigued us is known as the Rainbow Serpent.
+[255.2] The Rainbow Serpent, which is the focus of my most recent project, gets its name from its snake or serpent-like body and it first appeared in the Yam period 4,000 to 6,000 years ago.
+[268.1] Many believe it is a curious mixture of kangaroo, snake and crocodile.
+[272.8] But we decided to study the Rainbow Serpent paintings to see if we could locate the [[37|animal]] that the very first painters based their image on.
+
+[282.1] The Yam period coincided with the end of the last Ice Age.
+[286.5] This brought about tremendous change in the environment with the [[38|sea levels]] rising and creeping steadily inland.
+[293.4] This flooded many familiar land features and also caused a great deal of disruption to traditional patterns of life, [[39|hunting]] in particular.
+[302.5] New shores were formed and totally different creatures would have washed up onto the shores.
+[308.2] We studied 107 paintings of the rainbow serpent and found that the one creature that matches it most closely was the ribboned pipefish, which is a type of seahorse.
+[320.0] This sea creature would have been a totally unfamiliar sight in the inland regions where the image is found, and it may have been the inspiration behind the early paintings.
+[330.5] So, at the end of the Ice Age, there would have been enormous changes in animal and plant life.
+[337.0] It's not surprising, then, that the Aborigines linked this abundance to the new creatures they witnessed.
+[343.3] Even today, Aborigines see the Rainbow Serpent as a symbol of [[40|creation]], which is understandable given the increase in vegetation and the new life forms that featured when the image first appeared.
+
+@31 The Modern (X-ray) style shows the skeleton and organs.
+@32 Yam-style figures were curvy, like the vegetable.
+@33 Modern paintings of Europeans leave out the hands (hands in pockets).
+@34 Recent images are life-size or larger; Dynamic figures are miniature.
+@35 Fish, shells and marine images first appear in the Yam period. Freshwater creatures appear only in the Modern period.
+@36 Vegetables feature prominently in Yam paintings.
+@38 At the end of the Ice Age the sea level rose and crept inland.

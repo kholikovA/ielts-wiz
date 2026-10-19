@@ -1,0 +1,93 @@
+# Test 43
+[0.0] Test 43.
+
+[1.3] You will hear two students discussing an assignment.
+
+[6.0] First, you have some time to look at questions 21 to 25.
+
+[40.6] Hi Melanie, what did you think of the assignment that we got today?
+[45.8] It looks interesting, doesn't it?
+[48.1] Yes, Ellen.
+[49.1] I've always been interested in recycling, but there's a lot of research to do.
+[54.5] Yes, there are a lot of things I'm unsure of, so it's going to be good working with you.
+[61.9] OK.
+[62.9] Well, why don't we start by making a flowchart from the notes our tutor gave us?
+[68.7] Yes.
+[70.4] So, on one side we could have the paper production cycle, here on the left, and on the other side the recycling.
+
+[80.8] Good idea.
+[82.6] Let's start at the top with the production.
+[86.0] The first step in the process is to get the raw materials.
+[90.7] Yes, and they tend to come from [[21|pine forests]].
+[95.2] OK.
+[96.7] And then the bark is removed from the outside of the tree and after that the wood is chopped up.
+[105.1] That's the first three stages.
+[107.2] It sounds a bit complicated after that.
+[111.9] It says [[22|water]] is added and then the mixture is heated and made into pulp.
+
+[120.2] This will be the thick paste that is used to make paper.
+[124.4] Yes, you're right, because after that they use a machine to make the paper and we can put that right in the centre of the flowchart because it's also where the recycled paper joins the process.
+[138.8] Yes.
+[139.7] So, once the paper has been produced in the machine, what happens then?
+[146.0] Well, I think we should write [[23|print]] as the next step because this is when newspapers, magazines, etc. are produced.
+[157.2] And we could also add that they have to be distributed to stores and people's homes.
+[164.1] Right.
+[165.3] Then the recycling bit starts.
+[168.2] The old paper's collected and then it says it's taken somewhere so that someone or something can [[24|sort]] it.
+
+[178.5] I imagine there are different kinds of paper or things like paper clips that need to be removed.
+[186.8] Yes, let's have a step after that.
+[190.9] Now, how did our tutors say they do this?
+[195.3] Oh yes, it involves chemicals.
+[199.0] So, how is your chemistry?
+[201.7] Well, not very good, I'm afraid.
+[204.6] But this is how they [[25|remove ink]], so this is definitely going to need a bit of research.
+[212.2] Right.
+[214.4] The last step in the recycling section is similar to the last step in the production process with heating and pulping before the cycle begins again.
+
+[257.0] Now listen and answer questions 26 to 30.
+
+[262.2] So, I think going through the processes helped.
+[266.3] Now we need to decide how we're going to do this assignment.
+[271.0] Yes.
+[272.2] I guess what we need to do is take the processes and divide them up between us.
+[278.7] But we could start thinking about an [[26|introduction]].
+[282.3] Yes, OK.
+[283.4] Well, I can start doing that.
+[285.7] I think I have enough to go on already.
+[288.6] Good.
+
+[289.7] And there are a few areas where we need a lot more information.
+[294.6] I think I'll start with something easy.
+[298.6] Let's say the paper collection.
+[300.8] I could go to the resource centre to do some research.
+[304.9] Well, I think a better idea would be to approach someone who's involved in the process.
+[311.5] What about contacting the [[27|council]]?
+[314.8] Oh, good idea. Yes, I'll do that instead.
+[319.1] They're bound to have some information.
+[322.4] And I know just the thing to add to our work to make it even more interesting.
+
+[327.8] And what's that?
+[329.1] Well, in my last assignment, I added a few pictures and the feedback I got was that this wasn't academic enough.
+[339.5] So what might really bring it to life would be to include some [[28|data]], provided we can find some.
+[346.7] Yes, that sounds excellent.
+[349.4] Well, we certainly have a lot to do and not much time to do it in.
+[354.5] You're right.
+[356.1] I think we have about five weeks, so I suggest we create a plan of work today.
+[363.7] The end of the month is nearly three weeks away, and then we have a few days' holiday.
+[369.6] Yes, so let's see if we can get the [[29|first draft]] done by then, so we can take a short break.
+
+[377.5] OK.
+[378.5] Then, after the break, we'll have just over a week to complete it.
+[383.0] I wonder if we could get someone to review our work for us a few days before the deadline so we can make some final changes.
+[392.7] What about your friend, Henry?
+[395.2] Well, the best person would be our [[30|tutor]].
+[399.1] Henry's very good, but he's taking a whole week's holiday and there won't be enough time when he returns.
+[406.7] OK, then.
+[407.7] That's fine.
+
+@22 After the wood is chopped up, water is added and the mixture is heated and made into pulp.
+@25 The chemicals are used to remove the ink.
+@27 The resource centre was the first idea; contacting the council is better.
+@28 Pictures were not academic enough last time; data would bring it to life.
+@30 Henry is away for a week, so their tutor is the best person.

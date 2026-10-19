@@ -1,0 +1,112 @@
+# Test 14
+[0.0] You will hear a conversation between a representative of an insurance company and a customer.
+
+[7.0] First, you have some time to look at questions 1 to 3.
+
+[41.4] Good morning, Total Insurance.
+[43.5] Judy speaking.
+[44.4] How may I help you?
+[45.5] I recently shipped my belongings from overseas back here to Australia and I took out insurance with your company.
+[52.7] Some items were damaged during the move so I need to make a claim.
+[56.8] What do I have to do?
+[57.7] OK, well, first I need to get a few details about this.
+[61.9] Can you give me your name, please?
+[64.1] Yes, it's Michael Alexander.
+
+[67.0] OK, and your address, please?
+[69.7] My old address or my current one?
+[72.2] Your current one.
+[73.4] It's 24 Manly Street, Milperra, near Sydney.
+[78.4] What was the suburb, sorry?
+[80.3] Milperra.
+[81.1] [[1|M-I-L-P-E-R-R-A]].
+[85.4] Right.
+[86.8] Now, who was the shipping agent, Mr Alexander?
+
+[90.6] You mean the company we used?
+[92.8] Yes, the company who packed everything up at the point of origin.
+[96.6] Oh, it was, um, [[2|First Class Movers]].
+[101.8] OK.
+[103.4] Where were the goods shipped from?
+[105.6] China, but the ship came via Singapore and was there for about a week.
+[111.2] Don't worry, all of that information will be in the documentation.
+[115.4] Now, the dates.
+[116.8] Do you know when the ship arrived?
+
+[118.8] It left on the 11th of October and got to Sydney on the [[3|28th of November]].
+[124.2] OK.
+[125.1] I need one more thing.
+[127.1] There's a reference number.
+[128.8] It should be in the top right-hand corner of the pink form they gave you.
+[133.2] Uh, let me have a look.
+[135.1] I have so many papers.
+[138.4] Ah, yes, here it is.
+[139.9] It's 601-A-C-K.
+
+[143.5] Thanks.
+
+[147.3] Before you hear the rest of the conversation, you have some time to look at questions 4 to 10.
+
+[183.5] Now listen and answer questions 4 to 10.
+
+[190.6] I need to take down a few details of the actual damage over the phone before you put in a full report.
+[196.5] Can you tell me how many items were damaged and what the damage was?
+[200.5] Yes, well, four things actually.
+[202.9] I'll start with the big things.
+[204.5] My TV, first of all.
+[206.8] It's a large one, very expensive.
+[209.4] Our insurance doesn't cover electrical problems.
+[212.2] It isn't an electrical problem.
+[213.9] The [[4|screen]] has a huge crack in it, so it's unusable.
+
+[217.2] I see.
+[218.6] Any idea of the price to repair it?
+[221.0] No.
+[221.7] Well, I don't think it can be repaired.
+[223.9] It will need a new one.
+[225.7] OK.
+[226.4] I'll make a note of that and we'll see what we can do.
+[229.4] Now, what was the second item?
+[231.9] The cabinet from the [[5|bathroom]] was damaged as well.
+
+[235.4] It's a lovely cabinet.
+[236.5] We use it to keep our towels in.
+[238.6] And what is the extent of the damage?
+[240.6] Well, the back and the sides seem OK, but the [[6|door]] has a huge hole in it.
+[245.8] It can't be repaired.
+[247.3] I'm really not very happy about it.
+[249.4] And how much do you think it will cost to replace it?
+[252.2] Well, when I bought it last year, I paid $125 for it.
+[257.4] But the one I've seen here in Sydney is a bit more expensive.
+
+[261.4] It's $[[7|140]].
+[263.4] Right.
+[264.0] And what was the third item?
+[265.8] My dining room table.
+[267.7] It's a lovely table from Indonesia.
+[270.2] It must have been very hot inside the container because one [[8|leg]] has completely split down the middle.
+[277.0] The top and the other three look OK, thank goodness.
+[280.7] Any idea of the price to repair it?
+[282.9] Well, I had an estimate done on this, actually, because it is a very special table to us.
+
+[287.8] They quoted us $200, which is really pricey, so I hope the insurance will cover the total cost.
+[295.4] I'm sure that will be fine.
+[297.1] What was the last item, Mr Alexander?
+[299.8] Well, we have a lovely set of china plates and dishes, you know, with matching cups, saucers, the lot.
+[306.6] They were all in the one box, which must have got dropped because some [[9|plates]] were broken.
+[312.3] Six, actually.
+[313.5] And can you tell me the replacement value of these?
+[316.0] Well, it's hard to say because they were part of a set, but they can be up to $10 each, as it's such a good set.
+[323.3] Okay, so that would be around $[[10|60]] altogether.
+
+[326.5] Yes, that's right.
+[327.9] And is that all of the items?
+[329.8] Yes.
+[330.9] So, what do I have to do now?
+
+@3 The ship left on 11 October; it arrived in Sydney on 28 November.
+@4 It isn't an electrical problem: the screen is cracked and the TV can't be repaired.
+@6 The back and the sides are OK; the door has a hole in it.
+@7 He paid $125 last year, but a replacement in Sydney costs $140.
+@8 The top and the other three legs are fine; one leg has split.
+@10 Six plates at up to $10 each: about $60.

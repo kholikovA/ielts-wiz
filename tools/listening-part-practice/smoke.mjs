@@ -74,6 +74,17 @@ async function runOne(id) {
   await page.click('#submitBtn'); await page.click('#confirmSubmit');
   await page.waitForSelector('#resultsStats .stat-value', { timeout: 5000 });
   let score = await page.$eval('#resultsStats .stat-value', (e) => e.textContent.trim());
+  // transcript review: opens, marks all ten answer locations, one row per question
+  await page.click('#rvOpenBtn');
+  const rv = await page.evaluate(() => ({
+    open: !!document.querySelector('.rv-root.open'),
+    marks: [...new Set([...document.querySelectorAll('.ev-span')].map((e) => +e.dataset.q))].length,
+    rows: [...document.querySelectorAll('.rv-q-num')].length,
+    badges: document.querySelectorAll('.ev-badge.correct').length,
+  }));
+  if (!rv.open || rv.marks !== 10) errs.push(`review: open=${rv.open} marks=${rv.marks}`);
+  if (mode === 'correct' && rv.badges !== 10) errs.push(`review: ${rv.badges}/10 green badges`);
+  await page.click('#rvBack');
   if (process.env.REVIEW) {
     await page.goto(`${BASE}/tests/test_${id}.html?review=1`, { waitUntil: 'domcontentloaded' });
     await page.waitForFunction(() => { const e = document.querySelector('#resultsStats .stat-value'); return e && e.offsetParent; }, null, { timeout: 8000 });

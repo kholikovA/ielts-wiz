@@ -1,0 +1,84 @@
+# Test 58
+[0.0] Test 58.
+
+[1.7] You will hear the Director of Studies in an English Language Centre and a student representative talking about their self-access centre.
+
+[11.5] First, you have some time to look at questions 21 to 24.
+
+[46.5] Now listen carefully and answer questions 21 to 24.
+
+[56.3] Hi, Yun.
+[57.6] As you know, I've asked you here today to discuss the future of our self-access centre.
+[63.3] We have to decide what we want to do about this very important resource for our English language students.
+[70.8] So, can you tell me what the students think about this?
+[74.1] Well, from the students' point of view, we would like to keep it.
+[78.2] The majority of students say that they enjoy using it because it provides a variation on the classroom routine, and they see it as a [[21|pretty major component of their course]].
+[89.0] But we would like to see some improvements to the equipment, particularly the computers.
+[94.5] There aren't enough for one each at the moment, and we always have to share.
+[98.6] Well, yes, the teachers agree that it is a very valuable resource, but one thing we have noticed is that a lot of the students are using it to check their personal emails.
+
+[109.3] We don't want to stop you students using it but we think the computers should be used as a learning resource not for emails.
+[117.4] Some of us also think that we could benefit a lot more by [[22|relocating the self-access centre to the main university library building]].
+[126.0] How do you think the students would feel about that, Yun?
+[128.6] Well, the library is big enough to incorporate the self-access centre, but it wouldn't be like a class activity anymore.
+[136.5] Our main worry would be [[23|not being able to go to a teacher for advice]].
+[141.7] I'm sure there would be plenty of things to do, but we really need teachers to help us choose the best activities.
+[148.4] Well, there would still be a teacher present, and he or she would guide the activities of the students.
+[153.7] We wouldn't just leave them to get on with it.
+[155.9] Yes, but I think the students would be much happier keeping the existing set up.
+
+[160.6] They really like going to the self-access centre with their teacher and staying together as a group to do activities.
+[167.8] If we could just improve the resources and facilities, I think it would be fine.
+[173.0] Is the cost going to be a problem?
+[175.1] It's not so much the expense that I'm worried about, and we've certainly got room to do it, but it's the [[24|problem of timetabling a teacher to be in there outside class hours]].
+[185.9] If we're going to spend a lot of money on equipment and resources, we really need to make sure that everything is looked after properly.
+[193.6] Anyway, let's make some notes to see just what needs doing to improve the centre.
+
+[201.5] Before you hear the rest of the conversation, you have some time to look at questions 25 to 30.
+
+[238.7] Now listen and answer questions 25 to 30.
+
+[247.7] Now, what about the computers?
+[249.9] I think it might be a good idea to install some new models.
+[253.9] They would take up a lot less room, and so that would increase the workspace for textbooks and so on.
+[259.8] That would be great.
+[261.1] It is a bit cramped in there at times.
+[263.5] What about other resources?
+[265.6] Do you have a list of things that the students would like to see improved?
+[269.2] Yes.
+[269.8] One of the comments that students frequently make is that they find it difficult to find materials that are appropriate for their level, especially [[25|reading]] resources.
+
+[279.3] So I think we need to label them more clearly.
+[282.1] Well, that's easy enough.
+[283.2] We can get that organised very quickly.
+[285.8] In fact, I think we should review all of the study resources as some of them are looking a bit out of date.
+[292.3] Definitely.
+[293.1] The [[26|CD]] section especially needs to be more current.
+[296.6] I think we should get some of the ones that go with our latest course books and also make multiple copies.
+[303.8] Good.
+[304.6] Now, I was also thinking about some different materials that we haven't got in there at all.
+
+[310.1] What do you think of the idea of introducing some [[27|workbooks]]?
+[314.6] If we break them up into separate pages and laminate them, they'd be a great resource.
+[320.4] The students could study the main coursebook in class and then do follow-up practice in the self-access centre.
+[327.0] That sounds good.
+[328.2] OK.
+[328.6] Now, finally, we need to think about how the room is used.
+[333.3] I'll have to talk to the teachers and make sure we can all reach some agreement on a [[28|timetable]] to supervise the centre after class.
+[341.3] But we also need to think about security too, especially if we're going to invest in some new equipment.
+[347.4] Um, what about putting in an [[29|alarm]]?
+
+[349.9] Good idea.
+[351.4] The other thing I'd like to do is talk to our technicians and see whether we could somehow limit the access to [[30|email]].
+[359.1] I really don't want to see that resource misused.
+[362.2] What about if we agree to only use it before and after class?
+[366.4] Yes, that would be fine.
+[368.2] OK, anyway, that's great for now.
+[371.1] We'll discuss it further when we've managed to...
+
+@21 Students enjoy the variety, but the reason given is that it is a major part of their course.
+@22 Some teachers want to move it into the main university library.
+@23 The library is big enough; the worry is not being able to ask a teacher for advice.
+@24 Cost and space are not the problem; finding teachers to supervise outside class hours is.
+@25 Students find it hard to find materials at their level, especially reading materials.
+@26 The CDs need updating, with copies of those that go with the latest course books.

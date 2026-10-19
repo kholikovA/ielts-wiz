@@ -1,0 +1,61 @@
+# Test 39
+[0.0] Test 39.
+
+[1.7] You will hear a talk on local radio about a children's theme park.
+
+[7.5] First, you have some time to look at questions 11 to 13.
+
+[32.4] Now listen carefully and answer questions 11 to 13.
+
+[40.7] For the second in our series about locally run businesses, we meet Simon Winridge, co-founder of the hugely successful Winridge Forest Railway Park.
+[51.5] Welcome, Simon.
+[53.0] Now, perhaps you can begin by telling us a little bit about how it all started.
+[57.4] Well, during the 1970s, my wife Liz and I had just acquired 80 acres of sheep farming land, and we decided to settle down and have children.
+[69.1] Pretty soon we had a daughter, Sarah, and a son, Duncan.
+[73.5] The place was wonderful for the kids.
+[75.8] They particularly loved trains and gradually built up an enormous network of miniature railway track.
+[83.7] I began to develop larger scale models of locomotives, but we didn't think anything more of it until I [[11|went on a trip to a theme park near Birmingham and decided we could do a much better job]].
+[96.0] So we set up a small one ourselves, based on the miniature railway, and we opened to the public for just a month that year, 1984, in July, [[12|our driest month]], because our children said they didn't want our guests to have a miserable wet visit.
+
+[113.2] I dealt with park business and Liz carried on with the farm work.
+[118.9] It soon became clear that we were on to a winner.
+[122.8] We began to extend the railway track and lay it among more interesting landscape by planting trees, which in turn attracted more wildlife, and by making cuttings through the rock.
+
+[136.6] Nowadays we're open all year round, and we're pleased to say that Winridge is one of the most popular visitor attractions in the area, with 50,000 visitors a year.
+[147.4] [[13|A million and a half people have been through our doors since we opened]].
+
+[154.2] Before you hear the rest of the talk, you have some time to look at questions 14 to 20.
+
+[191.1] Now listen and answer questions 14 to 20.
+
+[199.0] All these visitors mean we have had to expand our operation, and it's now a truly family concern.
+[207.0] I'm near to retirement age, so I only concern myself with [[14|looking after the mechanical side of things, keeping the trains going]].
+[215.4] Liz now devotes all her energies to [[15|recruiting and supporting the large squadron of workers]], which keep the place running smoothly.
+[223.9] We're really pleased that after some years away teaching, Sarah has now returned to the park and makes sure the [[16|visitors are kept fed and watered]], which keeps her pretty busy, as you can imagine.
+[235.9] Our son Duncan has been a stalwart of the park for the last ten years, taking over from me in the [[17|area of construction]].
+[243.6] And I'll say a little bit more about that in a moment.
+[246.8] And his new wife, Judith, has also joined the team [[18|in charge of retail]].
+[252.0] That's becoming a tremendous growth area for us.
+[255.2] A lot of people want to buy souvenirs.
+
+[257.5] So have you finished your development of the site for the moment?
+[261.0] Not at all.
+[262.1] We're constantly looking for ways to offer more to our visitors.
+[265.9] The railway remains the central feature, and there's now 1.2 kilometres of the line laid, but we'd like to lay more.
+[274.7] Because of the geology of the area, our greatest problem is digging tunnels, but we're gradually overcoming that.
+[281.9] We're also very pleased with a new installation of the go-kart arena, which is [[19|120]] square metres in area.
+[289.5] Again, the problem is the geology.
+[292.4] We had to level the mounds on the track for safety reasons.
+[296.0] We wanted to enable [[20|5 to 12]]-year-olds to use the go-karts, and the main attraction here is the Formula 1 kart.
+
+[304.1] We've known fights to break out over who gets it.
+[307.8] And then finally, to our most recent development, which is the landscape swimming pool.
+
+@11 The children's love of trains and his models came first, but the idea came after visiting a theme park near Birmingham.
+@12 They opened only in July, the driest month, so visitors wouldn't get wet.
+@13 50,000 is the number of visitors per year; 1.5 million have visited since it opened.
+@14 Simon looks after the mechanical side: keeping the trains (engines) going.
+@15 Liz recruits and supports the workers: staffing.
+@16 Sarah used to teach, but now keeps visitors fed and watered: food and drink.
+@17 Duncan took over the construction work from Simon: building.
+@18 Judith is in charge of retail (souvenirs): sales.

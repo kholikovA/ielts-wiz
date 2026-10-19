@@ -1,0 +1,89 @@
+# Test 41
+[0.0] Test 41.
+
+[1.6] You will hear a conversation between an admissions officer and a manager from the university's technologies department.
+
+[9.8] First, you have some time to look at questions 21 to 26.
+
+[44.3] Hello, I'm Randhir Agotra from the Technologies Department.
+[48.5] Ah, yes, good.
+[50.0] I'm Dave Hedley.
+[51.6] Thanks for coming to see me.
+[53.7] That's OK.
+[54.6] I believe you want us to do some work for you.
+[57.3] Yes, that's right.
+[59.7] I'm responsible for student admissions to the college and I use a computer system to help process student enrolments and to do the timetabling.
+[72.1] But it really doesn't suit the way we work these days.
+
+[76.9] It's over 10 years old and although it was fine when it was first introduced, [[21|it's just not good enough now]].
+[86.2] OK, what problems are you experiencing?
+[89.8] Well, 20 years ago the college was quite small and we didn't have the numbers of students or tutors that we have now.
+[98.9] So the system can't handle the increasing volumes?
+[102.4] Well, there's a lot more data now and it sometimes seems the system has crashed but in fact it [[22|just takes ages to go from one screen to the next]].
+[114.0] Right.
+[115.1] Is that the only problem?
+[117.2] Well, that's the main one, but there are others.
+[120.9] In the past, doing the timetabling was quite simple, but now we have a lot more courses, and what's made it complicated is that many of them have options.
+
+[133.6] Right, but the system should allow you to include those?
+[137.3] [[23|Well, no, it doesn't]].
+[139.3] It was supposed to, and a few years ago we did ask someone from the technologies department to fix it, but they never seemed to have the time.
+[151.2] Hmm.
+[151.9] Are there any other issues with the system?
+[154.5] Well, I've been given extra responsibilities and so I have even less time to do the timetabling.
+[163.1] If there was anything you could do, Randhir, to make the process more efficient, that would be really helpful.
+[170.4] Well, it sounds like you could do with an assistant, but that's obviously not possible.
+[176.4] So what about having an [[24|online system that students can use to do their scheduling]]?
+
+[182.1] How would that work?
+[184.2] Well, it may mean less choice for students, but we could create a fixed schedule of all the courses and options and they could then view what was available.
+[195.2] And work it out for themselves.
+[197.4] That sounds great.
+[198.8] OK, so we'll need to decide whether or not to improve the existing system or to build a completely new system.
+[207.7] Well, I'd much prefer to have a new system.
+[211.2] Quite frankly, I've had enough of the old one.
+[214.5] OK, that'll probably take longer, although it [[25|may save you money in the long run]].
+[220.2] When were you hoping to have this in place?
+
+[222.6] Well, it's January now and the new intake of students will be in September.
+[230.0] We need to start processing admissions in the next few weeks, really.
+[237.0] Well, it will take more than a few weeks, I'm afraid.
+[241.0] As an initial estimate, I think we'll be looking at [[26|April or May to improve the existing system]], but for a new system it would take at least nine months.
+[252.3] That would be October at the earliest.
+
+[274.7] Now listen and answer questions 27 to 30.
+
+[280.5] What are the next steps if we are to have a new system?
+[285.1] Well, the first question is, do you have support from your [[27|senior management]]?
+[290.5] Yes, I've already discussed it with them and they're also keen to get this work done.
+[296.5] OK, because I was going to say that's the first thing you need to do and without that we can't go ahead.
+[304.0] Yes, I've done that.
+[305.8] That's good.
+[306.8] Actually, they mentioned that there's probably a form I need to complete to formally start the project.
+[314.1] Yes, that's the next thing you need to do.
+[317.6] I'll send you an email with a link so you can fill it in online.
+
+[321.8] It's called a [[28|project request]] form.
+[324.5] OK, great.
+[326.0] And then what happens?
+[328.0] Well, I have a list of things, but I think the third thing you should do is see Samir.
+[333.5] He's our analyst who will look at the system and identify what needs to be done.
+[338.4] OK.
+[339.5] Can you send me his contact details and I'll set up a [[29|meeting]] with him.
+[344.4] OK, that's good.
+[345.7] So we should soon be able to get a team together to start the work.
+
+[350.0] Some members of our team work in different locations, so it's not easy to have face-to-face meetings.
+[357.1] That's OK.
+[358.4] I'm used to having [[30|conference calls]], providing they're not late at night.
+[363.7] Right.
+[364.9] So I'll send you details of the team and if you could set up a call, that would be great.
+[370.8] OK, I'll do that.
+[372.2] Thanks.
+
+@21 The system is over 10 years old: it was fine at first but is not good enough now.
+@22 It seems to crash, but in fact it is just very slow moving between screens.
+@23 Many courses now have options, and the system doesn't allow for them.
+@24 An assistant isn't possible; instead students could use an online system to work out their own timetables.
+@25 A new system will take longer but may save money in the long run.
+@26 It is January: improving the old system would take until April or May; a new system at least nine months.

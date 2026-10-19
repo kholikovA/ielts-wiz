@@ -1,0 +1,121 @@
+# Test 47
+[0.0] Test 47.
+
+[1.3] You will hear a first-year marketing student called Leo talking to a second-year student called Anna about his marketing report.
+
+[10.7] First, you have some time to look at questions 21 to 26.
+
+[54.9] Anna, I wanted to ask you about my marketing report.
+[59.5] I'm not sure about it.
+[61.3] That's OK, Leo.
+[63.2] So what do you have to do?
+[65.8] Choose a product or service, then compare two organisations that produce it.
+[71.4] I'm doing instant coffee.
+[73.9] But haven't you got a weekend job in a clothing store?
+[78.5] Why didn't you choose clothing?
+[80.8] That was my first thought, because I thought it'd give me some practical examples.
+
+[85.6] But when I searched for men's clothing on the internet, there were hardly any articles.
+[91.8] So then I looked for coffee and I [[21|found there were tons]].
+[96.1] Yeah, there are so many brands on the market now.
+[100.7] OK, so how much have you actually written?
+[104.9] I've done part one on economic and technological factors.
+[109.5] I found some good data on technological changes, how in Australia [[22|fewer people are buying instant coffee because of cheap coffee percolators]] that they can use to make real coffee at home.
+[122.3] But there's also a movement away from drinking coffee.
+[126.4] Switching to things like herbal teas instead because they think it's healthier.
+[131.7] But that's not really to do with technology.
+
+[134.2] It's more cultural.
+[135.6] Anyway, for part two I'm comparing two instant coffee companies, Coffee Now and Shaffers, and I've made this table of products.
+[146.5] Right.
+[148.4] Let's see.
+[150.0] So you've got the brand names and prices and selling size and descriptions.
+[159.6] OK, the table looks good.
+[162.7] You'll get marks for research there.
+[165.6] Where will it go?
+[167.6] In the section on the marketing mix, under product.
+
+[171.6] Not in the appendix?
+[173.6] No.
+[175.0] OK, but it's too factual on its own.
+[179.1] You need to [[23|add some comment in that section about the implications of the figures]].
+[185.3] Right, I'll do that.
+[188.1] Now, I want to say that I think that Shaffers is more of a follower than a leader in the coffee industry.
+[194.7] Now, I'm putting that in the section on market share.
+[199.3] Does that seem OK?
+[201.2] Let's see.
+
+[203.1] So, you've begun by explaining what market share is, that's important, but you've got to be careful how you give that opinion.
+[212.7] Do you think it should go in another section?
+[216.3] Well, it's fine where it is, but you've got to [[24|back it up with some data]] or they'll say your report lacks weight.
+[225.6] OK.
+
+[227.6] One thing I'm worried about is finding anything original to say.
+[233.2] Well, since this is your first marketing report, you're not expected to go out and do interviews and things to collect your own data.
+[242.7] You're just using published data.
+[245.0] So the analysis you do might not throw up anything that people didn't know before.
+[251.9] But the focus is more on how you handle the data.
+[256.0] I mean, you might take something like a graph of sales directly from a website, but [[25|what makes your work original is the perspective you provide by your interpretation of it]].
+[268.5] Oh.
+
+[271.0] You know, it's all so different from business studies assignments at school.
+[276.3] It's really surprised me.
+[279.0] What?
+[279.6] How much research you have to do?
+[282.1] I expected that.
+[284.0] It's more, I knew exactly what I had to do to get a good grade at school.
+[289.4] And I knew I'd be expected to go more deeply into things here.
+[293.4] But I [[26|haven't got information on how the lecturer is going to grade my work]], what he's looking for.
+
+[318.9] Now listen and answer questions 27 to 30.
+
+[324.5] Well, one thing you have to remember is that in a marketing report, you've got to have what they call an executive summary at the beginning.
+[336.0] I forgot that and I got marked down.
+[339.4] Yeah, I've drafted it.
+[341.5] I've got an overview.
+[343.5] Have you got something about the [[27|background]] there?
+[347.3] Yeah.
+[348.1] Good.
+[349.4] So, I've just made a summary of the main points.
+[353.3] I wasn't sure whether or not I should have my aims there.
+
+[356.9] No, that's too personal.
+[359.6] The executive summary is just, like, what a manager would read to get a general idea of your report if he was in a hurry.
+[368.5] Right.
+[370.5] Then I'm OK for the first main part, all of the macro-environment stuff.
+[376.1] But it's when I get onto the problems section, I've listed all the problems that Coffee Now and Shaffers are facing.
+[383.4] But then what?
+[385.2] Well, you have to prioritise.
+[388.2] So indicate the main problems and then you analyse each one by connecting it with a [[28|theory]].
+[395.5] That's where your reading comes in.
+
+[397.5] OK.
+[399.2] Have you done your implementation section yet?
+[402.9] I've thought about it.
+[404.9] So that's where I write about what could be done about the problems.
+[409.3] Yes.
+[410.1] And it's got to be practical, so don't forget to specify things like who would be involved and the [[29|cost]] and the order that things would be done in.
+[420.6] Right.
+[421.7] Well, that shouldn't take long.
+[423.8] You'd be surprised.
+
+[426.3] Actually, that's the bit that tends to get badly done because people run out of [[30|time]].
+[431.8] That and the conclusion.
+[433.7] Oh, any hints for that?
+[436.4] Well, it's got to draw out the main points from your report.
+[441.3] So it's got to be quite general.
+[443.9] You need to avoid introducing new stuff here.
+[447.4] It's got to sum up what you've said earlier.
+
+[451.6] OK.
+[452.2] Thanks, Anna.
+[453.5] That's been a big help.
+
+@21 He works in a clothing store, but there were hardly any articles on men's clothing; there were lots on coffee.
+@22 Cheap percolators mean people make real coffee at home, so fewer buy instant. The move to herbal teas is cultural, not technological.
+@23 The table stays in the marketing mix section (not the appendix), but it needs comment on what the figures mean.
+@24 The section is right, but the opinion must be supported with data.
+@25 First reports use published data; originality comes from how you interpret it.
+@26 He expected the research. What surprised him is not knowing how the work will be graded.
+@27 The overview should include the background; personal aims should not go in.
+@30 The implementation section is often done badly because people run out of time.

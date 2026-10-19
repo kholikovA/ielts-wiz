@@ -1,0 +1,111 @@
+# Test 7
+[0.0] Test 7.
+
+[1.6] You will hear a telephone conversation between two friends called Julie and Nick about cheap accommodation in the city of Darwin, Australia.
+
+[11.3] First, you have some time to look at questions 1 to 6.
+
+[49.9] Hi Nick, it's Julie.
+[52.2] Have you managed to find any information about accommodation in Darwin?
+[56.3] Hi.
+[57.9] I was just going to call you.
+[60.0] I found some on the internet.
+[62.2] There were quite a few hostels for backpackers there.
+[65.6] The first possibility I found was a hostel called Top End Backpackers.
+[71.5] OK.
+[72.8] It's pretty cheap.
+
+[74.2] You can get a bed in a dormitory for $19 per person.
+[78.9] Private rooms cost a bit more.
+[81.5] But we'll be OK in dormitories, won't we?
+[84.3] Sure.
+[84.9] So, that hostel has parking, though that doesn't really matter to us, as we'll be using public transport.
+[94.0] Yeah.
+[95.1] Are there any reviews on the website from people who have been there?
+[100.2] Well, yes.
+[102.0] They aren't all that good, though.
+
+[104.5] Some people said they didn't like the staff.
+[107.2] They had an [[1|unfriendly]] attitude.
+[110.1] Hmm.
+[111.3] That's quite unusual in a hostel.
+[114.2] Usually all the staff are really welcoming.
+[117.1] That's what I thought.
+[119.1] People said they liked the pool and the fact that the rooms had air conditioning.
+[124.2] But the problem with that was that it was very [[2|noisy]], so they were kept awake.
+[129.0] But it was too hot if they turned it off, so they had to put up with it.
+
+[134.7] Someone told me there's another hostel called Gum Tree something.
+[139.3] Hmm, Gum Tree Lodge.
+[141.8] It costs a bit more.
+[144.0] $45 a person.
+[145.9] What?
+[146.8] Oh, no.
+[148.0] That's for private rooms.
+[150.4] It's $[[3|23.50]] for the dorms.
+[153.4] That's more like it.
+
+[155.2] It looks to be in quite a good location.
+[158.1] A bit out of town and quiet, but with good transport and quite near a beach.
+[163.8] Has it got a pool?
+[165.8] Yes, and its own gardens.
+[169.3] The reviews for that one are mostly OK.
+[172.4] Except for one person who said they couldn't sleep because there were [[4|insects]] flying around in the dormitories.
+[178.9] Not for me, then.
+[180.9] And I'd rather be somewhere central, really.
+[184.8] Right.
+
+[186.1] There's a place called Kangaroo Lodge.
+[189.2] They've got dorms at $22.
+[192.0] And it's downtown, near all the restaurants and clubs and everything.
+[196.5] So that should suit you. And it doesn't close at night.
+[200.6] So there's always someone on reception?
+[204.0] That sounds good.
+[205.9] The only criticism I saw was that the rooms were a bit messy and untidy because people just left their clothes and stuff all over the beds and the floor.
+[216.0] Don't hostels usually have lockers in the bedrooms where you can leave your stuff?
+[221.6] Yeah, they do usually, but apparently they don't here.
+
+[226.9] Still, hostels are never particularly tidy places, so that doesn't bother me.
+[232.4] And the same person said that the standard of cleanliness was pretty good, and especially the [[5|bathrooms]].
+[238.6] They were excellent as far as that went.
+[241.5] Right.
+[242.7] Yeah, I reckon Kangaroo Lodge sounds the best.
+[246.6] Me too.
+[247.9] Quite a lot of people reviewing it said it was really fun there.
+[251.4] Like, every night everyone staying there got together and ended up having a [[6|party]].
+[256.0] So it sounds like it's got a really good atmosphere.
+
+[259.2] OK, let's go for that one.
+
+[264.4] Before you hear the rest of the conversation, you will have some time to look at the questions 7 to 10.
+
+[290.5] Now listen and answer questions 7 to 10.
+
+[295.2] Did you get the address of Kangaroo Lodge?
+[298.5] Yes, it's on Shadforth Lane.
+[302.2] Can you spell that?
+[304.5] [[7|S-H-A-D-F-O-R-T-H]].
+[310.8] It's near the transit centre, where the intercity buses and the airport buses drop you off.
+[317.8] Cool.
+[318.9] I'm really looking forward to this.
+[321.6] I've never stayed in a hostel before.
+[324.7] Do they provide bed linen, sheets and things?
+
+[329.0] Yeah.
+[330.1] And you can usually either bring your own [[8|towel]] or hire one there, but they don't usually provide those for free.
+[339.1] OK.
+[340.4] And what happens about meals?
+[343.5] Well, you don't have to pay extra for [[9|breakfast]].
+[347.3] It varies a lot in different places, but generally it's OK.
+[352.2] And there's usually a cafe where you can buy a snack or a hot meal for lunch.
+[357.2] But actually, if you're really travelling on the cheap, usually for every five or six rooms, there's a [[10|kitchen]] where you can knock up a snack, and that saves a lot of money.
+[369.5] Great.
+
+[370.9] Right, well shall I go ahead and book that?
+
+@2 The air conditioning was the problem: it was very noisy and kept people awake.
+@3 $45 is the price of a private room; a dorm bed is $23.50.
+@4 The reviews were mostly OK; the one complaint was insects in the dormitories.
+@5 The rooms were messy, but the cleanliness was good, especially the bathrooms.
+@8 Sheets are provided; towels can be brought or hired, not given free.
+@9 You don't pay extra for breakfast, so it is included.

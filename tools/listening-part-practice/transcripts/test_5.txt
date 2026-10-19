@@ -1,0 +1,102 @@
+# Test 5
+[0.0] Test 5.
+
+[1.2] You will hear a phone conversation in which a woman talks to a public transport official about something she has lost.
+
+[9.5] First you have some time to look at questions 1 to 4.
+
+[33.2] Hello.
+[34.3] City Transport lost property.
+[36.8] How can I help you?
+[38.4] Oh, hello.
+[39.5] Yes, I'm calling about a suitcase I lost yesterday.
+[44.5] I don't suppose I'll get it back, but I thought I'd try.
+[48.6] Well, some people do hand lost items in, so you might be lucky.
+[54.2] Let's put the details into the computer.
+[57.2] OK.
+
+[57.5] Right, so let's start with a description of the suitcase.
+[64.0] OK, well, it's small and it's the type you can pull along on wheels.
+[69.8] How about the colour?
+[71.9] Yes, it's black, but not exactly plain black.
+[76.3] It has some narrow stripes down it, sort of grey.
+[81.5] Actually, no, they're [[1|white]] now I think about it.
+[85.1] OK, I'll just add that information.
+[89.0] Now, were there any items inside it?
+[93.4] Yes, I had a big bunch of keys in there.
+
+[96.9] Luckily, my assistant manager has an identical set, so she's going out this morning to get some copies made.
+[105.0] So, therefore, your [[2|office]]...
+[107.9] That's right.
+[108.8] My house keys were in my pocket, thank goodness.
+[113.4] Anything else?
+[114.9] Um, there were a lot of documents, but they're saved on my laptop anyway, so, uh, they don't matter so much.
+[124.7] But the thing I'm really worried about, I mean, I haven't even taken it out of the box yet, is a [[3|camera]] I just bought.
+[133.2] That's really why I'm calling.
+[135.3] I can't believe I've lost it already.
+[138.6] I see.
+[140.2] Well, let's hope we can find it for you.
+[143.8] Was there anything else?
+[145.8] I don't think so.
+
+[147.3] Any credit cards?
+[149.1] They were in my handbag, and I had my passport inside my jacket pocket.
+
+[156.9] Before you hear the rest of the conversation, you will have some time to look at the questions 5 to 10.
+
+
+
+[193.9] Now listen and answer questions 5 to 10.
+
+[200.1] Money, clothing, any personal items?
+[204.2] Let me think.
+[206.3] I had an [[4|umbrella]].
+[208.1] It was black.
+[209.4] No, blue.
+[210.5] But obviously that isn't as important as the other things.
+[214.1] No, but it all helps us identify your property and get it back to you.
+[219.9] Anyway, I just need to ask you for some basic details about your journey.
+[225.7] So it was yesterday, was it?
+
+[229.3] That's right, in the afternoon, around 2pm, maybe 2.30.
+[234.1] OK, so that'd be [[5|May the 13th]].
+[239.2] Yes, I was heading to Highbury, that's where I live.
+[243.0] All right, and you mentioned a passport, I think, so you were coming from the [[6|airport]], I presume.
+[251.9] Yes, and I was looking forward to getting home so much, and what with being tired and everything, I think that's why I just forgot about the case.
+[261.8] And how were you travelling when you lost your property?
+[266.2] I mean what kind of transport were you using?
+[270.3] I thought about getting the train, but that would have meant a bus journey as well, and I couldn't be bothered.
+[277.1] So I decided to take a [[7|taxi]] eventually.
+
+[280.7] That's where I must have left it.
+[283.1] Well, that's good news in a way.
+[286.1] It's more likely that a driver would have found it and handed it in.
+[291.1] I hope so.
+[292.8] Well, I need your personal details now.
+[296.6] Can I have your full name, please?
+[299.0] Yes, it's Lisa Docherty.
+[301.9] I'll spell that for you.
+[303.8] It's [[8|D-O-C-H-E-R-T-Y]].
+
+[309.7] Thank you.
+[311.2] And next, if I could have your address, the best address to send you the property if we manage to locate it.
+[319.1] Sure.
+[319.7] It's number 15A, [[9|River]] Road.
+[323.3] And that's Highbury, as I said.
+[325.6] Thank you.
+[327.4] Just a moment.
+[328.9] There's just one final thing: that's your phone number.
+[333.7] I guess my mobile would be best.
+[336.5] Uh, hang on, I can never remember my own number.
+[340.0] OK, I've got it.
+[342.3] It's [[10|07979 605 437]].
+[353.3] Very well.
+[354.9] I think that's everything we need at this end.
+[358.8] I'll have a look at the data on it.
+
+@1 She first says grey, then corrects herself: the stripes are white.
+@2 Her house keys were in her pocket; the keys in the case are for the office.
+@3 The documents don't matter because they are saved on her laptop. The camera is new and still in its box.
+@4 She says black first, then corrects it to blue: a blue umbrella.
+@6 She mentions her passport, so she was coming from the airport. Highbury is where she was going.
+@7 She thought about the train (and a bus) but took a taxi.

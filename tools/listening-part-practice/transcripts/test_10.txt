@@ -1,0 +1,97 @@
+# Test 10
+[0.0] Test 10.
+
+[0.9] You will hear a telephone conversation between a customer and a representative of an insurance company.
+
+[8.7] First you have some time to look at questions 1 to 5.
+
+[44.2] Hello,
+[45.5] Motor Insurance Department.
+[47.5] Oh, hello.
+[48.4] I'd like to ask about insurance for my car.
+[51.4] Yes, of course.
+[52.7] I'll just take a few details.
+[55.1] What's your name?
+[56.7] Patrick Jones.
+[58.1] And your address?
+
+[60.0] It's [[1|27 Bank Road]].
+[62.8] 27 Bank Road.
+[65.4] Is that in Greendale?
+[67.3] Yes.
+[68.2] And what's your daytime phone number?
+[70.8] My work number is 730453.
+[75.7] And could I ask what your occupation is?
+[79.2] [[2|Dentist]].
+[80.4] OK.
+
+[82.1] Now, a few details about your car.
+[85.6] What size is the engine?
+[87.6] It's 1,200 cc.
+[89.2] Thank you.
+[91.0] And the make and model?
+[93.2] It's a Hewton Sable.
+[95.6] Could you spell the model name, please?
+[98.8] Yes.
+[99.6] [[3|S-A-B-L-E]].
+
+[103.2] Oh, yes.
+[104.6] Thanks.
+[105.8] And when was it made?
+[108.1] 1997.
+[109.9] Lovely.
+[111.4] Right.
+[112.7] I presume you've had a previous insurer?
+[116.0] Yes.
+[117.1] Right.
+
+[118.1] We need to know the name of the company.
+[120.9] Yes, it was [[4|Northern Star]].
+[124.3] Thank you.
+[126.3] And have you made any insurance claims in the last five years?
+[130.9] Yes, one in 1999.
+[135.0] And what was the problem?
+[136.8] It was [[5|stolen]], but...
+[139.3] That's fine, Mr Jones.
+[141.3] That's all we need to know at the moment.
+
+[147.5] Before you hear the rest of the conversation, you have some time to look at questions 6 to 10.
+
+[178.2] Now listen and answer questions 6 to 10.
+
+[186.0] And will there be any other named drivers?
+[189.5] Just the one.
+[190.9] And his name?
+[192.7] Simon Paynter.
+[194.9] Could you spell the surname, please?
+[198.1] [[6|P-A-Y-N-T-E-R]].
+[203.4] OK, thank you.
+[205.9] And what relationship is he to you?
+[208.8] He's my [[7|brother-in-law]].
+
+[210.3] And what will you or Mr Paynter be using the car for?
+[215.7] Well, mainly for social use.
+[219.0] Social use.
+[222.7] Will you be using it to travel to work?
+[225.6] Yes, sometimes.
+[228.1] [[8|Travel to work]]?
+[231.6] Anything else?
+[233.0] No, that's it.
+[235.3] And finally, when would you like to start the insurance?
+[239.0] I'll need it from the 31st of January.
+[243.0] Right.
+[245.1] Mr Jones, I'm getting a couple of quotes coming up on the computer now.
+
+[250.8] And the best bet looks like being with a company called [[9|Red Flag]].
+[256.7] Yeah?
+[257.7] And that comes out at $[[10|450]] per year.
+[263.5] Oh, well, that seems OK.
+[266.6] It's quite a bit lower than I've been paying up to now.
+[269.6] Great.
+[270.6] So, would you like me to go ahead with that?
+[273.4] Sure, why not?
+[275.1] How would you like to pay?
+
+@5 The claim in 1999 was because the car was stolen.
+@6 The name sounds like "Painter" but is spelt P-A-Y-N-T-E-R.
+@8 The car is mainly for social use, and sometimes for travelling to work.

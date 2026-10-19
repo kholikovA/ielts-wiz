@@ -1,0 +1,94 @@
+# Test 52
+[0.0] Test 52.
+
+[1.2] You will hear two students discussing a geography presentation they're going to give.
+
+[6.9] First, you have some time to look at questions 21 to 26.
+
+[42.1] Now listen carefully and answer questions 21 to 26.
+
+[50.8] Remind me, Trevor, how long is the presentation?
+[53.8] Dr White said three per hour.
+[56.3] So about 20 minutes.
+[58.3] Well, it'll be 15 minutes per presentation.
+[61.3] And [[21|five]] minutes for questions?
+[63.5] And is this one going to be assessed?
+[65.9] [[22|No, not this time round]], because it's the first one, you know.
+[70.1] Oh, good news.
+[71.8] Well, Trevor, what are we going to include?
+
+[74.7] Well, do you think we ought to give some historical background?
+[78.3] Oh, no, definitely not.
+[80.1] We won't have time.
+[81.3] OK, but I think we ought to [[23|say something about the geographical location]], because not a lot of people know where the islands are.
+[89.0] Yes, OK.
+[90.7] I'll take notes, shall I?
+[92.5] Yeah, that'd be a help.
+[94.3] So, geographical location?
+[98.6] Then we ought to give an overview of the whole education system.
+
+[103.0] Shouldn't we say something about the economy?
+[105.7] You know, agricultural produce, minerals and so forth?
+[109.3] Well, Dr White said we shouldn't go into that sort of detail.
+[113.0] But it's pretty important when you think about it.
+[115.1] You know, because it does influence the education system.
+[118.5] Look, [[24|let's think about that one later]], shall we?
+[121.1] Let's see how we're doing for time.
+[123.0] OK, so [[25|general overview of education]]?
+[128.5] Of course.
+
+[129.8] And then the role of English language.
+[132.6] No, [[26|that goes in the language policy seminar]].
+[135.8] Don't you remember?
+[136.6] Are you sure?
+[137.5] Positive.
+[138.7] All right.
+[139.8] So those are the topics we're going to be covering.
+
+[148.5] Before you hear the rest of the discussion, you have some time to look at questions 27 to 30.
+
+[175.3] Now listen and answer questions 27 to 30.
+
+[182.9] We need to think about what to prepare.
+[186.0] Dr White said he wanted us to use plenty of visuals and things and we might as well try them out when we're not being assessed.
+[192.4] Well, the most important thing is the overhead projector.
+[195.5] No problem.
+[196.5] We'll get that from the [[27|media room]].
+[198.5] Must remember to book it.
+[200.1] Well, we'll need a map, of course.
+[202.6] Probably two.
+[204.0] One of the islands, large scale.
+
+[206.3] And one of West Africa.
+[207.7] Well, the West African one is no problem.
+[210.1] There's one in the [[28|resources room]].
+[211.9] Oh, yeah, of course, the resources room.
+[214.5] The islands are going to be more of a problem.
+[217.4] Tell you what, there's a very clear map of Santiago in that tourist brochure I showed you last week.
+[223.4] Don't you remember it?
+[224.4] Oh, yeah, that's right.
+[226.2] We can just use the tourist brochure.
+
+[228.3] We also need statistics on several different things.
+[232.6] Literacy rates?
+[233.8] Yes, and school places.
+[235.5] How about the encyclopedia?
+[237.2] Nah, not up to date enough.
+[240.2] Why don't we call the [[29|embassy]]?
+[242.2] Oh, someone's enthusiastic.
+[244.7] Well, if something's worth doing.
+[246.8] I know, it's worth doing well.
+
+[249.0] Okay.
+[249.8] We can find out [[30|statistics]] on school places from them as well.
+[253.4] Might as well.
+[254.9] Look, Julie, it's almost time for our tutorials.
+[258.3] We can meet again on Monday, but we need to prepare some stuff before then.
+
+@21 Three presentations an hour is about 20 minutes each: 15 for the presentation and 5 for questions.
+@22 It isn't assessed because it is their first one.
+@23 Historical background is out (no time), but the location is in, since few people know where the islands are.
+@24 Dr White said not to go into economic detail, but it influences education, so they will decide later depending on time.
+@26 The role of English belongs to the language policy seminar.
+@29 The encyclopedia isn't up to date, so they will call the embassy.
+!22 The question asks whether it will be assessed; the answer heard is "No, not this time round".

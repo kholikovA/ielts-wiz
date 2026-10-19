@@ -1,0 +1,70 @@
+# Test 31
+[0.0] Test 31.
+
+[1.5] You will hear a talk given by a group offering a walking holiday to raise money for charity.
+
+[8.7] First, you have some time to look at questions 11 to 16.
+
+[33.8] Now listen carefully and answer questions 11 to 16.
+
+[42.0] Good morning.
+[43.2] I'm very pleased to have been invited along to your club to talk about our charity-sponsored walking holiday for education aid.
+[50.6] I'll start by giving you a brief overview of what it entails.
+[54.6] First of all, let me explain what we mean by sponsored here.
+[58.7] This is where people promise to donate money to the charity if you achieve your goal, in this case to walk a certain number of miles.
+[67.2] Basically, we are organising a ten-day holiday from the 6th to the 16th of November, with [[11|eight days actual walking]], trekking in the Semira Mountains.
+[77.6] Let's have a look at some of the details.
+[80.2] We require you to raise sponsorship money of at least $3,200, paying $250 of it up front as a deposit and the rest in stages throughout the year.
+[92.8] Out of this, about 35% will go on your expenses and that leaves [[12|65% guaranteed to go to the charity]].
+
+[102.1] Which brings me to the most important part.
+[104.9] This trek is being specifically organised to help education in the Semira region.
+[110.4] Last year we helped train teachers for the disabled and this year we're focusing on the pupils.
+[117.1] Each of the walkers' sponsorship money will go to help [[13|an individual special needs pupil]] in one of the mountain schools.
+[124.3] In the second part of the talk, I'll be giving you a lot more details.
+[128.5] But back to the basic information.
+[131.5] Age limits.
+[133.0] This is the second time we've run this kind of holiday and on the first we even had an 80-year-old but we found it was wise to establish limits this time.
+[144.2] You have to be at least 18 and the top limit is now 70 though you need to obtain a health certificate from your doctor if you are over 60 years old.
+
+[154.8] Now, the Semira Mountains are among the highest in the world but you mustn't be too daunted.
+[160.2] We will mainly be trekking in the foothills only although there will be spectacular views even in the foothills.
+[167.2] However, you will [[14|need to be extremely fit]].
+[170.0] If you aren't now and you're interested in coming with us,
+[172.7] you have plenty of time to get into shape.
+[176.7] You'll be sleeping in tents.
+[178.0] So you must have quite a bit of equipment with you,
+[181.4] but you will be helped by local assistants.
+[184.1] Your bedding and so forth will be carried by them.
+
+[187.3] We ask that you [[15|only walk with a small rucksack with needs for the day]].
+[192.6] I don't think I've really said enough about the marvellous area you'll be walking in.
+[197.2] Let's have a look at some of the sights you'll be seeing.
+[200.5] Apart from these spectacular snow-covered peaks and valleys, there are marvellous historic villages.
+[206.5] The area has been [[16|famous for centuries for making beautiful carpets]], although recently there has been a trend to move into weaving blankets and wood carving.
+[215.8] The people are extremely friendly and welcoming.
+[218.2] We deliberately keep the party small in size to minimise disruption to people and landscape.
+
+[227.8] Before you hear the rest of the talk, you have some time to look at questions 17 to 20.
+
+[254.5] Now listen and answer questions 17 to 20.
+
+[261.9] I hope that there are still some people interested.
+[265.0] I will be distributing leaflets at the end where you can find out more information.
+[269.5] But just for the moment, I'll outline the itinerary, the main high points of the holiday.
+[275.3] Obviously, you'll start by flying out to Kishba, the capital city, on day one.
+[280.3] After a couple of days to acclimatise yourself, you'll start the trek on day three, walking through the enormous Katiba [[17|forest]], which will take the whole of the day.
+[290.0] Day four takes us higher up, going through the foothills, past a number of villages, and visiting a school for the disabled in Sohan.
+[297.8] Then you have a rest day, that's day five, before going to the spectacular Kumi [[18|temple]], with 12th-century carvings, set in a small forest by a lake, and that's day six, the highlight for many.
+[311.7] We stay near there for day seven, because then comes the hardest day, walking through very mountainous country, but culminating in a swim in the Pate Falls.
+[321.5] This is the highest [[19|waterfall]] in the region.
+
+[324.8] Day nine is much easier, with part of the day spent in a [[20|village]] where they make some of the gorgeous red blankets, then back down to Kishba and the journey home.
+[335.1] So, you can see it's a pretty packed timetable.
+
+@11 The holiday lasts ten days, with eight days of actual walking.
+@12 About 35% goes on expenses, leaving 65% for the charity.
+@13 Last year the money trained teachers; this year each walker's money helps one special-needs pupil.
+@14 The walking is mainly in the foothills, but you still need to be extremely fit; there is time to get into shape before you go.
+@15 Local assistants carry your bedding and other equipment; you only carry a small day rucksack.
+@16 Carpets are the long tradition; blankets and wood carving are a recent trend.

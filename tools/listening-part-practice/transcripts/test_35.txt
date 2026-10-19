@@ -1,0 +1,54 @@
+# Test 35 (the narrator says "Test 36" at the start of this recording)
+[0.0] Test 36.
+
+[1.2] You will hear a man talking on the radio about a national arts centre.
+
+[7.1] First, you have some time to look at questions 11 to 16.
+
+[41.6] Now listen carefully and answer questions 11 to 16.
+
+[49.6] Hello and welcome to Focus on the Arts.
+[52.7] I'm your host, Dave Green, and this is your very own local radio programme.
+[58.1] Every Friday evening, we put the spotlight on different arts and culture facilities and look at the shows and events that are on offer in the coming week.
+[66.1] And today, the focus is on the National Arts Centre.
+[69.8] Now, if you don't already know it yourself, I'm sure you've all heard of it.
+[74.1] It's famous throughout the world as one of the major venues for [[11|classical music]].
+[78.8] But did you know that it's actually much more than just a place to hear concerts?
+[83.1] The centre itself is a huge complex that caters for a great range of arts.
+[87.3] Under a single roof it houses concert rooms, theatres, cinemas, art galleries and a wonderful public library, as well as service facilities including three restaurants and a [[12|bookshop]].
+[99.7] So, at any one time, the choice of entertainment there is simply enormous.
+
+[104.9] So, how did they manage to build such a big arts complex right in the heart of the city?
+[110.6] Well, the area was completely destroyed by bombs during the war in 1940.
+[115.9] So the opportunity was taken to create a cultural centre that would be what they called the city's gift to the nation.
+[122.8] Of course, it took a while for such a big project to get started, but it was [[13|planned]] in the 60s, built in the 70s, and eventually opened to the public in [[14|1983]].
+[132.8] Ever since then, it has proved to be a great success.
+
+[137.0] It's not privately owned, like many arts centres, but is still in public hands.
+[141.7] It's run by the [[15|City Council]].
+[144.0] Both our National Symphony Orchestra and National Theatre Company were involved in the planning of the project, and they're now based there, giving regular performances every week.
+[153.2] And as the Centre has opened [[16|363]] days of the year, there are plenty of performances to choose from.
+
+[162.3] Before you hear the rest of the broadcast, you have some time to look at questions 17 to 20.
+
+[188.7] Now listen and answer questions 17 to 20.
+
+[196.1] So, to give you some idea of what's on, and to help you choose from the many possibilities, we've made a selection of the star attractions.
+[204.3] If you're interested in classical music then we recommend you go along to the National on either Monday or Tuesday evening at 7.30 for a spectacular production of The Magic Flute, probably the most popular of all Mozart's operas.
+[218.2] It's in the [[17|Garden Hall]] and tickets start at only £8, but you'll have to be early if you want to get them that cheap.
+[224.4] And remember, it's only on for those two evenings.
+[228.0] For those more interested in the cinema you might like to see the new Canadian film, which is showing on Wednesday evening at 8pm in Cinema 2, and that's called [[18|Three Lives]].
+[238.6] It's had fantastic reviews and tickets cost just £[[19|4.50]], which is a reduction on the usual price of £5.50, so it's really good value, especially for such a great movie.
+[250.1] But you can see the centre's main attraction at the weekend because on Saturday and Sunday, 11am to 10pm, they're showing a wonderful new exhibition that hasn't been seen anywhere else in Europe yet.
+[262.2] It's a collection of Chinese art called [[20|Faces of China]].
+[266.5] That's in Gallery 1.
+
+[268.2] And it has some really fascinating paintings and sculptures by leading artists from all over China.
+[273.9] And the good news is that it's completely free, so don't miss it.
+[278.7] So why not go along to the National Arts Centre next week for one or all of these great events?
+[284.2] And you can always pick up a programme and check out all the other performances and exhibitions on offer or coming soon on almost every day of the year.
+[293.9] Next week we'll be looking at the new Museum of Science.
+
+@13 It was planned in the 1960s, built in the 1970s and opened in 1983.
+@15 It is not privately owned; it is run by the City Council.
+@19 £5.50 is the usual price; tickets for this film are reduced to £4.50.

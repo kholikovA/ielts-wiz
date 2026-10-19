@@ -1,0 +1,66 @@
+# Test 66
+[0.0] Test 66.
+
+[1.7] You will hear a lecture about how technology affects human interaction.
+
+[6.8] First, you have some time to look at questions 31 to 40.
+
+
+
+[70.2] Good morning.
+[72.1] Today, we're thinking about the way that technology is influencing our social structures and the way we interact with one another.
+[80.7] Humans, as we know, have always lived in groups.
+[85.4] Without this arrangement, our species would have died out long ago.
+[90.5] But now, the way we see and define our group is changing.
+[96.5] I'd like to start by mentioning the research of American sociologist Mark Granovetter in 1973.
+[104.7] It was Granovetter who first coined the term "weak ties", which he used to refer to people's loose acquaintances.
+[114.6] In other words, friends of friends.
+[117.8] His research showed that weak ties had a significant effect on the behaviour and choices of populations, and this influence was something highly important in the fields of information science and politics, and as you can imagine, [[31|marketing]] also.
+
+[136.9] So, these friends of friends, people we might spend time with at social or work gatherings, might not be like us, but they can still have a positive influence because we share the same sort of [[32|interests]].
+[154.0] That's enough to make a connection, and this connection can turn out to be more beneficial than we might suspect.
+[161.7] An example of this, an example of how the connection can influence us, is when our weak ties get in touch and pass on details about [[33|jobs]] they think might be suitable for us.
+[175.2] Well, since Granovetter first came up with this theory, his work has been cited in over 19,000 papers.
+[184.0] Some of these studies have looked at how weak tie networks are useful to us in other ways, and one thing that seems to improve as a result of weak tie influence is our [[34|health]].
+
+[201.2] Today, our number of weak-tie acquaintances has exploded due to the Internet, to the phenomenon of online social networking.
+[211.7] This is still a relatively new way of communication, something that has a huge amount of potential.
+[218.8] But also, as with any invention, it brings with it a new set of problems.
+
+[226.9] Let's start with the benefits.
+[230.0] Without question, online social networking allows us to pass on the latest news, to be [[35|up-to-date with local and global events, and for many, this information comes from sources more trustworthy]] than local media.
+[247.2] So this is one clear point in favour of online social networking.
+[253.0] I know that it's also being used by students, as a means of increasing their chances of success in the way that lecture notes can be shared and ideas discussed.
+[266.2] I think, personally speaking, that we need some further research before we can definitively say whether it helps or not.
+[275.8] There's also been a great increase in the number of networking sites devoted to sharing advice on health issues, but there are as yet no studies to prove the reliability of that advice.
+[289.9] Now, what we do have clear evidence for is that people are [[36|developing friendships and professional networks in a way that wasn't possible before]].
+[301.2] The process is faster.
+[303.9] I'm not talking about quality here, but simply that they exist.
+
+[309.0] And it's debatable whether the number of online friends that you have increases your level of self-confidence.
+[317.1] That's perhaps an area of research some of you might be interested in following up.
+
+[324.0] Turning to the problems, there are any number of articles connecting online activity to falling levels of physical fitness.
+[332.9] But it's too easy to blame the Internet for our social problems.
+[337.9] The poor grades of schoolchildren are also frequently linked to the time spent on social networking sites, but it would be naive to believe there are no other contributing factors.
+
+[351.2] One real concern, however, is the [[37|increase in the amount of fraud]], where, for example, people are using the personal data of others which they've put online for criminal purposes.
+[365.4] This kind of activity seems likely to continue.
+[369.7] And then, certainly for employers, online social networking sites have provided a great time-wasting opportunity,
+[378.6] [[38|reducing productivity like never before]].
+[381.2] And I doubt they can put a stop to this habit, no matter what restrictions are in place.
+[388.0] We'll come back to these issues in a minute, but I'd like to say something about the theories of Robin Dunbar, an anthropologist at Oxford University.
+[398.4] Dunbar has found that the human brain has evolved in a way that means we can only give real attention to a particular number of people.
+[408.3] One hundred and fifty, apparently.
+[411.3] So, for example, if the number of friends on your online network is greater than that, according to Dunbar, this would imply the relationships are only superficial.
+
+[423.6] Dunbar is not against online relationships, but he maintains that [[39|face-to-face interaction is essential for the initial creation of true friendship]] and connections.
+[436.8] He's concerned that for young people, if their only experience of forming relationships is online, this [[40|doesn't allow them to form the ability or acquire the strategies for maintaining relationships]].
+[451.1] For example, in situations where negotiation or diplomacy is required, or where it's essential for...
+
+@35 Reliable news from sources more trustworthy than local media is a clear benefit.
+@36 Friendships and networks form faster; the effect on self-confidence is debatable and academic benefits need more research. Health advice is unproven.
+@37 Fitness and school grades are not blamed on the internet alone; fraud "seems likely to continue".
+@38 Time-wasting at work is reducing productivity, and he doubts it can be stopped.
+@39 Online sites are not a good starting point: face-to-face contact is essential to begin a true friendship.
+@40 Young people who only meet online may not develop skills like negotiation and diplomacy.

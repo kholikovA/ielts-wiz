@@ -1,0 +1,114 @@
+# Test 11
+[0.0] Test 11.
+
+[1.3] You will hear a conversation between a student and a job advisor.
+
+[6.8] First, you have some time to look at questions 1 to 5.
+
+[41.2] Good morning.
+[42.6] Oh, good morning.
+[44.6] Is this room number 26?
+[48.4] Yes, that's right.
+[49.7] So, is this the student job centre?
+[52.5] It certainly is.
+[53.8] How can I help you?
+[55.2] Well, actually, I'm looking for a job.
+[58.3] A part-time job.
+
+[60.0] Do you have anything available at the moment?
+[62.6] Er, yes.
+[64.0] Are you a registered student?
+[65.9] I'm afraid this service is only available to full-time students.
+[69.3] Yes, I am.
+[70.7] I'm doing a degree in [[1|business studies]].
+[73.0] Here's my student card.
+[75.2] Which year are you in?
+[77.2] Well, I've been at uni for four years, but I'm in the [[2|third]] year because I took last year off.
+
+[83.9] Right.
+[84.5] Well, let's just have a look at what positions are available at the moment.
+[89.8] There's a job working at the reception desk at the [[3|sports centre]] for three evenings a week.
+[94.9] That's Wednesdays, Thursdays and Fridays.
+[96.8] That sounds like fun, but unfortunately I have evening lectures.
+[101.8] So that's not possible, I'm afraid.
+[103.9] Is there anything during the day?
+[107.6] OK, that's no good then.
+[110.9] What about cleaning?
+
+[112.5] There's a position for a [[4|cleaner]] at the childcare centre.
+[115.8] Right. But you'd need to be there at 6am.
+[119.3] Does that appeal?
+[120.8] Six o'clock in the morning?
+[123.4] That's far too early for me, I'm afraid.
+[125.8] I'd never make it that early in the morning.
+[128.5] Hmm.
+[129.6] Well, there was a position going in the computer lab for three days a week that might be OK.
+[135.6] Ah, here it is.
+
+[136.7] No, it's in the [[5|library]], not the lab.
+[140.6] A clerical assistant required.
+[142.1] I think it mostly involves putting the books back on the shelves.
+[145.8] Oh no, hang on.
+[147.6] It's for Wednesday and Friday evenings again.
+[150.1] No, I can't manage that because of the lectures.
+
+[154.5] OK, I'm getting the idea.
+[156.9] Look, I'll just get a few details from you anyway, and then we can check through the list and see what comes up.
+
+[166.5] Before you hear the rest of the conversation, you have some time to look at questions 6 to 10.
+
+[197.8] Now listen and answer questions 6 to 10.
+
+[205.0] We'll fill in the personal details on this application form first, if that's OK.
+[210.2] Yeah, that's fine.
+[211.4] Now, what's your name again?
+[213.2] Anita Newman.
+[214.8] That's N-E-W-M-A-N.
+[217.9] And your address, Anita?
+[219.5] I'm in one of the halls of residence for postgraduate students.
+[223.0] You know, [[6|International House]].
+[224.6] OK, that's easy.
+
+[226.1] What's your room number there?
+[227.7] Room B569.
+[229.8] No, sorry, [[7|B659]].
+[233.0] I always get that wrong.
+[234.2] I haven't been living there very long.
+[236.1] Do you have any other skills?
+[237.8] Typing languages, that sort of thing?
+[239.8] Well, I speak some Japanese.
+[242.0] Right, I'll make a note of that.
+
+[244.7] Now, let's see what else is available.
+[247.8] What do you think of administrative work?
+[249.9] There's a position for an [[8|office assistant]] at the English Language Centre.
+[255.7] That sounds interesting.
+[257.3] It's for three days a week, Monday, Friday and Saturday mornings.
+[261.8] Interested?
+[263.3] I was hoping to have Saturdays free, but I need the work, so...
+[269.8] Can you tell me what the job involves?
+[272.0] Yeah, sure.
+
+[272.9] It says here that you'll be required to deal with student inquiries and [[9|answer the phone]].
+[277.9] I'm sure I can handle all that without a problem.
+[280.6] Great.
+[281.7] Well, would you like me to arrange an interview for you?
+[284.3] Say, Friday morning, around ten?
+[285.8] Oh, er, could we make it a bit later?
+[289.0] Unfortunately I've got something to do at ten.
+[291.2] Would that be okay?
+[292.5] Not a problem.
+
+[293.8] How about [[10|11.30]]?
+[295.2] Hmm.
+[296.0] Hope it works out for you, Anita.
+[297.5] Me too.
+[298.1] And thanks for all your help.
+
+@1 She is doing a degree in business studies.
+@2 She has been at university for four years, but took last year off, so she is in her third year.
+@3 She can't do the sports centre job because of her evening lectures.
+@4 The cleaning job at the childcare centre starts at 6 am, which is too early for her.
+@5 The job is in the library, not the computer lab, and it is in the evenings again.
+@7 She first says B569, then corrects herself: B659.
+@10 Ten o'clock doesn't suit her, so the interview is moved to 11.30.

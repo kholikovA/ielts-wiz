@@ -1,0 +1,51 @@
+# Test 30
+[0.0] Test 30.
+
+[0.7] You will hear a recorded message giving tourists travel information in a large city.
+
+[7.9] First, you have some time to look at questions 11 to 18.
+
+[43.4] Now listen carefully and answer questions 11 to 18.
+
+[53.0] Thank you for calling the tourist line.
+[55.6] There are many different ways of getting round the city and we'd like to suggest some you may not have thought of.
+[62.4] How about a city trip by boat?
+[65.6] There are four main stopping points, from west to east, Stop A, Green Banks; Stop B, [[11|City Bridge]]; Stop C, Roman Landing; and Stop D, [[12|Newtown]].
+[82.5] You can find the main booking office at Stop A.
+[86.9] The first boat leaves at 8am and the last one at [[13|6.30pm]].
+[93.7] There are also many attractions you can visit along the river.
+[98.5] At Stop A, if you have time, you can visit the fine 16th century palace here, built for the king with its beautiful [[14|formal gardens]].
+[108.9] It's very near the booking office.
+
+[111.8] Now you can enjoy every corner of this superb residence.
+
+[117.1] Stop B.
+[118.6] Why don't you visit [[15|Tower Restaurant]] with its wide range of refreshments?
+[124.1] This is a place where you can sit and enjoy the wonderful [[16|views]] over the old commercial and banking centre of the city.
+
+[132.5] Stop C is the area where, in the first century AD, invading soldiers crossed the river.
+[139.8] This was much shallower than it is now.
+[143.3] That's why this area is called Roman Landing.
+[147.0] There's an interactive museum to visit here, with a large shop which has a good range of local [[17|history]] books.
+[155.5] At the furthest point of the trip, Stop D, the most exciting place to visit is the new entertainment complex with [[18|seven-screen]] cinema, bowling alley and video games arcade.
+
+[171.0] Before you hear the rest of the message, you have some time to look at questions 19 and 20.
+
+[192.8] Now listen and answer questions 19 and 20.
+
+[200.4] Besides the boat tours, there are city buses.
+[205.1] Two companies offer special services.
+[208.6] The Top Bus Company runs all its tours with a live commentary in English.
+[214.7] Tours leave from 8.30am [[19|every 20 minutes]].
+[220.0] There are departures from Central Station, Castle Hill and Long Walk.
+[226.6] This is a hop-on hop-off service and tickets are valid for 24 hours.
+[233.6] For further details call Top Bus on 0208 944 7810.
+
+[244.6] The Number One Sightseeing Tour is available with a commentary in eight languages.
+[251.2] Buses depart from [[20|Central Station]] every five to six minutes from about 9am, with the last bus at around 7pm.
+[262.4] There are also Number One services with an English-speaking guide.
+
+@11 Stops run west to east: A Green Banks, B City Bridge, C Roman Landing, D Newtown.
+@13 The first boat is at 8 am; the last one is at 6.30 pm.
+@19 Top Bus tours leave every 20 minutes from 8.30 am. Number One buses run every five to six minutes.
+@20 Top Bus departs from three places; the Number One tour departs from Central Station.

@@ -1,0 +1,61 @@
+# Test 38
+[0.0] Test 38.
+
+[1.6] You will hear a man giving a talk to new members of a wildlife club in the south of England.
+
+[9.2] First, you have some time to look at questions 11 to 13.
+
+[34.4] Now listen carefully and answer questions 11 to 13.
+
+[42.7] Hello.
+[43.8] I'm delighted to welcome you to our wildlife club and very pleased that you're interested in the countryside and the plants and creatures of this area.
+[53.2] I think you'll be surprised at the variety we have here, even though we're not far from London.
+[59.2] I'll start by telling you about some of the parks and open spaces nearby.
+[64.2] One very pleasant place is Halland Common.
+[68.1] This has been public land for hundreds of years, and what you'll find interesting is that the River Ouse, which flows into the sea 80 kilometres away, has its source in the common.
+[80.8] There's an information board about the plants and animals you can see here, and, by the way, the common is accessible 24 hours a day.
+[90.4] Then there's Holt Island, which is noted for its great range of [[11|trees]].
+[95.6] In the past, willows were grown here commercially for basket-making and this ancient craft has recently been reintroduced.
+
+[104.9] The island is only open to the public from [[12|Friday to Sunday]] because it's quite small and if there were people around every day, much of the wildlife would keep away.
+[116.2] From there, it's just a short walk across the bridge to Longfield Country Park.
+[121.7] Longfield has a modern replica of a [[13|farm]] from over 2,000 years ago.
+[127.8] Children's activities are often arranged there, like bread-making and face-painting.
+[133.4] The park is only open during daylight hours, so bear that in mind if you decide to go there.
+
+[142.7] Before you hear the rest of the talk, you have some time to look at questions 14 to 20.
+
+[179.8] Now listen and answer questions 14 to 20.
+
+[188.4] Longfield Park has a programme of activities throughout the year and to give you a sample, this is what's happening in the next few days.
+[197.3] On Monday, you can learn about herbs and how they've been used over the centuries.
+[203.0] You'll start with a tour of our herb garden, practise the technique of [[14|using them as colour dyes for cloth]], and listen to an illustrated talk about their use in cooking and medicine.
+[216.3] Then on Wednesday, you can join local experts to discover the variety of insects and birds that appear in the evening.
+[225.2] We keep to a small number of people in the group, so if you want to go, you'll need to [[15|phone the park ranger a few days ahead]].
+[233.0] There's a small charge which you should pay when you turn up.
+
+[237.8] I'm sure you're all keen to help with the practical task of looking after the park, so on Saturday you can join a working party.
+[246.3] You'll have a choice of all sorts of activities, from planting hedges to picking up litter, so you'll be able to change from one to another when you feel like it.
+[256.5] The rangers will be hard at work all day, but do come and join in, even for just a short while.
+[263.9] One thing, though, is to make sure you're [[16|wearing something that you don't mind getting dirty or torn]].
+
+[271.1] And finally, I'd like to tell you about our new wildlife area, Hinchingbrook Park, which will be opened to the public next month.
+[280.3] This slide doesn't really indicate how big it is, but anyway, you can see the two gates into the park and the main paths.
+[289.0] As you can see, there's a lake in the north-west of the park with a [[17|bird hide to the west of it at the end of a path]], so it'll be a nice quiet place for watching the birds on the lake.
+
+[302.1] Fairly close to where refreshments are available, there's a [[18|dog walking area in the southern part of the park leading off from the path]].
+[309.9] And if you just want to sit and relax, you can go to the flower garden.
+[314.8] That's the [[19|circular area on the map surrounded by paths]].
+[319.6] And finally, there's a [[20|wooded area in the western section of the park between two paths]].
+[325.4] OK, that's enough from me, so let's get on and have a look.
+
+@12 The island is open only from Friday to Sunday, to keep disturbance to the wildlife down.
+@13 The farm is a modern replica of one from over 2,000 years ago.
+@14 The activity includes a tour of the herb garden, dyeing cloth with herbs, and a talk about cooking and medicine. No herbalist is mentioned.
+@15 Numbers are small, so you phone ahead. There is a charge, paid on the day.
+@16 You can come for a short while and choose activities as you go, but wear clothes you don't mind getting dirty or torn.
+@17 West of the lake, at the end of a path, in the north-west.
+@18 In the south, near the refreshments, off the path.
+@19 The circular area surrounded by paths.
+@20 In the western section, between two paths.
+!12 The two boxes are the first and last days: from Friday to Sunday.

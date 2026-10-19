@@ -1,0 +1,145 @@
+# Test 19
+[0.0] Test 19.
+
+[1.9] You will hear a telephone conversation between a travel company employee and a customer.
+
+[8.4] First, you have some time to look at questions 1 to 5.
+
+[44.7] Greek Island Holidays.
+[46.4] Can I help you?
+[47.5] Yes, I hope so.
+[49.3] I have a friend who's just come back from Corfu, and she's recommended some apartments in Arillas.
+[55.7] She thought they might be on your list.
+
+[59.2] Arillas, Arillas, let me see.
+[62.2] Can you give me the names?
+[63.9] Yes, the first, Rose Garden Apartments.
+[67.3] I'd like to go with another friend in the last week of October.
+
+[72.1] Well, we've got a lovely studio flat available at that time.
+[76.1] I'm sure you'd enjoy the entertainment programme there too,
+[79.3] with Greek dancing in the restaurant.
+[82.1] And the cost for each of us?
+[84.8] £219.
+[86.0] That sounds very reasonable.
+[88.0] I'm just jotting down some notes.
+[91.4] Now, the second one she mentioned was called Blue Bay.
+[95.3] Blue Bay.
+[98.0] Yes, in fact, that's very popular and it has some special features.
+
+[103.1] Really?
+[103.6] The main attraction is the large swimming pool with salt water.
+[107.9] Much healthier, I understand.
+[109.9] That's right.
+[110.7] And it isn't far from the beach either, only [[1|300]] metres.
+[115.5] And only around half a kilometre to some shops, so you don't have to be too energetic.
+[122.0] Is it much more expensive than the first one?
+[124.6] Let me just check.
+[126.7] I think at the time you want to go, it's around £260.
+
+[133.1] No, £275 to be exact.
+[135.8] Right, I've got that.
+[137.3] Now, there are just two more apartments to ask you about.
+[141.6] I can't read my own writing.
+[143.5] Something to do with sun, sunshine, is it?
+[146.9] I think you meant the [[2|Sunshade Apartments]].
+[149.9] They're on a mountainside.
+[151.7] Any special features?
+[153.4] Yes, each room has its own sun terrace and there are shared barbecue facilities.
+
+[159.1] Ooh, sounds lovely.
+[160.5] Yes, it is rather well-equipped.
+[162.7] It also provides water sports.
+[164.9] It has its own beach.
+[167.4] There are facilities for water skiing.
+[170.1] Any kite surfing?
+[171.6] My friend's quite keen.
+[173.4] Not at the hotel, but I'm sure you'll find some in Arillas.
+[177.8] There's also satellite TV in the apartments.
+
+[180.8] And how much is that one?
+
+[184.3] £490 with two sharing.
+[186.7] You mean £245 each?
+[189.7] I'm afraid not.
+[191.3] Each person has to pay that amount and there must be at least two in an apartment.
+[196.5] Oh, I don't think that would be within our budget, unfortunately.
+[199.7] And the last one sounds a bit expensive too.
+[202.8] The Grand?
+[204.5] Actually, it's quite reasonable.
+[206.7] It's an older style house with Greek paintings in every room and a [[3|balcony]] outside.
+
+[212.3] Sounds nice.
+[213.1] What are the views like?
+[214.5] Well, there are [[4|forests]] all round and they hide a supermarket just down the road, so that's very useful for all your shopping needs.
+[222.8] There's a disco in the area too.
+[224.9] And the price?
+
+[227.7] £[[5|319]] at that time, but if you leave it till November it goes down by 40%.
+[234.0] Too late, I'm afraid.
+[236.4] Well, why don't I send you a brochure with full details, Miss...
+[240.9] Nash, but don't worry about that.
+[243.2] I'm coming to Upminster soon and I'll call and get one.
+[246.6] I just wanted to get an idea first.
+[248.5] Well, that's fine.
+[250.4] We've got plenty here when you come.
+
+
+[255.7] Before you hear the rest of the conversation, you have some time to look at questions 6 to 10.
+
+[292.5] Now listen and answer questions 6 to 10.
+
+[299.8] If you've got a minute, could I just check a couple of points about insurance?
+[304.6] I got one policy through the post, but I'd like to see if yours is better.
+[309.3] Fine.
+[309.9] What would you like to know?
+[311.8] Well, the one I've got has benefits and then the maximum amount you can claim.
+[316.8] Is that like yours?
+[318.1] Yes, that's how most of them are.
+[321.0] Well, the first thing is cancellation.
+[323.2] If the holiday's cancelled on the policy I've got, you can claim £8,000.
+
+[328.3] We can improve on that, Miss Nash.
+[330.9] For Greek island holidays, our maximum is £[[6|10,000]].
+[335.2] That's good.
+[336.3] Of course our holiday won't even cost £1,000 together.
+
+[340.6] It's still sensible to have good cover.
+[343.3] Now, if you go to hospital, we allow £600.
+[347.1] Yes, mine's similar.
+[348.5] And we also allow a [[7|relative]] to travel to your holiday resort.
+
+[352.4] My policy just says their representative will help you.
+[356.2] You can see there's another difference there.
+[358.7] And what happens if you don't get on the plane?
+[362.0] Nothing, as far as I can see on this form.
+[364.8] Don't you have a [[8|missed]] departure?
+[368.3] No, I'll just jot that down.
+[371.2] We pay up to £1,000 for that, depending on the reason.
+[375.6] And we're particularly generous about loss of personal belongings, up to £3,000, but not more than £500 for a single [[9|item]].
+[384.9] Then I'd better not take my laptop.
+
+[387.0] Not unless you insure it separately.
+[389.3] OK, thanks very much for your time.
+[391.3] You've really been helpful.
+[392.9] Can I get back to you?
+[394.5] Your name is...?
+[395.7] Ben Ludlow.
+[397.7] That's [[10|L-U-D-L-O-W]].
+[401.4] I'm the assistant manager here.
+[403.5] I'll give you my number.
+
+[405.4] It's 081260 543216.
+[413.9] But didn't I phone 081260 567294?
+[421.0] That's what I've got on the paper.
+[422.6] That's the main switchboard.
+[424.5] I've given you my direct line.
+[426.7] Right.
+[427.4] Thank you very much for your time.
+
+@2 She thought it was "something to do with sunshine"; the name is Sunshade.
+@4 The Grand overlooks forests, which hide a supermarket just down the road.
+@5 £319 is the price at that time; it drops by 40% in November, which is too late for her.
+@6 Her own policy pays £8,000 for cancellation; this company pays up to £10,000.
+@7 Her policy only offers help from a representative; this one lets a relative travel to the resort.
+@9 Personal belongings are covered up to £3,000 in total, but no more than £500 for a single item.
