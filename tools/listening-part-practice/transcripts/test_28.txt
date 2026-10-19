@@ -1,0 +1,70 @@
+# Test 28
+[0.0] Test 28.
+
+[1.1] You will hear the head of a centre which offers evening classes for adults.
+
+[6.3] She is explaining some recent changes which have been made to the centre.
+
+[11.4] First, you have some time to look at questions 11 to 15.
+
+[45.1] Hello, as some of you know, I'm Elaine Marriott, the head of the college's Learning Resource Centre.
+
+[52.8] We've invited all of you taking evening classes and leisure activities to come and see the changes we've made to the centre in the last month.
+[63.1] One major change we've made here on the ground floor is to the layout, as you can see from looking around you.
+[72.9] I'm sure you'll recognise the desk.
+[75.9] That's still in the same place as it has to be just inside the door.
+[81.1] But you'll see that there are now periodicals on the shelves in the corner behind the desk.
+[87.8] We've brought them nearer the entrance because so many people like to come in just to read magazines.
+[94.6] We now stock a far wider range of periodicals than we used to so we've decided to separate them from newspapers.
+
+[103.5] This means the [[11|newspapers are now just the other side of the stairs, near the study area]].
+[110.4] Now another thing is that we've brought the computers downstairs.
+[116.2] People used to complain about having to go upstairs to use them.
+[120.4] So they're [[12|now at the far side of the building on the right, in the corner overlooking the car park]].
+[128.9] We've now got an extra photocopier.
+[132.4] So as well as the one upstairs, there's one down here.
+[136.9] You can see it [[13|right opposite the entrance, by the wall on the far side]].
+[143.5] The biggest change though, and one I'm sure many of you will welcome, is that we now have a cafe at last.
+[153.4] We've been asking for one for years.
+
+[156.7] If you [[14|turn right, as soon as you get past the desk, you'll see the door ahead of you]].
+[163.5] It became possible to have a cafe because the building has been extended and we've now got a new office and storeroom area.
+[173.7] What else should I tell you about before we walk round?
+[177.1] Oh yes, we've had so many requests for books on sport that we've bought a lot more, and they're [[15|all together immediately to the right of the entrance]].
+
+[192.8] Before you hear the rest of the conversation, you will have some time to look at the questions 16 to 20.
+
+[228.5] Now listen and answer questions 16 to 20.
+
+[233.4] OK, that's enough on the new layout.
+[236.7] We'll walk round in a moment, but before we do, something about the people who are here to help you.
+[244.1] Of course, all the staff will do their best to answer your questions, but now we're each going to specialise in certain areas.
+[254.1] So if you ask a staff member about something and they don't think they can help you enough they'll direct you to our specialist.
+[263.7] Jenny Reed is the person to see if there are any [[16|films]] you'd like us to stock as she's taken over responsibility for purchasing those.
+[274.2] I'd better warn you that our budget is limited so I'm afraid we can't promise to buy everything you ask for.
+
+[284.1] Phil Penshurst can help you to improve your writing if you need to produce [[17|reports]] for your course.
+[291.9] You can book a half-hour session with Phil to start with then if you want more help he'll arrange follow-up sessions with you.
+
+[302.5] I must mention Tom Salisbury.
+[306.3] Many people are interested in doing research or just reading about this [[18|region]].
+[312.3] The people, occupations, changes over the years and so on.
+[318.1] Tom is a specialist in this particular field, so if you want any help, he can point you in the right direction.
+[326.6] We've got a large collection of relevant documents, from old maps to studies of the wildlife.
+
+[335.1] We have a new member of staff, Saeed Aktar.
+[340.5] I'm sure you'll meet him soon and will find him very helpful.
+[345.7] If you're unemployed and want some advice on the practical aspects of looking for a [[19|job]], Saeed is the person to talk to.
+[355.6] He's also written a very useful book on the subject, which of course we've got on our shelves.
+
+[363.8] Many of you will know Shilpa Desai, who's been working here for about five years.
+[371.6] Shilpa now has the additional responsibility of giving information and advice on anything to do with [[20|housing]], such as finding out what's available or whether you're eligible for financial help.
+
+[388.5] Right, well that's quite enough from me, so let's walk round the library.
+
+@11 The periodicals are behind the desk; the newspapers are now on the other side of the stairs, near the study area.
+@12 The computers are now downstairs, far side on the right, in the corner overlooking the car park.
+@13 The new downstairs photocopier is right opposite the entrance, by the far wall.
+@14 Turn right just past the desk and the café door is ahead of you.
+@15 The sports books are immediately to the right of the entrance.
+@16 She is now responsible for buying films.

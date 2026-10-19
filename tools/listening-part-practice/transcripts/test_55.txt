@@ -1,0 +1,118 @@
+# Test 55
+[0.0] Test 55.
+
+[1.3] You will hear a university tutor and a new student called Paul discussing Paul's work experience and Latin American Studies course.
+
+[12.1] First, you have some time to look at questions 21 to 26.
+
+
+
+[62.2] Now listen carefully and answer questions 21 to 26.
+
+[70.5] I've been reading your personal statement, Paul.
+[73.7] First, let's talk about your work experience in South America.
+[77.2] What took you there?
+[78.4] Was it to gain more fluency in Spanish?
+[80.9] Well, as I'm combining Spanish with Latin American studies, my main idea was to [[21|find out more about the way people lived there]].
+[89.0] My spoken Spanish was already pretty good, in fact.
+[91.7] So you weren't too worried about language barriers?
+[94.4] No.
+[95.1] In fact, I ended up teaching English there, although that wasn't my original choice of work.
+
+[99.5] I see.
+[100.5] How did you find out about all this?
+[103.0] I found an agency that runs all kinds of voluntary projects in South America.
+[107.1] What kind of work?
+[108.6] Well, there were several possibilities.
+[110.8] You mean construction, engineering work?
+[113.2] Yes.
+[114.1] Getting involved in building projects was an option.
+[116.7] Then there was [[22|tourism, taking tourists for walks around the volcanoes, which I actually chose to do]].
+
+[123.1] And then there was work with local farmers.
+[125.5] But you didn't continue with that project.
+[128.0] Why not?
+[129.5] Because [[23|I never really knew whether I'd be needed or not]].
+[132.8] I'd thought it might be difficult physically, but I was certainly fit enough.
+[137.0] No, I wanted to do something that had more of a proper structure to it, I suppose.
+[141.3] I get demotivated otherwise.
+[143.7] What do you think you learned from your experience?
+[146.2] It must have been a great opportunity to examine community life.
+
+[149.5] Yes, but it was difficult at first to be accepted by the locals.
+[153.3] It was a very remote village and some of them were reluctant to speak to me, although they were always interested in my clothes and how much I had to pay for them.
+[161.8] Well, that's understandable.
+[163.3] Yes, but things soon improved.
+[165.5] What struck me was that when people [[24|became more comfortable with me and less suspicious]], we really connected with each other in a meaningful way.
+[172.8] You made good friends?
+[174.1] Yes, with two of the families in particular.
+[177.1] Good.
+[177.5] What about management?
+
+[179.3] Did you have a project manager?
+[180.9] Yes, and [[25|he gave me lots of advice and guidance]].
+[184.4] And was he good at managing too?
+[186.4] That wasn't his strong point.
+[189.2] I think he was often more interested in the academic side of things than filing reports.
+[194.5] He was a bit of a dreamer.
+[197.0] And did you have a contract?
+[198.9] I had to stay for a minimum of three months.
+[202.0] My parents were surprised when I asked to stay longer, six months in the end.
+
+[205.8] I was so happy there.
+[207.6] And did anything on the administration side of things surprise you?
+[211.1] What was the food and lodging like?
+[213.3] Simple, but there was plenty to eat and I only paid seven dollars a day for that, which was amazing, really.
+[219.2] And they gave me all the equipment I needed, [[26|even a laptop]].
+[222.3] You didn't expect that then?
+[223.9] No.
+[225.0] Well, I'll look forward to hearing more.
+
+[230.2] Before you hear the rest of the discussion, you have some time to look at questions 27 to 30.
+
+[256.8] Now listen and answer questions 27 to 30.
+
+[264.2] But now let's look at these modules.
+[266.4] You'll need to start thinking about which ones you'll definitely want to study.
+[270.2] The first one here is gender studies in Latin America.
+[274.4] It looks at how gender analysis is reconfiguring civil society in Latin America.
+[279.8] Women are increasingly occupying positions in government and in other elected leadership positions in Latin America.
+[286.1] I think you'd find it interesting.
+[288.2] [[27|If it was to do with people in the villages rather than those in the public sphere, I would]].
+[292.4] OK.
+[293.7] What about second language acquisition?
+
+[296.5] Do you think I'd find that useful?
+[298.6] Well, you've had some practical experience in the field.
+[301.5] I think it would be.
+[303.0] I hadn't thought about that.
+[304.5] [[28|I'll put that down as a definite]] then.
+[306.4] OK.
+[307.2] What about Indigenous women's lives?
+[309.7] That sounds appropriate.
+[311.1] I thought so too, but I looked at last year's exam questions and that changed my mind.
+
+[316.3] Don't judge the value of the course on that.
+[319.3] [[29|Maybe talk to some other students first and we can talk about it again later]].
+[323.8] OK.
+[325.0] Yes.
+[325.8] And lastly, will you sign up for Portuguese lessons?
+[329.0] My Spanish is good, so would I find that module easy?
+[332.7] Not necessarily.
+[334.2] Some people find that Spanish interferes with learning Portuguese, getting the accent right too.
+[339.8] It's quite different in a lot of ways.
+
+[342.1] Well, [[30|I'd much sooner do something else]] then.
+[344.4] All right.
+[345.8] Now, what we need to do is...
+
+@21 His Spanish was already good; he went to find out how people lived.
+@22 He chose the tourism project (walks around the volcanoes). Teaching English came later, and building was only another option.
+@23 He never knew if he would be needed: the work lacked structure. He was fit enough, so it wasn't too physical.
+@24 Once people were less suspicious, they really connected: building trust.
+@25 The manager wasn't good at admin, but gave him lots of advice and guidance.
+@26 The food was cheap, and he was surprised to be given a laptop. Staying longer was his own request.
+@27 The module is about women in government; he would only be interested if it were about village people.
+@28 He decides definitely to take Second Language Acquisition.
+@29 Last year's exam put him off, but he'll talk to other students and decide later.
+@30 Spanish can interfere with Portuguese, so he would rather do something else.

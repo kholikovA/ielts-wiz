@@ -1,0 +1,120 @@
+# Test 42
+[0.0] Test 42.
+
+[1.6] You will hear two students talking about their university studies.
+
+[6.6] First, you have some time to look at questions 21 to 26.
+
+[40.9] Oh, hi George.
+[42.8] How's it going?
+[43.8] Hi Martina.
+[45.0] It's going well.
+[46.2] How about you?
+[47.6] How's university life?
+[49.6] Well, it's great.
+[51.6] Apart from the studying, of course.
+[54.0] Yeah, me too.
+
+[56.0] What are you studying?
+[57.9] I seem to remember that you were going to do art.
+
+[61.4] That was your best subject, wasn't it?
+[64.4] No, not really.
+[66.3] I just liked the teacher.
+[68.6] He was French and had an amazing accent.
+[72.3] [[21|My favourite subject was history]], but I couldn't see what career that would give me.
+[78.7] Oh, right.
+
+[80.0] So what did you choose?
+[82.2] Well, I found it really difficult to decide.
+[85.8] I was really good at science, but I must admit, I never really enjoyed studying it.
+[92.8] So, in the end, I decided to opt for [[22|English, which was my second favourite subject]], and I thought it would be more useful to me than studying anything else.
+[105.2] So, that's what I'm doing.
+[108.2] How are you finding university?
+[111.1] Well, it's a bit of a challenge, I suppose.
+[114.9] Are you finding it difficult?
+[116.5] Well, some of it.
+
+[119.0] I'm doing mechanical engineering, which is really interesting, but it covers quite a lot of areas, like materials science, machine design, physics, and of course mechanics.
+[135.0] And they're all fine, but it's [[23|maths]] that I'm struggling with.
+[139.9] It's a lot harder than it was at school.
+[142.7] I can believe it.
+[144.9] It all sounds very difficult to me.
+[147.6] But then I never was very good at mechanical things.
+[151.4] I suppose it must involve some practical work.
+[154.8] Well, not at the moment.
+[157.0] Currently, it's nearly all [[24|theory]], so it's a bit heavy going.
+
+[162.4] I guess you need to start with that so that you can get a grasp of the concepts and learn a few facts before you start putting it into practice.
+[172.7] It must be a lot different to the course that I'm taking.
+[176.3] Yes, but in a few weeks we'll be having a lot more practical experience.
+[182.4] In fact, I've got a great assignment this term, working on [[25|jet engines]], which means I'll be going on a few field trips to a nearby airport.
+[193.4] Oh, that's great.
+[195.4] It sounds like you're going to be very busy.
+[198.4] Yes, I'm not sure how I'm going to cope with the work.
+[202.7] We have a lot of lectures, and that's fine.
+[206.2] The lecturers are very knowledgeable, and I learn a lot from them.
+
+[210.7] But we also have a lot of [[26|seminars]], and I find with so many people expressing their views, it can get quite frustrating.
+[221.0] It would be better if we didn't have so many of those.
+[225.0] Yes, it's the same for me.
+
+[241.7] Now listen and answer questions 27 to 30.
+
+[246.7] Um, how are the students at your place?
+[250.4] Well, I haven't really met anyone yet.
+[253.6] They all seem a bit quiet.
+[255.6] Perhaps they're working hard.
+[257.5] They don't appear to be very studious here, but [[27|they are very friendly]].
+[263.2] I must say, I've been doing a lot of sitting around and chatting over the last week or so.
+[269.6] Well, that's good.
+[271.1] The only person I've spoken to really is my tutor.
+[276.0] He's very approachable and seems to understand how difficult it can be starting university.
+
+[283.5] It's good to have someone you can talk to and he may help you meet other students.
+[289.6] Actually, that doesn't bother me.
+[292.4] I'm bound to get to know some people sooner or later.
+[296.8] It's more a question of [[28|finding out what I need to do, where to go and so on]].
+[302.6] I hope he can help me with that.
+[304.9] Oh, I would have thought so.
+[307.5] Well, we certainly have a lot of work ahead of us.
+[311.4] It seems like a long time, doesn't it?
+[314.2] Studying for three years.
+
+[315.9] Yes, it does.
+[317.4] But I'm sure it'll go quickly.
+[320.4] You know, I'm really dreading the first assessment.
+[324.3] Yes.
+[325.1] For the course I'm doing, we have to [[29|hand our first one in at the end of next month]].
+[331.1] Really?
+[332.0] So, have you got the topic yet?
+[334.7] No, but we'll get it soon.
+[337.6] I'm not sure how much we have to write yet.
+
+[340.9] Not too much, I hope.
+[342.4] I know what you mean.
+[344.3] And it's hard to study, especially where I am now.
+[348.6] Oh?
+[349.3] Where are you living?
+[350.8] I'm living in a hall of residence.
+[353.3] I thought that would be a good idea, as there'd be a lot of people around, but I'm finding it a bit noisy.
+[362.0] I can see that I'm going to have problems when I really need to get down to some work.
+[368.0] So, I guess you need to be somewhere on your own then?
+
+[371.7] Yes.
+[372.8] Well, I do like to have some people around me, so I'd prefer to [[30|live with a family]] somewhere, in a house not too far from the university.
+[383.8] Well, good luck with that.
+[385.8] Yes, thanks.
+[386.8] And good luck to you as well.
+[389.8] I have to dash now.
+[391.8] I've another lecture in ten minutes.
+[394.1] Bye for now.
+[395.3] Bye.
+
+@21 Art was not her best subject; she just liked the French teacher. Her favourite was history.
+@22 She was good at science but didn't enjoy it, so she chose English, her second favourite. Both history and English are subjects she liked.
+@23 The other areas are fine; it's maths he is struggling with.
+@27 They aren't very studious, but they are very friendly and she spends time chatting.
+@28 Meeting people doesn't bother him; he needs to find out what to do and where to go.
+@29 She doesn't know the topic or the length yet, only that it is due at the end of next month.
+@30 The hall of residence is too noisy, but he wants people around, so a family rather than a flat on his own.

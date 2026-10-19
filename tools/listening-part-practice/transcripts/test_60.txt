@@ -1,0 +1,90 @@
+# Test 60
+[0.0] Test 60.
+
+[1.7] You will hear a conversation between an English teacher called Paul and a former student of his called Kira.
+
+[10.2] First, you have some time to look at questions 21 to 25.
+
+[35.4] Now listen carefully and answer questions 21 to 25.
+
+[44.6] Hello, Kira. How are you?
+[46.7] Fine, thanks, Paul. How are you?
+[48.9] Well, thanks. It's good to see you.
+[51.1] It must be 12 months since you did our course.
+[54.1] That's right. It's nice to come back and say hello.
+[58.1] What course did you enrol in?
+
+[60.2] Actually, I went straight into third-year pharmacy.
+[64.0] They credited me with two years, which probably made it more difficult for me.
+[69.7] On the other hand, you were lucky to be granted credits.
+[72.7] Is that why you chose the course?
+[74.7] Yes, and as I'd [[21|already finished a course in it in my country]], I thought it would be easier if I studied something I already knew.
+[83.3] I didn't realise you went into third year.
+[85.7] I thought you started in first year.
+[87.7] No wonder it was so hard.
+[90.0] And what do you think is one of the big differences between studying at a university here and studying in your country?
+
+[96.2] Well, I found it very difficult to write assignments because I wasn't familiar with that aspect of the system here.
+[103.9] The main problem is that the lectures expect you to be critical.
+[108.0] That made me feel really terrible.
+[110.8] I thought, how can I possibly do it?
+[113.8] How can I comment on someone else's research when they probably spent five years doing it?
+[119.2] I think a lot of people who come from overseas countries have similar problems.
+[125.2] But after a while, it became easier for me.
+[129.1] People expect you to have problems with the process of reading and writing.
+[133.0] But in fact, it is more a question of [[22|altering your viewpoint towards academic study]].
+
+[139.6] How was the content of the lectures?
+[142.0] Was it easy for you?
+[143.4] I didn't really have many problems understanding lectures.
+[147.3] The content was very similar to what I'd studied before.
+[150.6] And what about the lecturers themselves?
+[152.9] Are they essentially the same as lecturers in your country?
+[155.9] Well, actually, no.
+[158.0] Here they're much easier to [[23|approach]].
+[160.1] After every lecture, you can go and ask them something you didn't understand.
+
+[164.4] Or you can make an appointment and talk to them about anything in the course.
+[168.6] Maybe you found them different because you're a more [[24|mature]] student now, whereas when you were studying in your country, you were younger and not so assertive.
+[176.7] No, I don't think that's the difference.
+[180.2] Most of the students here do it.
+[182.2] In my faculty, they all seem to make appointments, usually to talk about something in the course that's worrying them, but sometimes just about something that might really [[25|interest]] them, something they might want to specialise in.
+[195.5] The lecturers must set aside certain times every week when they're available for students.
+[200.8] That's good to hear.
+
+[205.0] Before you hear the rest of the conversation, you have some time to look at questions 26 to 30.
+
+[231.7] Now listen and answer questions 26 to 30.
+
+[240.1] And how was your timetable? Was it a very busy year?
+[244.0] Oh, very, very busy. They make you work very hard.
+[248.1] Apart from lectures, we had practical sessions in a lot of subjects.
+[252.8] We did these in small [[26|groups]].
+[254.8] I had to go and work four hours every week in a community pharmacy.
+[260.0] Actually, I enjoyed this very much, meeting new people all the time.
+
+[265.0] Then in second semester, we had to get experience in hospital dispensaries.
+[269.8] So [[27|every second day]], we went to one of the big hospitals and worked there.
+[274.9] And on top of all that, we had our assignments, which took me a lot of time.
+[279.9] Oh, I nearly forgot.
+[281.9] Between first and second semesters, we had to work full-time for [[28|two weeks]] in a hospital.
+[287.1] That does sound a very heavy year.
+[289.3] So, are you pleased now that you did it?
+[291.9] Do you feel some sense of achievement?
+[294.2] Yeah, I do feel much more [[29|confident]], which I suppose is the most important thing.
+
+[299.9] And have you got any recommendations for people who are studying from overseas?
+[303.8] Well, I suppose they need very good English.
+[306.9] It would be much better if they spent more time learning English before they enter the university, because you can be in big trouble if you don't understand what people are saying and you haven't got time to translate.
+[319.7] Anything else?
+[321.0] Well, as I said before, the biggest problem for me was lack of familiarity with the [[30|education system]] here.
+[328.7] It sounds as if it was a real challenge.
+[331.2] Congratulations, Kira.
+[332.5] Thanks, Paul.
+
+@21 She had already finished a pharmacy course at home; she was given two years' credit here.
+@22 The difficulty wasn't reading or writing speed; she had to change her viewpoint and learn to be critical.
+@24 Paul suggests she is more mature now; Kira disagrees, saying most students make appointments.
+@27 Every second day = every two days.
+@28 The only full-time work was two weeks in a hospital between semesters.
+!27 "Every second day" is the same as every 2 days.

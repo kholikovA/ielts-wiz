@@ -1,0 +1,124 @@
+# Test 1
+[0.0] Test 1.
+
+[1.2] You will hear a telephone conversation between the organiser of a park run and a woman who wishes to take part in the run.
+
+[9.9] First, you have some time to look at questions 1 to 6.
+
+[43.6] Good morning, Dave Smith speaking.
+[46.7] Hi, could I speak to the organiser of the Preston Park Run?
+[51.2] Yes, that's me.
+[52.5] Great.
+[54.2] I was talking to some friends of mine about the run and they suggested I contact you to get some more details.
+[62.4] Sure.
+[63.3] What would you like to know?
+[65.3] Well, they said it takes place every Saturday.
+[69.1] Is that right?
+
+[70.7] Yes, it does.
+[72.2] OK, great.
+[74.2] Do you know where the park is?
+[76.4] Oh, yes.
+[77.6] I've been there before, but it's quite big and I'm not sure where to go.
+[82.5] Well, there's a circular track that goes right around the park.
+[87.8] The run starts at the [[1|café]], goes past the tennis courts, then twice around the lake and finishes back where it started.
+[97.1] OK.
+[98.0] And what time is the run?
+
+[100.6] Well, the actual run begins at [[2|9am]], but the runners start arriving at about 8.45.
+[109.0] OK, so I need to get up early Saturday morning then.
+[114.1] Erm, and how long is the run?
+[117.2] Well, it used to be three kilometres, but most people wanted to do a bit more than that, so we lengthened it to [[3|five kilometres]].
+[126.6] We now go round the lake twice, and that adds an extra two kilometres.
+[131.9] Right.
+[133.1] Not sure I've ever run that far, so I'd better start doing a bit of training.
+[138.3] That's a good idea.
+[139.9] But it's not a race.
+
+[141.7] It's really just for fun.
+[143.5] And the best thing would be to take it easy the first few times you do it, and then see if you can gradually improve your time.
+[152.3] Is the run timed then?
+[155.3] How do I know how well I've done?
+[158.1] When you cross the finish line, you'll be given a [[4|barcode]], and you take this to one of the run volunteers who will scan it.
+[166.0] Then you can get your time online when you go home.
+[170.0] Oh, I see.
+[171.8] You collect all the results.
+[174.0] Exactly.
+
+[175.1] I see.
+[176.1] That's great.
+[177.7] So, how do I register?
+[180.6] Well, there are several ways.
+[182.7] I could take your details over the phone, but it's much easier if you do it using the [[5|website]].
+[189.1] OK, good.
+[191.5] Um, I think that's probably all I need to know for now.
+[196.6] Oh yes, does it cost anything to register or do you collect money each week?
+[202.5] Well, it doesn't cost anything to register, but we do charge for the run.
+
+[208.4] In fact, we have just increased the charge to [[6|£1.50]].
+[212.9] It used to be a pound, but because we were making a bit of a loss, we have had to increase it by 50p.
+[220.3] OK, thanks.
+[221.9] I think I have enough information on taking part in the run.
+
+[228.9] Before you hear the rest of the conversation, you will have some time to look at the questions 7 to 10.
+
+[254.9] Now listen and answer questions 7 to 10.
+
+[259.8] Um, you mentioned volunteers.
+[262.8] I have a friend who is interested in helping out.
+[266.9] Can you give me some details so I can pass them on to her?
+[270.9] Sure.
+[272.0] Well, you need to ask your friend to contact Pete Maughan.
+[276.1] He manages all the volunteers.
+[278.5] OK.
+[279.2] I didn't quite catch his surname.
+[282.5] Was it Morn?
+
+[284.2] M-O-R-N?
+[287.9] No, just a bit more complicated.
+[290.4] It's [[7|M-A-U-G-H-A-N]].
+[296.7] Right, thanks.
+[298.7] And could you give me his phone number?
+[302.0] Yes, just a moment.
+[303.6] It's here somewhere.
+[305.8] Let me just find it.
+
+[308.5] Ah, I have two numbers for him.
+[311.1] I think the one that begins 01273 is an old one.
+[317.6] So, use this one.
+[320.0] It's [[8|01444 732900]].
+[329.7] OK, got that.
+[332.3] Can you tell me anything about the volunteering?
+[335.8] Like what kind of activities it involves?
+[339.6] Sure.
+[340.2] Well, we need volunteers for basic stuff like setting up the course.
+
+[345.2] We have to do that before all the runners arrive.
+[348.7] OK, so that's a really early start.
+[351.8] Yes, that's right.
+[353.6] But if your friend would prefer to arrive a bit later, she can also help with [[9|guiding]] the runners so they don't go the wrong way.
+[362.4] I see.
+[363.4] I believe you do a report on some of the races.
+[367.5] Yes, that's right.
+[369.2] In fact, we do a weekly report on each race and we always try to illustrate it.
+[375.0] OK.
+
+[376.1] Well, my friend really likes [[10|taking photographs]].
+[379.9] She's just bought a new camera.
+[382.9] Actually, that would be great.
+[385.0] I don't know whether Pete has anyone to take photographs this week.
+[389.3] Oh, I'll let her know.
+[391.8] OK, good.
+[393.1] Could you ask your friend to phone Pete and let him know?
+[397.0] Yes, I will.
+[398.7] OK, thanks.
+
+[400.1] Goodbye.
+[401.0] Goodbye.
+
+@2 The run itself starts at 9 am; 8.45 is only when runners start arriving.
+@3 It used to be 3 km, but it was lengthened to 5 km.
+@6 The charge used to be £1 and has just gone up by 50p to £1.50.
+@7 "Morn" is how the name sounds; the spelling given is M-A-U-G-H-A-N.
+@8 The number beginning 01273 is an old one.
+@9 Setting up the course is already given in the notes; guiding the runners is the later-start option.

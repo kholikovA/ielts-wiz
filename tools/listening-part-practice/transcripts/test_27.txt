@@ -1,0 +1,69 @@
+# Test 27
+[0.0] Test 27.
+
+[1.4] You will hear a guide at an outdoor sculpture park talking to a group of visitors.
+
+[7.4] First you have some time to look at questions 11 to 16.
+
+[41.1] Hello everyone and welcome to the Anglia Sculpture Park.
+[45.8] Right, well, the idea behind the Sculpture Park is that it's a place where works of art such as large sculptures and carvings can be displayed out of doors in a natural setting.
+[59.5] As you'll have noticed when you drove here, most of the land around the park is farmland.
+[65.9] The park itself belonged to a family called the De Quinces, who had made a lot of money from manufacturing farm machinery and who also owned substantial stretches of forest land to the north of the park.
+[80.5] They [[11|built a house in the centre of the park]], not far from where we're standing now, but this burnt down in 1980, and the De Quinces then sold the land.
+[93.3] The Anglia Sculpture Park isn't the only one in the country.
+[98.3] Several of the London parks sometimes display contemporary sculptures, and there are a couple of other permanent sculpture parks in England.
+[108.1] But we're unique in that [[12|some of our sculptures were actually created for the sites they occupy here]], and we also show sculptures by a wider range of artists than anywhere else in the country.
+[124.1] For example, at present we have an exhibition by Joe Tremain of what he calls burnt sculptures.
+
+[132.2] These are wood and stone sculptures that he's carved and marked with fire to illustrate the [[13|ferocity and intensity of the forces that have shaped our planet]] over millions of years.
+[146.0] They look really dramatic in this rural setting.
+[150.8] To see some of the sculptures, you'll need to follow the path alongside the lower lake.
+[157.1] We [[14|had to renovate this]] after the lake overflowed its banks a couple of months ago and flooded the area.
+[164.7] The water level's back to normal now, and you shouldn't have any trouble.
+[169.8] The path's very level underfoot.
+[172.8] You should be back at the visitor centre at about four o'clock.
+[177.5] If you have time, it's worth taking a look at the centre itself.
+[182.5] It's not possible to go upstairs at present, as [[15|builders are working there adding another floor]].
+
+[189.7] But the rest's well worth seeing.
+[192.4] The architect was Guy King.
+[195.2] He was actually born in this part of England, but he recently designed a museum in Canada that won a prize for innovation in public buildings.
+[205.8] If you want to get something to eat when you get back, like a snack or a sandwich, the terrace room is currently closed.
+[214.6] But you can [[16|go to the kiosk and buy something]], then sit on one of the chairs overlooking the lower lake and enjoy the view as you're eating.
+
+[227.6] Before you hear the rest of the conversation, you will have some time to look at the questions 17 to 20.
+
+[254.6] Now listen and answer questions 17 to 20.
+
+[259.7] Now, let me just tell you a bit about what you can see in the sculpture park.
+[265.0] If you look at your map, you'll see the visitor centre, where we are now, at the bottom, just by the entrance.
+[273.1] Since we only have an hour, you might not be able to get right around the park, but you can choose to visit some of the highlights.
+[282.1] You might like to take a look at the Joe Tremain sculptures, which are [[17|displayed on this side of the upper lake, just behind the education centre and near the bridge]].
+[293.5] They're really impressive, but please remember not to let your children climb on them.
+[300.4] One of our most popular exhibitions is the Giorgio Catalucci bird sculptures.
+[306.5] They're [[18|just across the bridge on the north side of the lower lake]].
+[311.1] I love the way they're scattered around in the long grass beside the lake, looking as if they're just about to take to their wings.
+[319.6] You could also go to the Garden Gallery.
+
+[322.9] It's on this side of the upper lake.
+[325.6] From the Visitor Centre, you go to the Education Centre, then [[19|keep on along the path and you'll see it on your right]].
+[334.0] There's an exhibition of animal carvings there which is well worth a look.
+[339.4] We also have the Long House.
+[342.1] That's quite a walk.
+[344.1] From here, you go to the bridge and then turn left on the other side.
+[349.1] Soon you'll see a winding pathway going up towards the northern boundary of the park.
+[355.2] [[20|Go up there and you'll find it at the top]].
+[358.3] They have some abstract metal sculptures that are well worth seeing if you have time.
+
+[364.4] OK, well, now...
+
+@11 The family built a house in the centre of the park. They owned forest land to the north, not on the park site, and their money came from making farm machinery.
+@12 Some sculptures were created for the exact sites they stand on. Other parks also show contemporary work, and nothing is said about donations.
+@13 The fire marks show the ferocity of the forces that shaped the planet: the violence of nature.
+@14 The path was renovated after the lake flooded; it is now dry and level.
+@15 Builders are adding another floor. The architect was born in this part of England; his award was for a museum in Canada.
+@16 The Terrace Room is closed, so snacks come from the kiosk.
+@17 This side of the upper lake, behind the education centre, near the bridge.
+@18 Across the bridge, on the north side of the lower lake.
+@19 Past the education centre along the path, on the right, on this side of the upper lake.
+@20 Over the bridge, turn left, then up the winding path to the northern boundary.

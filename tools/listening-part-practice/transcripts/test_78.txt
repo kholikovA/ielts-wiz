@@ -1,0 +1,50 @@
+# Test 78
+[0.0] Test 78.
+
+[1.9] You will hear the beginning of a lecture about business cultures.
+
+[7.0] First, you have some time to look at questions 31 to 40.
+
+[52.6] Now listen carefully and answer questions 31 to 40.
+
+[60.8] Good morning, everyone.
+[63.1] Now, whether you're going to university to study business or some other subject, many of you will eventually end up working for a company of some kind.
+[73.2] Now, when you first start working somewhere, you will realise that the organisation you've joined has certain characteristics.
+[81.0] And we often refer to these social characteristics as the culture of the organisation.
+[87.7] This includes its unwritten ideas, beliefs, values, and things like that.
+[94.0] One well-known writer has classified company cultures by identifying four major types.
+[101.1] The first type is called the power culture, and it's usually found in small organisations.
+[107.9] It's the type of culture that needs a [[31|central]] source of power to be effective, and because control is in the hands of just one or two people, there aren't many rules or procedures.
+[120.8] Another characteristic is that communication usually takes the form of [[32|conversations]] rather than, say, formal meetings or written memos.
+
+[130.7] Now, one of the benefits of this culture is that the organisation has the ability to act quickly, so it responds well to threat or danger on the one hand and opportunity on the other.
+[143.2] But on the negative side, this type of organisation doesn't always act [[33|effectively]], because it depends too much on one or two people at the top.
+[153.0] And when these people make poor decisions, there's no one else who can influence them.
+[158.6] And the kind of person who does well in this type of business culture is one who is happy to take [[34|risks]], and for whom job security is a low priority.
+[169.1] The next type is known as role culture.
+[172.6] That's R-O-L-E, not R-O-L-L, by the way.
+[177.0] And this type is usually found in large companies, which have lots of different [[35|levels]] in them.
+[183.0] These organisations usually have separate departments that specialise in things like finance or sales or maintenance or whatever.
+[192.1] Each one is coordinated at the top by a small group of senior managers, and typically everyone's job is controlled by sets of rules and procedures.
+
+[203.1] For example, there are specific job [[36|descriptions]], rules for discipline, and so on.
+[209.3] What are the benefits of this kind of culture?
+[212.5] Well, firstly, because it's found in large organisations, its fixed costs, or overheads as they're known, are low in relation to its output or what it produces.
+[224.5] In other words, it can achieve economies of scale.
+[228.9] And secondly, it is particularly successful in business markets where [[37|technical]] expertise is important.
+[236.5] On the other hand, this culture is often very slow to recognise the need for [[38|change]], and even slower to react.
+[244.8] What kind of person does this type of culture suit?
+[247.9] Well, it suits employees who value security and who don't particularly want to have [[39|responsibility]].
+
+[259.9] Moving on now to task cultures, this type is found in organisations that are project-oriented.
+[267.0] You usually find it where the market for the company's product is extremely competitive, or where the products themselves have a short lifespan.
+[276.0] Usually, top management delegates the projects, the people, and other resources.
+[281.5] And once these have been allocated, little day-to-day control is exercised from the top, because this would seem like breaking the rules.
+[291.2] Now, one of the major benefits of this culture is that it's [[40|flexible]], but it does have some major disadvantages too.
+[298.8] For instance, it can't produce economies of scale or great depth of expertise.
+[305.3] People who like working in groups or teams prefer this type of culture.
+[311.0] And finally, the fourth category is called the person culture.
+[315.3] This type is quite unusual.
+
+@33 It can act quickly, but depends on one or two people, so it doesn't always act effectively.
+@38 It is slow to recognise the need for change and even slower to react.

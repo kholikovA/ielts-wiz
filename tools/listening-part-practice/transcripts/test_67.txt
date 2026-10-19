@@ -1,0 +1,55 @@
+# Test 67
+[0.0] Test 67.
+
+[1.6] You will hear part of a lecture about the history of fireworks in Europe.
+
+[7.1] First you have some time to look at questions 31 to 40.
+
+
+
+[71.0] Now listen carefully and answer questions 31 to 40.
+
+[76.6] An interesting aspect of fireworks is that their history tells us a lot about the changing roles of scientists and technicians in Europe.
+[87.5] Fireworks were introduced from China in the 13th century.
+[92.5] Up to the 16th century, they were generally used for military purposes, with rockets and fire tubes being thrown at the enemy.
+[100.9] But they were also sometimes a feature of plays and festivals, where their chief purpose was related to [[31|religion]].
+[109.4] By the 17th century, the rulers of Europe had started using fireworks as a way of marking royal occasions.
+[117.6] Technicians were employed to stage spectacular shows which displayed aspects of [[32|nature]] with representations of the sun, snow and rain.
+[128.8] These shows were designed for the enjoyment of the nobility and to impress ordinary people.
+[135.2] But fireworks also aroused the interest of scientists who started to think of new uses for them.
+[142.7] After seeing one firework display where a model of a dragon was propelled along a rope by rockets, scientists thought that in a similar way humans might be able to achieve [[33|flight]], a dream of many scientists at the time.
+
+[161.2] Other scientists, such as the chemist Robert Boyle, noticed how in displays one firework might actually light another, and it occurred to him that fireworks might provide an effective way of demonstrating how [[34|stars]] were formed.
+[179.4] Scientists at the time often depended on the royal courts for patronage, but there was considerable variation in the relationships between the courts and scientists in different countries.
+[192.4] This was reflected in attitudes towards fireworks and the purposes for which they were used.
+[198.2] In London, in the middle of the 17th century, there was general distrust of fireworks among scientists.
+[206.4] However, later in the century, scientists and technicians started to look at the [[35|practical]] purposes for which fireworks might be employed, such as using rockets to help sailors establish their position at sea.
+[220.6] It was a different story in Russia, where the St Petersburg Academy of Science played a key role in creating fireworks displays for the court.
+[232.5] Here, those in power regarded fireworks as being an important element in the [[36|education]] of the masses, and the displays often included a scientific message.
+[245.2] Members of the Academy hoped that this might encourage the royal family to keep the Academy open at a time when many in the government were considering closing it.
+[256.1] In Paris, the situation was different again.
+[260.7] The Paris Academy of Sciences played no role in staging fireworks displays.
+[265.1] Instead, the task fell to members of the Royal Academy of Painting and Sculpture.
+[274.4] As in Russia, the work of the technicians who created the fireworks was given little attention.
+[281.5] Instead, the fireworks and the spectacle they created were all designed to encourage the public to believe in the supreme authority of the [[37|king]].
+
+[292.6] However, science was also enormously popular among the French nobility, and fashionable society flocked to demonstrations such as Nicolas Lémery's display representing an erupting volcano.
+[307.3] The purpose of scientists was basically to offer [[38|entertainment]] to fashionable society and academicians delighted in amazing audiences with demonstrations of the universal laws of nature.
+
+[325.5] In the course of the 18th century, the circulation of skills and technical exchange led to further developments.
+[334.5] Fireworks specialists from Italy began to travel around Europe, staging displays for many of the European courts.
+[343.3] The architect and stage designer Giovanni Servandoni composed grand displays in Paris, featuring colourfully painted temples and triumphal arches.
+[355.7] A fireworks display staged by Servandoni would be structured in the same way as an [[39|opera]] and was even divided into separate acts.
+[366.3] Italian fireworks specialists were also invited to perform in London, St Petersburg and Moscow.
+
+[374.3] As these specialists circulated around Europe, they sought to exploit the appeal of fireworks for a wider audience, including the growing middle classes.
+[386.4] As in the previous century, fireworks provided resources for demonstrating scientific laws and theories, as well as new discoveries, and displays now showed a fascinated public the curious phenomenon of [[40|electricity]].
+[404.0] By the mid-18th century, fireworks were being sold for private consumption.
+
+[410.6] So the history of fireworks shows us the diverse relationships which existed between scientists, technicians and the rest of society.
+
+@31 Up to the 16th century fireworks were used mainly in war and, in plays and festivals, for religion.
+@33 A rocket-propelled model dragon gave scientists the idea that humans might fly.
+@35 London scientists distrusted fireworks at first, then looked at practical uses such as helping sailors find their position.
+@36 In Russia, fireworks were seen as important for educating the masses.
+@37 Paris displays encouraged belief in the supreme authority of the king.

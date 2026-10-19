@@ -1,0 +1,66 @@
+# Test 34
+[0.0] Test 34.
+
+[1.2] You will hear an introductory talk about a new agricultural park.
+
+[6.4] First, you have some time to look at questions 11 to 14.
+
+[30.4] Now listen carefully and answer questions 11 to 14.
+
+[38.9] Welcome to Greenvale Agricultural Park.
+[41.7] As you know, we've only been open a week, so you're amongst our first visitors.
+[47.1] We have lots of fascinating indoor and outdoor exhibits on our huge complex, spreading hundreds of hectares.
+[54.0] Our remit is to [[11|give educational opportunities to the wider public, as well as to offer research sites]] for a wide variety of agriculturists and other scientists.
+
+[65.8] Let's start by seeing what there is to do.
+[69.3] As you can see here on our giant wall plan, we are now situated in the reception block here.
+[77.7] As you walk out of the main door into the park, there's a path you can follow.
+[82.7] If you follow this route, you'll immediately come into the rare breeds section, where we keep a wide variety of animals, which I shall be telling you a little more about later.
+
+[93.8] Next to this, moving east, is the large grazing area for the rare breeds.
+[100.2] Then further east, in the largest section of our park, is the [[12|forest]] area.
+[105.8] South of the grazing area, and in fact just next to the reception block, is our experimental crop area.
+
+[112.6] In the middle of the park, this circular area, is our lake.
+[117.1] These two small rectangular shapes here are the [[13|fish farms]], where we rear fish for sale.
+[125.7] To the east of those is the marsh area, which attracts a great many migrant birds.
+[131.9] In the south-eastern corner, beyond the marsh, is our [[14|market garden]] area, growing vegetables and flowers.
+
+[142.7] Before you hear the rest of the talk, you have some time to look at questions 15 to 20.
+
+[188.2] Now listen and answer questions 15 to 20.
+
+[195.6] All these areas can be visited by the general public for almost all the year.
+[201.0] Although, please take note of the large signs at the entrance to each area, which tell you when certain areas are being used for particular controlled experiments and are therefore [[15|temporarily out of bounds to the public]].
+[218.1] You can see for yourself what a huge area the park covers, and a key question is always how can we move around?
+[226.9] Well, you have a choice of means.
+[229.3] All environmentally friendly.
+[231.7] Cars are banned in the park.
+[233.8] We have bicycles, which you can hire behind the reception block here.
+[238.4] The healthy ones of you can go on foot.
+[241.0] And finally, there's our [[16|electric tram]] powered from solar cells.
+
+[245.5] You find more information about this at the front entrance.
+[249.0] A good place to start on your tour is the rare breed section.
+[252.7] We keep [[17|goats, sheep and hens]] and other kinds of poultry.
+[257.8] We're also thinking of bringing in cows and horses, but we do not as yet have facilities for these bigger animals.
+[265.0] The animals are fed in public twice a day and a short lecture given on their feeding habits and nutritional needs.
+[273.0] These are very popular with the public, but of course you mustn't lose sight of the main purpose of having this section, not as such to preserve rare animals, but to [[18|maintain the diversity of breeds]], to broaden the gene pool for agricultural development.
+
+[289.3] Greenvale changes with the seasons, with different events happening at different times of the year.
+[294.6] May will be perhaps our most spectacular month, with the arrival of the Canada geese, and when our fruit trees will be in full blossom.
+[303.0] But there are interesting events on all year round.
+[306.7] For example, John Havers, our expert fly fisherman, is [[19|currently giving displays on the lake]].
+[314.1] Each of the sections has its own seasonal calendar.
+[317.4] Please consult the summary board at the main entrance.
+[321.1] And the final section, as we return to the reception blocks, is the orchard.
+[325.9] Do take time to browse round our shop.
+[328.2] There's a wide selection of [[20|books on wildlife]], some of them written by local authors, and the history of farming, including organic farming, something which the park will be diversifying into in the coming months.
+
+@11 The park offers educational opportunities for the public and research sites for scientists.
+@15 The public can visit almost all year; areas are closed only temporarily during experiments.
+@16 Cars are banned. You can hire a bicycle, walk, or take the solar-powered electric tram.
+@17 Goats, sheep and hens are kept now; cows and horses are only being considered.
+@18 The aim is not to preserve rare animals as such, but to maintain the diversity of breeds. The public feeding talks are popular but not the main purpose.
+@19 The Canada geese and fruit blossom come in May; fly-fishing displays are happening now.
+@20 The shop has books on wildlife and on the history of farming.

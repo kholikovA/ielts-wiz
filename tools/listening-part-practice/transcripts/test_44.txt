@@ -1,0 +1,119 @@
+# Test 44
+[0.0] Test 44.
+
+[1.4] You will hear two students discussing a presentation they are going to give.
+
+[6.3] First, you have some time to look at questions 21 to 25.
+
+[40.2] Hi, Robert.
+[41.9] Hi.
+[42.9] Sorry I'm late.
+[44.3] I was just printing off some pages about food waste in Britain.
+[49.2] Do you want to include Britain in the presentation?
+[52.7] I thought we were concentrating on the USA.
+[56.4] Well, it is a global problem, so I thought we ought to provide some statistics that show that.
+[64.1] Fair enough.
+[65.3] What did you find out?
+
+[67.5] Well, I was looking at a British study from 2013.
+[73.5] It basically concluded that 12 billion pounds worth of food and drink was thrown away each year, all of it ending up in landfill sites.
+[85.5] Over 8 million tons.
+[88.3] And that wasn't including packaging.
+[91.0] An incredible amount.
+[93.5] Yes.
+[94.5] And they were only looking at what households threw away.
+[98.0] So there's no information about restaurants and the catering industry.
+[103.4] But one thing the study did investigate was the [[21|amount of milk and soft drinks that were wasted]], and I think it was probably quite unique in that respect.
+
+[116.0] Interesting.
+[117.3] You know, in the other European reports I've read, there's one thing they have in common when they talk about carbon dioxide emissions.
+[127.8] I know what you are going to say.
+[130.6] They never refer to the [[22|fuel that farms and factories require to produce the food]]. And the carbon dioxide that releases?
+[139.9] Exactly.
+[141.1] We could really cut down on carbon emissions if less food was supplied in the first place.
+[148.0] To my mind, the reports talk too much about the carbon dioxide produced by the trucks that deliver the fresh goods to the shops and take the waste away.
+[158.4] They forget about one of the key causes of carbon dioxide.
+[164.1] Absolutely.
+
+[165.3] If the reports are actually going to be useful to people, they need to be more comprehensive.
+[172.0] Who do you mean by people?
+[174.9] Well, the government, industries, people making television programs.
+[181.0] Have you seen any documentaries about food waste?
+[184.6] Not that I remember.
+[186.7] My point exactly.
+[189.2] These days, they all seem to be focusing on [[23|where your meat, fruit, and vegetables are sourced from]].
+[196.1] We're being encouraged to buy locally, not from overseas.
+[200.9] That's probably a good thing, but I'd still like to see something about waste.
+
+[207.0] Yes, it's the same with magazine articles.
+[211.0] It's all about fat and sugar content, and the kind of additives and colouring in food, but nothing about how it reaches your table and what happens after it ends up in the bin.
+[225.0] Well, we've only got 15 minutes for this presentation, so I think we'll have to limit what we say about the consequences of food waste.
+[236.0] What do we want to concentrate on?
+[239.0] Well, I know some of the other presentations are looking at food and farming methods and what they do to the environment.
+[248.6] So I think we'll avoid that.
+[251.4] And the fact that in some countries, people can't afford the food grown on their own farms.
+[257.7] That was covered last term.
+[260.1] Okay, we don't want to repeat stuff.
+
+[263.7] What concerns me above all else is that in a recession, governments should be [[24|encouraging business to find ways to cut costs]].
+[274.1] Apparently, supermarkets in the USA lose about 11% of their fruit to waste.
+[280.9] That's throwing money away.
+[283.3] All right.
+[284.0] We'll focus on that problem.
+[286.9] It should get the other's attention anyway.
+[290.1] Now, how do you want to begin the presentation?
+[294.6] Let's not start with statistics, though, because that's what everybody does.
+[300.1] I agree.
+
+[301.2] How about we [[25|give the other students a set of questions]] to answer about what they suspect they waste every day?
+[311.1] I'm fine with that.
+[312.8] Probably a better option than showing pictures of landfill sites.
+[318.0] It'll be more personalized that way.
+[321.0] Alright.
+[322.3] Now let's start.
+
+[353.2] Now listen and answer questions 26 to 30.
+
+[358.7] Okay, shall we now have a look at the projects that different researchers and organizations are working on?
+[366.3] For me, the project I really liked was the one at Tufts University.
+[372.3] You know, where they've invented tiny edible patches to stick on fresh foods that show you what level of bacteria is present, and so whether you can still eat it.
+[384.5] It's a great idea, as it tells you if you need to hurry up and eat the food before it goes off.
+[391.2] The other good thing about the patches is that apparently they'll be [[26|cheap to manufacture]].
+[397.7] Good.
+[398.5] Then the other thing I thought was great was the Massachusetts Institute of Technology project.
+[405.1] I hadn't seen that.
+[407.5] Well, they've developed these sensors that can detect tiny amounts of ethylene.
+
+[414.0] Ethylene is the natural plant hormone in fruit that makes them turn ripe, apparently.
+[420.4] The researchers think that they can attach the sensors to cardboard boxes, and then supermarkets can scan the sensors with a portable device to see how ripe the fruit inside is.
+[433.5] That's got to be a [[27|quicker way to check for ripeness]] than taking each box off the shelf and opening it.
+[441.3] Definitely.
+[442.2] And I thought that LeanPath was worth mentioning, too.
+[446.9] Their waste-tracking technology means that caterers can see how much food is being wasted and why.
+[454.9] That'll [[28|increase profits]] for them eventually.
+[458.2] Yes.
+[459.4] And did you read about Zero Percent?
+
+[462.2] They've produced this smartphone application that allows restaurants to send donation alerts to food charities.
+[469.6] The charities can then pick up the unwanted food and distribute it to people in need.
+[475.9] In the long run, that'll definitely [[29|benefit poorer families in the neighbourhood]].
+[481.6] No kid should go to school hungry.
+[484.5] I agree.
+[485.9] And I read that quite a few local governments in the USA are thinking about introducing compulsory composting in their states, so you can't put any food waste into your rubbish bins, just the compost bin.
+[502.0] Well, I guess that means a bit more work for people.
+[506.4] I mean, they have to separate the organic and inorganic waste themselves before they take it out to the compost bin.
+[514.7] And you know how lazy some people are.
+
+[518.3] But I guess if we all start composting, we'd be [[30|doing something positive about the problem of food waste ourselves, rather than relying on the government]] to sort it out.
+[531.0] Having said that, not everyone has a garden.
+
+@21 The study only looked at households, and it was unusual in measuring wasted milk and soft drinks: liquid waste.
+@22 The reports focus on the trucks (distribution) and forget the fuel used to produce the food.
+@23 Documentaries focus on where food comes from, not on waste.
+@24 Her main concern is money: businesses should cut costs, and supermarkets lose about 11% of their fruit.
+@25 They won't start with statistics (everyone does) or pictures of landfill; they'll give out a set of questions.
+@26 The patches are cheap to make.
+@27 Scanning boxes is quicker than opening each one: it saves time.
+@28 Caterers see what they waste and why, which increases profits.
+@29 Unwanted restaurant food goes to charities and helps poorer local families.
+@30 Composting makes people act themselves instead of relying on the government.

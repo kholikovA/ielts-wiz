@@ -1,0 +1,54 @@
+# Test 64
+[0.0] Test 64.
+
+[1.8] You will hear a lecture about Maori kite making.
+
+[5.4] First, you have some time to look at questions 31 to 40.
+
+
+
+[69.1] Now listen carefully and answer questions 31 to 40.
+
+[74.7] Well, good morning, everyone.
+[76.7] As you know, we've been looking at different kinds of art and craft that were practised by the Maori people of New Zealand, at least before the Europeans began to arrive in the 18th century.
+[88.0] So, the focus of this lecture is kite-making, how the kites were made, their appearance and the purposes they served.
+[96.8] Well, let's start with the way they were made.
+[100.4] As with other Maori artistic traditions, kite-making involved certain rituals.
+[107.1] So, firstly, only priests were allowed to fly and handle the largest, most sacred kites.
+[114.0] There were rules, too, for the size and scale of the kites that the priests had to follow, and during the preparation of both small and large kites, [[31|food]] was strictly forbidden.
+[126.0] In terms of appearance, kites were frequently designed in the image of a native bird, or a Maori god, and sometimes, perhaps less often, a well-known [[32|hero]].
+[137.7] You can imagine that when Maori first arrived in the new country, in New Zealand, it may have taken some time to find suitable materials for their kites.
+
+[148.0] But, through trial and error no doubt, they found plants and trees that provided bark and even roots that they could use to make the frames and wings of their kites.
+[158.8] And after the frame had been constructed, the kite then had to be decorated.
+[164.0] For this, the priests used long grasses and these, when the kite was in the air, would stream along behind it.
+[172.1] They also used a variety of [[33|feathers]] to add, um, colour to their creations.
+[178.2] Well, all this meant it was easy to see a kite in the sky, but you could also hear Maori kites.
+[185.5] They could be quite noisy indeed, and this was because some priests liked to hang a long row of [[34|shells]] from the kite.
+[193.4] You can imagine how they'd rattle and clatter in the wind, how they might completely capture your attention.
+[200.6] As I said before, the most common image was probably a bird, and that's the same for other kite-making cultures.
+[208.7] But the kites were designed in particular shapes.
+
+[211.9] So, there were kites that were triangular, rectangular, and also shaped like a [[35|diamond]].
+[218.1] And some of them were so large, it would actually require several men to operate them.
+[224.8] Some of the kites were also covered in patterns, and to make these patterns, the Maori used different pigments of red and black.
+[232.3] And these were either made from a charcoal base or from red-brown clay which had been combined with oil obtained from a local species of [[36|shark]].
+
+[245.8] Now, before I forget, if you have a chance, do visit the Auckland Museum because they have the last surviving birdman kite on display.
+[256.2] This is the kind of kite that has a wooden mask at the top of the frame.
+[260.3] It's a mask of a human head, and you can clearly see it has a tattoo and also a set of [[37|teeth]].
+[267.0] Quite impressive, and a good example of Maori craftsmanship and symbolism.
+[273.0] Right, turning to the purpose and function of the kites, they certainly had multiple uses.
+[280.3] Primarily, the flying of kites was a way of communicating with the gods, and when the kites rose into the air, the Maori used them to deliver [[38|messages]], perhaps requesting a good harvest, good fortune in war, a successful hunting expedition.
+[296.2] So these kites were incredibly valuable to a community, treasured objects that one generation would pass to the next.
+[305.0] People would also fly kites for other reasons, for example, to attract the attention of a neighbouring village.
+[311.9] This was done when a [[39|meeting]] was required between Maori elders, a convenient method indeed.
+
+[317.9] And finally, when it comes to war, there are traditional stories that describe how when a Maori warrior found himself surrounded by his enemies, a kite could actually provide the possibility of [[40|escape]].
+[331.0] The kites were powerful enough to take a man up into the air, and for this reason, they could also be used to lower him into enemy fortifications so that an attack could begin from the inside.
+[344.2] Well, I'm happy to say there seems to be a revival and growing interest in kite making.
+
+@31 The rules covered size and scale, and food was forbidden while kites were being made.
+@32 Kites showed a native bird, a god, or less often a well-known hero.
+@33 Long grasses streamed behind; feathers added colour.
+@36 The red-brown clay was mixed with oil from a local shark.

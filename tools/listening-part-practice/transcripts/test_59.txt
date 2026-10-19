@@ -1,0 +1,110 @@
+# Test 59
+[0.0] Test 59.
+
+[2.0] You will hear a geography student called Caroline discussing her dissertation with her tutor.
+
+[8.7] First, you have some time to look at questions 21 to 23.
+
+[28.6] Now listen carefully and answer questions 21 to 23.
+
+[37.4] Ah, Caroline.
+[39.5] Come on in.
+[40.2] Sit down.
+[40.8] Thanks.
+[41.6] So how's the dissertation planning going?
+[45.1] Well, Dr Shulman, I'm still having a lot of trouble deciding on a title.
+[50.0] Well, that's perfectly normal at this stage.
+[52.6] And this is what your tutorials will help you to do.
+[55.7] Right.
+
+[56.6] What we'll do is jot down some points that might help you in your decision.
+[62.0] First of all, you have chosen your general topic area, haven't you?
+[66.5] Yes.
+[67.2] It's the [[21|fishing industry]].
+[68.7] Oh, yes, that was one of the areas you mentioned.
+[72.2] Now, what aspects of the course are you good at?
+[76.7] Well, I think I'm coping well with [[22|statistics]], and I'm never bored by it.
+[83.0] Good.
+[83.7] Anything else?
+
+[85.4] Well, I found computer modelling fascinating.
+[89.7] I have no problem following what's being taught, whereas quite a few of my classmates find it difficult.
+[97.1] Well, that's very good.
+[98.5] Do you think these might be areas you could bring into your dissertation?
+[103.0] Oh, yes, if possible.
+[104.6] It's just that I'm having difficulty thinking how I can do that.
+[108.7] You see, I feel I don't have sufficient background information.
+[112.9] I see.
+[114.0] Well, do you take notes?
+
+[117.0] I'm very weak at [[23|note-taking]].
+[119.3] My teachers always used to say that.
+[121.3] Well, I think you really need to work on these weaknesses before you go any further.
+[126.9] What do you suggest?
+
+[131.3] Before you hear the rest of the tutorial, you have some time to look at questions 24 to 30.
+
+[158.2] Now listen and answer questions 24 to 30.
+
+[165.8] Well, I can go through the possible strategies with you and let you decide where to go from there.
+[172.0] Okay, thanks.
+[173.3] Well, some people find it helpful to organise peer group discussions.
+[178.4] You know, each week a different person studies a different topic and shares it with the group.
+[184.1] Oh, right.
+[185.3] It really helps build [[24|confidence]].
+[187.9] Yeah.
+[188.2] You know, having to present something to others.
+[190.6] I can see that.
+
+[191.7] The drawback is that everyone in the group seems to share the same [[25|ideas]].
+[196.1] They keep being repeated in all the dissertations.
+[199.3] Okay.
+[200.3] You could also try a service called [[26|Student Support]].
+[204.7] It's designed to give you a structured programme over a number of weeks to develop your skills.
+[210.2] Sounds good.
+[211.4] Yes.
+[212.4] Unfortunately, there are only a few [[27|places]].
+[215.0] Ah.
+
+[215.4] But it's worth looking into.
+[217.0] Yes, of course.
+[218.2] I know I've got to work on my study skills.
+[221.3] And then there are several study skills books you can consult.
+[225.2] Right.
+[226.2] They'll be a good source of reference.
+[228.4] But the problem is, they are sometimes too [[28|general]].
+[232.3] Yes, that's what I've found.
+[234.8] Other than that, I would strongly advise quite simple ideas, like using a card index.
+
+[242.1] Well, yes, I've never done that before.
+[244.8] It's simple, but it really works because you have to get points down in a small space.
+[251.6] Another thing I always advise is don't just take your notes and forget about them.
+[257.8] Read everything [[29|three times]].
+[260.4] That'll really fix them in your mind.
+[262.6] Yes.
+[263.9] I can see it'd take discipline, but...
+[266.0] Well, if you establish good study skills at this stage, they'll be with you all your life.
+[271.6] Oh, yes, I completely agree.
+
+[273.4] It's just that I don't seem to be able to discipline myself.
+[277.4] I need to talk things over.
+[279.6] Well, we'll be continuing these tutorials, of course.
+[283.8] Let's arrange next month's now.
+[286.1] Let's see.
+
+[288.8] I can see you virtually any time during the week starting the 22nd of January.
+
+[298.0] What about the 24th?
+[300.8] I'm free in the afternoon.
+[301.9] Sorry, I'm booked then.
+[303.9] What about the following day?
+[306.3] The Thursday?
+[307.5] I can make the morning.
+[308.9] Fine, we'll go for the [[30|25th]] then.
+[311.7] That's great, thanks.
+
+@22 She is good at statistics and computer modelling.
+@23 Her weaknesses: not enough background information and poor note-taking.
+@25 Peer groups build confidence, but the same ideas end up in everyone's dissertation.
+@27 Student Support offers a structured programme, but places are limited.
+@30 The 24th afternoon is booked; the following day (25th) in the morning suits both.

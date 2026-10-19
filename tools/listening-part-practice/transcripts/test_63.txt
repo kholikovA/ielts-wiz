@@ -1,0 +1,69 @@
+# Test 63
+[0.0] Test 63.
+
+[1.9] You will hear a lecture about hair.
+
+[5.0] First you have some time to look at questions 31 to 40.
+
+
+
+[69.3] Now listen carefully and answer questions 31 to 40.
+
+[75.4] Good morning and welcome to this lecture on hair, which is a part of the Human Biology course.
+[83.8] This lecture covers a number of facts about hair, its structure, and what can affect the general health of hair.
+[92.7] So, first of all, what is hair, and why do we have it?
+[98.5] If we look back at our ancestors, we'll see that they had a lot more hair on their bodies than we do now.
+[105.6] And there are, or were, two main reasons for having hair.
+[111.6] One is to provide warmth, but as humans have worn clothes for many years, body hair has significantly reduced.
+[119.9] The other is for [[31|protection]].
+[122.9] And again, this isn't as significant as it was once, but hair does still benefit areas of the body, such as the head and around the eyes.
+[133.3] Now, hair, whatever it is for and wherever it is on the human body, is composed mainly of a protein called keratin.
+
+[143.7] This, by the way, is also found in fingernails.
+[147.7] In fact, it's keratin which makes them [[32|flexible]], and without it, they would be very rigid.
+[155.0] Another interesting fact about hair is that it is very strong, as strong as iron, in fact.
+[162.8] One single strand can support a weight of up to 100 grams.
+[168.6] This may not sound all that much, but a full head of hair can support up to 12 tons, which is the equivalent of a couple of [[33|elephants]], which is simply amazing.
+[181.9] Though I advise you not to put this to the test.
+
+[186.6] Humans lose up to 100 strands of hair a day, but we do have quite a lot of hair to start with.
+[194.3] There's some variation depending on hair colour, but for an average adult, the strand count is [[34|100,000]].
+[202.7] So losing 100 a day is not too bad.
+[206.4] Although this is the average, people with red hair have around 80,000 strands, black or brown hair 100,000, and blondes have about 120,000.
+[221.0] So, hair used to be important for the reasons I mentioned earlier, but nowadays, I'd say the main importance of hair is the fact that it is big business.
+[233.2] Apart from the money involved in hair cutting, shaving, trimming, etc., a fortune is spent just on hair [[35|products]].
+[242.2] In the UK alone, consumers spend over £5 billion each year on these.
+
+[254.3] So, next, I'd like to just give you a quick overview of the structure of hair.
+[260.7] As you can see, along the length of the hair, there are three main parts, called the bulb, the root, and the shaft.
+[271.0] A single hair is fixed at one end below the skin in the bulb.
+[276.5] The bulb acts rather like a [[36|cap]].
+[280.1] It encloses the end of the hair in the head.
+[284.1] The next part of the hair is the root, and this is the part of the hair which lies just beneath the skin and, in terms of hair production, is the most important.
+[295.7] This can be considered the control centre for each strand of hair and is where the glands are found.
+[303.6] These produce [[37|oil]], which flows along the length of the hair, and the health of the root determines the overall health of the strand of hair.
+[313.6] The last part is the shaft, and this is the hair which is above the skin, and is, of course, what we can see.
+
+[323.3] Fortunately, this is not [[38|active]], and I say fortunately because otherwise it would be very painful to have your hair cut.
+
+[333.5] And finally, I'd just like to go over a few factors that impact on the overall health of hair.
+[340.9] Like every other part of the body, our diet, that is, what we eat, is extremely important to the condition of our hair.
+[350.2] But whereas a change in your diet to, for example, eating unhealthy foods will soon be noticeable in your [[39|skin]], changes to your hair will take a lot longer.
+[362.8] A change in diet today could take several months to have an effect on your hair.
+[369.0] And so, what is the key to healthy hair?
+[373.7] Well, eating a balanced diet is the most important thing.
+[378.2] There are a number of vitamins that are vital for good hair health.
+[382.8] The main ones being vitamins C, D, and E.
+[388.0] And in a balanced diet, all these vitamins should be readily available.
+
+[392.8] If you need a boost of vitamin C, for example, one of the best things to eat are [[40|blueberries]].
+[399.4] For vitamin D, the best examples are fish, mushrooms, and eggs.
+[404.9] And for vitamin E, nuts and seeds.
+[409.2] Right.
+[410.2] So let's go on to what it is.
+
+@31 The two reasons for hair: warmth and protection.
+@33 A full head of hair can hold up to 12 tons, about two elephants.
+@34 100,000 is the average; red hair has about 80,000 and blonde about 120,000.
+@38 The shaft isn't active, which is why haircuts don't hurt.
+@39 A poor diet shows quickly in your skin; hair takes months to change.

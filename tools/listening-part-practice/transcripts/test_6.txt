@@ -1,0 +1,109 @@
+# Test 6
+[0.0] Test 6.
+
+[1.4] You will hear a phone conversation between an estate agent and a woman wishing to rent accommodation.
+
+[7.9] First, you have some time to look at questions 1 to 10.
+
+
+
+[71.3] Fairfield Rentals, Andrew Williams.
+[73.8] How can I help you?
+[75.3] Oh, hello.
+[76.0] I'm calling from the UK.
+[78.7] My family are moving to Canada early next year, and we're hoping to find somewhere to rent in Fairfield for the first six months while we settle in.
+[89.0] Right, I see.
+[91.1] Well, let's get your details.
+[93.7] Yes, my name's Jane Ryder.
+[96.7] OK, Jane.
+
+[98.1] And can I have a phone number, the best number to get you on?
+[102.4] Well, that'd probably be our home number.
+[106.7] So 0044 for the UK, and then it's [[1|208 613 2978]].
+[120.2] All right.
+[121.6] And an email address, please, so we can send you out all the information and forms.
+[127.8] I think it's best if I give you my husband's email.
+[133.4] He's sitting in front of a computer all day so he can print stuff off and get it back to you sooner than I could.
+[142.1] It's richard at visiontech.co.uk.
+[148.4] I'll just spell the company name for you.
+
+[152.7] That's [[2|V-I-S-I-O-N-T-E-C-H]].
+[162.8] Great.
+[163.8] And we have a question here about occupation.
+[168.9] Richard's an IT specialist for an advertising company.
+[173.7] They're transferring him to their Fairfield branch.
+[177.4] Actually, just your job for now, thanks.
+[181.4] Me?
+[182.0] I'm a [[3|doctor]] at the hospital in our town.
+[185.6] OK, I'll put that down.
+
+[188.2] Now, what kind of accommodation are you looking for?
+[193.2] House?
+[194.3] Apartment?
+[195.2] An apartment, probably, as long as it has two bedrooms.
+[199.6] There'll be me, my husband and our ten-year-old son.
+[205.3] And so with an apartment, you're less likely to get a garden.
+[210.1] That's OK.
+[211.5] But what about a [[4|garage]]?
+[213.9] Is that something you'll want the apartment to have?
+
+[217.4] Yes, that's definitely important.
+[220.3] OK, just a moment.
+[222.1] I'll just make a note of that.
+[224.1] But, er, before we go on, I should probably say now that what we don't need is any [[5|furniture]], because we'll be shipping all that over, and I don't really want to pay for storage while we're waiting to buy a house.
+[242.3] Not a problem.
+[243.7] I'll make a note of that.
+[246.3] Actually, though, just thinking about the kitchen, what can I expect from a rental property?
+[253.0] I mean, what kind of equipment is provided?
+[257.1] Well, the normal thing is that you get a stove.
+
+[261.0] I think that's a cooker in British English.
+[264.5] OK, good to know.
+[266.3] But how about a [[6|fridge]]?
+[268.4] We'll be selling ours before we come, so if possible, we'd like the apartment to have one for when we arrive.
+[276.9] I can certainly add that to the form.
+[279.7] If there's any other whiteware that you need, like a dishwasher, for example, there are plenty of stores here that'll arrange delivery on the same day as purchase.
+[291.6] Thanks.
+[292.7] Hopefully we won't need to buy too many things.
+[296.8] Now, how about location?
+
+[299.8] Have you done any research into the Fairfield area?
+[303.7] Not that much so far.
+[305.7] Well, you mentioned you have a boy.
+[309.0] I imagine you'd like to be fairly close to a [[7|school]].
+[313.2] Good idea.
+[314.3] That would help.
+[315.8] What's public transport like in Fairfield?
+[318.9] Is it easy to get around?
+[321.4] The bus service is pretty comprehensive.
+
+[324.7] There are plenty of local routes, services into the city and out of town.
+[329.6] OK, and for a two-bedroom apartment, what sort of rent should we expect to pay?
+[336.9] Well, looking at the properties we have at the moment, prices start from around $730 per month and, depending on the area, can go up to $1,200.
+[350.0] That's too much.
+[351.8] Something halfway would be better.
+[354.5] So, would your limit be, say, $[[8|950]]?
+[358.6] I'd say so, yes.
+[361.4] Can I ask if you smoke or if you have any pets?
+[365.4] No to both questions.
+
+[367.4] But I do have one more request, please.
+[370.9] Yes?
+[372.0] Well, I've also been offered a job at Victoria General Hospital, and I suspect I'll be working nights occasionally.
+[381.6] So what I really need from any apartment is for it to be [[9|quiet]], so I can catch up on sleep if necessary during the day.
+[392.5] Congratulations on the job offer.
+[394.8] I'll add your request to the form.
+[398.0] Well, what I'll do is compile a list of suitable properties for you and send them via email.
+[405.6] Um, can I just ask, how did you hear about us?
+[410.2] Obviously not from our commercials if you're living in the UK.
+
+[414.2] Actually, it was a [[10|friend]] of ours.
+[416.8] He spent a few months in Fairfield a couple of years ago, and he pointed us in the direction of your website.
+[424.5] Well, it's good to be recommended.
+[427.3] So, what I'll do is...
+
+@3 Richard is an IT specialist, but the form asks for the caller's own job: she is a doctor.
+@4 A garden is less likely with an apartment, and that's OK; the garage is what matters.
+@6 A stove (cooker) comes as standard; she asks for a fridge because they are selling theirs.
+@8 Prices range from $730 to $1,200; she wants something halfway, about $950.
+@10 Not from the agency's commercials: a friend recommended their website.

@@ -1,0 +1,69 @@
+# Test 54
+[0.0] Test 54.
+
+[1.6] You will hear part of a seminar in which a researcher called Grant Freeman discusses his work on Australian honeybees with a group of students.
+
+[12.3] First, you have some time to look at questions 21 to 24.
+
+[46.7] Now listen carefully and answer questions 21 to 24.
+
+[54.9] Good morning, everyone.
+[57.4] In today's seminar, Grant Freeman, a biologist who specialises in identifying insects and who works for the Australian Quarantine Service, has come to talk to us about his current research work.
+[69.1] Right, well, over to you, Grant.
+[71.8] Good morning, everyone.
+[73.1] I'm sure that you know that the Quarantine Service regulates all food brought into Australia.
+[79.1] Well, obviously they want to protect Australia from diseases that might come in with imported goods, but they also want to prevent insect pests from being introduced into the country and that's where I have a part to play.
+[93.2] Anyway, my current research involves trying to find a particular type of bee, the Asian honeybee, and finding out whether there are any of them around in various states of Australia.
+[106.1] We [[21|discovered a few of them in Queensland once]] and eradicated them.
+[110.6] Now we're pretty keen to make sure that there aren't any more getting in, particularly to New South Wales and other states.
+
+[118.1] What's wrong with Asian honeybees?
+[120.4] Are they so different from Australian bees?
+[123.2] Well, in fact, they look almost the same, but they are [[22|infested with mites, microscopic creatures which live on them]], and which can seriously damage our own homegrown bees or could even wipe them out.
+[137.6] Well, what would happen if Australian bees died out?
+[141.2] Well, the honey from Australian bees is of excellent quality, much better than the stuff the Asian bees produce.
+[148.2] In fact, [[23|Australia exports native queen bees to a large number of countries]] because of this.
+[154.2] When the European honey bee was first discovered out in the bush, we found they made really unpleasant honey, and they were also too big to pollinate many of our native flowers here in Australia.
+[166.9] That must have had a devastating effect on the natural flora. Did you lose any species?
+[173.0] No, we managed to get them under control before that happened.
+
+[176.6] But if Asian bees got in, there could be other consequences.
+[180.8] We could [[24|lose a lot of money]] because you might not be aware, but it's estimated that native bees' pollination of flower and vegetable crops is worth $1.2 billion a year.
+[192.9] So in a way, they're the farmer's friend.
+[195.9] Oh, and another thing is, if you're stung by an Asian honeybee, it can produce an allergic reaction in some people, so they're much more dangerous than native bees.
+
+[208.1] Before you hear the rest of the seminar, you have some time to look at questions 25 to 30.
+
+[244.9] Now listen and answer questions 25 to 30.
+
+[252.5] How will you know if Asian bees have entered Australia?
+[256.4] We're looking at the diet of the bird called the rainbow bee eater.
+[260.5] The bee eater doesn't care what it eats as long as they're [[25|insects]].
+[265.1] But the interesting thing about this bird is that we are able to analyse exactly what it eats, and that's really helpful if we're looking for introduced insects.
+[274.1] How come?
+[275.1] Because insects have their skeletons outside their bodies, so the bee eaters digest the meat from the inside.
+[282.2] Then they bring up all the indigestible bits of skeleton, and of course the wings, in a pellet, a small ball of waste material which they cough up.
+[292.3] That sounds a bit unpleasant.
+[294.0] So how do you go about it?
+
+[295.9] In the field, we track down the bee eaters and find their favourite [[26|feeding]] spots, you know, the places where the birds usually feed.
+[303.4] It's here that we can find the pellets.
+[306.3] We collect them up and take them back to the [[27|laboratory]] to examine the contents.
+[311.1] How do you do that?
+[312.6] The pellets are really hard, especially if they've been out in the sun for a few days.
+[317.5] So, first of all, we treat them by adding [[28|water]] to moisten them and make them softer.
+[323.9] Then we pull them apart under the microscope.
+[327.3] Everything's all scrunched up, but we're looking for wings, so we just pull them all out and straighten them.
+[333.9] Then we identify them to see if we can find any Asian bee [[29|wings]].
+
+[338.0] And how many have you found?
+[339.4] So far, our research shows that Asian bees have not entered Australia in any number.
+[345.3] It's a good result and much more [[30|reliable]] than trying to find live ones as evidence of introduced insects.
+[351.7] Well, that's fascinating.
+[353.5] Thank you, Grant, for those insights.
+[355.5] I hope that you might inspire some of our students here to conduct some similar experiments.
+
+@21 They were found once in Queensland and eradicated; New South Wales and other states are where they want to keep them out.
+@22 Asian bees carry mites (parasites) that could damage or wipe out Australian bees.
+@23 Australian honey is so good that native queen bees are exported to many countries. It was the European bee that was too big to pollinate native flowers.
+@24 Bee pollination of crops is worth $1.2 billion a year, so the economy would suffer. Allergic reactions are a danger, not a research use.

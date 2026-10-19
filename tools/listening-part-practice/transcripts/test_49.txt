@@ -1,0 +1,76 @@
+# Test 49
+[0.0] Test 49.
+
+[1.5] You will hear a tutor talking to two business students, called Philip and Janice, about their research on managing individuals.
+
+[10.3] First, you have some time to look at questions 21 to 23.
+
+[35.0] Now listen carefully and answer questions 21 to 23.
+
+[43.5] Well, you've both been looking at different styles of managing individuals in companies and the workplace.
+[51.1] How's the research going, Philip?
+[53.0] Well, I've been looking at why individualism, I mean individual differences, are such an important area of management studies.
+[62.8] When you think about any organisation, be it a family business or a multinational company, they're all fundamentally a group of people working together.
+[72.7] But it's what these individuals contribute to their places of work that makes you realise how important they are.
+[78.5] Of course they bring different ideas, but it's also their [[21|attitudes]] and their experiences of learning.
+[84.6] Diversity is important in these areas too.
+[87.6] So why do people behave so differently from one another at work?
+[92.5] There are lots of reasons, but research has shown that a lot of it comes down to personality.
+
+[98.8] And the other factor is [[22|gender]].
+[101.0] It's a well-known fact that men and women do lots of things in different ways, and the workplace is no different.
+[108.0] Did you look at the effects of this variation on companies?
+[111.6] Yes, I did.
+[112.8] On the positive side, exposure to such diversity helps encourage [[23|creativity]], which is generally an asset to a company.
+[120.9] But unfortunately, individual differences are also the root of conflict between staff, and they can lead to difficulties for management, which can sometimes be serious.
+
+[134.3] Before you hear the rest of the conversation, you have some time to look at questions 24 to 30.
+
+[186.1] Now listen and answer questions 24 to 30.
+
+[193.7] Thanks, Philip.
+[194.9] So now I guess the two main things to remember here are to identify individual talent and then to utilise it.
+[204.1] So Janice, you were looking at identifying different talents in workers.
+[209.0] Do you think this is easy for managers to do?
+[212.2] Well, currently teamwork is in fashion in the workplace.
+[216.2] And in my opinion, the importance of the individual is generally neglected.
+[221.1] What managers should be targeting is those employees who [[24|can take the lead in a situation]] and are not afraid to accept the idea of responsibility.
+[231.2] That's true, Janice, but unfortunately many managers think the entire notion of encouraging individuality amongst their staff is far too hard.
+[241.4] Yes, that may be true, but I think one of the most important tasks of managers is to [[25|consider the needs of the individual on one hand and group cooperation and conformity on the other]].
+
+[254.5] It requires creative thinking on the part of management to avoid tension.
+[259.2] So, Janice, what kind of people do you think companies should be looking for?
+[264.5] Well, it has to start from the very beginning, when companies are looking for new employees.
+[270.5] When the personnel department is choosing between applicants, they need to look for someone who's broken the mould and [[26|can think for themselves]].
+[279.7] Instead, people making these decisions often use a range of psychological tests to see if a person is a problem solver or will do as they're told.
+[290.7] I'm not convinced these qualities are actually the most important.
+[294.9] So do you think being a good team player is overrated?
+[298.9] No, it's not overrated.
+[301.9] You do need to learn the rules and learn them fast.
+
+[305.1] No individual can get around this if you're working in an organisation.
+[309.6] So how should managers deal with this?
+[312.7] Rewards.
+[313.8] When an individual demonstrates the behaviour the organisation expects, some kind of incentive can be given.
+[321.7] What's important here is that this [[27|happens right at the beginning, so new recruits learn the rules of the system]] immediately.
+[329.1] Also, the incentive should be something the individual actually wants, and this isn't always just money.
+[336.3] Hmm.
+[337.5] To come back to you, Philip, you were saying that recognition of good performers is essential.
+[343.5] What else should managers be looking for?
+
+[346.6] Well, managing people means you not only have an understanding of your employees, but you also recognise the [[28|culture]] of the organisation.
+[356.1] In fact, for some organisations, creativity and individuality may be the last thing they want to see during working hours.
+[363.5] Very true.
+[364.2] Yes, but managing people isn't as easy as it looks.
+[368.3] For example, change in the workplace can be quite tricky, especially if there's a need to increase profit.
+[375.5] And at times like these, managers may have to give priority to [[29|profit]] rather than individual staff needs.
+[383.4] Yes, and that creates difficult situations for people.
+[387.1] Yes, but what's important is that managers are able to deal with quite high levels of personal [[30|stress]].
+[393.5] During times of change, they should be thinking not only about the strain on their staff, but take time out to think of themselves.
+[401.7] Absolutely.
+[402.5] So what are the implications of that?
+
+@24 Teamwork is in fashion, but she thinks managers should target people who can take the lead and accept responsibility.
+@25 Managers must balance individual needs against group cooperation and conformity.
+@26 Psychological tests look for problem solvers or people who do as they're told; she wants people who think for themselves.
+@27 Rewards for the expected behaviour should come right at the start, so new recruits learn to fit in (co-operate) early. Money is not always the incentive.

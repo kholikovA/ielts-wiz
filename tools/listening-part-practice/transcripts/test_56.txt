@@ -1,0 +1,117 @@
+# Test 56
+[0.0] Test 56.
+
+[1.8] You will hear two students called Dan and Jeannie discussing their studies at university.
+
+[9.4] First, you have some time to look at questions 21 to 26.
+
+[44.4] Now listen carefully and answer questions 21 to 26.
+
+[52.7] Hi Jeannie, how's it going?
+[55.0] Oh, hello Dan.
+[56.6] Pretty well, thanks.
+[58.0] Have you managed to get the money for the course yet?
+[60.9] Yes, that's all sorted out now, thanks.
+[63.9] It took long enough, though.
+[65.4] It was practically a year ago that I applied to my local council for a grant, and it took them six months to turn me down.
+[72.5] That's really slow.
+[74.3] And I thought I was eligible for government funding, but it seems I was mistaken.
+
+[79.7] So then I asked the boss of the company I used to work for if they would sponsor me, and much to my surprise, [[21|he said they'd make a contribution]].
+[88.2] But what about college grants and scholarships?
+[91.6] There must be some you could apply for.
+[93.8] Yes, there are, but they're all so small that I decided to leave them until I was desperate.
+[99.4] And in fact, I didn't need to apply.
+[102.2] My parents had been saying that as I already had a job, I ought to support myself through college.
+[108.2] But in the end, [[22|they took pity on me]], so now I've just about got enough.
+[112.8] That's good.
+[113.5] So now I can put a bit of effort into meeting people.
+
+[117.4] Haven't had time so far.
+[119.3] Any suggestions?
+[121.0] What about joining some college clubs?
+[123.9] Oh, right.
+[124.6] You joined several, didn't you?
+[126.5] Yes.
+[127.2] I'm in the drama club.
+[129.0] It's our first performance next week, so we're rehearsing frantically.
+[132.8] And I've got behind with my work.
+
+[135.0] But it's worth it.
+[136.7] I'm hoping to be in the spring production too.
+[139.7] I've never liked acting.
+[141.7] Are you doing anything else?
+[143.0] I enjoyed singing when I was at school, so I joined a group when I came to college.
+[148.4] I don't think the [[23|conductor stretches us enough]] though, so I'll give up after the next concert.
+[154.0] And I also joined the debating society.
+[157.2] It's fun, but [[24|with all the rehearsing I'm doing, something has to go]] and I'm afraid that's the one.
+[163.7] Do you do any sports?
+
+[165.2] Yes, I'm in one of the hockey teams.
+[167.8] I'm not very good, but I'd really miss it if I stopped.
+[170.9] I decided to try tennis when I came to college and I'm finding it pretty tough going.
+[177.0] I'm simply not fit enough.
+[178.9] Nor me.
+[179.8] I think I'll give that a miss.
+[181.4] I'm hoping it'll help me to build up my stamina, but it'll probably be a long haul.
+[186.5] Good luck.
+[187.4] Thanks.
+
+[188.0] How are you finding the course?
+[189.8] I wish we had more seminars.
+[192.5] What?
+[193.2] I'd have thought we had more than enough already.
+[195.9] All those people saying clever things that I could never think of.
+[199.9] It's quite interesting, but [[25|I wonder if I'm clever enough to be doing this course]].
+[204.9] I find it helpful to listen to the other people.
+[207.9] I like the way we're exploring the subject and working towards getting insight into it.
+[213.6] How do you get on with your tutor?
+
+[216.0] I don't think I'm on the same wavelength as mine, so I feel I'm not getting anything out of the tutorials.
+[222.2] It would be more productive to read a book instead.
+[225.4] Oh, mine's very demanding.
+[226.9] She gives me lots of feedback and advice, so [[26|I've got much better at writing essays]].
+[232.7] And she's helping me plan my revision for the end-of-year exams.
+[236.3] Do tell me.
+[237.3] I always struggle with revision.
+
+[242.0] Before you hear the rest of the discussion, you have some time to look at questions 27 to 30.
+
+[268.4] Now listen and answer questions 27 to 30.
+
+[276.2] Well, the first thing is to find out exactly what's required in the exams.
+[281.9] Hmm, would it help to get hold of some past papers?
+[285.2] Yes, they'll help to make it clear.
+[288.2] Right, I'll do that.
+[289.4] Then what?
+[290.6] Then you can sort out your revision [[27|priorities]], based on what's most likely to come up.
+[295.5] I put these on a card and read them through regularly.
+[298.4] Uh-huh.
+[299.1] But that isn't enough in itself.
+
+[301.3] You also need a [[28|timetable]] to see how you can fit everything in, in the time available.
+[306.0] Then keep it in front of you while you're studying.
+[308.9] I've done that before, but it hasn't helped me.
+[311.8] Maybe you need to do something different every day.
+[314.1] So if you break down your revision into [[29|small tasks]] and allocate them to specific days, there's more incentive to tackle them.
+[321.5] With big topics, you're more likely to put off starting.
+[324.9] Good idea.
+[326.2] And as I revise each topic, I write a [[30|single paragraph]] about it.
+[330.9] Then later I can read it through quickly and it helps fix things in my mind.
+[335.2] That's brilliant.
+
+[336.4] I also write answers to questions for the exam practice.
+[339.8] It's hard to make myself do it though.
+[343.0] Well, I'll try.
+[344.6] Thanks a lot, Jeannie.
+[346.0] That's a great help.
+[346.9] No problem.
+[348.0] See you around.
+[348.7] Bye.
+
+@21 His council turned him down and he wasn't eligible for government funding; his former employer agreed to contribute.
+@22 College grants were too small to bother with; in the end his parents helped.
+@23 She will leave the singing group because the conductor doesn't stretch them: not challenged enough.
+@24 She will leave the debating society because drama rehearsals take up her time. She stays in hockey even though she isn't good.
+@25 He feels the others say clever things he could never think of.
+@26 Her tutor's feedback has improved her essay writing: study skills.

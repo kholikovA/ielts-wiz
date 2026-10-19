@@ -1,0 +1,66 @@
+# Test 29
+[0.0] Test 29.
+
+[1.3] You will hear a representative from a holiday company called PS Camping giving a talk about the holidays the company organises.
+
+
+
+[11.3] First, you have some time to look at questions 11 to 16.
+
+
+
+[61.4] Now listen and answer questions 11 to 16.
+
+[68.8] Thank you all for coming to my talk this evening.
+[71.9] It's nice to see so many people in the audience.
+[75.0] For those of you who don't know very much about PS Camping, let me start by giving you some background information about the company.
+[84.3] The company started 25 years ago.
+[86.8] It actually opened as a retail chain selling camping equipment and then, 20 years ago, it bought a small number of campsites in the UK and [[11|began offering camping holidays]].
+[99.0] The company grew rapidly and has been providing holidays in continental Europe for the last 15 years.
+[107.2] If you book a camping holiday with us, you'll have a choice of over 300 sites.
+[112.7] In Italy, we now have some 64 sites that we either own or have exclusive use of.
+[121.1] [[12|France is where we have the majority of sites]], and we currently have a project to expand into Switzerland.
+
+[128.8] We also have a number of sites in northern Spain, particularly in the mountainous region of Picos de Europa.
+[136.2] We've upgraded all these Spanish sites and improved them considerably from their original three-star rating.
+[144.1] We believe our holidays offer superb facilities for the whole family.
+[149.3] Parents who want their children to be fully occupied for all or part of the day can take advantage of our children's activities.
+[158.5] These are organised by our well-qualified and enthusiastic staff.
+[163.0] Each day kicks off with a sports match, perhaps football or volleyball, followed by [[13|an hour of drama for everyone]].
+[172.0] This may include singing or dancing, mime or other activities.
+
+[178.3] In the afternoon, there's a different art activity for each day of the week, including a poster competition or model making.
+[187.1] What's more, our sites are truly child-friendly, and with this in mind, we operate a no-noise rule in the evenings.
+
+[197.4] Children's evening activities usually finish at 9.30, or occasionally 10, and [[14|from 10.30, holidaymakers are expected to be quiet]] in the areas where there are tents.
+
+[210.6] We want nothing to go wrong on a PS Camping holiday, but if it does, we also want all our customers to be insured.
+[219.4] If you haven't organised an annual insurance policy of your own, you'll need to take out the low-cost cover we offer, and we require that you [[15|arrange this when you make your holiday reservation]].
+[231.4] There are many advantages to choosing PS Camping and to recommending it to others.
+[237.4] As a regular customer, you'll be kept informed of special offers, and your friends can benefit from 10% off their holiday, or book a luxury tent for the price of a standard one.
+[249.5] In return, we'll send you a [[16|thank you present]], which you can choose from a list of high-quality items.
+
+[259.2] Before you hear the rest of the talk, you have some time to look at questions 17 to 20.
+
+[285.7] Now listen and answer questions 17 to 20.
+
+[293.4] When it comes to our tents, these are equipped to the highest standard.
+[298.2] We really do think of every essential detail, from an oven and cooking rings fuelled by bottled gas, to mirrors in the bedroom areas.
+
+[308.7] If you don't want to cook indoors, you can borrow a barbecue, [[17|if you ask in advance for one to be made available]].
+[315.7] And there's even a picnic blanket to sit on outside your tent.
+[320.1] [[18|Inside, a box of games and toys can be found]], and children's tents can be hired if required.
+[327.5] All tents have a fridge, and if you want to spend the day on the beach, for example, [[19|ask for a specially designed PS Camping cool box]], which will keep your food and drinks chilled.
+[339.8] There are excellent washing facilities at all our sites, with washing machines and clothes lines [[20|in the central areas, along with mops and buckets]] in case your tent needs cleaning during your stay.
+[352.5] All sites have a cafe and or a shop for those who'd rather eat in than dine at a local restaurant.
+
+@11 The company started 25 years ago as a shop chain; it began offering camping holidays 20 years ago. 15 years is how long it has been in continental Europe.
+@12 Italy has 64 sites, but France has the majority. Switzerland is only a planned expansion.
+@13 Each day starts with a sports match (football is only one possibility) and then an hour of drama. The art activity changes every day.
+@14 Children's activities finish at 9.30 or sometimes 10; the quiet rule starts at 10.30.
+@15 If you don't have your own annual policy, you must take out their cover when you book.
+@16 The friend gets the discount or the luxury tent; the person who recommends gets a thank-you present.
+@17 Barbecues have to be requested in advance.
+@18 Every tent has a box of games and toys inside.
+@19 Every tent has a fridge, but cool boxes must be asked for.
+@20 Mops and buckets are with the washing machines in the central areas.

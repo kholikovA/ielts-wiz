@@ -2140,7 +2140,8 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
   const MCQ_MULTI_SLOT = {};
   const MCQ_MULTI_GROUP = {};
   const MCQ_MULTI_PRIMARY = {};
-  document.querySelectorAll('.question-group[data-type="mcq_multi"]').forEach(group => {
+  // build.mjs emits data-type="multi"; "mcq_multi" is the older name.
+  document.querySelectorAll('.question-group[data-type="mcq_multi"], .question-group[data-type="multi"]').forEach(group => {
     const cb = group.querySelector('input[type="checkbox"][data-qnums]');
     if (!cb) return;
     let qnums = [];
@@ -2580,6 +2581,20 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
 
     injectResultMarkers(results);
 
+    // Publish the grade for the transcript review (review.js, inlined by build.mjs).
+    try {
+      window.__iwGrade = {
+        correct: correctCount, total: TOTAL_QUESTIONS,
+        rows: results.map(r => ({
+          q: r.q, correct: !!r.correct, unanswered: !!r.unanswered,
+          user: r.unanswered ? null : displayAnswer(r.q, r.userAns),
+          answer: displayAnswer(r.q, r.correctAns),
+          multi: r.multi ? { userHtml: r.multi.userHtml, correctHtml: r.multi.correctHtml, hits: r.multi.hits, size: r.multi.size } : null
+        }))
+      };
+      document.dispatchEvent(new CustomEvent("iw:graded", { detail: window.__iwGrade }));
+    } catch (e) {}
+
     document.body.classList.add("test-locked");
     document.querySelectorAll(".options-list input, .gap-input, .gap-sub").forEach(el => el.disabled = true);
 
@@ -2850,5 +2865,6 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
   } catch (e) {}
 })();
 </script>
+{{REVIEW_BLOCK}}
 </body>
 </html>

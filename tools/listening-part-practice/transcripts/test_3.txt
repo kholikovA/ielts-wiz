@@ -1,0 +1,131 @@
+# Test 3
+[0.0] Test 3.
+
+[1.2] You will hear a conversation between an assistant at a health club and a man who wants to join the club.
+
+[8.7] First you have some time to look at questions 1 to 5.
+
+[42.2] Hi, can I help you?
+[44.9] Hello, yes, um, is your club taking on new members at the moment?
+[51.1] Oh yes, we're always interested in taking on new members.
+[55.4] Just give me a moment and I'll get an application form.
+[60.8] Right, here we are.
+[63.8] So, let's start with your name.
+[67.3] It's Harry.
+[69.1] OK.
+[70.3] And your surname?
+
+[73.1] It's Symonds.
+[75.2] Is that like Simon with an S?
+[78.1] No, it's [[1|S-Y-M-O-N-D-S]].
+[86.5] Most people find it rather difficult to spell.
+[90.1] I see.
+[91.7] It has a silent D.
+[94.6] I guess a lot of people miss that.
+[98.0] Now, let me see.
+[100.4] Can you tell me when you were born?
+
+[103.9] Yes, certainly.
+[105.7] The 11th of December.
+[108.2] Thanks.
+[109.4] And the year?
+[111.6] [[2|1996]].
+
+[114.0] OK, good.
+[116.3] Now, are you thinking of becoming a full-time member?
+[121.6] Er, probably not.
+[124.1] What kind of memberships do you have?
+[126.8] Well, we also have off-peak membership, which is between 9 and 12 in the morning and 2 and 5 in the afternoon.
+[138.5] And then we do have a weekend membership.
+[142.3] So a weekend membership is just Saturday and Sunday?
+[146.8] Yes, that's right.
+[148.8] OK.
+
+[149.9] Well, that's not going to work for me.
+[152.8] It looks like I'll have to be [[3|full-time]].
+[155.5] I'm afraid off-peak membership won't do as I'm not free at those times and I don't just want to be restricted to weekends.
+[164.3] OK, I'll make a note of that.
+
+[169.1] Right, we have several facilities at the club including a gym, a swimming pool, tennis and squash courts.
+[179.3] What activities are you planning on doing?
+[182.7] Well, do you have badminton?
+[185.5] Yes, we do.
+[187.4] And table tennis?
+[189.2] I'm afraid not.
+[191.0] Well, not at the moment anyway.
+[193.9] Oh, OK.
+[195.7] Well, I'm also very keen on [[4|swimming]], so I'm glad you have a pool.
+
+[201.2] I'll certainly be doing a lot of that.
+[204.1] OK, I've got that.
+[207.0] Will you be using the gym?
+[209.5] No, I'm not interested in that.
+[212.2] OK, so just let me work out what the cost will be.
+
+[219.0] Yes, that comes to £450 for the year.
+[223.6] You can choose to pay annually for the full year or [[5|monthly]].
+[227.9] It's up to you.
+[229.6] Oh, I'd prefer to pay regularly in small amounts, rather than have a large amount to pay in one go, if that's OK.
+[237.8] Sure, that's fine.
+[240.5] Right, I've got the most important details for now.
+
+[247.3] Before you hear the rest of the conversation, you will have some time to look at the questions 6 to 10.
+
+[284.0] Now listen and answer questions 6 to 10.
+
+[289.5] So, I'd just like to ask you a few questions about your lifestyle, if that's OK with you.
+[296.0] Yes, that's fine.
+[297.8] Um, do you do any regular exercise at the moment?
+[303.2] Yes, I do a bit.
+[305.4] Good.
+[306.1] And what do you do?
+[308.6] Well, every few days I [[6|go jogging]].
+[311.9] Yes, that's good.
+[314.1] How long do you go for?
+
+[316.7] Well, it varies.
+[319.1] I guess it depends on how energetic I'm feeling.
+[322.8] Yes, of course.
+[324.5] Every little bit helps.
+[327.1] Um, do you have any injuries at the moment?
+[330.7] Well, I did break a bone in my foot playing football a long time ago, but that's all healed up now.
+[338.8] But in the last few days, I've realised I have a [[7|bad ankle]].
+[343.8] I think I must have injured it last week, and it's a bit sore now.
+[349.8] But apart from that, I'm fine.
+
+[352.6] Right.
+[353.6] I guess you might need to rest it for a few days to let it recover.
+[358.8] Yes, I will.
+[361.0] So, let me just ask you what you want to achieve by joining the club.
+[367.0] Do you have any targets or goals?
+[370.3] Well, I suppose my main aim is to build up my [[8|fitness level]].
+[375.9] Is that the kind of thing you mean?
+[377.9] Yes, that's fine.
+[380.7] All the activities you're going to be doing should certainly help you with that.
+
+[385.7] OK.
+[386.9] And could you tell me what you do for a living?
+[390.6] Well, I was a student up until recently.
+[394.6] OK.
+[395.6] So what are you doing at the moment?
+[398.7] Well, I'm a [[9|charity worker]].
+[402.2] Oh, that's fine.
+[404.6] I'll write that down.
+[407.2] OK, nearly done.
+
+[409.3] One last question.
+[411.1] Can I ask how you heard about the club?
+[414.3] Did you see it advertised or did you go to our website, for example?
+[420.3] Well, I've been looking for a health club for a while, and I asked my friends for suggestions, but they weren't much help.
+[428.5] And then I was listening to the [[10|radio]], and your club was mentioned.
+[433.5] So I thought, I'll go along and see what it's like.
+[438.3] Great.
+[438.8] Well, we look forward to having you as a member.
+
+@1 The name sounds like "Simons" but is spelt with a Y and a silent D.
+@3 Off-peak and weekend memberships don't suit him, so he has to be full-time.
+@4 The club has no table tennis, and he isn't interested in the gym.
+@5 He wants to pay "regularly in small amounts" rather than in one go, i.e. monthly.
+@7 The broken bone in his foot has healed; the current injury is his ankle.
+@9 He was a student until recently; now he is a charity worker.
+@10 His friends weren't much help; he heard about the club on the radio.

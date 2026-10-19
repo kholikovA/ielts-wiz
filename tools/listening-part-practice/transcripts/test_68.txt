@@ -1,0 +1,59 @@
+# Test 68
+[0.0] Test 68.
+
+[1.4] You will hear a lecture about a species of bird called the New Caledonian crow.
+
+[7.2] First, you have some time to look at questions 31 to 40.
+
+
+
+[70.7] Now listen carefully and answer questions 31 to 40.
+
+[76.2] I'm going to talk today about research into a particular species of bird, the New Caledonian crow, whose natural habitat is small islands in the Pacific Ocean, and it seems that these crows are exceptionally resourceful.
+[93.5] Using sticks or other tools to find food isn't unknown among birds and animals.
+[99.7] Some chimpanzees, for example, are known to bang nuts on stones in order to break the shell and get at the edible kernel inside.
+[108.9] One New Caledonian crow called Betty bent some straight wire into a [[31|hook]] and used it to lift a small bucket of her favourite food from a vertical pipe.
+[121.8] This experiment was the first time she'd been presented with wire, which makes it very impressive.
+[128.9] Another crow, called Barney, has demonstrated his skill at using sticks to forage for food.
+[136.5] In one research project, scientists from New Zealand and Oxford set captive New Caledonian crows a three-stage problem.
+[146.4] If they wanted to extract food from a hole, the crows first had to pull up a [[32|string]] to get a short stick, then use that short stick to remove a long stick from a toolbox and finally use the long stick to reach the food.
+[163.3] Amazingly, they worked out how to do this successfully.
+
+[168.1] Further experiments carried out at Oxford suggest that crows can also use sticks as tools to inspect all sorts of objects,
+[177.4] possibly to assess whether or not they present a [[33|danger]].
+[181.7] The idea for the experiment came from observing the birds using tools to pick at random objects,
+[189.4] such as a picture of a spider that was printed on some cloth.
+[193.8] In this research, five pairs of crows, including Barney, underwent tests to see how they would react to a variety of objects, which were carefully chosen so the birds wouldn't be tempted to view them as a possible source of food.
+[211.8] As a further precaution, all the crows had been fed beforehand.
+[217.4] On eight occasions, a bird's first contact was by using a tool.
+[223.1] In all three trials, Barney began by using a stick for inspection.
+[229.4] One involved a [[34|rubber]] snake.
+
+[232.4] First he approached it, but didn't touch it, then retreated to pick up a stick.
+[239.3] He then prodded it with the stick.
+[242.8] After some more investigation, he discarded the stick and carried on pecking at the snake more confidently, apparently convinced that it wouldn't move.
+[253.6] In other experiments, two different birds, called Pierre and Corbeau, also made a first approach with tools on three separate occasions.
+[265.3] Pierre used a short piece of wood chip to touch a [[35|light]] which was flashing, and Corbeau was seen prodding a metal toad with a stick.
+[276.1] Significantly, the crows tended to use the sticks only to make their first contact with the object.
+[283.3] Subsequently, they either ignored the object or dropped the tool and pecked at the object, which is very different from using the tool to get access to food.
+
+[298.7] So, what conclusions can be drawn from the research?
+[303.6] Evidence is building up from experiments such as these that the birds are able to plan their actions in advance, which is very interesting for understanding their cognition.
+[315.7] They don't seem to be responding in a pre-programmed sort of way.
+[321.2] It may even be possible that they're able to view a problem and work out what the answer is.
+[328.5] However, a major difficulty is assessing whether this tool-using behaviour is a sign of [[36|intelligence]].
+[336.6] To some extent, this is related to the ecological circumstances in which the animal is found.
+[343.6] So, scientists want to find out much more about how the crows behave in their native habitat, and a team from Exeter and Oxford Universities is carrying out research in New Caledonia.
+[357.5] They're looking into whether the birds' way of searching for food gives them any possible evolutionary advantage.
+[365.5] The birds are hard to observe as they live in a region of mountainous forest, so the researchers have attached tiny cameras to the [[37|tails]] of some birds as one method of investigating their behaviour.
+
+[380.6] The birds are masters at using sticks to find their food, in particular beetle larvae from the trees.
+[388.9] It's possible that the birds can derive so much [[38|energy]] from these grubs that they only need to eat a few each day.
+[397.3] This would mean that they wouldn't have to spend most of their waking time searching for food, as most animals do.
+[406.2] The beetle larvae have a distinct [[39|chemical]] make-up which can be traced through the feathers and blood of birds that eat them.
+[414.9] Scientists have collected samples from crows in order to estimate the proportion of larvae in their [[40|diet]].
+[422.9] They should then be able to gauge the extent to which individual birds depend on using sticks to feed themselves.
+[431.1] We have learnt a great deal about the ability of New Caledonian crows to use tools and some very interesting research is being carried out into them.
+
+@33 The crows used sticks to check whether an object presented a danger, not to get food.
+@36 Planning shows interesting cognition, but it is hard to tell whether tool use shows intelligence.

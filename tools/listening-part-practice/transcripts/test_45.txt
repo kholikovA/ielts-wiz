@@ -1,0 +1,108 @@
+# Test 45
+[0.0] Test 45.
+
+[1.6] You will hear a student discussing his case study with his tutor.
+
+[6.6] First you have some time to look at questions 21 to 25.
+
+[40.9] Well, James, I've had a look over your case study, and for a first draft it looks promising.
+[47.8] I have to be honest, when you told us we had to write about a furniture company, it didn't sound like the kind of thing that would interest me.
+
+[56.3] But since then, I've changed my mind.
+[59.1] Why's that?
+[60.4] Well, as you know, Furniture Rossi is an Australian company, still comparatively small compared to some of the high street stores, but it's got plans to expand into foreign markets.
+[73.2] So I chose it for that reason.
+[75.7] [[21|It's going through a transition]].
+[78.0] It's a family-run business aiming to build a global brand.
+[82.1] All right.
+[83.1] And you've made that clear in your writing.
+[86.6] One thing, though, that I think you've overlooked is why Luca Rossi started a furniture company here in Australia in the first place.
+
+[96.0] Well, he'd just got an arts degree, hadn't he?
+[98.8] And people were trying to talk him into an academic profession.
+[102.4] But he wanted a practical job, something he thought would be more satisfying in the long run.
+[108.5] His grandfather had been a craftsman, he'd made furniture in Italy, and he'd passed this skill on to Luca's father.
+[116.6] And, well, Luca thought he'd like to [[22|continue the tradition]].
+[121.2] Yes, that was the motivation behind his decision.
+[125.3] And what was it, do you think, that gave Furniture Rossi a competitive edge over other furniture companies?
+[132.7] I wouldn't think it was price.
+[134.9] It's always been at the higher end of the market.
+
+[137.7] But according to my research, it was to do with the [[23|attitude of the employees]].
+[142.6] They were really focused on giving good customer service.
+[146.5] Yes, Luca Rossi insisted on that.
+[150.2] Their promotional campaigns also emphasised the fact that the wood only came from Australian forests.
+[157.6] But that was the case with their rivals too, so it wouldn't have made them stand out.
+[163.9] OK, we'll have a careful look at the content of your case study in a minute, but I just want to make a general comment first before you start writing your second draft.
+[175.3] OK.
+[176.7] Yes, what I'd like to see more of is [[24|your opinion]].
+[180.7] A bit more critical thinking rather than the bare facts.
+
+[185.2] But it's good to see you've been careful with your referencing this time.
+[189.9] Thanks.
+[190.9] And I read and re-read my work, so I'm pretty sure there aren't any errors with the language.
+[196.8] Yes, it's fine.
+[198.6] Oh, but there's one other thing I could probably mention at this point.
+[203.5] Yes?
+[204.5] Well, at the end of term, you'll also be giving a presentation, also on Furniture Rossi.
+[211.7] Yes.
+[212.6] I haven't given it much thought yet.
+
+[215.5] Understandably.
+[216.3] But while you're writing the case study, I'd recommend you think about what kind of information would be suitable to use in your presentation.
+[225.2] Remember, the last time you gave a presentation on a company, you spent a considerable part of the time providing the audience with financial data.
+[234.8] But they probably needed to hear more about company strategy.
+[239.9] Yes, I did [[25|concentrate rather too much on the figures]].
+[244.3] I'll make sure there's a balance this time.
+[247.2] Good.
+
+[272.2] Now listen and answer questions 26 to 30.
+
+[277.8] OK, so let's just think about the content of your case study, the history of Furniture Rossi.
+[284.8] I see here in paragraph four, you're talking about how Luca Rossi raised the capital for his new business venture.
+[294.3] And then you're talking about the customer base growing much wider.
+[299.0] But what was it that prompted this growth?
+[302.9] Well, that was to do with the [[26|quality]] of the furniture products that the company was selling.
+[308.4] People loved that it was all handmade and would last.
+[312.4] And because demand from customers kept growing?
+[315.5] Well, then Rossi needed to take on more craftsmen so they could make sure the orders were ready on time.
+[322.8] And then he also had to set up [[27|two new warehouses]] to make distribution quicker.
+
+[329.2] Yes, and from there, the company really grew.
+[333.7] But think what happened next.
+[336.2] They started looking at ways to increase their profits and called in a consultant.
+[341.9] And what he saw immediately was that the infrastructure was completely outdated.
+[348.3] They were paying three full-time admin staff just for data entry.
+[354.2] So he recommended they [[28|upgrade their software programs]] and that, in turn, cut operational costs and just speeded everything up.
+[364.4] I'm surprised they didn't get onto that earlier.
+[367.0] But I suppose Luca Rossi was more interested in the design aspect rather than the finance side of things.
+[374.4] Yes, I imagine that's why he eventually turned the day-to-day running of the company over to his son.
+
+[381.0] And in fact, it was the son, Marco, who persuaded his father to move on from traditional television advertising and go online instead.
+[392.3] I guess that's the best way to reach people.
+[394.9] It can be, but initially customers actually complained.
+[399.5] Why?
+[400.0] Well, some users found it hard to navigate their way around the [[29|website]], so they were getting frustrated and giving up.
+[408.6] So then the company called in a professional to improve it.
+[412.8] Oh, I see.
+[414.1] He must have done a good job.
+[416.4] They've had a continuous three-year rise in revenue, so things must be going well.
+
+[422.2] Indeed.
+[423.2] And what of the future?
+[426.1] Well, I probably need to talk about this a bit more in the concluding paragraphs, don't I?
+[432.2] Consumers are already aware of the quality of the furniture, that's for sure.
+[436.9] But I think the company is aiming to publicise their [[30|values]].
+[440.9] The fact that they have respect for beauty, durability and functionality and the environment.
+[447.2] A lot of companies are already...
+
+@21 It is still small but plans to expand abroad: it is going through a transition (still developing).
+@22 His grandfather and father made furniture, so he continued the family tradition. The academic jobs were only suggested to him.
+@23 Not price (it is expensive), and all their rivals also used Australian wood; the difference was staff focused on customer service.
+@24 The referencing and language are fine; the tutor wants more of his opinion and critical thinking.
+@25 He spent too long on financial data instead of company strategy.
+@26 Customers loved that the furniture was handmade and would last: quality.
+@27 Growing demand meant more craftsmen and two new warehouses (locations).
+@28 A consultant had them upgrade their software, which cut costs.
+@29 Customers complained the website was hard to navigate, so it was improved. TV advertising was dropped, not changed after complaints.
+@30 People already know the quality; the company wants to publicise its values.

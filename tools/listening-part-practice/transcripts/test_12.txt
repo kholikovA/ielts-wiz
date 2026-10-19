@@ -1,0 +1,92 @@
+# Test 12
+[0.8] You will hear a student talking to a housing officer about living with a homestay family.
+
+[8.1] First, you have some time to look at questions 1 to 6.
+
+[49.5] Yes, what can I do for you?
+[51.5] My friend is in homestay, and she really enjoys it, so I'd like to join a family as well.
+[58.6] OK, so let me get some details.
+[61.9] What's your name?
+[63.7] My name is Keiko Yuichini.
+[66.2] Could you spell your family name for me?
+[68.9] It's Yuichini.
+[70.7] That's Y-U-I-C-H-I-N-I.
+[78.1] And your first name?
+
+[79.5] It's Keiko.
+[81.4] [[1|K-E-I-K-O]].
+[85.9] That's Keiko Yuichini.
+[88.2] OK.
+[88.9] And you're female.
+[90.5] And your nationality?
+[91.9] I'm Japanese.
+[93.6] Right.
+[94.3] And could I see your passport, please?
+
+[96.6] Here it is.
+[98.2] OK.
+[99.2] Your passport number is [[2|JO6337]].
+[103.9] And you're how old?
+[105.8] I'm 28 years old.
+[108.2] Now, you live at one of the colleges.
+[110.4] Which one?
+[111.6] Willow College, room 21C.
+[116.9] Right, 21C, Willow College.
+
+[120.7] And how long are you planning on staying with Homestay?
+[124.1] About [[3|four months]].
+[126.0] Longer if I like it.
+[128.4] And what course are you enrolled in?
+[131.0] Well, I've enrolled for 20 weeks in the [[4|Advanced English Studies]] because I need help with my writing.
+[143.1] And I'm nearly at the end of my first five-week course.
+[146.8] Okay.
+[147.6] Do you have any preference for a family with children or without children?
+[151.7] I prefer...
+
+[153.1] I mean, I like [[5|young children]], but I'd like to be with older people.
+[158.1] You know, adults, someone around my age.
+[161.7] Okay.
+[163.0] And what about [[6|pets]]?
+[164.9] I am a veterinarian, so that's fine.
+[167.8] The more the better.
+
+[172.4] Before you hear the rest of the conversation, you have some time to look at questions 7 to 10.
+
+[199.3] Now listen and answer questions 7 to 10.
+
+[206.2] All right.
+[207.4] Now, what about you?
+[208.8] Are you a vegetarian or do you have any special food requirements?
+[213.6] No, I am not a vegetarian, but I don't eat a lot of meat.
+[218.0] I really like [[7|seafood]].
+[220.0] And what are your hobbies?
+[221.7] I like reading and going to the movies.
+[224.8] Do you play any sports?
+[226.6] Yes.
+
+[227.4] I joined the handball team, but I didn't like that, so I stopped playing.
+[232.7] Now I play [[8|tennis]] on the weekend with my friends.
+[236.2] All right.
+[237.9] Let's see.
+[239.3] Name, age, now the location.
+[243.7] Are you familiar with the public transport system?
+[246.8] No, I'm not really, because I have been living on campus.
+[251.7] I've been to the city a few times on the bus, but they are always late.
+[256.4] What about the trains?
+
+[258.0] I like catching [[9|the train]].
+[259.8] They are much faster.
+[261.9] Now, let me go check on the computer and see who I've got.
+[266.5] Listen, leave it with me.
+[267.8] I'll check my records and I'll give you details [[10|this afternoon]].
+[271.6] Thank you for helping me.
+[273.2] It's a pleasure.
+[274.0] Bye.
+[274.8] Bye.
+
+@4 She has enrolled for 20 weeks on the Advanced English Studies course; the five-week course is only the first part of it.
+@5 She likes young children but would rather live with adults, so: no children.
+@6 She is a vet, so pets are fine: "the more the better".
+@7 She isn't vegetarian but doesn't eat much meat; what she really likes is seafood.
+@8 She stopped playing handball; now she plays tennis.
+@9 The buses are always late; she likes the train because it is faster.

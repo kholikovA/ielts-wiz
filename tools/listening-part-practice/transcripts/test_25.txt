@@ -1,0 +1,70 @@
+# Test 25
+[0.0] Test 25.
+
+[1.8] You will hear a tourist information officer explaining local walks to visitors.
+
+[7.6] First you have some time to look at questions 11 to 15.
+
+[41.8] Welcome to everyone here.
+[44.2] I hope you enjoy your stay in our village and enjoy the local scenery.
+[50.4] I'll tell you a bit about the forest and mountain tracks in a minute, but first I'll just give you an idea of where everything is in the village.
+
+[61.2] So, we're here in the Tourist Information Center, and when you come out of the center, you're on Willow Lane, just opposite the pond.
+[71.3] If you want to get to the supermarket for your supplies of food and water, go right.
+[77.3] That's the quickest way, and then turn right at the top of Willow Lane, and it's the [[11|second building you come to, opposite the old railway station]].
+[88.5] If you're planning on doing some serious climbing and you need some equipment, we do have an excellent climbing supply store just five minutes walk away.
+[100.3] Turn left once you're outside the Tourist Information Center.
+[104.8] Take Willow Lane all the way up to Pine Street.
+[108.1] You want to go left along here.
+[110.6] Then keep walking and go up Mountain Road on your right until you come to the next turning on the left.
+
+
+[118.8] Head down there, and you'll come to the [[12|climbing supplies store]].
+[123.6] If you get to the small building that sells ski passes, you'll know you've gone too far.
+[130.9] You also need to head to Pine Street for the museum.
+[135.1] It's small, but well worth a visit if you're interested in the history of the village and the old gold mining industry.
+[143.5] So, when you reach Pine Street from here, you'll see the old railway line on the other side of the road.
+[151.0] Turn left into Pine Street and keep going until you come to Mountain Road.
+[157.0] And just past here, the [[13|museum will be on your left, just behind the railway line]].
+[163.6] Don't worry about crossing over the tracks.
+[166.6] The trains stopped running through here in 1985.
+
+[171.4] If you're planning on following one of the easier forest walks, you might like to hire a bicycle.
+[178.2] To get to the hire shop, again, you need to head to Pine Street.
+[184.3] On the left-hand side of Pine Street, you'll see the town hall.
+
+[189.3] Go down the little road that you come to just before it, and you'll find the [[14|bike hire shop just behind the hall]].
+[197.7] They have a good range of bikes, so I'm sure you'll find something that suits your needs.
+[204.7] Last but not least, if you're hungry after a long day's trek, I can recommend our local cafe.
+[212.7] Again, when you leave the Tourist Information Center, turn right and follow Willow Lane until it joins Pine Street, and [[15|right opposite, on the far side of the railway tracks, is the cafe]].
+
+[229.3] Before you hear the rest of the conversation, you will have some time to look at the questions 16 to 20.
+
+[255.9] Now listen and answer questions 16 to 20.
+
+[260.9] OK, let me tell you a little bit about the different tracks we have here.
+[266.2] All of them start at the end of Mountain Road, and you'll find a parking lot there where you can leave your vehicles.
+[274.1] Let's start with North Point Track.
+[277.1] It's a gentle route through lowland forest, good for biking and probably the one for you if you have small children.
+[285.5] There's a wooden hut where you can stay at the end of the track, but be aware that it's [[16|really just an overnight shelter]] and you'll need to take your own sleeping bags and cooking equipment.
+[297.9] Another option is the Silver River Track.
+[301.4] As the name suggests, you'd be following the river for most of the way and you get to see some of our beautiful native birds, but the track also goes through a densely forested area.
+[314.9] Unfortunately, the signposting isn't very good in places, and you do need good map reading skills to [[17|avoid becoming disoriented]], which happens to visitors a little too frequently, I'm afraid.
+[330.0] Valley Crossing will take you through some stunning scenery, but there are several points along the way where you'll need the [[18|level of fitness required to get over some pretty big rocks]].
+
+[344.1] Stonebridge is one of the shorter tracks, but very steep as it takes you up to the waterfall, and you do [[19|need to be in good condition to manage it]].
+[355.4] Lastly, the Henderson Ridge track will take you all the way to the summit of the mountain.
+[362.2] Do bear in mind, though, that at this time of year the weather is very changeable, and if the cloud suddenly descends, it's all too easy to [[20|wander off the track]].
+[374.8] It's best to check with us for a weather report on the morning you think you want to go.
+[380.7] On the way to the summit, there's a hotel which provides comfortable rooms and quality meals, so it's worth climbing all the way...
+
+@11 Turn right out of the centre and right at the top of Willow Lane; it's the second building, opposite the old railway station.
+@12 Left on Pine Street, up Mountain Road, then the next turning on the left. The ski-pass building is too far.
+@13 Left into Pine Street to Mountain Road; just past it, the museum is on the left behind the railway line.
+@14 Take the little road just before the town hall; the bike shop is behind the hall.
+@15 Right along Willow Lane to Pine Street; the cafe is right opposite, across the railway tracks.
+@16 The hut at the end is only an overnight shelter: you need your own sleeping bag and cooking equipment.
+@17 Poor signposting means visitors often get disoriented without good map-reading skills.
+@18 You need to be fit enough to climb over big rocks.
+@19 Stonebridge is short but very steep, so you need to be in good physical condition.
+@20 When the cloud comes down it is easy to wander off the track. The hotel on the way offers good rooms, so the accommodation isn't basic.

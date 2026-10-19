@@ -1,0 +1,93 @@
+# Test 50
+[0.0] Test 50.
+
+[1.5] You will hear a seminar with Dr Martin Merrywhether of the Antarctic Centre in Christchurch, New Zealand.
+
+[9.9] First, you have some time to look at questions 21 to 26.
+
+
+
+[60.6] Now listen carefully and answer questions 21 to 26.
+
+[68.9] We're pleased to welcome Dr Martin Merrywhether of the Antarctic Centre in Christchurch, New Zealand, who has come along to talk to us today about the role of the Centre and the Antarctic Treaty.
+[82.0] Now my first question is about the choice of location for the Centre.
+[86.2] Why Christchurch?
+[87.8] Was it because of the climate?
+[89.6] Well, actually, New Zealand is the second closest country to Antarctica, and Christchurch is often used on Antarctic expeditions.
+[97.6] Right, so it's [[21|because of where we are]], coupled with our historical role.
+[102.9] So tell us, what is the main purpose of the centre?
+[106.5] Well, we have two complementary roles.
+[109.8] One is as a scientific base for expeditions and research, and the other is as an information centre.
+
+[116.4] Tell us something about the role as a scientific base.
+[119.6] We're able to provide information about what scientists should take with them to the South Pole.
+[124.7] For example, the centre contains a clothing warehouse where [[22|expeditions are supplied with suitable clothing]] for the extreme conditions.
+[132.6] I suppose you need a bit more than your normal winter coat.
+[135.8] Yes, exactly.
+[137.0] And then there's also the specialist library and mapping services.
+[141.1] Right.
+[142.0] And which countries are actually located at the centre?
+[146.3] Well, the centre houses research programmes for New Zealand, for the United States, as well as for Italy.
+
+[152.5] There's even a US post office at the American Air Force Base here.
+[156.3] Really?
+[157.2] And what does the Visitor's Centre offer?
+[160.3] Well, since very few people will ever experience the Antarctic firsthand, the Visitor's Centre aims to [[23|recreate the atmosphere of Antarctica]].
+[169.4] There's a mock campsite where you can see inside an Antarctic tent and imagine yourself sleeping there.
+[174.9] And the Centre also acts as a showcase for the unique international cooperation which exists in Antarctica today.
+[182.5] What is it actually like at the South Pole?
+[185.3] I know you've been there on a number of occasions.
+[188.4] Yes, I have.
+
+[189.7] And each time I'm struck by the [[24|awesome beauty of the place]].
+[194.4] It's magnificent, but you can really only visit it in the summer months.
+[199.4] October to March.
+[200.9] Yes, because it's completely dark for four months of the year.
+[204.9] And, in addition, it has to be the coldest place on Earth.
+[210.2] Colder than the North Pole?
+[212.1] Why is that?
+[213.2] Ah, well, unlike the North Pole, which is actually a frozen sea, Antarctica is a [[25|landmass shaped like a dome, with the result that the winds blow down the slopes]] at speeds of up to 150 kilometres an hour.
+[227.7] And that's what makes it so cold.
+
+[230.6] And one other interesting thing is that Antarctica is the driest continent on Earth, surprisingly, and so you have to drink large amounts of water when you're there.
+[240.5] How old is Antarctica?
+[242.7] We're pretty sure it was part of a larger landmass, but it broke away from the rest of the continent 170 million years ago.
+[249.6] How can you be certain of this?
+[251.6] Because [[26|fossils and rocks have been discovered in Antarctica, which are the same as those found]] in places such as Africa and Australia.
+[259.0] Amazing.
+[260.6] To think that it was once attached to Africa.
+
+[266.6] Before you hear the rest of the interview, you have some time to look at questions 27 to 30.
+
+[293.3] Now listen and answer questions 27 to 30.
+
+[301.0] Now, let's just have a look at the Antarctic Treaty.
+[305.1] How far back does the idea of an international treaty go?
+[309.5] Well, as far back as the 19th century, when 11 nations organised an international event.
+[316.1] When was that exactly?
+[318.3] In 1870, and it was called the Polar Research Meeting.
+[323.2] And then not long after that, they organised something called the First International Polar Year.
+[328.8] And that took place when exactly?
+[331.9] Over two years, from [[27|1882 to 1883]].
+[336.7] But it wasn't until the 1950s that the idea of an international treaty was proposed.
+
+[342.6] And in 1959, the treaty was actually [[28|signed]].
+[347.1] What do you see as the main achievements of the treaty?
+[350.8] Well, firstly, it means that the continent is [[29|reserved for peaceful use]].
+[356.2] That's Article 1, isn't it?
+[358.8] Yes.
+[359.7] That's important, since the territory belongs to everyone.
+[363.1] Yes, but not as important as Article 5, which [[30|prohibits any nuclear explosions]] or waste disposal.
+[369.9] Which is marvellous.
+[371.4] Well, I'm afraid we're going to have to stop there, because I'm afraid we've run out of time.
+
+[376.5] Thanks for coming along today and telling us all about the Centre and its work.
+
+@21 Not the climate: New Zealand is the second closest country to Antarctica, and Christchurch is often used by expeditions.
+@22 The centre's clothing warehouse supplies expeditions with suitable equipment.
+@23 The Visitor's Centre recreates the atmosphere of Antarctica, for example with a mock campsite.
+@24 He is struck by its awesome beauty each time. Visits are limited to summer because of the dark, not the cold.
+@25 The dome shape makes the winds blow down the slopes at high speed. The frozen sea is the North Pole; dryness is a separate fact.
+@26 Fossils and rocks match those found in Africa and Australia: geological evidence.
+@29 Peaceful use only (no military use).
+@30 Article 5 bans nuclear explosions and waste disposal.

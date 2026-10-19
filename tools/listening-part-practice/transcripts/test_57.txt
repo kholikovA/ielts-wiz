@@ -1,0 +1,97 @@
+# Test 57
+[0.0] Test 57.
+[1.8] Two overseas students called Spiros and Hiroko have just finished the first semester of their university course.
+[10.7] They are discussing with their English language teacher how they coped with the course.
+
+[17.3] First, you have some time to look at questions 21 to 25.
+
+[43.2] Now listen carefully and answer questions 21 to 25.
+
+[51.8] Before we start, Spiros and Hiroko, thanks for coming in today to talk about your recent study experiences and congratulations to you both in doing so well in your first semester exams.
+[63.5] Thank you.
+[64.5] I'd like to discuss with you the value of the English for Academic Purposes course you did here last year before starting your university course.
+[74.3] Spiros, if I could start with you, what parts of the programme have now proved to be particularly valuable to you?
+[82.1] I think that having to do a seminar presentation really helped me.
+[86.8] For example, a couple of weeks ago in our marketing subject, when it was my turn to give a presentation, I felt quite confident.
+[95.6] Of course, I was still nervous, but because I had done one before, I knew what to expect.
+[102.0] Also, I know I was well prepared, and I had practiced my timing.
+[106.3] In fact, I think that in relation to some of the other people in my group, I did quite a good job, because [[21|my overall style was quite professional]].
+
+[115.8] What about you, Hiroko?
+[117.7] That's interesting.
+[119.2] In my group, I was really surprised by the way the students did their presentations.
+[125.0] They just read their notes aloud.
+[127.4] Can you believe that?
+[129.1] They didn't worry about their presentation style or [[22|keeping eye contact with their audience]].
+[134.9] And I remember that these things were really stressed to us in the course here.
+[140.0] So how did you approach your presentation, Hiroko?
+[144.2] Well, to speak frankly, I read my notes too.
+
+[148.6] At the time, it was a relief to do it this way, but actually when I had finished, [[23|I didn't feel any real sense of satisfaction]].
+[156.9] I didn't feel positive about the experience at all.
+[160.7] That's a pity.
+[161.9] You know, although I was pleased with my presentation, [[24|I am not so pleased with my actual performance right now in the tutorials]].
+[168.9] During the whole semester, I've not said anything in our tutorial discussions. Not a word.
+[174.7] Really, Spiros?
+[176.1] Why's that?
+[177.1] Do the other students talk too much?
+[179.5] It's partly that, but it's mostly because I have had no confidence to speak out.
+
+[184.9] Their style of speaking is so different.
+[187.4] It's not the style we were used to during the course.
+[190.6] They use so many colloquialisms.
+[193.3] They're not very polite, and sometimes there seems to be no order in their discussion.
+[198.5] Also, [[25|they are very familiar with each other]], so because they know each other's habits, they can let each other into the discussion.
+[205.7] You're right, Spiros.
+[207.3] I have experienced that too.
+
+[212.5] Before you hear the rest of the conversation, you have some time to look at questions 26 to 30.
+
+[239.7] Now listen and answer questions 26 to 30.
+
+[247.3] For most of this semester, I've said absolutely nothing in tutorials.
+[252.5] But recently, [[26|I've been trying to speak up more and I just jump in]], and I've noticed an interesting thing.
+[260.8] I've noticed that if they thought my point was interesting or new, then the next time they actually asked for my opinion, and then it was much easier for me to be part of the discussion.
+[272.3] Oh, that's great, Hiroko.
+[273.7] I hope that happens for me next semester.
+[276.3] I'll have to work hard to find some interesting points.
+[279.5] What helped you to find these ideas?
+[281.8] I think that one thing that helped me with this was the reading.
+[286.3] I've had to do so much reading this semester just to help me make sense of the lectures.
+
+[291.6] At first, I couldn't understand what the lectures were talking about, so I had to [[27|turn to the books and journals]].
+[299.5] Every night, I read for hours, using the lists of references that were given, and I made pages of notes.
+[307.6] At breakfast, I read and read my notes again.
+[311.3] This habit has helped me to follow the ideas in the lectures.
+[315.5] And it's also given me some ideas to use in the tutorials.
+[319.6] But I did so much reading anyway.
+[321.8] I don't think there's any time left over for anything extra.
+[325.6] [[28|My reading speed is still quite slow]], though I'm much better at dealing with vocabulary than I used to be.
+[332.1] What else do you think we could add to the course programme to help with this reading problem?
+
+[339.0] There's not really anything because it's my problem.
+[341.8] I remember we were given long articles to read.
+[344.7] We didn't like that, but now I realise that reading those long articles was good preparation for the things I need to read now.
+[352.7] Also, in class, we regularly had speed reading tasks to do, and we kept a record of our reading speed, so the teachers were encouraging us to work on that.
+[363.1] That's true, Spiros, but what we read could have been different.
+[368.0] Sometimes in the English class, I felt frustrated when I had to read articles about the environment or health or education, because I wanted to concentrate on my own field, but we didn't read anything about [[29|engineering]].
+[382.4] So I think I wasted some time learning vocabulary I didn't need.
+[387.2] But surely the strategies you were taught for dealing with that vocabulary were helpful?
+[392.0] Yes, but psychologically speaking, I would have felt much better [[30|working on reading from my own field]].
+
+[399.2] What do you think, Spiros?
+[400.9] Oh, I agree.
+[401.7] That would have helped my confidence too, and I would have been more motivated.
+[406.1] It was good, though, that we could work on our own topics when we wrote the research assignments.
+[411.0] OK, let's move on to writing now, and...
+
+@21 He was still nervous, and he only says he did "quite a good job" compared with some others; what he was pleased with was his professional style.
+@22 The other students read their notes and didn't keep eye contact with the audience.
+@23 Reading her notes was a relief at the time, but afterwards she felt no satisfaction.
+@24 He has said nothing in tutorials all semester.
+@25 The others know each other's habits, so they can let each other into the discussion. They are not very polite and there is no order.
+@26 She has started speaking up; then the others began asking for her opinion.
+@27 She couldn't follow the lectures, so she read books and journals from the reference lists.
+@28 He is better with vocabulary now, but his reading is still slow.
+@29 The class read about the environment, health and education, but nothing about her field, engineering.
+@30 The strategies were useful, but she would have felt better reading texts from her own field.

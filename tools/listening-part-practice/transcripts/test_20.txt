@@ -1,0 +1,85 @@
+# Test 20
+[0.0] Test 20.
+
+[1.7] You will hear a man asking for information about health services in the place where he is living.
+
+[9.0] First, you have some time to look at questions 1 to 6.
+
+
+
+[40.9] Can I help you?
+[42.4] Yes.
+[43.2] I've just moved to this area with my wife and children, and I'd like to know where we can all register with a doctor at a health centre.
+[51.4] Oh, OK.
+[53.0] Well, there's Dr Green at the Harvey Clinic.
+[56.2] We always recommend her for [[1|babies]] because she's very good with them and she runs a special clinic.
+[61.9] Oh, actually, my youngest child is five, so that wouldn't be any good for us.
+[67.7] Right.
+[69.0] Is there anywhere else I could try?
+
+[72.2] Yes, the Eshcol Health Practice is the next one on my list.
+[76.8] How do you spell that?
+[78.4] [[2|E-S-H-C-O-L]].
+[82.2] And it's Dr Fuller who has space on his list.
+[85.6] The clinic only opened a year ago, so the facilities are all very modern.
+[89.4] That sounds good.
+[90.8] And it's particularly good if you're busy during the day, because they also do appointments in the [[3|evening]].
+[97.0] They're closed on Saturday, though.
+[99.3] The only other place on the list is the Health Centre on Shore Lane.
+
+[103.5] You can register with Dr Gormley.
+[106.4] That's [[4|G-O-R-M-L-E-Y]].
+[111.0] He's new there, but the centre has a very good reputation.
+[114.7] Oh, yes.
+[115.7] I think I know the road.
+[116.9] That would be the best one.
+[119.3] Thanks.
+[120.1] Could you tell me, will all their services be free?
+[123.9] Er, there are usually some small charges that doctors make.
+
+[128.5] Let me see what it says about the Shore Lane Centre.
+[132.2] If you need to be [[5|vaccinated before any trips abroad, you won't have to pay for this]].
+[137.7] Er, what else?
+[139.5] The Sports Injury Treatment Service operates on a paying basis, as does the Nutritional Therapy Service.
+[147.3] Some health centres do offer alternative therapies like homeopathy as part of their pay-to-use service.
+[153.9] Shore Lane are hoping to do this soon.
+[155.7] I think they may start with acupuncture.
+[159.0] And finally, if you need to prove you're healthy or haven't had any serious injuries before a new employer will accept you, you can get a [[6|free fitness check-up]] there.
+[169.6] But you'd most likely have to pay for insurance medicals, though.
+
+[173.2] OK, thanks.
+
+[177.6] Before you hear the rest of the conversation, you have some time to look at questions 7 to 10.
+
+[209.5] Now listen and answer questions 7 to 10.
+
+[216.8] You might also be interested to know the Centre is running a pilot scheme of talks for patients.
+[222.8] I've got the list here.
+[224.5] Actually, they look very interesting.
+[226.3] What sort of things?
+[228.1] Well, the first one's about giving up smoking.
+[231.0] It's next week, the 25th of February, at 7pm, and that's in Room 4.
+[237.6] It says the talk will stress the health benefits, particularly for people with asthma or [[7|heart]] disease.
+[244.1] That sounds very interesting.
+[245.7] There's also a talk for families with children.
+
+[248.3] It's on healthy eating and takes place on the 1st of March at 5 o'clock.
+[254.3] Will that be at the health centre?
+[257.0] Actually, it's at the [[8|primary school]] on Shore Lane.
+[260.3] I imagine they're inviting the parents of pupils there.
+[263.1] It says here, all welcome.
+[264.8] Hmm.
+[265.4] I might go to that if I have time.
+[267.4] There's a couple of other talks.
+[269.5] One giving advice about how to avoid injuries while doing exercise.
+
+[274.2] It's on the 9th of March.
+[276.5] Oh, it's a late afternoon talk at [[9|4.30]].
+[280.5] And it'll be in room 6.
+[282.6] It also says the talk is suitable for all [[10|ages]].
+[285.9] And finally, there's a talk called Stress Management.
+
+@1 Dr Green is especially good with babies, which is no use to him because his youngest child is five.
+@3 The practice also offers evening appointments (but it is closed on Saturdays).
+@5 Vaccinations before going abroad are free.
+@6 A fitness check-up for a new employer (an employment medical) is free. Sports injury treatment is paid for, acupuncture isn't offered yet, and insurance medicals are probably charged.

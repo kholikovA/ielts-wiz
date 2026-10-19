@@ -1,0 +1,73 @@
+# Test 51
+[0.0] Test 51.
+
+[1.2] You will hear part of a seminar on ocean research given by a climate scientist.
+
+[7.7] First you have some time to look at questions 21 to 25.
+
+[47.1] Now listen carefully and answer questions 21 to 25.
+
+[56.4] Thanks to all of you for coming along today to hear about how the robotic float project is helping with ocean research.
+[63.9] Well, first of all, we'll look at what a robotic float does and its use.
+[68.2] So let's start with the device itself.
+[71.0] It looks a bit like a [[21|cigar]], and it's about one and a half metres long.
+[75.2] More importantly, it's full of equipment that's designed to collect data.
+[79.3] So it can help us in building up a profile of different factors which work together within the world's oceans.
+[86.0] Sounds like a big project.
+[87.8] Isn't it too big for one country to undertake?
+[90.7] That's quite true, but this project is a really good example of international cooperation.
+
+[96.7] Over the last five years, scientists from [[22|13 countries]] have been taking part in the project and launching floats in their area of ocean control.
+[105.6] And next year this number will rise to 14 when Indonesia joins the project.
+[110.7] That's impressive.
+[112.0] But let's move on to how floats work.
+[115.2] The operational cycle goes like this.
+[118.3] Each of the floats is dropped in the ocean from a boat at a set point and [[23|activated]] from a satellite.
+[124.3] Then the float immediately sinks about 2,000 metres.
+[127.9] That's two whole kilometres down in the water.
+[130.7] It stays at this depth for about 10 days and is carried around by the currents which operate in the ocean at this level.
+[138.5] During this time, it's possible for it to cover quite large distances, but the average is [[24|50 kilometres]].
+
+[144.9] So, what is it actually recording?
+[147.7] Well, at this stage, nothing.
+[149.7] But as it rises to the surface, it collects all sorts of data.
+[153.4] Most importantly, variations in salinity, that's salt levels, and the changes in [[25|temperature]], a bit like underwater weather balloons.
+[163.1] Then, when it gets back to the surface, all the data it's collected is beamed up to the satellite.
+[169.1] After about five hours on the surface, the float automatically sinks, beginning the whole process again.
+[175.8] What happens to the data?
+[178.0] Well, the information is transferred direct to onshore meteorological stations, like our one in Hobart, and within four hours the findings can be on computers, and they can be mapped and analysed.
+
+[193.8] Before you hear the rest of the seminar, you have some time to look at questions 26 to 30.
+
+[220.7] Now listen and answer questions 26 to 30.
+
+[228.6] You say you're building models of the world's ocean systems, but how are they going to be used, and more importantly, when?
+[236.4] Some of the data has already helped in completing projects.
+[240.4] For example, our [[26|understanding of the underlying causes of El Niño events is being confirmed]] by float data.
+[247.9] Another way we're using float data is to help us to understand the mechanics of climate change, like global warming and ozone depletion.
+[256.8] That's part of an ongoing variability study, but [[27|the results are still a long way off]].
+[262.1] However, this is not the case with our ocean weather forecasting.
+[266.6] Because we know from the floats what the prevailing weather conditions will be in certain parts of the ocean, we can advise the Navy on search and rescue missions.
+[274.9] [[28|That's happening right now]], and many yachtsmen owe their lives to the success of this project.
+[280.7] In addition, the float data can help us to look at the biological implications of ocean processes.
+
+[286.5] Would that help with preserving fish stocks?
+[289.1] Yes, and advising governments on fisheries legislation.
+[292.8] We're well on the way to completing a project on this.
+[295.8] We hope it will help to bring about more sustainable fishing practices.
+[300.1] We'll be seeing the results of that [[29|quite soon]].
+[302.9] It sounds like the data from floats has lots of applications.
+[306.7] Yes, it does.
+[307.6] It's also a powerful agricultural tool.
+[310.8] If we were aware of what the weather would be like, say, next year, we could make sure that the farmers planted appropriate grain varieties to produce the best yield from the available rainfall.
+
+[322.1] That sounds a bit like science fiction, especially when now we can't even tell them when a drought will break.
+[327.7] I agree that [[30|this concept is still a long way in the future]], but it will come eventually and the float data will have made a contribution.
+
+@22 Scientists from 13 countries have taken part so far; Indonesia will make it 14 next year.
+@24 It can cover large distances, but the average is 50 km.
+@26 Float data is already confirming the causes of El Niño: at present.
+@27 Climate change results are "still a long way off": long-term.
+@28 Search-and-rescue advice for the navy is happening now.
+@29 The fisheries project is nearly finished, with results "quite soon": near future.
+@30 Choosing crops from next year's weather is "a long way in the future".

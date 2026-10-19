@@ -1,0 +1,95 @@
+# Test 24
+[0.0] Test 24.
+
+[1.7] You will hear a project manager talking to voluntary workers about the tasks that need to be done.
+
+[8.7] First, you have some time to look at questions 11 to 14.
+
+[32.4] Good morning!
+[34.5] It's great to see so many people here.
+[37.8] Thank you all very much for coming.
+[40.8] Well, as you know, the community gardens at Hadley Park are really not looking as good as they should.
+[49.2] Quite bad, really.
+[51.3] And although the local council has a budget to deal with some of the problems, we do need volunteers for other tasks.
+[61.8] If you don't mind, I'm going to divide you into two groups.
+[66.3] So everyone on this side of the room is Group A and the rest of you are Group B.
+[74.7] So, Group A, there are a couple of things we'd like you to help with.
+
+[81.1] First of all, don't worry about any litter or empty bottles you see lying about.
+[87.6] One of the local schools has offered to help out with that as part of their own environmental project.
+[96.6] The priority for you will be to give us a hand with the [[11|new wooden fencing]].
+[104.9] It needs constructing along parts of the bicycle track, as there are parts which have now fallen down or broken, as I'm sure you've seen.
+[117.0] You've probably also noticed that some of the pathways that come from the bicycle track are quite narrow, and there are plans to make them wider, but the council will be dealing with that later in the year.
+[133.6] And they've also promised to produce some informational signs about the plants in the gardens.
+[142.9] Hopefully they'll be up in a few weeks' time.
+[146.6] The other thing we're doing is getting rid of some of the foreign species that are growing in the gardens and [[12|putting back some native plants and trees]].
+[158.1] So you'll be doing some digging for us and getting those into the ground.
+[164.3] So, Group A, there's some items you'll need to bring along with you.
+
+[170.3] I was going to say raincoats, but the forecast has changed, so you can leave those at home.
+[178.5] I'd definitely recommend a strong pair of [[13|boots]].
+[183.7] Waterproof would be best.
+[186.0] It's quite muddy at the moment and your own [[14|gloves]] would also be advisable.
+[193.1] Tools will be available, spades and hammers, that kind of thing.
+[199.0] You just need to make sure they go back in the trucks.
+[203.3] And, oh, there's no need to worry about food and drink as we'll be supplying sandwiches and coffee, possibly some biscuits even.
+
+[216.8] Before you hear the rest of the conversation, you will have some time to look at the questions 15 to 20.
+
+[252.1] Now listen and answer questions 15 to 20.
+
+[257.3] OK.
+[258.9] Group B, your turn.
+[262.1] Does everyone have a copy of the plan?
+[265.2] Oh, great.
+[266.4] OK.
+[266.9] We'll all be meeting in the car park.
+[270.4] That's on the bottom of the plan.
+[273.1] See?
+[273.8] Now, if you've been assigned to the vegetable beds, to get there, you go out of the car park and go up the footpath until you reach the circle of trees.
+
+[287.5] There they are, in the middle of the plan.
+[290.7] And you see that the footpath goes all the way around them.
+[295.2] Well, on the left-hand side of that circular footpath, there's a short track which [[15|takes you directly to the vegetable beds]].
+[306.9] You can see a bamboo fence marked just above them.
+[311.5] All right?
+[313.3] OK, if you're helping out with the beehives, pay attention.
+[318.7] Look again at the circle of trees in the middle of the plan and the footpath that goes around them.
+[326.5] On the right side of that circle, you can see that the footpath goes off in an easterly direction, heading towards the right-hand side of the plan.
+[338.3] And then the path splits into two and you can either go up or down.
+
+[345.3] You want the path that heads down.
+[349.4] And at the end of this, you see two areas divided by a bamboo fence.
+[355.9] And as we're looking at the plan, the [[16|beehives are on the right of the fence]].
+[363.4] The smaller section, I mean.
+[365.7] Now, don't worry.
+[367.5] All the bees have been removed.
+[369.8] You just need to transport the hives back to the car park.
+[375.3] OK, for the seating, look at the circular footpath.
+[380.5] At the top of it, there's a path that goes from there and takes you [[17|up to the seating area]], alongside the bicycle track, and with a good view of the island, I suppose.
+
+[394.5] OK, if you're volunteering for the adventure playground area, let's start from the car park again and go up the footpath, but then you want the first left turn.
+[408.9] Go up there and then you see there's a short path that goes off to the right.
+[415.4] Go down there and that's the [[18|adventure playground area above the bamboo fence]].
+[422.4] That fence does need repairing, I'm afraid.
+[426.9] Right.
+[427.9] What else?
+[429.6] Oh, yes.
+[430.9] The sand area.
+[432.3] We've got that circular footpath in the middle.
+
+[436.6] And the track that goes east, towards the right-hand side of the plan.
+[443.1] And where that track divides, you need the little path that goes up towards the bicycle track.
+[451.5] The [[19|sand area is just above the bamboo fence there]].
+[457.3] And finally, the pond area.
+[460.6] So it's on the left-hand side of your plan, towards the top, [[20|just above the fruit bushes and to the left of the little path]].
+[474.9] OK, as I said already, hopefully we'll be...
+
+@11 Litter is being collected by a local school, and the council will widen the paths and put up the signs. Group A will build the new fencing and plant native plants and trees.
+@13 Raincoats aren't needed because the forecast has changed; boots and their own gloves are recommended. Tools, food and drink are provided.
+@15 Take the short track on the left side of the circular footpath; the vegetable beds are just below a bamboo fence.
+@16 Go east from the circle, take the path that heads down, and the beehives are in the smaller section to the right of the bamboo fence.
+@17 The path from the top of the circular footpath leads up to the seating, beside the bicycle track and looking towards the island.
+@18 From the car park take the first left, then the short path to the right: the playground is above the bamboo fence.
+@19 Go east from the circle; where the track divides, take the little path up towards the bicycle track.
+@20 The pond is on the left, towards the top: above the fruit bushes and left of the little path.

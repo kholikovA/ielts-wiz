@@ -1,0 +1,60 @@
+# Test 61
+[0.0] Test 61.
+
+[2.2] You will hear a lecture about how the production of ceramics, such as plates, pots and glass, first began.
+
+[10.5] First, you have some time to look at questions 31 to 40.
+
+
+
+[74.0] Now listen carefully and answer questions 31 to 40.
+
+[83.5] Hi everyone.
+[85.0] Today I'm going to be talking about the origins of ceramics.
+[90.7] So first of all, let's start off with what is a ceramic?
+[96.0] Well, generally speaking, ceramics are what you get when you apply heat to certain inorganic non-metallic solids and then allow them to cool.
+[106.7] And examples of ceramics are everyday things like earthenware pots, crockery, glassware and even concrete.
+[117.2] So how did it all begin?
+[120.4] Well, it all started around [[31|29,000 years]] ago, when humans discovered that if you dig up some soft clay from the ground, mould it into a shape, and then heat it up to a very high temperature, when it cools, the clay has been transformed into something hard and rigid.
+[143.8] And so what did those first humans do with their discovery?
+[148.0] Well, they created figurines, which were small statues and which depicted animals or gods or any shape that the clay could be moulded into.
+
+[160.6] And all this activity was centred around [[32|southern Europe]], where there is also evidence of ceramics that were created much later.
+[170.9] The early humans also found a practical use for their discovery, such as storing things like grain, although there were drawbacks.
+[181.7] The pots were porous, so that although they could carry [[33|water]] in them, it wasn't possible to store it over a long period.
+[191.8] And also they were quite brittle and shattered very easily if they were dropped.
+[198.0] But despite these problems, it was many thousands of years before there were any improvements.
+[205.0] In China, at around 200 BC, they discovered that by adding [[34|minerals]] to the clay, they could improve both the appearance and the strength of the ceramics.
+[217.2] But it took nearly a thousand years before they perfected the process to produce high-quality ceramics known as porcelain.
+[227.0] And once they had perfected the process, they kept it a secret for another thousand years.
+[235.2] Compared to the first ceramics, porcelain was lighter, finer, harder and whiter and became an important commodity in China's trading with the rest of the world for hundreds of years.
+
+[250.3] In fact, it became so valuable that it was known as [[35|white gold]], and spies were sent to China to discover what they did to the clay to produce such high-quality merchandise.
+
+[266.7] It wasn't until the 18th century that the secret began to unravel.
+[272.2] A German alchemist called Johann Friedrich Böttger was asked by the king to make gold out of lead.
+[283.5] Unfortunately, Böttger failed to achieve this and soon gave up.
+[288.4] But in order to please the king, he attempted to make high-quality porcelain.
+[293.9] And after many years of experimentation, he discovered that by adding quartz and a material called [[36|china stone]] to very high-quality clay, he managed to get the same results that the Chinese had been achieving for the last 1,000 years.
+
+[318.7] We'll now look at another ceramic which is made from mixing sand with minerals and heating to over 600 degrees Celsius.
+[329.3] When this mixture cools, the result is of course glass.
+[334.8] The main difference between ceramics made from clay and glass is that clay is made up of crystalline plates which become locked together in the cooling process, whereas glass [[37|cools too quickly]] for crystals to form.
+[352.6] Apart from that, the process of heating up naturally occurring materials to transform them is the same.
+[361.4] The origins of glass date back to 3500 BC, but it wasn't until the Roman Empire, 2,000 years ago, that the art of glassblowing and the practical uses of glass became more widespread.
+[379.2] One of the more innovative uses was to use it in [[38|windows]], as up until then they had just been holes in walls.
+[388.6] It must have been very draughty in those days.
+[392.6] The Romans were also responsible for inventing concrete and although the origins are uncertain experts think that this is largely due to the high level of volcanic activity in the area.
+[406.8] The Romans observed that when [[39|volcanic ash]] mixes with water and then cools it gets extremely hard and almost impossible to break up.
+
+[418.5] The chemical reaction that follows is very complex and continues for many years, and the concrete just keeps getting harder.
+[429.7] Evidence of this are the numerous Roman remains that are still standing, many of which are almost completely intact.
+[439.0] One of the most important facts about concrete for the Romans was that it can be created underwater.
+[446.8] As the Roman Empire grew, the Romans needed to take control of the seas, and for this they needed to build [[40|harbours]] capable of holding a fleet of ships.
+[459.6] Pouring concrete mixture into the sea immediately started the hardening process, and rather than just dissolving in the mass of water, the substance was tough and long-lasting.
+[474.1] This strange characteristic of concrete made a significant contribution to the success of the Roman Empire.
+
+@33 The pots were porous: they could carry water but not store it for long.
+@37 The process is the same, except that glass cools too quickly for crystals to form: the rate of cooling.
+@40 Concrete hardens underwater, so the Romans could build harbours for their fleets.
+!37 The question's word is "cooling"; the speaker says glass "cools too quickly".

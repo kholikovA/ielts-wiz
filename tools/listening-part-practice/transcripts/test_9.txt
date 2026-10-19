@@ -1,0 +1,121 @@
+# Test 9
+[0.0] Test 9.
+
+[1.5] You will hear a telephone conversation between a passenger and an official at the Land Transport Information Service at Toronto Airport.
+
+[11.9] First, you have some time to look at questions 1 to 5.
+
+[43.7] Hello, this is Land Transport Information at Toronto Airport.
+[47.8] How may I help you?
+[49.3] Oh, good morning.
+[51.2] I'm flying to Toronto Airport next week, and I need to get to a town called Milton.
+[58.1] Milton.
+[58.6] Could you tell me how I can get there?
+[61.2] Milton, did you say?
+[62.8] Let me see.
+[64.0] I think that's about 150 miles southwest of here.
+
+[68.7] In fact, it's 147 miles, to be exact.
+[72.8] So it'll take you at least, say, three to four hours by road.
+[77.1] Wow.
+[77.8] Is it as far as that?
+[79.5] Yes, I'm afraid so.
+[81.2] But you have a number of options to get you there, and you can always rent a car right here at the airport, of course.
+[86.8] Right.
+[88.0] Well, I don't really want to drive myself, so I'd like more information about public transport.
+[94.4] OK.
+
+[95.9] In that case, the quickest and most comfortable is a [[1|cab]].
+[100.0] And, of course, there are always plenty available, but it'll cost you.
+[104.0] You can also take a Greyhound bus or there's an airport shuttle service to Milton.
+[109.4] I think for that kind of distance, a cab would be way beyond my budget.
+[113.5] But the bus sounds OK.
+[115.9] Can you tell me how much that would cost?
+[118.3] Sure.
+[119.5] Let's see.
+[120.8] That would be $15 one way or $27.50 return.
+
+[128.0] That's on the Greyhound.
+[129.3] Ah, that's quite cheap.
+[130.9] Great.
+[132.6] Whereabouts does it stop in Milton?
+[134.6] It goes directly from the airport here to the [[2|city centre]], and it's pretty fast.
+[139.7] But you have to bear in mind that there is only one departure a day, so it depends what time your flight gets in.
+[146.6] Ah, of course.
+[147.7] Hang on.
+[148.9] We're due to get there at 11.30am.
+[152.0] Mmm, too bad.
+
+[153.7] The bus leaves at 3.45, so you would have quite a [[3|wait]], more than four hours.
+[159.6] Oh, I see.
+[161.1] Well, what about the shuttle you mentioned?
+[164.6] Okay, that's the airport shuttle that will take you from the airport right to your hotel or private address.
+[171.7] It's a [[4|door-to-door]] service, and it would suit you much better because there's one every two hours.
+[176.7] So how much does that cost?
+[178.5] Let's see.
+
+[180.8] Yeah, that's $35 one way, $65 return.
+[185.3] So I guess it's a bit more expensive than the Greyhound.
+[188.5] Oh, that doesn't sound too bad, especially if it'll take me straight to the hotel.
+[193.3] But you do need to [[5|reserve a seat]].
+[195.8] Okay.
+[196.8] Is it possible to make a booking right now through you?
+[200.3] Sure.
+
+[204.6] Before you hear the rest of the conversation, you have some time to look at questions 6 to 10.
+
+[235.9] Now listen and answer questions 6 to 10.
+
+[243.1] OK, I just have to fill this form out for you.
+[246.6] So, what date do you want to book this for?
+[249.6] The 16th of October.
+[252.2] Oh, no, sorry, that's my departure date.
+[254.7] I arrive on the [[6|17th]], so book it for then, please.
+[258.8] So that's the Toronto Airport Shuttle to Milton.
+[262.6] And this is for just one person or...?
+[265.7] Yeah, yeah, just me, please.
+[267.7] Right.
+
+[268.4] And you said your expected time of arrival was 11.30.
+[272.1] So if I book your shuttle for after 12, let's say [[7|12.30]], that should give you plenty of time to, you know, collect your baggage, maybe grab a coffee.
+[282.3] Yeah, that sounds fine, as long as we land on time.
+[285.9] Well, we'll take your flight details, so you don't need to worry too much about that.
+[290.7] Now, what about the fare?
+[292.9] What sort of ticket do you want?
+[294.7] One way or...
+[295.8] Yeah, that'll be fine, provided I can book the return trip once I'm there.
+[300.5] No problem.
+
+[301.5] Just allow a couple of days in advance to make sure you get a seat.
+[305.5] And what is your name, please?
+[307.6] Janet.
+[308.2] Janet Thomson.
+[309.7] Is that Thompson spelled with a P?
+[311.9] No, it's [[8|T-H-O-M-S-O-N]].
+[316.6] OK.
+[317.8] And you'll be coming from the UK?
+[320.3] What flight will you be travelling on?
+
+[322.3] Oh, it's Air Canada flight number [[9|AC936]] from London Heathrow.
+[330.2] Right.
+[330.8] Now, do you know where you'll be staying?
+[333.0] We need to give the driver an address.
+[335.2] Yes, it's called the Vacation Motel, and I think it's near the town centre.
+[340.6] Anyway, the address is 24 Kitchener Street.
+[344.8] That's K-I-T-C-H-E-N-E-R Street.
+[351.4] That's fine.
+[353.2] Right, so that's $35 to pay, please.
+
+[356.5] Have you got your credit card number there?
+[358.2] Yes, it's a Visa card and the number is [[10|3303 8450 2045 6837]].
+[372.0] OK, well that seems to be everything.
+[374.7] Have a good trip and we'll see you in Toronto next week.
+[378.0] Yes, bye.
+[379.4] Oh, thanks for your help.
+
+@1 She doesn't want to drive, so car hire is out; a cab is the quickest and most comfortable option but expensive.
+@3 She lands at 11.30 and the only bus leaves at 3.45, so there is a wait of more than four hours.
+@6 The 16th of October is her departure date; she arrives on the 17th.
+@7 Her flight lands at 11.30; the shuttle is booked for 12.30 to allow time for baggage.
+@8 Not Thompson with a P: T-H-O-M-S-O-N.
+!6 The month (October) is given in the line before; the answer is the 17th of October.

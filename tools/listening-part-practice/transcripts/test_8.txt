@@ -1,0 +1,103 @@
+# Test 8
+[0.0] Test 8.
+
+[1.0] You will hear a phone conversation between two people, Cathy and John.
+
+[6.2] John is hoping to volunteer at a retirement home.
+
+[10.1] First, you have some time to look at questions 1 to 10.
+
+
+
+[73.5] Hello, Hilary Lodge Retirement Home, Cathy speaking.
+[79.3] Hello, my name's John Shepard.
+[82.2] Could I ask if you're the manager of the home?
+[86.0] That's right.
+[87.5] Oh, good.
+[88.8] Hello, Cathy.
+[90.0] A friend of mine is a volunteer at Hilary Lodge and I'd like to help out too, if you need more people.
+[99.5] I work part-time, so I have quite a lot of free time.
+[105.2] We're always glad of more help, John.
+
+[108.6] Shall I tell you about some of the activities that volunteers get involved in?
+[114.6] Please.
+[115.3] Well, on Monday evenings, we organise computer training.
+[121.2] We've got six laptops and five or six residents come to the sessions regularly.
+[128.8] They're all now fine at writing and sending emails, but our trainer has just moved away and we need two or three volunteers who can help the residents create [[1|documents]].
+[145.3] Just simple things, really.
+[148.1] I'd certainly be interested in doing that.
+[151.5] Great!
+[152.7] Then, on Tuesday afternoons, we have an informal singing class, which most of the residents attend.
+
+[163.1] We've got a [[2|keyboard]] and someone who plays, but if you'd like to join in the singing, you'd be very welcome.
+[172.7] I work on Tuesdays at the moment, though that might change.
+[178.6] I'll have to give it a miss for now, I'm afraid.
+[182.8] OK.
+[183.9] Then on Thursday mornings, we generally have a session in our garden.
+[191.1] Several of our residents enjoy learning about [[3|flowers]], where they grow best, how to look after them and so on.
+[202.0] Is that something you're keen on?
+[203.9] I'm no expert, but I enjoy gardening, so yes, I'd like to get involved.
+[210.7] Do you have your own [[4|tools]] at the home?
+[214.2] We've got a few, but not very many.
+
+[217.6] I could bring some in with me when I come.
+[220.6] Thank you very much.
+[222.5] One very important thing for volunteers is that we hold a monthly meeting where they all get together with the staff.
+[233.4] It's a chance to make sure we're working well together and that everyone knows how the residents are and what's going on in the home.
+[243.4] Uh-huh.
+[244.4] Now, obviously, we'd need to get to know you before you become one of our volunteers.
+[252.1] Of course.
+[253.2] Could you come in for an informal interview later this week, maybe?
+[258.0] I'm busy the next couple of days, but would [[5|Saturday]] be possible?
+[264.4] Certainly.
+
+[265.4] Just drop in any time during the day.
+[269.0] I won't be working then, so you'll see my assistant, Mairead.
+[275.8] Sorry, how do you spell that?
+[278.7] It's [[6|M-A-I-R-E-A-D]].
+[285.6] Mairead.
+[286.6] OK, got that.
+[289.1] It's not a name I'm familiar with.
+[292.1] Oh, it's an Irish name.
+[294.1] She comes from Dublin.
+
+[295.9] Right.
+[297.2] And the road that Hilary Lodge is in is called [[7|Bridge]] Road, isn't it?
+[304.3] That's right.
+[305.3] Number 73.
+[306.6] Fine.
+[307.9] Oh, one other thing you might be interested in.
+[312.1] We're holding a couple of open house days and still need a few volunteers if you're available.
+[320.9] What are the dates?
+[323.0] There's one on April the 9th and another on the 14th of May.
+[330.0] They're both Saturdays and all-day events.
+[334.5] I can certainly manage [[8|May the 14th]].
+
+[338.5] I've got another commitment on April the 9th, though.
+[343.0] That would be a great help.
+[345.8] We're having several guest entertainers, singers, a brass band and so on, and we're expecting a lot of visitors.
+[355.7] So one possibility is to help look after the entertainers.
+[362.3] Or you could spend an hour or so organising people as they arrive and then just be part of the team, making sure everything's going smoothly.
+[374.1] Well, shall I show people where they can [[9|park]]?
+[378.9] Lovely.
+[379.9] Thank you.
+[381.4] One reason for holding the open house days is to get publicity for Hilary Lodge locally.
+
+[388.8] So you may find you have someone from a [[10|newspaper]] wanting to interview you.
+[395.7] They'll want to find out from two or three people why they volunteer to help at the home.
+[403.6] We're trying to get a TV station to come too, but they don't seem very interested.
+[411.1] I don't mind being interviewed.
+[413.5] Good.
+[414.5] Well, if you come in for a chat as we arranged, we'll take it from there.
+[421.5] Thank you very much for calling.
+[424.4] My pleasure.
+[425.0] Goodbye.
+[425.5] Bye.
+
+@1 The residents can already write and send emails; they need help creating documents.
+@2 The home has a keyboard and someone who plays it. John can't help with singing because he works on Tuesdays.
+@4 The home has a few tools but not very many, so John offers to bring some.
+@5 He is busy for the next couple of days, so he will come on Saturday.
+@8 He has another commitment on 9 April, so he agrees to help on 14 May.
+@9 Looking after the entertainers and organising arrivals are suggestions; he offers to show people where to park.
+@10 The TV station doesn't seem interested; a newspaper reporter may want an interview.

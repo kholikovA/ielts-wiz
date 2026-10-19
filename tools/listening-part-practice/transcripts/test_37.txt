@@ -1,0 +1,49 @@
+# Test 37
+[0.0] Test 37.
+
+[1.5] You will hear part of a radio programme about the opening of a new local sports shop.
+
+[8.2] First, you have some time to look at questions 11 to 16.
+
+[38.5] Now listen carefully and answer questions 11 to 16.
+
+[47.0] Now we go to Jane, who is going to tell us about what's happening in town this weekend.
+[51.3] Right, thanks, Andrew.
+[52.7] And now on to what's new.
+[55.3] And do we really need yet another sports shop in Bradcaster?
+[60.1] Well, most of you probably know Sportsworld, the branch of a Danish sports goods company that opened a few years ago.
+[68.0] It's attracted a lot of custom, and so the company has now decided to open another [[11|branch]] in the area.
+[75.5] It's going to be in the shopping centre to the [[12|west]] of Bradcaster, so that will be good news for all of you who've found the original shop in the north of the town hard to get to.
+[85.2] I was invited to a special preview, and I can promise you, this is the ultimate in sports retailing.
+[93.6] The whole place has been given a new minimalist look with the company's signature colours of black and red.
+
+[100.4] The first three floors have a huge range of sports [[13|clothing]] as well as equipment, and on the top floor there's a cafe and a book and DVD section.
+[111.1] You'll find all the well-known names, as well as some less well-known ones.
+[117.5] If they haven't got exactly what you want in stock, they promise to get it for you in [[14|10]] days, unlike the other store, where it can take up to 14 days.
+[128.1] They cover all the major sports, including football, tennis and swimming.
+[133.6] But they particularly focus on [[15|running]], and they claim to have the widest range of equipment in the country.
+[140.2] As well as that, a whole section of the third floor is devoted to sports [[16|bags]], including the latest designs from the States.
+[149.1] If you can't find what you want here, it doesn't exist.
+
+[155.8] Before you hear the rest of the programme, you have some time to look at questions 17 to 20.
+
+[187.2] Now listen and answer questions 17 to 20.
+
+[194.8] The shop will be open from 9am this Saturday and if you go along to the opening, then you'll have the chance to meet the national 400 metres running champion Paul King, who's coming along to open the shop.
+[208.8] And he will be [[17|staying around until about midday]] to chat to any fans who want to meet him and sign autographs.
+[217.0] Then there will be a whole range of special attractions all weekend.
+[221.5] There will be free tickets for local sporting events for the first 50 customers and also a special competition open to all.
+[231.1] Just answer 15 out of 20 sports questions correctly to win a signed copy of Paul King's DVD Spring Tips, while the first person to get all the questions correct gets a [[18|year's free membership of the Bradcaster Gym]].
+[247.9] All entrants will receive a special sports calendar with details of all Bradcaster fixtures in the coming year.
+
+[256.3] One of the special opening offers is a fitness test, a complete review of your cardiac fitness and muscle tone, actually done in the shop by qualified staff.
+[267.1] This would normally cost £30, but is available at [[19|half price for this month only]].
+[273.9] There are only a limited number of places available for this, so [[20|to make a booking]], phone 560 341.
+[282.6] In addition, if you open an account, you get lots more special offers, including the chance to try out equipment at special open evenings.
+
+@12 The original shop is in the north of the town; the new branch is to the west.
+@14 The other store can take up to 14 days; this one promises 10.
+@17 The shop opens at 9 am on Saturday, and Paul King stays until about midday.
+@18 15 correct answers win the DVD; the first person with all 20 correct wins a year's gym membership. Everyone gets the calendar.
+@19 The test normally costs £30 but is half price this month. It is done in the shop, not a clinic, and nothing is said about it being free for account holders.
+@20 Places are limited, so you must book.
