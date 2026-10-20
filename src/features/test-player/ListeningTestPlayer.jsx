@@ -5,7 +5,8 @@ import ListeningQuestionGroup from './components/ListeningQuestionGroup';
 import ResultsScreen from './components/ResultsScreen';
 import ListeningReviewView from './review/ListeningReviewView';
 import { gradeTest } from './grading';
-import { recordAttempt, loadLastSubmission, loadLastSubmissionCloud } from './recording';
+import { recordAttempt, loadReviewSubmission, retakeHref } from './recording';
+import ReviewUnavailable from './components/ReviewUnavailable';
 import { shareResultImage } from './resultImage';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -33,6 +34,7 @@ export default function ListeningTestPlayer({ test, review = false, onExit }) {
   const [inReview, setInReview] = useState(false);
   const [showConfirm, setShowConfirm] = useState(false);
   const [banner, setBanner] = useState(null);
+  const [reviewState, setReviewState] = useState({ status: 'loading' });
   const [secondsLeft, setSecondsLeft] = useState((spec.duration_minutes || 30) * 60);
   const [activePart, setActivePart] = useState(1);
   const [settingsOpen, setSettingsOpen] = useState(false);
@@ -50,22 +52,16 @@ export default function ListeningTestPlayer({ test, review = false, onExit }) {
   // Review mode: replay the saved submission read-only.
   useEffect(() => {
     if (!review) return undefined;
-    const apply = (saved) => {
+    return loadReviewSubmission(kind, id, (res) => {
+      setReviewState(res);
+      if (res.status !== 'ready') return;
+      const { saved } = res;
       setAnswers(saved.answers);
       setGrade(gradeTest(spec, saved.answers));
       setSubmittedAt(saved.ts ? new Date(saved.ts) : new Date());
       setInReview(true);
       setBanner('You are viewing your previous attempt. Answers are read-only.');
-    };
-    const local = loadLastSubmission(kind, id);
-    if (local && local.answers && Object.keys(local.answers).length) { apply(local); return undefined; }
-    let cancelled = false;
-    Promise.resolve(loadLastSubmissionCloud(kind, id)).then((remote) => {
-      if (cancelled) return;
-      if (remote && remote.answers && Object.keys(remote.answers).length) apply(remote);
-      else setBanner('No saved attempt found — start the test to create one.');
-    }).catch(() => { if (!cancelled) setBanner('No saved attempt found — start the test to create one.'); });
-    return () => { cancelled = true; };
+    });
   }, [review, kind, id, spec]);
 
   const totalQuestions = useMemo(
@@ -102,6 +98,20 @@ export default function ListeningTestPlayer({ test, review = false, onExit }) {
   const mm = String(Math.floor(secondsLeft / 60)).padStart(2, '0');
   const ss = String(secondsLeft % 60).padStart(2, '0');
   const minutesLeft = Math.max(0, Math.ceil(secondsLeft / 60));
+
+  // Review mode with nothing replayed yet: loading, or no answers to replay.
+  // Never fall through to a live, untimed copy of the test.
+  if (review && !grade) {
+    return (
+      <ReviewUnavailable
+        state={reviewState}
+        title={spec.title}
+        theme={theme}
+        onExit={onExit}
+        onRetake={() => window.location.assign(retakeHref())}
+      />
+    );
+  }
 
   // Transcript review: transcript (left) with answer locations + question list.
   if (grade && inReview) {

@@ -7,6 +7,7 @@ import { typesForHref } from '../../lib/testMeta';
 import QuestionTypeChips from '../ui/QuestionTypeChips';
 import { CompletedPill, ScoreBadge, ReviewRetake, StartLink } from '../ui/testCardBits';
 import { getLatestAttempt } from '../../lib/progressStore';
+import useProgressVersion from '../../lib/useProgressVersion';
 import { slugForId } from '../../data/tests/manifest';
 
 // Full Test Practice catalogue — complete 60-minute, 3-passage exams (40 Q)
@@ -50,6 +51,7 @@ const testHref = (test) => {
 
 export default function FullView({ setSubPage, setCurrentPage }) {
   const { user } = useAuth();
+  useProgressVersion(); // re-render when a sync brings in attempts
   const [openVolumeId, setOpenVolumeId] = React.useState(null);
   const [view, setView] = React.useState(() => {
     try { return localStorage.getItem(VIEW_KEY) === 'grid' ? 'grid' : 'list'; } catch (e) { return 'list'; }

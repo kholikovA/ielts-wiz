@@ -7,7 +7,8 @@ import ResultsScreen from './components/ResultsScreen';
 import ReviewView from './review/ReviewView';
 import { buildLabelResolver } from './components/review';
 import { gradeTest } from './grading';
-import { recordAttempt, loadLastSubmission, loadLastSubmissionCloud } from './recording';
+import { recordAttempt, loadReviewSubmission, retakeHref } from './recording';
+import ReviewUnavailable from './components/ReviewUnavailable';
 import { downloadResultImage, shareResultImage } from './resultImage';
 import { useAuth } from '../../contexts/AuthContext';
 
@@ -56,6 +57,7 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
   const [submittedAt, setSubmittedAt] = useState(null);
   const [inContext, setInContext] = useState(false);
   const [banner, setBanner] = useState(null);
+  const [reviewState, setReviewState] = useState({ status: 'loading' });
   const [secondsLeft, setSecondsLeft] = useState((spec.duration_minutes || 60) * 60);
   const [elapsedSec, setElapsedSec] = useState(null);
 
@@ -73,22 +75,15 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
   // cross-device), replay its answers read-only, and show the result.
   useEffect(() => {
     if (!review) return undefined;
-    const apply = (saved) => {
+    return loadReviewSubmission(kind, id, (res) => {
+      setReviewState(res);
+      if (res.status !== 'ready') return;
+      const { saved } = res;
       setAnswers(saved.answers);
       setGrade(gradeTest(spec, saved.answers));
       setSubmittedAt(saved.ts ? new Date(saved.ts) : new Date());
       setBanner('You are viewing your previous attempt. Answers are read-only.');
-    };
-    const local = loadLastSubmission(kind, id);
-    if (local && local.answers && Object.keys(local.answers).length) { apply(local); return undefined; }
-    let cancelled = false;
-    setBanner('Loading your previous attempt…');
-    Promise.resolve(loadLastSubmissionCloud(kind, id)).then((remote) => {
-      if (cancelled) return;
-      if (remote && remote.answers && Object.keys(remote.answers).length) apply(remote);
-      else setBanner('No saved attempt found — start the test to create one.');
-    }).catch(() => { if (!cancelled) setBanner('No saved attempt found — start the test to create one.'); });
-    return () => { cancelled = true; };
+    });
   }, [review, kind, id, spec]);
 
   const { groupByKey, mhByPart } = useMemo(() => {
@@ -258,6 +253,20 @@ export default function ReadingTestPlayer({ test, review = false, onExit }) {
       p.normalize();
     });
   };
+
+  // Review mode with nothing replayed yet: loading, or no answers to replay.
+  // Never fall through to a live, untimed copy of the test.
+  if (review && !grade) {
+    return (
+      <ReviewUnavailable
+        state={reviewState}
+        title={spec.title}
+        theme={theme}
+        onExit={onExit}
+        onRetake={() => window.location.assign(retakeHref())}
+      />
+    );
+  }
 
   // Detailed review (passage evidence + per-question Explain More).
   if (grade && inContext) {

@@ -2415,71 +2415,78 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
     });
 
     // ----- Completion + activity logging ------------------------------------
-    // Two writes:
-    //   1. Versioned localStorage (iw.v1.*) — instant cache, offline-safe.
-    //   2. Best-effort Supabase REST insert into user_test_results — silent on
-    //      failure. Dashboard.pullAndMerge() reconciles cross-device next time.
-    try {
+    // Skipped while Review replays a past submission (window.__IW_REPLAYING),
+    // so reviewing never records a new attempt. Otherwise, one attempt_id ties
+    // together:
+    //   1. iw.v1.completed.* + iw.v1.activity — instant local cache.
+    //   2. iw.v1.lastSubmission.* — the answer snapshot Review replays.
+    //   3. iw.v1.outbox — the app's durable outbox (src/lib/syncQueue.js). The
+    //      row stays there until the server confirms it, so an expired token or
+    //      a dropped connection only delays the save: the app retries on its
+    //      next load. A direct insert is tried right away; the attempt_id makes
+    //      the later retry a no-op if it already landed.
+    if (TEST_KIND && TEST_ID && !window.__IW_REPLAYING) try {
       const COMPLETION_KEY_FOR = {
         listening:  "iw.v1.completed.listening",
         reading_p1: "iw.v1.completed.reading.passage1",
         reading_p2: "iw.v1.completed.reading.passage2",
         reading_p3: "iw.v1.completed.reading.passage3"
       };
-      const ACTIVITY_KEY = "iw.v1.activity";
-
-      if (TEST_KIND && TEST_ID) {
-        const completionKey = COMPLETION_KEY_FOR[TEST_KIND];
-        if (completionKey) {
-          let list = [];
-          try { list = JSON.parse(localStorage.getItem(completionKey) || "[]"); } catch (e) {}
-          const sid = String(TEST_ID);
-          if (!list.map(String).includes(sid)) list.push(sid);
-          localStorage.setItem(completionKey, JSON.stringify(list));
-        }
-        let activity = [];
-        try { activity = JSON.parse(localStorage.getItem(ACTIVITY_KEY) || "[]"); } catch (e) {}
-        activity.push({
-          d: new Date().toISOString().slice(0, 10),
-          t: TEST_KIND,
-          id: String(TEST_ID),
-          correct: correctCount,
-          total: TOTAL_QUESTIONS
+      const readJSON = (k, fb) => { try { const v = JSON.parse(localStorage.getItem(k)); return v == null ? fb : v; } catch (e) { return fb; } };
+      const writeJSON = (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} };
+      const uuid = () => {
+        try { if (window.crypto && crypto.randomUUID) return crypto.randomUUID(); } catch (e) {}
+        return "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx".replace(/[xy]/g, c => {
+          const r = Math.floor(Math.random() * 16);
+          return (c === "x" ? r : (r & 0x3) | 0x8).toString(16);
         });
-        while (activity.length > 400) activity.shift();
-        localStorage.setItem(ACTIVITY_KEY, JSON.stringify(activity));
+      };
+      const attemptId = uuid();
+      const ts = new Date().toISOString();
+      const sid = String(TEST_ID);
+      const answers = {};
+      Object.keys(userAnswers).forEach(q => {
+        const v = userAnswers[q];
+        if (v !== undefined && v !== null && v !== "") answers[String(q)] = String(v);
+      });
 
-        var SUPABASE_URL = "https://jaucbfremtxmanciflab.supabase.co";
-        var SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImphdWNiZnJlbXR4bWFuY2lmbGFiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwODU2MTcsImV4cCI6MjA4NDY2MTYxN30.8unfikMze_UhgQL-ex5tutPTDgmQ0wP-tQBiCZATqTs";
-        if (SUPABASE_URL && SUPABASE_ANON_KEY) {
-          var accessToken = null;
-          for (var i = 0; i < localStorage.length; i++) {
-            var key = localStorage.key(i);
-            if (!key || key.indexOf("sb-") !== 0 || key.indexOf("-auth-token") < 0) continue;
-            try {
-              var val = JSON.parse(localStorage.getItem(key));
-              if (val && val.access_token) { accessToken = val.access_token; break; }
-            } catch (e) {}
+      const completionKey = COMPLETION_KEY_FOR[TEST_KIND];
+      if (completionKey) {
+        const list = readJSON(completionKey, []).map(String);
+        if (!list.includes(sid)) { list.push(sid); writeJSON(completionKey, list); }
+      }
+      const activity = readJSON("iw.v1.activity", []);
+      activity.push({ d: ts.slice(0, 10), t: TEST_KIND, id: sid, correct: correctCount, total: TOTAL_QUESTIONS, ts: ts, a: attemptId });
+      while (activity.length > 5000) activity.shift();
+      writeJSON("iw.v1.activity", activity);
+      writeJSON("iw.v1.lastSubmission." + TEST_KIND + "." + sid,
+        { answers: answers, correctCount: correctCount, total: TOTAL_QUESTIONS, ts: ts, a: attemptId });
+
+      const row = { kind: TEST_KIND, test_id: sid, correct: correctCount, total: TOTAL_QUESTIONS,
+                    completed_at: ts, answers: answers, attempt_id: attemptId };
+      const outbox = readJSON("iw.v1.outbox", []);
+      outbox.push(row);
+      writeJSON("iw.v1.outbox", outbox);
+
+      const SUPABASE_URL = "https://jaucbfremtxmanciflab.supabase.co";
+      const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImphdWNiZnJlbXR4bWFuY2lmbGFiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwODU2MTcsImV4cCI6MjA4NDY2MTYxN30.8unfikMze_UhgQL-ex5tutPTDgmQ0wP-tQBiCZATqTs";
+      const token = window.__iwAccessToken && window.__iwAccessToken();
+      if (token) {
+        fetch(SUPABASE_URL + "/rest/v1/user_test_results", {
+          method: "POST",
+          headers: {
+            "apikey": SUPABASE_ANON_KEY,
+            "Authorization": "Bearer " + token,
+            "Content-Type": "application/json",
+            "Prefer": "return=minimal"
+          },
+          body: JSON.stringify(row)
+        }).then(res => {
+          // 2xx = saved; 409 = this attempt_id is already saved.
+          if (res.ok || res.status === 409) {
+            writeJSON("iw.v1.outbox", readJSON("iw.v1.outbox", []).filter(r => r && r.attempt_id !== attemptId));
           }
-          if (accessToken) {
-            fetch(SUPABASE_URL + "/rest/v1/user_test_results", {
-              method: "POST",
-              headers: {
-                "apikey": SUPABASE_ANON_KEY,
-                "Authorization": "Bearer " + accessToken,
-                "Content-Type": "application/json",
-                "Prefer": "return=minimal"
-              },
-              body: JSON.stringify({
-                kind: TEST_KIND,
-                test_id: String(TEST_ID),
-                correct: correctCount,
-                total: TOTAL_QUESTIONS,
-                completed_at: new Date().toISOString()
-              })
-            }).catch(function () { /* silent */ });
-          }
-        }
+        }).catch(function () { /* stays in the outbox */ });
       }
     } catch (e) {
       console && console.warn && console.warn("[completion]", e);
@@ -2780,91 +2787,130 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
 })();
 </script>
 <script id="iw-review-mode-v1">
-// Review/retake support. Captures the last submission's inputs to localStorage
-// so the user can replay them via ?review=1, and auto-runs that replay when
-// the URL has ?review=1. TEST_KIND + TEST_ID are derived from the URL path so
-// this block needs no per-file customization.
+// Review support. ?review=1 replays the last submission read-only: the inputs
+// are filled from the saved answers and the normal submit runs with
+// window.__IW_REPLAYING set, so it shows results without recording an attempt.
+// The answers come from this device's snapshot (written by submitTest) or,
+// failing that, the newest copy in the cloud. If the attempt was saved without
+// its answers, or there is none, a notice says so instead of opening a blank
+// live test.
 (function () {
-  function deriveTestMeta() {
-    var path = window.location.pathname;
-    var m = path.match(/\/tests\/test_(\d+)\.html$/);
-    if (m) return { kind: 'listening', id: m[1] };
-    m = path.match(/\/reading\/passage(\d+)_(\d+)\.html$/);
-    if (m) return { kind: 'reading_p' + m[1], id: m[2] };
+  var SUPABASE_URL = "https://jaucbfremtxmanciflab.supabase.co";
+  var SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImphdWNiZnJlbXR4bWFuY2lmbGFiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwODU2MTcsImV4cCI6MjA4NDY2MTYxN30.8unfikMze_UhgQL-ex5tutPTDgmQ0wP-tQBiCZATqTs";
+
+  // The signed-in app session's access token, unless it has expired.
+  window.__iwAccessToken = function () {
+    try {
+      for (var i = 0; i < localStorage.length; i++) {
+        var key = localStorage.key(i);
+        if (!key || key.indexOf("sb-") !== 0 || key.indexOf("-auth-token") < 0) continue;
+        var val = JSON.parse(localStorage.getItem(key));
+        if (!val || !val.access_token) continue;
+        if (val.expires_at && val.expires_at * 1000 < Date.now() + 30000) return null;
+        return val.access_token;
+      }
+    } catch (e) {}
     return null;
+  };
+
+  function deriveTestMeta() {
+    var m = window.location.pathname.match(/\/tests\/test_(\d+)(?:\.html)?$/);
+    return m ? { kind: 'listening', id: m[1] } : null;
   }
   var meta = deriveTestMeta();
   if (!meta) return;
-  var SUBMISSION_KEY = 'iw.v1.lastSubmission.' + meta.kind + '.' + meta.id;
-
-  function readAllAnswers() {
-    var answers = {};
-    document.querySelectorAll('.gap-input[data-qnum]').forEach(function (el) {
-      if (el.value && el.value.length) answers[el.dataset.qnum] = el.value;
-    });
-    document.querySelectorAll('input[type="radio"][data-qnum]:checked').forEach(function (el) {
-      answers[el.dataset.qnum] = el.value;
-    });
-    var multi = {};
-    document.querySelectorAll('input[type="checkbox"][data-qnum]:checked').forEach(function (el) {
-      var k = el.dataset.qnum;
-      (multi[k] = multi[k] || []).push(el.value);
-    });
-    Object.keys(multi).forEach(function (k) { answers[k] = multi[k].join(','); });
-    return answers;
-  }
-
-  function snapshot() {
-    try {
-      localStorage.setItem(SUBMISSION_KEY, JSON.stringify({
-        answers: readAllAnswers(),
-        ts: new Date().toISOString()
-      }));
-    } catch (e) {}
-  }
-
-  // Hook the existing confirm button so every submission persists its answers.
-  // addEventListener stacks — this runs alongside the existing submitTest() listener.
-  var confirmBtn = document.getElementById('confirmSubmit');
-  if (confirmBtn) confirmBtn.addEventListener('click', snapshot);
-
-  // Review mode: hydrate inputs from the saved submission, then auto-submit
-  // so the user lands directly on the results screen with the prior answers.
   var params = new URLSearchParams(window.location.search);
   if (params.get('review') !== '1') return;
-  try {
-    var raw = localStorage.getItem(SUBMISSION_KEY);
-    if (!raw) return;
-    var data = JSON.parse(raw);
-    if (!data || !data.answers) return;
-    // Give the IIFE a beat to render inputs.
-    setTimeout(function () {
-      Object.keys(data.answers).forEach(function (q) {
-        var v = data.answers[q];
-        var input = document.querySelector('.gap-input[data-qnum="' + q + '"]');
-        if (input) {
-          input.value = v;
-          input.dispatchEvent(new Event('input', { bubbles: true }));
-          input.dispatchEvent(new Event('change', { bubbles: true }));
-        }
-        document.querySelectorAll('input[type="radio"][data-qnum="' + q + '"]').forEach(function (el) {
-          if (el.value === v) { el.checked = true; el.dispatchEvent(new Event('change', { bubbles: true })); }
-        });
-        var arr = String(v).split(',');
-        document.querySelectorAll('input[type="checkbox"][data-qnum="' + q + '"]').forEach(function (el) {
-          if (arr.indexOf(el.value) >= 0) { el.checked = true; el.dispatchEvent(new Event('change', { bubbles: true })); }
-        });
+  var SUBMISSION_KEY = 'iw.v1.lastSubmission.' + meta.kind + '.' + meta.id;
+
+  // Hide the live test until we know what to show.
+  var cover = document.createElement('div');
+  cover.className = 'iw-review-cover';
+  cover.innerHTML = '<div class="iw-review-card"><p>Loading your previous attempt…</p></div>';
+  document.body.appendChild(cover);
+
+  function notice(html) {
+    var retake = window.location.pathname;
+    cover.innerHTML = '<div class="iw-review-card">' + html
+      + '<div class="iw-review-actions"><a class="iw-review-btn" href="/listening/part' + Math.min(4, Math.ceil(Number(meta.id) / 20) || 1) + '">Back</a>'
+      + '<a class="iw-review-btn primary" href="' + retake + '">Retake test</a></div></div>';
+  }
+
+  function replay(answers) {
+    window.__IW_REPLAYING = true;
+    Object.keys(answers).forEach(function (q) {
+      var v = String(answers[q]);
+      var input = document.querySelector('.gap-input[data-qnum="' + q + '"]');
+      if (input) {
+        input.value = v;
+        input.dispatchEvent(new Event('input', { bubbles: true }));
+        input.dispatchEvent(new Event('change', { bubbles: true }));
+      }
+      document.querySelectorAll('input[type="radio"][data-qnum="' + q + '"]').forEach(function (el) {
+        if (el.value === v && !el.checked) { el.checked = true; el.dispatchEvent(new Event('change', { bubbles: true })); }
       });
-      var submitBtn = document.getElementById('submitBtn');
-      if (submitBtn) submitBtn.click();
-      setTimeout(function () {
-        var cb = document.getElementById('confirmSubmit');
-        if (cb) cb.click();
-      }, 250);
-    }, 400);
-  } catch (e) {}
+      var arr = v.split(',');
+      document.querySelectorAll('input[type="checkbox"][data-qnum="' + q + '"]').forEach(function (el) {
+        if (arr.indexOf(el.value) >= 0 && !el.checked) { el.checked = true; el.dispatchEvent(new Event('change', { bubbles: true })); }
+      });
+    });
+    var cb = document.getElementById('confirmSubmit');
+    if (cb) cb.click();
+    window.__IW_REPLAYING = false;
+    cover.remove();
+  }
+
+  function fromCloud() {
+    var token = window.__iwAccessToken();
+    if (!token) return Promise.resolve(null);
+    var base = SUPABASE_URL + '/rest/v1/user_test_results?kind=eq.' + meta.kind + '&test_id=eq.' + meta.id
+      + '&select=answers,correct,total,completed_at&order=completed_at.desc&limit=1';
+    var opts = { headers: { apikey: SUPABASE_ANON_KEY, Authorization: 'Bearer ' + token } };
+    var get = function (url) { return fetch(url, opts).then(function (r) { return r.ok ? r.json() : []; }); };
+    // RLS lets admins read everyone's rows, so scope to this user explicitly.
+    var uid = null;
+    try { uid = JSON.parse(atob(token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/'))).sub; } catch (e) {}
+    if (!uid) return Promise.resolve(null);
+    base += '&user_id=eq.' + uid;
+    return get(base + '&answers=not.is.null').then(function (rows) {
+      if (rows && rows[0]) return rows[0];
+      return get(base).then(function (rs) { return rs && rs[0] ? rs[0] : null; });
+    });
+  }
+
+  function start() {
+    var local = null;
+    try { local = JSON.parse(localStorage.getItem(SUBMISSION_KEY)); } catch (e) {}
+    if (local && local.answers && typeof local.answers === 'object') { replay(local.answers); return; }
+    fromCloud().then(function (row) {
+      if (row && row.answers && typeof row.answers === 'object') {
+        try {
+          localStorage.setItem(SUBMISSION_KEY, JSON.stringify({ answers: row.answers, correctCount: row.correct, total: row.total, ts: row.completed_at }));
+        } catch (e) {}
+        replay(row.answers);
+      } else if (row) {
+        notice('<h2>Last score: ' + row.correct + '/' + row.total + '</h2>'
+          + '<p>This attempt was recorded before answers were saved, so there is nothing to replay. Your next attempt will be reviewable here.</p>');
+      } else {
+        notice('<p>No submitted attempt found for this test on your account' + (window.__iwAccessToken() ? '' : ' (or you are signed out)') + '. Take the test to create one.</p>');
+      }
+    }).catch(function () {
+      notice('<p>Couldn’t load your previous attempt. Check your connection and try again.</p>');
+    });
+  }
+  // The main script above has already wired every control by now.
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', start); else start();
 })();
 </script>
+<style id="iw-review-cover-css">
+.iw-review-cover { position: fixed; inset: 0; z-index: 950; display: flex; align-items: center; justify-content: center; padding: 16px; background: var(--bg); color: var(--text); font-family: var(--sans); }
+.iw-review-card { max-width: 460px; text-align: center; display: flex; flex-direction: column; gap: 14px; align-items: center; }
+.iw-review-card h2 { margin: 0; font-size: 20px; }
+.iw-review-card p { margin: 0; line-height: 1.5; }
+.iw-review-actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+.iw-review-btn { padding: 10px 16px; border-radius: 10px; border: 1px solid var(--border-strong); color: var(--text); text-decoration: none; font-weight: 600; font-size: 14px; }
+.iw-review-btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+</style>
 <style id="iw-review-css">
 /* Listening transcript review (Part Practice). Same look as the reading review
    (src/features/test-player/review/review.css), adapted for the static page:

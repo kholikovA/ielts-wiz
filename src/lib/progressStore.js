@@ -78,9 +78,11 @@ export const markCompleted = (kind, id) => {
   }
 };
 
-// Activity log — keep a rolling window of ~400 most recent entries so the
-// heatmap stays cheap to render.
-const MAX_ACTIVITY = 400;
+// Activity log — a rolling window of the most recent entries. It drives the
+// heatmap AND every test card's "Last x/y" + Review button, so it has to be
+// long enough to hold a whole history: an attempt that falls off the end makes
+// its test look untaken. Entries are ~80 bytes.
+export const MAX_ACTIVITY = 5000;
 
 export const logActivity = (entry) => {
   migrateLegacy();
@@ -149,18 +151,25 @@ export const getLatestAttempt = (kind, testId) => {
   return all.length > 0 ? all[all.length - 1] : null;
 };
 
-// True when there's a snapshotted submission for (kind, testId) that can be
-// replayed via ?review=1. Captured by the appended script on each test HTML
-// page, so this returns false for attempts made before that script shipped.
+// True when there's a snapshotted submission for (kind, testId) on this device.
+// A blank submission ({} answers) counts — it's still a reviewable attempt.
 export const hasLastSubmission = (kind, testId) => {
   if (typeof window === 'undefined') return false;
   try {
     const raw = localStorage.getItem(`iw.v1.lastSubmission.${kind}.${testId}`);
     if (!raw) return false;
     const data = JSON.parse(raw);
-    return !!(data && data.answers && Object.keys(data.answers).length > 0);
+    return !!(data && data.answers && typeof data.answers === 'object');
   } catch { return false; }
 };
+
+// Whether a test card should offer Review: any recorded attempt. The review
+// screen loads the snapshot locally or from the cloud, and explains when an
+// old attempt was saved without its answers.
+export const canReviewTest = (kind, testId) =>
+  hasLastSubmission(kind, testId)
+  || !!getLatestAttempt(kind, testId)
+  || isCompleted(kind, testId);
 
 // All attempts on (kind, test_id), oldest first.
 export const getAttemptsForTest = (kind, testId) => {
@@ -181,6 +190,8 @@ export const getStatsByKind = (kind) => {
 // Friendly label for a kind code (used by the day-detail and history views).
 export const KIND_LABELS = {
   listening:  'Listening',
+  listening_full: 'Listening · Full test',
+  reading_full: 'Reading · Full test',
   reading_p1: 'Reading · Passage 1',
   reading_p2: 'Reading · Passage 2',
   reading_p3: 'Reading · Passage 3',

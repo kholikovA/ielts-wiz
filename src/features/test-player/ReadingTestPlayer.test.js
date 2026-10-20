@@ -8,12 +8,17 @@ import { findReadingTest } from '../../data/tests/manifest';
 
 // Mock only the cloud/record side; keep a real localStorage-backed loader so
 // review mode can replay. (Avoids pulling the supabase client into the test.)
+// `mockCloud` stands in for the newest cloud row when there's no local snapshot.
+const mockCloud = { result: { status: 'none' } };
 jest.mock('./recording', () => ({
   recordAttempt: jest.fn(),
-  loadLastSubmission: (kind, id) => {
-    try { const raw = global.localStorage.getItem(`iw.v1.lastSubmission.${kind}.${id}`); return raw ? JSON.parse(raw) : null; } catch { return null; }
+  retakeHref: () => '/reading-test/x',
+  loadReviewSubmission: (kind, id, onResult) => {
+    let saved = null;
+    try { saved = JSON.parse(global.localStorage.getItem(`iw.v1.lastSubmission.${kind}.${id}`)); } catch { /* none */ }
+    onResult(saved && saved.answers ? { status: 'ready', saved } : mockCloud.result);
+    return () => {};
   },
-  loadLastSubmissionCloud: () => Promise.resolve(null),
 }));
 globalThis.IS_REACT_ACT_ENVIRONMENT = true;
 
@@ -132,4 +137,15 @@ test('review mode replays the saved submission read-only and does NOT re-record'
   expect(recordAttempt).not.toHaveBeenCalled(); // replaying guard
 
   localStorage.clear();
+});
+
+test('review of an attempt saved without answers explains it instead of opening a live test', () => {
+  const test = findReadingTest('volume9', 1);
+  mockCloud.result = { status: 'missing', correct: 27, total: 40, ts: '2026-06-01T10:00:00Z' };
+  act(() => root.render(<ReadingTestPlayer test={test} review />));
+  expect(container.textContent).toMatch(/Last score: 27\/40/);
+  expect(container.textContent).toMatch(/recorded before answers were saved/i);
+  expect(container.querySelector('#questionsPane')).toBeNull(); // no live test underneath
+  expect(recordAttempt).not.toHaveBeenCalled();
+  mockCloud.result = { status: 'none' };
 });

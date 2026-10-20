@@ -85,13 +85,29 @@ async function runOne(id) {
   if (!rv.open || rv.marks !== 10) errs.push(`review: open=${rv.open} marks=${rv.marks}`);
   if (mode === 'correct' && rv.badges !== 10) errs.push(`review: ${rv.badges}/10 green badges`);
   await page.click('#rvBack');
+  // the submit recorded one attempt: activity entry, answer snapshot and an
+  // outbox row (the cloud POST is blocked here), all with the same attempt_id
+  const rec = () => page.evaluate((id) => {
+    const j = (k) => JSON.parse(localStorage.getItem(k) || 'null');
+    return { act: j('iw.v1.activity') || [], box: j('iw.v1.outbox') || [], snap: j(`iw.v1.lastSubmission.listening.${id}`) };
+  }, id);
+  const r1 = await rec();
+  const a1 = r1.act[r1.act.length - 1];
+  if (r1.act.length !== 1 || r1.box.length !== 1 || !r1.snap || !a1.a
+      || a1.a !== r1.box[0].attempt_id || a1.a !== r1.snap.a || r1.box[0].correct !== a1.correct
+      || JSON.stringify(r1.box[0].answers) !== JSON.stringify(r1.snap.answers)
+      || (mode === 'correct' && !Object.keys(r1.snap.answers).length)) {
+    errs.push(`record: act=${r1.act.length} outbox=${r1.box.length} snap=${!!r1.snap}`);
+  }
   if (process.env.REVIEW) {
     await page.goto(`${BASE}/tests/test_${id}.html?review=1`, { waitUntil: 'domcontentloaded' });
     await page.waitForFunction(() => { const e = document.querySelector('#resultsStats .stat-value'); return e && e.offsetParent; }, null, { timeout: 8000 });
     score = await page.$eval('#resultsStats .stat-value', (e) => e.textContent.trim());
     const subs = await page.$$eval('.gap-sub', (els) => els.filter((e) => !e.value).length);
     const slots = await page.$$eval('.dd-slot', (els) => els.filter((e) => !e.querySelector('.dd-chip')).length);
-    if (subs || slots) errs.push(`review: ${subs} empty two-box inputs, ${slots} empty slots`);
+    if (mode === 'correct' && (subs || slots)) errs.push(`review: ${subs} empty two-box inputs, ${slots} empty slots`);
+    const r2 = await rec();
+    if (r2.act.length !== 1 || r2.box.length !== 1) errs.push(`review re-recorded: act=${r2.act.length} outbox=${r2.box.length}`);
   }
   const expect = mode === 'correct' ? '10 / 10' : '0 / 10';
   const ok = score === expect && !errs.length;

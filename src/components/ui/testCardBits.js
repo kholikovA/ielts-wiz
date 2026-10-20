@@ -35,8 +35,8 @@ export const ScoreBadge = ({ correct, total }) => (
 // they're visually distinct from the filled Start button: Review in blue with an
 // eye icon, Retake in green with a check-circle icon.
 export const ReviewRetake = ({ href, onAuthRequired, canReview }) => {
-  // React player uses a clean /review path; standalone HTML keeps ?review=1.
-  const reviewHref = href.startsWith('/reading-test/') ? `${href}/review` : `${href}?review=1`;
+  // React players use a clean /review path; standalone HTML keeps ?review=1.
+  const reviewHref = /^\/(reading|listening)-test\//.test(href) ? `${href}/review` : `${href}?review=1`;
   return (
   <span className="test-actions" style={{ display: 'inline-flex', gap: 'var(--space-2)' }}>
     {canReview && (
