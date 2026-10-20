@@ -743,7 +743,8 @@ def build(spec_path: str, output_path: str, template_path: str = None):
            .replace("{{TEST_ID}}", test_id)
            .replace("{{SUPABASE_URL}}", supabase_url)
            .replace("{{SUPABASE_ANON_KEY}}", supabase_anon_key)
-           .replace("{{ANSWER_KEY_JSON}}", json.dumps(answer_key)))
+           .replace("{{ANSWER_KEY_JSON}}", json.dumps(answer_key))
+           .replace("{{EXPLANATIONS_JSON}}", json.dumps(spec.get("explanations", {}))))
 
     status = spec.get("answer_key_status", "complete")
     if status != "complete":
