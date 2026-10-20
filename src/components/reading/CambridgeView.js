@@ -6,7 +6,8 @@ import { prefetchPage } from '../../lib/prefetch';
 import { typesForHref } from '../../lib/testMeta';
 import QuestionTypeChips from '../ui/QuestionTypeChips';
 import { CompletedPill, ScoreBadge, ReviewRetake, StartLink } from '../ui/testCardBits';
-import { getLatestAttempt, hasLastSubmission } from '../../lib/progressStore';
+import { getLatestAttempt, canReviewTest } from '../../lib/progressStore';
+import useProgressVersion from '../../lib/useProgressVersion';
 import { slugForId } from '../../data/tests/manifest';
 
 const RECORD_KIND = 'reading_full';
@@ -37,6 +38,7 @@ const testHref = (bookId, testId) => `/reading/${bookId}_test${testId}.html`;
 
 export default function CambridgeView({ setSubPage, setCurrentPage }) {
   const { user } = useAuth();
+  useProgressVersion(); // re-render when a sync brings in attempts
 
   // Auth-gates first; then, for migrated tests (the in-app /reading-test/<id>
   // route), navigates within the SPA instead of a full page load. Standalone
@@ -110,7 +112,7 @@ export default function CambridgeView({ setSubPage, setCurrentPage }) {
                 const slug = slugForId(recordId);
                 const href = slug ? `/reading-test/${slug}` : metaHref;
                 const latest = getLatestAttempt(RECORD_KIND, recordId);
-                const canReview = hasLastSubmission(RECORD_KIND, recordId);
+                const canReview = canReviewTest(RECORD_KIND, recordId);
                 const done = !!latest;
                 return (
                   <div

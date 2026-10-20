@@ -6,7 +6,8 @@ import PageHeader from '../ui/PageHeader';
 import Icon from '../ui/icons';
 import TestCard from '../ui/TestCard';
 import ViewToggle, { readViewMode, writeViewMode } from '../ui/ViewToggle';
-import { getCompletedIds, getLatestAttempt, hasLastSubmission } from '../../lib/progressStore';
+import { getCompletedIds, getLatestAttempt, canReviewTest } from '../../lib/progressStore';
+import useProgressVersion from '../../lib/useProgressVersion';
 
 const PARTS = [
   { id: 'part1', label: 'Part 1', desc: 'Everyday social contexts — conversations between two speakers.', range: '1–20' },
@@ -28,8 +29,9 @@ export default function PartsView({ subPage, setSubPage, setCurrentPage }) {
   const tests = listeningTestsData[selectedPart] || [];
   const activePart = PARTS.find(p => p.id === selectedPart);
 
+  const progressVersion = useProgressVersion();
   const [completedIds, setCompletedIds] = useState([]);
-  useEffect(() => { setCompletedIds(getCompletedIds('listening')); }, []);
+  useEffect(() => { setCompletedIds(getCompletedIds('listening')); }, [progressVersion]);
 
   const handleAuthRequired = (e) => {
     if (!user) {
@@ -81,7 +83,7 @@ export default function PartsView({ subPage, setSubPage, setCurrentPage }) {
           {tests.map((test) => {
             const isCompleted = completedIds.includes(String(test.id));
             const latest = getLatestAttempt('listening', test.id);
-            const canReview = hasLastSubmission('listening', test.id);
+            const canReview = canReviewTest('listening', test.id);
             return (
               <TestCard
                 key={test.id}

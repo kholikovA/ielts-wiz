@@ -8,7 +8,8 @@ import PageHeader from '../ui/PageHeader';
 import Icon from '../ui/icons';
 import TestCard from '../ui/TestCard';
 import ViewToggle, { readViewMode, writeViewMode } from '../ui/ViewToggle';
-import { getCompletedIds, getLatestAttempt, hasLastSubmission } from '../../lib/progressStore';
+import { getCompletedIds, getLatestAttempt, canReviewTest } from '../../lib/progressStore';
+import useProgressVersion from '../../lib/useProgressVersion';
 
 // The original part-practice tests are ARCHIVED while we rebuild the catalogue
 // from corrected sources. The data files (reading-passage1/2/3) are kept intact;
@@ -42,11 +43,12 @@ export default function PartsView({ subPage, setSubPage, setCurrentPage }) {
   };
   const onChangeView = (m) => { setViewMode(m); writeViewMode(m); };
 
+  const progressVersion = useProgressVersion();
   const [completedTests, setCompletedTests] = useState([]);
   useEffect(() => {
     const num = active.replace('passage', '');
     setCompletedTests(getCompletedIds(`reading_p${num}`));
-  }, [active]);
+  }, [active, progressVersion]);
 
   const handleAuthRequired = (e) => {
     if (!user) {
@@ -116,7 +118,7 @@ export default function PartsView({ subPage, setSubPage, setCurrentPage }) {
           {current.tests.map((test) => {
             const isCompleted = completedTests.includes(String(test.id));
             const latest = getLatestAttempt(kind, test.id);
-            const canReview = hasLastSubmission(kind, test.id);
+            const canReview = canReviewTest(kind, test.id);
             return (
               <TestCard
                 key={test.id}

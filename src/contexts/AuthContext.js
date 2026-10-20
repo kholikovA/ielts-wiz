@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 import { reconcile, flushToCloud } from '../lib/cloudSync';
-import { flush as flushOutbox } from '../lib/syncQueue';
+import { flush as flushOutbox, holdForUser, HELD_PREFIX } from '../lib/syncQueue';
 import { pullVocabList } from '../lib/vocabList';
 import { snapshotAcquisition, readAcquisition, deviceClass } from '../lib/marketing';
 
@@ -141,6 +141,9 @@ export const AuthProvider = ({ children }) => {
     // local-only activity.
     try { await flushOutbox(); } catch { /* kept in queue */ }
     try { await flushToCloud(); } catch { /* best-effort; offline = keep local */ }
+    // Anything still unsynced (offline) is parked under this user's id rather
+    // than wiped; it rejoins the outbox when they sign in again.
+    holdForUser(user?.id);
     await supabase.auth.signOut();
     setUser(null);
     setProfile(null);
@@ -151,7 +154,7 @@ export const AuthProvider = ({ children }) => {
       const stale = [];
       for (let i = 0; i < localStorage.length; i++) {
         const k = localStorage.key(i);
-        if (k && k.startsWith('iw.v1.') && k !== 'iw.v1.themeOverride') stale.push(k);
+        if (k && k.startsWith('iw.v1.') && k !== 'iw.v1.themeOverride' && !k.startsWith(HELD_PREFIX)) stale.push(k);
       }
       stale.forEach(k => localStorage.removeItem(k));
     } catch { /* storage disabled — nothing to clear */ }
