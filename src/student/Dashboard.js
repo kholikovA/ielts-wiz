@@ -195,10 +195,11 @@ export function Dashboard() {
   const data = useAsync(async () => {
     const [summary, snap, items, results, recent, rules, session, attendance] = await Promise.all([
       api.hubSummary(),
-      api.srsSnapshot(user.id),
+      // Secondary panels degrade to empty instead of blanking the dashboard.
+      api.srsSnapshot(user.id).catch(() => ({ cards: [], reviews: [] })),
       api.studentHomework(user.id),
-      api.testResults(user.id),
-      api.coinHistory(user.id, 40),
+      api.testResults(user.id).catch(() => []),
+      api.coinHistory(user.id, 40).catch(() => []),
       api.rewardRules().catch(() => []),
       api.nextSession().catch(() => null),
       api.studentAttendance(user.id).catch(() => []),
