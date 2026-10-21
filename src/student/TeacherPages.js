@@ -9,7 +9,7 @@ import { TEST_GROUPS, ALL_TESTS, testKey, WRITING_PROMPTS } from './catalog';
 import {
   useHub, useAsync, Loaded, EmptyPanel, HubLink, BackLink, StatusPill, KindTag, PersonName, CopyButton, ErrorNote,
 } from './ui';
-import { ResultsSummary, RecentAttempts } from './StudentPages';
+import { ResultsSummary, RecentAttempts, SrsStatsBlock } from './StudentPages';
 
 const joinUrl = (code) => `${window.location.origin}/join/${code}`;
 
@@ -209,6 +209,7 @@ export function StudentDetail({ id }) {
                 </div>
               ) : <p className="body">You haven't assigned anything to this student yet.</p>}
             </section>
+            <section className="hub-section"><h2 className="h3">Flashcards</h2><SrsStatsBlock uid={id} /></section>
             <section className="hub-section"><h2 className="h3">Scores by section</h2><ResultsSummary results={d.results} /></section>
             <section className="hub-section"><h2 className="h3">Recent attempts</h2><RecentAttempts results={d.results} limit={15} /></section>
           </>
@@ -414,7 +415,7 @@ export function NewAssignment() {
                 <label className="form-label" htmlFor="na-cards">Cards — one per line: <code>front - back</code></label>
                 <textarea id="na-cards" className="form-textarea" rows={8} value={cardsText} onChange={(e) => setCardsText(e.target.value)}
                   placeholder={'mitigate - to make something less severe\nubiquitous - found everywhere'} />
-                <p className="form-help">{cards.length} card{cards.length === 1 ? '' : 's'} detected. Pasting two columns from a spreadsheet works too.</p>
+                <p className="form-help">{cards.length} card{cards.length === 1 ? '' : 's'} detected. Pasting two columns from a spreadsheet works too. Words go to the front of each student's daily queue, then repeat on a spaced-repetition schedule.</p>
               </div>
             )}
 
@@ -513,7 +514,11 @@ function ReviewPanel({ a, sub, onDone }) {
 
 export function AssignmentDetail({ id }) {
   const { go } = useHub();
-  const state = useAsync(() => api.assignmentDetail(id), [id]);
+  const state = useAsync(async () => {
+    const a = await api.assignmentDetail(id);
+    if (a && a.kind === 'flashcards') a.deck = await api.deckProgress(id);
+    return a;
+  }, [id]);
   const [open, setOpen] = useState(null);
 
   return (
@@ -558,7 +563,7 @@ export function AssignmentDetail({ id }) {
                           <div className="hub-row-top">
                             <HubLink to={`/teach/students/${student.id}`} className="hub-row-main hub-plain"><PersonName person={student} /></HubLink>
                             {a.kind === 'test' && attempts.length > 0 && <small>Best {best}% · {attempts.length} attempt{attempts.length > 1 ? 's' : ''}</small>}
-                            {a.kind === 'flashcards' && sub?.data?.sessions > 0 && <small>{sub.data.sessions} session{sub.data.sessions > 1 ? 's' : ''}</small>}
+                            {a.kind === 'flashcards' && a.deck?.[student.id] && <small>{a.deck[student.id].learned}/{a.deck[student.id].total} learned</small>}
                             {sub?.band != null && <span className="pill">Band {Number(sub.band).toFixed(1)}</span>}
                             <StatusPill status={status} />
                             {canReview && (

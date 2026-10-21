@@ -107,3 +107,21 @@ export function summarise(results) {
     .map((s) => ({ ...s, avg: pct(s.correct, s.total), label: RESULT_KIND_LABELS[s.kind] || s.kind }))
     .sort((a, b) => b.attempts - a.attempts);
 }
+
+// Collection stats from srsSnapshot(): card counts, due today, 30-day retention, streak.
+export function srsStats({ cards, reviews }, now = new Date(), dayEnd) {
+  const end = (dayEnd || now).getTime();
+  const due = cards.filter((c) => c.state !== 0 && new Date(c.due).getTime() <= end).length;
+  const fresh = cards.filter((c) => c.state === 0).length;
+  const mature = cards.filter((c) => c.state === 2 && (c.stability || 0) >= 21).length;
+  const graded = reviews.filter((r) => r.state === 2);
+  const retention = graded.length ? Math.round((graded.filter((r) => r.rating > 1).length / graded.length) * 100) : null;
+  const dayKey = (d) => { const x = new Date(d); x.setHours(x.getHours() - 4); return x.toDateString(); };
+  const days = new Set(reviews.map((r) => dayKey(r.reviewed_at)));
+  let streak = 0;
+  const cursor = new Date(now);
+  if (!days.has(dayKey(cursor))) cursor.setDate(cursor.getDate() - 1);
+  while (days.has(dayKey(cursor))) { streak += 1; cursor.setDate(cursor.getDate() - 1); }
+  const today = reviews.filter((r) => dayKey(r.reviewed_at) === dayKey(now)).length;
+  return { total: cards.length, fresh, due, mature, learned: cards.length - fresh, retention, streak, today };
+}
