@@ -86,9 +86,35 @@ export const AuthProvider = ({ children }) => {
     } catch { /* columns not present yet / offline — best-effort */ }
   };
 
+  // The handle_new_user trigger only fires when an auth account is first
+  // created, so an account whose profile row went missing (deleted, or created
+  // before the trigger existed) would never get one back — and everything that
+  // references profiles (class joins, homework, flashcards) fails on a foreign
+  // key. Recreate it from the auth metadata, mirroring handle_new_user.
+  // RLS "Users can insert own profile" allows it; the guard_profile_roles
+  // trigger forces is_admin/is_teacher off.
+  const recreateProfile = async (userId) => {
+    const { data: { user: authUser } } = await supabase.auth.getUser();
+    if (!authUser || authUser.id !== userId) return null;
+    const meta = authUser.user_metadata || {};
+    const { data } = await supabase.from('profiles').upsert({
+      id: userId,
+      email: authUser.email,
+      name: meta.name || meta.full_name || null,
+      avatar_url: meta.avatar_url || meta.picture || null,
+      google_sub: meta.provider_id || meta.sub || null,
+      email_verified: Boolean(meta.email_verified),
+      auth_provider: authUser.app_metadata?.provider || null,
+    }, { onConflict: 'id', ignoreDuplicates: true }).select().maybeSingle();
+    if (data) return data;
+    const { data: existing } = await supabase.from('profiles').select('*').eq('id', userId).maybeSingle();
+    return existing;
+  };
+
   const fetchProfile = async (userId) => {
     try {
-      const { data } = await supabase.from('profiles').select('*').eq('id', userId).single();
+      let { data } = await supabase.from('profiles').select('*').eq('id', userId).maybeSingle();
+      if (!data) data = await recreateProfile(userId);
       setProfile(data);
       if (data) captureSignupContext(userId, data);
     } catch (error) {
