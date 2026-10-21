@@ -357,3 +357,17 @@ export async function saveGame(game, correct, total, durationMs) {
   const { data } = await supabase.from('coin_transactions').select('amount').eq('reason', 'word_game').eq('ref', row.id).maybeSingle();
   return data?.amount || 0;
 }
+
+export const streakRepeat = async () =>
+  unwrap(await supabase.from('streak_repeat').select('*')) || [];
+
+// The next scheduled session across the student's classes (RLS limits it to them).
+export async function nextSession() {
+  return unwrap(await supabase
+    .from('class_sessions')
+    .select('id, held_at, topic, classes(name)')
+    .gt('held_at', new Date().toISOString())
+    .order('held_at')
+    .limit(1)
+    .maybeSingle());
+}
