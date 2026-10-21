@@ -8,6 +8,7 @@ import Footer from './components/Footer';
 import ComingSoon from './components/ComingSoon';
 import MaintenanceScreen from './components/MaintenanceScreen';
 import { isMaintenanceLocked } from './lib/maintenance';
+import { isStudentHost } from './lib/host';
 import { PAGES_WITH_SUBPAGES, DEFAULT_SUBPAGE, parseUrlToState, stateToUrl } from './lib/routes';
 
 // Route-level code splitting. The shell (Sidebar, TopBar, Footer, HomePage,
@@ -30,6 +31,8 @@ const AdminUsersPage = lazy(() => import('./components/admin/AdminUsersPage'));
 const ReadingTestRoute = lazy(() => import('./components/reading/ReadingTestRoute'));
 const ListeningTestRoute = lazy(() => import('./components/listening/ListeningTestRoute'));
 const Onboarding = lazy(() => import('./components/Onboarding'));
+// student.ielts-wiz.com boots a separate shell on the same accounts — see lib/host.js.
+const StudentApp = lazy(() => import('./student/StudentApp'));
 
 const App = () => {
   const initial = parseUrlToState();
@@ -203,7 +206,13 @@ const AppWithProviders = () => (
       <MaintenanceScreen />
     ) : (
       <AuthProvider>
-        <App />
+        {isStudentHost() ? (
+          <Suspense fallback={<div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-primary)' }}><div className="spinner" /></div>}>
+            <StudentApp />
+          </Suspense>
+        ) : (
+          <App />
+        )}
       </AuthProvider>
     )}
   </ThemeProvider>
