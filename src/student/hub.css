@@ -803,3 +803,29 @@
 .coin-rule-field small { font-size: 11px; color: var(--h-text-3); }
 .coin-rule-field .form-input { height: 30px; text-align: right; font-variant-numeric: tabular-nums; }
 @media (max-width: 640px) { .coin-rule { flex-wrap: wrap; } .coin-rule-main { flex-basis: calc(100% - 40px); } }
+
+/* Student-view preview bar (teachers/admins) */
+.hub-viewbar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 7px 16px;
+  background: var(--h-text);
+  color: var(--h-bg);
+  font-size: 13px;
+}
+.hub-viewbar-btn {
+  height: 24px;
+  padding: 0 10px;
+  border: 1px solid color-mix(in srgb, var(--h-bg) 35%, transparent);
+  border-radius: 999px;
+  background: none;
+  color: inherit;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.hub-viewbar-btn:hover { background: color-mix(in srgb, var(--h-bg) 15%, transparent); }
+@media (max-width: 640px) { .hub-viewbar span { display: none; } }
