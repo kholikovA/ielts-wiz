@@ -66,7 +66,7 @@ const Spinner = ({ full }) => (
   <div className={full ? 'hub-loading hub-loading--full' : 'hub-loading'}><div className="hub-spinner" /></div>
 );
 
-function route(parts, isTeacher) {
+function route(parts, isTeacher, exitStudentView) {
   const [a, b, c] = parts;
   if (!a || a === 'dashboard') return <Dashboard />;
   if (a === 'coins') return <CoinsPage />;
@@ -76,7 +76,15 @@ function route(parts, isTeacher) {
   if (a === 'flashcards') return <Flashcards deckId={b} />;
   if (a === 'games') return <Games gameId={b} />;
   if (a === 'teach') {
-    if (!isTeacher) return <EmptyPanel icon="xCircle" title="Teachers only" lead="Ask an admin to give your account teacher access." />;
+    if (!isTeacher) {
+      return exitStudentView
+        ? (
+          <EmptyPanel icon="eye" title="You're in student view" lead="Teaching pages are hidden while you preview the hub as a student.">
+            <button type="button" className="btn btn-primary" onClick={exitStudentView}>Back to teacher view</button>
+          </EmptyPanel>
+        )
+        : <EmptyPanel icon="xCircle" title="Teachers only" lead="Ask an admin to give your account teacher access." />;
+    }
     if (b === 'classes') return c ? <ClassDetail id={c} /> : <Classes />;
     if (b === 'students') return c ? <StudentDetail id={c} /> : <Students />;
     if (b === 'attendance') return c ? <Register id={c} /> : <AttendanceHome />;
@@ -150,7 +158,7 @@ function Bell({ uid, go, here }) {
   );
 }
 
-function UserMenu({ user, profile, isDark, toggleTheme, signOut, go }) {
+function UserMenu({ user, profile, isDark, toggleTheme, signOut, go, canTeach, studentView, onToggleView }) {
   const pop = usePopover();
   return (
     <div className="hub-pop-wrap" ref={pop.ref}>
@@ -160,6 +168,11 @@ function UserMenu({ user, profile, isDark, toggleTheme, signOut, go }) {
       </button>
       {pop.open && (
         <div className="hub-pop hub-pop--up" role="menu">
+          {canTeach && (
+            <button type="button" role="menuitem" className="hub-menu-item" onClick={() => { pop.setOpen(false); onToggleView(); }}>
+              <Icon name={studentView ? 'graduation' : 'eye'} size={16} /> {studentView ? 'Back to teacher view' : 'Switch to student view'}
+            </button>
+          )}
           <button type="button" role="menuitem" className="hub-menu-item" onClick={toggleTheme}>
             <Icon name={isDark ? 'sun' : 'moon'} size={16} /> {isDark ? 'Light mode' : 'Dark mode'}
           </button>
@@ -179,8 +192,14 @@ export default function StudentApp() {
   const [parts, setParts] = useState(segments);
   const [navOpen, setNavOpen] = useState(false);
   const [balance, setBalance] = useState(null);
-  const isAdmin = Boolean(profile?.is_admin);
-  const isTeacher = Boolean(profile?.is_teacher || isAdmin);
+  // Teachers/admins can preview the hub exactly as a student sees it.
+  // Remembered per device; it only hides teacher UI, never changes permissions.
+  const canTeach = Boolean(profile?.is_teacher || profile?.is_admin);
+  const [studentView, setStudentView] = useState(() => {
+    try { return localStorage.getItem('iw.v1.hub.studentView') === '1'; } catch { return false; }
+  });
+  const isAdmin = Boolean(profile?.is_admin) && !studentView;
+  const isTeacher = canTeach && !studentView;
 
   useEffect(() => {
     document.title = 'Student Hub · IELTS Wiz';
@@ -209,6 +228,15 @@ export default function StudentApp() {
     if (!user) return;
     api.hubSummary().then((s) => setBalance(s.balance)).catch(() => {});
   }, [user, here]);
+
+  const toggleView = useCallback(() => {
+    setStudentView((v) => {
+      const next = !v;
+      try { localStorage.setItem('iw.v1.hub.studentView', next ? '1' : '0'); } catch { /* storage off */ }
+      return next;
+    });
+    if (!studentView && window.location.pathname.startsWith('/teach')) go('/');
+  }, [studentView, go]);
 
   const ctx = useMemo(() => ({ go, user, profile, isTeacher, isAdmin }), [go, user, profile, isTeacher, isAdmin]);
 
@@ -269,11 +297,19 @@ export default function StudentApp() {
             )}
           </nav>
           <div className="hub-nav-foot">
-            <UserMenu user={user} profile={profile} isDark={isDark} toggleTheme={toggleTheme} signOut={signOut} go={go} />
+            <UserMenu user={user} profile={profile} isDark={isDark} toggleTheme={toggleTheme} signOut={signOut} go={go}
+              canTeach={canTeach} studentView={studentView} onToggleView={toggleView} />
           </div>
         </aside>
         {navOpen && <div className="hub-backdrop" onClick={() => setNavOpen(false)} aria-hidden="true" />}
         <div className="hub-main">
+          {canTeach && studentView && (
+            <div className="hub-viewbar" role="status">
+              <Icon name="eye" size={14} />
+              <span>Student view: you're seeing the hub the way your students do.</span>
+              <button type="button" className="hub-viewbar-btn" onClick={toggleView}>Back to teacher view</button>
+            </div>
+          )}
           <header className="hub-top">
             <button type="button" className="hub-icon-btn hub-menu-btn" onClick={() => setNavOpen(true)} aria-label="Open navigation">
               <Icon name="menu" size={18} />
@@ -287,7 +323,7 @@ export default function StudentApp() {
             <Bell uid={user.id} go={go} here={here} />
           </header>
           <main id="main" className="hub-content">
-            <Suspense fallback={<Spinner />}>{route(parts, isTeacher)}</Suspense>
+            <Suspense fallback={<Spinner />}>{route(parts, isTeacher, canTeach && studentView ? toggleView : null)}</Suspense>
           </main>
         </div>
       </div>
