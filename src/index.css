@@ -584,6 +584,8 @@ select:focus-visible {
   font-size: var(--text-xs);
   color: var(--text-tertiary);
 }
+.site-footer-legal { display: flex; gap: var(--space-4); }
+.site-footer-legal a { color: var(--text-tertiary); padding: 0; }
 
 @media (max-width: 768px) {
   .site-footer-inner {

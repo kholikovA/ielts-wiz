@@ -139,7 +139,8 @@ const AuthPage = () => {
           </p>
 
           <p className="auth-legal">
-            By continuing you agree to our Terms of Service and Privacy Policy.
+            By continuing you agree to our <a href="/terms-of-service">Terms of Service</a> and{' '}
+            <a href="/privacy-policy">Privacy Policy</a>.
           </p>
         </div>
       </div>

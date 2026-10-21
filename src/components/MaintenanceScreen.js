@@ -21,6 +21,10 @@ export default function MaintenanceScreen() {
         </p>
         <p className="mnt-text mnt-sub">Thanks for your patience — we&rsquo;ll be back very soon.</p>
         <a className="mnt-contact" href="mailto:kholikovabdulloh@gmail.com">Questions? Get in touch</a>
+        <nav className="mnt-legal">
+          <a href="/privacy-policy">Privacy Policy</a>
+          <a href="/terms-of-service">Terms of Service</a>
+        </nav>
       </div>
     </main>
   );
