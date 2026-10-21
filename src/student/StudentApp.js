@@ -281,9 +281,11 @@ export default function StudentApp() {
   // Coin balance in the top bar (students and student view); refreshed on every navigation.
   useEffect(() => {
     setBalance(null);
-    if (!user || isTeacher) return;
-    api.hubSummary().then((s) => setBalance(s.balance)).catch(() => {});
-  }, [user, here, isTeacher, viewAs?.id]);
+    if (!user || !profile || isTeacher) return undefined;
+    let live = true; // a late answer must not show after switching to teacher view
+    api.hubSummary().then((s) => live && setBalance(s.balance)).catch(() => {});
+    return () => { live = false; };
+  }, [user, profile, here, isTeacher, viewAs?.id]);
 
   // Teacher view has no student pages: send those paths to Teaching.
   useEffect(() => {
