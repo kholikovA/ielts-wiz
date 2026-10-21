@@ -88,6 +88,15 @@ const AdminUsersPage = ({ setCurrentPage }) => {
     }
   };
 
+  // Teacher access for the Student Hub (student.ielts-wiz.com). Granted through
+  // the admin-only set_teacher RPC; roles can't be self-assigned.
+  const toggleTeacher = async (u) => {
+    const on = !u.is_teacher;
+    setUsers((prev) => prev.map((x) => (x.id === u.id ? { ...x, is_teacher: on } : x)));
+    const { error: rpcErr } = await supabase.rpc('set_teacher', { target: u.id, on_off: on });
+    if (rpcErr) setUsers((prev) => prev.map((x) => (x.id === u.id ? { ...x, is_teacher: !on } : x)));
+  };
+
   // Filters
   const [search, setSearch] = useState('');
   const [target, setTarget] = useState('');
@@ -341,6 +350,15 @@ const AdminUsersPage = ({ setCurrentPage }) => {
                     <td style={{ padding: 'var(--space-3) var(--space-4)', color: 'var(--text-primary)' }}>
                       {u.email}
                       {u.is_admin && <span className="pill" style={{ marginLeft: 8, fontSize: 10, padding: '1px 6px' }}>admin</span>}
+                      <button
+                        type="button"
+                        onClick={() => toggleTeacher(u)}
+                        className={u.is_teacher ? 'pill pill-success' : 'pill'}
+                        title={u.is_teacher ? 'Teacher in the Student Hub — click to remove' : 'Make teacher in the Student Hub'}
+                        style={{ marginLeft: 8, fontSize: 10, padding: '1px 6px', cursor: 'pointer', opacity: u.is_teacher ? 1 : 0.5 }}
+                      >
+                        teacher
+                      </button>
                     </td>
                     <td style={{ padding: 'var(--space-3) var(--space-4)', color: 'var(--text-secondary)' }}>{u.name || '—'}</td>
                     <td style={{ padding: 'var(--space-3) var(--space-4)', color: 'var(--text-secondary)', fontFamily: 'var(--font-mono)' }}>{u.target_score || '—'}</td>

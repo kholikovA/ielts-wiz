@@ -1,0 +1,478 @@
+import React, { useState, useEffect } from 'react';
+import Icon from '../components/ui/icons';
+import PageHeader from '../components/ui/PageHeader';
+import * as api from './api';
+import {
+  attemptsFor, statusOf, isComplete, isOverdue, dueLabel, formatDate, pct, summarise, wordCount,
+} from './homework';
+import {
+  useHub, useAsync, Loaded, EmptyPanel, HubLink, BackLink, StatusPill, KindTag, Bar, ErrorNote,
+} from './ui';
+import FlashcardStudy from './FlashcardStudy';
+
+// Homework + results for the signed-in student, with a derived status per item.
+function useMyHomework() {
+  const { user } = useHub();
+  return useAsync(async () => {
+    const [items, results] = await Promise.all([api.studentHomework(user.id), api.testResults(user.id)]);
+    const rows = items.map((a) => {
+      const attempts = attemptsFor(a, results);
+      const base = statusOf(a, a.submission, attempts);
+      return { ...a, attempts, status: isOverdue(a, base) ? 'overdue' : base };
+    });
+    rows.sort((x, y) => (x.due_at || '9999').localeCompare(y.due_at || '9999') || y.created_at.localeCompare(x.created_at));
+    return { rows, results };
+  }, [user.id]);
+}
+
+function HomeworkRow({ a }) {
+  return (
+    <HubLink to={`/homework/${a.id}`} className="card card-interactive hub-row">
+      <div className="hub-row-main">
+        <KindTag kind={a.kind} />
+        <strong>{a.title}</strong>
+        <small>{dueLabel(a.due_at)}</small>
+      </div>
+      <StatusPill status={a.status} />
+    </HubLink>
+  );
+}
+
+// ── Join a class ─────────────────────────────────────────────────────────────
+export function JoinForm({ initialCode = '', onJoined }) {
+  const [code, setCode] = useState(initialCode);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState(null);
+  const submit = async (e) => {
+    e.preventDefault();
+    setBusy(true); setError(null);
+    try { onJoined(await api.joinClass(code)); }
+    catch (err) { setError(err); setBusy(false); }
+  };
+  return (
+    <form className="hub-inline-form" onSubmit={submit}>
+      <input className="form-input" value={code} onChange={(e) => setCode(e.target.value.toUpperCase())}
+        placeholder="Class code" maxLength={12} aria-label="Class code" />
+      <button className="btn btn-primary" disabled={busy || code.trim().length < 4}>{busy ? 'Joining…' : 'Join class'}</button>
+      {error && <div className="form-error" style={{ flexBasis: '100%' }}>{error.message}</div>}
+    </form>
+  );
+}
+
+export function JoinPage({ code }) {
+  const { go } = useHub();
+  const preview = useAsync(() => api.previewClass(code), [code]);
+  return (
+    <>
+      <PageHeader eyebrow="Join a class" title="You've been invited" />
+      <Loaded state={preview}>
+        {(cls) => cls ? (
+          <div className="card hub-join">
+            <p className="body-lg"><strong>{cls.name}</strong>{cls.teacher ? ` with ${cls.teacher}` : ''}</p>
+            <p className="body">Joining lets your teacher assign homework and see your progress on IELTS Wiz.</p>
+            <JoinForm initialCode={code} onJoined={() => go('/')} />
+          </div>
+        ) : (
+          <EmptyPanel icon="xCircle" title="Code not found" lead="Check the link with your teacher, or type the code below.">
+            <JoinForm onJoined={() => go('/')} />
+          </EmptyPanel>
+        )}
+      </Loaded>
+    </>
+  );
+}
+
+// ── Overview ─────────────────────────────────────────────────────────────────
+export function Overview() {
+  const { profile, isTeacher } = useHub();
+  const hw = useMyHomework();
+  const classes = useAsync(api.myClasses, []);
+  const first = profile?.name?.split(' ')[0];
+
+  return (
+    <>
+      <PageHeader eyebrow="Student Hub" title={first ? `Welcome back, ${first}.` : 'Welcome back.'}
+        lead="Your homework, progress and study tools in one place." />
+
+      {isTeacher && (
+        <div className="card hub-teacher-cta">
+          <Icon name="graduation" size={22} />
+          <span>You're a teacher. Manage classes and homework from the <strong>Teaching</strong> section.</span>
+          <HubLink to="/teach/assignments" className="btn btn-secondary btn-sm">Open</HubLink>
+        </div>
+      )}
+
+      <section className="hub-section">
+        <div className="hub-section-head"><h2 className="h3">Up next</h2><HubLink to="/homework">All homework</HubLink></div>
+        <Loaded state={hw}>
+          {({ rows }) => {
+            const open = rows.filter((a) => !isComplete(a.status));
+            return open.length
+              ? <div className="hub-list">{open.slice(0, 5).map((a) => <HomeworkRow key={a.id} a={a} />)}</div>
+              : <p className="body">{rows.length ? 'All caught up — nothing due.' : 'No homework yet.'}</p>;
+          }}
+        </Loaded>
+      </section>
+
+      <section className="hub-section">
+        <div className="hub-section-head"><h2 className="h3">My classes</h2></div>
+        <Loaded state={classes}>
+          {(list) => (
+            <>
+              {list.length > 0 && (
+                <div className="hub-list">
+                  {list.map((c) => (
+                    <div key={c.id} className="card hub-row">
+                      <div className="hub-row-main">
+                        <strong>{c.name}</strong>
+                        <small>{c.teacher_name ? `Teacher: ${c.teacher_name} · ` : ''}Joined {formatDate(c.joined_at)}</small>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+              <p className="body" style={{ margin: 'var(--space-4) 0 var(--space-2)' }}>
+                {list.length ? 'Joining another class?' : 'Got a code from your teacher? Enter it to join their class.'}
+              </p>
+              <JoinForm onJoined={() => { classes.reload(); hw.reload(); }} />
+            </>
+          )}
+        </Loaded>
+      </section>
+    </>
+  );
+}
+
+// ── Homework list ────────────────────────────────────────────────────────────
+export function HomeworkList() {
+  const hw = useMyHomework();
+  const [tab, setTab] = useState('open');
+  return (
+    <>
+      <PageHeader eyebrow="Homework" title="Your assignments" lead="Tasks set by your teacher, with due dates and feedback." />
+      <Loaded state={hw}>
+        {({ rows }) => {
+          if (!rows.length) return <EmptyPanel icon="edit" title="No homework yet" lead="When your teacher assigns work it will show up here." />;
+          const open = rows.filter((a) => !isComplete(a.status));
+          const done = rows.filter((a) => isComplete(a.status)).reverse();
+          const shown = tab === 'open' ? open : done;
+          return (
+            <>
+              <div className="hub-tabs" role="tablist">
+                <button role="tab" aria-selected={tab === 'open'} className={`chip${tab === 'open' ? ' is-selected' : ''}`} onClick={() => setTab('open')}>To do ({open.length})</button>
+                <button role="tab" aria-selected={tab === 'done'} className={`chip${tab === 'done' ? ' is-selected' : ''}`} onClick={() => setTab('done')}>Completed ({done.length})</button>
+              </div>
+              {shown.length
+                ? <div className="hub-list">{shown.map((a) => <HomeworkRow key={a.id} a={a} />)}</div>
+                : <p className="body">{tab === 'open' ? 'All caught up.' : 'Nothing completed yet.'}</p>}
+            </>
+          );
+        }}
+      </Loaded>
+    </>
+  );
+}
+
+// ── Homework detail ──────────────────────────────────────────────────────────
+function Feedback({ submission }) {
+  if (!submission?.reviewed_at) return null;
+  return (
+    <div className="card hub-feedback">
+      <div className="hub-section-head">
+        <h3 className="h3">Teacher feedback</h3>
+        {submission.band != null && <span className="pill pill-success">Band {Number(submission.band).toFixed(1)}</span>}
+      </div>
+      {submission.feedback ? <p className="hub-pre">{submission.feedback}</p> : <p className="body">Reviewed — no written comments.</p>}
+    </div>
+  );
+}
+
+function TestWork({ a }) {
+  const { href, label } = a.payload || {};
+  const best = a.attempts.reduce((m, r) => Math.max(m, pct(r.correct, r.total)), 0);
+  return (
+    <div className="card">
+      <p className="body-lg"><strong>{label}</strong></p>
+      {a.attempts.length ? (
+        <>
+          <p className="body">Completed {a.attempts.length} time{a.attempts.length > 1 ? 's' : ''} · best score {best}%</p>
+          <ul className="hub-attempts">
+            {a.attempts.map((r) => <li key={r.completed_at}>{formatDate(r.completed_at, true)} — {r.correct}/{r.total}</li>)}
+          </ul>
+        </>
+      ) : (
+        <p className="body">Take the test and it's marked done automatically.</p>
+      )}
+      {href && <a className="btn btn-primary" href={href}><Icon name="play" size={16} /> {a.attempts.length ? 'Take it again' : 'Start test'}</a>}
+    </div>
+  );
+}
+
+function WritingWork({ a, onSaved }) {
+  const { user } = useHub();
+  const draftKey = `iw.v1.hub.draft.${a.id}`;
+  const sub = a.submission;
+  const locked = Boolean(sub?.reviewed_at);
+  const [text, setText] = useState(() => {
+    if (sub?.body) return sub.body;
+    try { return localStorage.getItem(draftKey) || ''; } catch { return ''; }
+  });
+  const [editing, setEditing] = useState(!sub || sub.status !== 'submitted');
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState(null);
+  const words = wordCount(text);
+  const min = a.payload?.min_words || 0;
+
+  useEffect(() => {
+    if (!editing) return;
+    try { localStorage.setItem(draftKey, text); } catch { /* storage off */ }
+  }, [text, editing, draftKey]);
+
+  const submit = async () => {
+    setBusy(true); setError(null);
+    try {
+      await api.saveSubmission(a.id, user.id, { status: 'submitted', body: text, submitted_at: new Date().toISOString() });
+      try { localStorage.removeItem(draftKey); } catch { /* ignore */ }
+      setEditing(false);
+      onSaved();
+    } catch (err) { setError(err); }
+    setBusy(false);
+  };
+
+  return (
+    <div className="card">
+      {a.payload?.task && <span className="eyebrow">{a.payload.task}</span>}
+      {a.payload?.prompt && <p className="hub-pre hub-prompt">{a.payload.prompt}</p>}
+      {a.payload?.visual_url && <img className="hub-visual" src={a.payload.visual_url} alt="Task visual" />}
+      <textarea className="form-textarea hub-essay" value={text} onChange={(e) => setText(e.target.value)}
+        readOnly={!editing || locked} placeholder="Write your answer here…" aria-label="Your answer" />
+      <div className="hub-essay-foot">
+        <span className={min && words < min ? 'hub-warn' : ''}>{words} words{min ? ` · aim for ${min}+` : ''}</span>
+        {editing && !locked && (
+          <button type="button" className="btn btn-primary" disabled={busy || !text.trim()} onClick={submit}>
+            {busy ? 'Submitting…' : sub?.status === 'submitted' ? 'Resubmit' : 'Submit'}
+          </button>
+        )}
+        {!editing && !locked && <button type="button" className="btn btn-secondary" onClick={() => setEditing(true)}>Edit</button>}
+      </div>
+      {!editing && sub?.submitted_at && !locked && <p className="form-help">Submitted {formatDate(sub.submitted_at, true)}. You can edit until your teacher reviews it.</p>}
+      {error && <ErrorNote error={error} />}
+    </div>
+  );
+}
+
+function CustomWork({ a, onSaved }) {
+  const { user } = useHub();
+  const sub = a.submission;
+  const done = sub?.status === 'submitted';
+  const [note, setNote] = useState(sub?.note || '');
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState(null);
+
+  const save = async (status) => {
+    setBusy(true); setError(null);
+    try {
+      await api.saveSubmission(a.id, user.id, {
+        status, note, submitted_at: status === 'submitted' ? new Date().toISOString() : null,
+      });
+      onSaved();
+    } catch (err) { setError(err); }
+    setBusy(false);
+  };
+
+  return (
+    <div className="card">
+      {a.payload?.link && (
+        <p><a href={a.payload.link} target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-sm">
+          <Icon name="arrowRight" size={14} /> Open resource
+        </a></p>
+      )}
+      <label className="form-label" htmlFor="hw-note">Note for your teacher (optional)</label>
+      <textarea id="hw-note" className="form-textarea" value={note} onChange={(e) => setNote(e.target.value)} readOnly={Boolean(sub?.reviewed_at)} />
+      {!sub?.reviewed_at && (
+        <div className="hub-actions">
+          {done
+            ? <button type="button" className="btn btn-secondary" disabled={busy} onClick={() => save('in_progress')}>Mark as not done</button>
+            : <button type="button" className="btn btn-primary" disabled={busy} onClick={() => save('submitted')}><Icon name="check" size={16} /> Mark as done</button>}
+          {done && note !== (sub?.note || '') && <button type="button" className="btn btn-primary" disabled={busy} onClick={() => save('submitted')}>Save note</button>}
+        </div>
+      )}
+      {error && <ErrorNote error={error} />}
+    </div>
+  );
+}
+
+function FlashcardWork({ a, onSaved }) {
+  const { user } = useHub();
+  const [studying, setStudying] = useState(false);
+  const cards = a.payload?.cards || [];
+  const sub = a.submission;
+
+  const finish = async ({ total, reviews }) => {
+    const sessions = (sub?.data?.sessions || 0) + 1;
+    try {
+      await api.saveSubmission(a.id, user.id, {
+        status: 'submitted',
+        data: { total, reviews, sessions, last: new Date().toISOString() },
+        submitted_at: sub?.submitted_at || new Date().toISOString(),
+      });
+      onSaved();
+    } catch { /* progress is non-critical; the student can study again */ }
+  };
+
+  if (studying) return <FlashcardStudy cards={cards} onFinish={finish} onExit={() => setStudying(false)} />;
+  return (
+    <div className="card">
+      <p className="body-lg"><strong>{cards.length} cards</strong></p>
+      {sub?.data?.sessions
+        ? <p className="body">Studied {sub.data.sessions} time{sub.data.sessions > 1 ? 's' : ''} · last {formatDate(sub.data.last, true)}</p>
+        : <p className="body">Go through the deck until you know every card.</p>}
+      <button type="button" className="btn btn-primary" onClick={() => setStudying(true)}><Icon name="play" size={16} /> {sub ? 'Study again' : 'Start studying'}</button>
+    </div>
+  );
+}
+
+export function HomeworkDetail({ id }) {
+  const { user } = useHub();
+  const state = useAsync(async () => {
+    const [a, results] = await Promise.all([api.assignmentForStudent(id, user.id), api.testResults(user.id)]);
+    if (!a) return null;
+    const attempts = attemptsFor(a, results);
+    const base = statusOf(a, a.submission, attempts);
+    return { ...a, attempts, status: isOverdue(a, base) ? 'overdue' : base };
+  }, [id, user.id]);
+
+  return (
+    <>
+      <BackLink to="/homework" label="Homework" />
+      <Loaded state={state}>
+        {(a) => a ? (
+          <>
+            <div className="hub-detail-head">
+              <KindTag kind={a.kind} />
+              <h1 className="h2">{a.title}</h1>
+              <div className="hub-detail-meta"><StatusPill status={a.status} /><span>{dueLabel(a.due_at)}</span></div>
+            </div>
+            {a.instructions && <div className="card hub-instructions"><p className="hub-pre">{a.instructions}</p></div>}
+            {a.kind === 'test' && <TestWork a={a} />}
+            {a.kind === 'writing' && <WritingWork a={a} onSaved={state.reload} />}
+            {a.kind === 'custom' && <CustomWork a={a} onSaved={state.reload} />}
+            {a.kind === 'flashcards' && <FlashcardWork a={a} onSaved={state.reload} />}
+            <Feedback submission={a.submission} />
+          </>
+        ) : <EmptyPanel icon="xCircle" title="Not found" lead="This assignment doesn't exist or isn't assigned to you." />}
+      </Loaded>
+    </>
+  );
+}
+
+// ── Progress ─────────────────────────────────────────────────────────────────
+export function ResultsSummary({ results }) {
+  const rows = summarise(results);
+  if (!rows.length) return <p className="body">No test attempts yet.</p>;
+  return (
+    <div className="hub-table-wrap">
+      <table className="hub-table">
+        <thead><tr><th>Section</th><th>Attempts</th><th>Average</th><th>Best</th><th>Last</th></tr></thead>
+        <tbody>
+          {rows.map((r) => (
+            <tr key={r.kind}>
+              <td>{r.label}</td>
+              <td>{r.attempts}</td>
+              <td><span className="hub-bar-cell"><Bar value={r.avg} /> {r.avg}%</span></td>
+              <td>{r.best}%</td>
+              <td>{formatDate(r.last)}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+export function RecentAttempts({ results, limit = 10 }) {
+  if (!results.length) return null;
+  return (
+    <ul className="hub-attempts">
+      {results.slice(0, limit).map((r, i) => (
+        <li key={`${r.completed_at}-${i}`}>
+          <span>{formatDate(r.completed_at, true)}</span>
+          <span>{r.kind.replace('_', ' ')} · {r.test_id}</span>
+          <strong>{r.correct}/{r.total}</strong>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+export function Progress() {
+  const hw = useMyHomework();
+  return (
+    <>
+      <PageHeader eyebrow="Progress" title="Track your progress" lead="Scores across every test you've taken, plus your homework record." />
+      <Loaded state={hw}>
+        {({ rows, results }) => {
+          const done = rows.filter((a) => isComplete(a.status)).length;
+          const graded = rows.filter((a) => a.submission?.band != null);
+          const avgBand = graded.length ? (graded.reduce((s, a) => s + Number(a.submission.band), 0) / graded.length).toFixed(1) : null;
+          return (
+            <>
+              <div className="hub-stats">
+                <div className="card hub-stat"><small>Homework done</small><strong>{done}/{rows.length}</strong></div>
+                <div className="card hub-stat"><small>Tests taken</small><strong>{results.length}</strong></div>
+                <div className="card hub-stat"><small>Avg. writing band</small><strong>{avgBand || '—'}</strong></div>
+              </div>
+              <section className="hub-section"><h2 className="h3">By section</h2><ResultsSummary results={results} /></section>
+              <section className="hub-section"><h2 className="h3">Recent attempts</h2><RecentAttempts results={results} /></section>
+            </>
+          );
+        }}
+      </Loaded>
+    </>
+  );
+}
+
+// ── Flashcards ───────────────────────────────────────────────────────────────
+export function Flashcards({ deckId }) {
+  const { user, go } = useHub();
+  const hw = useMyHomework();
+  const words = useAsync(() => api.savedWords(user.id), [user.id]);
+
+  if (deckId === 'saved') {
+    return (
+      <>
+        <BackLink to="/flashcards" label="Flashcards" />
+        <h1 className="h2" style={{ marginBottom: 'var(--space-6)' }}>My saved words</h1>
+        <Loaded state={words}>
+          {(list) => <FlashcardStudy cards={list.map((w) => ({ f: w.word, b: [w.definition, w.example && `“${w.example}”`].filter(Boolean).join('\n\n') }))} onExit={() => go('/flashcards')} />}
+        </Loaded>
+      </>
+    );
+  }
+
+  return (
+    <>
+      <PageHeader eyebrow="Flashcards" title="Learn with flashcards" lead="Decks from your teacher, plus every word you've saved from Articles." />
+      <div className="hub-grid">
+        <Loaded state={words}>
+          {(list) => (
+            <HubLink to="/flashcards/saved" className="card card-interactive hub-deck">
+              <Icon name="bookOpen" size={22} />
+              <strong>My saved words</strong>
+              <small>{list.length} card{list.length === 1 ? '' : 's'}</small>
+            </HubLink>
+          )}
+        </Loaded>
+        <Loaded state={hw}>
+          {({ rows }) => rows.filter((a) => a.kind === 'flashcards').map((a) => (
+            <HubLink key={a.id} to={`/homework/${a.id}`} className="card card-interactive hub-deck">
+              <Icon name="layers" size={22} />
+              <strong>{a.title}</strong>
+              <small>{(a.payload?.cards || []).length} cards · <StatusPill status={a.status} /></small>
+            </HubLink>
+          ))}
+        </Loaded>
+      </div>
+    </>
+  );
+}

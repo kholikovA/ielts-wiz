@@ -1,0 +1,109 @@
+// Shared homework logic: kinds, status derivation, formatting, flashcard parsing.
+
+export const KINDS = {
+  test:       { label: 'Practice test', icon: 'target' },
+  writing:    { label: 'Writing',       icon: 'pen' },
+  custom:     { label: 'Task',          icon: 'checkCircle' },
+  flashcards: { label: 'Flashcards',    icon: 'layers' },
+};
+
+export const RESULT_KIND_LABELS = {
+  listening: 'Listening · Part practice',
+  listening_full: 'Listening · Full test',
+  reading_full: 'Reading · Full test',
+  reading_p1: 'Reading · Passage 1',
+  reading_p2: 'Reading · Passage 2',
+  reading_p3: 'Reading · Passage 3',
+  writing: 'Writing',
+  grammar: 'Grammar',
+};
+
+// Attempts that count toward a test assignment: same kind + test, made after it was set.
+export const attemptsFor = (assignment, results) => {
+  if (assignment.kind !== 'test') return [];
+  const { kind, test_id } = assignment.payload || {};
+  return results.filter((r) =>
+    r.kind === kind && String(r.test_id) === String(test_id) && r.completed_at >= assignment.created_at);
+};
+
+// One status per (assignment, student):
+//   todo · started · submitted · reviewed · done (test attempted)
+export function statusOf(assignment, submission, attempts = []) {
+  if (assignment.kind === 'test') return attempts.length ? 'done' : 'todo';
+  if (!submission) return 'todo';
+  if (submission.reviewed_at) return 'reviewed';
+  return submission.status === 'submitted' ? 'submitted' : 'started';
+}
+
+export const isComplete = (status) => status === 'done' || status === 'submitted' || status === 'reviewed';
+
+export const isOverdue = (assignment, status) =>
+  !isComplete(status) && assignment.due_at && new Date(assignment.due_at) < new Date();
+
+export const STATUS_LABEL = {
+  todo: 'To do',
+  started: 'In progress',
+  submitted: 'Submitted',
+  reviewed: 'Reviewed',
+  done: 'Done',
+  overdue: 'Overdue',
+};
+
+export const statusPillClass = (s) =>
+  s === 'overdue' ? 'pill hub-pill-danger'
+    : isComplete(s) ? 'pill pill-success'
+      : s === 'started' ? 'pill pill-amber'
+        : 'pill';
+
+export const pct = (correct, total) => (total ? Math.round((correct / total) * 100) : 0);
+
+export function formatDate(iso, withTime = false) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  const opts = { day: 'numeric', month: 'short' };
+  if (d.getFullYear() !== new Date().getFullYear()) opts.year = 'numeric';
+  if (withTime) Object.assign(opts, { hour: '2-digit', minute: '2-digit' });
+  return d.toLocaleString(undefined, opts);
+}
+
+export function dueLabel(iso) {
+  if (!iso) return 'No due date';
+  const days = Math.ceil((new Date(iso) - new Date()) / 86400000);
+  if (days < 0) return `Was due ${formatDate(iso)}`;
+  if (days === 0) return 'Due today';
+  if (days === 1) return 'Due tomorrow';
+  return `Due ${formatDate(iso)}`;
+}
+
+// One card per line: "front - back", "front = back", "front: back" or tab-separated
+// (pasting two spreadsheet columns works).
+export function parseCards(text) {
+  return text
+    .split('\n')
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .map((line) => {
+      const m = line.match(/^(.+?)\s*(?:\t|\s[-–—=]\s|:\s)\s*(.+)$/);
+      return m ? { f: m[1].trim(), b: m[2].trim() } : null;
+    })
+    .filter(Boolean);
+}
+
+export const wordCount = (text) => (text || '').trim().split(/\s+/).filter(Boolean).length;
+
+// Summary per result kind for progress views.
+export function summarise(results) {
+  const by = new Map();
+  results.forEach((r) => {
+    const s = by.get(r.kind) || { kind: r.kind, attempts: 0, correct: 0, total: 0, best: 0, last: null };
+    s.attempts += 1;
+    s.correct += r.correct || 0;
+    s.total += r.total || 0;
+    s.best = Math.max(s.best, pct(r.correct, r.total));
+    if (!s.last || r.completed_at > s.last) s.last = r.completed_at;
+    by.set(r.kind, s);
+  });
+  return [...by.values()]
+    .map((s) => ({ ...s, avg: pct(s.correct, s.total), label: RESULT_KIND_LABELS[s.kind] || s.kind }))
+    .sort((a, b) => b.attempts - a.attempts);
+}
