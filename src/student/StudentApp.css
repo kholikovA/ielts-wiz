@@ -1,0 +1,50 @@
+/* Student Hub — reuses the main app-shell / sidebar classes; only hub-specific bits here. */
+
+.hub-loading {
+  min-height: 60vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hub-loading--full {
+  min-height: 100vh;
+  background: var(--bg-primary);
+}
+
+.hub-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: var(--space-4);
+}
+
+.hub-tile {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-5);
+  color: var(--text-primary);
+  text-decoration: none;
+}
+.hub-tile-arrow {
+  margin-left: auto;
+  color: var(--text-secondary);
+}
+
+.hub-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-3);
+  padding: var(--space-12) var(--space-6);
+}
+.hub-empty h2 {
+  margin: 0;
+  font-size: var(--text-xl);
+  color: var(--text-primary);
+}
+.hub-empty p {
+  margin: 0;
+  max-width: 44ch;
+  color: var(--text-secondary);
+}
