@@ -7,10 +7,15 @@ import {
 import { TEST_GROUPS, ALL_TESTS, testKey, WRITING_PROMPTS } from './catalog';
 import {
   useHub, useAsync, Loaded, EmptyPanel, HubLink, BackLink, StatusPill, KindTag, PersonName, CopyButton, ErrorNote,
-  PageTitle, Seg, Coin, toLocalInput,
+  PageTitle, Seg, Coin, toLocalInput, Spinner,
 } from './ui';
 import { ResultsSummary, RecentAttempts, SrsStatsBlock, AttendanceHistory } from './StudentPages';
 import { GiveCoins } from './CoinAdmin';
+import { DictationResult } from './dictation/Dictation';
+import { checkDictation } from './dictation/diff';
+
+const DictationSetup = React.lazy(() => import('./dictation/DictationSetup'));
+const dictationAccuracy = (sub, key) => sub.data?.score?.accuracy ?? checkDictation(sub.body || '', key.transcript).score.accuracy;
 
 const joinUrl = (code) => `${window.location.origin}/join/${code}`;
 
@@ -323,6 +328,8 @@ export function NewAssignment() {
   const [minWords, setMinWords] = useState(250);
   const [link, setLink] = useState('');
   const [cardsText, setCardsText] = useState('');
+  const [dict, setDict] = useState(null); // { payload, key } from DictationSetup
+  const [dictInitial, setDictInitial] = useState(null);
   const [target, setTarget] = useState('class');
   const [classId, setClassId] = useState(presetClass);
   const [picked, setPicked] = useState(new Set());
@@ -349,6 +356,7 @@ export function NewAssignment() {
     if (a.kind === 'writing') { setPrompt(pl.prompt || ''); setTask(pl.task || 'Task 2'); setMinWords(pl.min_words || 250); setPromptId(pl.prompt_id || ''); }
     if (a.kind === 'custom') setLink(pl.link || '');
     if (a.kind === 'flashcards') setCardsText('');
+    if (a.kind === 'dictation') api.dictationKey(a.id).then((key) => key && setDictInitial({ payload: pl, key })).catch(() => {});
     if (a.class_id) { setTarget('class'); setClassId(a.class_id); }
     else { setTarget('students'); setPicked(new Set(a.recipients.map((r) => r.id))); }
     const pub = shift(a.publish_at);
@@ -384,6 +392,7 @@ export function NewAssignment() {
       return prompt.trim() ? { task, prompt: prompt.trim(), min_words: Number(minWords) || 0, prompt_id: promptId || null, visual_url: p?.visualUrl || null } : null;
     }
     if (kind === 'flashcards') return cards.length ? { cards } : null;
+    if (kind === 'dictation') return dict ? dict.payload : null;
     return { link: link.trim() || null };
   };
 
@@ -396,7 +405,10 @@ export function NewAssignment() {
     e.preventDefault();
     setError(null);
     const payload = buildPayload();
-    if (!payload) { setError({ message: kind === 'test' ? 'Pick a test.' : kind === 'writing' ? 'Add a writing prompt.' : 'Add at least one card (front - back).' }); return; }
+    if (!payload) {
+      setError({ message: { test: 'Pick a test.', writing: 'Add a writing prompt.', dictation: 'Prepare the audio first.' }[kind] || 'Add at least one card (front - back).' });
+      return;
+    }
     if (target === 'class' && !classId) { setError({ message: 'Pick a class.' }); return; }
     if (publishMode === 'later' && due && new Date(due) <= new Date(publishAt)) { setError({ message: 'The due date must be after the publish time.' }); return; }
     const ids = recipients(data);
@@ -408,7 +420,7 @@ export function NewAssignment() {
         class_id: target === 'class' ? classId : null,
         due_at: due ? new Date(due).toISOString() : null,
         publish_at: publishMode === 'later' && publishAt ? new Date(publishAt).toISOString() : new Date().toISOString(),
-      }, ids);
+      }, ids, kind === 'dictation' ? (created) => api.saveDictationKey(created.id, dict.key.transcript, dict.key.source) : null);
       go(`/teach/assignments/${a.id}`);
     } catch (err) { setError(err); setBusy(false); }
   };
@@ -484,6 +496,13 @@ export function NewAssignment() {
                 <input id="na-link" type="url" className="form-input" value={link} onChange={(e) => setLink(e.target.value)} placeholder="https://…" />
                 <p className="form-help">Students mark it done and can leave you a note.</p>
               </div>
+            )}
+
+            {kind === 'dictation' && (
+              <React.Suspense fallback={<Spinner />}>
+                <DictationSetup key={dictInitial ? 'dup' : 'new'} initial={dictInitial} onChange={setDict}
+                  onSuggestTitle={(t) => setTitle((cur) => (!cur || cur.startsWith('Dictation') ? t : cur))} />
+              </React.Suspense>
             )}
 
             {kind === 'flashcards' && (
@@ -580,6 +599,12 @@ function ReviewPanel({ a, sub, onDone }) {
           <div className="hub-pre hub-essay-view">{sub.body || '(empty)'}</div>
         </>
       )}
+      {a.kind === 'dictation' && (
+        <>
+          <p className="form-help">Submitted {formatDate(sub.submitted_at, true)}</p>
+          {a.key ? <DictationResult text={sub.body || ''} transcript={a.key.transcript} /> : <div className="hub-pre hub-essay-view">{sub.body || '(empty)'}</div>}
+        </>
+      )}
       {sub.note && <p className="hub-pre"><strong>Student note:</strong> {sub.note}</p>}
       <div className="hub-form-row">
         {a.kind === 'writing' && (
@@ -653,6 +678,7 @@ export function AssignmentDetail({ id }) {
   const state = useAsync(async () => {
     const a = await api.assignmentDetail(id);
     if (a && a.kind === 'flashcards') a.deck = await api.deckProgress(id);
+    if (a && a.kind === 'dictation') a.key = await api.dictationKey(id).catch(() => null);
     return a;
   }, [id]);
   const [open, setOpen] = useState(null);
@@ -692,6 +718,12 @@ export function AssignmentDetail({ id }) {
               {a.instructions && <div className="card hub-instructions"><p className="hub-pre">{a.instructions}</p></div>}
               {a.kind === 'writing' && a.payload?.prompt && <div className="card hub-instructions"><span className="eyebrow">{a.payload.task}</span><p className="hub-pre">{a.payload.prompt}</p></div>}
               {a.kind === 'test' && <p className="body">Test: <strong>{a.payload?.label}</strong></p>}
+              {a.kind === 'dictation' && (
+                <p className="body">
+                  {a.payload?.cues?.length || 0} sentences
+                  {a.key?.source === 'generated' ? ' · transcript generated from the audio' : a.key?.source === 'teacher' ? ' · your transcript' : a.key?.source === 'test' ? ' · transcript from the test' : ''}
+                </p>
+              )}
 
               <section className="hub-section">
                 <h2 className="h3">Students</h2>
@@ -699,7 +731,7 @@ export function AssignmentDetail({ id }) {
                   <div className="hub-list">
                     {rows.map(({ student, sub, attempts, status }) => {
                       const best = attempts.reduce((m, r) => Math.max(m, pct(r.correct, r.total)), 0);
-                      const canReview = sub && (a.kind === 'writing' || a.kind === 'custom') && sub.status === 'submitted';
+                      const canReview = sub && ['writing', 'custom', 'dictation'].includes(a.kind) && sub.status === 'submitted';
                       const isOpen = open === student.id;
                       return (
                         <div key={student.id} className="card hub-row hub-row--stack">
@@ -707,6 +739,7 @@ export function AssignmentDetail({ id }) {
                             <HubLink to={`/teach/students/${student.id}`} className="hub-row-main hub-plain"><PersonName person={student} /></HubLink>
                             {a.kind === 'test' && attempts.length > 0 && <small>Best {best}% · {attempts.length} attempt{attempts.length > 1 ? 's' : ''}</small>}
                             {a.kind === 'flashcards' && a.deck?.[student.id] && <small>{a.deck[student.id].learned}/{a.deck[student.id].total} learned</small>}
+                            {a.kind === 'dictation' && sub?.status === 'submitted' && a.key && <small>{dictationAccuracy(sub, a.key)}% accurate</small>}
                             {sub?.band != null && <span className="pill">Band {Number(sub.band).toFixed(1)}</span>}
                             <StatusPill status={status} />
                             {canReview && (

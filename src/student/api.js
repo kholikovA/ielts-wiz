@@ -80,6 +80,20 @@ export async function saveSubmission(assignmentId, uid, fields) {
     .single());
 }
 
+// Change only `data` on a submission (e.g. a dictation score after submitting).
+export async function saveSubmissionData(assignmentId, uid, data) {
+  refuseInPreview();
+  return unwrap(await supabase.from('submissions').update({ data }).eq('assignment_id', assignmentId).eq('student_id', uid));
+}
+
+// ── Dictation ────────────────────────────────────────────────────────────────
+// The transcript: teachers always; students only after submitting (RLS).
+export const dictationKey = async (assignmentId) =>
+  unwrap(await supabase.from('dictation_keys').select('transcript, source').eq('assignment_id', assignmentId).maybeSingle());
+
+export const saveDictationKey = async (assignmentId, transcript, source) =>
+  unwrap(await supabase.from('dictation_keys').upsert({ assignment_id: assignmentId, transcript, source }));
+
 export async function testResults(uid) {
   return unwrap(await supabase
     .from('user_test_results')
@@ -164,9 +178,17 @@ export async function teacherAssignments(uid) {
     .order('created_at', { ascending: false })) || [];
 }
 
-export async function createAssignment(fields, studentIds) {
+// `beforeRecipients(a)` runs before anyone is assigned (e.g. to store a
+// dictation transcript); if it throws, the assignment is removed again.
+export async function createAssignment(fields, studentIds, beforeRecipients = null) {
   // fields may include publish_at (scheduled homework stays hidden from students until then).
   const a = unwrap(await supabase.from('assignments').insert(fields).select().single());
+  if (beforeRecipients) {
+    try { await beforeRecipients(a); } catch (err) {
+      await supabase.from('assignments').delete().eq('id', a.id);
+      throw err;
+    }
+  }
   if (studentIds.length) {
     const { error } = await supabase
       .from('assignment_recipients')

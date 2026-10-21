@@ -141,6 +141,7 @@ function itemNote(a, cards) {
   }
   if (a.kind === 'test' && a.attempts.length) return `best ${Math.max(...a.attempts.map((r) => pct(r.correct, r.total)))}%`;
   if (a.submission?.band != null) return `band ${Number(a.submission.band).toFixed(1)}`;
+  if (a.kind === 'dictation' && a.submission?.data?.score) return `${a.submission.data.score.accuracy}% accurate`;
   return dueLabel(a.due_at);
 }
 

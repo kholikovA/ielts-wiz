@@ -9,6 +9,7 @@ import {
 } from './ui';
 import FlashcardStudy from './FlashcardStudy';
 import SrsSession from './SrsSession';
+import { DictationWork } from './dictation/Dictation';
 import { endOfStudyDay } from './fsrs';
 
 // Homework + results for the signed-in student, with a derived status per item.
@@ -297,6 +298,7 @@ export function HomeworkDetail({ id }) {
             {a.kind === 'writing' && <WritingWork a={a} onSaved={state.reload} />}
             {a.kind === 'custom' && <CustomWork a={a} onSaved={state.reload} />}
             {a.kind === 'flashcards' && <FlashcardWork a={a} />}
+            {a.kind === 'dictation' && <DictationWork a={a} onSaved={state.reload} />}
             <Feedback submission={a.submission} />
           </>
         ) : <EmptyPanel icon="xCircle" title="Not found" lead="This assignment doesn't exist or isn't assigned to you." />}

@@ -5,6 +5,7 @@ export const KINDS = {
   writing:    { label: 'Writing',       icon: 'pen' },
   custom:     { label: 'Task',          icon: 'checkCircle' },
   flashcards: { label: 'Flashcards',    icon: 'layers' },
+  dictation:  { label: 'Dictation',     icon: 'headphones' },
 };
 
 export const RESULT_KIND_LABELS = {
