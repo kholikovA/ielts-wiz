@@ -19,7 +19,6 @@ import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
-const ANON_KEY = Deno.env.get("SUPABASE_ANON_KEY")!;
 const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const OPENAI_API_KEY = Deno.env.get("OPENAI_API_KEY") ?? "";
 const MAX_FETCH_BYTES = 300 * 1024 * 1024;
@@ -32,8 +31,10 @@ const CORS = {
   "Access-Control-Expose-Headers": "content-length, content-type",
 };
 
-const fail = (status: number, message: string) =>
-  new Response(JSON.stringify({ error: message }), { status, headers: { ...CORS, "content-type": "application/json" } });
+const fail = (status: number, message: string, detail?: unknown) => {
+  console.warn("dictation-media", status, message, detail ?? "");
+  return new Response(JSON.stringify({ error: message }), { status, headers: { ...CORS, "content-type": "application/json" } });
+};
 
 // Share links -> direct download links. YouTube can't be downloaded.
 function directUrl(raw: string): string {
@@ -88,12 +89,16 @@ async function proxy(url: string) {
   return new Response(limited, { status: 200, headers });
 }
 
+const whisperMessage = (body: string) => {
+  try { return JSON.parse(body).error?.message ?? body.slice(0, 160); } catch { return body.slice(0, 160); }
+};
+
 async function transcribe(uid: string, path: string, prompt?: string) {
   if (!OPENAI_API_KEY) return fail(500, "Transcription isn't set up yet (OPENAI_API_KEY is missing).");
   if (!path || !path.startsWith(`${uid}/`) || path.includes("..")) return fail(403, "Not your file.");
-  const admin = createClient(SUPABASE_URL, SERVICE_ROLE);
+  const admin = createClient(SUPABASE_URL, SERVICE_ROLE, { auth: { persistSession: false } });
   const { data: file, error } = await admin.storage.from("dictation-media").download(path);
-  if (error || !file) return fail(404, "Audio file not found.");
+  if (error || !file) return fail(404, "Audio file not found.", error?.message);
   if (file.size > MAX_WHISPER_BYTES) return fail(413, "The audio is too long to transcribe (over 25 MB).");
 
   const form = new FormData();
@@ -111,8 +116,7 @@ async function transcribe(uid: string, path: string, prompt?: string) {
   });
   if (!res.ok) {
     const detail = await res.text().catch(() => "");
-    console.error("whisper error", res.status, detail.slice(0, 500));
-    return fail(502, `Transcription failed (${res.status}).`);
+    return fail(502, `Transcription failed (${res.status}): ${whisperMessage(detail)}`, detail.slice(0, 500));
   }
   const out = await res.json();
   return new Response(JSON.stringify({
@@ -124,21 +128,30 @@ async function transcribe(uid: string, path: string, prompt?: string) {
 }
 
 serve(async (req) => {
+  try {
+    return await handle(req);
+  } catch (e) {
+    return fail(500, "Something went wrong on the server.", (e as Error)?.stack ?? String(e));
+  }
+});
+
+async function handle(req: Request): Promise<Response> {
   if (req.method === "OPTIONS") return new Response("ok", { headers: CORS });
   if (req.method !== "POST") return fail(405, "POST only.");
 
-  const auth = req.headers.get("authorization") ?? "";
-  const userClient = createClient(SUPABASE_URL, ANON_KEY, { global: { headers: { authorization: auth } } });
-  // Pass the token explicitly: there's no stored session on the server.
-  const token = auth.replace(/^Bearer\s+/i, "");
-  const { data: { user } } = await userClient.auth.getUser(token);
-  if (!user) return fail(401, "Sign in first.");
-  const { data: isTeacher } = await userClient.rpc("is_teacher_user", { uid: user.id });
-  if (!isTeacher) return fail(403, "Teachers only.");
+  // Verify the caller's token with the service client (an edge function has
+  // no stored session, so the token must be passed explicitly).
+  const token = (req.headers.get("authorization") ?? "").replace(/^Bearer\s+/i, "");
+  const admin = createClient(SUPABASE_URL, SERVICE_ROLE, { auth: { persistSession: false } });
+  const { data: who, error: authError } = await admin.auth.getUser(token);
+  const user = who?.user;
+  if (!user) return fail(401, "Sign in first.", authError?.message);
+  const { data: isTeacher, error: roleError } = await admin.rpc("is_teacher_user", { uid: user.id });
+  if (!isTeacher) return fail(403, "Teachers only.", roleError?.message);
 
   let body: { action?: string; url?: string; path?: string; prompt?: string };
   try { body = await req.json(); } catch { return fail(400, "Bad request."); }
   if (body.action === "fetch" && body.url) return proxy(body.url);
   if (body.action === "transcribe" && body.path) return transcribe(user.id, body.path, body.prompt);
   return fail(400, "Unknown action.");
-});
+}

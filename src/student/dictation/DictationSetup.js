@@ -73,10 +73,11 @@ export default function DictationSetup({ onChange, initial, onSuggestTitle }) {
       source = { kind: 'link', url: link.trim() };
     }
     setStep({ label: 'Starting', progress: null });
+    let stage = 'Starting';
     try {
       const out = await prepareDictation({
         uid: user.id, source, transcript: mode === 'test' ? '' : transcript,
-        step: (label, progress) => setStep({ label, progress }),
+        step: (label, progress) => { stage = label; setStep({ label, progress }); },
       });
       setPrepared({ ...out, source: mode === 'test' ? source : { kind: mode } });
       setFrom(0);
@@ -88,7 +89,8 @@ export default function DictationSetup({ onChange, initial, onSuggestTitle }) {
         else onSuggestTitle('Dictation');
       }
     } catch (err) {
-      setError(err);
+      console.error('Dictation prepare failed at', stage, err); // eslint-disable-line no-console
+      setError({ message: `${stage} failed: ${err?.message || err}` });
     }
     setStep(null);
   };
