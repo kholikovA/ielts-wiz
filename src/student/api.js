@@ -12,12 +12,43 @@ const unwrap = ({ data, error }) => {
 
 const PROFILE_COLS = 'id, name, email, target_score, avatar_url, last_sign_in_at';
 
+// ── Student view (teacher preview) ───────────────────────────────────────────
+// A teacher can view the hub as one of their students. Reads then run against
+// that student's id (teacher RLS policies already allow it); writes become
+// no-ops or refuse, so a preview never changes the student's data.
+let preview = null; // { id, teacherName }
+export const setPreview = (p) => { preview = p?.id ? p : null; };
+export const isPreview = () => Boolean(preview);
+const PREVIEW_ONLY = 'This is a preview. Only the student can do this from their own account.';
+const refuseInPreview = () => { if (preview) throw new Error(PREVIEW_ONLY); };
+const nowIso = () => new Date().toISOString();
+// Teachers can see scheduled work; students can't until it's published.
+const published = (a) => !a.publish_at || new Date(a.publish_at) <= new Date();
+
+async function previewClassIds() {
+  const rows = unwrap(await supabase.from('class_members').select('class_id').eq('student_id', preview.id)) || [];
+  return rows.map((r) => r.class_id);
+}
+
 // ── Student ──────────────────────────────────────────────────────────────────
-export const myClasses = async () => unwrap(await supabase.rpc('my_classes')) || [];
+export async function myClasses() {
+  if (!preview) return unwrap(await supabase.rpc('my_classes')) || [];
+  // my_classes() reads auth.uid(); in a preview the teacher only sees their own classes.
+  const rows = unwrap(await supabase
+    .from('class_members')
+    .select('joined_at, classes(id, name, archived)')
+    .eq('student_id', preview.id)
+    .order('joined_at')) || [];
+  return rows
+    .filter((r) => r.classes && !r.classes.archived)
+    .map((r) => ({ id: r.classes.id, name: r.classes.name, teacher_name: preview.teacherName || null, joined_at: r.joined_at }));
+}
 export const previewClass = async (code) => unwrap(await supabase.rpc('class_by_code', { code }));
-export const joinClass = async (code) => unwrap(await supabase.rpc('join_class', { code }));
-export const leaveClass = async (classId, uid) =>
-  unwrap(await supabase.from('class_members').delete().eq('class_id', classId).eq('student_id', uid));
+export const joinClass = async (code) => { refuseInPreview(); return unwrap(await supabase.rpc('join_class', { code })); };
+export const leaveClass = async (classId, uid) => {
+  refuseInPreview();
+  return unwrap(await supabase.from('class_members').delete().eq('class_id', classId).eq('student_id', uid));
+};
 
 // Everything assigned to `uid`, with their submission (if any) attached.
 export async function studentHomework(uid) {
@@ -27,7 +58,7 @@ export async function studentHomework(uid) {
   ]);
   const byAssignment = new Map((unwrap(subs) || []).map((s) => [s.assignment_id, s]));
   return (unwrap(rec) || [])
-    .filter((r) => r.assignments)
+    .filter((r) => r.assignments && published(r.assignments))
     .map((r) => ({ ...r.assignments, assigned_at: r.assigned_at, submission: byAssignment.get(r.assignments.id) || null }));
 }
 
@@ -37,10 +68,11 @@ export async function assignmentForStudent(id, uid) {
     supabase.from('submissions').select('*').eq('assignment_id', id).eq('student_id', uid).maybeSingle(),
   ]);
   const assignment = unwrap(a);
-  return assignment ? { ...assignment, submission: unwrap(s) } : null;
+  return assignment && published(assignment) ? { ...assignment, submission: unwrap(s) } : null;
 }
 
 export async function saveSubmission(assignmentId, uid, fields) {
+  refuseInPreview();
   return unwrap(await supabase
     .from('submissions')
     .upsert({ assignment_id: assignmentId, student_id: uid, ...fields }, { onConflict: 'assignment_id,student_id' })
@@ -194,7 +226,7 @@ const CARD_COLS = 'id, assignment_id, position, front, back, assigned_at, state,
 
 // Cards to study today: every new card plus anything due before `until`.
 export async function srsDueCards(uid, until, deck) {
-  let q = supabase.from('srs_cards').select(CARD_COLS).eq('student_id', uid).or(`state.eq.0,due.lte.${until.toISOString()}`);
+  let q = supabase.from('srs_cards').select(CARD_COLS).eq('student_id', uid).lte('available_at', nowIso()).or(`state.eq.0,due.lte.${until.toISOString()}`);
   if (deck) q = q.eq('assignment_id', deck);
   return unwrap(await q.limit(5000)) || [];
 }
@@ -203,13 +235,14 @@ export async function srsDueCards(uid, until, deck) {
 export async function srsSnapshot(uid) {
   const since = new Date(Date.now() - 30 * 86400000).toISOString();
   const [cards, reviews] = await Promise.all([
-    supabase.from('srs_cards').select('assignment_id, state, due, stability').eq('student_id', uid).limit(20000),
+    supabase.from('srs_cards').select('assignment_id, state, due, stability').eq('student_id', uid).lte('available_at', nowIso()).limit(20000),
     supabase.from('srs_reviews').select('rating, state, reviewed_at').eq('student_id', uid).gte('reviewed_at', since).limit(20000),
   ]);
   return { cards: unwrap(cards) || [], reviews: unwrap(reviews) || [] };
 }
 
 export async function saveReview(prev, next, rating, durationMs) {
+  if (preview) return; // previews can be studied, but nothing is saved
   const fields = ['state', 'step', 'due', 'stability', 'difficulty', 'reps', 'lapses', 'last_review'];
   const patch = Object.fromEntries(fields.map((f) => [f, next[f]]));
   unwrap(await supabase.from('srs_cards').update(patch).eq('id', prev.id));
@@ -225,6 +258,7 @@ export async function saveReview(prev, next, rating, durationMs) {
 // status works the same as other kinds: started once studied, submitted once
 // every word has been learned at least once.
 export async function syncDeckProgress(assignmentId, uid) {
+  if (preview) return;
   const rows = unwrap(await supabase.from('srs_cards').select('state').eq('assignment_id', assignmentId).eq('student_id', uid)) || [];
   const learned = rows.filter((r) => r.state !== 0).length;
   const done = rows.length > 0 && learned === rows.length;
@@ -250,7 +284,7 @@ export async function deckProgress(assignmentId) {
 
 // ── Coins, streaks, summaries ────────────────────────────────────────────────
 export const hubSummary = async (studentId = null) =>
-  unwrap(await supabase.rpc('hub_summary', { p_student: studentId }));
+  unwrap(await supabase.rpc('hub_summary', { p_student: studentId || preview?.id || null }));
 
 export async function coinHistory(uid, limit = 300) {
   return unwrap(await supabase
@@ -267,7 +301,7 @@ export const rewardRules = async () =>
 export const streakMilestones = async () =>
   unwrap(await supabase.from('streak_milestones').select('*').order('at')) || [];
 
-export const claimQueueCleared = async () => unwrap(await supabase.rpc('claim_queue_cleared'));
+export const claimQueueCleared = async () => (preview ? null : unwrap(await supabase.rpc('claim_queue_cleared')));
 
 export async function teacherSummaries() {
   const rows = unwrap(await supabase.rpc('teacher_student_summaries')) || [];
@@ -285,7 +319,7 @@ export async function notifications(uid) {
 }
 
 export const markNotificationsRead = async (ids = null) =>
-  unwrap(await supabase.rpc('mark_notifications_read', { ids }));
+  (preview ? null : unwrap(await supabase.rpc('mark_notifications_read', { ids })));
 
 // ── Scheduling ───────────────────────────────────────────────────────────────
 export const updateAssignment = async (id, fields) =>
@@ -336,7 +370,7 @@ export async function studentAttendance(uid, limit = 20) {
 // Words the student has met: their flashcards (learned first) plus saved words.
 export async function gameWords(uid) {
   const [cards, saved] = await Promise.all([
-    supabase.from('srs_cards').select('front, back, state').eq('student_id', uid).limit(2000),
+    supabase.from('srs_cards').select('front, back, state').eq('student_id', uid).lte('available_at', nowIso()).limit(2000),
     supabase.from('user_vocab_words').select('word, definition, example').eq('user_id', uid).limit(1000),
   ]);
   const out = new Map();
@@ -349,6 +383,7 @@ export async function gameWords(uid) {
 }
 
 export async function saveGame(game, correct, total, durationMs) {
+  if (preview) return 0;
   const row = unwrap(await supabase
     .from('game_results')
     .insert({ game, correct, total, duration_ms: Math.round(durationMs) })
@@ -363,13 +398,16 @@ export const streakRepeat = async () =>
 
 // The next scheduled session across the student's classes (RLS limits it to them).
 export async function nextSession() {
-  return unwrap(await supabase
+  let q = supabase
     .from('class_sessions')
     .select('id, held_at, topic, classes(name)')
-    .gt('held_at', new Date().toISOString())
-    .order('held_at')
-    .limit(1)
-    .maybeSingle());
+    .gt('held_at', nowIso());
+  if (preview) {
+    const ids = await previewClassIds();
+    if (!ids.length) return null;
+    q = q.in('class_id', ids);
+  }
+  return unwrap(await q.order('held_at').limit(1).maybeSingle());
 }
 
 // ── Coin rules (admin) + manual awards (teachers) ────────────────────────────

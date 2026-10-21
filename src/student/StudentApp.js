@@ -11,8 +11,10 @@ import './hub.css';
 // Student Hub — served at student.ielts-wiz.com (see lib/host.js). Same Supabase
 // accounts as the main site, its own deliberately minimal design (hub.css).
 // Students: dashboard, homework, flashcards, word games, progress, coins.
-// Teachers (profiles.is_teacher, or admins) also get Teaching: homework
-// (with scheduling), classes, attendance and students.
+// Teachers (profiles.is_teacher, or admins) get Teaching instead: homework
+// (with scheduling), classes, attendance and students. "Student view" lets a
+// teacher see the hub as one of their students, with that student's real data
+// (read-only; see setPreview in api.js).
 
 const AuthPage = lazy(() => import('../components/AuthPage'));
 const Onboarding = lazy(() => import('../components/Onboarding'));
@@ -66,8 +68,20 @@ const Spinner = ({ full }) => (
   <div className={full ? 'hub-loading hub-loading--full' : 'hub-loading'}><div className="hub-spinner" /></div>
 );
 
-function route(parts, isTeacher, exitStudentView) {
+function teacherRoute(parts) {
   const [a, b, c] = parts;
+  if (a === 'join' && b) return <JoinPage code={b} />;
+  if (a !== 'teach') return <Assignments />;
+  if (b === 'classes') return c ? <ClassDetail id={c} /> : <Classes />;
+  if (b === 'students') return c ? <StudentDetail id={c} /> : <Students />;
+  if (b === 'attendance') return c ? <Register id={c} /> : <AttendanceHome />;
+  if (b === 'coins') return <CoinAdmin />;
+  if (c === 'new') return <NewAssignment />;
+  return c ? <AssignmentDetail id={c} /> : <Assignments />;
+}
+
+function studentRoute(parts, exitStudentView) {
+  const [a, b] = parts;
   if (!a || a === 'dashboard') return <Dashboard />;
   if (a === 'coins') return <CoinsPage />;
   if (a === 'join' && b) return <JoinPage code={b} />;
@@ -76,21 +90,13 @@ function route(parts, isTeacher, exitStudentView) {
   if (a === 'flashcards') return <Flashcards deckId={b} />;
   if (a === 'games') return <Games gameId={b} />;
   if (a === 'teach') {
-    if (!isTeacher) {
-      return exitStudentView
-        ? (
-          <EmptyPanel icon="eye" title="You're in student view" lead="Teaching pages are hidden while you preview the hub as a student.">
-            <button type="button" className="btn btn-primary" onClick={exitStudentView}>Back to teacher view</button>
-          </EmptyPanel>
-        )
-        : <EmptyPanel icon="xCircle" title="Teachers only" lead="Ask an admin to give your account teacher access." />;
-    }
-    if (b === 'classes') return c ? <ClassDetail id={c} /> : <Classes />;
-    if (b === 'students') return c ? <StudentDetail id={c} /> : <Students />;
-    if (b === 'attendance') return c ? <Register id={c} /> : <AttendanceHome />;
-    if (b === 'coins') return <CoinAdmin />;
-    if (c === 'new') return <NewAssignment />;
-    return c ? <AssignmentDetail id={c} /> : <Assignments />;
+    return exitStudentView
+      ? (
+        <EmptyPanel icon="eye" title="You're in student view" lead="Teaching pages are hidden while you view the hub as a student.">
+          <button type="button" className="btn btn-primary" onClick={exitStudentView}>Back to teacher view</button>
+        </EmptyPanel>
+      )
+      : <EmptyPanel icon="xCircle" title="Teachers only" lead="Ask an admin to give your account teacher access." />;
   }
   return <Dashboard />;
 }
@@ -158,21 +164,67 @@ function Bell({ uid, go, here }) {
   );
 }
 
-function UserMenu({ user, profile, isDark, toggleTheme, signOut, go, canTeach, studentView, onToggleView }) {
+// Choose which student to view the hub as.
+function StudentPicker({ uid, current, onPick }) {
+  const state = useAsyncList(uid);
+  const [q, setQ] = useState('');
+  const shown = (state || []).filter((s) => `${s.name || ''} ${s.email || ''}`.toLowerCase().includes(q.trim().toLowerCase()));
+  return (
+    <div className="hub-picker">
+      <div className="hub-pop-head"><span>View as a student</span></div>
+      {state && state.length > 6 && (
+        <input className="form-input hub-picker-search" placeholder="Search students" value={q} onChange={(e) => setQ(e.target.value)} autoFocus />
+      )}
+      <div className="hub-pop-list">
+        {!state && <div className="hub-pop-empty">Loading…</div>}
+        {state && !state.length && <div className="hub-pop-empty">No students yet. Students appear here once they join one of your classes.</div>}
+        {shown.map((s) => (
+          <button key={s.id} type="button" className={`hub-pop-item hub-picker-item${s.id === current ? ' is-unread' : ''}`} onClick={() => onPick(s)}>
+            <Avatar person={s} size={24} />
+            <span>{s.name || s.email}<small>{s.classNames.filter(Boolean).join(', ')}</small></span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function useAsyncList(uid) {
+  const [list, setList] = useState(null);
+  useEffect(() => {
+    let live = true;
+    api.teacherStudents(uid).then((r) => live && setList(r.students)).catch(() => live && setList([]));
+    return () => { live = false; };
+  }, [uid]);
+  return list;
+}
+
+function UserMenu({ user, profile, isDark, toggleTheme, signOut, go, canTeach, viewAs, onViewAs }) {
   const pop = usePopover();
+  const [picking, setPicking] = useState(false);
+  useEffect(() => { if (!pop.open) setPicking(false); }, [pop.open]);
   return (
     <div className="hub-pop-wrap" ref={pop.ref}>
       <button type="button" className="hub-user" onClick={() => pop.setOpen((o) => !o)} aria-haspopup="menu" aria-expanded={pop.open}>
         <Avatar person={{ ...profile, email: user.email }} size={28} />
         <span><strong>{profile?.name || 'Account'}</strong><small>{user.email}</small></span>
       </button>
-      {pop.open && (
+      {pop.open && picking && (
+        <div className="hub-pop hub-pop--up hub-pop--wide">
+          <StudentPicker uid={user.id} current={viewAs?.id} onPick={(s) => { pop.setOpen(false); onViewAs(s); }} />
+        </div>
+      )}
+      {pop.open && !picking && (
         <div className="hub-pop hub-pop--up" role="menu">
-          {canTeach && (
-            <button type="button" role="menuitem" className="hub-menu-item" onClick={() => { pop.setOpen(false); onToggleView(); }}>
-              <Icon name={studentView ? 'graduation' : 'eye'} size={16} /> {studentView ? 'Back to teacher view' : 'Switch to student view'}
+          {canTeach && (viewAs ? (
+            <button type="button" role="menuitem" className="hub-menu-item" onClick={() => { pop.setOpen(false); onViewAs(null); }}>
+              <Icon name="graduation" size={16} /> Back to teacher view
             </button>
-          )}
+          ) : (
+            <button type="button" role="menuitem" className="hub-menu-item" onClick={() => setPicking(true)}>
+              <Icon name="eye" size={16} /> Switch to student view
+            </button>
+          ))}
           <button type="button" role="menuitem" className="hub-menu-item" onClick={toggleTheme}>
             <Icon name={isDark ? 'sun' : 'moon'} size={16} /> {isDark ? 'Light mode' : 'Dark mode'}
           </button>
@@ -192,14 +244,17 @@ export default function StudentApp() {
   const [parts, setParts] = useState(segments);
   const [navOpen, setNavOpen] = useState(false);
   const [balance, setBalance] = useState(null);
-  // Teachers/admins can preview the hub exactly as a student sees it.
-  // Remembered per device; it only hides teacher UI, never changes permissions.
+  // Teachers/admins see Teaching only. Student view shows the hub as one of
+  // their students, with that student's data. Remembered per device.
   const canTeach = Boolean(profile?.is_teacher || profile?.is_admin);
-  const [studentView, setStudentView] = useState(() => {
-    try { return localStorage.getItem('iw.v1.hub.studentView') === '1'; } catch { return false; }
+  const [viewAsRaw, setViewAsRaw] = useState(() => {
+    try { return JSON.parse(localStorage.getItem('iw.v1.hub.viewAs')) || null; } catch { return null; }
   });
-  const isAdmin = Boolean(profile?.is_admin) && !studentView;
-  const isTeacher = canTeach && !studentView;
+  const viewAs = canTeach ? viewAsRaw : null;
+  const isAdmin = Boolean(profile?.is_admin) && !viewAs;
+  const isTeacher = canTeach && !viewAs;
+  // Set synchronously so the first render's reads already target the student.
+  api.setPreview(viewAs ? { id: viewAs.id, teacherName: profile?.name } : null);
 
   useEffect(() => {
     document.title = 'Student Hub · IELTS Wiz';
@@ -223,22 +278,42 @@ export default function StudentApp() {
   }, []);
 
   const here = `/${parts.join('/')}`;
-  // Coin balance in the top bar; refreshed on every navigation.
+  // Coin balance in the top bar (students and student view); refreshed on every navigation.
   useEffect(() => {
-    if (!user) return;
+    setBalance(null);
+    if (!user || isTeacher) return;
     api.hubSummary().then((s) => setBalance(s.balance)).catch(() => {});
-  }, [user, here]);
+  }, [user, here, isTeacher, viewAs?.id]);
 
-  const toggleView = useCallback(() => {
-    setStudentView((v) => {
-      const next = !v;
-      try { localStorage.setItem('iw.v1.hub.studentView', next ? '1' : '0'); } catch { /* storage off */ }
-      return next;
-    });
-    if (!studentView && window.location.pathname.startsWith('/teach')) go('/');
-  }, [studentView, go]);
+  // Teacher view has no student pages: send those paths to Teaching.
+  useEffect(() => {
+    if (isTeacher && parts[0] !== 'teach' && parts[0] !== 'join' && parts[0] !== 'reading-test' && parts[0] !== 'listening-test') {
+      window.history.replaceState({}, '', '/teach/assignments');
+      setParts(segments());
+    }
+  }, [isTeacher, parts]);
 
-  const ctx = useMemo(() => ({ go, user, profile, isTeacher, isAdmin }), [go, user, profile, isTeacher, isAdmin]);
+  const viewAsStudent = useCallback((s) => {
+    const next = s ? { id: s.id, name: s.name || null, email: s.email || null, avatar_url: s.avatar_url || null, target_score: s.target_score || null } : null;
+    try {
+      if (next) localStorage.setItem('iw.v1.hub.viewAs', JSON.stringify(next));
+      else localStorage.removeItem('iw.v1.hub.viewAs');
+    } catch { /* storage off */ }
+    setViewAsRaw(next);
+    go(next ? '/' : '/teach/assignments');
+  }, [go]);
+  const exitStudentView = useCallback(() => viewAsStudent(null), [viewAsStudent]);
+
+  // In student view the pages see the student as the signed-in user.
+  const ctx = useMemo(() => ({
+    go,
+    user: viewAs ? { id: viewAs.id, email: viewAs.email } : user,
+    profile: viewAs || profile,
+    isTeacher,
+    isAdmin,
+    preview: Boolean(viewAs),
+    viewAsStudent: canTeach ? viewAsStudent : null,
+  }), [go, user, profile, viewAs, isTeacher, isAdmin, canTeach, viewAsStudent]);
 
   if (loading) return <Spinner full />;
 
@@ -257,6 +332,17 @@ export default function StudentApp() {
 
   // Assigned tests open full-screen on this origin so the hub session records them.
   if (parts[0] === 'reading-test' || parts[0] === 'listening-test') {
+    if (viewAs) {
+      return (
+        <HubContext.Provider value={ctx}>
+          <div className="hub"><main id="main" className="hub-content">
+            <EmptyPanel icon="eye" title="Tests don't open in student view" lead="A test taken here would be recorded on your account, not the student's.">
+              <button type="button" className="btn btn-primary" onClick={() => go('/homework')}>Back to homework</button>
+            </EmptyPanel>
+          </main></div>
+        </HubContext.Provider>
+      );
+    }
     const Player = parts[0] === 'reading-test' ? ReadingTestRoute : ListeningTestRoute;
     const review = parts[2] === 'review';
     return (
@@ -288,26 +374,27 @@ export default function StudentApp() {
             <span>Student Hub<small>IELTS Wiz</small></span>
           </AppLink>
           <nav>
-            <div className="hub-nav-group">{STUDY_NAV.map(link)}</div>
-            {isTeacher && (
+            {isTeacher ? (
               <div className="hub-nav-group">
                 <div className="hub-nav-label">Teaching</div>
                 {TEACH_NAV.map(link)}
               </div>
+            ) : (
+              <div className="hub-nav-group">{STUDY_NAV.map(link)}</div>
             )}
           </nav>
           <div className="hub-nav-foot">
             <UserMenu user={user} profile={profile} isDark={isDark} toggleTheme={toggleTheme} signOut={signOut} go={go}
-              canTeach={canTeach} studentView={studentView} onToggleView={toggleView} />
+              canTeach={canTeach} viewAs={viewAs} onViewAs={viewAsStudent} />
           </div>
         </aside>
         {navOpen && <div className="hub-backdrop" onClick={() => setNavOpen(false)} aria-hidden="true" />}
         <div className="hub-main">
-          {canTeach && studentView && (
+          {viewAs && (
             <div className="hub-viewbar" role="status">
               <Icon name="eye" size={14} />
-              <span>Student view: you're seeing the hub the way your students do.</span>
-              <button type="button" className="hub-viewbar-btn" onClick={toggleView}>Back to teacher view</button>
+              <span>Viewing as <strong>{viewAs.name || viewAs.email}</strong>. Read-only: nothing you do here is saved.</span>
+              <button type="button" className="hub-viewbar-btn" onClick={exitStudentView}>Back to teacher view</button>
             </div>
           )}
           <header className="hub-top">
@@ -320,10 +407,12 @@ export default function StudentApp() {
                 <Coin /> {balance}
               </AppLink>
             )}
-            <Bell uid={user.id} go={go} here={here} />
+            {!viewAs && <Bell uid={user.id} go={go} here={here} />}
           </header>
           <main id="main" className="hub-content">
-            <Suspense fallback={<Spinner />}>{route(parts, isTeacher, canTeach && studentView ? toggleView : null)}</Suspense>
+            <Suspense fallback={<Spinner />} key={viewAs?.id || 'self'}>
+              {isTeacher ? teacherRoute(parts) : studentRoute(parts, viewAs ? exitStudentView : null)}
+            </Suspense>
           </main>
         </div>
       </div>

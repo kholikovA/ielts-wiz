@@ -829,3 +829,7 @@
 }
 .hub-viewbar-btn:hover { background: color-mix(in srgb, var(--h-bg) 15%, transparent); }
 @media (max-width: 640px) { .hub-viewbar span { display: none; } }
+.hub-pop--wide { width: 280px; }
+.hub-picker-search { margin: 8px 10px; width: calc(100% - 20px); }
+.hub-picker-item { align-items: center; }
+.hub-picker-item small { display: block; }

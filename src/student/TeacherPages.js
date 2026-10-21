@@ -173,7 +173,7 @@ export function Students() {
 }
 
 export function StudentDetail({ id }) {
-  const { user } = useHub();
+  const { user, viewAsStudent } = useHub();
   const state = useAsync(async () => {
     const [profile, results, homework, summary] = await Promise.all([
       api.studentProfile(id), api.testResults(id), api.homeworkForStudent(user.id, id), api.hubSummary(id).catch(() => null),
@@ -199,6 +199,11 @@ export function StudentDetail({ id }) {
                 {d.profile.target_score && <span className="pill">Target {d.profile.target_score}</span>}
                 {d.profile.last_sign_in_at && <span>Last seen {formatDate(d.profile.last_sign_in_at)}</span>}
               </div>
+              {viewAsStudent && (
+                <button type="button" className="btn btn-secondary btn-sm" style={{ alignSelf: 'flex-start' }} onClick={() => viewAsStudent(d.profile)}>
+                  <Icon name="eye" size={14} /> View as student
+                </button>
+              )}
             </div>
             {d.summary && (
               <div className="hub-stats" style={{ marginBottom: 12 }}>
