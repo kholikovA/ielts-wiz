@@ -10,6 +10,7 @@ import {
 import FlashcardStudy from './FlashcardStudy';
 import SrsSession from './SrsSession';
 import { DictationWork } from './dictation/Dictation';
+import { MarkingView } from './writing/MarkedEssay';
 import { endOfStudyDay } from './fsrs';
 
 // Homework + results for the signed-in student, with a derived status per item.
@@ -123,7 +124,8 @@ function Feedback({ submission }) {
         <h3 className="h3">Teacher feedback</h3>
         {submission.band != null && <span className="pill pill-success">Band {Number(submission.band).toFixed(1)}</span>}
       </div>
-      {submission.feedback ? <p className="hub-pre">{submission.feedback}</p> : <p className="body">Reviewed — no written comments.</p>}
+      <MarkingView submission={submission} />
+      {submission.feedback ? <p className="hub-pre">{submission.feedback}</p> : !submission.marking && <p className="body">Reviewed — no written comments.</p>}
     </div>
   );
 }

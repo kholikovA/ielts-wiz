@@ -15,6 +15,7 @@ import { DictationResult } from './dictation/Dictation';
 import { checkDictation } from './dictation/diff';
 
 const DictationSetup = React.lazy(() => import('./dictation/DictationSetup'));
+const WritingReview = React.lazy(() => import('./writing/WritingReview'));
 const dictationAccuracy = (sub, key) => sub.data?.score?.accuracy ?? checkDictation(sub.body || '', key.transcript).score.accuracy;
 
 const joinUrl = (code) => `${window.location.origin}/join/${code}`;
@@ -748,7 +749,9 @@ export function AssignmentDetail({ id }) {
                               </button>
                             )}
                           </div>
-                          {isOpen && canReview && <ReviewPanel a={a} sub={sub} onDone={() => { setOpen(null); state.reload(); }} />}
+                          {isOpen && canReview && (a.kind === 'writing'
+                            ? <React.Suspense fallback={<Spinner />}><WritingReview a={a} sub={sub} onDone={() => { setOpen(null); state.reload(); }} /></React.Suspense>
+                            : <ReviewPanel a={a} sub={sub} onDone={() => { setOpen(null); state.reload(); }} />)}
                         </div>
                       );
                     })}
