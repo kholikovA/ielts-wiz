@@ -236,8 +236,28 @@ export async function homeworkForStudent(teacherId, studentId) {
   return (unwrap(rec) || []).map((x) => ({ ...x.assignments, assigned_at: x.assigned_at, submission: byAssignment.get(x.assignments.id) || null }));
 }
 
-export const reviewSubmission = async (id, band, feedback) =>
-  unwrap(await supabase.rpc('review_submission', { sub: id, p_band: band, p_feedback: feedback }));
+export const reviewSubmission = async (id, band, feedback, marking = null) =>
+  unwrap(await supabase.rpc('review_submission', { sub: id, p_band: band, p_feedback: feedback, p_marking: marking }));
+
+// Call one of our edge functions with the signed-in user's token.
+async function callEdge(name, body) {
+  const { data: { session } } = await supabase.auth.getSession();
+  const res = await fetch(`${process.env.REACT_APP_SUPABASE_URL}/functions/v1/${name}`, {
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json',
+      authorization: `Bearer ${session?.access_token}`,
+      apikey: process.env.REACT_APP_SUPABASE_ANON_KEY,
+    },
+    body: JSON.stringify(body),
+  });
+  const json = await res.json().catch(() => null);
+  if (!res.ok) throw new Error(json?.error || `Request failed (${res.status}).`);
+  return json;
+}
+
+// Claude's draft marking of a writing submission (teacher only; cached unless `force`).
+export const aiMarkWriting = (submissionId, force = false) => callEdge('writing-mark', { submission_id: submissionId, force });
 
 // ── Admin ────────────────────────────────────────────────────────────────────
 export const setTeacher = async (target, on) =>

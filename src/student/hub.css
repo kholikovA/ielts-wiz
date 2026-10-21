@@ -960,3 +960,40 @@
 .dx-cue-n { width: 22px; color: var(--h-text-3); font-variant-numeric: tabular-nums; flex: none; }
 .dx-cue-t { width: 38px; color: var(--h-text-3); font: 12px var(--h-mono); flex: none; }
 .dx-cue-text { flex: 1; }
+
+/* ── Writing marking ────────────────────────────────────────────────────── */
+.wm-ai { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px 12px; border-radius: var(--h-radius-sm); font-size: 13px; background: var(--h-surface-2); color: var(--h-text-2); margin-bottom: 14px; }
+.wm-ai .btn { margin-left: auto; }
+.wm-ai--done { background: var(--h-accent-soft); color: var(--h-accent-text); }
+.wm-ai--error { background: var(--h-danger-soft); color: var(--h-danger); }
+.wm-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-bottom: 14px; }
+.wm-crit-edit { border: 1px solid var(--h-border); border-radius: var(--h-radius); padding: 10px; display: flex; flex-direction: column; gap: 8px; }
+.wm-crit-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; font-size: 13px; font-weight: 600; }
+.wm-crit-edit .form-select { width: 84px; }
+.wm-crit-edit .form-textarea { font-size: 13px; min-height: 0; }
+
+.wm-essay { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; }
+.wm-text { white-space: pre-wrap; font-size: 15px; line-height: 1.9; padding: 14px 16px; border: 1px solid var(--h-border); border-radius: var(--h-radius); background: var(--h-surface); width: 100%; }
+.wm-corr { white-space: normal; }
+.wm-corr del { color: var(--h-danger); text-decoration-thickness: 1.5px; background: var(--h-danger-soft); border-radius: 3px; padding: 0 2px; }
+.wm-corr ins { color: var(--h-success); text-decoration: none; background: var(--h-success-soft); border-radius: 3px; padding: 0 2px; margin-left: 3px; font-weight: 500; }
+.wm-corr sup { font-size: 10px; color: var(--h-text-3); margin-left: 1px; }
+.wm-list, .wm-pick { list-style: none; margin: 0; padding: 0; width: 100%; display: flex; flex-direction: column; gap: 6px; font-size: 13px; }
+.wm-list { counter-reset: wm; }
+.wm-list li { display: flex; gap: 10px; align-items: baseline; counter-increment: wm; }
+.wm-list li::before { content: counter(wm); color: var(--h-text-3); width: 18px; flex: none; font-variant-numeric: tabular-nums; }
+.wm-list li.is-missing { opacity: 0.6; }
+.wm-list del, .wm-pick del { color: var(--h-danger); }
+.wm-list ins, .wm-pick ins { color: var(--h-success); text-decoration: none; font-weight: 500; }
+.wm-list small, .wm-pick small { display: block; color: var(--h-text-3); }
+.wm-type { flex: none; font-size: 11px; font-weight: 500; padding: 1px 7px; border-radius: 999px; background: var(--h-surface-2); color: var(--h-text-2); }
+.wm-pick { margin-top: 10px; max-height: 280px; overflow: auto; border: 1px solid var(--h-border); border-radius: var(--h-radius); padding: 8px 10px; }
+.wm-pick label { display: flex; gap: 10px; align-items: baseline; cursor: pointer; }
+
+.wm-view { display: flex; flex-direction: column; gap: 16px; margin-bottom: 14px; }
+.wm-criteria { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+@media (max-width: 560px) { .wm-criteria, .wm-grid { grid-template-columns: 1fr; } }
+.wm-crit { border: 1px solid var(--h-border); border-radius: var(--h-radius); padding: 10px 12px; }
+.wm-crit-head strong { font-size: 18px; font-variant-numeric: tabular-nums; }
+.wm-crit p { margin: 6px 0 0; font-size: 13px; color: var(--h-text-2); line-height: 1.5; }
+.wm-h { font-size: 13px; font-weight: 600; margin: 0 0 8px; }
