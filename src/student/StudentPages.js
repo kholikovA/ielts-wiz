@@ -3,12 +3,14 @@ import Icon from '../components/ui/icons';
 import PageHeader from '../components/ui/PageHeader';
 import * as api from './api';
 import {
-  attemptsFor, statusOf, isComplete, isOverdue, dueLabel, formatDate, pct, summarise, wordCount,
+  attemptsFor, statusOf, isComplete, isOverdue, dueLabel, formatDate, pct, summarise, wordCount, srsStats,
 } from './homework';
 import {
   useHub, useAsync, Loaded, EmptyPanel, HubLink, BackLink, StatusPill, KindTag, Bar, ErrorNote,
 } from './ui';
 import FlashcardStudy from './FlashcardStudy';
+import SrsSession from './SrsSession';
+import { endOfStudyDay } from './fsrs';
 
 // Homework + results for the signed-in student, with a derived status per item.
 function useMyHomework() {
@@ -84,7 +86,8 @@ export function JoinPage({ code }) {
 
 // ── Overview ─────────────────────────────────────────────────────────────────
 export function Overview() {
-  const { profile, isTeacher } = useHub();
+  const { user, profile, isTeacher } = useHub();
+  const snap = useAsync(() => api.srsSnapshot(user.id), [user.id]);
   const hw = useMyHomework();
   const classes = useAsync(api.myClasses, []);
   const first = profile?.name?.split(' ')[0];
@@ -101,6 +104,26 @@ export function Overview() {
           <HubLink to="/teach/assignments" className="btn btn-secondary btn-sm">Open</HubLink>
         </div>
       )}
+
+      <Loaded state={snap}>
+        {(data) => {
+          if (!data.cards.length) return null;
+          const st = srsStats(data, new Date(), endOfStudyDay());
+          return (
+            <div className="card fc-today">
+              <div className="fc-today-counts">
+                <Icon name="layers" size={20} />
+                <span><strong className="fc-count fc-count--new">{st.fresh}</strong> new words</span>
+                <span><strong className="fc-count fc-count--review">{st.due}</strong> to review</span>
+                {st.streak > 0 && <span>{st.streak}-day streak</span>}
+              </div>
+              {st.fresh + st.due > 0
+                ? <HubLink to="/flashcards/study" className="btn btn-primary"><Icon name="play" size={16} /> Study flashcards</HubLink>
+                : <span className="body">Flashcards done for today.</span>}
+            </div>
+          );
+        }}
+      </Loaded>
 
       <section className="hub-section">
         <div className="hub-section-head"><h2 className="h3">Up next</h2><HubLink to="/homework">All homework</HubLink></div>
@@ -302,32 +325,31 @@ function CustomWork({ a, onSaved }) {
   );
 }
 
-function FlashcardWork({ a, onSaved }) {
+function FlashcardWork({ a }) {
   const { user } = useHub();
-  const [studying, setStudying] = useState(false);
-  const cards = a.payload?.cards || [];
-  const sub = a.submission;
-
-  const finish = async ({ total, reviews }) => {
-    const sessions = (sub?.data?.sessions || 0) + 1;
-    try {
-      await api.saveSubmission(a.id, user.id, {
-        status: 'submitted',
-        data: { total, reviews, sessions, last: new Date().toISOString() },
-        submitted_at: sub?.submitted_at || new Date().toISOString(),
-      });
-      onSaved();
-    } catch { /* progress is non-critical; the student can study again */ }
-  };
-
-  if (studying) return <FlashcardStudy cards={cards} onFinish={finish} onExit={() => setStudying(false)} />;
+  const total = (a.payload?.cards || []).length;
+  const snap = useAsync(() => api.srsSnapshot(user.id), [user.id]);
   return (
     <div className="card">
-      <p className="body-lg"><strong>{cards.length} cards</strong></p>
-      {sub?.data?.sessions
-        ? <p className="body">Studied {sub.data.sessions} time{sub.data.sessions > 1 ? 's' : ''} · last {formatDate(sub.data.last, true)}</p>
-        : <p className="body">Go through the deck until you know every card.</p>}
-      <button type="button" className="btn btn-primary" onClick={() => setStudying(true)}><Icon name="play" size={16} /> {sub ? 'Study again' : 'Start studying'}</button>
+      <Loaded state={snap}>
+        {({ cards }) => {
+          const mine = cards.filter((c) => c.assignment_id === a.id);
+          const learned = mine.filter((c) => c.state !== 0).length;
+          const due = mine.filter((c) => c.state !== 0 && new Date(c.due) <= endOfStudyDay()).length;
+          return (
+            <>
+              <p className="body-lg"><strong>{learned}/{mine.length || total} words learned</strong></p>
+              <p className="body">
+                These words join your daily flashcard queue and keep coming back on a spaced-repetition schedule.
+                {due ? ` ${due} due for review today.` : ''}
+              </p>
+              <HubLink to={`/flashcards/study?deck=${a.id}`} className="btn btn-primary">
+                <Icon name="play" size={16} /> {learned < mine.length ? 'Learn these words' : 'Review this deck'}
+              </HubLink>
+            </>
+          );
+        }}
+      </Loaded>
     </div>
   );
 }
@@ -357,7 +379,7 @@ export function HomeworkDetail({ id }) {
             {a.kind === 'test' && <TestWork a={a} />}
             {a.kind === 'writing' && <WritingWork a={a} onSaved={state.reload} />}
             {a.kind === 'custom' && <CustomWork a={a} onSaved={state.reload} />}
-            {a.kind === 'flashcards' && <FlashcardWork a={a} onSaved={state.reload} />}
+            {a.kind === 'flashcards' && <FlashcardWork a={a} />}
             <Feedback submission={a.submission} />
           </>
         ) : <EmptyPanel icon="xCircle" title="Not found" lead="This assignment doesn't exist or isn't assigned to you." />}
@@ -406,6 +428,7 @@ export function RecentAttempts({ results, limit = 10 }) {
 }
 
 export function Progress() {
+  const { user } = useHub();
   const hw = useMyHomework();
   return (
     <>
@@ -422,6 +445,7 @@ export function Progress() {
                 <div className="card hub-stat"><small>Tests taken</small><strong>{results.length}</strong></div>
                 <div className="card hub-stat"><small>Avg. writing band</small><strong>{avgBand || '—'}</strong></div>
               </div>
+              <section className="hub-section"><h2 className="h3">Flashcards</h2><SrsStatsBlock uid={user.id} /></section>
               <section className="hub-section"><h2 className="h3">By section</h2><ResultsSummary results={results} /></section>
               <section className="hub-section"><h2 className="h3">Recent attempts</h2><RecentAttempts results={results} /></section>
             </>
@@ -433,46 +457,115 @@ export function Progress() {
 }
 
 // ── Flashcards ───────────────────────────────────────────────────────────────
+export function SrsStatsBlock({ uid }) {
+  const snap = useAsync(() => api.srsSnapshot(uid), [uid]);
+  return (
+    <Loaded state={snap}>
+      {(data) => {
+        if (!data.cards.length) return <p className="body">No flashcards yet.</p>;
+        const s = srsStats(data, new Date(), endOfStudyDay());
+        return (
+          <div className="hub-stats">
+            <div className="card hub-stat"><small>Due today</small><strong>{s.due + s.fresh}</strong></div>
+            <div className="card hub-stat"><small>Words learned</small><strong>{s.learned}/{s.total}</strong></div>
+            <div className="card hub-stat"><small>Mature (21d+)</small><strong>{s.mature}</strong></div>
+            <div className="card hub-stat"><small>Retention, 30d</small><strong>{s.retention == null ? '—' : `${s.retention}%`}</strong></div>
+            <div className="card hub-stat"><small>Streak</small><strong>{s.streak} day{s.streak === 1 ? '' : 's'}</strong></div>
+            <div className="card hub-stat"><small>Reviewed today</small><strong>{s.today}</strong></div>
+          </div>
+        );
+      }}
+    </Loaded>
+  );
+}
+
+function SavedWordsStudy() {
+  const { user, go } = useHub();
+  const words = useAsync(() => api.savedWords(user.id), [user.id]);
+  return (
+    <>
+      <BackLink to="/flashcards" label="Flashcards" />
+      <h1 className="h2" style={{ marginBottom: 'var(--space-6)' }}>My saved words</h1>
+      <Loaded state={words}>
+        {(list) => <FlashcardStudy cards={list.map((w) => ({ f: w.word, b: [w.definition, w.example && `“${w.example}”`].filter(Boolean).join('\n\n') }))} onExit={() => go('/flashcards')} />}
+      </Loaded>
+    </>
+  );
+}
+
 export function Flashcards({ deckId }) {
   const { user, go } = useHub();
+  const snap = useAsync(() => api.srsSnapshot(user.id), [user.id]);
   const hw = useMyHomework();
   const words = useAsync(() => api.savedWords(user.id), [user.id]);
 
-  if (deckId === 'saved') {
+  if (deckId === 'saved') return <SavedWordsStudy />;
+  if (deckId === 'study') {
+    const deck = new URLSearchParams(window.location.search).get('deck');
     return (
       <>
         <BackLink to="/flashcards" label="Flashcards" />
-        <h1 className="h2" style={{ marginBottom: 'var(--space-6)' }}>My saved words</h1>
-        <Loaded state={words}>
-          {(list) => <FlashcardStudy cards={list.map((w) => ({ f: w.word, b: [w.definition, w.example && `“${w.example}”`].filter(Boolean).join('\n\n') }))} onExit={() => go('/flashcards')} />}
-        </Loaded>
+        <SrsSession deck={deck} onExit={() => go('/flashcards')} />
       </>
     );
   }
 
   return (
     <>
-      <PageHeader eyebrow="Flashcards" title="Learn with flashcards" lead="Decks from your teacher, plus every word you've saved from Articles." />
-      <div className="hub-grid">
-        <Loaded state={words}>
-          {(list) => (
-            <HubLink to="/flashcards/saved" className="card card-interactive hub-deck">
-              <Icon name="bookOpen" size={22} />
-              <strong>My saved words</strong>
-              <small>{list.length} card{list.length === 1 ? '' : 's'}</small>
-            </HubLink>
-          )}
-        </Loaded>
-        <Loaded state={hw}>
-          {({ rows }) => rows.filter((a) => a.kind === 'flashcards').map((a) => (
-            <HubLink key={a.id} to={`/homework/${a.id}`} className="card card-interactive hub-deck">
-              <Icon name="layers" size={22} />
-              <strong>{a.title}</strong>
-              <small>{(a.payload?.cards || []).length} cards · <StatusPill status={a.status} /></small>
-            </HubLink>
-          ))}
-        </Loaded>
-      </div>
+      <PageHeader eyebrow="Flashcards" title="Daily review"
+        lead="New words from your teacher come first, then everything due for review. The schedule adapts to how well you remember each word." />
+      <Loaded state={snap}>
+        {(data) => {
+          const s = srsStats(data, new Date(), endOfStudyDay());
+          return (
+            <div className="card fc-today">
+              <div className="fc-today-counts">
+                <span><strong className="fc-count fc-count--new">{s.fresh}</strong> new</span>
+                <span><strong className="fc-count fc-count--review">{s.due}</strong> to review</span>
+              </div>
+              {s.fresh + s.due > 0
+                ? <HubLink to="/flashcards/study" className="btn btn-primary"><Icon name="play" size={16} /> Study now</HubLink>
+                : <span className="body">{s.total ? 'All done for today.' : 'No words assigned yet.'}</span>}
+            </div>
+          );
+        }}
+      </Loaded>
+
+      <section className="hub-section">
+        <h2 className="h3">Your stats</h2>
+        <SrsStatsBlock uid={user.id} />
+      </section>
+
+      <section className="hub-section">
+        <h2 className="h3">Decks</h2>
+        <div className="hub-grid">
+          <Loaded state={hw}>
+            {({ rows }) => {
+              const cards = snap.data?.cards || [];
+              return rows.filter((a) => a.kind === 'flashcards').map((a) => {
+                const mine = cards.filter((c) => c.assignment_id === a.id);
+                const learned = mine.filter((c) => c.state !== 0).length;
+                return (
+                  <HubLink key={a.id} to={`/flashcards/study?deck=${a.id}`} className="card card-interactive hub-deck">
+                    <Icon name="layers" size={22} />
+                    <strong>{a.title}</strong>
+                    <small>{learned}/{mine.length || (a.payload?.cards || []).length} learned · assigned {formatDate(a.assigned_at || a.created_at)}</small>
+                  </HubLink>
+                );
+              });
+            }}
+          </Loaded>
+          <Loaded state={words}>
+            {(list) => (
+              <HubLink to="/flashcards/saved" className="card card-interactive hub-deck">
+                <Icon name="bookOpen" size={22} />
+                <strong>My saved words</strong>
+                <small>{list.length} word{list.length === 1 ? '' : 's'} from Articles · free practice</small>
+              </HubLink>
+            )}
+          </Loaded>
+        </div>
+      </section>
     </>
   );
 }

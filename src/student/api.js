@@ -187,3 +187,62 @@ export const reviewSubmission = async (id, band, feedback) =>
 // ── Admin ────────────────────────────────────────────────────────────────────
 export const setTeacher = async (target, on) =>
   unwrap(await supabase.rpc('set_teacher', { target, on_off: on }));
+
+// ── Spaced-repetition flashcards ─────────────────────────────────────────────
+const CARD_COLS = 'id, assignment_id, position, front, back, assigned_at, state, step, due, stability, difficulty, reps, lapses, last_review';
+
+// Cards to study today: every new card plus anything due before `until`.
+export async function srsDueCards(uid, until, deck) {
+  let q = supabase.from('srs_cards').select(CARD_COLS).eq('student_id', uid).or(`state.eq.0,due.lte.${until.toISOString()}`);
+  if (deck) q = q.eq('assignment_id', deck);
+  return unwrap(await q.limit(5000)) || [];
+}
+
+// Lightweight snapshot of a student's whole collection + last 30 days of reviews, for stats.
+export async function srsSnapshot(uid) {
+  const since = new Date(Date.now() - 30 * 86400000).toISOString();
+  const [cards, reviews] = await Promise.all([
+    supabase.from('srs_cards').select('assignment_id, state, due, stability').eq('student_id', uid).limit(20000),
+    supabase.from('srs_reviews').select('rating, state, reviewed_at').eq('student_id', uid).gte('reviewed_at', since).limit(20000),
+  ]);
+  return { cards: unwrap(cards) || [], reviews: unwrap(reviews) || [] };
+}
+
+export async function saveReview(prev, next, rating, durationMs) {
+  const fields = ['state', 'step', 'due', 'stability', 'difficulty', 'reps', 'lapses', 'last_review'];
+  const patch = Object.fromEntries(fields.map((f) => [f, next[f]]));
+  unwrap(await supabase.from('srs_cards').update(patch).eq('id', prev.id));
+  const elapsed = prev.last_review ? (new Date(next.last_review) - new Date(prev.last_review)) / 86400000 : 0;
+  unwrap(await supabase.from('srs_reviews').insert({
+    card_id: prev.id, rating, state: prev.state,
+    elapsed_days: elapsed, scheduled_days: next.scheduled_ms / 86400000,
+    stability: next.stability, difficulty: next.difficulty, duration_ms: Math.round(durationMs),
+  }));
+}
+
+// Mirror a flashcard assignment's progress onto its submission so homework
+// status works the same as other kinds: started once studied, submitted once
+// every word has been learned at least once.
+export async function syncDeckProgress(assignmentId, uid) {
+  const rows = unwrap(await supabase.from('srs_cards').select('state').eq('assignment_id', assignmentId).eq('student_id', uid)) || [];
+  const learned = rows.filter((r) => r.state !== 0).length;
+  const done = rows.length > 0 && learned === rows.length;
+  const { data: existing } = await supabase.from('submissions').select('status, submitted_at').eq('assignment_id', assignmentId).eq('student_id', uid).maybeSingle();
+  await saveSubmission(assignmentId, uid, {
+    status: done || existing?.status === 'submitted' ? 'submitted' : 'in_progress',
+    data: { learned, total: rows.length },
+    submitted_at: existing?.submitted_at || (done ? new Date().toISOString() : null),
+  });
+}
+
+// Teacher: per-student learned counts for one flashcard assignment.
+export async function deckProgress(assignmentId) {
+  const rows = unwrap(await supabase.from('srs_cards').select('student_id, state').eq('assignment_id', assignmentId)) || [];
+  const by = {};
+  rows.forEach((r) => {
+    const s = by[r.student_id] || (by[r.student_id] = { learned: 0, total: 0 });
+    s.total += 1;
+    if (r.state !== 0) s.learned += 1;
+  });
+  return by;
+}
