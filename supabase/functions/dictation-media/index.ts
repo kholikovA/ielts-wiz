@@ -129,7 +129,9 @@ serve(async (req) => {
 
   const auth = req.headers.get("authorization") ?? "";
   const userClient = createClient(SUPABASE_URL, ANON_KEY, { global: { headers: { authorization: auth } } });
-  const { data: { user } } = await userClient.auth.getUser();
+  // Pass the token explicitly: there's no stored session on the server.
+  const token = auth.replace(/^Bearer\s+/i, "");
+  const { data: { user } } = await userClient.auth.getUser(token);
   if (!user) return fail(401, "Sign in first.");
   const { data: isTeacher } = await userClient.rpc("is_teacher_user", { uid: user.id });
   if (!isTeacher) return fail(403, "Teachers only.");
