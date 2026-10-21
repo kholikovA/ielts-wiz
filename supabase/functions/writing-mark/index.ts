@@ -61,7 +61,7 @@ Penalise under-length responses (under ${minWords} words) under ${first}.
 
 Also list the language errors as corrections. Each "quote" must be copied EXACTLY, character for character, from the candidate's response: the shortest stretch that shows the error (usually 1-6 words), unique enough to locate. "fix" is the corrected version of that same stretch. Cover grammar, vocabulary/collocation, spelling and punctuation errors, in order of appearance, at most 40. Do not "correct" British vs American spelling or acceptable stylistic choices.
 
-Write comments to the student in plain, encouraging but honest English. Record the result with the record_marking tool.`;
+Write comments to the student in plain, encouraging but honest English. You MUST record the result by calling the record_marking tool exactly once, with no other text.`;
 }
 
 const TOOL = {
@@ -173,7 +173,9 @@ async function handle(req: Request): Promise<Response> {
       max_tokens: 8000,
       system: systemPrompt(isT1, minWords),
       tools: [TOOL],
-      tool_choice: { type: "tool", name: TOOL.name },
+      // Newer models reject forced tool_choice; the prompt asks for the tool,
+      // and a plain JSON reply is accepted as a fallback below.
+      tool_choice: { type: "auto" },
       messages: [{ role: "user", content }],
     }),
   });
@@ -182,7 +184,12 @@ async function handle(req: Request): Promise<Response> {
     return fail(502, `AI marking failed (${res.status}): ${out?.error?.message ?? "upstream error"}`, out);
   }
   const call = (out?.content ?? []).find((c: { type: string }) => c.type === "tool_use");
-  const m = call?.input;
+  let m = call?.input;
+  if (!m) {
+    const text = (out?.content ?? []).filter((c: { type: string }) => c.type === "text").map((c: { text: string }) => c.text).join("\n");
+    const json = text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1);
+    try { m = JSON.parse(json); } catch { m = null; }
+  }
   if (!m?.criteria?.length) return fail(502, "AI marking returned no result.", out);
 
   const criteria = m.criteria.slice(0, 4).map((c: { band: number }) => ({ ...c, band: Math.round(Number(c.band) * 2) / 2 }));
