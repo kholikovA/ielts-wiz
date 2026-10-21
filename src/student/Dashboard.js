@@ -9,7 +9,7 @@ import {
   useHub, useAsync, Loaded, HubLink, StatusPill, PageTitle, Coin, EmptyPanel,
 } from './ui';
 import { JoinForm } from './StudentPages';
-import { rankFor, nextMilestone, RANKS } from './ranks';
+import { rankFor, RANKS } from './ranks';
 
 const WEEKDAY = (iso) => new Date(`${iso}T12:00:00`).toLocaleDateString(undefined, { weekday: 'short' });
 const reducedMotion = () => typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
@@ -159,9 +159,15 @@ function WeekChart({ week }) {
   );
 }
 
-function StreakCard({ icon, label, unit, value, next, marks }) {
-  const span = next ? Math.max(1, next.at - next.from) : 1;
-  const into = next ? Math.max(0, value - next.from) : 0;
+// Start of the current study week: Monday 04:00 local time.
+function studyWeekStart(now = new Date()) {
+  const d = new Date(now.getTime() - 4 * 3600000);
+  d.setHours(0, 0, 0, 0);
+  d.setDate(d.getDate() - ((d.getDay() + 6) % 7));
+  return new Date(d.getTime() + 4 * 3600000);
+}
+
+function StreakCard({ icon, label, unit, value, marks, week }) {
   return (
     <div className="card dash-signal">
       <div className="dash-signal-head"><Icon name={icon} size={15} /> {label}</div>
@@ -171,12 +177,15 @@ function StreakCard({ icon, label, unit, value, next, marks }) {
           {marks.map((m, i) => <span key={i} className={`dash-mark is-${m}`} title={m} />)}
         </div>
       )}
-      {next ? (
+      {week && (
         <div className="dash-next">
-          <div className="dash-next-row"><span>Next bonus at {next.at}</span><span className="hub-num"><Coin size={12} /> +{next.coins}</span></div>
-          <span className="hub-bar hub-bar--wide"><span style={{ width: `${(into / span) * 100}%` }} /></span>
+          <div className="dash-next-row">
+            <span>{week.text}</span>
+            {week.coins != null && <span className={`hub-num${week.state === 'off' ? ' hub-muted' : ''}`}><Coin size={12} /> +{week.coins}</span>}
+          </div>
+          <span className="hub-bar hub-bar--wide"><span style={{ width: `${week.progress * 100}%`, background: week.state === 'off' ? 'var(--h-danger)' : undefined }} /></span>
         </div>
-      ) : <div className="dash-next"><span className="hub-muted">Keep it going</span></div>}
+      )}
     </div>
   );
 }
@@ -184,14 +193,13 @@ function StreakCard({ icon, label, unit, value, next, marks }) {
 export function Dashboard() {
   const { user, profile, isTeacher } = useHub();
   const data = useAsync(async () => {
-    const [summary, snap, items, results, recent, milestones, repeat, session, attendance] = await Promise.all([
+    const [summary, snap, items, results, recent, rules, session, attendance] = await Promise.all([
       api.hubSummary(),
       api.srsSnapshot(user.id),
       api.studentHomework(user.id),
       api.testResults(user.id),
       api.coinHistory(user.id, 40),
-      api.streakMilestones().catch(() => []),
-      api.streakRepeat().catch(() => []),
+      api.rewardRules().catch(() => []),
       api.nextSession().catch(() => null),
       api.studentAttendance(user.id).catch(() => []),
     ]);
@@ -200,7 +208,8 @@ export function Dashboard() {
       const base = statusOf(a, a.submission, attempts);
       return { ...a, attempts, status: isOverdue(a, base) ? 'overdue' : base };
     });
-    return { summary, snap, rows, recent, milestones, repeat: Object.fromEntries(repeat.map((r) => [r.kind, r.every])), session, attendance };
+    const coins = Object.fromEntries(rules.filter((r) => r.enabled).map((r) => [r.key, r.coins]));
+    return { summary, snap, rows, recent, coins, session, attendance };
   }, [user.id]);
   const classes = useAsync(api.myClasses, [user.id]);
 
@@ -208,11 +217,34 @@ export function Dashboard() {
 
   return (
     <Loaded state={data}>
-      {({ summary, snap, rows, recent, milestones, repeat, session, attendance }) => {
+      {({ summary, snap, rows, recent, coins, session, attendance }) => {
         const st = srsStats(snap, new Date(), endOfStudyDay());
         const today = todaysHomework(rows);
         const todayKey = summary.week[summary.week.length - 1]?.day;
         const playedToday = recent.some((t) => t.day === todayKey && t.label.startsWith('Word game'));
+        const weekStart = studyWeekStart();
+        const weekEnd = new Date(weekStart.getTime() + 7 * 86400000);
+
+        // This week's attendance: perfect so far → on track for the bonus.
+        const weekSessions = attendance.filter((r) => r.class_sessions && new Date(r.class_sessions.held_at) >= weekStart && new Date(r.class_sessions.held_at) < weekEnd);
+        const attended = weekSessions.filter((r) => r.status === 'present' || r.status === 'late').length;
+        const absent = weekSessions.filter((r) => r.status === 'absent').length;
+        const attWeek = !weekSessions.length
+          ? { text: 'No classes marked this week', state: 'none', progress: 0, coins: coins.week_perfect_attendance }
+          : absent
+            ? { text: `Missed ${absent} this week`, state: 'off', progress: 1, coins: coins.week_perfect_attendance }
+            : { text: `Perfect week so far · ${attended} attended`, state: 'on', progress: 1, coins: coins.week_perfect_attendance };
+
+        // This week's homework: everything due so far done on time.
+        const weekDue = rows.filter((a) => a.due_at && new Date(a.due_at) >= weekStart && new Date(a.due_at) < weekEnd);
+        const missed = weekDue.filter((a) => a.status === 'overdue').length;
+        const doneWeek = weekDue.filter((a) => isComplete(a.status)).length;
+        const hwWeek = !weekDue.length
+          ? { text: 'Nothing due this week yet', state: 'none', progress: 0, coins: coins.week_perfect_homework }
+          : missed
+            ? { text: `Missed ${missed} this week`, state: 'off', progress: 1, coins: coins.week_perfect_homework }
+            : { text: `${doneWeek}/${weekDue.length} done this week`, state: 'on', progress: doneWeek / weekDue.length, coins: coins.week_perfect_homework };
+
 
         // Today's plan: flashcards, each homework item for today, one game.
         const plan = [];
@@ -287,9 +319,9 @@ export function Dashboard() {
             {/* ── Signals ── */}
             <section className="dash-signals">
               <StreakCard icon="flame" label="Attendance streak" unit={summary.attendance_streak === 1 ? 'class in a row' : 'classes in a row'}
-                value={summary.attendance_streak} next={nextMilestone('attendance', summary.attendance_streak, milestones, repeat)} marks={attMarks} />
+                value={summary.attendance_streak} week={attWeek} marks={attMarks} />
               <StreakCard icon="checkCircle" label="Homework streak" unit="on time in a row"
-                value={summary.homework_streak} next={nextMilestone('homework', summary.homework_streak, milestones, repeat)} marks={hwMarks} />
+                value={summary.homework_streak} week={hwWeek} marks={hwMarks} />
               <div className="card dash-signal dash-class">
                 <div className="dash-signal-head"><Icon name="calendar" size={15} /> Next class</div>
                 {session ? (
@@ -392,32 +424,56 @@ export function Dashboard() {
   );
 }
 
-// ── Coins: balance, how to earn, history ─────────────────────────────────────
+// ── Coins: balance, history, how to earn ─────────────────────────────────────
+export const SourceTag = ({ source }) => (
+  source === 'teacher'
+    ? <span className="pill pill-accent"><Icon name="graduation" size={11} /> Teacher</span>
+    : <span className="pill"><Icon name="zap" size={11} /> Automatic</span>
+);
+
+export function EarnTable({ rules }) {
+  const list = rules.filter((r) => r.enabled).sort((a, b) => (b.coins > 0) - (a.coins > 0) || a.sort - b.sort);
+  return (
+    <div className="hub-table-wrap">
+      <table className="hub-table hub-rules">
+        <tbody>
+          {list.map((r) => (
+            <tr key={r.key}>
+              <td style={{ whiteSpace: 'normal' }}>
+                {r.label}
+                {r.description && <div className="hub-muted" style={{ fontSize: 12 }}>{r.description.replace('this many', String(r.threshold || 2))}</div>}
+              </td>
+              <td className={`hub-num ${r.coins < 0 ? 'hub-neg' : 'hub-pos'}`}>{r.coins > 0 ? '+' : ''}{r.coins}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
 export function CoinsPage({ studentId }) {
   const { user } = useHub();
   const uid = studentId || user.id;
   const summary = useAsync(() => api.hubSummary(studentId || null), [uid]);
   const history = useAsync(() => api.coinHistory(uid), [uid]);
-  const rules = useAsync(async () => {
-    const [r, m] = await Promise.all([api.rewardRules(), api.streakMilestones()]);
-    return { rules: r, milestones: m };
-  }, []);
+  const rules = useAsync(api.rewardRules, []);
 
   return (
     <>
-      <PageTitle eyebrow="Rewards" title="Coins" lead="Coins reward effort: studying every day, finishing homework on time, and coming to class." />
+      <PageTitle eyebrow="Rewards" title="Coins" lead="Coins reward consistency: finishing homework on time, learning your words, and coming to class." />
       <div className="hub-cols">
         <section>
           <Loaded state={summary}>
             {(s) => (
               <div className="card" style={{ marginBottom: 16 }}>
-                <div className="hub-coin-hero"><Coin size={22} /><strong>{s.balance}</strong><span className="hub-muted">+{s.today} today</span></div>
+                <div className="hub-coin-hero"><Coin size={22} /><strong>{s.balance}</strong><span className="hub-muted">{s.today >= 0 ? '+' : ''}{s.today} today</span></div>
               </div>
             )}
           </Loaded>
           <Loaded state={history}>
             {(rows) => {
-              if (!rows.length) return <EmptyPanel icon="coin" title="No coins yet" lead="Study flashcards, play a word game or finish homework to earn your first coins." />;
+              if (!rows.length) return <EmptyPanel icon="coin" title="No coins yet" lead="Finish today's homework or play a word game to earn your first coins." />;
               const days = [];
               rows.forEach((t) => {
                 const last = days[days.length - 1];
@@ -426,56 +482,39 @@ export function CoinsPage({ studentId }) {
               });
               return (
                 <div className="hub-list">
-                  {days.map((d) => (
-                    <React.Fragment key={d.day}>
-                      <div className="hub-day-label">
-                        {new Date(`${d.day}T12:00:00`).toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })}
-                        <span style={{ float: 'right' }} className="hub-num">+{d.rows.reduce((s, r) => s + r.amount, 0)}</span>
-                      </div>
-                      {d.rows.map((t) => (
-                        <div key={t.id} className="hub-row" style={{ borderBottom: '1px solid var(--h-border)' }}>
-                          <div className="hub-row-main"><span>{t.label}</span><small>{new Date(t.created_at).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })}</small></div>
-                          <span className={`hub-amount${t.amount < 0 ? ' is-neg' : ''}`}>{t.amount > 0 ? '+' : ''}{t.amount}</span>
+                  {days.map((d) => {
+                    const total = d.rows.reduce((sum, r) => sum + r.amount, 0);
+                    return (
+                      <React.Fragment key={d.day}>
+                        <div className="hub-day-label">
+                          {new Date(`${d.day}T12:00:00`).toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })}
+                          <span style={{ float: 'right' }} className="hub-num">{total >= 0 ? '+' : ''}{total}</span>
                         </div>
-                      ))}
-                    </React.Fragment>
-                  ))}
+                        {d.rows.map((t) => (
+                          <div key={t.id} className="hub-row" style={{ borderBottom: '1px solid var(--h-border)' }}>
+                            <div className="hub-row-main">
+                              <span>{t.label}</span>
+                              <small>{new Date(t.created_at).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })}</small>
+                            </div>
+                            <SourceTag source={t.source} />
+                            <span className={`hub-amount${t.amount < 0 ? ' is-neg' : ''}`}>{t.amount > 0 ? '+' : ''}{t.amount}</span>
+                          </div>
+                        ))}
+                      </React.Fragment>
+                    );
+                  })}
                 </div>
               );
             }}
           </Loaded>
         </section>
         <aside>
-          <h2 className="h3" style={{ marginBottom: 12 }}>How to earn</h2>
+          <h2 className="h3" style={{ marginBottom: 12 }}>How coins work</h2>
           <Loaded state={rules}>
-            {({ rules: list, milestones }) => (
+            {(list) => (
               <>
-                <div className="hub-table-wrap">
-                  <table className="hub-table hub-rules">
-                    <tbody>
-                      {list.filter((r) => !r.key.endsWith('_percent') && !r.key.startsWith('streak_')).map((r) => (
-                        <tr key={r.key}>
-                          <td style={{ whiteSpace: 'normal' }}>{r.label}{r.daily_cap ? <div className="hub-muted" style={{ fontSize: 12 }}>up to {r.daily_cap}/day</div> : null}</td>
-                          <td className="hub-num">{r.coins}{r.bonus ? `–${r.coins + r.bonus}` : ''}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-                <p className="form-help">Late homework and repeated tests earn {list.find((r) => r.key === 'homework_late_percent')?.coins ?? 50}% of the coins.</p>
-                <h2 className="h3" style={{ margin: '20px 0 12px' }}>Streak bonuses</h2>
-                <div className="hub-table-wrap">
-                  <table className="hub-table hub-rules">
-                    <tbody>
-                      {milestones.map((m) => (
-                        <tr key={`${m.kind}${m.at}`}>
-                          <td>{m.kind === 'attendance' ? `${m.at} classes in a row` : `${m.at} homework on time in a row`}</td>
-                          <td className="hub-num">+{m.coins}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                <EarnTable rules={list} />
+                <p className="form-help">These are automatic. Your teacher can also give or take coins, shown as "Teacher" in your history.</p>
               </>
             )}
           </Loaded>

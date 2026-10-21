@@ -2,12 +2,13 @@ import { rankFor, nextMilestone, RANKS } from './ranks';
 
 test('rank thresholds and progress', () => {
   expect(rankFor(0).rank.name).toBe('Novice');
-  expect(rankFor(299).rank.name).toBe('Novice');
-  expect(rankFor(300).rank.name).toBe('Apprentice');
-  const mid = rankFor(650);
+  expect(rankFor(24).rank.name).toBe('Novice');
+  expect(rankFor(25).rank.name).toBe('Apprentice');
+  const mid = rankFor(50);
   expect(mid.next.name).toBe('Adept');
   expect(mid.progress).toBeCloseTo(0.5);
-  expect(mid.toNext).toBe(350);
+  expect(mid.toNext).toBe(25);
+  expect(rankFor(-3).rank.name).toBe('Novice');
   const top = rankFor(50000);
   expect(top.rank.name).toBe(RANKS[RANKS.length - 1].name);
   expect(top.next).toBeNull();

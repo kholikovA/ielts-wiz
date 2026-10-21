@@ -10,6 +10,7 @@ import {
   PageTitle, Seg, Coin, toLocalInput,
 } from './ui';
 import { ResultsSummary, RecentAttempts, SrsStatsBlock, AttendanceHistory } from './StudentPages';
+import { GiveCoins } from './CoinAdmin';
 
 const joinUrl = (code) => `${window.location.origin}/join/${code}`;
 
@@ -224,6 +225,10 @@ export function StudentDetail({ id }) {
                   ))}
                 </div>
               ) : <p className="body">You haven't assigned anything to this student yet.</p>}
+            </section>
+            <section className="hub-section">
+              <h2 className="h3">Give or take coins</h2>
+              <GiveCoins students={[d.profile]} fixed={[d.profile]} onDone={state.reload} />
             </section>
             <section className="hub-section"><h2 className="h3">Attendance</h2><AttendanceHistory uid={id} /></section>
             <section className="hub-section"><h2 className="h3">Flashcards</h2><SrsStatsBlock uid={id} /></section>

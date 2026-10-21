@@ -255,7 +255,7 @@ export const hubSummary = async (studentId = null) =>
 export async function coinHistory(uid, limit = 300) {
   return unwrap(await supabase
     .from('coin_transactions')
-    .select('id, label, amount, day, created_at')
+    .select('id, label, amount, day, created_at, source')
     .eq('student_id', uid)
     .order('created_at', { ascending: false })
     .limit(limit)) || [];
@@ -370,4 +370,21 @@ export async function nextSession() {
     .order('held_at')
     .limit(1)
     .maybeSingle());
+}
+
+// ── Coin rules (admin) + manual awards (teachers) ────────────────────────────
+export const updateRewardRule = async (key, fields) =>
+  unwrap(await supabase.from('reward_rules').update(fields).eq('key', key));
+
+export const teacherAwardCoins = async (studentIds, amount, reason) =>
+  unwrap(await supabase.rpc('teacher_award_coins', { p_students: studentIds, p_amount: amount, p_reason: reason }));
+
+// Recent manual awards this teacher made (for the Coins admin page).
+export async function recentManualAwards(limit = 20) {
+  return unwrap(await supabase
+    .from('coin_transactions')
+    .select('id, label, amount, created_at, profiles!coin_transactions_student_id_fkey(name, email)')
+    .eq('source', 'teacher')
+    .order('created_at', { ascending: false })
+    .limit(limit)) || [];
 }
