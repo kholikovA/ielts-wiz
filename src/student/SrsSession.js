@@ -54,7 +54,13 @@ export default function SrsSession({ deck, onExit }) {
 
   // Queue empty (or only waiting on learning steps): record deck progress now.
   const idle = Boolean(pools) && !card;
-  useEffect(() => { if (idle) flushDecks(); }, [idle, flushDecks]);
+  useEffect(() => {
+    if (!idle) return;
+    flushDecks();
+    // Whole queue done (nothing waiting on a learning step): claim the bonus; the server re-checks.
+    if (studied > 0 && !pools.learning.length && !deck) api.claimQueueCleared().catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [idle, flushDecks]);
 
   const rate = useCallback((g) => {
     if (!card || !flipped) return;

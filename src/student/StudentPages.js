@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Icon from '../components/ui/icons';
-import PageHeader from '../components/ui/PageHeader';
 import * as api from './api';
 import {
   attemptsFor, statusOf, isComplete, isOverdue, dueLabel, formatDate, pct, summarise, wordCount, srsStats,
 } from './homework';
 import {
-  useHub, useAsync, Loaded, EmptyPanel, HubLink, BackLink, StatusPill, KindTag, Bar, ErrorNote,
+  useHub, useAsync, Loaded, EmptyPanel, HubLink, BackLink, StatusPill, KindTag, Bar, ErrorNote, PageTitle, Coin,
 } from './ui';
 import FlashcardStudy from './FlashcardStudy';
 import SrsSession from './SrsSession';
@@ -66,7 +65,7 @@ export function JoinPage({ code }) {
   const preview = useAsync(() => api.previewClass(code), [code]);
   return (
     <>
-      <PageHeader eyebrow="Join a class" title="You've been invited" />
+      <PageTitle eyebrow="Join a class" title="You've been invited" />
       <Loaded state={preview}>
         {(cls) => cls ? (
           <div className="card hub-join">
@@ -84,95 +83,13 @@ export function JoinPage({ code }) {
   );
 }
 
-// ── Overview ─────────────────────────────────────────────────────────────────
-export function Overview() {
-  const { user, profile, isTeacher } = useHub();
-  const snap = useAsync(() => api.srsSnapshot(user.id), [user.id]);
-  const hw = useMyHomework();
-  const classes = useAsync(api.myClasses, []);
-  const first = profile?.name?.split(' ')[0];
-
-  return (
-    <>
-      <PageHeader eyebrow="Student Hub" title={first ? `Welcome back, ${first}.` : 'Welcome back.'}
-        lead="Your homework, progress and study tools in one place." />
-
-      {isTeacher && (
-        <div className="card hub-teacher-cta">
-          <Icon name="graduation" size={22} />
-          <span>You're a teacher. Manage classes and homework from the <strong>Teaching</strong> section.</span>
-          <HubLink to="/teach/assignments" className="btn btn-secondary btn-sm">Open</HubLink>
-        </div>
-      )}
-
-      <Loaded state={snap}>
-        {(data) => {
-          if (!data.cards.length) return null;
-          const st = srsStats(data, new Date(), endOfStudyDay());
-          return (
-            <div className="card fc-today">
-              <div className="fc-today-counts">
-                <Icon name="layers" size={20} />
-                <span><strong className="fc-count fc-count--new">{st.fresh}</strong> new words</span>
-                <span><strong className="fc-count fc-count--review">{st.due}</strong> to review</span>
-                {st.streak > 0 && <span>{st.streak}-day streak</span>}
-              </div>
-              {st.fresh + st.due > 0
-                ? <HubLink to="/flashcards/study" className="btn btn-primary"><Icon name="play" size={16} /> Study flashcards</HubLink>
-                : <span className="body">Flashcards done for today.</span>}
-            </div>
-          );
-        }}
-      </Loaded>
-
-      <section className="hub-section">
-        <div className="hub-section-head"><h2 className="h3">Up next</h2><HubLink to="/homework">All homework</HubLink></div>
-        <Loaded state={hw}>
-          {({ rows }) => {
-            const open = rows.filter((a) => !isComplete(a.status));
-            return open.length
-              ? <div className="hub-list">{open.slice(0, 5).map((a) => <HomeworkRow key={a.id} a={a} />)}</div>
-              : <p className="body">{rows.length ? 'All caught up — nothing due.' : 'No homework yet.'}</p>;
-          }}
-        </Loaded>
-      </section>
-
-      <section className="hub-section">
-        <div className="hub-section-head"><h2 className="h3">My classes</h2></div>
-        <Loaded state={classes}>
-          {(list) => (
-            <>
-              {list.length > 0 && (
-                <div className="hub-list">
-                  {list.map((c) => (
-                    <div key={c.id} className="card hub-row">
-                      <div className="hub-row-main">
-                        <strong>{c.name}</strong>
-                        <small>{c.teacher_name ? `Teacher: ${c.teacher_name} · ` : ''}Joined {formatDate(c.joined_at)}</small>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              )}
-              <p className="body" style={{ margin: 'var(--space-4) 0 var(--space-2)' }}>
-                {list.length ? 'Joining another class?' : 'Got a code from your teacher? Enter it to join their class.'}
-              </p>
-              <JoinForm onJoined={() => { classes.reload(); hw.reload(); }} />
-            </>
-          )}
-        </Loaded>
-      </section>
-    </>
-  );
-}
-
 // ── Homework list ────────────────────────────────────────────────────────────
 export function HomeworkList() {
   const hw = useMyHomework();
   const [tab, setTab] = useState('open');
   return (
     <>
-      <PageHeader eyebrow="Homework" title="Your assignments" lead="Tasks set by your teacher, with due dates and feedback." />
+      <PageTitle eyebrow="Homework" title="Your assignments" lead="Tasks set by your teacher, with due dates and feedback." />
       <Loaded state={hw}>
         {({ rows }) => {
           if (!rows.length) return <EmptyPanel icon="edit" title="No homework yet" lead="When your teacher assigns work it will show up here." />;
@@ -427,12 +344,41 @@ export function RecentAttempts({ results, limit = 10 }) {
   );
 }
 
+export function AttendanceHistory({ uid }) {
+  const state = useAsync(() => api.studentAttendance(uid), [uid]);
+  const LABEL = { present: 'Present', late: 'Late', absent: 'Absent', excused: 'Excused' };
+  const CLS = { present: 'pill pill-success', late: 'pill pill-amber', absent: 'pill hub-pill-danger', excused: 'pill' };
+  return (
+    <Loaded state={state}>
+      {(rows) => {
+        const list = rows.filter((r) => r.class_sessions)
+          .sort((x, y) => y.class_sessions.held_at.localeCompare(x.class_sessions.held_at)).slice(0, 12);
+        if (!list.length) return <p>No class attendance recorded yet.</p>;
+        return (
+          <div className="hub-list">
+            {list.map((r, i) => (
+              <div key={i} className="card hub-row">
+                <div className="hub-row-main">
+                  <strong>{new Date(r.class_sessions.held_at).toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })}</strong>
+                  <small>{[r.class_sessions.classes?.name, r.class_sessions.topic].filter(Boolean).join(' · ')}</small>
+                </div>
+                <span className={CLS[r.status]}>{LABEL[r.status]}</span>
+              </div>
+            ))}
+          </div>
+        );
+      }}
+    </Loaded>
+  );
+}
+
 export function Progress() {
   const { user } = useHub();
   const hw = useMyHomework();
+  const summary = useAsync(() => api.hubSummary(), [user.id]);
   return (
     <>
-      <PageHeader eyebrow="Progress" title="Track your progress" lead="Scores across every test you've taken, plus your homework record." />
+      <PageTitle eyebrow="Progress" title="Track your progress" lead="Scores across every test you've taken, plus your homework record." />
       <Loaded state={hw}>
         {({ rows, results }) => {
           const done = rows.filter((a) => isComplete(a.status)).length;
@@ -440,11 +386,21 @@ export function Progress() {
           const avgBand = graded.length ? (graded.reduce((s, a) => s + Number(a.submission.band), 0) / graded.length).toFixed(1) : null;
           return (
             <>
+              <Loaded state={summary}>
+                {(sm) => (
+                  <div className="hub-stats" style={{ marginBottom: 12 }}>
+                    <HubLink to="/coins" className="card card-interactive hub-stat"><small><Coin /> Coins</small><strong>{sm.balance}</strong><span>{sm.week.reduce((t, d) => t + d.coins, 0)} this week</span></HubLink>
+                    <div className="card hub-stat"><small>Attendance streak</small><strong>{sm.attendance_streak}</strong><span>{sm.attendance?.attended || 0}/{sm.attendance?.sessions || 0} classes</span></div>
+                    <div className="card hub-stat"><small>Homework streak</small><strong>{sm.homework_streak}</strong><span>on time in a row</span></div>
+                  </div>
+                )}
+              </Loaded>
               <div className="hub-stats">
                 <div className="card hub-stat"><small>Homework done</small><strong>{done}/{rows.length}</strong></div>
                 <div className="card hub-stat"><small>Tests taken</small><strong>{results.length}</strong></div>
                 <div className="card hub-stat"><small>Avg. writing band</small><strong>{avgBand || '—'}</strong></div>
               </div>
+              <section className="hub-section"><h2 className="h3">Class attendance</h2><AttendanceHistory uid={user.id} /></section>
               <section className="hub-section"><h2 className="h3">Flashcards</h2><SrsStatsBlock uid={user.id} /></section>
               <section className="hub-section"><h2 className="h3">By section</h2><ResultsSummary results={results} /></section>
               <section className="hub-section"><h2 className="h3">Recent attempts</h2><RecentAttempts results={results} /></section>
@@ -512,7 +468,7 @@ export function Flashcards({ deckId }) {
 
   return (
     <>
-      <PageHeader eyebrow="Flashcards" title="Daily review"
+      <PageTitle eyebrow="Flashcards" title="Daily review"
         lead="New words from your teacher come first, then everything due for review. The schedule adapts to how well you remember each word." />
       <Loaded state={snap}>
         {(data) => {
@@ -555,7 +511,7 @@ export function Flashcards({ deckId }) {
               });
             }}
           </Loaded>
-          <Loaded state={words}>
+          <Loaded state={words} fallback={null}>
             {(list) => (
               <HubLink to="/flashcards/saved" className="card card-interactive hub-deck">
                 <Icon name="bookOpen" size={22} />

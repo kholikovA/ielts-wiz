@@ -30,15 +30,15 @@ export function useAsync(fn, deps) {
   return { ...state, reload };
 }
 
-export const Spinner = () => <div className="hub-loading"><div className="spinner" /></div>;
+export const Spinner = () => <div className="hub-loading"><div className="hub-spinner" /></div>;
 
 export const ErrorNote = ({ error }) => (
   <div className="form-error">{error?.message || 'Something went wrong. Please try again.'}</div>
 );
 
 // Standard loading / error wrapper for a useAsync result.
-export function Loaded({ state, children }) {
-  if (state.loading && !state.data) return <Spinner />;
+export function Loaded({ state, children, fallback }) {
+  if (state.loading && !state.data) return fallback === undefined ? <Spinner /> : fallback;
   if (state.error) return <ErrorNote error={state.error} />;
   return children(state.data);
 }
@@ -99,3 +99,38 @@ export function CopyButton({ text, label = 'Copy' }) {
 export const Bar = ({ value }) => (
   <span className="hub-bar" aria-hidden="true"><span style={{ width: `${Math.max(0, Math.min(100, value))}%` }} /></span>
 );
+
+// Compact page header used across the hub.
+export const PageTitle = ({ eyebrow, title, lead, children }) => (
+  <header className="hub-title">
+    {eyebrow && <span className="eyebrow">{eyebrow}</span>}
+    <div className="hub-section-head" style={{ marginBottom: 0 }}>
+      <h1>{title}</h1>
+      {children}
+    </div>
+    {lead && <p>{lead}</p>}
+  </header>
+);
+
+// Segmented control: options = [{ value, label, icon?, className? }].
+export function Seg({ value, onChange, options, label }) {
+  return (
+    <div className="hub-seg" role="radiogroup" aria-label={label}>
+      {options.map((o) => (
+        <button key={o.value} type="button" role="radio" aria-checked={value === o.value}
+          className={`${value === o.value ? 'is-selected' : ''} ${o.className || ''}`.trim()}
+          onClick={() => onChange(o.value)}>
+          {o.icon && <Icon name={o.icon} size={14} />}{o.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
+export const Coin = ({ size = 14 }) => <Icon name="coin" size={size} className="hub-coin" />;
+
+// Format a timestamp for <input type="datetime-local">.
+export const toLocalInput = (d) => {
+  const off = d.getTimezoneOffset();
+  return new Date(d.getTime() - off * 60000).toISOString().slice(0, 16);
+};
