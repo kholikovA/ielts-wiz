@@ -160,6 +160,12 @@ export const AuthProvider = ({ children }) => {
     });
   };
 
+  // Google Identity Services path: the ID token was issued on our own origin,
+  // so the consent screen names IELTS Wiz rather than the Supabase project
+  // domain. onAuthStateChange fires SIGNED_IN exactly as with the redirect.
+  const signInWithGoogleIdToken = (token, nonce) =>
+    supabase.auth.signInWithIdToken({ provider: 'google', token, nonce });
+
   const signOut = async () => {
     // Flush everything to the cloud BEFORE we drop the session and wipe local
     // storage — signing out must never destroy un-synced progress. Drain the
@@ -189,7 +195,7 @@ export const AuthProvider = ({ children }) => {
   const isAdmin = Boolean(profile?.is_admin);
 
   return (
-    <AuthContext.Provider value={{ user, profile, isAdmin, loading, signInWithGoogle, signOut, updateProfile, fetchProfile }}>
+    <AuthContext.Provider value={{ user, profile, isAdmin, loading, signInWithGoogle, signInWithGoogleIdToken, signOut, updateProfile, fetchProfile }}>
       {children}
     </AuthContext.Provider>
   );

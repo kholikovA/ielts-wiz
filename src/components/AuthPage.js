@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
+import { GOOGLE_CLIENT_ID, loadGoogleIdentity, makeNonce } from '../lib/googleIdentity';
 import './AuthPage.css';
 
 // Official Google "G" mark (multi-colour), per Google's branding guidelines.
@@ -19,11 +20,66 @@ const ButtonSpinner = () => (
 
 // Google is the only sign-in method. login/signup routes both land here — with
 // OAuth there's no separate "register" step, so we show one clean screen.
+const nextPath = () => {
+  const next = new URLSearchParams(window.location.search).get('next');
+  return typeof next === 'string' && next.startsWith('/') ? next : '/dashboard';
+};
+
 const AuthPage = () => {
-  const { signInWithGoogle } = useAuth();
+  const { signInWithGoogle, signInWithGoogleIdToken } = useAuth();
   const { isDark } = useTheme();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  // Google's own button (GIS) when a client ID is configured; the Supabase
+  // redirect button is the fallback if it's missing or the script is blocked.
+  const [gisReady, setGisReady] = useState(false);
+  const gisButtonRef = useRef(null);
+  // AuthProvider recreates its functions each render; read via ref so the GIS
+  // button isn't re-initialised every time auth state ticks.
+  const idTokenSignIn = useRef(signInWithGoogleIdToken);
+  idTokenSignIn.current = signInWithGoogleIdToken;
+
+  useEffect(() => {
+    if (!GOOGLE_CLIENT_ID) return undefined;
+    let cancelled = false;
+    (async () => {
+      try {
+        const [gis, nonce] = await Promise.all([loadGoogleIdentity(), makeNonce()]);
+        if (cancelled || !gisButtonRef.current) return;
+        gis.initialize({
+          client_id: GOOGLE_CLIENT_ID,
+          nonce: nonce.hashed,
+          ux_mode: 'popup',
+          itp_support: true,
+          callback: async ({ credential }) => {
+            setError('');
+            setLoading(true);
+            const { error: idError } = await idTokenSignIn.current(credential, nonce.raw);
+            if (idError) {
+              setError(idError.message || 'Could not sign in. Please try again.');
+              setLoading(false);
+              return;
+            }
+            window.location.assign(nextPath());
+          },
+        });
+        gisButtonRef.current.innerHTML = '';
+        gis.renderButton(gisButtonRef.current, {
+          type: 'standard',
+          theme: isDark ? 'filled_black' : 'outline',
+          size: 'large',
+          text: 'continue_with',
+          shape: 'pill',
+          logo_alignment: 'center',
+          width: Math.min(400, gisButtonRef.current.offsetWidth || 320),
+        });
+        setGisReady(true);
+      } catch {
+        if (!cancelled) setGisReady(false);
+      }
+    })();
+    return () => { cancelled = true; };
+  }, [isDark]);
 
   const handleGoogle = async () => {
     setError('');
@@ -58,15 +114,25 @@ const AuthPage = () => {
 
           {error && <div className="auth-error" role="alert">{error}</div>}
 
-          <button
-            type="button"
-            className="google-btn"
-            onClick={handleGoogle}
-            disabled={loading}
-          >
-            {loading ? <ButtonSpinner /> : <GoogleMark />}
-            <span>{loading ? 'Connecting…' : 'Continue with Google'}</span>
-          </button>
+          {GOOGLE_CLIENT_ID && (
+            <div
+              ref={gisButtonRef}
+              className="google-gis-btn"
+              hidden={!gisReady || loading}
+            />
+          )}
+
+          {(!gisReady || loading) && (
+            <button
+              type="button"
+              className="google-btn"
+              onClick={handleGoogle}
+              disabled={loading}
+            >
+              {loading ? <ButtonSpinner /> : <GoogleMark />}
+              <span>{loading ? 'Connecting…' : 'Continue with Google'}</span>
+            </button>
+          )}
 
           <p className="auth-reassure">
             No extra passwords to remember — your Google account keeps you secure.
