@@ -239,18 +239,32 @@ export async function homeworkForStudent(teacherId, studentId) {
 export const reviewSubmission = async (id, band, feedback, marking = null) =>
   unwrap(await supabase.rpc('review_submission', { sub: id, p_band: band, p_feedback: feedback, p_marking: marking }));
 
-// Call one of our edge functions with the signed-in user's token.
-async function callEdge(name, body) {
-  const { data: { session } } = await supabase.auth.getSession();
-  const res = await fetch(`${process.env.REACT_APP_SUPABASE_URL}/functions/v1/${name}`, {
+// POST to one of our edge functions with the signed-in user's token. A 401
+// (e.g. the session was ended from another tab) refreshes the session and
+// retries once. Returns the raw Response.
+export async function edgeFetch(name, body) {
+  const send = (token) => fetch(`${process.env.REACT_APP_SUPABASE_URL}/functions/v1/${name}`, {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
-      authorization: `Bearer ${session?.access_token}`,
+      authorization: `Bearer ${token}`,
       apikey: process.env.REACT_APP_SUPABASE_ANON_KEY,
     },
     body: JSON.stringify(body),
   });
+  const { data: { session } } = await supabase.auth.getSession();
+  let res = await send(session?.access_token);
+  if (res.status === 401) {
+    const { data, error } = await supabase.auth.refreshSession();
+    if (error || !data?.session) throw new Error('Your session has expired. Reload the page and sign in again.');
+    res = await send(data.session.access_token);
+    if (res.status === 401) throw new Error('Your session has expired. Reload the page and sign in again.');
+  }
+  return res;
+}
+
+async function callEdge(name, body) {
+  const res = await edgeFetch(name, body);
   const json = await res.json().catch(() => null);
   if (!res.ok) throw new Error(json?.error || `Request failed (${res.status}).`);
   return json;

@@ -4,8 +4,8 @@
 //   -> sentence ends measured from the audio itself.
 import { supabase } from '../../supabaseClient';
 import { sentencesFromWhisper, alignTranscript, refineEnds } from './cues';
+import { edgeFetch } from '../api';
 
-const FN_URL = `${process.env.REACT_APP_SUPABASE_URL}/functions/v1/dictation-media`;
 const RATE = 22050; // speech-quality mono; ~0.36 MB per minute at 48 kbps
 const KBPS = 48;
 export const MAX_MINUTES = 20;
@@ -14,16 +14,7 @@ const isYouTube = (url) => /(^|\.)(youtube\.com|youtu\.be|youtube-nocookie\.com)
 function safeHost(url) { try { return new URL(url).hostname; } catch { return ''; } }
 
 async function callFunction(body) {
-  const { data: { session } } = await supabase.auth.getSession();
-  const res = await fetch(FN_URL, {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-      authorization: `Bearer ${session?.access_token}`,
-      apikey: process.env.REACT_APP_SUPABASE_ANON_KEY,
-    },
-    body: JSON.stringify(body),
-  });
+  const res = await edgeFetch('dictation-media', body);
   if (!res.ok) {
     const msg = await res.json().then((j) => j.error).catch(() => null);
     throw new Error(msg || `Request failed (${res.status}).`);
