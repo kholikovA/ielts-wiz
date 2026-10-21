@@ -1,6 +1,5 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Icon from '../components/ui/icons';
-import PageHeader from '../components/ui/PageHeader';
 import * as api from './api';
 import {
   KINDS, attemptsFor, statusOf, isComplete, isOverdue, dueLabel, formatDate, pct, parseCards, wordCount,
@@ -8,8 +7,9 @@ import {
 import { TEST_GROUPS, ALL_TESTS, testKey, WRITING_PROMPTS } from './catalog';
 import {
   useHub, useAsync, Loaded, EmptyPanel, HubLink, BackLink, StatusPill, KindTag, PersonName, CopyButton, ErrorNote,
+  PageTitle, Seg, Coin, toLocalInput,
 } from './ui';
-import { ResultsSummary, RecentAttempts, SrsStatsBlock } from './StudentPages';
+import { ResultsSummary, RecentAttempts, SrsStatsBlock, AttendanceHistory } from './StudentPages';
 
 const joinUrl = (code) => `${window.location.origin}/join/${code}`;
 
@@ -30,7 +30,7 @@ export function Classes() {
 
   return (
     <>
-      <PageHeader eyebrow="Teaching" title="Classes" lead="Create a class and share its join link. Students who join get the class's homework." />
+      <PageTitle eyebrow="Teaching" title="Classes" lead="Create a class and share its join link. Students who join get the class's homework." />
       <form className="hub-inline-form" onSubmit={create}>
         <input className="form-input" value={name} onChange={(e) => setName(e.target.value)} placeholder="New class name, e.g. Evening B2" maxLength={80} aria-label="Class name" />
         <button className="btn btn-primary" disabled={busy || !name.trim()}><Icon name="plus" size={16} /> Create class</button>
@@ -38,7 +38,7 @@ export function Classes() {
       {error && <ErrorNote error={error} />}
       <Loaded state={state}>
         {(classes) => classes.length ? (
-          <div className="hub-list" style={{ marginTop: 'var(--space-6)' }}>
+          <div className="hub-list" style={{ marginTop: '24px' }}>
             {classes.map((c) => (
               <HubLink key={c.id} to={`/teach/classes/${c.id}`} className="card card-interactive hub-row">
                 <div className="hub-row-main">
@@ -131,13 +131,16 @@ export function ClassDetail({ id }) {
 // ── Students ─────────────────────────────────────────────────────────────────
 export function Students() {
   const { user } = useHub();
-  const state = useAsync(() => api.teacherStudents(user.id), [user.id]);
+  const state = useAsync(async () => {
+    const [roster, sums] = await Promise.all([api.teacherStudents(user.id), api.teacherSummaries().catch(() => new Map())]);
+    return { ...roster, sums };
+  }, [user.id]);
   const [q, setQ] = useState('');
   return (
     <>
-      <PageHeader eyebrow="Teaching" title="Students" lead="Everyone in your classes. Open a student to see their scores and homework." />
+      <PageTitle eyebrow="Teaching" title="Students" lead="Everyone in your classes. Open a student to see their scores and homework." />
       <Loaded state={state}>
-        {({ students }) => {
+        {({ students, sums }) => {
           if (!students.length) return <EmptyPanel icon="users" title="No students yet" lead="Create a class and share its join link." />;
           const needle = q.trim().toLowerCase();
           const shown = needle ? students.filter((s) => `${s.name} ${s.email}`.toLowerCase().includes(needle)) : students;
@@ -149,7 +152,13 @@ export function Students() {
                   <HubLink key={s.id} to={`/teach/students/${s.id}`} className="card card-interactive hub-row">
                     <div className="hub-row-main"><PersonName person={s} /></div>
                     <small>{s.classNames.join(', ')}</small>
-                    <small>{s.target_score ? `Target ${s.target_score}` : ''}</small>
+                    {sums.get(s.id) && (
+                      <>
+                        <small title="Coins this week" className="hub-num"><Coin size={12} /> {sums.get(s.id).week}/wk</small>
+                        <small title="Attendance streak" className="hub-num">Att. {sums.get(s.id).attendance_streak}</small>
+                        <small title="Homework streak" className="hub-num">HW {sums.get(s.id).homework_streak}</small>
+                      </>
+                    )}
                     <Icon name="chevronRight" size={18} />
                   </HubLink>
                 ))}
@@ -165,8 +174,8 @@ export function Students() {
 export function StudentDetail({ id }) {
   const { user } = useHub();
   const state = useAsync(async () => {
-    const [profile, results, homework] = await Promise.all([
-      api.studentProfile(id), api.testResults(id), api.homeworkForStudent(user.id, id),
+    const [profile, results, homework, summary] = await Promise.all([
+      api.studentProfile(id), api.testResults(id), api.homeworkForStudent(user.id, id), api.hubSummary(id).catch(() => null),
     ]);
     if (!profile) return null;
     const rows = homework.map((a) => {
@@ -174,7 +183,7 @@ export function StudentDetail({ id }) {
       const base = statusOf(a, a.submission, attempts);
       return { ...a, attempts, status: isOverdue(a, base) ? 'overdue' : base };
     }).sort((x, y) => y.created_at.localeCompare(x.created_at));
-    return { profile, results, rows };
+    return { profile, results, rows, summary };
   }, [id, user.id]);
 
   return (
@@ -190,6 +199,13 @@ export function StudentDetail({ id }) {
                 {d.profile.last_sign_in_at && <span>Last seen {formatDate(d.profile.last_sign_in_at)}</span>}
               </div>
             </div>
+            {d.summary && (
+              <div className="hub-stats" style={{ marginBottom: 12 }}>
+                <div className="card hub-stat"><small><Coin /> Coins</small><strong>{d.summary.balance}</strong><span>{d.summary.week.reduce((t, x) => t + x.coins, 0)} this week</span></div>
+                <div className="card hub-stat"><small>Attendance streak</small><strong>{d.summary.attendance_streak}</strong><span>{d.summary.attendance?.attended || 0}/{d.summary.attendance?.sessions || 0} classes</span></div>
+                <div className="card hub-stat"><small>Homework streak</small><strong>{d.summary.homework_streak}</strong><span>on time in a row</span></div>
+              </div>
+            )}
             <div className="hub-stats">
               <div className="card hub-stat"><small>Homework done</small><strong>{d.rows.filter((a) => isComplete(a.status)).length}/{d.rows.length}</strong></div>
               <div className="card hub-stat"><small>Overdue</small><strong>{d.rows.filter((a) => a.status === 'overdue').length}</strong></div>
@@ -209,6 +225,7 @@ export function StudentDetail({ id }) {
                 </div>
               ) : <p className="body">You haven't assigned anything to this student yet.</p>}
             </section>
+            <section className="hub-section"><h2 className="h3">Attendance</h2><AttendanceHistory uid={id} /></section>
             <section className="hub-section"><h2 className="h3">Flashcards</h2><SrsStatsBlock uid={id} /></section>
             <section className="hub-section"><h2 className="h3">Scores by section</h2><ResultsSummary results={d.results} /></section>
             <section className="hub-section"><h2 className="h3">Recent attempts</h2><RecentAttempts results={d.results} limit={15} /></section>
@@ -220,45 +237,66 @@ export function StudentDetail({ id }) {
 }
 
 // ── Assignments ──────────────────────────────────────────────────────────────
+const whenShort = (iso) => new Date(iso).toLocaleString(undefined, { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+
 export function Assignments() {
   const { user } = useHub();
   const state = useAsync(() => api.teacherAssignments(user.id), [user.id]);
+  const [tab, setTab] = useState('active');
   return (
     <>
-      <PageHeader eyebrow="Teaching" title="Homework" lead="Everything you've assigned, with completion at a glance." />
-      <HubLink to="/teach/assignments/new" className="btn btn-primary"><Icon name="plus" size={16} /> New assignment</HubLink>
+      <PageTitle eyebrow="Teaching" title="Assignments" lead="Schedule homework ahead, track completion, review submissions.">
+        <HubLink to="/teach/assignments/new" className="btn btn-primary btn-sm"><Icon name="plus" size={14} /> New</HubLink>
+      </PageTitle>
       <Loaded state={state}>
-        {(list) => list.length ? (
-          <div className="hub-list" style={{ marginTop: 'var(--space-6)' }}>
-            {list.map((a) => {
-              const total = a.assignment_recipients.length;
-              const submitted = a.submissions.filter((s) => s.status === 'submitted').length;
-              const toReview = a.submissions.filter((s) => s.status === 'submitted' && !s.reviewed_at).length;
-              return (
-                <HubLink key={a.id} to={`/teach/assignments/${a.id}`} className="card card-interactive hub-row">
-                  <div className="hub-row-main">
-                    <KindTag kind={a.kind} />
-                    <strong>{a.title}</strong>
-                    <small>{a.classes?.name ? `${a.classes.name} · ` : ''}{dueLabel(a.due_at)}</small>
-                  </div>
-                  {a.kind !== 'test' && <small>{submitted}/{total} submitted</small>}
-                  {a.kind === 'test' && <small>{total} student{total === 1 ? '' : 's'}</small>}
-                  {toReview > 0 && a.kind !== 'flashcards' && <span className="pill pill-amber">{toReview} to review</span>}
-                  <Icon name="chevronRight" size={18} />
-                </HubLink>
-              );
-            })}
-          </div>
-        ) : <EmptyPanel icon="edit" title="No homework yet" lead="Create an assignment and pick a class or individual students." />}
+        {(list) => {
+          const now = new Date();
+          const groups = {
+            scheduled: list.filter((a) => new Date(a.publish_at) > now).sort((x, y) => x.publish_at.localeCompare(y.publish_at)),
+            active: list.filter((a) => new Date(a.publish_at) <= now && !(a.due_at && new Date(a.due_at) < now)),
+            past: list.filter((a) => new Date(a.publish_at) <= now && a.due_at && new Date(a.due_at) < now),
+          };
+          const shown = groups[tab];
+          return (
+            <>
+              <div style={{ marginBottom: 12 }}>
+                <Seg label="Filter assignments" value={tab} onChange={setTab} options={[
+                  { value: 'active', label: `Active (${groups.active.length})` },
+                  { value: 'scheduled', label: `Scheduled (${groups.scheduled.length})` },
+                  { value: 'past', label: `Past (${groups.past.length})` },
+                ]} />
+              </div>
+              {shown.length ? (
+                <div className="hub-list">
+                  {shown.map((a) => {
+                    const total = a.assignment_recipients.length;
+                    const submitted = a.submissions.filter((x) => x.status === 'submitted').length;
+                    const toReview = a.submissions.filter((x) => x.status === 'submitted' && !x.reviewed_at).length;
+                    const scheduled = new Date(a.publish_at) > now;
+                    return (
+                      <HubLink key={a.id} to={`/teach/assignments/${a.id}`} className="card card-interactive hub-row">
+                        <span className="hub-kind-icon"><Icon name={KINDS[a.kind]?.icon || 'edit'} size={16} /></span>
+                        <div className="hub-row-main">
+                          <strong>{a.title}</strong>
+                          <small>{a.classes?.name ? `${a.classes.name} · ` : ''}{scheduled ? `Publishes ${whenShort(a.publish_at)}` : dueLabel(a.due_at)}</small>
+                        </div>
+                        {scheduled
+                          ? <span className="pill pill-accent"><Icon name="calendar" size={12} /> Scheduled</span>
+                          : <small className="hub-num">{a.kind === 'test' ? `${total} student${total === 1 ? '' : 's'}` : `${submitted}/${total} submitted`}</small>}
+                        {toReview > 0 && a.kind !== 'flashcards' && <span className="pill pill-amber">{toReview} to review</span>}
+                        <Icon name="chevronRight" size={16} />
+                      </HubLink>
+                    );
+                  })}
+                </div>
+              ) : <EmptyPanel icon="edit" title={tab === 'scheduled' ? 'Nothing scheduled' : 'Nothing here'} lead="Create an assignment and pick when it goes out." />}
+            </>
+          );
+        }}
       </Loaded>
     </>
   );
 }
-
-const toLocalInput = (d) => {
-  const off = d.getTimezoneOffset();
-  return new Date(d.getTime() - off * 60000).toISOString().slice(0, 16);
-};
 
 export function NewAssignment() {
   const { user, go } = useHub();
@@ -281,6 +319,32 @@ export function NewAssignment() {
   const [due, setDue] = useState(() => {
     const d = new Date(); d.setDate(d.getDate() + 7); d.setHours(23, 59, 0, 0); return toLocalInput(d);
   });
+  const [publishMode, setPublishMode] = useState('now');
+  const [publishAt, setPublishAt] = useState(() => {
+    const d = new Date(); d.setDate(d.getDate() + 1); d.setHours(8, 0, 0, 0); return toLocalInput(d);
+  });
+
+  // ?from=<id> duplicates an assignment, shifted one day later.
+  const fromId = new URLSearchParams(window.location.search).get('from');
+  const source = useAsync(() => (fromId ? api.assignmentDetail(fromId) : Promise.resolve(null)), [fromId]);
+  useEffect(() => {
+    const a = source.data;
+    if (!a) return;
+    const shift = (iso) => { const d = new Date(iso); d.setDate(d.getDate() + 1); return d; };
+    setKind(a.kind);
+    setTitle(a.title);
+    setInstructions(a.instructions || '');
+    const pl = a.payload || {};
+    if (a.kind === 'test') setTestKeyVal(`${pl.kind}:${pl.test_id}`);
+    if (a.kind === 'writing') { setPrompt(pl.prompt || ''); setTask(pl.task || 'Task 2'); setMinWords(pl.min_words || 250); setPromptId(pl.prompt_id || ''); }
+    if (a.kind === 'custom') setLink(pl.link || '');
+    if (a.kind === 'flashcards') setCardsText('');
+    if (a.class_id) { setTarget('class'); setClassId(a.class_id); }
+    else { setTarget('students'); setPicked(new Set(a.recipients.map((r) => r.id))); }
+    const pub = shift(a.publish_at);
+    if (pub > new Date()) { setPublishMode('later'); setPublishAt(toLocalInput(pub)); }
+    if (a.due_at) setDue(toLocalInput(shift(a.due_at)));
+  }, [source.data]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
 
@@ -324,6 +388,7 @@ export function NewAssignment() {
     const payload = buildPayload();
     if (!payload) { setError({ message: kind === 'test' ? 'Pick a test.' : kind === 'writing' ? 'Add a writing prompt.' : 'Add at least one card (front - back).' }); return; }
     if (target === 'class' && !classId) { setError({ message: 'Pick a class.' }); return; }
+    if (publishMode === 'later' && due && new Date(due) <= new Date(publishAt)) { setError({ message: 'The due date must be after the publish time.' }); return; }
     const ids = recipients(data);
     if (target === 'students' && !ids.length) { setError({ message: 'Pick at least one student.' }); return; }
     setBusy(true);
@@ -332,6 +397,7 @@ export function NewAssignment() {
         kind, title: title.trim(), instructions: instructions.trim() || null, payload,
         class_id: target === 'class' ? classId : null,
         due_at: due ? new Date(due).toISOString() : null,
+        publish_at: publishMode === 'later' && publishAt ? new Date(publishAt).toISOString() : new Date().toISOString(),
       }, ids);
       go(`/teach/assignments/${a.id}`);
     } catch (err) { setError(err); setBusy(false); }
@@ -339,8 +405,8 @@ export function NewAssignment() {
 
   return (
     <>
-      <BackLink to="/teach/assignments" label="Homework" />
-      <h1 className="h2" style={{ marginBottom: 'var(--space-6)' }}>New assignment</h1>
+      <BackLink to="/teach/assignments" label="Assignments" />
+      <PageTitle title={fromId ? 'Duplicate assignment' : 'New assignment'} lead={fromId ? 'Copied from an earlier assignment and moved one day later. Flashcard words need to be entered again.' : null} />
       <Loaded state={roster}>
         {(data) => data.classes.length === 0 ? (
           <EmptyPanel icon="users" title="Create a class first" lead="Homework goes to students in your classes.">
@@ -455,13 +521,27 @@ export function NewAssignment() {
             </div>
 
             <div className="form-field">
+              <span className="form-label">Publish</span>
+              <Seg label="Publish" value={publishMode} onChange={setPublishMode} options={[
+                { value: 'now', label: 'Now' },
+                { value: 'later', label: 'Schedule', icon: 'calendar' },
+              ]} />
+              {publishMode === 'later' && (
+                <>
+                  <input type="datetime-local" className="form-input" value={publishAt} onChange={(e) => setPublishAt(e.target.value)} aria-label="Publish at" style={{ marginTop: 8 }} />
+                  <p className="form-help">Students won't see it, or get notified, until then. Flashcard words join their queue at that time.</p>
+                </>
+              )}
+            </div>
+
+            <div className="form-field">
               <label className="form-label" htmlFor="na-due">Due</label>
               <input id="na-due" type="datetime-local" className="form-input" value={due} onChange={(e) => setDue(e.target.value)} />
               <p className="form-help">Clear it for no due date.</p>
             </div>
 
             {error && <ErrorNote error={error} />}
-            <button className="btn btn-primary" disabled={busy || !title.trim()}>{busy ? 'Assigning…' : 'Assign homework'}</button>
+            <button className="btn btn-primary" disabled={busy || !title.trim()}>{busy ? 'Saving…' : publishMode === 'later' ? 'Schedule homework' : 'Assign homework'}</button>
           </form>
         )}
       </Loaded>
@@ -512,6 +592,52 @@ function ReviewPanel({ a, sub, onDone }) {
   );
 }
 
+function ScheduleEditor({ a, onSaved }) {
+  const [open, setOpen] = useState(false);
+  const [publishAt, setPublishAt] = useState(() => toLocalInput(new Date(a.publish_at)));
+  const [due, setDue] = useState(() => (a.due_at ? toLocalInput(new Date(a.due_at)) : ''));
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState(null);
+  const published = new Date(a.publish_at) <= new Date();
+  if (!open) {
+    return (
+      <div style={{ marginBottom: 16 }}>
+        <button type="button" className="btn btn-ghost btn-sm" onClick={() => setOpen(true)}><Icon name="calendar" size={14} /> Edit dates</button>
+      </div>
+    );
+  }
+  const save = async () => {
+    setBusy(true); setError(null);
+    try {
+      const fields = { due_at: due ? new Date(due).toISOString() : null };
+      if (!published) fields.publish_at = new Date(publishAt).toISOString();
+      await api.updateAssignment(a.id, fields);
+      setOpen(false); onSaved();
+    } catch (err) { setError(err); }
+    setBusy(false);
+  };
+  return (
+    <div className="card" style={{ marginBottom: 16 }}>
+      <div className="hub-form-row">
+        <div className="form-field">
+          <label className="form-label" htmlFor="ed-pub">Publish</label>
+          <input id="ed-pub" type="datetime-local" className="form-input" value={publishAt} onChange={(e) => setPublishAt(e.target.value)} disabled={published} />
+          {published && <p className="form-help">Already published.</p>}
+        </div>
+        <div className="form-field">
+          <label className="form-label" htmlFor="ed-due">Due</label>
+          <input id="ed-due" type="datetime-local" className="form-input" value={due} onChange={(e) => setDue(e.target.value)} />
+        </div>
+      </div>
+      {error && <ErrorNote error={error} />}
+      <div className="hub-actions">
+        <button type="button" className="btn btn-primary btn-sm" disabled={busy} onClick={save}>Save</button>
+        <button type="button" className="btn btn-ghost btn-sm" onClick={() => setOpen(false)}>Cancel</button>
+      </div>
+    </div>
+  );
+}
+
 export function AssignmentDetail({ id }) {
   const { go } = useHub();
   const state = useAsync(async () => {
@@ -523,7 +649,7 @@ export function AssignmentDetail({ id }) {
 
   return (
     <>
-      <BackLink to="/teach/assignments" label="Homework" />
+      <BackLink to="/teach/assignments" label="Assignments" />
       <Loaded state={state}>
         {(a) => {
           if (!a) return <EmptyPanel icon="xCircle" title="Assignment not found" />;
@@ -539,13 +665,20 @@ export function AssignmentDetail({ id }) {
             <>
               <div className="hub-detail-head">
                 <KindTag kind={a.kind} />
-                <h1 className="h2">{a.title}</h1>
+                <div className="hub-section-head" style={{ marginBottom: 0 }}>
+                  <h1>{a.title}</h1>
+                  <HubLink to={`/teach/assignments/new?from=${a.id}`} className="btn btn-sm"><Icon name="copy" size={14} /> Duplicate</HubLink>
+                </div>
                 <div className="hub-detail-meta">
                   <span>{a.classes?.name || 'Individual students'}</span>
+                  {new Date(a.publish_at) > new Date()
+                    ? <span className="pill pill-accent"><Icon name="calendar" size={12} /> Publishes {whenShort(a.publish_at)}</span>
+                    : <span>Posted {formatDate(a.publish_at)}</span>}
                   <span>{dueLabel(a.due_at)}</span>
                   <span>{done}/{rows.length} complete</span>
                 </div>
               </div>
+              <ScheduleEditor a={a} onSaved={state.reload} />
               {a.instructions && <div className="card hub-instructions"><p className="hub-pre">{a.instructions}</p></div>}
               {a.kind === 'writing' && a.payload?.prompt && <div className="card hub-instructions"><span className="eyebrow">{a.payload.task}</span><p className="hub-pre">{a.payload.prompt}</p></div>}
               {a.kind === 'test' && <p className="body">Test: <strong>{a.payload?.label}</strong></p>}

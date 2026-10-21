@@ -133,6 +133,7 @@ export async function teacherAssignments(uid) {
 }
 
 export async function createAssignment(fields, studentIds) {
+  // fields may include publish_at (scheduled homework stays hidden from students until then).
   const a = unwrap(await supabase.from('assignments').insert(fields).select().single());
   if (studentIds.length) {
     const { error } = await supabase
@@ -245,4 +246,114 @@ export async function deckProgress(assignmentId) {
     if (r.state !== 0) s.learned += 1;
   });
   return by;
+}
+
+// ── Coins, streaks, summaries ────────────────────────────────────────────────
+export const hubSummary = async (studentId = null) =>
+  unwrap(await supabase.rpc('hub_summary', { p_student: studentId }));
+
+export async function coinHistory(uid, limit = 300) {
+  return unwrap(await supabase
+    .from('coin_transactions')
+    .select('id, label, amount, day, created_at')
+    .eq('student_id', uid)
+    .order('created_at', { ascending: false })
+    .limit(limit)) || [];
+}
+
+export const rewardRules = async () =>
+  unwrap(await supabase.from('reward_rules').select('*').order('sort')) || [];
+
+export const streakMilestones = async () =>
+  unwrap(await supabase.from('streak_milestones').select('*').order('at')) || [];
+
+export const claimQueueCleared = async () => unwrap(await supabase.rpc('claim_queue_cleared'));
+
+export async function teacherSummaries() {
+  const rows = unwrap(await supabase.rpc('teacher_student_summaries')) || [];
+  return new Map(rows.map((r) => [r.student_id, r]));
+}
+
+// ── Notifications ────────────────────────────────────────────────────────────
+export async function notifications(uid) {
+  return unwrap(await supabase
+    .from('notifications')
+    .select('id, kind, title, body, link, visible_at, read_at')
+    .eq('user_id', uid)
+    .order('visible_at', { ascending: false })
+    .limit(30)) || [];
+}
+
+export const markNotificationsRead = async (ids = null) =>
+  unwrap(await supabase.rpc('mark_notifications_read', { ids }));
+
+// ── Scheduling ───────────────────────────────────────────────────────────────
+export const updateAssignment = async (id, fields) =>
+  unwrap(await supabase.from('assignments').update(fields).eq('id', id));
+
+export const assignmentById = async (id) =>
+  unwrap(await supabase.from('assignments').select('*').eq('id', id).maybeSingle());
+
+// ── Attendance ───────────────────────────────────────────────────────────────
+export async function classSessions(classId) {
+  return unwrap(await supabase
+    .from('class_sessions')
+    .select('*, attendance(status)')
+    .eq('class_id', classId)
+    .order('held_at', { ascending: false })) || [];
+}
+
+export const createSession = async (classId, heldAt, topic) =>
+  unwrap(await supabase.from('class_sessions').insert({ class_id: classId, held_at: heldAt, topic: topic || null }).select().single());
+
+export const updateSession = async (id, fields) =>
+  unwrap(await supabase.from('class_sessions').update(fields).eq('id', id));
+
+export const deleteSession = async (id) => unwrap(await supabase.from('class_sessions').delete().eq('id', id));
+
+export async function sessionRegister(sessionId) {
+  const session = unwrap(await supabase.from('class_sessions').select('*, classes(name)').eq('id', sessionId).maybeSingle());
+  if (!session) return null;
+  const [members, marks] = await Promise.all([
+    classWithMembers(session.class_id),
+    supabase.from('attendance').select('student_id, status').eq('session_id', sessionId),
+  ]);
+  return { ...session, members: members?.members || [], marks: new Map((unwrap(marks) || []).map((m) => [m.student_id, m.status])) };
+}
+
+export const markAttendance = async (sessionId, studentId, status) =>
+  unwrap(await supabase.from('attendance').upsert({ session_id: sessionId, student_id: studentId, status, marked_at: new Date().toISOString() }));
+
+export async function studentAttendance(uid, limit = 20) {
+  return unwrap(await supabase
+    .from('attendance')
+    .select('status, class_sessions(held_at, topic, classes(name))')
+    .eq('student_id', uid)
+    .limit(200)) || [];
+}
+
+// ── Word games ───────────────────────────────────────────────────────────────
+// Words the student has met: their flashcards (learned first) plus saved words.
+export async function gameWords(uid) {
+  const [cards, saved] = await Promise.all([
+    supabase.from('srs_cards').select('front, back, state').eq('student_id', uid).limit(2000),
+    supabase.from('user_vocab_words').select('word, definition, example').eq('user_id', uid).limit(1000),
+  ]);
+  const out = new Map();
+  (unwrap(saved) || []).forEach((w) => out.set(w.word.toLowerCase(), { term: w.word, meaning: w.definition, example: w.example || null, learned: true }));
+  (unwrap(cards) || []).forEach((c) => {
+    const key = c.front.toLowerCase();
+    if (!out.has(key)) out.set(key, { term: c.front, meaning: c.back, example: null, learned: c.state !== 0 });
+  });
+  return [...out.values()];
+}
+
+export async function saveGame(game, correct, total, durationMs) {
+  const row = unwrap(await supabase
+    .from('game_results')
+    .insert({ game, correct, total, duration_ms: Math.round(durationMs) })
+    .select('id')
+    .single());
+  const { data } = await supabase.from('coin_transactions').select('amount').eq('reason', 'word_game').eq('ref', row.id).maybeSingle();
+  return data?.amount || 0;
 }
