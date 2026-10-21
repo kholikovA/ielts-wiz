@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { supabase } from '../supabaseClient';
 import { reconcile, flushToCloud } from '../lib/cloudSync';
-import { flush as flushOutbox, holdForUser, HELD_PREFIX } from '../lib/syncQueue';
+import { flush as flushOutbox } from '../lib/syncQueue';
 import { pullVocabList } from '../lib/vocabList';
 import { snapshotAcquisition, readAcquisition, deviceClass } from '../lib/marketing';
 
@@ -86,35 +86,9 @@ export const AuthProvider = ({ children }) => {
     } catch { /* columns not present yet / offline — best-effort */ }
   };
 
-  // The handle_new_user trigger only fires when an auth account is first
-  // created, so an account whose profile row went missing (deleted, or created
-  // before the trigger existed) would never get one back — and everything that
-  // references profiles (class joins, homework, flashcards) fails on a foreign
-  // key. Recreate it from the auth metadata, mirroring handle_new_user.
-  // RLS "Users can insert own profile" allows it; the guard_profile_roles
-  // trigger forces is_admin/is_teacher off.
-  const recreateProfile = async (userId) => {
-    const { data: { user: authUser } } = await supabase.auth.getUser();
-    if (!authUser || authUser.id !== userId) return null;
-    const meta = authUser.user_metadata || {};
-    const { data } = await supabase.from('profiles').upsert({
-      id: userId,
-      email: authUser.email,
-      name: meta.name || meta.full_name || null,
-      avatar_url: meta.avatar_url || meta.picture || null,
-      google_sub: meta.provider_id || meta.sub || null,
-      email_verified: Boolean(meta.email_verified),
-      auth_provider: authUser.app_metadata?.provider || null,
-    }, { onConflict: 'id', ignoreDuplicates: true }).select().maybeSingle();
-    if (data) return data;
-    const { data: existing } = await supabase.from('profiles').select('*').eq('id', userId).maybeSingle();
-    return existing;
-  };
-
   const fetchProfile = async (userId) => {
     try {
-      let { data } = await supabase.from('profiles').select('*').eq('id', userId).maybeSingle();
-      if (!data) data = await recreateProfile(userId);
+      const { data } = await supabase.from('profiles').select('*').eq('id', userId).single();
       setProfile(data);
       if (data) captureSignupContext(userId, data);
     } catch (error) {
@@ -160,6 +134,12 @@ export const AuthProvider = ({ children }) => {
     });
   };
 
+  // Google Identity Services path: the ID token was issued on our own origin,
+  // so the consent screen names IELTS Wiz rather than the Supabase project
+  // domain. onAuthStateChange fires SIGNED_IN exactly as with the redirect.
+  const signInWithGoogleIdToken = (token, nonce) =>
+    supabase.auth.signInWithIdToken({ provider: 'google', token, nonce });
+
   const signOut = async () => {
     // Flush everything to the cloud BEFORE we drop the session and wipe local
     // storage — signing out must never destroy un-synced progress. Drain the
@@ -167,9 +147,6 @@ export const AuthProvider = ({ children }) => {
     // local-only activity.
     try { await flushOutbox(); } catch { /* kept in queue */ }
     try { await flushToCloud(); } catch { /* best-effort; offline = keep local */ }
-    // Anything still unsynced (offline) is parked under this user's id rather
-    // than wiped; it rejoins the outbox when they sign in again.
-    holdForUser(user?.id);
     await supabase.auth.signOut();
     setUser(null);
     setProfile(null);
@@ -180,7 +157,7 @@ export const AuthProvider = ({ children }) => {
       const stale = [];
       for (let i = 0; i < localStorage.length; i++) {
         const k = localStorage.key(i);
-        if (k && k.startsWith('iw.v1.') && k !== 'iw.v1.themeOverride' && !k.startsWith(HELD_PREFIX)) stale.push(k);
+        if (k && k.startsWith('iw.v1.') && k !== 'iw.v1.themeOverride') stale.push(k);
       }
       stale.forEach(k => localStorage.removeItem(k));
     } catch { /* storage disabled — nothing to clear */ }
@@ -189,7 +166,7 @@ export const AuthProvider = ({ children }) => {
   const isAdmin = Boolean(profile?.is_admin);
 
   return (
-    <AuthContext.Provider value={{ user, profile, isAdmin, loading, signInWithGoogle, signOut, updateProfile, fetchProfile }}>
+    <AuthContext.Provider value={{ user, profile, isAdmin, loading, signInWithGoogle, signInWithGoogleIdToken, signOut, updateProfile, fetchProfile }}>
       {children}
     </AuthContext.Provider>
   );

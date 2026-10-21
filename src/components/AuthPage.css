@@ -118,3 +118,16 @@
   line-height: 1.5;
   color: var(--text-tertiary);
 }
+
+/* Google Identity Services button — rendered by Google into this slot. */
+.google-gis-btn {
+  width: 100%;
+  min-height: 44px;
+  margin-top: var(--space-2);
+  display: flex;
+  justify-content: center;
+}
+
+.google-gis-btn[hidden] {
+  display: none;
+}
