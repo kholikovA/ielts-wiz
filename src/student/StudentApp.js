@@ -23,6 +23,7 @@ const StudentPages = () => import('./StudentPages');
 const TeacherPages = () => import('./TeacherPages');
 const DashboardPages = () => import('./Dashboard');
 const AttendancePages = () => import('./Attendance');
+const CoinAdminPages = () => import('./CoinAdmin');
 
 const Dashboard = pages(DashboardPages, 'Dashboard');
 const CoinsPage = pages(DashboardPages, 'CoinsPage');
@@ -41,6 +42,7 @@ const NewAssignment = pages(TeacherPages, 'NewAssignment');
 const AssignmentDetail = pages(TeacherPages, 'AssignmentDetail');
 const AttendanceHome = pages(AttendancePages, 'AttendanceHome');
 const Register = pages(AttendancePages, 'Register');
+const CoinAdmin = pages(CoinAdminPages, 'CoinAdmin');
 
 const STUDY_NAV = [
   { path: '/',           label: 'Dashboard',  icon: 'home' },
@@ -55,6 +57,7 @@ const TEACH_NAV = [
   { path: '/teach/attendance',  label: 'Attendance',  icon: 'clipboard' },
   { path: '/teach/classes',     label: 'Classes',     icon: 'users' },
   { path: '/teach/students',    label: 'Students',    icon: 'graduation' },
+  { path: '/teach/coins',       label: 'Coins',       icon: 'coin' },
 ];
 
 const segments = () => window.location.pathname.split('/').filter(Boolean);
@@ -77,6 +80,7 @@ function route(parts, isTeacher) {
     if (b === 'classes') return c ? <ClassDetail id={c} /> : <Classes />;
     if (b === 'students') return c ? <StudentDetail id={c} /> : <Students />;
     if (b === 'attendance') return c ? <Register id={c} /> : <AttendanceHome />;
+    if (b === 'coins') return <CoinAdmin />;
     if (c === 'new') return <NewAssignment />;
     return c ? <AssignmentDetail id={c} /> : <Assignments />;
   }
@@ -175,7 +179,8 @@ export default function StudentApp() {
   const [parts, setParts] = useState(segments);
   const [navOpen, setNavOpen] = useState(false);
   const [balance, setBalance] = useState(null);
-  const isTeacher = Boolean(profile?.is_teacher || profile?.is_admin);
+  const isAdmin = Boolean(profile?.is_admin);
+  const isTeacher = Boolean(profile?.is_teacher || isAdmin);
 
   useEffect(() => {
     document.title = 'Student Hub · IELTS Wiz';
@@ -205,7 +210,7 @@ export default function StudentApp() {
     api.hubSummary().then((s) => setBalance(s.balance)).catch(() => {});
   }, [user, here]);
 
-  const ctx = useMemo(() => ({ go, user, profile, isTeacher }), [go, user, profile, isTeacher]);
+  const ctx = useMemo(() => ({ go, user, profile, isTeacher, isAdmin }), [go, user, profile, isTeacher, isAdmin]);
 
   if (loading) return <Spinner full />;
 

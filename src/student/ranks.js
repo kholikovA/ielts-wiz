@@ -1,12 +1,13 @@
 // Ranks earned from lifetime coins, and "next bonus" maths for streaks. Pure.
 
+// Scaled to the v2 economy (a near-perfect week is roughly 30 coins).
 export const RANKS = [
   { name: 'Novice', at: 0 },
-  { name: 'Apprentice', at: 300 },
-  { name: 'Adept', at: 1000 },
-  { name: 'Scholar', at: 2500 },
-  { name: 'Magus', at: 6000 },
-  { name: 'Archmage', at: 12000 },
+  { name: 'Apprentice', at: 25 },
+  { name: 'Adept', at: 75 },
+  { name: 'Scholar', at: 175 },
+  { name: 'Magus', at: 350 },
+  { name: 'Archmage', at: 700 },
 ];
 
 // { rank, index, next, progress (0..1), toNext }
