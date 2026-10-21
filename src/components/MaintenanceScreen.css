@@ -102,3 +102,7 @@
   .mnt-card { animation: none; }
   .mnt-dot { animation: none; }
 }
+
+.mnt-legal { display: flex; gap: 16px; justify-content: center; margin-top: 18px; font-size: 13px; }
+.mnt-legal a { color: var(--text-tertiary, #71717a); text-decoration: none; }
+.mnt-legal a:hover { text-decoration: underline; }

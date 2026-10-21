@@ -58,6 +58,10 @@ const Footer = ({ setCurrentPage }) => {
       </div>
       <div className="site-footer-bottom">
         <span>© {new Date().getFullYear()} IELTS Wiz. Built for learners worldwide.</span>
+        <span className="site-footer-legal">
+          <a href="/privacy-policy">Privacy Policy</a>
+          <a href="/terms-of-service">Terms of Service</a>
+        </span>
         <span>Made with care for serious IELTS candidates.</span>
       </div>
     </footer>
