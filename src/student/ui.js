@@ -2,6 +2,7 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 import Icon from '../components/ui/icons';
 import AppLink from '../components/ui/AppLink';
 import { STATUS_LABEL, statusPillClass, KINDS } from './homework';
+import { Character, characterById } from './characters';
 
 // Hub-wide context: navigation + who's signed in.
 export const HubContext = createContext(null);
@@ -66,8 +67,10 @@ export const KindTag = ({ kind }) => (
   <span className="hub-kind"><Icon name={KINDS[kind]?.icon || 'edit'} size={14} /> {KINDS[kind]?.label || kind}</span>
 );
 
+// Picked character first, then the Google photo, then an initial.
 export const Avatar = ({ person, size = 32 }) => {
   const initial = (person?.name || person?.email || '?').charAt(0).toUpperCase();
+  if (characterById(person?.avatar_character)) return <Character id={person.avatar_character} size={size} className="hub-avatar" />;
   return person?.avatar_url
     ? <img className="hub-avatar" src={person.avatar_url} alt="" width={size} height={size} referrerPolicy="no-referrer" />
     : <span className="hub-avatar hub-avatar--initial" style={{ width: size, height: size }}>{initial}</span>;
