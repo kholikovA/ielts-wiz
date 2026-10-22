@@ -10,7 +10,7 @@ const unwrap = ({ data, error }) => {
   return data;
 };
 
-const PROFILE_COLS = 'id, name, email, target_score, avatar_url, last_sign_in_at';
+const PROFILE_COLS = 'id, name, email, target_score, avatar_url, avatar_character, last_sign_in_at';
 
 // ── Student view (teacher preview) ───────────────────────────────────────────
 // A teacher can view the hub as one of their students. Reads then run against

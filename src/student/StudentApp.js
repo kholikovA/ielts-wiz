@@ -45,6 +45,7 @@ const AssignmentDetail = pages(TeacherPages, 'AssignmentDetail');
 const AttendanceHome = pages(AttendancePages, 'AttendanceHome');
 const Register = pages(AttendancePages, 'Register');
 const CoinAdmin = pages(CoinAdminPages, 'CoinAdmin');
+const Profile = lazy(() => import('./Profile'));
 
 const STUDY_NAV = [
   { path: '/',           label: 'Dashboard',  icon: 'home' },
@@ -71,6 +72,7 @@ const Spinner = ({ full }) => (
 function teacherRoute(parts) {
   const [a, b, c] = parts;
   if (a === 'join' && b) return <JoinPage code={b} />;
+  if (a === 'profile') return <Profile />;
   if (a !== 'teach') return <Assignments />;
   if (b === 'classes') return c ? <ClassDetail id={c} /> : <Classes />;
   if (b === 'students') return c ? <StudentDetail id={c} /> : <Students />;
@@ -83,6 +85,7 @@ function teacherRoute(parts) {
 function studentRoute(parts, exitStudentView) {
   const [a, b] = parts;
   if (!a || a === 'dashboard') return <Dashboard />;
+  if (a === 'profile') return <Profile />;
   if (a === 'coins') return <CoinsPage />;
   if (a === 'join' && b) return <JoinPage code={b} />;
   if (a === 'homework') return b ? <HomeworkDetail id={b} /> : <HomeworkList />;
@@ -216,6 +219,9 @@ function UserMenu({ user, profile, isDark, toggleTheme, signOut, go, canTeach, v
       )}
       {pop.open && !picking && (
         <div className="hub-pop hub-pop--up" role="menu">
+          <button type="button" role="menuitem" className="hub-menu-item" onClick={() => { pop.setOpen(false); go('/profile'); }}>
+            <Icon name="user" size={16} /> Profile
+          </button>
           {canTeach && (viewAs ? (
             <button type="button" role="menuitem" className="hub-menu-item" onClick={() => { pop.setOpen(false); onViewAs(null); }}>
               <Icon name="graduation" size={16} /> Back to teacher view
@@ -289,14 +295,17 @@ export default function StudentApp() {
 
   // Teacher view has no student pages: send those paths to Teaching.
   useEffect(() => {
-    if (isTeacher && parts[0] !== 'teach' && parts[0] !== 'join' && parts[0] !== 'reading-test' && parts[0] !== 'listening-test') {
+    if (isTeacher && !['teach', 'join', 'profile', 'reading-test', 'listening-test'].includes(parts[0])) {
       window.history.replaceState({}, '', '/teach/assignments');
       setParts(segments());
     }
   }, [isTeacher, parts]);
 
   const viewAsStudent = useCallback((s) => {
-    const next = s ? { id: s.id, name: s.name || null, email: s.email || null, avatar_url: s.avatar_url || null, target_score: s.target_score || null } : null;
+    const next = s ? {
+      id: s.id, name: s.name || null, email: s.email || null, avatar_url: s.avatar_url || null,
+      avatar_character: s.avatar_character || null, target_score: s.target_score || null,
+    } : null;
     try {
       if (next) localStorage.setItem('iw.v1.hub.viewAs', JSON.stringify(next));
       else localStorage.removeItem('iw.v1.hub.viewAs');
