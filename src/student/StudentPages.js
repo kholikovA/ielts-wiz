@@ -11,6 +11,7 @@ import FlashcardStudy from './FlashcardStudy';
 import SrsSession from './SrsSession';
 import { DictationWork } from './dictation/Dictation';
 import { ProofUploader } from './TaskProof';
+import SentenceWork from './vocab/SentenceWork';
 import { MarkingView } from './writing/MarkedEssay';
 import { endOfStudyDay } from './fsrs';
 
@@ -337,6 +338,7 @@ export function HomeworkDetail({ id }) {
             {a.kind === 'custom' && <CustomWork a={a} onSaved={state.reload} />}
             {a.kind === 'flashcards' && <FlashcardWork a={a} />}
             {a.kind === 'dictation' && <DictationWork a={a} onSaved={state.reload} />}
+            {a.kind === 'sentences' && <SentenceWork a={a} onSaved={state.reload} />}
             <Feedback submission={a.submission} />
           </>
         ) : <EmptyPanel icon="xCircle" title="Not found" lead="This assignment doesn't exist or isn't assigned to you." />}

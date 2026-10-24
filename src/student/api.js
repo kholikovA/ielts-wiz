@@ -300,6 +300,34 @@ async function callEdge(name, body) {
   return json;
 }
 
+// ── Vocabulary: AI study material + "use it in a sentence" ───────────────────
+// Claude drafts examples, gapped sentences, word forms and collocations.
+export async function enrichCards(items, onProgress) {
+  const out = [];
+  for (let i = 0; i < items.length; i += 25) {
+    const { items: part } = await callEdge('vocab-enrich', { items: items.slice(i, i + 25) }); // eslint-disable-line no-await-in-loop
+    out.push(...part);
+    onProgress?.(Math.min(1, (i + 25) / items.length));
+  }
+  return out;
+}
+
+export const enrichDeck = async (assignmentId, cards) =>
+  unwrap(await supabase.rpc('enrich_deck', { p_assignment: assignmentId, p_cards: cards }));
+
+export const checkSentence = (assignmentId, wordIndex, sentence) =>
+  callEdge('sentence-check', { assignment_id: assignmentId, word_index: wordIndex, sentence });
+
+// Every AI check for an assignment (optionally one student), oldest first.
+export async function usageChecks(assignmentId, studentId = null) {
+  let q = supabase.from('usage_checks')
+    .select('student_id, word_index, word, sentence, verdict, corrected, tip, created_at')
+    .eq('assignment_id', assignmentId)
+    .order('created_at');
+  if (studentId) q = q.eq('student_id', studentId);
+  return unwrap(await q) || [];
+}
+
 // Claude's draft marking of a writing submission (teacher only; cached unless `force`).
 export const aiMarkWriting = (submissionId, force = false) => callEdge('writing-mark', { submission_id: submissionId, force });
 
@@ -308,7 +336,7 @@ export const setTeacher = async (target, on) =>
   unwrap(await supabase.rpc('set_teacher', { target, on_off: on }));
 
 // ── Spaced-repetition flashcards ─────────────────────────────────────────────
-const CARD_COLS = 'id, assignment_id, position, front, back, assigned_at, state, step, due, stability, difficulty, reps, lapses, last_review';
+const CARD_COLS = 'id, assignment_id, position, front, back, extra, assigned_at, state, step, due, stability, difficulty, reps, lapses, last_review';
 
 // Cards to study today: every new card plus anything due before `until`.
 export async function srsDueCards(uid, until, deck) {

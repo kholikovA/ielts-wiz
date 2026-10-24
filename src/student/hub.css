@@ -1101,3 +1101,76 @@ video.proof-thumb { object-fit: cover; background: #000; }
 .task-redo { display: flex; gap: 10px; padding: 12px 14px; margin-bottom: 14px; border-radius: var(--h-radius-sm); background: var(--h-warn-soft); color: var(--h-warn); }
 .task-redo strong { color: var(--h-text); font-weight: 600; }
 .task-redo p { margin: 4px 0 0; color: var(--h-text-2); }
+
+/* ── Productive review (recall.js) ──────────────────────────────────────── */
+.rc-card { cursor: default; width: 100%; }
+.rc-meaning { font-size: 16px; color: var(--h-text-2); max-width: 46ch; }
+.rc-prompt { font-size: 17px; font-weight: 500; max-width: 46ch; line-height: 1.45; }
+.rc-sentence { font-size: 16px; line-height: 1.7; color: var(--h-text-2); max-width: 52ch; margin: 0; }
+.rc-blank { display: inline-block; min-width: 72px; border-bottom: 2px solid var(--h-accent); margin: 0 3px; transform: translateY(-3px); }
+.rc-fill { background: var(--h-accent-soft); color: var(--h-accent-text); border-radius: 4px; padding: 0 4px; font-weight: 600; }
+.hub .rc-input { max-width: 320px; text-align: center; font-size: 18px; font-weight: 500; height: 46px; }
+.hub .rc-input.is-correct, .hub .rc-input.is-correct:focus { border-color: var(--h-success); box-shadow: 0 0 0 3px var(--h-success-soft); }
+.hub .rc-input.is-almost, .hub .rc-input.is-almost:focus { border-color: var(--h-warn); box-shadow: 0 0 0 3px var(--h-warn-soft); }
+.hub .rc-input.is-wrong, .hub .rc-input.is-wrong:focus { border-color: var(--h-danger); box-shadow: 0 0 0 3px var(--h-danger-soft); }
+.rc-actions { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; gap: 8px; }
+.rc-actions kbd, .rc-next { font: 500 11px var(--h-mono); opacity: 0.7; margin-left: 6px; }
+.rc-result { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 6px 8px; font-size: 14px; }
+.rc-result--correct { color: var(--h-success); }
+.rc-result--almost { color: var(--h-warn); }
+.rc-result--wrong { color: var(--h-danger); }
+.rc-answer { color: var(--h-text); font-weight: 600; font-size: 16px; }
+.rc-result small { color: var(--h-text-3); }
+.rc-reveal { font-size: 14px; color: var(--h-text-2); display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.rc-reveal strong { color: var(--h-text); }
+
+/* ── Card enricher (teacher) ────────────────────────────────────────────── */
+.ce { margin-top: 12px; border: 1px solid var(--h-border); border-radius: var(--h-radius); overflow: hidden; }
+.ce-bar { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; padding: 12px 14px; background: var(--h-surface-2); }
+.ce-bar > span:first-child { display: flex; flex-direction: column; font-size: 14px; }
+.ce-bar small { color: var(--h-text-3); font-size: 12.5px; }
+.ce-list { list-style: none; margin: 0; padding: 0; max-height: 460px; overflow: auto; }
+.ce-row { padding: 10px 14px; border-top: 1px solid var(--h-border); display: flex; flex-direction: column; gap: 6px; }
+.ce-head { display: flex; align-items: baseline; gap: 10px; }
+.ce-head strong { font-size: 14.5px; }
+.ce-head span { flex: 1; color: var(--h-text-2); font-size: 13px; min-width: 0; }
+.ce-ex { margin: 0; font-size: 13.5px; color: var(--h-text-2); line-height: 1.55; }
+.ce-edit { display: flex; flex-direction: column; gap: 4px; }
+.ce-edit .form-label { margin-top: 4px; font-size: 12px; }
+.ce-chips { display: flex; flex-wrap: wrap; gap: 6px; }
+.ce-chip { display: inline-flex; align-items: center; gap: 5px; font-size: 12px; padding: 2px 4px 2px 8px; border-radius: 999px; background: var(--h-surface-2); border: 1px solid var(--h-border); }
+.ce-chip small { color: var(--h-text-3); font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.03em; }
+.ce-chip--coll { background: var(--h-accent-soft); border-color: transparent; color: var(--h-accent-text); }
+.ce-chip button { border: 0; background: none; color: inherit; opacity: 0.55; cursor: pointer; display: grid; place-items: center; padding: 2px; border-radius: 50%; }
+.ce-chip button:hover { opacity: 1; background: rgba(0, 0, 0, 0.06); }
+.ce-summary { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 12px 14px; margin-bottom: 16px; font-size: 14px; color: var(--h-text-2); }
+.ce-summary span { flex: 1; min-width: 200px; }
+
+/* ── Use it in a sentence ───────────────────────────────────────────────── */
+.uw-intro { display: flex; gap: 12px; align-items: flex-start; padding: 14px 16px; margin-bottom: 12px; color: var(--h-text-2); font-size: 14px; }
+.uw-intro p { margin: 0; line-height: 1.55; }
+.uw-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.uw-row { padding: 14px 16px; display: flex; flex-direction: column; gap: 10px; border-left: 3px solid transparent; }
+.uw-row.is-correct { border-left-color: var(--h-success); }
+.uw-row.is-almost { border-left-color: var(--h-warn); }
+.uw-row.is-wrong { border-left-color: var(--h-danger); }
+.uw-word { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.uw-word strong { font-size: 16px; }
+.uw-word small { color: var(--h-text-3); font-size: 12px; }
+.uw-n { color: var(--h-text-3); font-size: 12px; font-variant-numeric: tabular-nums; width: 16px; }
+.uw-meaning { color: var(--h-text-2); font-size: 13.5px; }
+.hub .uw-input { min-height: 0; font-size: 15px; }
+.uw-actions { display: flex; align-items: center; justify-content: flex-end; gap: 10px; }
+.uw-actions small { color: var(--h-text-3); font-size: 12px; }
+.uw-result { display: flex; flex-direction: column; gap: 6px; padding: 10px 12px; border-radius: var(--h-radius-sm); background: var(--h-surface-2); }
+.uw-verdict { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 600; }
+.uw-result--correct .uw-verdict { color: var(--h-success); }
+.uw-result--almost .uw-verdict { color: var(--h-warn); }
+.uw-result--wrong .uw-verdict { color: var(--h-danger); }
+.uw-changes { margin: 0; font-size: 14.5px; line-height: 1.7; }
+.uw-changes del { color: var(--h-danger); background: var(--h-danger-soft); border-radius: 3px; padding: 0 2px; }
+.uw-changes ins { color: var(--h-success); background: var(--h-success-soft); text-decoration: none; border-radius: 3px; padding: 0 2px; font-weight: 500; }
+.uw-tip { margin: 0; font-size: 13.5px; color: var(--h-text-2); }
+.uw-sentence { margin: 0; font-size: 14.5px; }
+.uw-foot { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 16px; margin-top: 12px; font-size: 14px; }
+.uw-list--review .uw-row { border: 1px solid var(--h-border); border-left-width: 3px; border-radius: var(--h-radius); }
