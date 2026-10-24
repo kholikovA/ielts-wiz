@@ -13,6 +13,8 @@ import { ResultsSummary, RecentAttempts, SrsStatsBlock, AttendanceHistory } from
 import { GiveCoins } from './CoinAdmin';
 import { confirmDialog, promptDialog } from './dialog';
 import { ProofFiles } from './TaskProof';
+import CardEnricher, { withExtras, extraKey } from './vocab/CardEnricher';
+import { SentenceResults, usedCount } from './vocab/SentenceWork';
 import { DictationResult } from './dictation/Dictation';
 import { checkDictation } from './dictation/diff';
 
@@ -338,6 +340,8 @@ export function NewAssignment() {
   const [link, setLink] = useState('');
   const [uploads, setUploads] = useState(false);
   const [cardsText, setCardsText] = useState('');
+  const [extras, setExtras] = useState({}); // AI study material per card front
+  const [wordsText, setWordsText] = useState('');
   const [dict, setDict] = useState(null); // { payload, key } from DictationSetup
   const [dictInitial, setDictInitial] = useState(null);
   const [target, setTarget] = useState('class');
@@ -365,7 +369,11 @@ export function NewAssignment() {
     if (a.kind === 'test') setTestKeyVal(`${pl.kind}:${pl.test_id}`);
     if (a.kind === 'writing') { setPrompt(pl.prompt || ''); setTask(pl.task || 'Task 2'); setMinWords(pl.min_words || 250); setPromptId(pl.prompt_id || ''); }
     if (a.kind === 'custom') { setLink(pl.link || ''); setUploads(Boolean(pl.uploads)); }
-    if (a.kind === 'flashcards') setCardsText('');
+    if (a.kind === 'flashcards') {
+      setCardsText((pl.cards || []).map((c) => `${c.f} - ${c.b}`).join('\n'));
+      setExtras(Object.fromEntries((pl.cards || []).filter((c) => c.ex || c.gap).map((c) => [extraKey(c.f), c])));
+    }
+    if (a.kind === 'sentences') setWordsText((pl.words || []).map((w) => (w.m ? `${w.w} - ${w.m}` : w.w)).join('\n'));
     if (a.kind === 'dictation') api.dictationKey(a.id).then((key) => key && setDictInitial({ payload: pl, key })).catch(() => {});
     if (a.class_id) { setTarget('class'); setClassId(a.class_id); }
     else { setTarget('students'); setPicked(new Set(a.recipients.map((r) => r.id))); }
@@ -377,6 +385,15 @@ export function NewAssignment() {
   const [error, setError] = useState(null);
 
   const cards = useMemo(() => parseCards(cardsText), [cardsText]);
+  // "word" or "word - meaning", one per line (max 20).
+  const words = useMemo(() => wordsText.split('\n').map((l) => l.trim()).filter(Boolean).slice(0, 20).map((l) => {
+    const [p] = parseCards(l);
+    return p ? { w: p.f, m: p.b } : { w: l };
+  }), [wordsText]);
+  const deckOptions = useAsync(
+    () => (kind === 'sentences' ? api.teacherAssignments(user.id).then((l) => l.filter((x) => x.kind === 'flashcards')) : Promise.resolve([])),
+    [kind, user.id],
+  );
   const test = ALL_TESTS.find((t) => testKey(t) === testKeyVal);
 
   const pickTest = (key) => {
@@ -401,7 +418,8 @@ export function NewAssignment() {
       const p = WRITING_PROMPTS.find((x) => x.id === promptId);
       return prompt.trim() ? { task, prompt: prompt.trim(), min_words: Number(minWords) || 0, prompt_id: promptId || null, visual_url: p?.visualUrl || null } : null;
     }
-    if (kind === 'flashcards') return cards.length ? { cards } : null;
+    if (kind === 'flashcards') return cards.length ? { cards: cards.map((c) => withExtras(c, extras)) } : null;
+    if (kind === 'sentences') return words.length ? { words } : null;
     if (kind === 'dictation') return dict ? dict.payload : null;
     return { link: link.trim() || null, uploads };
   };
@@ -416,7 +434,7 @@ export function NewAssignment() {
     setError(null);
     const payload = buildPayload();
     if (!payload) {
-      setError({ message: { test: 'Pick a test.', writing: 'Add a writing prompt.', dictation: 'Prepare the audio first.' }[kind] || 'Add at least one card (front - back).' });
+      setError({ message: { test: 'Pick a test.', writing: 'Add a writing prompt.', dictation: 'Prepare the audio first.', sentences: 'Add at least one word.' }[kind] || 'Add at least one card (front - back).' });
       return;
     }
     if (target === 'class' && !classId) { setError({ message: 'Pick a class.' }); return; }
@@ -438,7 +456,7 @@ export function NewAssignment() {
   return (
     <>
       <BackLink to="/teach/assignments" label="Assignments" />
-      <PageTitle title={fromId ? 'Duplicate assignment' : 'New assignment'} lead={fromId ? 'Copied from an earlier assignment and moved one day later. Flashcard words need to be entered again.' : null} />
+      <PageTitle title={fromId ? 'Duplicate assignment' : 'New assignment'} lead={fromId ? 'Copied from an earlier assignment and moved one day later.' : null} />
       <Loaded state={roster}>
         {(data) => data.classes.length === 0 ? (
           <EmptyPanel icon="users" title="Create a class first" lead="Homework goes to students in your classes.">
@@ -529,6 +547,26 @@ export function NewAssignment() {
                 <textarea id="na-cards" className="form-textarea" rows={8} value={cardsText} onChange={(e) => setCardsText(e.target.value)}
                   placeholder={'mitigate - to make something less severe\nubiquitous - found everywhere'} />
                 <p className="form-help">{cards.length} card{cards.length === 1 ? '' : 's'} detected. Pasting two columns from a spreadsheet works too. Words go to the front of each student's daily queue, then repeat on a spaced-repetition schedule.</p>
+                <CardEnricher cards={cards} extras={extras} onChange={setExtras} />
+              </div>
+            )}
+
+            {kind === 'sentences' && (
+              <div className="form-field">
+                <label className="form-label" htmlFor="na-words">Target words — one per line: <code>word</code> or <code>word - meaning</code></label>
+                <textarea id="na-words" className="form-textarea" rows={8} value={wordsText} onChange={(e) => setWordsText(e.target.value)}
+                  placeholder={'mitigate - make something less severe\npose a threat\nheavily reliant on'} />
+                {deckOptions.data?.length > 0 && (
+                  <select className="form-select" style={{ marginTop: 8 }} value="" aria-label="Use words from a flashcard assignment"
+                    onChange={(e) => {
+                      const d = deckOptions.data.find((x) => x.id === e.target.value);
+                      if (d) setWordsText((d.payload?.cards || []).slice(0, 20).map((c) => `${c.f} - ${c.b}`).join('\n'));
+                    }}>
+                    <option value="">Use the words from a flashcard assignment…</option>
+                    {deckOptions.data.map((d) => <option key={d.id} value={d.id}>{d.title}</option>)}
+                  </select>
+                )}
+                <p className="form-help">{words.length} word{words.length === 1 ? '' : 's'} (max 20). Students write one sentence with each and get instant AI feedback; a word counts as used once a sentence is correct.</p>
               </div>
             )}
 
@@ -639,6 +677,7 @@ function ReviewPanel({ a, sub, onDone }) {
           {(a.payload?.uploads || sub.data?.files?.length > 0) && <ProofFiles files={sub.data?.files || []} />}
         </>
       )}
+      {a.kind === 'sentences' && <SentenceResults words={a.payload?.words || []} checks={(a.checks || []).filter((c) => c.student_id === sub.student_id)} />}
       {sub.note && <p className="hub-pre"><strong>Student note:</strong> {sub.note}</p>}
       {a.kind === 'writing' && (
         <div className="hub-form-row">
@@ -714,12 +753,51 @@ function ScheduleEditor({ a, onSaved }) {
   );
 }
 
+// Add (or refresh) AI study material on an existing deck; updates every student's cards.
+function DeckEnrich({ a, onSaved }) {
+  const cards = useMemo(() => a.payload?.cards || [], [a.payload]);
+  const initial = useMemo(() => Object.fromEntries(cards.filter((c) => c.ex || c.gap || c.forms || c.coll).map((c) => [extraKey(c.f), c])), [cards]);
+  const [open, setOpen] = useState(false);
+  const [extras, setExtras] = useState(initial);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState(null);
+  const ready = cards.filter((c) => initial[extraKey(c.f)]).length;
+  if (!open) {
+    return (
+      <div className="card ce-summary">
+        <Icon name="layers" size={16} />
+        <span>{cards.length} cards · {ready ? `${ready} with examples, forms and collocations` : 'no examples yet, so students only flip and type the word'}</span>
+        <button type="button" className="btn btn-secondary btn-sm" onClick={() => setOpen(true)}><Icon name="sparkle" size={14} /> {ready ? 'Edit study material' : 'Add examples with AI'}</button>
+      </div>
+    );
+  }
+  const save = async () => {
+    setBusy(true); setError(null);
+    try {
+      await api.enrichDeck(a.id, cards.map((c) => withExtras({ f: c.f, b: c.b }, extras)));
+      setOpen(false); onSaved();
+    } catch (err) { setError(err); }
+    setBusy(false);
+  };
+  return (
+    <div className="card" style={{ marginBottom: 16 }}>
+      <CardEnricher cards={cards.map((c) => ({ f: c.f, b: c.b }))} extras={extras} onChange={setExtras} />
+      {error && <ErrorNote error={error} />}
+      <div className="hub-actions">
+        <button type="button" className="btn btn-primary btn-sm" disabled={busy} onClick={save}>{busy ? 'Saving…' : 'Save for all students'}</button>
+        <button type="button" className="btn btn-ghost btn-sm" onClick={() => { setExtras(initial); setOpen(false); }}>Cancel</button>
+      </div>
+    </div>
+  );
+}
+
 export function AssignmentDetail({ id }) {
   const { go } = useHub();
   const state = useAsync(async () => {
     const a = await api.assignmentDetail(id);
     if (a && a.kind === 'flashcards') a.deck = await api.deckProgress(id);
     if (a && a.kind === 'dictation') a.key = await api.dictationKey(id).catch(() => null);
+    if (a && a.kind === 'sentences') a.checks = await api.usageChecks(id).catch(() => []);
     return a;
   }, [id]);
   const [open, setOpen] = useState(null);
@@ -759,6 +837,7 @@ export function AssignmentDetail({ id }) {
               {a.instructions && <div className="card hub-instructions"><p className="hub-pre">{a.instructions}</p></div>}
               {a.kind === 'writing' && a.payload?.prompt && <div className="card hub-instructions"><span className="eyebrow">{a.payload.task}</span><p className="hub-pre">{a.payload.prompt}</p></div>}
               {a.kind === 'test' && <p className="body">Test: <strong>{a.payload?.label}</strong></p>}
+              {a.kind === 'flashcards' && <DeckEnrich a={a} onSaved={state.reload} />}
               {a.kind === 'dictation' && (
                 <p className="body">
                   {a.payload?.cues?.length || 0} sentences
@@ -772,7 +851,7 @@ export function AssignmentDetail({ id }) {
                   <div className="hub-list">
                     {rows.map(({ student, sub, attempts, status }) => {
                       const best = attempts.reduce((m, r) => Math.max(m, pct(r.correct, r.total)), 0);
-                      const canReview = sub && ['writing', 'custom', 'dictation'].includes(a.kind) && sub.status === 'submitted';
+                      const canReview = sub && ['writing', 'custom', 'dictation', 'sentences'].includes(a.kind) && sub.status === 'submitted';
                       const isOpen = open === student.id;
                       return (
                         <div key={student.id} className="card hub-row hub-row--stack">
@@ -780,6 +859,9 @@ export function AssignmentDetail({ id }) {
                             <HubLink to={`/teach/students/${student.id}`} className="hub-row-main hub-plain"><PersonName person={student} /></HubLink>
                             {a.kind === 'test' && attempts.length > 0 && <small>Best {best}% · {attempts.length} attempt{attempts.length > 1 ? 's' : ''}</small>}
                             {a.kind === 'flashcards' && a.deck?.[student.id] && <small>{a.deck[student.id].learned}/{a.deck[student.id].total} learned</small>}
+                            {a.kind === 'sentences' && a.checks && (a.checks.some((c) => c.student_id === student.id)) && (
+                              <small>{usedCount(a.checks.filter((c) => c.student_id === student.id))}/{a.payload?.words?.length || 0} used</small>
+                            )}
                             {a.kind === 'custom' && sub?.data?.files?.length > 0 && <small>{sub.data.files.length} file{sub.data.files.length === 1 ? '' : 's'}</small>}
                             {a.kind === 'dictation' && sub?.status === 'submitted' && a.key && <small>{dictationAccuracy(sub, a.key)}% accurate</small>}
                             {sub?.band != null && <span className="pill">Band {Number(sub.band).toFixed(1)}</span>}

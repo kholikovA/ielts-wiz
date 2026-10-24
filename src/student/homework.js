@@ -6,6 +6,7 @@ export const KINDS = {
   custom:     { label: 'Task',          icon: 'checkCircle' },
   flashcards: { label: 'Flashcards',    icon: 'layers' },
   dictation:  { label: 'Dictation',     icon: 'headphones' },
+  sentences:  { label: 'Use it',        icon: 'type' },
 };
 
 export const RESULT_KIND_LABELS = {
