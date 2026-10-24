@@ -10,8 +10,16 @@ import { confirmDialog } from '../dialog';
 // per word; a word counts as used once a check says "correct".
 
 export const MAX_CHECKS = 3;
+// Same numbers as the sentence-check edge function (checked there too).
+export const LEVELS = {
+  junior: { label: 'Junior', min: 8, ask: 'at least 8 words, with a reason, result or example' },
+  senior: { label: 'Senior', min: 12, ask: 'at least 12 words, an academic tone and a complex structure (e.g. a which / although / if clause)' },
+};
+export const levelOf = (a) => (a.payload?.level === 'senior' ? 'senior' : 'junior');
+const countWords = (s) => s.trim().split(/\s+/).filter(Boolean).length;
 const VERDICT = {
   correct: { label: 'Correct', icon: 'checkCircle' },
+  simple: { label: 'Too simple', icon: 'trending' },
   almost: { label: 'Almost', icon: 'edit' },
   wrong: { label: 'Not yet', icon: 'xCircle' },
 };
@@ -47,30 +55,34 @@ export function Changes({ sentence, corrected }) {
 
 export function CheckResult({ check }) {
   if (!check) return null;
-  const v = VERDICT[check.verdict];
+  const v = VERDICT[check.verdict] || VERDICT.almost;
   return (
     <div className={`uw-result uw-result--${check.verdict}`}>
       <span className="uw-verdict"><Icon name={v.icon} size={14} /> {v.label}</span>
-      <Changes sentence={check.sentence} corrected={check.corrected} />
+      {check.verdict === 'simple'
+        ? check.corrected && <p className="uw-upgrade"><small>Try something like</small>{check.corrected}</p>
+        : <Changes sentence={check.sentence} corrected={check.corrected} />}
       {check.tip && <p className="uw-tip">{check.tip}</p>}
     </div>
   );
 }
 
-function WordRow({ a, i, word, check, count, locked, onChecked }) {
+function WordRow({ a, i, word, check, count, locked, onChecked, min }) {
   const [text, setText] = useState(check?.sentence || '');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
   const left = MAX_CHECKS - (count || 0);
+  const n = countWords(text);
   const run = async () => {
     setBusy(true); setError(null);
     try {
-      await api.checkSentence(a.id, i, text);
-      onChecked();
+      const sentence = text.replace(/\s+/g, ' ').trim();
+      const r = await api.checkSentence(a.id, i, sentence);
+      if (!r.cached) onChecked({ word_index: i, word: word.w, sentence, verdict: r.verdict, corrected: r.corrected, tip: r.tip, created_at: new Date().toISOString() });
     } catch (err) { setError(err); }
     setBusy(false);
   };
-  const changed = text.trim() && text.trim() !== (check?.sentence || '');
+  const changed = text.trim() && text.replace(/\s+/g, ' ').trim() !== (check?.sentence || '');
   return (
     <li className={`card uw-row${check ? ` is-${check.verdict}` : ''}`}>
       <div className="uw-word">
@@ -84,8 +96,10 @@ function WordRow({ a, i, word, check, count, locked, onChecked }) {
       <CheckResult check={check} />
       {!locked && (
         <div className="uw-actions">
-          <small>{left > 0 ? `${left} check${left === 1 ? '' : 's'} left` : 'No checks left'}</small>
-          <button type="button" className="btn btn-secondary btn-sm" disabled={busy || left <= 0 || !changed} onClick={run}>
+          <small className={n && n < min ? 'hub-warn' : ''}>
+            {n < min ? `${n}/${min} words` : left > 0 ? `${left} check${left === 1 ? '' : 's'} left` : 'No checks left'}
+          </small>
+          <button type="button" className="btn btn-secondary btn-sm" disabled={busy || left <= 0 || !changed || n < min} onClick={run}>
             {busy ? <><span className="dx-spin" /> Checking…</> : <><Icon name="sparkle" size={14} /> {check ? 'Check again' : 'Check'}</>}
           </button>
         </div>
@@ -101,11 +115,13 @@ export default function SentenceWork({ a, onSaved }) {
   const sub = a.submission;
   const locked = sub?.status === 'submitted';
   const checks = useAsync(() => api.usageChecks(a.id, user.id), [a.id, user.id]);
+  const [added, setAdded] = useState([]); // results returned since loading (no refetch)
+  const level = levelOf(a);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
 
   if (checks.loading && !checks.data) return <Spinner />;
-  const list = checks.data || [];
+  const list = [...(checks.data || []), ...added];
   const { latest, count } = summariseChecks(list);
   const checkedAll = words.every((_, i) => latest[i]);
   const used = usedCount(list);
@@ -131,12 +147,17 @@ export default function SentenceWork({ a, onSaved }) {
     <>
       <div className="card uw-intro">
         <Icon name="type" size={18} />
-        <p>Write one sentence of your own with each word. Use any form of it (e.g. <em>economy → economic</em>). Each sentence gets instant feedback; you can improve it and check up to {MAX_CHECKS} times.</p>
+        <p>
+          Write one sentence of your own with each word, using any form of it (e.g. <em>economy → economic</em>).
+          {' '}<strong>{LEVELS[level].label} level:</strong> {LEVELS[level].ask}.
+          {' '}Each sentence gets instant feedback; you can improve it and check up to {MAX_CHECKS} times.
+        </p>
       </div>
       {preview && <p className="form-help">Preview: checking is only available to the student.</p>}
       <ol className="uw-list">
         {words.map((w, i) => (
-          <WordRow key={i} a={a} i={i} word={w} check={latest[i]} count={count[i]} locked={locked || preview} onChecked={checks.reload} />
+          <WordRow key={i} a={a} i={i} word={w} check={latest[i]} count={count[i]} locked={locked || preview} min={LEVELS[level].min}
+            onChecked={(row) => setAdded((x) => [...x, row])} />
         ))}
       </ol>
       <div className="card uw-foot">
