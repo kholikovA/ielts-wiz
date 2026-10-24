@@ -86,6 +86,36 @@ export async function saveSubmissionData(assignmentId, uid, data) {
   return unwrap(await supabase.from('submissions').update({ data }).eq('assignment_id', assignmentId).eq('student_id', uid));
 }
 
+// ── Task proof uploads (private bucket homework-uploads) ─────────────────────
+const UPLOAD_BUCKET = 'homework-uploads';
+const safeName = (n) => n.normalize('NFKD').replace(/[^\w.-]+/g, '_').replace(/_+/g, '_').slice(-80) || 'file';
+
+export async function uploadHomeworkFile(assignmentId, uid, file) {
+  refuseInPreview();
+  const id = crypto.randomUUID ? crypto.randomUUID() : `${Date.now()}${Math.random().toString(36).slice(2)}`;
+  const path = `${assignmentId}/${uid}/${id}-${safeName(file.name)}`;
+  const { error } = await supabase.storage.from(UPLOAD_BUCKET).upload(path, file, { contentType: file.type || undefined });
+  if (error) throw new Error(error.message || 'Upload failed.');
+  return { path, name: file.name, type: file.type || '', size: file.size };
+}
+
+export async function removeHomeworkFile(path) {
+  refuseInPreview();
+  const { error } = await supabase.storage.from(UPLOAD_BUCKET).remove([path]);
+  if (error) throw new Error(error.message || "Couldn't remove the file.");
+}
+
+// Short-lived links to view uploaded files: { [path]: url }.
+export async function homeworkFileUrls(paths) {
+  if (!paths.length) return {};
+  const { data, error } = await supabase.storage.from(UPLOAD_BUCKET).createSignedUrls(paths, 3600);
+  if (error) throw error;
+  return Object.fromEntries((data || []).filter((d) => d.signedUrl).map((d) => [d.path, d.signedUrl]));
+}
+
+export const returnSubmission = async (id, feedback) =>
+  unwrap(await supabase.rpc('return_submission', { sub: id, p_feedback: feedback }));
+
 // ── Dictation ────────────────────────────────────────────────────────────────
 // The transcript: teachers always; students only after submitting (RLS).
 export const dictationKey = async (assignmentId) =>

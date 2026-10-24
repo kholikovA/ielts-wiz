@@ -11,6 +11,8 @@ import {
 } from './ui';
 import { ResultsSummary, RecentAttempts, SrsStatsBlock, AttendanceHistory } from './StudentPages';
 import { GiveCoins } from './CoinAdmin';
+import { confirmDialog, promptDialog } from './dialog';
+import { ProofFiles } from './TaskProof';
 import { DictationResult } from './dictation/Dictation';
 import { checkDictation } from './dictation/diff';
 
@@ -81,12 +83,16 @@ export function ClassDetail({ id }) {
             <div className="hub-detail-head">
               <h1 className="h2">{c.name}</h1>
               <div className="hub-actions">
-                <button type="button" className="btn btn-ghost btn-sm" onClick={() => {
-                  const n = window.prompt('Rename class', c.name);
-                  if (n && n.trim()) act(() => api.renameClass(c.id, n.trim()));
+                <button type="button" className="btn btn-ghost btn-sm" onClick={async () => {
+                  const n = await promptDialog({ title: 'Rename class', label: 'Class name', value: c.name, maxLength: 80 });
+                  if (n && n !== c.name) act(() => api.renameClass(c.id, n));
                 }}><Icon name="edit" size={14} /> Rename</button>
-                <button type="button" className="btn btn-ghost btn-sm" onClick={() => {
-                  if (window.confirm(`Archive "${c.name}"? Students stay linked to existing homework, but the join code stops working.`)) {
+                <button type="button" className="btn btn-ghost btn-sm" onClick={async () => {
+                  if (await confirmDialog({
+                    title: `Archive "${c.name}"?`,
+                    body: 'Students stay linked to existing homework, but the join code stops working.',
+                    confirmLabel: 'Archive', danger: true,
+                  })) {
                     api.archiveClass(c.id).then(() => go('/teach/classes'), setError);
                   }
                 }}>Archive</button>
@@ -103,8 +109,8 @@ export function ClassDetail({ id }) {
               <div className="hub-actions">
                 <CopyButton text={joinUrl(c.join_code)} label="Copy link" />
                 <CopyButton text={c.join_code} label="Copy code" />
-                <button type="button" className="btn btn-ghost btn-sm" onClick={() => {
-                  if (window.confirm('Make a new code? The old link will stop working.')) act(() => api.newJoinCode(c.id));
+                <button type="button" className="btn btn-ghost btn-sm" onClick={async () => {
+                  if (await confirmDialog({ title: 'Make a new join code?', body: 'The old code and link will stop working.', confirmLabel: 'New code' })) act(() => api.newJoinCode(c.id));
                 }}><Icon name="refresh" size={14} /> New code</button>
               </div>
             </div>
@@ -120,8 +126,10 @@ export function ClassDetail({ id }) {
                     <div key={m.id} className="card hub-row">
                       <HubLink to={`/teach/students/${m.id}`} className="hub-row-main hub-plain"><PersonName person={m} /></HubLink>
                       <small>Joined {formatDate(m.joined_at)}</small>
-                      <button type="button" className="btn btn-ghost btn-sm" onClick={() => {
-                        if (window.confirm(`Remove ${m.name || m.email} from ${c.name}?`)) act(() => api.removeMember(c.id, m.id));
+                      <button type="button" className="btn btn-ghost btn-sm" onClick={async () => {
+                        if (await confirmDialog({ title: `Remove ${m.name || m.email}?`, body: `They'll leave ${c.name}. Their past homework stays.`, confirmLabel: 'Remove', danger: true })) {
+                          act(() => api.removeMember(c.id, m.id));
+                        }
                       }}>Remove</button>
                     </div>
                   ))}
@@ -328,6 +336,7 @@ export function NewAssignment() {
   const [prompt, setPrompt] = useState('');
   const [minWords, setMinWords] = useState(250);
   const [link, setLink] = useState('');
+  const [uploads, setUploads] = useState(false);
   const [cardsText, setCardsText] = useState('');
   const [dict, setDict] = useState(null); // { payload, key } from DictationSetup
   const [dictInitial, setDictInitial] = useState(null);
@@ -355,7 +364,7 @@ export function NewAssignment() {
     const pl = a.payload || {};
     if (a.kind === 'test') setTestKeyVal(`${pl.kind}:${pl.test_id}`);
     if (a.kind === 'writing') { setPrompt(pl.prompt || ''); setTask(pl.task || 'Task 2'); setMinWords(pl.min_words || 250); setPromptId(pl.prompt_id || ''); }
-    if (a.kind === 'custom') setLink(pl.link || '');
+    if (a.kind === 'custom') { setLink(pl.link || ''); setUploads(Boolean(pl.uploads)); }
     if (a.kind === 'flashcards') setCardsText('');
     if (a.kind === 'dictation') api.dictationKey(a.id).then((key) => key && setDictInitial({ payload: pl, key })).catch(() => {});
     if (a.class_id) { setTarget('class'); setClassId(a.class_id); }
@@ -394,7 +403,7 @@ export function NewAssignment() {
     }
     if (kind === 'flashcards') return cards.length ? { cards } : null;
     if (kind === 'dictation') return dict ? dict.payload : null;
-    return { link: link.trim() || null };
+    return { link: link.trim() || null, uploads };
   };
 
   const recipients = (data) => {
@@ -495,7 +504,15 @@ export function NewAssignment() {
               <div className="form-field">
                 <label className="form-label" htmlFor="na-link">Link (optional)</label>
                 <input id="na-link" type="url" className="form-input" value={link} onChange={(e) => setLink(e.target.value)} placeholder="https://…" />
-                <p className="form-help">Students mark it done and can leave you a note.</p>
+                <label className="hub-switch">
+                  <input type="checkbox" role="switch" checked={uploads} onChange={(e) => setUploads(e.target.checked)} />
+                  <span className="hub-switch-track" aria-hidden="true"><span /></span>
+                  <span>
+                    <strong>Students upload proof</strong>
+                    <small>Photos, screenshots, video, audio or PDF. You check them and mark the task as passed, or send it back to redo.</small>
+                  </span>
+                </label>
+                {!uploads && <p className="form-help">Students mark it done and can leave you a note.</p>}
               </div>
             )}
 
@@ -585,11 +602,21 @@ function ReviewPanel({ a, sub, onDone }) {
   const [feedback, setFeedback] = useState(sub.feedback || '');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
+  const isTask = a.kind === 'custom';
 
-  const save = async () => {
+  const run = async (fn) => {
     setBusy(true); setError(null);
-    try { await api.reviewSubmission(sub.id, band === '' ? null : Number(band), feedback); onDone(); }
-    catch (err) { setError(err); setBusy(false); }
+    try { await fn(); onDone(); } catch (err) { setError(err); setBusy(false); }
+  };
+  const save = () => run(() => api.reviewSubmission(sub.id, band === '' ? null : Number(band), feedback));
+  const pass = () => run(() => api.reviewSubmission(sub.id, null, feedback, { verdict: 'passed' }));
+  const redo = async () => {
+    if (!await confirmDialog({
+      title: 'Send it back to redo?',
+      body: feedback.trim() ? 'The student sees your feedback and can submit again.' : 'Add feedback first so the student knows what to fix.',
+      confirmLabel: 'Ask to redo',
+    })) return;
+    run(() => api.returnSubmission(sub.id, feedback));
   };
 
   return (
@@ -606,9 +633,15 @@ function ReviewPanel({ a, sub, onDone }) {
           {a.key ? <DictationResult text={sub.body || ''} transcript={a.key.transcript} /> : <div className="hub-pre hub-essay-view">{sub.body || '(empty)'}</div>}
         </>
       )}
+      {isTask && (
+        <>
+          <p className="form-help">Submitted {formatDate(sub.submitted_at, true)}</p>
+          {(a.payload?.uploads || sub.data?.files?.length > 0) && <ProofFiles files={sub.data?.files || []} />}
+        </>
+      )}
       {sub.note && <p className="hub-pre"><strong>Student note:</strong> {sub.note}</p>}
-      <div className="hub-form-row">
-        {a.kind === 'writing' && (
+      {a.kind === 'writing' && (
+        <div className="hub-form-row">
           <div className="form-field">
             <label className="form-label" htmlFor={`band-${sub.id}`}>Band</label>
             <select id={`band-${sub.id}`} className="form-select" value={band} onChange={(e) => setBand(e.target.value)}>
@@ -616,14 +649,21 @@ function ReviewPanel({ a, sub, onDone }) {
               {Array.from({ length: 19 }, (_, i) => (9 - i * 0.5).toFixed(1)).map((b) => <option key={b} value={b}>{b}</option>)}
             </select>
           </div>
-        )}
-      </div>
+        </div>
+      )}
       <div className="form-field">
         <label className="form-label" htmlFor={`fb-${sub.id}`}>Feedback</label>
-        <textarea id={`fb-${sub.id}`} className="form-textarea" rows={5} value={feedback} onChange={(e) => setFeedback(e.target.value)} />
+        <textarea id={`fb-${sub.id}`} className="form-textarea" rows={4} value={feedback} onChange={(e) => setFeedback(e.target.value)} />
       </div>
       {error && <ErrorNote error={error} />}
-      <button type="button" className="btn btn-primary" disabled={busy} onClick={save}>{sub.reviewed_at ? 'Update review' : 'Send review'}</button>
+      {isTask ? (
+        <div className="hub-actions">
+          <button type="button" className="btn btn-primary" disabled={busy} onClick={pass}><Icon name="check" size={16} /> {sub.reviewed_at ? 'Update · passed' : 'Mark as passed'}</button>
+          <button type="button" className="btn btn-secondary" disabled={busy} onClick={redo}><Icon name="refresh" size={16} /> Ask to redo</button>
+        </div>
+      ) : (
+        <button type="button" className="btn btn-primary" disabled={busy} onClick={save}>{sub.reviewed_at ? 'Update review' : 'Send review'}</button>
+      )}
     </div>
   );
 }
@@ -740,6 +780,7 @@ export function AssignmentDetail({ id }) {
                             <HubLink to={`/teach/students/${student.id}`} className="hub-row-main hub-plain"><PersonName person={student} /></HubLink>
                             {a.kind === 'test' && attempts.length > 0 && <small>Best {best}% · {attempts.length} attempt{attempts.length > 1 ? 's' : ''}</small>}
                             {a.kind === 'flashcards' && a.deck?.[student.id] && <small>{a.deck[student.id].learned}/{a.deck[student.id].total} learned</small>}
+                            {a.kind === 'custom' && sub?.data?.files?.length > 0 && <small>{sub.data.files.length} file{sub.data.files.length === 1 ? '' : 's'}</small>}
                             {a.kind === 'dictation' && sub?.status === 'submitted' && a.key && <small>{dictationAccuracy(sub, a.key)}% accurate</small>}
                             {sub?.band != null && <span className="pill">Band {Number(sub.band).toFixed(1)}</span>}
                             <StatusPill status={status} />
@@ -760,7 +801,8 @@ export function AssignmentDetail({ id }) {
               </section>
 
               <button type="button" className="btn btn-ghost btn-sm hub-danger" onClick={() => {
-                if (window.confirm('Delete this assignment and all its submissions?')) api.deleteAssignment(a.id).then(() => go('/teach/assignments'));
+                confirmDialog({ title: 'Delete this assignment?', body: 'All of its submissions are deleted too. This can’t be undone.', confirmLabel: 'Delete', danger: true })
+                  .then((yes) => yes && api.deleteAssignment(a.id).then(() => go('/teach/assignments')));
               }}>Delete assignment</button>
             </>
           );

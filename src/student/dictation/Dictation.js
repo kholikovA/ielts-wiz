@@ -5,6 +5,7 @@ import { useHub, useAsync, ErrorNote, Spinner } from '../ui';
 import { formatDate, wordCount } from '../homework';
 import { checkDictation } from './diff';
 import DictationPlayer from './DictationPlayer';
+import { confirmDialog } from '../dialog';
 
 // Colour-coded check of a dictation against its transcript:
 // extra words struck in red, misspellings corrected in yellow, missing words in green.
@@ -94,7 +95,11 @@ export function DictationWork({ a, onSaved }) {
   }, [locked, key.data, sub, a.id, user.id, preview]);
 
   const submit = async () => {
-    if (!window.confirm("Submit your dictation? You won't be able to change it afterwards, and you'll see the transcript.")) return;
+    if (!await confirmDialog({
+      title: 'Submit your dictation?',
+      body: "You won't be able to change it afterwards, and you'll see the transcript.",
+      confirmLabel: 'Submit',
+    })) return;
     setBusy(true); setError(null);
     try {
       await api.saveSubmission(a.id, user.id, { status: 'submitted', body: text, submitted_at: new Date().toISOString() });

@@ -10,6 +10,7 @@ import {
 import FlashcardStudy from './FlashcardStudy';
 import SrsSession from './SrsSession';
 import { DictationWork } from './dictation/Dictation';
+import { ProofUploader } from './TaskProof';
 import { MarkingView } from './writing/MarkedEssay';
 import { endOfStudyDay } from './fsrs';
 
@@ -123,9 +124,10 @@ function Feedback({ submission }) {
       <div className="hub-section-head">
         <h3 className="h3">Teacher feedback</h3>
         {submission.band != null && <span className="pill pill-success">Band {Number(submission.band).toFixed(1)}</span>}
+        {submission.marking?.verdict === 'passed' && <span className="pill pill-success"><Icon name="check" size={12} /> Passed</span>}
       </div>
       <MarkingView submission={submission} />
-      {submission.feedback ? <p className="hub-pre">{submission.feedback}</p> : !submission.marking && <p className="body">Reviewed — no written comments.</p>}
+      {submission.feedback ? <p className="hub-pre">{submission.feedback}</p> : !submission.marking?.criteria && <p className="body">No written comments.</p>}
     </div>
   );
 }
@@ -183,10 +185,14 @@ function WritingWork({ a, onSaved }) {
   };
 
   return (
-    <div className="card">
-      {a.payload?.task && <span className="eyebrow">{a.payload.task}</span>}
-      {a.payload?.prompt && <p className="hub-pre hub-prompt">{a.payload.prompt}</p>}
-      {a.payload?.visual_url && <img className="hub-visual" src={a.payload.visual_url} alt="Task visual" />}
+    <div className="hw-split">
+      <aside className="card hw-task" aria-label="Task">
+        {a.payload?.task && <span className="eyebrow">{a.payload.task}</span>}
+        {a.payload?.prompt && <p className="hub-pre hub-prompt">{a.payload.prompt}</p>}
+        {a.payload?.visual_url && <img className="hub-visual" src={a.payload.visual_url} alt="Task visual" />}
+        {min > 0 && <p className="form-help">Write at least {min} words.</p>}
+      </aside>
+      <div className="card hw-answer">
       <textarea className="form-textarea hub-essay" value={text} onChange={(e) => setText(e.target.value)}
         readOnly={!editing || locked} placeholder="Write your answer here…" aria-label="Your answer" />
       <div className="hub-essay-foot">
@@ -200,6 +206,7 @@ function WritingWork({ a, onSaved }) {
       </div>
       {!editing && sub?.submitted_at && !locked && <p className="form-help">Submitted {formatDate(sub.submitted_at, true)}. You can edit until your teacher reviews it.</p>}
       {error && <ErrorNote error={error} />}
+      </div>
     </div>
   );
 }
@@ -208,38 +215,67 @@ function CustomWork({ a, onSaved }) {
   const { user } = useHub();
   const sub = a.submission;
   const done = sub?.status === 'submitted';
+  const reviewed = Boolean(sub?.reviewed_at);
+  const needsFiles = Boolean(a.payload?.uploads);
+  const redo = !done && sub?.marking?.verdict === 'redo';
   const [note, setNote] = useState(sub?.note || '');
+  const [files, setFiles] = useState(sub?.data?.files || []);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
 
   const save = async (status) => {
+    if (status === 'submitted' && needsFiles && !files.length) { setError({ message: 'Upload at least one photo or file first.' }); return; }
     setBusy(true); setError(null);
     try {
       await api.saveSubmission(a.id, user.id, {
-        status, note, submitted_at: status === 'submitted' ? new Date().toISOString() : null,
+        status, note, data: { ...(sub?.data || {}), files },
+        submitted_at: status === 'submitted' ? new Date().toISOString() : null,
       });
       onSaved();
     } catch (err) { setError(err); }
     setBusy(false);
   };
 
+  // Uploads are saved straight away (keeping the current status).
+  const saveFiles = async (next) => {
+    await api.saveSubmission(a.id, user.id, {
+      status: sub?.status || 'in_progress', note, data: { ...(sub?.data || {}), files: next },
+    });
+    setFiles(next);
+  };
+
   return (
     <div className="card">
+      {redo && (
+        <div className="task-redo" role="status">
+          <Icon name="refresh" size={16} />
+          <div><strong>Your teacher asked you to redo this.</strong>{sub.feedback && <p className="hub-pre">{sub.feedback}</p>}</div>
+        </div>
+      )}
       {a.payload?.link && (
         <p><a href={a.payload.link} target="_blank" rel="noopener noreferrer" className="btn btn-secondary btn-sm">
           <Icon name="arrowRight" size={14} /> Open resource
         </a></p>
       )}
+      {needsFiles && (
+        <div className="form-field">
+          <span className="form-label">Proof of your work</span>
+          <ProofUploader assignmentId={a.id} uid={user.id} files={files} onChange={saveFiles} disabled={reviewed} />
+        </div>
+      )}
       <label className="form-label" htmlFor="hw-note">Note for your teacher (optional)</label>
-      <textarea id="hw-note" className="form-textarea" value={note} onChange={(e) => setNote(e.target.value)} readOnly={Boolean(sub?.reviewed_at)} />
-      {!sub?.reviewed_at && (
+      <textarea id="hw-note" className="form-textarea" value={note} onChange={(e) => setNote(e.target.value)} readOnly={reviewed} />
+      {!reviewed && (
         <div className="hub-actions">
           {done
             ? <button type="button" className="btn btn-secondary" disabled={busy} onClick={() => save('in_progress')}>Mark as not done</button>
-            : <button type="button" className="btn btn-primary" disabled={busy} onClick={() => save('submitted')}><Icon name="check" size={16} /> Mark as done</button>}
+            : <button type="button" className="btn btn-primary" disabled={busy || (needsFiles && !files.length)} onClick={() => save('submitted')}>
+              <Icon name="check" size={16} /> {needsFiles ? 'Submit for review' : 'Mark as done'}
+            </button>}
           {done && note !== (sub?.note || '') && <button type="button" className="btn btn-primary" disabled={busy} onClick={() => save('submitted')}>Save note</button>}
         </div>
       )}
+      {done && !reviewed && needsFiles && <p className="form-help">Submitted. Your teacher will check it and mark it as passed.</p>}
       {error && <ErrorNote error={error} />}
     </div>
   );

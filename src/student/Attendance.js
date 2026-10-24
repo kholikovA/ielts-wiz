@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Icon from '../components/ui/icons';
 import * as api from './api';
+import { confirmDialog } from './dialog';
 import {
   useHub, useAsync, Loaded, BackLink, PageTitle, EmptyPanel, HubLink, PersonName, Seg, ErrorNote, toLocalInput,
 } from './ui';
@@ -150,7 +151,8 @@ export function Register({ id }) {
               </>
             ) : <p>No students in this class yet.</p>}
             <button type="button" className="btn btn-ghost btn-sm hub-danger" onClick={() => {
-              if (window.confirm('Delete this session and its register?')) api.deleteSession(s.id).then(() => go(`/teach/attendance?class=${s.class_id}`), setError);
+              confirmDialog({ title: 'Delete this session?', body: 'Its attendance register is deleted too.', confirmLabel: 'Delete', danger: true })
+                .then((yes) => yes && api.deleteSession(s.id).then(() => go(`/teach/attendance?class=${s.class_id}`), setError));
             }}>Delete session</button>
           </>
         ) : <EmptyPanel icon="xCircle" title="Session not found" />}
