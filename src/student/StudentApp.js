@@ -6,6 +6,7 @@ import AppLink from '../components/ui/AppLink';
 import { mainSiteUrl } from '../lib/host';
 import * as api from './api';
 import { HubContext, EmptyPanel, Avatar, Coin } from './ui';
+import { DialogHost } from './dialog';
 import './hub.css';
 
 // Student Hub — served at student.ielts-wiz.com (see lib/host.js). Same Supabase
@@ -400,6 +401,7 @@ export default function StudentApp() {
           </div>
         </aside>
         {navOpen && <div className="hub-backdrop" onClick={() => setNavOpen(false)} aria-hidden="true" />}
+        <DialogHost />
         <div className="hub-main">
           {viewAs && (
             <div className="hub-viewbar" role="status">

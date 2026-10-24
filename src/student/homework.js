@@ -28,15 +28,17 @@ export const attemptsFor = (assignment, results) => {
 };
 
 // One status per (assignment, student):
-//   todo · started · submitted · reviewed · done (test attempted)
+//   todo · started · submitted · reviewed · passed · redo · done (test attempted)
 export function statusOf(assignment, submission, attempts = []) {
   if (assignment.kind === 'test') return attempts.length ? 'done' : 'todo';
   if (!submission) return 'todo';
-  if (submission.reviewed_at) return 'reviewed';
-  return submission.status === 'submitted' ? 'submitted' : 'started';
+  const verdict = submission.marking?.verdict;
+  if (submission.reviewed_at) return verdict === 'passed' ? 'passed' : 'reviewed';
+  if (submission.status === 'submitted') return 'submitted';
+  return verdict === 'redo' ? 'redo' : 'started';
 }
 
-export const isComplete = (status) => status === 'done' || status === 'submitted' || status === 'reviewed';
+export const isComplete = (status) => ['done', 'submitted', 'reviewed', 'passed'].includes(status);
 
 export const isOverdue = (assignment, status) =>
   !isComplete(status) && assignment.due_at && new Date(assignment.due_at) < new Date();
@@ -47,13 +49,15 @@ export const STATUS_LABEL = {
   submitted: 'Submitted',
   reviewed: 'Reviewed',
   done: 'Done',
+  passed: 'Passed',
+  redo: 'Needs redo',
   overdue: 'Overdue',
 };
 
 export const statusPillClass = (s) =>
   s === 'overdue' ? 'pill hub-pill-danger'
     : isComplete(s) ? 'pill pill-success'
-      : s === 'started' ? 'pill pill-amber'
+      : s === 'started' || s === 'redo' ? 'pill pill-amber'
         : 'pill';
 
 export const pct = (correct, total) => (total ? Math.round((correct / total) * 100) : 0);

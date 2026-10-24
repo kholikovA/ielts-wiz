@@ -1,4 +1,4 @@
-import { parseCards, statusOf, attemptsFor, isOverdue, summarise } from './homework';
+import { parseCards, statusOf, attemptsFor, isOverdue, summarise, isComplete } from './homework';
 
 test('parseCards accepts dash, equals, colon and tab separators', () => {
   expect(parseCards('mitigate - lessen\nubiquitous = everywhere\nfoo: bar\nx\ty\nno separator\n\n')).toEqual([
@@ -46,4 +46,13 @@ test('summarise groups by kind', () => {
     { kind: 'listening', correct: 10, total: 10, completed_at: 'b' },
   ]);
   expect(s[0]).toMatchObject({ kind: 'listening', attempts: 2, avg: 75, best: 100, last: 'b' });
+});
+
+test('task verdicts: passed counts as complete, redo reopens', () => {
+  const t = { kind: 'custom' };
+  expect(statusOf(t, { status: 'submitted', reviewed_at: '2026-10-24', marking: { verdict: 'passed' } })).toBe('passed');
+  expect(isComplete('passed')).toBe(true);
+  expect(statusOf(t, { status: 'in_progress', reviewed_at: null, marking: { verdict: 'redo' } })).toBe('redo');
+  expect(isComplete('redo')).toBe(false);
+  expect(statusOf(t, { status: 'submitted', reviewed_at: null, marking: { verdict: 'redo' } })).toBe('submitted');
 });
