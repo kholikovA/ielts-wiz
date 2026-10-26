@@ -58,7 +58,7 @@ const LEVEL = {
 const SYSTEM = `You are a demanding but fair IELTS teacher checking one sentence a learner wrote with a TARGET word or phrase (any correct form is fine).
 
 Verdict, first that applies:
-"wrong" = target missing, wrong meaning, or the sentence makes no sense.
+"wrong" = target missing, wrong meaning, or the sentence makes no sense; also a sentence that only defines or explains the target ("X is / means / refers to ...") instead of using it in context.
 "almost" = right meaning, but an error in the target's form/collocation or in grammar, or it sounds unnatural.
 "simple" = see LEVEL.
 "correct" = target used accurately and naturally, and the sentence meets LEVEL.
@@ -81,6 +81,25 @@ function userIdFrom(req: Request): string | null {
 }
 
 const words = (s: string) => s.split(" ").filter(Boolean).length;
+
+// Same rule as src/student/vocab/copycheck.js: the meaning copied back
+// (5+ words in a row, or 60%+ of its content words) isn't a sentence of one's own.
+const STOP = new Set(("a an the and or but of to in on at for with by from as is are was were be been being it its this that "
+  + "these those your you their they them our we he she his her i my me do does did not no so than then there here "
+  + "which who whom what when where how can could will would should may might must has have had").split(" "));
+const toks = (s: string) => (s || "").toLowerCase().replace(/[’']/g, "'").match(/[a-z0-9']+/g) || [];
+function copiesDefinition(sentence: string, meaning: string, target: string) {
+  const m = toks(meaning);
+  if (m.length < 3) return false;
+  const s = toks(sentence);
+  const own = new Set(toks(target));
+  const text = ` ${s.join(" ")} `;
+  for (let i = 0; i + 5 <= m.length; i += 1) if (text.includes(` ${m.slice(i, i + 5).join(" ")} `)) return true;
+  const content = [...new Set(m.filter((w) => w.length > 2 && !STOP.has(w) && !own.has(w)))];
+  if (content.length < 3) return false;
+  const have = new Set(s);
+  return content.filter((w) => have.has(w)).length / content.length >= 0.6;
+}
 
 Deno.serve(async (req) => {
   try {
@@ -114,6 +133,10 @@ async function handle(req: Request): Promise<Response> {
   if (!word?.w) return fail(400, "Unknown word.");
   const level = ctx.level === "senior" ? "senior" : "junior";
   const attempts = Number(ctx.attempts) || 0;
+
+  if (word.m && copiesDefinition(sentence, word.m, word.w)) {
+    return fail(400, "That's the definition. Use the word in a sentence of your own.");
+  }
 
   // Free answers: same sentence again, or too short to judge.
   const same = ctx.same as { verdict: string; corrected: string | null; tip: string | null; created_at: string } | null;
