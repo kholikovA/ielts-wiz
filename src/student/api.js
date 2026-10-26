@@ -86,6 +86,14 @@ export async function saveSubmissionData(assignmentId, uid, data) {
   return unwrap(await supabase.from('submissions').update({ data }).eq('assignment_id', assignmentId).eq('student_id', uid));
 }
 
+// Merge keys into `data` (keeps answers etc. written by the work itself).
+export async function mergeSubmissionData(assignmentId, uid, patch) {
+  refuseInPreview();
+  const { data: row } = await supabase.from('submissions').select('data').eq('assignment_id', assignmentId).eq('student_id', uid).maybeSingle();
+  if (!row) return saveSubmission(assignmentId, uid, { status: 'in_progress', data: patch });
+  return unwrap(await supabase.from('submissions').update({ data: { ...(row.data || {}), ...patch } }).eq('assignment_id', assignmentId).eq('student_id', uid));
+}
+
 // ── Task proof uploads (private bucket homework-uploads) ─────────────────────
 const UPLOAD_BUCKET = 'homework-uploads';
 const safeName = (n) => n.normalize('NFKD').replace(/[^\w.-]+/g, '_').replace(/_+/g, '_').slice(-80) || 'file';

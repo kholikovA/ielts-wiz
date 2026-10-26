@@ -1322,3 +1322,28 @@ video.proof-thumb { object-fit: cover; background: #000; }
   .qz-q { grid-template-columns: 30px minmax(0, 1fr) 20px; gap: 0 8px; }
 }
 .hub .qz-gapinput::placeholder { color: var(--h-text-3, #9aa0a6); text-align: center; font-size: 12px; font-weight: 600; }
+
+/* ── Homework focus mode (guard.js) ─────────────────────────────────────── */
+.hw-gate { max-width: 620px; display: flex; flex-direction: column; gap: 14px; align-items: flex-start; }
+.hw-gate .h3 { margin: 0; }
+.hw-rules { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 10px; }
+.hw-rules li { display: grid; grid-template-columns: 20px 1fr; gap: 10px; align-items: start; font-size: 14.5px; line-height: 1.5; color: var(--h-text); }
+.hw-rules li svg { margin-top: 3px; color: var(--h-accent-text); }
+.hw-gate-warn { margin: 0; display: flex; gap: 6px; align-items: center; font-size: 13.5px; font-weight: 600; color: var(--h-warn, #b45309); }
+.hw-guard-note { display: flex; flex-direction: column; gap: 10px; margin-bottom: 16px; font-size: 14px; }
+.hw-focus { position: fixed; inset: 0; z-index: 60; overflow-y: auto; background: var(--h-bg); }
+.hw-focus-bar { position: sticky; top: 0; z-index: 6; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 12px 24px; background: var(--h-surface); border-bottom: 1px solid var(--h-border); }
+.hw-focus-bar strong { font-size: 15px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.hw-focus-body { width: 100%; max-width: 1040px; margin: 0 auto; padding: 20px 24px 64px; }
+.hw-focus .dx-sticky { top: 60px; }
+.hw-focus-block { position: fixed; inset: 0; z-index: 70; display: grid; place-items: center; padding: 16px; background: var(--h-bg); }
+.hw-focus-block .card { max-width: 420px; text-align: center; display: flex; flex-direction: column; gap: 12px; align-items: center; }
+.hw-focus-block .h3, .hw-focus-block .body { margin: 0; }
+.hw-integrity { display: flex; gap: 6px; align-items: center; margin: 0 0 8px; font-size: 13px; font-weight: 600; color: var(--h-text-2); }
+.hw-integrity.is-auto { color: var(--h-danger, #b91c1c); }
+@media (max-width: 560px) {
+  .hw-focus-bar { padding: 10px 16px; }
+  .hw-focus-body { padding: 16px 16px 56px; }
+}
+.qz-image { display: block; width: 100%; max-width: 760px; height: auto; border: 1px solid var(--h-border); border-radius: 12px; background: #fff; }

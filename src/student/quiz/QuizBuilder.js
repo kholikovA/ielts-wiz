@@ -179,6 +179,8 @@ function Open({ q, set }) {
   return (
     <>
       <textarea className="form-textarea" rows={2} placeholder="Question" value={q.prompt} onChange={(e) => set({ prompt: e.target.value })} />
+      <input className="form-input" type="url" placeholder="Picture link (optional): a chart, diagram or photo to write about" value={q.image || ''} onChange={(e) => set({ image: e.target.value.trim() })} />
+      {q.image && <img className="qz-image" src={q.image} alt="Task visual" />}
       <div className="qb-row">
         <label className="qb-inline">Points <input type="number" min="1" max="50" className="form-input" value={q.points} onChange={(e) => set({ points: Number(e.target.value) || 1 })} /></label>
         <label className="qb-inline">Min. words <input type="number" min="0" className="form-input" value={q.min_words} onChange={(e) => set({ min_words: Number(e.target.value) || 0 })} /></label>

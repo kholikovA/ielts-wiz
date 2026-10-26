@@ -1,9 +1,10 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 import Icon from '../../components/ui/icons';
 import * as api from '../api';
 import { useHub, useAsync, ErrorNote, Spinner } from '../ui';
 import { checkDictation } from '../dictation/diff';
 import { confirmDialog } from '../dialog';
+import { useHomeworkGuard, GuardFrame } from '../guard';
 import { copiesDefinition } from './copycheck';
 
 // "Use it in a sentence": one sentence per target word, each checked by Claude
@@ -123,31 +124,41 @@ export default function SentenceWork({ a, onSaved }) {
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
 
-  if (checks.loading && !checks.data) return <Spinner />;
   const list = [...(checks.data || []), ...added];
   const { latest, count } = summariseChecks(list);
   const checkedAll = words.every((_, i) => latest[i]);
   const used = usedCount(list);
+  const now = useRef();
+  now.current = { latest, used };
 
+  const send = async (integrity = guardRef.current?.integrity) => {
+    const { latest: l, used: u } = now.current;
+    setBusy(true); setError(null);
+    try {
+      await api.saveSubmission(a.id, user.id, {
+        status: 'submitted', submitted_at: new Date().toISOString(),
+        body: words.map((w, i) => `${w.w}: ${l[i]?.sentence || ''}`).join('\n'),
+        data: { used: u, total: words.length, ...(integrity?.leaves ? { integrity } : {}) },
+      });
+      onSaved();
+    } catch (err) { setError(err); setBusy(false); }
+  };
   const submit = async () => {
     if (!await confirmDialog({
       title: 'Submit your sentences?',
       body: `${used} of ${words.length} words used correctly. You can't check any more sentences after submitting.`,
       confirmLabel: 'Submit',
     })) return;
-    setBusy(true); setError(null);
-    try {
-      await api.saveSubmission(a.id, user.id, {
-        status: 'submitted', submitted_at: new Date().toISOString(),
-        body: words.map((w, i) => `${w.w}: ${latest[i]?.sentence || ''}`).join('\n'),
-        data: { used, total: words.length },
-      });
-      onSaved();
-    } catch (err) { setError(err); setBusy(false); }
+    await send();
   };
+  const guard = useHomeworkGuard(a, { active: !locked, onAutoSubmit: send });
+  const guardRef = useRef();
+  guardRef.current = guard;
+
+  if (checks.loading && !checks.data) return <Spinner />;
 
   return (
-    <>
+    <GuardFrame g={guard} title={a.title}>
       <div className="card uw-intro">
         <Icon name="type" size={18} />
         <p>
@@ -172,7 +183,7 @@ export default function SentenceWork({ a, onSaved }) {
           </button>}
       </div>
       {error && <ErrorNote error={error} />}
-    </>
+    </GuardFrame>
   );
 }
 

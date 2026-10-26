@@ -6,6 +6,7 @@ import { formatDate, wordCount } from '../homework';
 import { checkDictation } from './diff';
 import DictationPlayer from './DictationPlayer';
 import { confirmDialog } from '../dialog';
+import { useHomeworkGuard, GuardFrame } from '../guard';
 
 // Colour-coded check of a dictation against its transcript:
 // extra words struck in red, misspellings corrected in yellow, missing words in green.
@@ -91,27 +92,31 @@ export function DictationWork({ a, onSaved }) {
   useEffect(() => {
     if (!locked || !key.data || sub?.data?.score || preview) return;
     const { score } = checkDictation(sub.body || '', key.data.transcript);
-    api.saveSubmissionData(a.id, user.id, { score }).catch(() => {});
+    api.saveSubmissionData(a.id, user.id, { ...(sub.data || {}), score }).catch(() => {});
   }, [locked, key.data, sub, a.id, user.id, preview]);
 
+  const send = async () => {
+    setBusy(true); setError(null);
+    try {
+      await api.saveSubmission(a.id, user.id, { status: 'submitted', body: textRef.current, submitted_at: new Date().toISOString() });
+      try { localStorage.removeItem(draftKey); } catch { /* ignore */ }
+      onSaved();
+    } catch (err) { setError(err); setBusy(false); }
+  };
   const submit = async () => {
     if (!await confirmDialog({
       title: 'Submit your dictation?',
       body: "You won't be able to change it afterwards, and you'll see the transcript.",
       confirmLabel: 'Submit',
     })) return;
-    setBusy(true); setError(null);
-    try {
-      await api.saveSubmission(a.id, user.id, { status: 'submitted', body: text, submitted_at: new Date().toISOString() });
-      try { localStorage.removeItem(draftKey); } catch { /* ignore */ }
-      onSaved();
-    } catch (err) { setError(err); setBusy(false); }
+    await send();
   };
+  const guard = useHomeworkGuard(a, { active: !locked, onAutoSubmit: send });
 
   if (!a.payload?.audio_url || !cues.length) return <ErrorNote error={{ message: 'This dictation has no audio.' }} />;
 
   return (
-    <>
+    <GuardFrame g={guard} title={a.title}>
       <div className="dx-sticky">
         <DictationPlayer src={a.payload.audio_url} cues={cues} storageKey={`iw.v1.hub.dict.${a.id}`} />
       </div>
@@ -153,6 +158,6 @@ export function DictationWork({ a, onSaved }) {
             : <ErrorNote error={key.error || { message: "The transcript isn't available." }} />}
         </section>
       )}
-    </>
+    </GuardFrame>
   );
 }

@@ -19,6 +19,7 @@ function open(spec) {
 
 export const confirmDialog = (spec) => open({ kind: 'confirm', ...spec });
 export const promptDialog = (spec) => open({ kind: 'prompt', ...spec });
+export const alertDialog = (spec) => open({ kind: 'confirm', alert: true, ...spec });
 
 function Dialog({ item, onClose }) {
   const [value, setValue] = useState(item.value || '');
@@ -41,7 +42,7 @@ function Dialog({ item, onClose }) {
   }, []);
 
   const onKey = (e) => {
-    if (e.key === 'Escape') { e.preventDefault(); cancel(); }
+    if (e.key === 'Escape') { e.preventDefault(); if (item.alert) accept(); else cancel(); }
     if (e.key === 'Enter' && item.kind === 'prompt') { e.preventDefault(); accept(); }
     if (e.key === 'Tab') { // keep focus inside
       const f = boxRef.current.querySelectorAll('button, input');
@@ -53,7 +54,7 @@ function Dialog({ item, onClose }) {
   };
 
   return (
-    <div className="hub-dialog-backdrop" onMouseDown={(e) => { if (e.target === e.currentTarget) cancel(); }}>
+    <div className="hub-dialog-backdrop" onMouseDown={(e) => { if (e.target === e.currentTarget && !item.alert) cancel(); }}>
       <div className="hub-dialog" role="dialog" aria-modal="true" aria-labelledby="hub-dialog-title" ref={boxRef} onKeyDown={onKey}>
         <h2 id="hub-dialog-title">{item.title}</h2>
         {item.body && <p>{item.body}</p>}
@@ -62,7 +63,7 @@ function Dialog({ item, onClose }) {
             aria-label={item.label || item.title} onChange={(e) => setValue(e.target.value)} />
         )}
         <div className="hub-dialog-actions">
-          <button type="button" className="btn btn-ghost" onClick={cancel} data-autofocus={item.danger ? true : undefined}>{item.cancelLabel || 'Cancel'}</button>
+          {!item.alert && <button type="button" className="btn btn-ghost" onClick={cancel} data-autofocus={item.danger ? true : undefined}>{item.cancelLabel || 'Cancel'}</button>}
           <button type="button" className={`btn ${item.danger ? 'hub-btn-danger' : 'btn-primary'}`} onClick={accept}
             data-autofocus={item.danger ? undefined : true} disabled={item.kind === 'prompt' && !value.trim()}>
             {item.confirmLabel || (item.kind === 'prompt' ? 'Save' : 'OK')}

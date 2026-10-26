@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Icon from '../components/ui/icons';
 import * as api from './api';
 import {
@@ -14,6 +14,7 @@ import { ProofUploader } from './TaskProof';
 import SentenceWork from './vocab/SentenceWork';
 import { MarkingView } from './writing/MarkedEssay';
 import { endOfStudyDay } from './fsrs';
+import { useHomeworkGuard, GuardFrame } from './guard';
 
 const QuizWork = React.lazy(() => import('./quiz/QuizWork'));
 
@@ -176,18 +177,23 @@ function WritingWork({ a, onSaved }) {
     try { localStorage.setItem(draftKey, text); } catch { /* storage off */ }
   }, [text, editing, draftKey]);
 
+  const textRef = useRef(text);
+  textRef.current = text;
   const submit = async () => {
     setBusy(true); setError(null);
     try {
-      await api.saveSubmission(a.id, user.id, { status: 'submitted', body: text, submitted_at: new Date().toISOString() });
+      await api.saveSubmission(a.id, user.id, { status: 'submitted', body: textRef.current, submitted_at: new Date().toISOString() });
       try { localStorage.removeItem(draftKey); } catch { /* ignore */ }
       setEditing(false);
       onSaved();
     } catch (err) { setError(err); }
     setBusy(false);
   };
+  const autoSubmitted = Boolean(sub?.data?.integrity?.auto_submitted);
+  const guard = useHomeworkGuard(a, { active: editing && !locked, onAutoSubmit: submit });
 
   return (
+    <GuardFrame g={guard} title={a.title}>
     <div className="hw-split">
       <aside className="card hw-task" aria-label="Task">
         {a.payload?.task && <span className="eyebrow">{a.payload.task}</span>}
@@ -205,12 +211,15 @@ function WritingWork({ a, onSaved }) {
             {busy ? 'Submitting…' : sub?.status === 'submitted' ? 'Resubmit' : 'Submit'}
           </button>
         )}
-        {!editing && !locked && <button type="button" className="btn btn-secondary" onClick={() => setEditing(true)}>Edit</button>}
+        {!editing && !locked && !autoSubmitted && <button type="button" className="btn btn-secondary" onClick={() => setEditing(true)}>Edit</button>}
       </div>
-      {!editing && sub?.submitted_at && !locked && <p className="form-help">Submitted {formatDate(sub.submitted_at, true)}. You can edit until your teacher reviews it.</p>}
+      {!editing && sub?.submitted_at && !locked && (autoSubmitted
+        ? <p className="form-help">Submitted automatically {formatDate(sub.submitted_at, true)} because you left the page twice.</p>
+        : <p className="form-help">Submitted {formatDate(sub.submitted_at, true)}. You can edit until your teacher reviews it.</p>)}
       {error && <ErrorNote error={error} />}
       </div>
     </div>
+    </GuardFrame>
   );
 }
 
