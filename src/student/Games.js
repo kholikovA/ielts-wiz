@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo, useRef, useCallback } from 'react';
 import Icon from '../components/ui/icons';
 import * as api from './api';
-import { useHub, useAsync, Loaded, BackLink, PageTitle, EmptyPanel, Coin } from './ui';
+import { useHub, useAsync, Loaded, BackLink, PageTitle, EmptyPanel, Coin, NoPaste } from './ui';
 import { GAMES, buildRound, normalise, shortMeaning } from './gameRounds';
 
 function Result({ correct, total, coins, onAgain, onExit }) {
@@ -196,7 +196,7 @@ export default function Games({ gameId }) {
         <BackLink to="/games" label="Word games" />
         <Loaded state={words}>
           {() => (game.available(usable)
-            ? <Play key={game.id} game={game} words={usable} onExit={() => go('/games')} />
+            ? <NoPaste><Play key={game.id} game={game} words={usable} onExit={() => go('/games')} /></NoPaste>
             : <EmptyPanel icon="gamepad" title="Not enough words yet" lead={game.needs} />)}
         </Loaded>
       </>
