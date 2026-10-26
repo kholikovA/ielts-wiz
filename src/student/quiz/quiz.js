@@ -90,7 +90,7 @@ export function splitTest(test) {
   const sections = (test.sections || []).map((s) => ({
     id: s.id, title: s.title || '', instructions: s.instructions || '', passage: s.passage || '', audio_url: s.audio_url || '',
     questions: (s.questions || []).map((q) => {
-      const base = { id: q.id, type: q.type, prompt: q.prompt || '', points: pointsOf(q) };
+      const base = { id: q.id, type: q.type, prompt: q.prompt || '', points: pointsOf(q), ...(q.image ? { image: q.image } : {}) };
       switch (q.type) {
         case 'mcq':
           key[q.id] = [...(q.answer || [])].sort((a, b) => a - b);

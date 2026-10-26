@@ -19,6 +19,7 @@ import { splitTest, joinTest, newId } from './quiz/quiz';
 import { emptyTest, testProblems } from './quiz/QuizBuilder';
 import { DictationResult } from './dictation/Dictation';
 import { checkDictation } from './dictation/diff';
+import { IntegrityNote } from './guard';
 
 const DictationSetup = React.lazy(() => import('./dictation/DictationSetup'));
 const WritingReview = React.lazy(() => import('./writing/WritingReview'));
@@ -696,6 +697,7 @@ function ReviewPanel({ a, sub, onDone }) {
 
   return (
     <div className="hub-review">
+      <IntegrityNote sub={sub} />
       {a.kind === 'writing' && (
         <>
           <p className="form-help">{wordCount(sub.body)} words · submitted {formatDate(sub.submitted_at, true)}</p>

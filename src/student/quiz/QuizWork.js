@@ -4,6 +4,7 @@ import * as api from '../api';
 import { useHub, useAsync, ErrorNote, Spinner } from '../ui';
 import { formatDate, wordCount } from '../homework';
 import { confirmDialog } from '../dialog';
+import { useHomeworkGuard, GuardFrame, IntegrityNote } from '../guard';
 import { VARIANTS, markTest, numbering } from './quiz';
 
 // Student side of a custom test, and the same view (read-only, marked) for
@@ -205,6 +206,7 @@ export function QuizView({ payload, answers, setAnswer, review }) {
                   <div className="qz-q-num">{q.type !== 'match' && <Num n={nums[q.id]} />}</div>
                   <div className="qz-q-body">
                     {q.prompt && <p className="qz-prompt hub-pre">{q.prompt}</p>}
+                    {q.image && <img className="qz-image" src={q.image} alt="Task visual" />}
                     <R q={q} num={nums[q.id]} value={answers?.[q.id]} set={(v) => setAnswer?.(q.id, v)}
                       review={review ? { key: review.key?.[q.id], result: r } : null}
                       manual={review?.manual?.[q.id]} setManual={review?.setManual ? (v) => review.setManual(q.id, v) : null} />
@@ -262,6 +264,7 @@ export default function QuizWork({ a, onSaved }) {
   // Draft: locally on every change, to the server every 20 s.
   const ref = useRef(answers);
   ref.current = answers;
+  const guardRef = useRef();
   const lastSaved = useRef(JSON.stringify(sub?.data?.answers || {}));
   useEffect(() => {
     if (!locked) { try { localStorage.setItem(draftKey, JSON.stringify(answers)); } catch { /* storage off */ } }
@@ -271,7 +274,8 @@ export default function QuizWork({ a, onSaved }) {
     const id = setInterval(() => {
       const s = JSON.stringify(ref.current);
       if (s === lastSaved.current) return;
-      api.saveSubmission(a.id, user.id, { status: 'in_progress', data: { answers: ref.current } })
+      const integrity = guardRef.current?.integrity;
+      api.saveSubmission(a.id, user.id, { status: 'in_progress', data: { answers: ref.current, ...(integrity?.leaves ? { integrity } : {}) } })
         .then(() => { lastSaved.current = s; }).catch(() => {});
     }, SAVE_EVERY_MS);
     return () => clearInterval(id);
@@ -287,6 +291,17 @@ export default function QuizWork({ a, onSaved }) {
     api.saveSubmissionData(a.id, user.id, { ...sub.data, score: { earned: marks.earned, possible: marks.possible, percent: marks.percent } }).catch(() => {});
   }, [locked, marks, preview, sub, a.id, user.id]);
 
+  const send = async (integrity = guardRef.current?.integrity) => {
+    setBusy(true); setError(null);
+    try {
+      await api.saveSubmission(a.id, user.id, {
+        status: 'submitted', submitted_at: new Date().toISOString(),
+        data: { answers: ref.current, ...(integrity?.leaves ? { integrity } : {}) },
+      });
+      try { localStorage.removeItem(draftKey); } catch { /* ignore */ }
+      onSaved();
+    } catch (err) { setError(err); setBusy(false); }
+  };
   const submit = async () => {
     const left = total - answered;
     if (!await confirmDialog({
@@ -294,13 +309,10 @@ export default function QuizWork({ a, onSaved }) {
       body: left ? `${left} question${left === 1 ? ' is' : 's are'} unanswered. You can't change your answers after submitting.` : "You can't change your answers after submitting.",
       confirmLabel: 'Submit',
     })) return;
-    setBusy(true); setError(null);
-    try {
-      await api.saveSubmission(a.id, user.id, { status: 'submitted', submitted_at: new Date().toISOString(), data: { answers } });
-      try { localStorage.removeItem(draftKey); } catch { /* ignore */ }
-      onSaved();
-    } catch (err) { setError(err); setBusy(false); }
+    await send();
   };
+  const guard = useHomeworkGuard(a, { active: !locked, onAutoSubmit: send });
+  guardRef.current = guard;
 
   if (locked) {
     if (key.loading) return <Spinner />;
@@ -315,14 +327,14 @@ export default function QuizWork({ a, onSaved }) {
   }
 
   return (
-    <>
+    <GuardFrame g={guard} title={a.title}>
       <QuizView payload={a.payload} answers={answers} setAnswer={(id, v) => setAnswers((x) => ({ ...x, [id]: v }))} />
       <div className="card uw-foot qz-foot">
         <span><strong>{answered}</strong> of {total} answered</span>
         <button type="button" className="btn btn-primary" disabled={busy || preview} onClick={submit}>{busy ? 'Submitting…' : 'Submit test'}</button>
       </div>
       {error && <ErrorNote error={error} />}
-    </>
+    </GuardFrame>
   );
 }
 
@@ -345,6 +357,7 @@ export function QuizReview({ a, sub, onDone }) {
   if (!a.quizKey) return <ErrorNote error={{ message: "The answer key couldn't be loaded." }} />;
   return (
     <div className="hub-review">
+      <IntegrityNote sub={sub} />
       <ScoreBar marks={marks} />
       <QuizView payload={a.payload} answers={sub.data?.answers || {}}
         review={{ key: a.quizKey, marks, manual, setManual: (id, v) => setManual((m) => ({ ...m, [id]: v })) }} />
