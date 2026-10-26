@@ -270,10 +270,136 @@ export function StudentDetail({ id }) {
 // ── Assignments ──────────────────────────────────────────────────────────────
 const whenShort = (iso) => new Date(iso).toLocaleString(undefined, { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
 
+function assignmentCounts(a, now) {
+  const total = a.assignment_recipients.length;
+  const submitted = a.submissions.filter((x) => x.status === 'submitted').length;
+  const toReview = a.kind === 'flashcards' ? 0 : a.submissions.filter((x) => x.status === 'submitted' && !x.reviewed_at).length;
+  const scheduled = new Date(a.publish_at) > now;
+  const pastDue = Boolean(a.due_at && new Date(a.due_at) < now);
+  return { total, submitted, toReview, scheduled, pastDue };
+}
+
+function AssignmentRow({ a, now }) {
+  const { total, submitted, toReview, scheduled } = assignmentCounts(a, now);
+  return (
+    <HubLink to={`/teach/assignments/${a.id}`} className="card card-interactive hub-row">
+      <span className="hub-kind-icon"><Icon name={KINDS[a.kind]?.icon || 'edit'} size={16} /></span>
+      <div className="hub-row-main">
+        <strong>{a.title}</strong>
+        <small>{a.classes?.name ? `${a.classes.name} · ` : ''}{scheduled ? `Publishes ${whenShort(a.publish_at)}` : dueLabel(a.due_at)}</small>
+      </div>
+      {scheduled
+        ? <span className="pill pill-accent"><Icon name="calendar" size={12} /> Scheduled</span>
+        : <small className="hub-num">{a.kind === 'test' ? `${total} student${total === 1 ? '' : 's'}` : `${submitted}/${total} submitted`}</small>}
+      {toReview > 0 && <span className="pill pill-amber">{toReview} to review</span>}
+      <Icon name="chevronRight" size={16} />
+    </HubLink>
+  );
+}
+
+// Board columns: every assignment sits in exactly one.
+const BOARD = [
+  { key: 'scheduled', label: 'Scheduled', icon: 'calendar' },
+  { key: 'open', label: 'Open', icon: 'edit' },
+  { key: 'review', label: 'To review', icon: 'eye' },
+  { key: 'done', label: 'Done', icon: 'checkCircle' },
+];
+const DONE_SHOWN = 12;
+
+function boardColumn(a, now) {
+  const c = assignmentCounts(a, now);
+  if (c.scheduled) return 'scheduled';
+  if (c.toReview > 0) return 'review';
+  if (c.pastDue || (c.total > 0 && c.submitted === c.total)) return 'done';
+  return 'open';
+}
+
+function BoardCard({ a, now }) {
+  const { total, submitted, toReview, scheduled } = assignmentCounts(a, now);
+  const share = total ? submitted / total : 0;
+  return (
+    <HubLink to={`/teach/assignments/${a.id}`} className="card card-interactive kb-card">
+      <div className="kb-card-top">
+        <span className="hub-kind-icon"><Icon name={KINDS[a.kind]?.icon || 'edit'} size={14} /></span>
+        <strong>{a.title}</strong>
+      </div>
+      <small>{a.classes?.name || 'Individual students'}</small>
+      <small>{scheduled ? `Publishes ${whenShort(a.publish_at)}` : dueLabel(a.due_at)}</small>
+      {!scheduled && a.kind !== 'test' && (
+        <div className="kb-card-bar">
+          <span className="hub-bar hub-bar--wide"><span style={{ width: `${share * 100}%` }} /></span>
+          <small className="hub-num">{submitted}/{total}</small>
+        </div>
+      )}
+      {toReview > 0 && <span className="pill pill-amber">{toReview} to review</span>}
+    </HubLink>
+  );
+}
+
+function AssignmentBoard({ list, now }) {
+  const cols = Object.fromEntries(BOARD.map((c) => [c.key, []]));
+  list.forEach((a) => cols[boardColumn(a, now)].push(a));
+  cols.scheduled.sort((x, y) => x.publish_at.localeCompare(y.publish_at));
+  cols.open.sort((x, y) => (x.due_at || '9999').localeCompare(y.due_at || '9999'));
+  cols.review.sort((x, y) => (x.due_at || '').localeCompare(y.due_at || ''));
+  cols.done.sort((x, y) => (y.due_at || y.created_at).localeCompare(x.due_at || x.created_at));
+  return (
+    <div className="kb">
+      {BOARD.map((c) => {
+        const items = c.key === 'done' ? cols.done.slice(0, DONE_SHOWN) : cols[c.key];
+        return (
+          <section key={c.key} className={`kb-col kb-col--${c.key}`} aria-label={c.label}>
+            <header className="kb-col-head"><Icon name={c.icon} size={14} /> {c.label}<span className="hub-num">{cols[c.key].length}</span></header>
+            <div className="kb-col-body">
+              {items.map((a) => <BoardCard key={a.id} a={a} now={now} />)}
+              {!items.length && <p className="kb-empty">Nothing here</p>}
+              {c.key === 'done' && cols.done.length > DONE_SHOWN && <p className="kb-empty">+{cols.done.length - DONE_SHOWN} older in List view</p>}
+            </div>
+          </section>
+        );
+      })}
+    </div>
+  );
+}
+
+function AssignmentGroups({ list, now }) {
+  const groups = new Map();
+  list.forEach((a) => {
+    const name = a.classes?.name || 'Individual students';
+    if (!groups.has(name)) groups.set(name, []);
+    groups.get(name).push(a);
+  });
+  const names = [...groups.keys()].sort((x, y) => (x === 'Individual students') - (y === 'Individual students') || x.localeCompare(y));
+  return (
+    <div className="hub-stack">
+      {names.map((name) => {
+        const items = groups.get(name);
+        const toReview = items.reduce((n, a) => n + assignmentCounts(a, now).toReview, 0);
+        return (
+          <section key={name} className="as-group">
+            <header className="as-group-head">
+              <h2 className="h3">{name}</h2>
+              <span className="hub-muted">{items.length} assignment{items.length === 1 ? '' : 's'}</span>
+              {toReview > 0 && <span className="pill pill-amber">{toReview} to review</span>}
+            </header>
+            <div className="hub-list">{items.map((a) => <AssignmentRow key={a.id} a={a} now={now} />)}</div>
+          </section>
+        );
+      })}
+    </div>
+  );
+}
+
+const VIEW_KEY = 'iw.v1.hub.assignmentsView';
+
 export function Assignments() {
   const { user } = useHub();
   const state = useAsync(() => api.teacherAssignments(user.id), [user.id]);
   const [tab, setTab] = useState('active');
+  const [view, setViewState] = useState(() => {
+    try { return localStorage.getItem(VIEW_KEY) || 'list'; } catch { return 'list'; }
+  });
+  const setView = (v) => { setViewState(v); try { localStorage.setItem(VIEW_KEY, v); } catch { /* storage off */ } };
   return (
     <>
       <PageTitle eyebrow="Teaching" title="Assignments" lead="Schedule homework ahead, track completion, review submissions.">
@@ -290,37 +416,27 @@ export function Assignments() {
           const shown = groups[tab];
           return (
             <>
-              <div style={{ marginBottom: 12 }}>
-                <Seg label="Filter assignments" value={tab} onChange={setTab} options={[
-                  { value: 'active', label: `Active (${groups.active.length})` },
-                  { value: 'scheduled', label: `Scheduled (${groups.scheduled.length})` },
-                  { value: 'past', label: `Past (${groups.past.length})` },
+              <div className="as-bar">
+                {view !== 'board' && (
+                  <Seg label="Filter assignments" value={tab} onChange={setTab} options={[
+                    { value: 'active', label: `Active (${groups.active.length})` },
+                    { value: 'scheduled', label: `Scheduled (${groups.scheduled.length})` },
+                    { value: 'past', label: `Past (${groups.past.length})` },
+                  ]} />
+                )}
+                <div className="as-bar-spacer" />
+                <Seg label="View" value={view} onChange={setView} options={[
+                  { value: 'list', label: 'List' },
+                  { value: 'board', label: 'Board' },
+                  { value: 'groups', label: 'By class' },
                 ]} />
               </div>
-              {shown.length ? (
-                <div className="hub-list">
-                  {shown.map((a) => {
-                    const total = a.assignment_recipients.length;
-                    const submitted = a.submissions.filter((x) => x.status === 'submitted').length;
-                    const toReview = a.submissions.filter((x) => x.status === 'submitted' && !x.reviewed_at).length;
-                    const scheduled = new Date(a.publish_at) > now;
-                    return (
-                      <HubLink key={a.id} to={`/teach/assignments/${a.id}`} className="card card-interactive hub-row">
-                        <span className="hub-kind-icon"><Icon name={KINDS[a.kind]?.icon || 'edit'} size={16} /></span>
-                        <div className="hub-row-main">
-                          <strong>{a.title}</strong>
-                          <small>{a.classes?.name ? `${a.classes.name} · ` : ''}{scheduled ? `Publishes ${whenShort(a.publish_at)}` : dueLabel(a.due_at)}</small>
-                        </div>
-                        {scheduled
-                          ? <span className="pill pill-accent"><Icon name="calendar" size={12} /> Scheduled</span>
-                          : <small className="hub-num">{a.kind === 'test' ? `${total} student${total === 1 ? '' : 's'}` : `${submitted}/${total} submitted`}</small>}
-                        {toReview > 0 && a.kind !== 'flashcards' && <span className="pill pill-amber">{toReview} to review</span>}
-                        <Icon name="chevronRight" size={16} />
-                      </HubLink>
-                    );
-                  })}
-                </div>
-              ) : <EmptyPanel icon="edit" title={tab === 'scheduled' ? 'Nothing scheduled' : 'Nothing here'} lead="Create an assignment and pick when it goes out." />}
+              {!list.length ? <EmptyPanel icon="edit" title="No assignments yet" lead="Create an assignment and pick when it goes out." />
+                : view === 'board' ? <AssignmentBoard list={list} now={now} />
+                  : shown.length ? (view === 'groups'
+                    ? <AssignmentGroups list={shown} now={now} />
+                    : <div className="hub-list">{shown.map((a) => <AssignmentRow key={a.id} a={a} now={now} />)}</div>)
+                    : <EmptyPanel icon="edit" title={tab === 'scheduled' ? 'Nothing scheduled' : 'Nothing here'} lead="Create an assignment and pick when it goes out." />}
             </>
           );
         }}

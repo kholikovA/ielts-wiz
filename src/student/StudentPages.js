@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Icon from '../components/ui/icons';
 import * as api from './api';
 import {
-  attemptsFor, statusOf, isComplete, isOverdue, dueLabel, formatDate, pct, summarise, wordCount, srsStats,
+  attemptsFor, statusOf, isComplete, isOverdue, dueLabel, formatDate, pct, summarise, wordCount, srsStats, todaysHomework,
 } from './homework';
 import {
   useHub, useAsync, Loaded, EmptyPanel, HubLink, BackLink, StatusPill, KindTag, Bar, ErrorNote, PageTitle, Coin, Spinner, NoPaste,
@@ -15,6 +15,7 @@ import SentenceWork from './vocab/SentenceWork';
 import { MarkingView } from './writing/MarkedEssay';
 import { endOfStudyDay } from './fsrs';
 import { useHomeworkGuard, GuardFrame } from './guard';
+import MascotProgress from './MascotProgress';
 
 const QuizWork = React.lazy(() => import('./quiz/QuizWork'));
 
@@ -99,12 +100,20 @@ export function HomeworkList() {
       <PageTitle eyebrow="Homework" title="Your assignments" lead="Tasks set by your teacher, with due dates and feedback." />
       <Loaded state={hw}>
         {({ rows }) => {
-          if (!rows.length) return <EmptyPanel icon="edit" title="No homework yet" lead="When your teacher assigns work it will show up here." />;
+          if (!rows.length) {
+            return (
+              <EmptyPanel icon="edit" title="No homework yet" lead="When your teacher assigns work it will show up here. Not in a class yet? Enter the code from your teacher.">
+                <JoinForm onJoined={() => hw.reload()} />
+              </EmptyPanel>
+            );
+          }
+          const today = todaysHomework(rows, endOfStudyDay());
           const open = rows.filter((a) => !isComplete(a.status));
           const done = rows.filter((a) => isComplete(a.status)).reverse();
           const shown = tab === 'open' ? open : done;
           return (
             <>
+              <div className="card hw-today"><MascotProgress done={today.filter((a) => isComplete(a.status)).length} total={today.length} /></div>
               <div className="hub-tabs" role="tablist">
                 <button role="tab" aria-selected={tab === 'open'} className={`chip${tab === 'open' ? ' is-selected' : ''}`} onClick={() => setTab('open')}>To do ({open.length})</button>
                 <button role="tab" aria-selected={tab === 'done'} className={`chip${tab === 'done' ? ' is-selected' : ''}`} onClick={() => setTab('done')}>Completed ({done.length})</button>

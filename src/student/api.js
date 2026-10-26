@@ -415,6 +415,9 @@ export async function deckProgress(assignmentId) {
 export const hubSummary = async (studentId = null) =>
   unwrap(await supabase.rpc('hub_summary', { p_student: studentId || preview?.id || null }));
 
+export const classLeaderboard = async () =>
+  unwrap(await supabase.rpc('class_leaderboard', { p_student: preview?.id || null })) || [];
+
 export async function coinHistory(uid, limit = 300) {
   return unwrap(await supabase
     .from('coin_transactions')

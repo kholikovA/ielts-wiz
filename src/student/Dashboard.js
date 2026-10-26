@@ -2,14 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import Icon from '../components/ui/icons';
 import * as api from './api';
 import {
-  attemptsFor, statusOf, isComplete, isOverdue, dueLabel, srsStats, pct, KINDS,
+  attemptsFor, statusOf, isComplete, isOverdue, dueLabel, pct, KINDS, todaysHomework,
 } from './homework';
 import { endOfStudyDay } from './fsrs';
 import {
-  useHub, useAsync, Loaded, HubLink, StatusPill, PageTitle, Coin, EmptyPanel,
+  useHub, useAsync, Loaded, HubLink, StatusPill, PageTitle, Coin, EmptyPanel, Avatar,
 } from './ui';
-import { JoinForm } from './StudentPages';
 import { rankFor, RANKS } from './ranks';
+import MascotProgress from './MascotProgress';
 
 const WEEKDAY = (iso) => new Date(`${iso}T12:00:00`).toLocaleDateString(undefined, { weekday: 'short' });
 const reducedMotion = () => typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
@@ -39,30 +39,6 @@ function useCountUp(value, ms = 900) {
 
 const CountUp = ({ value }) => <>{useCountUp(value)}</>;
 
-function Ring({ value, size = 132, stroke = 10, children }) {
-  const [shown, setShown] = useState(reducedMotion() ? value : 0);
-  useEffect(() => { const id = requestAnimationFrame(() => setShown(value)); return () => cancelAnimationFrame(id); }, [value]);
-  const r = (size - stroke) / 2;
-  const c = 2 * Math.PI * r;
-  return (
-    <div className="dash-ring" style={{ width: size, height: size }}>
-      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} aria-hidden="true">
-        <defs>
-          <linearGradient id="dash-ring-grad" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#a5b4fc" />
-            <stop offset="100%" stopColor="#6366f1" />
-          </linearGradient>
-        </defs>
-        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth={stroke} />
-        <circle cx={size / 2} cy={size / 2} r={r} fill="none" stroke="url(#dash-ring-grad)" strokeWidth={stroke}
-          strokeLinecap="round" strokeDasharray={c} strokeDashoffset={c * (1 - shown)}
-          transform={`rotate(-90 ${size / 2} ${size / 2})`} className="dash-ring-arc" />
-      </svg>
-      <div className="dash-ring-label">{children}</div>
-    </div>
-  );
-}
-
 // A small faceted crest; facets light up with rank.
 function Crest({ index }) {
   const lit = (i) => (i <= index ? 'currentColor' : 'rgba(255,255,255,0.12)');
@@ -77,50 +53,6 @@ function Crest({ index }) {
       <path d="M52 48 34 59v4l18-11Z" fill={lit(5)} opacity="0.5" />
     </svg>
   );
-}
-
-function useNow(ms = 1000) {
-  const [now, setNow] = useState(() => new Date());
-  useEffect(() => { const id = setInterval(() => setNow(new Date()), ms); return () => clearInterval(id); }, [ms]);
-  return now;
-}
-
-function Countdown({ at }) {
-  const now = useNow(1000);
-  const diff = Math.max(0, new Date(at) - now);
-  const d = Math.floor(diff / 86400000);
-  const h = Math.floor((diff % 86400000) / 3600000);
-  const m = Math.floor((diff % 3600000) / 60000);
-  const s = Math.floor((diff % 60000) / 1000);
-  const pad = (n) => String(n).padStart(2, '0');
-  if (diff === 0) return <span className="dash-count">Starting now</span>;
-  return (
-    <span className="dash-count" aria-label={`${d} days ${h} hours ${m} minutes`}>
-      {d > 0 && <><b>{d}</b><i>d</i></>}<b>{pad(h)}</b><i>h</i><b>{pad(m)}</b><i>m</i>{d === 0 && <><b>{pad(s)}</b><i>s</i></>}
-    </span>
-  );
-}
-
-function greeting() {
-  const h = new Date().getHours();
-  if (h < 5) return 'Burning the midnight oil';
-  if (h < 12) return 'Good morning';
-  if (h < 18) return 'Good afternoon';
-  return 'Good evening';
-}
-
-// Homework that matters today: overdue, due before the 4am rollover, or posted today.
-function todaysHomework(rows) {
-  const end = endOfStudyDay();
-  const start = new Date(end.getTime() - 86400000);
-  return rows.filter((a) => {
-    const due = a.due_at ? new Date(a.due_at) : null;
-    const posted = new Date(a.publish_at || a.created_at);
-    if (a.status === 'overdue') return true;
-    if (due && due <= end && due >= start) return true;
-    if (posted >= start) return true;
-    return !isComplete(a.status) && due && due <= end;
-  });
 }
 
 // 0..1 progress for one homework item.
@@ -191,19 +123,41 @@ function StreakCard({ icon, label, unit, value, marks, week }) {
   );
 }
 
+const MAX_TODAY = 6;
+const MAX_BOARD = 6;
+
+function Leaderboard({ rows }) {
+  if (!rows.length) return <p className="dash-empty">Join a class to see the leaderboard.</p>;
+  const top = rows.slice(0, MAX_BOARD);
+  const myIndex = rows.findIndex((r) => r.is_me);
+  const list = myIndex >= MAX_BOARD ? [...top.slice(0, MAX_BOARD - 1), { ...rows[myIndex], place: myIndex + 1 }] : top;
+  return (
+    <ol className="dash-board">
+      {list.map((r, i) => (
+        <li key={r.student_id} className={r.is_me ? 'is-me' : ''}>
+          <span className={`dash-board-place${(r.place || i + 1) <= 3 ? ` is-top is-${r.place || i + 1}` : ''}`}>{r.place || i + 1}</span>
+          <Avatar person={{ name: r.name, avatar_character: r.avatar_character }} size={26} />
+          <span className="dash-board-name">{r.is_me ? 'You' : r.name}</span>
+          <b className="hub-num"><Coin size={12} /> {r.week}</b>
+        </li>
+      ))}
+    </ol>
+  );
+}
+
 export function Dashboard() {
-  const { user, profile, isTeacher } = useHub();
+  const { user } = useHub();
   const data = useAsync(async () => {
-    const [summary, snap, items, results, recent, rules, session, attendance] = await Promise.all([
+    const [summary, snap, items, results, recent, rules, attendance, board] = await Promise.all([
       api.hubSummary(),
       // Secondary panels degrade to empty instead of blanking the dashboard.
       api.srsSnapshot(user.id).catch(() => ({ cards: [], reviews: [] })),
       api.studentHomework(user.id),
       api.testResults(user.id).catch(() => []),
-      api.coinHistory(user.id, 40).catch(() => []),
+      api.coinHistory(user.id, 3).catch(() => []),
       api.rewardRules().catch(() => []),
-      api.nextSession().catch(() => null),
       api.studentAttendance(user.id).catch(() => []),
+      api.classLeaderboard().catch(() => []),
     ]);
     const rows = items.map((a) => {
       const attempts = attemptsFor(a, results);
@@ -211,19 +165,14 @@ export function Dashboard() {
       return { ...a, attempts, status: isOverdue(a, base) ? 'overdue' : base };
     });
     const coins = Object.fromEntries(rules.filter((r) => r.enabled).map((r) => [r.key, r.coins]));
-    return { summary, snap, rows, recent, coins, session, attendance };
+    return { summary, snap, rows, recent, coins, attendance, board };
   }, [user.id]);
-  const classes = useAsync(api.myClasses, [user.id]);
-
-  const first = profile?.name?.split(' ')[0];
 
   return (
     <Loaded state={data}>
-      {({ summary, snap, rows, recent, coins, session, attendance }) => {
-        const st = srsStats(snap, new Date(), endOfStudyDay());
-        const today = todaysHomework(rows);
-        const todayKey = summary.week[summary.week.length - 1]?.day;
-        const playedToday = recent.some((t) => t.day === todayKey && t.label.startsWith('Word game'));
+      {({ summary, snap, rows, recent, coins, attendance, board }) => {
+        const today = todaysHomework(rows, endOfStudyDay());
+        const doneToday = today.filter((a) => isComplete(a.status)).length;
         const weekStart = studyWeekStart();
         const weekEnd = new Date(weekStart.getTime() + 7 * 86400000);
 
@@ -232,32 +181,20 @@ export function Dashboard() {
         const attended = weekSessions.filter((r) => r.status === 'present' || r.status === 'late').length;
         const absent = weekSessions.filter((r) => r.status === 'absent').length;
         const attWeek = !weekSessions.length
-          ? { text: 'No classes marked this week', state: 'none', progress: 0, coins: coins.week_perfect_attendance }
+          ? { text: 'No classes this week', state: 'none', progress: 0, coins: coins.week_perfect_attendance }
           : absent
             ? { text: `Missed ${absent} this week`, state: 'off', progress: 1, coins: coins.week_perfect_attendance }
-            : { text: `Perfect week so far · ${attended} attended`, state: 'on', progress: 1, coins: coins.week_perfect_attendance };
+            : { text: `Perfect week · ${attended} attended`, state: 'on', progress: 1, coins: coins.week_perfect_attendance };
 
         // This week's homework: everything due so far done on time.
         const weekDue = rows.filter((a) => a.due_at && new Date(a.due_at) >= weekStart && new Date(a.due_at) < weekEnd);
         const missed = weekDue.filter((a) => a.status === 'overdue').length;
         const doneWeek = weekDue.filter((a) => isComplete(a.status)).length;
         const hwWeek = !weekDue.length
-          ? { text: 'Nothing due this week yet', state: 'none', progress: 0, coins: coins.week_perfect_homework }
+          ? { text: 'Nothing due this week', state: 'none', progress: 0, coins: coins.week_perfect_homework }
           : missed
             ? { text: `Missed ${missed} this week`, state: 'off', progress: 1, coins: coins.week_perfect_homework }
             : { text: `${doneWeek}/${weekDue.length} done this week`, state: 'on', progress: doneWeek / weekDue.length, coins: coins.week_perfect_homework };
-
-
-        // Today's plan: flashcards, each homework item for today, one game.
-        const plan = [];
-        if (st.total > 0) {
-          const left = st.fresh + st.due;
-          plan.push({ key: 'fc', label: left ? `Flashcards · ${left} waiting` : 'Flashcards cleared', done: left === 0, to: '/flashcards/study' });
-        }
-        today.forEach((a) => plan.push({ key: a.id, label: a.title, done: isComplete(a.status), to: `/homework/${a.id}` }));
-        plan.push({ key: 'game', label: 'One word game', done: playedToday, to: '/games' });
-        const done = plan.filter((p) => p.done).length;
-        const left = plan.length - done;
 
         const rank = rankFor(summary.balance);
         const attMarks = attendance.filter((r) => r.class_sessions)
@@ -272,87 +209,18 @@ export function Dashboard() {
           });
 
         return (
-          <div className="dash">
-            {/* ── Hero ── */}
-            <section className="dash-hero">
-              <div className="dash-hero-main">
-                <span className="dash-eyebrow">{new Date().toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' })}</span>
-                <h1>{greeting()}{first ? `, ${first}` : ''}.</h1>
-                <p className="dash-status">
-                  {left === 0
-                    ? 'All clear for today. Your streaks are safe.'
-                    : `${left} ${left === 1 ? 'thing' : 'things'} left on today's plan.`}
-                </p>
-                <div className="dash-plan">
-                  <Ring value={plan.length ? done / plan.length : 0}>
-                    <strong><CountUp value={done} /><span>/{plan.length}</span></strong>
-                    <small>today</small>
-                  </Ring>
-                  <ul className="dash-plan-list">
-                    {plan.slice(0, 5).map((p) => (
-                      <li key={p.key}>
-                        <HubLink to={p.to} className={`dash-plan-item${p.done ? ' is-done' : ''}`}>
-                          <span className="dash-check">{p.done && <Icon name="check" size={12} />}</span>
-                          <span className="dash-plan-label">{p.label}</span>
-                          {!p.done && <Icon name="arrowRight" size={14} className="dash-plan-go" />}
-                        </HubLink>
-                      </li>
-                    ))}
-                    {plan.length > 5 && <li className="dash-plan-more">+{plan.length - 5} more in Homework</li>}
-                  </ul>
-                </div>
-              </div>
-
-              <HubLink to="/coins" className="dash-rank" aria-label={`Rank ${rank.rank.name}, ${summary.balance} coins`}>
-                <Crest index={rank.index} />
-                <span className="dash-rank-name">{rank.rank.name}</span>
-                <span className="dash-rank-step">Rank {rank.index + 1} of {RANKS.length}</span>
-                <span className="dash-rank-coins"><Coin size={16} /> <CountUp value={summary.balance} /></span>
-                <span className="dash-rank-today">+{summary.today} today</span>
-                {rank.next && (
-                  <span className="dash-rank-next">
-                    <span className="dash-rank-bar"><span style={{ width: `${rank.progress * 100}%` }} /></span>
-                    <small>{rank.toNext} to {rank.next.name}</small>
-                  </span>
-                )}
-              </HubLink>
-            </section>
-
-            {/* ── Signals ── */}
-            <section className="dash-signals">
-              <StreakCard icon="flame" label="Attendance streak" unit={summary.attendance_streak === 1 ? 'class in a row' : 'classes in a row'}
-                value={summary.attendance_streak} week={attWeek} marks={attMarks} />
-              <StreakCard icon="checkCircle" label="Homework streak" unit="on time in a row"
-                value={summary.homework_streak} week={hwWeek} marks={hwMarks} />
-              <div className="card dash-signal dash-class">
-                <div className="dash-signal-head"><Icon name="calendar" size={15} /> Next class</div>
-                {session ? (
-                  <>
-                    <Countdown at={session.held_at} />
-                    <div className="dash-class-meta">
-                      <strong>{session.classes?.name}</strong>
-                      <span>{new Date(session.held_at).toLocaleString(undefined, { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}{session.topic ? ` · ${session.topic}` : ''}</span>
-                    </div>
-                  </>
-                ) : (
-                  <div className="dash-class-empty">
-                    <span>No class scheduled yet.</span>
-                    <small>Attended {summary.attendance?.attended || 0} of {summary.attendance?.sessions || 0} so far.</small>
-                  </div>
-                )}
-              </div>
-            </section>
-
-            {/* ── Work + momentum ── */}
-            <div className="hub-cols dash-row">
-              <section>
+          <div className="dash3">
+            {/* ── Left: today's homework ── */}
+            <section className="dash3-col">
+              <div className="card dash3-card dash3-hw">
                 <div className="hub-section-head"><h2 className="h3">Today's homework</h2><HubLink to="/homework">All homework</HubLink></div>
+                <MascotProgress done={doneToday} total={today.length} compact />
                 {today.length ? (
-                  <div className="hub-list">
-                    {today.map((a) => {
+                  <div className="dash3-list">
+                    {today.slice(0, MAX_TODAY).map((a) => {
                       const prog = itemProgress(a, snap.cards);
                       return (
-                        <HubLink key={a.id} to={`/homework/${a.id}`} className="card card-interactive dash-hw">
+                        <HubLink key={a.id} to={`/homework/${a.id}`} className="dash-hw">
                           <span className="hub-kind-icon"><Icon name={KINDS[a.kind]?.icon || 'edit'} size={16} /></span>
                           <div className="dash-hw-main">
                             <div className="dash-hw-top"><strong>{a.title}</strong><StatusPill status={a.status} /></div>
@@ -364,61 +232,61 @@ export function Dashboard() {
                         </HubLink>
                       );
                     })}
+                    {today.length > MAX_TODAY && <HubLink to="/homework" className="dash3-more">+{today.length - MAX_TODAY} more in Homework</HubLink>}
                   </div>
                 ) : (
-                  <div className="card dash-quiet"><Icon name="checkCircle" size={18} /><span>Nothing due today. A good day to get ahead with flashcards or a game.</span></div>
+                  <div className="dash-quiet"><Icon name="checkCircle" size={18} /><span>Nothing due today. A good day to get ahead with flashcards or a game.</span></div>
                 )}
+              </div>
+            </section>
 
-                <div className="dash-actions">
-                  {[
-                    { to: '/flashcards/study', icon: 'layers', label: 'Flashcards', note: `${st.fresh + st.due} today` },
-                    { to: '/games', icon: 'gamepad', label: 'Word games', note: '6 formats' },
-                    { to: '/homework', icon: 'edit', label: 'Homework', note: `${rows.filter((a) => !isComplete(a.status)).length} open` },
-                    { to: '/progress', icon: 'trending', label: 'Progress', note: 'scores & history' },
-                  ].map((q) => (
-                    <HubLink key={q.to} to={q.to} className="card card-interactive dash-action">
-                      <Icon name={q.icon} size={18} />
-                      <strong>{q.label}</strong>
-                      <small>{q.note}</small>
-                    </HubLink>
-                  ))}
-                </div>
-              </section>
+            {/* ── Middle: level + streaks ── */}
+            <section className="dash3-col">
+              <HubLink to="/coins" className="dash-rank dash3-level" aria-label={`Level ${rank.rank.name}, ${summary.balance} coins`}>
+                <span className="dash3-eyebrow">Your level</span>
+                <Crest index={rank.index} />
+                <span className="dash-rank-name">{rank.rank.name}</span>
+                <span className="dash-rank-step">Level {rank.index + 1} of {RANKS.length}</span>
+                <span className="dash-rank-coins"><Coin size={16} /> <CountUp value={summary.balance} /></span>
+                <span className="dash-rank-today">+{summary.today} today</span>
+                {rank.next && (
+                  <span className="dash-rank-next">
+                    <span className="dash-rank-bar"><span style={{ width: `${rank.progress * 100}%` }} /></span>
+                    <small>{rank.toNext} to {rank.next.name}</small>
+                  </span>
+                )}
+              </HubLink>
+              <div className="dash3-streaks">
+                <StreakCard icon="flame" label="Attendance streak" unit={summary.attendance_streak === 1 ? 'class' : 'classes'}
+                  value={summary.attendance_streak} week={attWeek} marks={attMarks} />
+                <StreakCard icon="checkCircle" label="Homework streak" unit="on time"
+                  value={summary.homework_streak} week={hwWeek} marks={hwMarks} />
+              </div>
+            </section>
 
-              <aside className="hub-stack">
-                <div className="card">
-                  <div className="hub-section-head" style={{ marginBottom: 4 }}>
-                    <h2 className="h3">This week</h2>
-                    <span className="hub-muted hub-num"><Coin size={12} /> {summary.week.reduce((t, d) => t + d.coins, 0)}</span>
-                  </div>
-                  <WeekChart week={summary.week} />
+            {/* ── Right: coins ── */}
+            <section className="dash3-col">
+              <div className="card dash3-card">
+                <div className="hub-section-head"><h2 className="h3">This week</h2>
+                  <span className="hub-muted hub-num"><Coin size={12} /> {summary.week.reduce((t, d) => t + d.coins, 0)}</span>
                 </div>
-                <div className="card">
-                  <div className="hub-section-head" style={{ marginBottom: 8 }}><h2 className="h3">Recent coins</h2><HubLink to="/coins">History</HubLink></div>
-                  {recent.length ? (
-                    <ul className="dash-feed">
-                      {recent.slice(0, 5).map((t) => (
-                        <li key={t.id}><span>{t.label}</span><b className={t.amount < 0 ? 'is-neg' : ''}>{t.amount > 0 ? '+' : ''}{t.amount}</b></li>
-                      ))}
-                    </ul>
-                  ) : <p>Your first coins will show up here.</p>}
-                </div>
-                <div className="card">
-                  <h2 className="h3" style={{ marginBottom: 8 }}>My classes</h2>
-                  <Loaded state={classes} fallback={null}>
-                    {(list) => (
-                      <>
-                        {list.map((c) => (
-                          <div key={c.id} className="dash-class-row"><strong>{c.name}</strong><small>{c.teacher_name || ''}</small></div>
-                        ))}
-                        <JoinForm onJoined={() => { classes.reload(); data.reload(); }} />
-                      </>
-                    )}
-                  </Loaded>
-                </div>
-                {isTeacher && <HubLink to="/teach/assignments" className="btn btn-block"><Icon name="graduation" size={14} /> Open Teaching</HubLink>}
-              </aside>
-            </div>
+                <WeekChart week={summary.week} />
+              </div>
+              <div className="card dash3-card">
+                <div className="hub-section-head"><h2 className="h3">Recent coins</h2><HubLink to="/coins">History</HubLink></div>
+                {recent.length ? (
+                  <ul className="dash-feed">
+                    {recent.slice(0, 3).map((t) => (
+                      <li key={t.id}><span>{t.label}</span><b className={t.amount < 0 ? 'is-neg' : ''}>{t.amount > 0 ? '+' : ''}{t.amount}</b></li>
+                    ))}
+                  </ul>
+                ) : <p className="dash-empty">Your first coins will show up here.</p>}
+              </div>
+              <div className="card dash3-card dash3-grow">
+                <div className="hub-section-head"><h2 className="h3">Leaderboard</h2><small className="hub-muted">last 7 days</small></div>
+                <Leaderboard rows={board} />
+              </div>
+            </section>
           </div>
         );
       }}
