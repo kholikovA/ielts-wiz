@@ -17,7 +17,7 @@ returns json language sql stable security definer set search_path = public as $$
     'level', coalesce(a.payload->>'level', 'junior'),
     'submitted', exists (select 1 from submissions s where s.assignment_id = a.id and s.student_id = p_student and s.status = 'submitted'),
     'attempts', (select count(*) from usage_checks u where u.assignment_id = a.id and u.student_id = p_student and u.word_index = p_idx),
-    'same', (select json_build_object('verdict', u.verdict, 'corrected', u.corrected, 'tip', u.tip)
+    'same', (select json_build_object('verdict', u.verdict, 'corrected', u.corrected, 'tip', u.tip, 'created_at', u.created_at)
                from usage_checks u
               where u.assignment_id = a.id and u.student_id = p_student and u.word_index = p_idx and u.sentence = p_sentence
               order by u.created_at desc limit 1)

@@ -30,6 +30,8 @@ const MAX_ATTEMPTS = 3;
 // Sonnet/Opus take {type:"between_tools"} (no thinking before responding).
 const NO_THINKING = MODEL.includes("haiku") ? { type: "disabled" } : { type: "between_tools" };
 const MIN_WORDS = { junior: 8, senior: 12 } as const;
+// Saved results from before the current rubric aren't reused for free re-checks.
+const RUBRIC_SINCE = "2026-10-25T00:00:00Z";
 
 const admin = createClient(SUPABASE_URL, SERVICE_ROLE, { auth: { persistSession: false } });
 
@@ -114,7 +116,11 @@ async function handle(req: Request): Promise<Response> {
   const attempts = Number(ctx.attempts) || 0;
 
   // Free answers: same sentence again, or too short to judge.
-  if (ctx.same) return ok({ ...ctx.same, attempts_left: Math.max(0, MAX_ATTEMPTS - attempts), cached: true });
+  const same = ctx.same as { verdict: string; corrected: string | null; tip: string | null; created_at: string } | null;
+  if (same && new Date(same.created_at) >= new Date(RUBRIC_SINCE)) {
+    const { created_at: _at, ...prev } = same;
+    return ok({ ...prev, attempts_left: Math.max(0, MAX_ATTEMPTS - attempts), cached: true });
+  }
   if (words(sentence) < MIN_WORDS[level]) {
     return fail(400, `Too short: write at least ${MIN_WORDS[level]} words and add a reason, result or example.`);
   }
