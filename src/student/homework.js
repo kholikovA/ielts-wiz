@@ -7,6 +7,7 @@ export const KINDS = {
   flashcards: { label: 'Flashcards',    icon: 'layers' },
   dictation:  { label: 'Dictation',     icon: 'headphones' },
   sentences:  { label: 'Use it',        icon: 'type' },
+  quiz:       { label: 'Quiz',          icon: 'clipboard' },
 };
 
 export const RESULT_KIND_LABELS = {
