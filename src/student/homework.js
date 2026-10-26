@@ -132,3 +132,16 @@ export function srsStats({ cards, reviews }, now = new Date(), dayEnd) {
   const today = reviews.filter((r) => dayKey(r.reviewed_at) === dayKey(now)).length;
   return { total: cards.length, fresh, due, mature, learned: cards.length - fresh, retention, streak, today };
 }
+
+// Homework that matters today: overdue, due before the study-day rollover (`end`), or posted today.
+export function todaysHomework(rows, end) {
+  const start = new Date(end.getTime() - 86400000);
+  return rows.filter((a) => {
+    const due = a.due_at ? new Date(a.due_at) : null;
+    const posted = new Date(a.publish_at || a.created_at);
+    if (a.status === 'overdue') return true;
+    if (due && due <= end && due >= start) return true;
+    if (posted >= start) return true;
+    return !isComplete(a.status) && due && due <= end;
+  });
+}

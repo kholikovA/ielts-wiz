@@ -250,6 +250,14 @@ export default function StudentApp() {
   const { isDark, toggleTheme } = useTheme();
   const [parts, setParts] = useState(segments);
   const [navOpen, setNavOpen] = useState(false);
+  // Desktop: the sidebar can shrink to an icon rail. Remembered per device.
+  const [navCollapsed, setNavCollapsed] = useState(() => {
+    try { return localStorage.getItem('iw.v1.hub.navCollapsed') === '1'; } catch { return false; }
+  });
+  const toggleNav = () => setNavCollapsed((c) => {
+    try { localStorage.setItem('iw.v1.hub.navCollapsed', c ? '0' : '1'); } catch { /* storage off */ }
+    return !c;
+  });
   const [balance, setBalance] = useState(null);
   // Teachers/admins see Teaching only. Student view shows the hub as one of
   // their students, with that student's data. Remembered per device.
@@ -370,7 +378,7 @@ export default function StudentApp() {
   const link = (n) => (
     <AppLink key={n.path} href={n.path} onNavigate={() => go(n.path)}
       aria-current={isActive(n.path) ? 'page' : undefined}
-      className={`hub-nav-link${isActive(n.path) ? ' is-active' : ''}`}>
+      className={`hub-nav-link${isActive(n.path) ? ' is-active' : ''}`} title={navCollapsed ? n.label : undefined}>
       <Icon name={n.icon} size={17} />
       <span>{n.label}</span>
     </AppLink>
@@ -378,7 +386,7 @@ export default function StudentApp() {
 
   return (
     <HubContext.Provider value={ctx}>
-      <div className={`hub${navOpen ? ' is-nav-open' : ''}`}>
+      <div className={`hub${navOpen ? ' is-nav-open' : ''}${navCollapsed ? ' is-nav-collapsed' : ''}`}>
         <a href="#main" className="skip-link">Skip to main content</a>
         <aside className="hub-nav" aria-label="Student Hub navigation">
           <AppLink href="/" onNavigate={() => go('/')} className="hub-brand">
@@ -413,6 +421,10 @@ export default function StudentApp() {
           <header className="hub-top">
             <button type="button" className="hub-icon-btn hub-menu-btn" onClick={() => setNavOpen(true)} aria-label="Open navigation">
               <Icon name="menu" size={18} />
+            </button>
+            <button type="button" className="hub-icon-btn hub-collapse-btn" onClick={toggleNav}
+              aria-label={navCollapsed ? 'Expand sidebar' : 'Collapse sidebar'} aria-pressed={navCollapsed} title={navCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}>
+              <Icon name="panelLeft" size={18} />
             </button>
             <div className="hub-top-spacer" />
             {balance != null && (
