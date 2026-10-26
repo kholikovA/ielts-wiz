@@ -116,6 +116,13 @@ export async function homeworkFileUrls(paths) {
 export const returnSubmission = async (id, feedback) =>
   unwrap(await supabase.rpc('return_submission', { sub: id, p_feedback: feedback }));
 
+// ── Custom tests (quiz) ──────────────────────────────────────────────────────
+export const quizKey = async (assignmentId) =>
+  unwrap(await supabase.from('quiz_keys').select('key').eq('assignment_id', assignmentId).maybeSingle());
+
+export const saveQuizKey = async (assignmentId, key) =>
+  unwrap(await supabase.from('quiz_keys').upsert({ assignment_id: assignmentId, key }));
+
 // ── Dictation ────────────────────────────────────────────────────────────────
 // The transcript: teachers always; students only after submitting (RLS).
 export const dictationKey = async (assignmentId) =>

@@ -15,11 +15,15 @@ import { confirmDialog, promptDialog } from './dialog';
 import { ProofFiles } from './TaskProof';
 import CardEnricher, { withExtras, extraKey } from './vocab/CardEnricher';
 import { SentenceResults, usedCount } from './vocab/SentenceWork';
+import { splitTest, joinTest, newId } from './quiz/quiz';
+import { emptyTest, testProblems } from './quiz/QuizBuilder';
 import { DictationResult } from './dictation/Dictation';
 import { checkDictation } from './dictation/diff';
 
 const DictationSetup = React.lazy(() => import('./dictation/DictationSetup'));
 const WritingReview = React.lazy(() => import('./writing/WritingReview'));
+const QuizBuilder = React.lazy(() => import('./quiz/QuizBuilder'));
+const QuizReview = React.lazy(() => import('./quiz/QuizWork').then((m) => ({ default: m.QuizReview })));
 const dictationAccuracy = (sub, key) => sub.data?.score?.accuracy ?? checkDictation(sub.body || '', key.transcript).score.accuracy;
 
 const joinUrl = (code) => `${window.location.origin}/join/${code}`;
@@ -343,6 +347,7 @@ export function NewAssignment() {
   const [extras, setExtras] = useState({}); // AI study material per card front
   const [wordsText, setWordsText] = useState('');
   const [level, setLevel] = useState('junior');
+  const [quiz, setQuiz] = useState(emptyTest);
   const [dict, setDict] = useState(null); // { payload, key } from DictationSetup
   const [dictInitial, setDictInitial] = useState(null);
   const [target, setTarget] = useState('class');
@@ -373,6 +378,13 @@ export function NewAssignment() {
     if (a.kind === 'flashcards') {
       setCardsText((pl.cards || []).map((c) => `${c.f} - ${c.b}`).join('\n'));
       setExtras(Object.fromEntries((pl.cards || []).filter((c) => c.ex || c.gap).map((c) => [extraKey(c.f), c])));
+    }
+    if (a.kind === 'quiz') {
+      api.quizKey(a.id).then((k) => {
+        // Fresh ids so the copy's key can't collide with the original's.
+        const t = joinTest(pl, k?.key || {});
+        setQuiz({ sections: t.sections.map((s) => ({ ...s, id: newId(), questions: s.questions.map((q) => ({ ...q, id: newId() })) })) });
+      }).catch(() => {});
     }
     if (a.kind === 'sentences') {
       setWordsText((pl.words || []).map((w) => (w.m ? `${w.w} - ${w.m}` : w.w)).join('\n'));
@@ -424,6 +436,7 @@ export function NewAssignment() {
     }
     if (kind === 'flashcards') return cards.length ? { cards: cards.map((c) => withExtras(c, extras)) } : null;
     if (kind === 'sentences') return words.length ? { words, level } : null;
+    if (kind === 'quiz') return testProblems(quiz).length ? null : splitTest(quiz).payload;
     if (kind === 'dictation') return dict ? dict.payload : null;
     return { link: link.trim() || null, uploads };
   };
@@ -437,6 +450,7 @@ export function NewAssignment() {
     e.preventDefault();
     setError(null);
     const payload = buildPayload();
+    if (!payload && kind === 'quiz') { setError({ message: testProblems(quiz).slice(0, 3).join(' ') }); return; }
     if (!payload) {
       setError({ message: { test: 'Pick a test.', writing: 'Add a writing prompt.', dictation: 'Prepare the audio first.', sentences: 'Add at least one word.' }[kind] || 'Add at least one card (front - back).' });
       return;
@@ -452,7 +466,9 @@ export function NewAssignment() {
         class_id: target === 'class' ? classId : null,
         due_at: due ? new Date(due).toISOString() : null,
         publish_at: publishMode === 'later' && publishAt ? new Date(publishAt).toISOString() : new Date().toISOString(),
-      }, ids, kind === 'dictation' ? (created) => api.saveDictationKey(created.id, dict.key.transcript, dict.key.source) : null);
+      }, ids, kind === 'dictation' ? (created) => api.saveDictationKey(created.id, dict.key.transcript, dict.key.source)
+        : kind === 'quiz' ? (created) => api.saveQuizKey(created.id, splitTest(quiz).key)
+          : null);
       go(`/teach/assignments/${a.id}`);
     } catch (err) { setError(err); setBusy(false); }
   };
@@ -552,6 +568,13 @@ export function NewAssignment() {
                   placeholder={'mitigate - to make something less severe\nubiquitous - found everywhere'} />
                 <p className="form-help">{cards.length} card{cards.length === 1 ? '' : 's'} detected. Pasting two columns from a spreadsheet works too. Words go to the front of each student's daily queue, then repeat on a spaced-repetition schedule.</p>
                 <CardEnricher cards={cards} extras={extras} onChange={setExtras} />
+              </div>
+            )}
+
+            {kind === 'quiz' && (
+              <div className="form-field">
+                <span className="form-label">Questions</span>
+                <React.Suspense fallback={<Spinner />}><QuizBuilder value={quiz} onChange={setQuiz} /></React.Suspense>
               </div>
             )}
 
@@ -812,6 +835,7 @@ export function AssignmentDetail({ id }) {
     if (a && a.kind === 'flashcards') a.deck = await api.deckProgress(id);
     if (a && a.kind === 'dictation') a.key = await api.dictationKey(id).catch(() => null);
     if (a && a.kind === 'sentences') a.checks = await api.usageChecks(id).catch(() => []);
+    if (a && a.kind === 'quiz') a.quizKey = (await api.quizKey(id).catch(() => null))?.key || null;
     return a;
   }, [id]);
   const [open, setOpen] = useState(null);
@@ -851,6 +875,12 @@ export function AssignmentDetail({ id }) {
               {a.instructions && <div className="card hub-instructions"><p className="hub-pre">{a.instructions}</p></div>}
               {a.kind === 'writing' && a.payload?.prompt && <div className="card hub-instructions"><span className="eyebrow">{a.payload.task}</span><p className="hub-pre">{a.payload.prompt}</p></div>}
               {a.kind === 'test' && <p className="body">Test: <strong>{a.payload?.label}</strong></p>}
+              {a.kind === 'quiz' && (
+                <p className="body">
+                  {a.payload?.sections?.reduce((n, s) => n + s.questions.length, 0) || 0} questions
+                  {' · '}{a.payload?.sections?.reduce((n, s) => n + s.questions.reduce((m, q) => m + (q.points || 1), 0), 0) || 0} points
+                </p>
+              )}
               {a.kind === 'sentences' && <p className="body">{a.payload?.words?.length || 0} words · {a.payload?.level === 'senior' ? 'Senior' : 'Junior'} level</p>}
               {a.kind === 'flashcards' && <DeckEnrich a={a} onSaved={state.reload} />}
               {a.kind === 'dictation' && (
@@ -866,7 +896,7 @@ export function AssignmentDetail({ id }) {
                   <div className="hub-list">
                     {rows.map(({ student, sub, attempts, status }) => {
                       const best = attempts.reduce((m, r) => Math.max(m, pct(r.correct, r.total)), 0);
-                      const canReview = sub && ['writing', 'custom', 'dictation', 'sentences'].includes(a.kind) && sub.status === 'submitted';
+                      const canReview = sub && ['writing', 'custom', 'dictation', 'sentences', 'quiz'].includes(a.kind) && sub.status === 'submitted';
                       const isOpen = open === student.id;
                       return (
                         <div key={student.id} className="card hub-row hub-row--stack">
@@ -877,6 +907,7 @@ export function AssignmentDetail({ id }) {
                             {a.kind === 'sentences' && a.checks && (a.checks.some((c) => c.student_id === student.id)) && (
                               <small>{usedCount(a.checks.filter((c) => c.student_id === student.id))}/{a.payload?.words?.length || 0} used</small>
                             )}
+                            {a.kind === 'quiz' && (sub?.marking?.score || sub?.data?.score) && <small>{(sub.marking?.score || sub.data.score).percent}%</small>}
                             {a.kind === 'custom' && sub?.data?.files?.length > 0 && <small>{sub.data.files.length} file{sub.data.files.length === 1 ? '' : 's'}</small>}
                             {a.kind === 'dictation' && sub?.status === 'submitted' && a.key && <small>{dictationAccuracy(sub, a.key)}% accurate</small>}
                             {sub?.band != null && <span className="pill">Band {Number(sub.band).toFixed(1)}</span>}
@@ -887,7 +918,10 @@ export function AssignmentDetail({ id }) {
                               </button>
                             )}
                           </div>
-                          {isOpen && canReview && (a.kind === 'writing'
+                          {isOpen && canReview && a.kind === 'quiz' && (
+                            <React.Suspense fallback={<Spinner />}><QuizReview a={a} sub={sub} onDone={() => { setOpen(null); state.reload(); }} /></React.Suspense>
+                          )}
+                          {isOpen && canReview && a.kind !== 'quiz' && (a.kind === 'writing'
                             ? <React.Suspense fallback={<Spinner />}><WritingReview a={a} sub={sub} onDone={() => { setOpen(null); state.reload(); }} /></React.Suspense>
                             : <ReviewPanel a={a} sub={sub} onDone={() => { setOpen(null); state.reload(); }} />)}
                         </div>
