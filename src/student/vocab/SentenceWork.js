@@ -4,6 +4,7 @@ import * as api from '../api';
 import { useHub, useAsync, ErrorNote, Spinner } from '../ui';
 import { checkDictation } from '../dictation/diff';
 import { confirmDialog } from '../dialog';
+import { copiesDefinition } from './copycheck';
 
 // "Use it in a sentence": one sentence per target word, each checked by Claude
 // (correct / almost / wrong + a corrected version and a tip). Up to 3 checks
@@ -73,6 +74,7 @@ function WordRow({ a, i, word, check, count, locked, onChecked, min }) {
   const [error, setError] = useState(null);
   const left = MAX_CHECKS - (count || 0);
   const n = countWords(text);
+  const copied = n > 0 && copiesDefinition(text, word.m, word.w);
   const run = async () => {
     setBusy(true); setError(null);
     try {
@@ -96,10 +98,11 @@ function WordRow({ a, i, word, check, count, locked, onChecked, min }) {
       <CheckResult check={check} />
       {!locked && (
         <div className="uw-actions">
-          <small className={n && n < min ? 'hub-warn' : ''}>
-            {n < min ? `${n}/${min} words` : left > 0 ? `${left} check${left === 1 ? '' : 's'} left` : 'No checks left'}
+          <small className={copied || (n && n < min) ? 'hub-warn' : ''}>
+            {copied ? "That's the definition. Use the word in a sentence of your own."
+              : n < min ? `${n}/${min} words` : left > 0 ? `${left} check${left === 1 ? '' : 's'} left` : 'No checks left'}
           </small>
-          <button type="button" className="btn btn-secondary btn-sm" disabled={busy || left <= 0 || !changed || n < min} onClick={run}>
+          <button type="button" className="btn btn-secondary btn-sm" disabled={busy || left <= 0 || !changed || n < min || copied} onClick={run}>
             {busy ? <><span className="dx-spin" /> Checking…</> : <><Icon name="sparkle" size={14} /> {check ? 'Check again' : 'Check'}</>}
           </button>
         </div>
