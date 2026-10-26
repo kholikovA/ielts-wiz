@@ -73,16 +73,15 @@ function Gap({ q, value, set, review, num }) {
           const ok = review?.result?.parts?.[i];
           return (
             <span key={k} className="qz-gap">
-              <span className="qz-gapnum">{n}</span>
               {q.bank ? (
                 <select className={`form-select qz-gapinput${review ? (ok ? ' is-ok' : ' is-no') : ''}`} value={vals[i] || ''} disabled={Boolean(review)}
                   onChange={(e) => setAt(i, e.target.value)} aria-label={`Answer ${n}`}>
-                  <option value="">…</option>
+                  <option value="">{q.gaps > 1 ? n : '…'}</option>
                   {q.bank.map((w) => <option key={w} value={w}>{w}</option>)}
                 </select>
               ) : (
                 <input className={`form-input qz-gapinput${review ? (ok ? ' is-ok' : ' is-no') : ''}`} value={vals[i] || ''} readOnly={Boolean(review)}
-                  onChange={(e) => setAt(i, e.target.value)} aria-label={`Answer ${n}`} autoComplete="off" spellCheck={false}
+                  onChange={(e) => setAt(i, e.target.value)} aria-label={`Answer ${n}`} placeholder={q.gaps > 1 ? String(n) : ''} autoComplete="off" spellCheck={false}
                   style={{ width: `${Math.max(7, (vals[i] || '').length + 2)}ch` }} />
               )}
               {review && !ok && <span className="qz-fix">{(review.key?.[i] || []).join(' / ')}</span>}
@@ -191,22 +190,26 @@ export function QuizView({ payload, answers, setAnswer, review }) {
       {payload.sections.map((s) => {
         const questions = (
           <div className="qz-questions">
-            {s.title && <h2 className="h3 qz-section-title">{s.title}</h2>}
-            {s.instructions && <p className="qz-instructions hub-pre">{s.instructions}</p>}
+            {(s.title || s.instructions) && (
+              <header className="qz-sec-head">
+                {s.title && <span className="qz-sec-title">{s.title}</span>}
+                {s.instructions && <h2 className="qz-sec-instr">{s.instructions}</h2>}
+              </header>
+            )}
             {s.questions.map((q) => {
               const R = RENDER[q.type];
               const r = review?.marks?.items?.[q.id];
-              const single = !['gap', 'match'].includes(q.type);
+              const showMark = review && r && !r.manual && q.type !== 'match' && !(q.type === 'gap' && q.gaps > 1);
               return (
-                <div key={q.id} className="qz-q">
-                  <div className="qz-q-head">
-                    {single && <Num n={nums[q.id]} />}
+                <div key={q.id} className={`qz-q qz-q--${q.type}`}>
+                  <div className="qz-q-num">{q.type !== 'match' && <Num n={nums[q.id]} />}</div>
+                  <div className="qz-q-body">
                     {q.prompt && <p className="qz-prompt hub-pre">{q.prompt}</p>}
-                    {review && r && !r.manual && single && <Mark ok={r.earned === r.possible} />}
+                    <R q={q} num={nums[q.id]} value={answers?.[q.id]} set={(v) => setAnswer?.(q.id, v)}
+                      review={review ? { key: review.key?.[q.id], result: r } : null}
+                      manual={review?.manual?.[q.id]} setManual={review?.setManual ? (v) => review.setManual(q.id, v) : null} />
                   </div>
-                  <R q={q} num={nums[q.id]} value={answers?.[q.id]} set={(v) => setAnswer?.(q.id, v)}
-                    review={review ? { key: review.key?.[q.id], result: r } : null}
-                    manual={review?.manual?.[q.id]} setManual={review?.setManual ? (v) => review.setManual(q.id, v) : null} />
+                  <div className="qz-q-mark">{showMark && <Mark ok={r.earned === r.possible} />}</div>
                 </div>
               );
             })}
