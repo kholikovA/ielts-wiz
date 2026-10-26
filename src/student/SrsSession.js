@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useCallback, useRef } from 'react'
 import Icon from '../components/ui/icons';
 import * as api from './api';
 import { preview, formatInterval, buildQueue, nextCard, endOfStudyDay, STATE } from './fsrs';
-import { useHub, Spinner, ErrorNote } from './ui';
+import { useHub, Spinner, ErrorNote, NoPaste } from './ui';
 import { taskFor, markAnswer, ratingFor, BLANK } from './recall';
 
 const RATINGS = [
@@ -177,6 +177,7 @@ export default function SrsSession({ deck, onExit }) {
   }
 
   return (
+    <NoPaste>
     <div className="fc">
       <div className="fc-meta">
         <span className="fc-counts" aria-label="Cards left">
@@ -263,5 +264,6 @@ export default function SrsSession({ deck, onExit }) {
         </>
       )}
     </div>
+    </NoPaste>
   );
 }

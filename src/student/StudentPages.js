@@ -5,7 +5,7 @@ import {
   attemptsFor, statusOf, isComplete, isOverdue, dueLabel, formatDate, pct, summarise, wordCount, srsStats,
 } from './homework';
 import {
-  useHub, useAsync, Loaded, EmptyPanel, HubLink, BackLink, StatusPill, KindTag, Bar, ErrorNote, PageTitle, Coin, Spinner,
+  useHub, useAsync, Loaded, EmptyPanel, HubLink, BackLink, StatusPill, KindTag, Bar, ErrorNote, PageTitle, Coin, Spinner, NoPaste,
 } from './ui';
 import FlashcardStudy from './FlashcardStudy';
 import SrsSession from './SrsSession';
@@ -336,12 +336,12 @@ export function HomeworkDetail({ id }) {
             </div>
             {a.instructions && <div className="card hub-instructions"><p className="hub-pre">{a.instructions}</p></div>}
             {a.kind === 'test' && <TestWork a={a} />}
-            {a.kind === 'writing' && <WritingWork a={a} onSaved={state.reload} />}
+            {a.kind === 'writing' && <NoPaste><WritingWork a={a} onSaved={state.reload} /></NoPaste>}
             {a.kind === 'custom' && <CustomWork a={a} onSaved={state.reload} />}
             {a.kind === 'flashcards' && <FlashcardWork a={a} />}
-            {a.kind === 'dictation' && <DictationWork a={a} onSaved={state.reload} />}
-            {a.kind === 'sentences' && <SentenceWork a={a} onSaved={state.reload} />}
-            {a.kind === 'quiz' && <React.Suspense fallback={<Spinner />}><QuizWork a={a} onSaved={state.reload} /></React.Suspense>}
+            {a.kind === 'dictation' && <NoPaste><DictationWork a={a} onSaved={state.reload} /></NoPaste>}
+            {a.kind === 'sentences' && <NoPaste><SentenceWork a={a} onSaved={state.reload} /></NoPaste>}
+            {a.kind === 'quiz' && <NoPaste><React.Suspense fallback={<Spinner />}><QuizWork a={a} onSaved={state.reload} /></React.Suspense></NoPaste>}
             <Feedback submission={a.submission} />
           </>
         ) : <EmptyPanel icon="xCircle" title="Not found" lead="This assignment doesn't exist or isn't assigned to you." />}

@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from 'react';
 import Icon from '../components/ui/icons';
 import AppLink from '../components/ui/AppLink';
 import { STATUS_LABEL, statusPillClass, KINDS } from './homework';
@@ -29,6 +29,27 @@ export function useAsync(fn, deps) {
   }, [...deps, tick]);
   const reload = useCallback(() => setTick((t) => t + 1), []);
   return { ...state, reload };
+}
+
+// Typed exercises: answers must be typed, not pasted or dropped in.
+// Blocks paste / drop into any input or textarea inside, with a short notice.
+export function NoPaste({ children }) {
+  const [warn, setWarn] = useState(false);
+  const timer = useRef(null);
+  useEffect(() => () => clearTimeout(timer.current), []);
+  const block = (e) => {
+    if (!e.target.closest?.('input, textarea, [contenteditable="true"]')) return;
+    e.preventDefault();
+    setWarn(true);
+    clearTimeout(timer.current);
+    timer.current = setTimeout(() => setWarn(false), 2600);
+  };
+  return (
+    <div onPasteCapture={block} onDropCapture={block}>
+      {children}
+      {warn && <div className="hub-nopaste" role="status"><Icon name="xCircle" size={15} /> Pasting is turned off. Type your answer.</div>}
+    </div>
+  );
 }
 
 export const Spinner = () => <div className="hub-loading"><div className="hub-spinner" /></div>;
