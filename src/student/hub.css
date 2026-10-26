@@ -1295,3 +1295,30 @@ video.proof-thumb { object-fit: cover; background: #000; }
   font-size: 13.5px; font-weight: 500; box-shadow: var(--h-shadow-pop);
   animation: hub-fade 0.14s ease-out;
 }
+
+/* ── Quiz layout v2: number column, aligned rows ────────────────────────── */
+.qz-questions { gap: 0; }
+.qz-sec-head { display: flex; flex-direction: column; gap: 2px; padding-bottom: 12px; margin-bottom: 4px; border-bottom: 1px solid var(--h-border); }
+.qz-sec-title { font-size: 11.5px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--h-accent-text); }
+.qz-sec-instr { margin: 0; font-size: 15.5px; font-weight: 600; color: var(--h-text); line-height: 1.4; }
+.qz-q { display: grid; grid-template-columns: 34px minmax(0, 1fr) 24px; column-gap: 10px; align-items: start; padding: 12px 0; border-bottom: 1px solid var(--h-border); gap: 0 10px; }
+.qz-q:last-child { border-bottom: 0; padding-bottom: 0; }
+.qz-q-num { display: flex; justify-content: center; }
+.qz-q-mark { display: flex; justify-content: center; }
+.qz-q-body { display: flex; flex-direction: column; gap: 8px; min-width: 0; }
+/* Badge and mark sit on the first text line (line boxes are 26px; gap lines 38px). */
+.qz-num { height: 26px; min-width: 28px; padding: 0 6px; border-radius: 7px; display: inline-grid; place-items: center; font-size: 12.5px; line-height: 1; background: var(--h-surface-2); border: 1px solid var(--h-border); }
+.qz-mark { margin-top: 3px; }
+.qz-prompt { margin: 0; font-size: 15px; line-height: 26px; }
+.qz-q--gap .qz-q-num, .qz-q--gap .qz-q-mark { padding-top: 6px; }
+.qz-gaptext { line-height: 38px; font-size: 15px; margin: 0; }
+.hub .qz-gapinput { height: 30px; vertical-align: middle; }
+.qz-gap { vertical-align: middle; }
+.qz-gapnum { min-width: 20px; height: 20px; font-size: 11px; padding: 0 4px; border-radius: 5px; }
+.qz-options, .qz-tf, .qz-short, .qz-reorder, .qz-open { padding-left: 0; }
+.qz-match-row .qz-gapnum { min-width: 28px; height: 26px; font-size: 12.5px; border-radius: 7px; }
+.qz-foot { margin-top: 14px; }
+@media (max-width: 560px) {
+  .qz-q { grid-template-columns: 30px minmax(0, 1fr) 20px; gap: 0 8px; }
+}
+.hub .qz-gapinput::placeholder { color: var(--h-text-3, #9aa0a6); text-align: center; font-size: 12px; font-weight: 600; }
