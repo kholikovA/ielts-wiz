@@ -23,6 +23,9 @@ const ANTHROPIC_API_KEY = Deno.env.get("ANTHROPIC_API_KEY") ?? "";
 const MODEL = Deno.env.get("VOCAB_MODEL") || "claude-sonnet-5-5";
 const BLANK = "____";
 const MAX_ITEMS = 30;
+// Claude 5.5 models think by default. Turn it off: Haiku takes {type:"disabled"},
+// Sonnet/Opus take {type:"between_tools"} (no thinking before responding).
+const NO_THINKING = MODEL.includes("haiku") ? { type: "disabled" } : { type: "between_tools" };
 
 const CORS = {
   "Access-Control-Allow-Origin": "*",
@@ -104,6 +107,7 @@ async function handle(req: Request): Promise<Response> {
     body: JSON.stringify({
       model: MODEL,
       max_tokens: 16000,
+      thinking: NO_THINKING, // structured drafting; thinking only adds time and tokens
       system: SYSTEM,
       messages: [{ role: "user", content: `Items:\n${JSON.stringify(items)}` }],
     }),

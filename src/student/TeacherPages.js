@@ -342,6 +342,7 @@ export function NewAssignment() {
   const [cardsText, setCardsText] = useState('');
   const [extras, setExtras] = useState({}); // AI study material per card front
   const [wordsText, setWordsText] = useState('');
+  const [level, setLevel] = useState('junior');
   const [dict, setDict] = useState(null); // { payload, key } from DictationSetup
   const [dictInitial, setDictInitial] = useState(null);
   const [target, setTarget] = useState('class');
@@ -373,7 +374,10 @@ export function NewAssignment() {
       setCardsText((pl.cards || []).map((c) => `${c.f} - ${c.b}`).join('\n'));
       setExtras(Object.fromEntries((pl.cards || []).filter((c) => c.ex || c.gap).map((c) => [extraKey(c.f), c])));
     }
-    if (a.kind === 'sentences') setWordsText((pl.words || []).map((w) => (w.m ? `${w.w} - ${w.m}` : w.w)).join('\n'));
+    if (a.kind === 'sentences') {
+      setWordsText((pl.words || []).map((w) => (w.m ? `${w.w} - ${w.m}` : w.w)).join('\n'));
+      setLevel(pl.level === 'senior' ? 'senior' : 'junior');
+    }
     if (a.kind === 'dictation') api.dictationKey(a.id).then((key) => key && setDictInitial({ payload: pl, key })).catch(() => {});
     if (a.class_id) { setTarget('class'); setClassId(a.class_id); }
     else { setTarget('students'); setPicked(new Set(a.recipients.map((r) => r.id))); }
@@ -419,7 +423,7 @@ export function NewAssignment() {
       return prompt.trim() ? { task, prompt: prompt.trim(), min_words: Number(minWords) || 0, prompt_id: promptId || null, visual_url: p?.visualUrl || null } : null;
     }
     if (kind === 'flashcards') return cards.length ? { cards: cards.map((c) => withExtras(c, extras)) } : null;
-    if (kind === 'sentences') return words.length ? { words } : null;
+    if (kind === 'sentences') return words.length ? { words, level } : null;
     if (kind === 'dictation') return dict ? dict.payload : null;
     return { link: link.trim() || null, uploads };
   };
@@ -567,6 +571,16 @@ export function NewAssignment() {
                   </select>
                 )}
                 <p className="form-help">{words.length} word{words.length === 1 ? '' : 's'} (max 20). Students write one sentence with each and get instant AI feedback; a word counts as used once a sentence is correct.</p>
+                <span className="form-label" style={{ marginTop: 14 }}>Level</span>
+                <Seg label="Level" value={level} onChange={setLevel} options={[
+                  { value: 'junior', label: 'Junior' },
+                  { value: 'senior', label: 'Senior' },
+                ]} />
+                <p className="form-help">
+                  {level === 'senior'
+                    ? 'Senior (band 6.5+): sentences need about 14+ words, an academic tone and a complex structure. Plain ones come back as "Too simple".'
+                    : 'Junior (band 5-6): sentences need about 10 words with a reason, result or example. Bare ones like "Many people work remotely." come back as "Too simple".'}
+                </p>
               </div>
             )}
 
@@ -837,6 +851,7 @@ export function AssignmentDetail({ id }) {
               {a.instructions && <div className="card hub-instructions"><p className="hub-pre">{a.instructions}</p></div>}
               {a.kind === 'writing' && a.payload?.prompt && <div className="card hub-instructions"><span className="eyebrow">{a.payload.task}</span><p className="hub-pre">{a.payload.prompt}</p></div>}
               {a.kind === 'test' && <p className="body">Test: <strong>{a.payload?.label}</strong></p>}
+              {a.kind === 'sentences' && <p className="body">{a.payload?.words?.length || 0} words · {a.payload?.level === 'senior' ? 'Senior' : 'Junior'} level</p>}
               {a.kind === 'flashcards' && <DeckEnrich a={a} onSaved={state.reload} />}
               {a.kind === 'dictation' && (
                 <p className="body">
