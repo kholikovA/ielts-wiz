@@ -25,6 +25,7 @@ const DictationSetup = React.lazy(() => import('./dictation/DictationSetup'));
 const WritingReview = React.lazy(() => import('./writing/WritingReview'));
 const QuizBuilder = React.lazy(() => import('./quiz/QuizBuilder'));
 const QuizReview = React.lazy(() => import('./quiz/QuizWork').then((m) => ({ default: m.QuizReview })));
+const QuizAnalysis = React.lazy(() => import('./quiz/QuizAnalysis'));
 const dictationAccuracy = (sub, key) => sub.data?.score?.accuracy ?? checkDictation(sub.body || '', key.transcript).score.accuracy;
 
 const joinUrl = (code) => `${window.location.origin}/join/${code}`;
@@ -957,6 +958,7 @@ export function AssignmentDetail({ id }) {
     return a;
   }, [id]);
   const [open, setOpen] = useState(null);
+  const [analyzing, setAnalyzing] = useState(false);
 
   return (
     <>
@@ -994,10 +996,18 @@ export function AssignmentDetail({ id }) {
               {a.kind === 'writing' && a.payload?.prompt && <div className="card hub-instructions"><span className="eyebrow">{a.payload.task}</span><p className="hub-pre">{a.payload.prompt}</p></div>}
               {a.kind === 'test' && <p className="body">Test: <strong>{a.payload?.label}</strong></p>}
               {a.kind === 'quiz' && (
-                <p className="body">
-                  {a.payload?.sections?.reduce((n, s) => n + s.questions.length, 0) || 0} questions
-                  {' · '}{a.payload?.sections?.reduce((n, s) => n + s.questions.reduce((m, q) => m + (q.points || 1), 0), 0) || 0} points
-                </p>
+                <div className="qa-entry">
+                  <p className="body">
+                    {a.payload?.sections?.reduce((n, s) => n + s.questions.length, 0) || 0} questions
+                    {' · '}{a.payload?.sections?.reduce((n, s) => n + s.questions.reduce((m, q) => m + (q.points || 1), 0), 0) || 0} points
+                  </p>
+                  <button type="button" className="btn btn-primary btn-sm" disabled={!a.quizKey} onClick={() => setAnalyzing(true)}>
+                    <Icon name="trending" size={14} /> Analyze with the class
+                  </button>
+                </div>
+              )}
+              {analyzing && a.quizKey && (
+                <React.Suspense fallback={<Spinner />}><QuizAnalysis a={a} onClose={() => setAnalyzing(false)} /></React.Suspense>
               )}
               {a.kind === 'sentences' && <p className="body">{a.payload?.words?.length || 0} words · {a.payload?.level === 'senior' ? 'Senior' : 'Junior'} level</p>}
               {a.kind === 'flashcards' && <DeckEnrich a={a} onSaved={state.reload} />}

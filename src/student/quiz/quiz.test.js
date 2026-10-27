@@ -1,4 +1,4 @@
-import { parseGaps, maskGaps, splitTest, joinTest, markTest, markQuestion, numbering, normalize } from './quiz';
+import { parseGaps, maskGaps, splitTest, joinTest, markTest, markQuestion, numbering, normalize, analyzeQuiz } from './quiz';
 
 const sample = {
   sections: [{
@@ -89,4 +89,30 @@ test('numbering counts gaps and matches as separate questions', () => {
 test('normalize ignores case, spacing and edge punctuation', () => {
   expect(normalize('  Two  Hours. ')).toBe('two hours');
   expect(normalize('I’ve')).toBe("i've");
+});
+
+describe('analyzeQuiz', () => {
+  const { payload, key } = splitTest({ sections: [{ id: 's', questions: [
+    { id: 'g', type: 'gap', text: 'He {is} here and {was} there.' },
+    { id: 'm', type: 'mcq', prompt: 'Pick', options: ['a', 'b', 'c'], answer: [1] },
+    { id: 'o', type: 'open', prompt: 'Write', points: 5 },
+  ] }] });
+  const sub = (answers, status = 'submitted') => ({ status, data: { answers } });
+  const res = analyzeQuiz(payload, key, [
+    sub({ g: ['is', 'was'], m: [1] }),
+    sub({ g: ['Are', ''], m: [0] }),
+    sub({ g: ['are', 'was'], m: [0] }),
+    sub({ g: ['x', 'x'], m: [2] }, 'in_progress'),
+  ]);
+  test('counts only submitted quizzes', () => expect(res.students).toBe(3));
+  test('per-part wrong, blank and common wrong answers', () => {
+    expect(res.questions.g.parts[0]).toEqual({ correct: 1, wrong: 2, blank: 0, answers: [['Are', 2]] });
+    expect(res.questions.g.parts[1]).toEqual({ correct: 2, wrong: 0, blank: 1, answers: [] });
+    expect(res.questions.g.wrong).toBe(2);
+  });
+  test('mcq answers are shown as option text', () => {
+    expect(res.questions.m.parts[0].answers).toEqual([['a', 2]]);
+    expect(res.questions.m.rate).toBeCloseTo(2 / 3);
+  });
+  test('open questions have no parts', () => expect(res.questions.o.parts).toEqual([]));
 });

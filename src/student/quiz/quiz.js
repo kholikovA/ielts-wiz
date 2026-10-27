@@ -233,3 +233,72 @@ export function numbering(payload) {
 }
 
 export const newId = () => Math.random().toString(36).slice(2, 10);
+
+// ── Class analysis ──────────────────────────────────────────────────────────
+// What one part of a question looks like as text: a student's answer or the key.
+function partText(q, value, i) {
+  switch (q.type) {
+    case 'gap': return String(value?.[i] ?? '').trim();
+    case 'match': return value?.[i] != null && q.right?.[value[i]] != null ? q.right[value[i]] : '';
+    case 'mcq': {
+      const list = Array.isArray(value) ? value : value != null ? [value] : [];
+      return [...list].sort((a, b) => a - b).map((x) => q.options?.[x]).filter(Boolean).join(' + ');
+    }
+    case 'tfng': return value ? (VARIANTS[q.variant || 'tfng'].find(([k]) => k === value)?.[1] || value) : '';
+    default: return String(value ?? '').trim();
+  }
+}
+
+/** The correct answer for each part of a question, as text. */
+export function keyParts(q, k) {
+  switch (q.type) {
+    case 'gap': return (k || []).map((alts) => alts.join(' / '));
+    case 'match': return (k || []).map((r) => q.right?.[r] ?? '');
+    case 'short': case 'reorder': return [(k || []).join(' / ')];
+    case 'open': return [];
+    default: return [partText(q, k, 0)];
+  }
+}
+
+/**
+ * Class results per question, from submitted quizzes.
+ * Returns { students, average, questions: { [id]: { parts: [{ correct, wrong, blank, answers: [[text, count]] }], wrong, rate } } }
+ * `wrong` counts students who missed any part (blank or wrong); `rate` is the worst part's miss rate.
+ */
+export function analyzeQuiz(payload, key, submissions) {
+  const done = (submissions || []).filter((s) => s.status === 'submitted' && s.data?.answers);
+  const out = {};
+  let total = 0;
+  (payload?.sections || []).forEach((s) => s.questions.forEach((q) => {
+    const count = q.type === 'open' ? 0 : q.type === 'gap' ? q.gaps : q.type === 'match' ? q.left.length : 1;
+    const parts = Array.from({ length: count }, () => ({ correct: 0, wrong: 0, blank: 0, tally: new Map() }));
+    let missed = 0;
+    done.forEach((sub) => {
+      const value = sub.data.answers[q.id];
+      if (q.type === 'open') return;
+      const r = markQuestion(q, key?.[q.id], value);
+      const oks = q.type === 'gap' || q.type === 'match' ? r.parts : [r.earned === r.possible];
+      let any = false;
+      parts.forEach((p, i) => {
+        const given = partText(q, value, i);
+        if (oks[i]) { p.correct += 1; return; }
+        any = true;
+        if (!given) { p.blank += 1; return; }
+        p.wrong += 1;
+        // Group spelling-identical answers; show them as the first student wrote them.
+        const norm = normalize(given);
+        const seen = p.tally.get(norm) || [given, 0];
+        p.tally.set(norm, [seen[0], seen[1] + 1]);
+      });
+      if (any) missed += 1;
+    });
+    const n = done.length || 1;
+    out[q.id] = {
+      wrong: missed,
+      rate: parts.length ? Math.max(...parts.map((p) => (p.wrong + p.blank) / n)) : 0,
+      parts: parts.map(({ tally, ...p }) => ({ ...p, answers: [...tally.values()].sort((a, b) => b[1] - a[1]) })),
+    };
+  }));
+  done.forEach((sub) => { total += markTest(payload, key, sub.data.answers, sub.marking?.manual).percent; });
+  return { students: done.length, average: done.length ? Math.round(total / done.length) : 0, questions: out };
+}
