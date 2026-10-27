@@ -1414,15 +1414,3 @@ body.modal-open { overflow: hidden; }
   outline-offset: 2px;
 }
 
-/* Device clock warning (components/ClockWarning.js) */
-.clock-warning {
-  position: sticky; top: 0; z-index: 1000;
-  display: flex; flex-wrap: wrap; align-items: center; gap: 6px 14px;
-  padding: 12px 16px; background: #fef3c7; color: #78350f;
-  border-bottom: 1px solid #f59e0b; font-size: 14px; line-height: 1.45;
-}
-.clock-warning span { flex: 1 1 420px; }
-.clock-warning button {
-  padding: 6px 14px; border-radius: 8px; border: 1px solid #b45309; background: #fff; color: #78350f;
-  font: inherit; font-weight: 600; cursor: pointer;
-}
