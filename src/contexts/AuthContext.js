@@ -4,15 +4,32 @@ import { reconcile, flushToCloud } from '../lib/cloudSync';
 import { flush as flushOutbox, holdForUser, HELD_PREFIX } from '../lib/syncQueue';
 import { pullVocabList } from '../lib/vocabList';
 import { snapshotAcquisition, readAcquisition, deviceClass } from '../lib/marketing';
+import ClockWarning from '../components/ClockWarning';
 
 const AuthContext = createContext({});
 
 export const useAuth = () => useContext(AuthContext);
 
+// How far the device clock is from the auth server, in seconds (+ ahead, - behind),
+// from the `iat` of a token the server has just issued. A clock that is off by more
+// than a few minutes breaks sign-in: tokens look expired the moment they arrive (so
+// the client refreshes non-stop) or are sent long after they've expired (401s).
+export const CLOCK_SKEW_LIMIT = 300;
+export function clockSkewOf(session, now = Date.now()) {
+  try {
+    const part = session.access_token.split('.')[1].replace(/-/g, '+').replace(/_/g, '/');
+    const { iat } = JSON.parse(atob(part + '='.repeat((4 - (part.length % 4)) % 4)));
+    return typeof iat === 'number' ? Math.round(now / 1000 - iat) : 0;
+  } catch {
+    return 0;
+  }
+}
+
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [profile, setProfile] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [clockSkew, setClockSkew] = useState(0);
 
   useEffect(() => {
     // Capture first-touch attribution before any OAuth round-trip can wipe it.
@@ -22,6 +39,8 @@ export const AuthProvider = ({ children }) => {
     // rejects. Without this catch the app sits forever on `loading=true` and
     // renders a blank spinner. Treat any init failure as a signed-out boot.
     supabase.auth.getSession().then(({ data: { session } }) => {
+      // A stored token can be old, so only a token issued "in the future" proves a slow clock here.
+      if (session?.access_token && clockSkewOf(session) < -CLOCK_SKEW_LIMIT) setClockSkew(clockSkewOf(session));
       setUser(session?.user ?? null);
       if (session?.user) {
         fetchProfile(session.user.id);
@@ -39,7 +58,18 @@ export const AuthProvider = ({ children }) => {
     });
 
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
-      setUser(session?.user ?? null);
+      const next = session?.user ?? null;
+      if (session?.access_token && (_event === 'SIGNED_IN' || _event === 'TOKEN_REFRESHED')) {
+        const skew = clockSkewOf(session);
+        setClockSkew(Math.abs(skew) > CLOCK_SKEW_LIMIT ? skew : 0);
+      }
+      // A token refresh doesn't change who is signed in: keep the same user object and
+      // profile, so pages don't reload their data on every refresh.
+      if (_event === 'TOKEN_REFRESHED') {
+        setUser((prev) => (prev && next && prev.id === next.id ? prev : next));
+        return;
+      }
+      setUser(next);
       if (session?.user) {
         fetchProfile(session.user.id);
         if (_event === 'SIGNED_IN') {
@@ -195,7 +225,8 @@ export const AuthProvider = ({ children }) => {
   const isAdmin = Boolean(profile?.is_admin);
 
   return (
-    <AuthContext.Provider value={{ user, profile, isAdmin, loading, signInWithGoogle, signInWithGoogleIdToken, signOut, updateProfile, fetchProfile }}>
+    <AuthContext.Provider value={{ user, profile, isAdmin, loading, clockSkew, signInWithGoogle, signInWithGoogleIdToken, signOut, updateProfile, fetchProfile }}>
+      <ClockWarning skew={clockSkew} />
       {children}
     </AuthContext.Provider>
   );
