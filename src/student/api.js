@@ -57,9 +57,28 @@ export async function studentHomework(uid) {
     supabase.from('submissions').select('*').eq('student_id', uid),
   ]);
   const byAssignment = new Map((unwrap(subs) || []).map((s) => [s.assignment_id, s]));
-  return (unwrap(rec) || [])
+  const items = (unwrap(rec) || [])
     .filter((r) => r.assignments && published(r.assignments))
     .map((r) => ({ ...r.assignments, assigned_at: r.assigned_at, submission: byAssignment.get(r.assignments.id) || null }));
+  return healDecks(items, uid);
+}
+
+// Flashcard homework whose words are all learned but whose submission wasn't
+// updated (the study tab was closed before progress synced): submit it now,
+// timed at the review that learned the last word.
+async function healDecks(items, uid) {
+  if (preview) return items;
+  const open = items.filter((a) => a.kind === 'flashcards' && a.submission?.status !== 'submitted');
+  if (!open.length) return items;
+  const { data: cards } = await supabase.from('srs_cards').select('assignment_id, state, last_review')
+    .eq('student_id', uid).in('assignment_id', open.map((a) => a.id));
+  const fixed = new Map();
+  await Promise.all(open.map(async (a) => {
+    const deck = (cards || []).filter((c) => c.assignment_id === a.id);
+    if (!deck.length || deck.some((c) => c.state === 0)) return;
+    try { fixed.set(a.id, await syncDeckProgress(a.id, uid)); } catch { /* shows as not done; retried next load */ }
+  }));
+  return fixed.size ? items.map((a) => (fixed.get(a.id) ? { ...a, submission: fixed.get(a.id) } : a)) : items;
 }
 
 export async function assignmentForStudent(id, uid) {
@@ -387,15 +406,17 @@ export async function saveReview(prev, next, rating, durationMs) {
 // status works the same as other kinds: started once studied, submitted once
 // every word has been learned at least once.
 export async function syncDeckProgress(assignmentId, uid) {
-  if (preview) return;
-  const rows = unwrap(await supabase.from('srs_cards').select('state').eq('assignment_id', assignmentId).eq('student_id', uid)) || [];
+  if (preview) return null;
+  const rows = unwrap(await supabase.from('srs_cards').select('state, last_review').eq('assignment_id', assignmentId).eq('student_id', uid)) || [];
   const learned = rows.filter((r) => r.state !== 0).length;
   const done = rows.length > 0 && learned === rows.length;
+  // Finished when the last word was learned, not when this sync happens to run.
+  const finishedAt = done ? rows.map((r) => r.last_review).filter(Boolean).sort().pop() || new Date().toISOString() : null;
   const { data: existing } = await supabase.from('submissions').select('status, submitted_at').eq('assignment_id', assignmentId).eq('student_id', uid).maybeSingle();
-  await saveSubmission(assignmentId, uid, {
+  return saveSubmission(assignmentId, uid, {
     status: done || existing?.status === 'submitted' ? 'submitted' : 'in_progress',
     data: { learned, total: rows.length },
-    submitted_at: existing?.submitted_at || (done ? new Date().toISOString() : null),
+    submitted_at: existing?.submitted_at || finishedAt,
   });
 }
 

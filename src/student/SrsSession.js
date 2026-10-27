@@ -115,13 +115,14 @@ export default function SrsSession({ deck, onExit }) {
     setNow(reviewedAt);
     api.saveReview(card, next, g, duration)
       .then(() => {
+        // A new word was learned: update the homework straight away, so closing
+        // the tab mid-session can't leave a finished deck marked as not done.
         if (card.state === STATE.NEW && card.assignment_id) {
-          dirtyDecks.current.add(card.assignment_id);
-          if (dirtyDecks.current.size && (studied + 1) % 5 === 0) flushDecks();
+          api.syncDeckProgress(card.assignment_id, user.id).catch(() => dirtyDecks.current.add(card.assignment_id));
         }
       })
       .catch((err) => setSaveError(err));
-  }, [card, flushDecks, studied]);
+  }, [card, user.id]);
 
   const check = useCallback((giveUp = false) => {
     if (!card || !task?.answers || result) return;
