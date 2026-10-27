@@ -55,6 +55,8 @@ export function useHomeworkGuard(a, { active, onAutoSubmit }) {
   const storeKey = `iw.v1.hub.guard.${a.id}`;
   const [integrity, setIntegrity] = useState(() => {
     const server = a.submission?.data?.integrity || null;
+    // No submission at all (new, or the teacher allowed a retake): start clean.
+    if (!a.submission) { try { localStorage.removeItem(storeKey); } catch { /* storage off */ } return { leaves: 0, events: [] }; }
     const local = readLocal(storeKey);
     return [server, local].filter(Boolean).sort((x, y) => (y.leaves || 0) - (x.leaves || 0))[0] || { leaves: 0, events: [] };
   });

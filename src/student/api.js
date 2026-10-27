@@ -140,6 +140,10 @@ export async function homeworkFileUrls(paths) {
   return Object.fromEntries((data || []).filter((d) => d.signedUrl).map((d) => [d.path, d.signedUrl]));
 }
 
+// Teacher: wipe a student's attempt so they can do the assignment again.
+export const allowRetake = async (assignmentId, studentId) =>
+  unwrap(await supabase.rpc('allow_retake', { p_assignment: assignmentId, p_student: studentId }));
+
 export const returnSubmission = async (id, feedback) =>
   unwrap(await supabase.rpc('return_submission', { sub: id, p_feedback: feedback }));
 

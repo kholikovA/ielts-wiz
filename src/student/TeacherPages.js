@@ -1045,6 +1045,20 @@ export function AssignmentDetail({ id }) {
                                 {isOpen ? 'Close' : sub.reviewed_at ? 'View' : 'Review'}
                               </button>
                             )}
+                            {sub && a.kind !== 'flashcards' && (
+                              <button type="button" className="btn btn-ghost btn-sm" title="Let this student do it again" onClick={async () => {
+                                if (!await confirmDialog({
+                                  title: `Let ${student.name || 'this student'} retake it?`,
+                                  body: 'Their answers, score and feedback for this assignment are deleted, and it opens again as To do. Coins they already earned stay.',
+                                  confirmLabel: 'Allow retake',
+                                  danger: true,
+                                })) return;
+                                try { await api.allowRetake(a.id, student.id); setOpen(null); state.reload(); }
+                                catch (err) { await confirmDialog({ title: "Couldn't reset it", body: err.message, confirmLabel: 'OK' }); }
+                              }}>
+                                <Icon name="refresh" size={14} /> Retake
+                              </button>
+                            )}
                           </div>
                           {isOpen && canReview && a.kind === 'quiz' && (
                             <React.Suspense fallback={<Spinner />}><QuizReview a={a} sub={sub} onDone={() => { setOpen(null); state.reload(); }} /></React.Suspense>
