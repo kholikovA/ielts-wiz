@@ -6,6 +6,8 @@ import { formatDate, wordCount } from '../homework';
 import { confirmDialog } from '../dialog';
 import { useHomeworkGuard, GuardFrame, IntegrityNote } from '../guard';
 import { VARIANTS, markTest, numbering } from './quiz';
+import MathText from './MathText';
+import { SatTake, SatResults } from './SatQuiz';
 
 // Student side of a custom test, and the same view (read-only, marked) for
 // results and the teacher's review.
@@ -37,7 +39,7 @@ function MCQ({ q, value, set, review }) {
         return (
           <button key={i} type="button" role={q.multi ? 'checkbox' : 'radio'} aria-checked={on}
             className={`qz-option${on ? ' is-on' : ''}${cls}`} onClick={() => toggle(i)} disabled={Boolean(review)}>
-            <span className="qz-letter">{LETTERS[i]}</span><span>{o}</span>
+            <span className="qz-letter">{LETTERS[i]}</span><MathText text={o} />
           </button>
         );
       })}
@@ -205,7 +207,7 @@ export function QuizView({ payload, answers, setAnswer, review }) {
                 <div key={q.id} className={`qz-q qz-q--${q.type}`}>
                   <div className="qz-q-num">{q.type !== 'match' && <Num n={nums[q.id]} />}</div>
                   <div className="qz-q-body">
-                    {q.prompt && <p className="qz-prompt hub-pre">{q.prompt}</p>}
+                    {q.prompt && <MathText block text={q.prompt} className="qz-prompt" />}
                     {q.image && <img className="qz-image" src={q.image} alt="Task visual" />}
                     <R q={q} num={nums[q.id]} value={answers?.[q.id]} set={(v) => setAnswer?.(q.id, v)}
                       review={review ? { key: review.key?.[q.id], result: r } : null}
@@ -314,14 +316,30 @@ export default function QuizWork({ a, onSaved }) {
   const guard = useHomeworkGuard(a, { active: !locked, onAutoSubmit: send });
   guardRef.current = guard;
 
+  const sat = a.payload?.style === 'sat';
+
   if (locked) {
     if (key.loading) return <Spinner />;
     if (!marks) return <ErrorNote error={key.error || { message: "The answer key isn't available." }} />;
+    if (sat) return <SatResults a={a} sub={sub} keyData={key.data.key} marks={marks} submittedLabel={`submitted ${formatDate(sub.submitted_at, true)}`} />;
     return (
       <>
         <ScoreBar marks={marks} />
         <p className="form-help">Submitted {formatDate(sub.submitted_at, true)}. Correct answers are shown in green.</p>
         <QuizView payload={a.payload} answers={sub.data.answers} review={{ key: key.data.key, marks, manual: sub.marking?.manual }} />
+      </>
+    );
+  }
+
+  if (sat) {
+    const view = (
+      <SatTake a={a} answers={answers} setAnswer={(id, v) => setAnswers((x) => ({ ...x, [id]: v }))} busy={busy || preview} onSubmit={submit}
+        warning={guard.integrity?.leaves ? <span className="pill pill-amber">Warning used: next leave submits</span> : null} />
+    );
+    return (
+      <>
+        <GuardFrame g={guard} title={a.title} bare>{guard.on ? view : <div className="sat-inline">{view}</div>}</GuardFrame>
+        {error && <ErrorNote error={error} />}
       </>
     );
   }

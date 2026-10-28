@@ -161,7 +161,7 @@ export function useHomeworkGuard(a, { active, onAutoSubmit }) {
 }
 
 /** Wraps the homework: a start screen, then the work in a focus layer. */
-export function GuardFrame({ g, title, children }) {
+export function GuardFrame({ g, title, children, bare = false }) {
   if (g.preview) {
     return (
       <>
@@ -185,12 +185,16 @@ export function GuardFrame({ g, title, children }) {
     );
   }
   return (
-    <div className="hw-focus" role="region" aria-label="Homework">
-      <header className="hw-focus-bar">
-        <strong>{title}</strong>
-        <span className={leaves ? 'pill pill-amber' : 'pill'}>{leaves ? 'Warning used: next leave submits' : 'Stay on this page'}</span>
-      </header>
-      <div className="hw-focus-body">{children}</div>
+    <div className={`hw-focus${bare ? ' hw-focus--bare' : ''}`} role="region" aria-label="Homework">
+      {bare ? children : (
+        <>
+          <header className="hw-focus-bar">
+            <strong>{title}</strong>
+            <span className={leaves ? 'pill pill-amber' : 'pill'}>{leaves ? 'Warning used: next leave submits' : 'Stay on this page'}</span>
+          </header>
+          <div className="hw-focus-body">{children}</div>
+        </>
+      )}
       {g.needsFullscreen && (
         <div className="hw-focus-block">
           <div className="card">

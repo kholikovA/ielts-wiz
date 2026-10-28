@@ -116,3 +116,32 @@ describe('analyzeQuiz', () => {
   });
   test('open questions have no parts', () => expect(res.questions.o.parts).toEqual([]));
 });
+
+describe('SAT: numeric answers, style and explanations', () => {
+  const satTest = { style: 'sat', sections: [{ id: 's', questions: [
+    { id: 'n', type: 'short', numeric: true, prompt: 'r?', accepted: '24.5\n49/2', explanation: 'Because \\(2r=49\\).' },
+    { id: 'k', type: 'short', numeric: true, prompt: 'slope?', accepted: '.3846\n0.385\n5/13' },
+    { id: 'm', type: 'mcq', prompt: 'Pick', options: ['a', 'b'], answer: [1], explanation: 'B.' },
+  ] }] };
+  const { payload, key } = splitTest(satTest);
+  it('keeps the style and hides explanations in the key', () => {
+    expect(payload.style).toBe('sat');
+    expect(JSON.stringify(payload)).not.toContain('Because');
+    expect(key._rationale).toEqual({ n: 'Because \\(2r=49\\).', m: 'B.' });
+  });
+  it('accepts equal values in any listed form', () => {
+    const mark = (id, v) => markTest(payload, key, { [id]: v }).items[id].earned;
+    expect(mark('n', '49/2')).toBe(1);
+    expect(mark('n', '24.50')).toBe(1);
+    expect(mark('n', '24')).toBe(0);
+    expect(mark('n', 'abc')).toBe(0);
+    expect(mark('k', '0.3846')).toBe(1);
+    expect(mark('k', '.385')).toBe(1);
+    expect(mark('k', '3846')).toBe(0);
+  });
+  it('round-trips through joinTest', () => {
+    const back = joinTest(payload, key);
+    expect(back.style).toBe('sat');
+    expect(back.sections[0].questions[0].explanation).toBe('Because \\(2r=49\\).');
+  });
+});

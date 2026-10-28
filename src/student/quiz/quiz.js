@@ -13,6 +13,11 @@
 //            (short answers, sentence transformation, error correction)
 //   reorder  answer: [the correct sentence, alternatives...]; students get the words shuffled
 //   open     prompt, points; marked by the teacher
+//
+// Optional: test.style ('sat' = SAT-style one-question-at-a-time screen), a numeric
+// flag on short answers (student-produced responses: 49/2 = 24.5), and an
+// explanation per question. Explanations live in the key (key._rationale), so
+// students only see them after submitting.
 
 export const TYPES = {
   mcq: { label: 'Multiple choice' },
@@ -87,10 +92,12 @@ export const pointsOf = (q) => (q.type === 'open' ? Number(q.points) || 5 : part
 /** Teacher's full test -> { payload, key }. */
 export function splitTest(test) {
   const key = {};
+  const rationale = {};
   const sections = (test.sections || []).map((s) => ({
     id: s.id, title: s.title || '', instructions: s.instructions || '', passage: s.passage || '', audio_url: s.audio_url || '',
     questions: (s.questions || []).map((q) => {
       const base = { id: q.id, type: q.type, prompt: q.prompt || '', points: pointsOf(q), ...(q.image ? { image: q.image } : {}) };
+      if (String(q.explanation || '').trim()) rationale[q.id] = q.explanation;
       switch (q.type) {
         case 'mcq':
           key[q.id] = [...(q.answer || [])].sort((a, b) => a - b);
@@ -114,7 +121,7 @@ export function splitTest(test) {
         }
         case 'short':
           key[q.id] = splitLines(q.accepted);
-          return { ...base, lead: q.lead || '', keyword: q.keyword || '', limit: q.limit || '' };
+          return { ...base, lead: q.lead || '', keyword: q.keyword || '', limit: q.limit || '', ...(q.numeric ? { numeric: true } : {}) };
         case 'reorder': {
           const accepted = splitLines(q.accepted);
           key[q.id] = accepted;
@@ -126,15 +133,18 @@ export function splitTest(test) {
       }
     }),
   }));
-  return { payload: { sections }, key };
+  if (Object.keys(rationale).length) key._rationale = rationale;
+  return { payload: { sections, ...(test.style ? { style: test.style } : {}) }, key };
 }
 
 /** Rebuild the teacher's editable test from payload + key (duplicate / edit). */
 export function joinTest(payload, key) {
   return {
+    ...(payload?.style ? { style: payload.style } : {}),
     sections: (payload?.sections || []).map((s) => ({
       ...s,
-      questions: (s.questions || []).map((q) => {
+      questions: (s.questions || []).map((q0) => {
+        const q = key?._rationale?.[q0.id] ? { ...q0, explanation: key._rationale[q0.id] } : q0;
         const k = key?.[q.id];
         switch (q.type) {
           case 'mcq': return { ...q, answer: k || [] };
@@ -159,6 +169,26 @@ const matches = (given, accepted) => {
   const g = normalize(given);
   return Boolean(g) && accepted.some((a) => normalize(a) === g);
 };
+
+// "24.5", ".25", "-3", "49/2" -> number; anything else -> null.
+export function asNumber(s) {
+  const t = String(s ?? '').trim().replace(/\s+/g, '').replace(/[−–]/g, '-');
+  if (/^[-+]?(\d+\.?\d*|\.\d+)$/.test(t)) return Number(t);
+  const f = t.match(/^([-+]?\d+)\/(\d+)$/);
+  if (f && Number(f[2]) !== 0) return Number(f[1]) / Number(f[2]);
+  return null;
+}
+
+// Student-produced responses: equal in value to an accepted answer (49/2 = 24.5 = 24.50),
+// or exactly one of the listed forms (e.g. a rounded .3846).
+export function numericMatches(given, accepted) {
+  const g = asNumber(given);
+  if (g === null) return false;
+  return accepted.some((a) => {
+    const v = asNumber(a);
+    return v !== null && Math.abs(v - g) < 1e-9;
+  });
+}
 
 /**
  * Mark one question. answer is the student's response:
@@ -194,7 +224,7 @@ export function markQuestion(q, k, answer) {
       // Students often retype the given start ("I have known…"); accept that too.
       const accepted = k || [];
       const withLead = q.lead ? accepted.map((x) => `${q.lead} ${x}`) : [];
-      const ok = matches(answer, [...accepted, ...withLead]);
+      const ok = q.numeric ? numericMatches(answer, accepted) : matches(answer, [...accepted, ...withLead]);
       return { earned: ok ? 1 : 0, possible: 1, parts: [ok] };
     }
     default:

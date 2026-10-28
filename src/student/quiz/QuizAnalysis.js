@@ -2,6 +2,7 @@ import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Icon from '../../components/ui/icons';
 import { Seg } from '../ui';
 import { analyzeQuiz, keyParts, numbering, VARIANTS } from './quiz';
+import MathText from './MathText';
 
 // Teacher: go through a quiz with the class (screen share). Each question shows how
 // many students missed it; answers stay hidden until revealed. No student names.
@@ -19,7 +20,14 @@ function Missed({ part, students, small }) {
   );
 }
 
-function WrongAnswers({ stats, multi, from }) {
+// Multiple choice: show the letter(s) picked (options can be long, or pictures).
+const pickLabel = (q, text) => {
+  if (q.type !== 'mcq') return text;
+  const letters = String(text).split(' + ').map((t) => LETTERS[q.options.indexOf(t)]).filter(Boolean);
+  return letters.length ? letters.join(' + ') : text;
+};
+
+function WrongAnswers({ q, stats, multi, from }) {
   const rows = stats.parts.map((p, i) => ({ p, i })).filter(({ p }) => p.answers.length || p.blank);
   if (!rows.length) return null;
   return (
@@ -28,7 +36,7 @@ function WrongAnswers({ stats, multi, from }) {
       {rows.map(({ p, i }) => (
         <span key={i} className="qa-wrong-part">
           {multi && <b>{from + i}</b>}
-          {p.answers.slice(0, 4).map(([text, n]) => <span key={text} className="qa-chip">{text}{n > 1 && <i>×{n}</i>}</span>)}
+          {p.answers.slice(0, 4).map(([text, n]) => <span key={text} className="qa-chip"><MathText text={pickLabel(q, text)} />{n > 1 && <i>×{n}</i>}</span>)}
           {p.blank > 0 && <span className="qa-chip is-blank">blank{p.blank > 1 && <i>×{p.blank}</i>}</span>}
         </span>
       ))}
@@ -61,7 +69,7 @@ function Body({ q, k, stats, students, num, shown }) {
       return (
         <ol className="qa-options">
           {q.options.map((o, i) => (
-            <li key={i} className={shown && (k || []).includes(i) ? 'is-right' : ''}><b>{LETTERS[i]}</b>{o}</li>
+            <li key={i} className={shown && (k || []).includes(i) ? 'is-right' : ''}><b>{LETTERS[i]}</b><MathText text={o} /></li>
           ))}
         </ol>
       );
@@ -139,10 +147,13 @@ export default function QuizAnalysis({ a, onClose }) {
           <div className="qa-num">{n.from === n.to ? n.from : `${n.from}–${n.to}`}</div>
           <div className="qa-body">
             {order === 'hard' && section.title && <span className="qa-from">Section {section.title}</span>}
-            {q.prompt && <p className="qa-prompt hub-pre">{q.prompt}</p>}
             {q.image && <img className="qz-image" src={q.image} alt="Task visual" />}
+            {q.prompt && <MathText block text={q.prompt} className="qa-prompt" />}
             <Body q={q} k={a.quizKey?.[q.id]} stats={st} students={stats.students} num={n} shown={shown} />
-            {q.type !== 'open' && <WrongAnswers stats={st} multi={multi} from={n.from} />}
+            {q.type !== 'open' && <WrongAnswers q={q} stats={st} multi={multi} from={n.from} />}
+            {shown && a.quizKey?._rationale?.[q.id] && (
+              <details className="qa-explain"><summary>Explanation</summary><MathText block text={a.quizKey._rationale[q.id]} /></details>
+            )}
           </div>
           <div className="qa-side">
             {q.type !== 'open' && (
