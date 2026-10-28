@@ -112,15 +112,103 @@ function Grid({ items, current, onGo }) {
   );
 }
 
+// Desmos graphing calculator in a floating window (as in Bluebook): drag it by its
+// header, widen it, close it. It stays mounted once opened, so graphs survive
+// moving between questions. Uses the Desmos API (the desmos.com app won't run in
+// an iframe); set REACT_APP_DESMOS_API_KEY to your own key from desmos.com/api.
+const DESMOS_KEY = process.env.REACT_APP_DESMOS_API_KEY || 'dcb31709b452b1cf9dc26972add0fda6';
+let desmosLoading = null;
+function loadDesmos() {
+  if (window.Desmos) return Promise.resolve(window.Desmos);
+  if (!desmosLoading) {
+    desmosLoading = new Promise((resolve, reject) => {
+      const el = document.createElement('script');
+      el.src = `https://www.desmos.com/api/v1.11/calculator.js?apiKey=${DESMOS_KEY}`;
+      el.async = true;
+      el.onload = () => resolve(window.Desmos);
+      el.onerror = () => { desmosLoading = null; reject(new Error('The calculator could not load. Check your connection.')); };
+      document.head.appendChild(el);
+    });
+  }
+  return desmosLoading;
+}
+
+function Calculator({ open, onClose }) {
+  const [pos, setPos] = useState({ x: 24, y: 84 });
+  const [wide, setWide] = useState(false);
+  const [failed, setFailed] = useState(null);
+  const host = React.useRef(null);
+  const calc = React.useRef(null);
+  useEffect(() => {
+    let live = true;
+    loadDesmos().then((Desmos) => {
+      if (!live || !host.current || calc.current) return;
+      calc.current = Desmos.GraphingCalculator(host.current, {
+        keypad: true, expressions: true, settingsMenu: true, zoomButtons: true, expressionsTopbar: true,
+        border: false, lockViewport: false, images: false, folders: false, notes: false, links: false,
+      });
+    }).catch((e) => live && setFailed(e.message));
+    return () => { live = false; };
+  }, []);
+  useEffect(() => () => { calc.current?.destroy?.(); calc.current = null; }, []);
+  useEffect(() => { if (open) calc.current?.resize?.(); }, [open, wide]);
+  const toggleWide = () => setWide((w) => {
+    const next = !w;
+    if (next) setPos((p) => ({ x: Math.max(8, Math.min(p.x, window.innerWidth - Math.min(820, window.innerWidth - 32) - 8)), y: p.y }));
+    return next;
+  });
+  const startDrag = (e) => {
+    if (e.target.closest('button')) return;
+    const box = e.currentTarget.parentElement.getBoundingClientRect();
+    const dx = e.clientX - box.left; const dy = e.clientY - box.top;
+    const move = (ev) => {
+      const maxX = window.innerWidth - 120; const maxY = window.innerHeight - 60;
+      setPos({ x: Math.min(maxX, Math.max(0, ev.clientX - dx)), y: Math.min(maxY, Math.max(0, ev.clientY - dy)) });
+    };
+    const up = () => { window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+  return (
+    <div className={`sat-calc${wide ? ' is-wide' : ''}`} hidden={!open} style={{ left: pos.x, top: pos.y }} role="dialog" aria-label="Desmos graphing calculator">
+      <div className="sat-calc-head" onPointerDown={startDrag}>
+        <strong>Calculator</strong>
+        <span className="sat-calc-tools">
+          <button type="button" onClick={toggleWide} aria-label={wide ? 'Make smaller' : 'Make larger'} title={wide ? 'Make smaller' : 'Make larger'}>
+            <Icon name={wide ? 'minimize' : 'maximize'} size={15} />
+          </button>
+          <button type="button" onClick={onClose} aria-label="Close calculator" title="Close"><Icon name="close" size={16} /></button>
+        </span>
+      </div>
+      <div className="sat-calc-frame" ref={host}>
+        {failed && <p className="sat-calc-error">{failed}</p>}
+      </div>
+    </div>
+  );
+}
+
+function CalcButton({ open, onToggle }) {
+  return (
+    <button type="button" className={`sat-tool${open ? ' is-on' : ''}`} onClick={onToggle} aria-pressed={open}>
+      <Icon name="calculator" size={18} /><span>Calculator</span>
+    </button>
+  );
+}
+
 function Shell({ title, right, children, footer }) {
+  const [calc, setCalc] = useState(null); // null = never opened; then true/false
   return (
     <div className="sat">
       <header className="sat-top">
         <div className="sat-title"><strong>{title}</strong><small>Math</small></div>
-        <div className="sat-top-right">{right}</div>
+        <div className="sat-top-right">
+          <CalcButton open={Boolean(calc)} onToggle={() => setCalc((c) => !c)} />
+          {right}
+        </div>
       </header>
       <main className="sat-main">{children}</main>
       <footer className="sat-foot">{footer}</footer>
+      {calc !== null && <Calculator open={calc} onClose={() => setCalc(false)} />}
     </div>
   );
 }

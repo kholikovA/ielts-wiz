@@ -1715,3 +1715,33 @@ video.proof-thumb { object-fit: cover; background: #000; }
 .sat .mt .katex { font-size: 1.15em; }
 .sat .mt-display .katex { font-size: 1.2em; }
 .sat-prompt { color: #1e1e1e; }
+
+/* SAT: Desmos calculator window */
+.sat { position: relative; }
+.sat-tool {
+  display: inline-flex; flex-direction: column; align-items: center; gap: 2px; padding: 4px 10px; border: 0; border-radius: 8px;
+  background: none; color: #1e1e1e; font: inherit; font-size: 12px; cursor: pointer;
+}
+.sat-tool:hover { background: #f0f0f0; }
+.sat-tool.is-on { color: var(--sat-blue); background: #eef1fb; }
+.sat-calc {
+  position: fixed; z-index: 90; width: 420px; height: min(560px, calc(100vh - 120px)); display: flex; flex-direction: column;
+  background: #fff; border-radius: 10px; overflow: hidden; box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3); border: 1px solid #c8c8c8;
+}
+.sat-calc[hidden] { display: none; }
+.sat-calc.is-wide { width: min(820px, calc(100vw - 32px)); height: min(640px, calc(100vh - 110px)); }
+.sat-calc-head {
+  display: flex; align-items: center; justify-content: space-between; gap: 8px; padding: 8px 10px 8px 14px;
+  background: #1e1e1e; color: #fff; cursor: move; user-select: none; touch-action: none;
+}
+.sat-calc-head strong { font-size: 14px; }
+.sat-calc-tools { display: flex; gap: 4px; }
+.sat-calc-tools button { width: 30px; height: 28px; display: grid; place-items: center; border: 0; border-radius: 6px; background: none; color: #fff; cursor: pointer; }
+.sat-calc-tools button:hover { background: rgba(255, 255, 255, 0.15); }
+.sat-calc-frame { flex: 1; width: 100%; border: 0; }
+@media (max-width: 640px) {
+  .sat-calc, .sat-calc.is-wide { left: 8px !important; right: 8px; width: auto; top: 70px !important; height: calc(100vh - 150px); }
+  .sat-tool span { display: none; }
+}
+.sat-calc-frame { position: relative; min-height: 0; }
+.sat-calc-error { margin: 0; padding: 20px; color: #c62828; font-size: 14px; }
