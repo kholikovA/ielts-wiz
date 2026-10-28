@@ -7,7 +7,7 @@ import { confirmDialog } from '../dialog';
 import { useHomeworkGuard, GuardFrame, IntegrityNote } from '../guard';
 import { VARIANTS, markTest, numbering } from './quiz';
 import MathText from './MathText';
-import { SatTake, SatResults } from './SatQuiz';
+import { SatTake, SatResults, satStartKey } from './SatQuiz';
 
 // Student side of a custom test, and the same view (read-only, marked) for
 // results and the teacher's review.
@@ -300,7 +300,7 @@ export default function QuizWork({ a, onSaved }) {
         status: 'submitted', submitted_at: new Date().toISOString(),
         data: { answers: ref.current, ...(integrity?.leaves ? { integrity } : {}) },
       });
-      try { localStorage.removeItem(draftKey); } catch { /* ignore */ }
+      try { localStorage.removeItem(draftKey); localStorage.removeItem(satStartKey(a.id)); } catch { /* ignore */ }
       onSaved();
     } catch (err) { setError(err); setBusy(false); }
   };
@@ -333,7 +333,7 @@ export default function QuizWork({ a, onSaved }) {
 
   if (sat) {
     const view = (
-      <SatTake a={a} answers={answers} setAnswer={(id, v) => setAnswers((x) => ({ ...x, [id]: v }))} busy={busy || preview} onSubmit={submit}
+      <SatTake a={a} answers={answers} setAnswer={(id, v) => setAnswers((x) => ({ ...x, [id]: v }))} busy={busy || preview} onSubmit={submit} onTimeUp={preview ? undefined : () => send()}
         warning={guard.integrity?.leaves ? <span className="pill pill-amber">Warning used: next leave submits</span> : null} />
     );
     return (

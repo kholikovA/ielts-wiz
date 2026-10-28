@@ -1,10 +1,14 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import Icon from '../../components/ui/icons';
 import MathText from './MathText';
+import ReferenceSheet from './SatReference';
 import { numbering } from './quiz';
+import { useHub } from '../ui';
 
-// SAT-style (Bluebook-like) screens for quizzes with payload.style === 'sat':
-//   SatTake    one question at a time, Mark for Review, question navigator, Check Your Work
+// SAT-style screens for quizzes with payload.style === 'sat', modelled on Bluebook:
+//   SatTake    one question at a time: timer, Directions, Calculator (Desmos), Reference,
+//              More (Line Reader, shortcuts), Mark for Review, answer eliminator (ABC),
+//              question navigator, Check Your Work
 //   SatResults score + question map; answers and explanations only behind Review and analyze
 //   SatReview  the same layout, read-only, with the correct answer and the explanation
 
@@ -15,27 +19,96 @@ const answeredOf = (q, v) => (q.type === 'mcq' ? Array.isArray(v) && v.length > 
 // What a student may type in a student-produced response (like the real test).
 const cleanSpr = (s) => String(s).replace(/[^0-9./-]/g, '').slice(0, 6);
 
-function Choices({ q, value, onPick, review }) {
+const DIRECTIONS = String.raw`The questions in this section address a number of important math skills. Use of a calculator is permitted for all questions. A reference sheet, calculator, and these directions can be accessed throughout the test.
+
+Unless otherwise indicated:
+• All variables and expressions represent real numbers.
+• Figures provided are drawn to scale.
+• All figures lie in a plane.
+• The domain of a given function \(f\) is the set of all real numbers \(x\) for which \(f(x)\) is a real number.
+
+For multiple-choice questions, solve each problem and choose the correct answer from the choices provided. Each multiple-choice question has a single correct answer.
+
+For student-produced response questions, solve each problem and enter your answer as described below.
+• If you find more than one correct answer, enter only one answer.
+• You can enter up to 5 characters for a positive answer and up to 6 characters (including the negative sign) for a negative answer.
+• If your answer is a fraction that doesn't fit in the provided space, enter the decimal equivalent.
+• If your answer is a decimal that doesn't fit in the provided space, enter it by truncating or rounding at the fourth digit.
+• If your answer is a mixed number (such as \(3\tfrac{1}{2}\)), enter it as an improper fraction (7/2) or its decimal equivalent (3.5).
+• Don't enter symbols such as a percent sign, comma, or dollar sign.`;
+
+const SPR_EXAMPLES = [
+  ['3.5', '3.5\n3.50\n7/2', '31/2\n3 1/2'],
+  [String.raw`\(\dfrac{2}{3}\)`, '2/3\n.6666\n.6667\n0.666\n0.667', '0.66\n.66\n0.67\n.67'],
+  [String.raw`\(-\dfrac{1}{3}\)`, '-1/3\n-.3333\n-0.333', '-.33\n-0.33'],
+];
+
+function SprDirections() {
+  return (
+    <aside className="sat-spr-dir">
+      <h3>Student-produced response directions</h3>
+      <ul>
+        <li>If you find more than one correct answer, enter only one answer.</li>
+        <li>You can enter up to 5 characters for a positive answer and up to 6 characters (including the negative sign) for a negative answer.</li>
+        <li>If your answer is a fraction that doesn't fit in the provided space, enter the decimal equivalent.</li>
+        <li>If your answer is a decimal that doesn't fit in the provided space, enter it by truncating or rounding at the fourth digit.</li>
+        <li>If your answer is a mixed number (such as <MathText text={String.raw`\(3\tfrac{1}{2}\)`} />), enter it as an improper fraction (7/2) or its decimal equivalent (3.5).</li>
+        <li>Don't enter symbols such as a percent sign, comma, or dollar sign.</li>
+      </ul>
+      <h4>Examples</h4>
+      <table className="sat-spr-table">
+        <thead><tr><th>Answer</th><th>Acceptable ways to enter answer</th><th>Unacceptable: will NOT receive credit</th></tr></thead>
+        <tbody>
+          {SPR_EXAMPLES.map(([a, ok, no]) => (
+            <tr key={ok}><td><MathText text={a} /></td><td className="mono">{ok.split('\n').map((x) => <div key={x}>{x}</div>)}</td><td className="mono">{no.split('\n').map((x) => <div key={x}>{x}</div>)}</td></tr>
+          ))}
+        </tbody>
+      </table>
+    </aside>
+  );
+}
+
+function Choices({ q, value, onPick, review, elim, onElim, eliminating }) {
   const picked = Array.isArray(value) ? value : [];
   const key = review?.key || [];
+  const crossed = elim || [];
   return (
     <div className="sat-choices" role="radiogroup">
       {q.options.map((o, i) => {
         const on = picked.includes(i);
+        const out = crossed.includes(i);
         const state = review ? (key.includes(i) ? ' is-key' : on ? ' is-wrong' : '') : '';
         return (
-          <button key={i} type="button" role="radio" aria-checked={on} disabled={Boolean(review)}
-            className={`sat-choice${on ? ' is-on' : ''}${state}`} onClick={() => onPick?.([i])}>
-            <span className="sat-letter">{LETTERS[i]}</span>
-            <MathText text={o} className="sat-choice-text" />
-            {review && key.includes(i) && <span className="sat-tag sat-tag--key">Correct answer</span>}
-            {review && on && !key.includes(i) && <span className="sat-tag sat-tag--you">Your answer</span>}
-            {review && on && key.includes(i) && <span className="sat-tag sat-tag--you">Your answer</span>}
-          </button>
+          <div key={i} className={`sat-choice-row${eliminating ? ' has-elim' : ''}`}>
+            <button type="button" role="radio" aria-checked={on} disabled={Boolean(review)}
+              className={`sat-choice${on ? ' is-on' : ''}${out && !review ? ' is-out' : ''}${state}`}
+              onClick={() => { if (out) onElim?.(i, false); onPick?.([i]); }}>
+              <span className="sat-letter">{LETTERS[i]}</span>
+              <MathText text={o} className="sat-choice-text" />
+              {review && key.includes(i) && <span className="sat-tag sat-tag--key">Correct answer</span>}
+              {review && on && <span className="sat-tag sat-tag--you">Your answer</span>}
+            </button>
+            {eliminating && !review && (
+              out
+                ? <button type="button" className="sat-undo" onClick={() => onElim(i, false)}>Undo</button>
+                : <button type="button" className="sat-strike" onClick={() => { onElim(i, true); if (on) onPick([]); }} aria-label={`Cross out choice ${LETTERS[i]}`}><span>{LETTERS[i]}</span></button>
+            )}
+          </div>
         );
       })}
     </div>
   );
+}
+
+function sprPreview(v) {
+  if (!v) return null;
+  const neg = v.startsWith('-');
+  const body = neg ? v.slice(1) : v;
+  if (body.includes('/')) {
+    const [n, d] = body.split('/');
+    return `\\(${neg ? '-' : ''}\\dfrac{${n || '\\,'}}{${d || '\\,'}}\\)`;
+  }
+  return `\\(${v}\\)`;
 }
 
 function Spr({ value, onChange, review }) {
@@ -43,34 +116,27 @@ function Spr({ value, onChange, review }) {
   return (
     <div className="sat-spr">
       <input className={`sat-spr-input${review ? (review.ok ? ' is-key' : ' is-wrong') : ''}`} value={v} readOnly={Boolean(review)}
-        onChange={(e) => onChange?.(cleanSpr(e.target.value))} inputMode="decimal" autoComplete="off" spellCheck={false}
-        aria-label="Your answer" placeholder={review ? '' : ''} />
-      {!review && <div className="sat-preview"><span>Answer Preview:</span> {v ? <MathText text={v.includes('/') ? `\\(\\dfrac{${v.split('/')[0]}}{${v.split('/')[1] || '\\,'}}\\)` : v} /> : null}</div>}
+        onChange={(e) => onChange?.(cleanSpr(e.target.value))} inputMode="decimal" autoComplete="off" spellCheck={false} aria-label="Your answer" />
+      {!review && <div className="sat-preview"><span>Answer Preview:</span> <MathText text={sprPreview(v)} /></div>}
       {review && (
         <div className="sat-spr-review">
           <span><strong>Your answer:</strong> {v || 'Omitted'}</span>
           <span><strong>Correct answers:</strong> {(review.key || []).join(', ')}</span>
         </div>
       )}
-      {!review && (
-        <ul className="sat-spr-help">
-          <li>Enter one answer. If you find more than one correct answer, enter only one.</li>
-          <li>You can enter up to 5 characters for a positive answer and up to 6 characters (including the negative sign) for a negative answer.</li>
-          <li>If your answer is a fraction that doesn't fit, enter the decimal equivalent. Don't enter symbols such as a percent sign, comma, or dollar sign.</li>
-        </ul>
-      )}
     </div>
   );
 }
 
-function Question({ q, n, value, setValue, marked, onMark, review }) {
-  return (
+function Question({ q, n, value, setValue, marked, onMark, review, elim, onElim, eliminating, onToggleElim }) {
+  const spr = q.type !== 'mcq';
+  const content = (
     <article className="sat-q">
       <div className="sat-qbar">
         <span className="sat-qnum">{n}</span>
         {onMark ? (
           <button type="button" className={`sat-mark${marked ? ' is-on' : ''}`} onClick={onMark} aria-pressed={marked}>
-            <Icon name="flag" size={15} /> {marked ? 'Marked for Review' : 'Mark for Review'}
+            <Icon name="bookmark" size={16} /> Mark for Review
           </button>
         ) : review && (
           <span className={`sat-verdict ${review.state}`}>
@@ -78,12 +144,16 @@ function Question({ q, n, value, setValue, marked, onMark, review }) {
             {review.state === 'is-ok' ? 'Correct' : review.state === 'is-omit' ? 'Omitted' : 'Incorrect'}
           </span>
         )}
+        {!spr && onToggleElim && (
+          <button type="button" className={`sat-abc${eliminating ? ' is-on' : ''}`} onClick={onToggleElim} aria-pressed={eliminating}
+            title="Cross out answer choices you think are wrong"><span>ABC</span></button>
+        )}
       </div>
       <div className="sat-qbody">
         {q.image && <img className="sat-figure" src={q.image} alt="Figure for this question" />}
         <MathText block text={q.prompt} className="sat-prompt" />
-        {q.type === 'mcq'
-          ? <Choices q={q} value={value} onPick={setValue} review={review && { key: review.key }} />
+        {!spr
+          ? <Choices q={q} value={value} onPick={setValue} review={review && { key: review.key }} elim={elim} onElim={onElim} eliminating={eliminating} />
           : <Spr value={value} onChange={setValue} review={review && { key: review.key, ok: review.state === 'is-ok' }} />}
         {review?.explanation && (
           <section className="sat-explain" aria-label="Explanation">
@@ -94,6 +164,8 @@ function Question({ q, n, value, setValue, marked, onMark, review }) {
       </div>
     </article>
   );
+  if (!spr || review) return content;
+  return <div className="sat-spr-layout"><SprDirections />{content}</div>;
 }
 
 // Grid of question numbers (navigator, Check Your Work, results).
@@ -104,7 +176,7 @@ function Grid({ items, current, onGo }) {
         <button key={it.id} type="button" className={`sat-cell ${it.cls || ''}${i === current ? ' is-current' : ''}`} onClick={() => onGo?.(i)}
           aria-label={`Question ${i + 1}${it.label ? `, ${it.label}` : ''}`}>
           {i === current && <Icon name="target" size={11} className="sat-cell-pin" />}
-          {it.flag && <Icon name="flag" size={11} className="sat-cell-flag" />}
+          {it.flag && <Icon name="bookmark" size={12} className="sat-cell-flag" />}
           {i + 1}
         </button>
       ))}
@@ -192,23 +264,92 @@ function Calculator({ open, onClose, prefs, setPrefs }) {
   );
 }
 
-function CalcButton({ open, onToggle }) {
+function ToolButton({ icon, label, on, onClick }) {
   return (
-    <button type="button" className={`sat-tool${open ? ' is-on' : ''}`} onClick={onToggle} aria-pressed={open}>
-      <Icon name="calculator" size={18} /><span>Calculator</span>
+    <button type="button" className={`sat-tool${on ? ' is-on' : ''}`} onClick={onClick} aria-pressed={Boolean(on)}>
+      <Icon name={icon} size={18} /><span>{label}</span>
     </button>
   );
 }
 
-function Shell({ title, right, children, footer }) {
+// A movable window (Reference sheet; Calculator in pop-out mode has its own).
+function FloatPanel({ title, onClose, children, className = '', start = { x: null, y: 84 } }) {
+  const [pos, setPos] = useState(() => ({ x: start.x ?? Math.max(16, window.innerWidth - 560), y: start.y }));
+  const startDrag = (e) => {
+    if (e.target.closest('button')) return;
+    const box = e.currentTarget.parentElement.getBoundingClientRect();
+    const dx = e.clientX - box.left; const dy = e.clientY - box.top;
+    const move = (ev) => setPos({ x: Math.min(window.innerWidth - 120, Math.max(0, ev.clientX - dx)), y: Math.min(window.innerHeight - 60, Math.max(0, ev.clientY - dy)) });
+    const up = () => { window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
+  return (
+    <div className={`sat-float ${className}`} style={{ left: pos.x, top: pos.y }} role="dialog" aria-label={title}>
+      <div className="sat-calc-head" onPointerDown={startDrag}>
+        <strong>{title}</strong>
+        <span className="sat-calc-tools"><button type="button" onClick={onClose} aria-label={`Close ${title}`} title="Close"><Icon name="close" size={16} /></button></span>
+      </div>
+      <div className="sat-float-body">{children}</div>
+    </div>
+  );
+}
+
+// Line Reader: a bright band that follows the pointer; the rest is dimmed.
+function LineReader() {
+  const [y, setY] = useState(() => window.innerHeight / 2);
+  useEffect(() => {
+    const move = (e) => setY(e.clientY);
+    window.addEventListener('pointermove', move);
+    return () => window.removeEventListener('pointermove', move);
+  }, []);
+  const h = 72;
+  return (
+    <div className="sat-reader" aria-hidden="true">
+      <div style={{ height: Math.max(0, y - h / 2) }} />
+      <div className="sat-reader-band" style={{ height: h }} />
+      <div className="sat-reader-rest" />
+    </div>
+  );
+}
+
+function Timer({ endsAt, onTimeUp }) {
+  const [now, setNow] = useState(() => Date.now());
+  const [hidden, setHidden] = useState(false);
+  const [alert5, setAlert5] = useState(false);
+  const fired = useRef(false);
+  const warned = useRef(false);
+  useEffect(() => { const t = setInterval(() => setNow(Date.now()), 500); return () => clearInterval(t); }, []);
+  const left = Math.max(0, Math.ceil((endsAt - now) / 1000));
+  useEffect(() => {
+    if (left <= 300 && left > 0 && !warned.current) { warned.current = true; setAlert5(true); setHidden(false); setTimeout(() => setAlert5(false), 8000); }
+    if (left === 0 && !fired.current) { fired.current = true; onTimeUp?.(); }
+  }, [left, onTimeUp]);
+  const mm = Math.floor(left / 60); const ss = String(left % 60).padStart(2, '0');
+  return (
+    <div className={`sat-timer${left <= 300 ? ' is-low' : ''}`}>
+      {hidden ? <span className="sat-timer-hidden"><Icon name="clock" size={18} /></span> : <strong aria-live={left <= 300 ? 'polite' : 'off'}>{mm}:{ss}</strong>}
+      <button type="button" className="sat-timer-btn" onClick={() => setHidden((h) => !h)}>{hidden ? 'Show' : 'Hide'}</button>
+      {alert5 && <div className="sat-toast" role="alert">5 minutes remaining in this quiz.</div>}
+    </div>
+  );
+}
+
+function Shell({ title, timer, extra, children, footer, keys }) {
+  const { profile } = useHub() || {};
   const [calc, setCalc] = useState(null); // null = never opened; then true/false
+  const [refOpen, setRefOpen] = useState(false);
+  const [dirOpen, setDirOpen] = useState(false);
+  const [moreOpen, setMoreOpen] = useState(false);
+  const [reader, setReader] = useState(false);
+  const [shortcuts, setShortcuts] = useState(false);
   const [prefs, setPrefsState] = useState(readPrefs);
   const setPrefs = (patch) => setPrefsState((p) => {
     const next = { ...p, ...patch };
     try { localStorage.setItem(CALC_PREFS, JSON.stringify(next)); } catch { /* storage off */ }
     return next;
   });
-  const body = React.useRef(null);
+  const body = useRef(null);
   const split = Boolean(calc) && prefs.mode === 'dock';
   const dragDivider = (e) => {
     e.preventDefault();
@@ -222,13 +363,56 @@ function Shell({ title, right, children, footer }) {
     window.addEventListener('pointermove', move);
     window.addEventListener('pointerup', up);
   };
+  // Keyboard shortcuts (Alt + key), as listed under More.
+  const keysRef = useRef(keys);
+  keysRef.current = keys;
+  useEffect(() => {
+    const onKey = (e) => {
+      if (!e.altKey || e.metaKey || e.ctrlKey) return;
+      const k = e.key.toLowerCase();
+      const map = {
+        c: () => setCalc((c) => !c), r: () => setRefOpen((o) => !o), l: () => setReader((x) => !x),
+        arrowright: keysRef.current?.next, arrowleft: keysRef.current?.prev, m: keysRef.current?.mark, x: keysRef.current?.elim,
+      };
+      const fn = map[k] || map[e.code === 'KeyC' ? 'c' : e.code === 'KeyR' ? 'r' : e.code === 'KeyL' ? 'l' : e.code === 'KeyM' ? 'm' : e.code === 'KeyX' ? 'x' : ''];
+      if (fn) { e.preventDefault(); fn(); }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
   return (
     <div className="sat">
       <header className="sat-top">
-        <div className="sat-title"><strong>{title}</strong><small>Math</small></div>
+        <div className="sat-title">
+          <strong>{title}</strong>
+          <button type="button" className="sat-dir-btn" onClick={() => setDirOpen((o) => !o)} aria-expanded={dirOpen}>
+            Directions <Icon name="chevronDown" size={14} className={dirOpen ? 'is-up' : ''} />
+          </button>
+          {dirOpen && (
+            <div className="sat-dir" role="dialog" aria-label="Directions">
+              <MathText block text={DIRECTIONS} />
+              <div className="sat-dir-foot"><button type="button" className="sat-btn" onClick={() => setDirOpen(false)}>Close</button></div>
+            </div>
+          )}
+        </div>
+        <div className="sat-top-mid">{timer}</div>
         <div className="sat-top-right">
-          <CalcButton open={Boolean(calc)} onToggle={() => setCalc((c) => !c)} />
-          {right}
+          <ToolButton icon="calculator" label="Calculator" on={Boolean(calc)} onClick={() => setCalc((c) => !c)} />
+          <ToolButton icon="formula" label="Reference" on={refOpen} onClick={() => setRefOpen((o) => !o)} />
+          <div className="sat-more-wrap">
+            <ToolButton icon="moreVertical" label="More" on={moreOpen} onClick={() => setMoreOpen((o) => !o)} />
+            {moreOpen && (
+              <div className="sat-more" role="menu">
+                <button type="button" role="menuitemcheckbox" aria-checked={reader} onClick={() => { setReader((x) => !x); setMoreOpen(false); }}>
+                  <Icon name="lineReader" size={16} /> Line Reader {reader && <Icon name="check" size={14} />}
+                </button>
+                <button type="button" role="menuitem" onClick={() => { setShortcuts(true); setMoreOpen(false); }}>
+                  <Icon name="command" size={16} /> Keyboard Shortcuts
+                </button>
+              </div>
+            )}
+          </div>
+          {extra}
         </div>
       </header>
       <div ref={body} className={`sat-body${split ? ` is-split is-${prefs.side}` : ''}`} style={{ '--calc-pct': `${prefs.pct}%` }}>
@@ -243,7 +427,22 @@ function Shell({ title, right, children, footer }) {
         )}
         {calc !== null && <Calculator open={calc} onClose={() => setCalc(false)} prefs={prefs} setPrefs={setPrefs} />}
       </div>
-      <footer className="sat-foot">{footer}</footer>
+      <footer className="sat-foot">
+        <span className="sat-foot-left">{profile?.name || ''}</span>
+        {footer}
+      </footer>
+      {refOpen && <FloatPanel title="Reference" className="sat-ref-panel" onClose={() => setRefOpen(false)}><ReferenceSheet /></FloatPanel>}
+      {shortcuts && (
+        <FloatPanel title="Keyboard Shortcuts" className="sat-keys-panel" start={{ x: null, y: 120 }} onClose={() => setShortcuts(false)}>
+          <table className="sat-keys">
+            <tbody>
+              {[['Alt + →', 'Next question'], ['Alt + ←', 'Previous question'], ['Alt + M', 'Mark for Review'], ['Alt + X', 'Answer eliminator (ABC)'],
+                ['Alt + C', 'Calculator'], ['Alt + R', 'Reference'], ['Alt + L', 'Line Reader']].map(([k, d]) => <tr key={k}><td><kbd>{k}</kbd></td><td>{d}</td></tr>)}
+            </tbody>
+          </table>
+        </FloatPanel>
+      )}
+      {reader && <LineReader />}
     </div>
   );
 }
@@ -256,30 +455,60 @@ function useIndex(storeKey, count) {
   return [i, setI];
 }
 
-export function SatTake({ a, answers, setAnswer, onSubmit, busy, warning }) {
+function useStoredSet(key) {
+  const [set, setSet] = useState(() => { try { return new Set(JSON.parse(localStorage.getItem(key)) || []); } catch { return new Set(); } });
+  useEffect(() => { try { localStorage.setItem(key, JSON.stringify([...set])); } catch { /* storage off */ } }, [set, key]);
+  return [set, setSet];
+}
+
+// Time limit: payload.time_limit_min, or the SAT Math pace (35 minutes per 22 questions). 0 = untimed.
+export const satMinutes = (payload) => {
+  const n = flat(payload).length;
+  return payload.time_limit_min != null ? Number(payload.time_limit_min) : Math.round((n * 35) / 22);
+};
+export const satStartKey = (id) => `iw.v1.hub.satstart.${id}`;
+
+export function SatTake({ a, answers, setAnswer, onSubmit, onTimeUp, busy, warning }) {
   const qs = useMemo(() => flat(a.payload), [a.payload]);
   const [i, setI] = useIndex(`iw.v1.hub.sat.${a.id}`, qs.length + 1);
   const [navOpen, setNavOpen] = useState(false);
-  const markKey = `iw.v1.hub.satmark.${a.id}`;
-  const [marked, setMarked] = useState(() => {
-    try { return new Set(JSON.parse(localStorage.getItem(markKey)) || []); } catch { return new Set(); }
-  });
-  useEffect(() => { try { localStorage.setItem(markKey, JSON.stringify([...marked])); } catch { /* storage off */ } }, [marked, markKey]);
+  const [marked, setMarked] = useStoredSet(`iw.v1.hub.satmark.${a.id}`);
+  const elimKey = `iw.v1.hub.satelim.${a.id}`;
+  const [elim, setElim] = useState(() => { try { return JSON.parse(localStorage.getItem(elimKey)) || {}; } catch { return {}; } });
+  useEffect(() => { try { localStorage.setItem(elimKey, JSON.stringify(elim)); } catch { /* storage off */ } }, [elim, elimKey]);
+  const [eliminating, setEliminating] = useState(false);
   useEffect(() => { document.querySelector('.sat-main')?.scrollTo?.(0, 0); }, [i]);
+
+  const minutes = satMinutes(a.payload);
+  const [endsAt] = useState(() => {
+    if (!minutes) return null;
+    const key = satStartKey(a.id);
+    let started = null;
+    try { started = Number(localStorage.getItem(key)) || null; } catch { /* storage off */ }
+    if (!started) { started = Date.now(); try { localStorage.setItem(key, String(started)); } catch { /* storage off */ } }
+    return started + minutes * 60000;
+  });
 
   const checking = i >= qs.length;
   const q = qs[Math.min(i, qs.length - 1)];
   const toggleMark = (id) => setMarked((m) => { const n = new Set(m); if (n.has(id)) n.delete(id); else n.add(id); return n; });
+  const setOneElim = (qid, idx, on) => setElim((e) => {
+    const cur = new Set(e[qid] || []);
+    if (on) cur.add(idx); else cur.delete(idx);
+    return { ...e, [qid]: [...cur] };
+  });
   const cells = qs.map((x) => ({ id: x.id, cls: answeredOf(x, answers[x.id]) ? 'is-answered' : 'is-empty', flag: marked.has(x.id) }));
-  const go = (k) => { setI(k); setNavOpen(false); };
+  const go = useCallback((k) => { setI(Math.max(0, Math.min(qs.length, k))); setNavOpen(false); }, [qs.length, setI]);
+  const timeUp = useCallback(() => onTimeUp?.(), [onTimeUp]);
 
   return (
     <Shell
       title={a.title}
-      right={warning}
+      timer={endsAt ? <Timer endsAt={endsAt} onTimeUp={timeUp} /> : null}
+      extra={warning}
+      keys={{ next: () => go(i + 1), prev: () => go(i - 1), mark: () => !checking && toggleMark(q.id), elim: () => setEliminating((x) => !x) }}
       footer={(
         <>
-          <span className="sat-foot-left" />
           {!checking ? (
             <button type="button" className="sat-navbtn" onClick={() => setNavOpen((o) => !o)} aria-expanded={navOpen}>
               Question {i + 1} of {qs.length} <Icon name="chevronDown" size={14} className={navOpen ? 'is-up' : ''} />
@@ -295,7 +524,7 @@ export function SatTake({ a, answers, setAnswer, onSubmit, busy, warning }) {
             <div className="sat-nav" role="dialog" aria-label="Questions">
               <div className="sat-nav-head"><strong>{a.title}</strong><button type="button" className="hub-icon-btn" onClick={() => setNavOpen(false)} aria-label="Close"><Icon name="close" size={16} /></button></div>
               <div className="sat-legend">
-                <span><Icon name="target" size={12} /> Current</span><span><i className="sat-sw is-empty" /> Unanswered</span><span><Icon name="flag" size={12} /> For Review</span>
+                <span><Icon name="target" size={12} /> Current</span><span><i className="sat-sw is-empty" /> Unanswered</span><span><Icon name="bookmark" size={12} className="sat-red" /> For Review</span>
               </div>
               <Grid items={cells} current={i} onGo={go} />
               <button type="button" className="sat-btn sat-btn--ghost" onClick={() => go(qs.length)}>Go to Review Page</button>
@@ -307,18 +536,20 @@ export function SatTake({ a, answers, setAnswer, onSubmit, busy, warning }) {
       {checking ? (
         <div className="sat-check">
           <h2>Check Your Work</h2>
-          <p>Questions you haven't answered or marked for review are shown below. Select a question to go back to it. When you're ready, select Submit.</p>
+          <p>On test day, you won't be able to move on to the next module until time expires.</p>
+          <p>For this quiz, select <strong>Submit</strong> when you're ready to finish.</p>
           <div className="sat-check-card">
             <div className="sat-check-head">
               <strong>{a.title}</strong>
-              <div className="sat-legend"><span><i className="sat-sw is-empty" /> Unanswered</span><span><Icon name="flag" size={12} /> For Review</span></div>
+              <div className="sat-legend"><span><i className="sat-sw is-empty" /> Unanswered</span><span><Icon name="bookmark" size={12} className="sat-red" /> For Review</span></div>
             </div>
             <Grid items={cells} current={-1} onGo={go} />
           </div>
         </div>
       ) : (
         <Question key={q.id} q={q} n={i + 1} value={answers[q.id]} setValue={(v) => setAnswer(q.id, v)}
-          marked={marked.has(q.id)} onMark={() => toggleMark(q.id)} />
+          marked={marked.has(q.id)} onMark={() => toggleMark(q.id)}
+          elim={elim[q.id]} onElim={(idx, on) => setOneElim(q.id, idx, on)} eliminating={eliminating} onToggleElim={() => setEliminating((x) => !x)} />
       )}
     </Shell>
   );
@@ -351,10 +582,10 @@ export function SatReview({ a, answers, keyData, marks, onClose, startAt = 0 }) 
     <div className="sat-overlay" role="dialog" aria-label={`Review: ${a.title}`}>
       <Shell
         title={`${a.title} · Review`}
-        right={<button type="button" className="sat-btn sat-btn--ghost" onClick={onClose}>Exit review</button>}
+        extra={<button type="button" className="sat-btn sat-btn--ghost sat-exit" onClick={onClose}>Exit review</button>}
+        keys={{ next: () => go(Math.min(qs.length - 1, i + 1)), prev: () => go(Math.max(0, i - 1)) }}
         footer={(
           <>
-            <span className="sat-foot-left" />
             <button type="button" className="sat-navbtn" onClick={() => setNavOpen((o) => !o)} aria-expanded={navOpen}>
               Question {i + 1} of {qs.length} <Icon name="chevronDown" size={14} className={navOpen ? 'is-up' : ''} />
             </button>
