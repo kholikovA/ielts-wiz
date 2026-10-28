@@ -1740,8 +1740,38 @@ video.proof-thumb { object-fit: cover; background: #000; }
 .sat-calc-tools button:hover { background: rgba(255, 255, 255, 0.15); }
 .sat-calc-frame { flex: 1; width: 100%; border: 0; }
 @media (max-width: 640px) {
-  .sat-calc, .sat-calc.is-wide { left: 8px !important; right: 8px; width: auto; top: 70px !important; height: calc(100vh - 150px); }
+  .sat-calc.is-floating { left: 8px !important; right: 8px; width: auto; top: 70px !important; height: calc(100vh - 150px); }
   .sat-tool span { display: none; }
 }
 .sat-calc-frame { position: relative; min-height: 0; }
 .sat-calc-error { margin: 0; padding: 20px; color: #c62828; font-size: 14px; }
+
+/* SAT calculator: docked split view */
+.sat-body { flex: 1; min-height: 0; display: flex; position: relative; }
+.sat-body > .sat-main { flex: 1; min-width: 0; }
+.sat-calc.is-floating { position: fixed; }
+.sat-calc.is-floating .sat-calc-head { cursor: move; }
+.sat-calc.is-docked {
+  position: relative; z-index: 1; flex: 0 0 var(--calc-pct); width: auto; height: auto; max-height: none;
+  border-radius: 0; box-shadow: none; border: 0;
+}
+.sat-calc.is-docked .sat-calc-head { cursor: default; }
+.sat-body.is-left .sat-calc { order: 0; }
+.sat-body.is-left .sat-divider { order: 1; }
+.sat-body.is-left .sat-main { order: 2; }
+.sat-body.is-right .sat-main { order: 0; }
+.sat-body.is-right .sat-divider { order: 1; }
+.sat-body.is-right .sat-calc { order: 2; }
+.sat-divider {
+  flex: 0 0 12px; display: grid; place-items: center; cursor: col-resize; background: #ececec; touch-action: none;
+  border-left: 1px solid #d0d0d0; border-right: 1px solid #d0d0d0;
+}
+.sat-divider span { width: 4px; height: 44px; border-radius: 2px; background: #8a8a8a; }
+.sat-divider:hover, .sat-divider:focus-visible { background: #dde3f7; outline: none; }
+body.is-resizing, body.is-resizing * { cursor: col-resize !important; user-select: none !important; }
+body.is-resizing .sat-calc-frame { pointer-events: none; }
+@media (max-width: 760px) {
+  .sat-body.is-split { flex-direction: column; }
+  .sat-body.is-split .sat-calc { flex: 0 0 48%; order: 0; }
+  .sat-body.is-split .sat-divider { display: none; }
+}

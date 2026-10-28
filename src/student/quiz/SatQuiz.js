@@ -133,12 +133,19 @@ function loadDesmos() {
   return desmosLoading;
 }
 
-function Calculator({ open, onClose }) {
+// Calculator layout: docked beside the question (split screen, draggable divider,
+// left or right) or floating (draggable window). Remembered per device.
+const CALC_PREFS = 'iw.v1.hub.satcalc';
+const readPrefs = () => {
+  try { return { mode: 'dock', side: 'left', pct: 50, ...JSON.parse(localStorage.getItem(CALC_PREFS)) }; } catch { return { mode: 'dock', side: 'left', pct: 50 }; }
+};
+
+function Calculator({ open, onClose, prefs, setPrefs }) {
   const [pos, setPos] = useState({ x: 24, y: 84 });
-  const [wide, setWide] = useState(false);
   const [failed, setFailed] = useState(null);
   const host = React.useRef(null);
   const calc = React.useRef(null);
+  const docked = prefs.mode === 'dock';
   useEffect(() => {
     let live = true;
     loadDesmos().then((Desmos) => {
@@ -151,14 +158,9 @@ function Calculator({ open, onClose }) {
     return () => { live = false; };
   }, []);
   useEffect(() => () => { calc.current?.destroy?.(); calc.current = null; }, []);
-  useEffect(() => { if (open) calc.current?.resize?.(); }, [open, wide]);
-  const toggleWide = () => setWide((w) => {
-    const next = !w;
-    if (next) setPos((p) => ({ x: Math.max(8, Math.min(p.x, window.innerWidth - Math.min(820, window.innerWidth - 32) - 8)), y: p.y }));
-    return next;
-  });
+  useEffect(() => { if (open) requestAnimationFrame(() => calc.current?.resize?.()); }, [open, prefs.mode, prefs.side, prefs.pct]);
   const startDrag = (e) => {
-    if (e.target.closest('button')) return;
+    if (docked || e.target.closest('button')) return;
     const box = e.currentTarget.parentElement.getBoundingClientRect();
     const dx = e.clientX - box.left; const dy = e.clientY - box.top;
     const move = (ev) => {
@@ -169,15 +171,18 @@ function Calculator({ open, onClose }) {
     window.addEventListener('pointermove', move);
     window.addEventListener('pointerup', up);
   };
+  const tool = (icon, label, onClick) => (
+    <button type="button" onClick={onClick} aria-label={label} title={label}><Icon name={icon} size={15} /></button>
+  );
   return (
-    <div className={`sat-calc${wide ? ' is-wide' : ''}`} hidden={!open} style={{ left: pos.x, top: pos.y }} role="dialog" aria-label="Desmos graphing calculator">
+    <div className={`sat-calc ${docked ? 'is-docked' : 'is-floating'}`} hidden={!open} style={docked ? undefined : { left: pos.x, top: pos.y }}
+      role="dialog" aria-label="Desmos graphing calculator">
       <div className="sat-calc-head" onPointerDown={startDrag}>
         <strong>Calculator</strong>
         <span className="sat-calc-tools">
-          <button type="button" onClick={toggleWide} aria-label={wide ? 'Make smaller' : 'Make larger'} title={wide ? 'Make smaller' : 'Make larger'}>
-            <Icon name={wide ? 'minimize' : 'maximize'} size={15} />
-          </button>
-          <button type="button" onClick={onClose} aria-label="Close calculator" title="Close"><Icon name="close" size={16} /></button>
+          {docked && tool('swap', prefs.side === 'left' ? 'Move to the right' : 'Move to the left', () => setPrefs({ side: prefs.side === 'left' ? 'right' : 'left' }))}
+          {docked ? tool('maximize', 'Pop out as a window', () => setPrefs({ mode: 'float' })) : tool('columns', 'Dock beside the question', () => setPrefs({ mode: 'dock' }))}
+          {tool('close', 'Close calculator', onClose)}
         </span>
       </div>
       <div className="sat-calc-frame" ref={host}>
@@ -197,6 +202,26 @@ function CalcButton({ open, onToggle }) {
 
 function Shell({ title, right, children, footer }) {
   const [calc, setCalc] = useState(null); // null = never opened; then true/false
+  const [prefs, setPrefsState] = useState(readPrefs);
+  const setPrefs = (patch) => setPrefsState((p) => {
+    const next = { ...p, ...patch };
+    try { localStorage.setItem(CALC_PREFS, JSON.stringify(next)); } catch { /* storage off */ }
+    return next;
+  });
+  const body = React.useRef(null);
+  const split = Boolean(calc) && prefs.mode === 'dock';
+  const dragDivider = (e) => {
+    e.preventDefault();
+    const box = body.current.getBoundingClientRect();
+    document.body.classList.add('is-resizing');
+    const move = (ev) => {
+      const raw = prefs.side === 'left' ? (ev.clientX - box.left) / box.width : (box.right - ev.clientX) / box.width;
+      setPrefs({ pct: Math.round(Math.min(70, Math.max(25, raw * 100))) });
+    };
+    const up = () => { document.body.classList.remove('is-resizing'); window.removeEventListener('pointermove', move); window.removeEventListener('pointerup', up); };
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  };
   return (
     <div className="sat">
       <header className="sat-top">
@@ -206,9 +231,19 @@ function Shell({ title, right, children, footer }) {
           {right}
         </div>
       </header>
-      <main className="sat-main">{children}</main>
+      <div ref={body} className={`sat-body${split ? ` is-split is-${prefs.side}` : ''}`} style={{ '--calc-pct': `${prefs.pct}%` }}>
+        <main className="sat-main">{children}</main>
+        {split && (
+          <div className="sat-divider" role="separator" aria-orientation="vertical" aria-label="Resize calculator" tabIndex={0}
+            onPointerDown={dragDivider}
+            onKeyDown={(e) => {
+              const step = (e.key === 'ArrowLeft' ? -5 : e.key === 'ArrowRight' ? 5 : 0) * (prefs.side === 'left' ? 1 : -1);
+              if (step) setPrefs({ pct: Math.min(70, Math.max(25, prefs.pct + step)) });
+            }}><span /></div>
+        )}
+        {calc !== null && <Calculator open={calc} onClose={() => setCalc(false)} prefs={prefs} setPrefs={setPrefs} />}
+      </div>
       <footer className="sat-foot">{footer}</footer>
-      {calc !== null && <Calculator open={calc} onClose={() => setCalc(false)} />}
     </div>
   );
 }
