@@ -207,7 +207,9 @@ export function QuizView({ payload, answers, setAnswer, review }) {
                 <div key={q.id} className={`qz-q qz-q--${q.type}`}>
                   <div className="qz-q-num">{q.type !== 'match' && <Num n={nums[q.id]} />}</div>
                   <div className="qz-q-body">
+                    {q.passage && <MathText block text={q.passage} className="qz-passage-text" />}
                     {q.prompt && <MathText block text={q.prompt} className="qz-prompt" />}
+                    {review && q.bank?.id && <small className="qz-qid">Question ID {q.bank.id}</small>}
                     {q.image && <img className="qz-image" src={q.image} alt="Task visual" />}
                     <R q={q} num={nums[q.id]} value={answers?.[q.id]} set={(v) => setAnswer?.(q.id, v)}
                       review={review ? { key: review.key?.[q.id], result: r } : null}
@@ -249,7 +251,21 @@ const countAnswered = (payload, answers) => payload.sections.reduce((n, s) => n 
   return Array.isArray(v) ? v.some((x) => x != null && x !== '') : v != null && String(v).trim() !== '';
 }).length, 0);
 
+// Remount for each new attempt so no state carries over.
 export default function QuizWork({ a, onSaved }) {
+  const n = a.submission?.data?.attempts?.length || 0;
+  return <QuizAttempt key={`${a.id}:${n}`} a={a} onSaved={onSaved} />;
+}
+
+// Local per-attempt state (draft, timer, bookmarks, eliminations, guard leaves, position).
+const clearAttemptStorage = (id) => {
+  try {
+    [`iw.v1.hub.quiz.${id}`, satStartKey(id), `iw.v1.hub.satmark.${id}`, `iw.v1.hub.satelim.${id}`, `iw.v1.hub.guard.${id}`].forEach((k) => localStorage.removeItem(k));
+    sessionStorage.removeItem(`iw.v1.hub.sat.${id}`);
+  } catch { /* storage off */ }
+};
+
+function QuizAttempt({ a, onSaved }) {
   const { user, preview } = useHub();
   const sub = a.submission;
   const locked = sub?.status === 'submitted';
@@ -317,16 +333,66 @@ export default function QuizWork({ a, onSaved }) {
   guardRef.current = guard;
 
   const sat = a.payload?.style === 'sat';
+  const maxAttempts = Number(a.payload?.max_attempts) || 1;
+  const history = sub?.data?.attempts || [];
+  const attempts = { used: history.length + 1, max: maxAttempts, history, reviewOpened: Boolean(sub?.data?.review_opened) };
+  const left = maxAttempts - attempts.used;
+  const [shownAnswers, setShownAnswers] = useState(false);
+
+  const retry = async () => {
+    if (!await confirmDialog({
+      title: `Start attempt ${attempts.used + 1} of ${maxAttempts}?`,
+      body: 'Your answers start empty. This attempt\'s score stays in your results and your teacher sees every attempt.',
+      confirmLabel: 'Start',
+    })) return;
+    try {
+      await api.startQuizAttempt(a.id);
+      clearAttemptStorage(a.id);
+      onSaved();
+    } catch (err) { setError(err); }
+  };
+  // Seeing the answers ends the remaining attempts.
+  const openReview = async () => {
+    if (left <= 0 || attempts.reviewOpened) return true;
+    if (!await confirmDialog({
+      title: 'See the answers now?',
+      body: `You have ${left} attempt${left === 1 ? '' : 's'} left. Opening the correct answers and explanations ends them.`,
+      confirmLabel: 'Show answers',
+    })) return false;
+    try { await api.mergeSubmissionData(a.id, user.id, { review_opened: true }); } catch { /* still show */ }
+    setShownAnswers(true);
+    return true;
+  };
 
   if (locked) {
     if (key.loading) return <Spinner />;
     if (!marks) return <ErrorNote error={key.error || { message: "The answer key isn't available." }} />;
-    if (sat) return <SatResults a={a} sub={sub} keyData={key.data.key} marks={marks} submittedLabel={`submitted ${formatDate(sub.submitted_at, true)}`} />;
+    if (sat) {
+      return (
+        <>
+          <SatResults a={a} sub={sub} keyData={key.data.key} marks={marks} submittedLabel={`submitted ${formatDate(sub.submitted_at, true)}`}
+            attempts={{ ...attempts, reviewOpened: attempts.reviewOpened || shownAnswers }} onRetry={preview ? null : retry} onOpenReview={openReview} />
+          {error && <ErrorNote error={error} />}
+        </>
+      );
+    }
+    const hidden = left > 0 && !attempts.reviewOpened && !shownAnswers;
     return (
       <>
         <ScoreBar marks={marks} />
-        <p className="form-help">Submitted {formatDate(sub.submitted_at, true)}. Correct answers are shown in green.</p>
-        <QuizView payload={a.payload} answers={sub.data.answers} review={{ key: key.data.key, marks, manual: sub.marking?.manual }} />
+        {maxAttempts > 1 && <p className="form-help">Attempt {attempts.used} of {maxAttempts}{history.length ? ` · earlier: ${history.map((h) => (h.score ? `${h.score.percent}%` : '—')).join(', ')}` : ''}</p>}
+        {hidden ? (
+          <div className="hub-actions">
+            {!preview && <button type="button" className="btn btn-primary" onClick={retry}><Icon name="refresh" size={16} /> Try again ({left} left)</button>}
+            <button type="button" className="btn btn-secondary" onClick={openReview}>Show answers</button>
+          </div>
+        ) : (
+          <>
+            <p className="form-help">Submitted {formatDate(sub.submitted_at, true)}. Correct answers are shown in green.</p>
+            <QuizView payload={a.payload} answers={sub.data.answers} review={{ key: key.data.key, marks, manual: sub.marking?.manual }} />
+          </>
+        )}
+        {error && <ErrorNote error={error} />}
       </>
     );
   }
@@ -357,7 +423,45 @@ export default function QuizWork({ a, onSaved }) {
 }
 
 // Teacher: one student's marked test, points for open answers, feedback.
+// Earlier attempts are read-only; the latest (if submitted) can be marked.
 export function QuizReview({ a, sub, onDone }) {
+  const history = sub.data?.attempts || [];
+  const current = sub.status === 'submitted';
+  const [pick, setPick] = useState(current ? history.length : history.length - 1);
+  if (pick < history.length) {
+    const h = history[pick];
+    const m = markTest(a.payload, a.quizKey || {}, h.answers || {}, h.manual || {});
+    return (
+      <div className="hub-review">
+        <AttemptTabs history={history} current={current} pick={pick} setPick={setPick} />
+        <p className="form-help">Attempt {pick + 1}{h.submitted_at ? ` · submitted ${formatDate(h.submitted_at, true)}` : ''}</p>
+        <IntegrityNote sub={{ data: { integrity: h.integrity } }} />
+        <ScoreBar marks={m} />
+        <QuizView payload={a.payload} answers={h.answers || {}} review={{ key: a.quizKey, marks: m, manual: h.manual }} />
+      </div>
+    );
+  }
+  return <QuizMarking a={a} sub={sub} onDone={onDone} tabs={history.length ? <AttemptTabs history={history} current={current} pick={pick} setPick={setPick} /> : null} />;
+}
+
+function AttemptTabs({ history, current, pick, setPick }) {
+  const n = history.length + (current ? 1 : 0);
+  return (
+    <div className="hub-tabs qz-attempt-tabs">
+      {Array.from({ length: n }, (_, i) => {
+        const score = i < history.length ? history[i].score : null;
+        return (
+          <button key={i} type="button" className={`chip${pick === i ? ' is-selected' : ''}`} onClick={() => setPick(i)}>
+            Attempt {i + 1}{score ? ` · ${score.percent}%` : i === history.length ? ' (latest)' : ''}
+          </button>
+        );
+      })}
+      {!current && <span className="form-help">Attempt {history.length + 1} in progress</span>}
+    </div>
+  );
+}
+
+function QuizMarking({ a, sub, onDone, tabs }) {
   const [manual, setManual] = useState(() => ({ ...(sub.marking?.manual || {}) }));
   const [feedback, setFeedback] = useState(sub.feedback || '');
   const [busy, setBusy] = useState(false);
@@ -375,6 +479,7 @@ export function QuizReview({ a, sub, onDone }) {
   if (!a.quizKey) return <ErrorNote error={{ message: "The answer key couldn't be loaded." }} />;
   return (
     <div className="hub-review">
+      {tabs}
       <IntegrityNote sub={sub} />
       <ScoreBar marks={marks} />
       <QuizView payload={a.payload} answers={sub.data?.answers || {}}

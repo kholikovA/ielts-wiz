@@ -20,7 +20,13 @@ let preview = null; // { id, teacherName }
 export const setPreview = (p) => { preview = p?.id ? p : null; };
 export const isPreview = () => Boolean(preview);
 const PREVIEW_ONLY = 'This is a preview. Only the student can do this from their own account.';
-const refuseInPreview = () => { if (preview) throw new Error(PREVIEW_ONLY); };
+// Teacher previews of an assignment render the student screens; nothing may be saved.
+let dryRun = false;
+export const setDryRun = (on) => { dryRun = Boolean(on); };
+const refuseInPreview = () => {
+  if (dryRun) throw new Error('This is a preview. Nothing is saved.');
+  if (preview) throw new Error(PREVIEW_ONLY);
+};
 const nowIso = () => new Date().toISOString();
 // Teachers can see scheduled work; students can't until it's published.
 const published = (a) => !a.publish_at || new Date(a.publish_at) <= new Date();
@@ -146,6 +152,50 @@ export const allowRetake = async (assignmentId, studentId) =>
 
 export const returnSubmission = async (id, feedback) =>
   unwrap(await supabase.rpc('return_submission', { sub: id, p_feedback: feedback }));
+
+// ── SAT question bank (teachers) ─────────────────────────────────────────────
+const SAT_BUCKET = 'sat-bank';
+export const satImageUrl = (src) => supabase.storage.from(SAT_BUCKET).getPublicUrl(`img/${src}`).data.publicUrl;
+
+export async function satQuestions() {
+  const out = [];
+  for (let from = 0; ; from += 1000) {
+    const rows = unwrap(await supabase.from('sat_questions')
+      .select('id, test, domain, skill, difficulty, type, content, key, added_at')
+      .order('id').range(from, from + 999)) || [];
+    out.push(...rows);
+    if (rows.length < 1000) return out;
+  }
+}
+
+// Names of images already in the bucket (so an import can resume or skip them).
+export async function satImageNames() {
+  const names = new Set();
+  for (let offset = 0; ; offset += 1000) {
+    const { data, error } = await supabase.storage.from(SAT_BUCKET).list('img', { limit: 1000, offset, sortBy: { column: 'name', order: 'asc' } });
+    if (error) throw new Error(error.message);
+    (data || []).forEach((f) => names.add(f.name));
+    if (!data || data.length < 1000) return names;
+  }
+}
+
+export async function uploadSatImage(name, file) {
+  const { error } = await supabase.storage.from(SAT_BUCKET)
+    .upload(`img/${name}`, file, { upsert: true, contentType: 'image/png', cacheControl: '31536000' });
+  if (error) throw new Error(`${name}: ${error.message}`);
+}
+
+export async function upsertSatQuestions(rows) {
+  for (let i = 0; i < rows.length; i += 200) {
+    unwrap(await supabase.from('sat_questions').upsert(rows.slice(i, i + 200).map((r) => ({ ...r, updated_at: new Date().toISOString() })), { onConflict: 'id' }));
+  }
+}
+
+// Student: start another attempt at a quiz that allows several (keeps the previous one).
+export const startQuizAttempt = async (assignmentId) => {
+  refuseInPreview();
+  return unwrap(await supabase.rpc('start_quiz_attempt', { p_assignment: assignmentId }));
+};
 
 // ── Custom tests (quiz) ──────────────────────────────────────────────────────
 export const quizKey = async (assignmentId) =>

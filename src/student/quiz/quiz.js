@@ -96,7 +96,10 @@ export function splitTest(test) {
   const sections = (test.sections || []).map((s) => ({
     id: s.id, title: s.title || '', instructions: s.instructions || '', passage: s.passage || '', audio_url: s.audio_url || '',
     questions: (s.questions || []).map((q) => {
-      const base = { id: q.id, type: q.type, prompt: q.prompt || '', points: pointsOf(q), ...(q.image ? { image: q.image } : {}) };
+      const base = {
+        id: q.id, type: q.type, prompt: q.prompt || '', points: pointsOf(q),
+        ...(q.image ? { image: q.image } : {}), ...(q.passage ? { passage: q.passage } : {}), ...(q.bank ? { bank: q.bank } : {}),
+      };
       if (String(q.explanation || '').trim()) rationale[q.id] = q.explanation;
       switch (q.type) {
         case 'mcq':

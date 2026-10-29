@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import Icon from '../components/ui/icons';
 import * as api from './api';
 import {
   attemptsFor, statusOf, isComplete, isOverdue, dueLabel, formatDate, pct, summarise, wordCount, srsStats, todaysHomework,
 } from './homework';
 import {
-  useHub, useAsync, Loaded, EmptyPanel, HubLink, BackLink, StatusPill, KindTag, Bar, ErrorNote, PageTitle, Coin, Spinner, NoPaste,
+  useHub, useAsync, Loaded, EmptyPanel, HubLink, BackLink, StatusPill, KindTag, Bar, ErrorNote, PageTitle, Coin, Spinner, NoPaste, HubContext, Seg,
 } from './ui';
 import FlashcardStudy from './FlashcardStudy';
 import SrsSession from './SrsSession';
@@ -347,24 +347,79 @@ export function HomeworkDetail({ id }) {
       <Loaded state={state}>
         {(a) => a ? (
           <>
-            <div className="hub-detail-head">
-              <KindTag kind={a.kind} />
-              <h1 className="h2">{a.title}</h1>
-              <div className="hub-detail-meta"><StatusPill status={a.status} /><span>{dueLabel(a.due_at)}</span></div>
-            </div>
-            {a.instructions && <div className="card hub-instructions"><p className="hub-pre">{a.instructions}</p></div>}
-            {a.kind === 'test' && <TestWork a={a} />}
-            {a.kind === 'writing' && <NoPaste><WritingWork a={a} onSaved={state.reload} /></NoPaste>}
-            {a.kind === 'custom' && <CustomWork a={a} onSaved={state.reload} />}
-            {a.kind === 'flashcards' && <FlashcardWork a={a} />}
-            {a.kind === 'dictation' && <NoPaste><DictationWork a={a} onSaved={state.reload} /></NoPaste>}
-            {a.kind === 'sentences' && <NoPaste><SentenceWork a={a} onSaved={state.reload} /></NoPaste>}
-            {a.kind === 'quiz' && <NoPaste><React.Suspense fallback={<Spinner />}><QuizWork a={a} onSaved={state.reload} /></React.Suspense></NoPaste>}
+            <HomeworkBody a={a} onSaved={state.reload} />
             <Feedback submission={a.submission} />
           </>
         ) : <EmptyPanel icon="xCircle" title="Not found" lead="This assignment doesn't exist or isn't assigned to you." />}
       </Loaded>
     </>
+  );
+}
+
+// The assignment as the student sees it (also used for the teacher's preview).
+export function HomeworkBody({ a, onSaved }) {
+  return (
+    <>
+      <div className="hub-detail-head">
+        <KindTag kind={a.kind} />
+        <h1 className="h2">{a.title}</h1>
+        <div className="hub-detail-meta"><StatusPill status={a.status} /><span>{dueLabel(a.due_at)}</span></div>
+      </div>
+      {a.instructions && <div className="card hub-instructions"><p className="hub-pre">{a.instructions}</p></div>}
+      {a.kind === 'test' && <TestWork a={a} />}
+      {a.kind === 'writing' && <NoPaste><WritingWork a={a} onSaved={onSaved} /></NoPaste>}
+      {a.kind === 'custom' && <CustomWork a={a} onSaved={onSaved} />}
+      {a.kind === 'flashcards' && <FlashcardWork a={a} />}
+      {a.kind === 'dictation' && <NoPaste><DictationWork a={a} onSaved={onSaved} /></NoPaste>}
+      {a.kind === 'sentences' && <NoPaste><SentenceWork a={a} onSaved={onSaved} /></NoPaste>}
+      {a.kind === 'quiz' && <NoPaste><React.Suspense fallback={<Spinner />}><QuizWork a={a} onSaved={onSaved} /></React.Suspense></NoPaste>}
+    </>
+  );
+}
+
+// Teacher: preview any assignment exactly as students get it. Nothing is saved.
+// For quizzes, a second tab shows the review screen with the answers and explanations.
+const QuizReviewScreen = React.lazy(() => import('./quiz/QuizPreview'));
+export function AssignmentPreview({ a, onClose }) {
+  const hub = useHub();
+  const ctx = useMemo(() => ({ ...hub, preview: true }), [hub]);
+  const [tab, setTab] = useState('student');
+  const fake = useMemo(() => ({ ...a, submission: null, attempts: [], status: 'todo' }), [a]);
+  useEffect(() => {
+    api.setDryRun(true);
+    const onKey = (e) => { if (e.key === 'Escape' && !document.querySelector('.sat-overlay')) onClose(); };
+    document.addEventListener('keydown', onKey);
+    document.body.style.overflow = 'hidden';
+    return () => {
+      api.setDryRun(false);
+      document.removeEventListener('keydown', onKey);
+      document.body.style.overflow = '';
+      try {
+        [`iw.v1.hub.quiz.${a.id}`, `iw.v1.hub.satstart.${a.id}`, `iw.v1.hub.satmark.${a.id}`, `iw.v1.hub.satelim.${a.id}`, `iw.v1.hub.hwdraft.${a.id}`, `iw.v1.hub.draft.${a.id}`].forEach((k) => localStorage.removeItem(k));
+        sessionStorage.removeItem(`iw.v1.hub.sat.${a.id}`);
+      } catch { /* storage off */ }
+    };
+  }, [a.id, onClose]);
+  return (
+    <div className="hw-preview" role="dialog" aria-label={`Preview: ${a.title}`}>
+      <header className="hw-preview-bar">
+        <span className="pill pill-accent"><Icon name="eye" size={12} /> Preview</span>
+        <strong>{a.title}</strong>
+        {a.kind === 'quiz' && (
+          <Seg label="Preview" value={tab} onChange={setTab} options={[{ value: 'student', label: 'Student screen' }, { value: 'review', label: 'Answers & explanations' }]} />
+        )}
+        <span className="hw-preview-spacer" />
+        <small className="hub-muted">Nothing you do here is saved.</small>
+        <button type="button" className="btn btn-sm" onClick={onClose}><Icon name="close" size={14} /> Close</button>
+      </header>
+      <div className="hw-preview-body">
+        <HubContext.Provider value={ctx}>
+          {tab === 'student'
+            ? <HomeworkBody a={fake} onSaved={() => {}} />
+            : <React.Suspense fallback={<Spinner />}><QuizReviewScreen a={a} /></React.Suspense>}
+        </HubContext.Provider>
+      </div>
+    </div>
   );
 }
 

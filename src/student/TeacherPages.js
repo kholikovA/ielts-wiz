@@ -26,6 +26,7 @@ const WritingReview = React.lazy(() => import('./writing/WritingReview'));
 const QuizBuilder = React.lazy(() => import('./quiz/QuizBuilder'));
 const QuizReview = React.lazy(() => import('./quiz/QuizWork').then((m) => ({ default: m.QuizReview })));
 const QuizAnalysis = React.lazy(() => import('./quiz/QuizAnalysis'));
+const AssignmentPreview = React.lazy(() => import('./StudentPages').then((m) => ({ default: m.AssignmentPreview })));
 const dictationAccuracy = (sub, key) => sub.data?.score?.accuracy ?? checkDictation(sub.body || '', key.transcript).score.accuracy;
 
 const joinUrl = (code) => `${window.location.origin}/join/${code}`;
@@ -959,6 +960,8 @@ export function AssignmentDetail({ id }) {
   }, [id]);
   const [open, setOpen] = useState(null);
   const [analyzing, setAnalyzing] = useState(false);
+  const [previewing, setPreviewing] = useState(false);
+  const closePreview = React.useCallback(() => setPreviewing(false), []);
 
   return (
     <>
@@ -980,7 +983,10 @@ export function AssignmentDetail({ id }) {
                 <KindTag kind={a.kind} />
                 <div className="hub-section-head" style={{ marginBottom: 0 }}>
                   <h1>{a.title}</h1>
-                  <HubLink to={`/teach/assignments/new?from=${a.id}`} className="btn btn-sm"><Icon name="copy" size={14} /> Duplicate</HubLink>
+                  <span className="hub-actions" style={{ margin: 0 }}>
+                    <button type="button" className="btn btn-sm" onClick={() => setPreviewing(true)}><Icon name="eye" size={14} /> Preview</button>
+                    <HubLink to={`/teach/assignments/new?from=${a.id}`} className="btn btn-sm"><Icon name="copy" size={14} /> Duplicate</HubLink>
+                  </span>
                 </div>
                 <div className="hub-detail-meta">
                   <span>{a.classes?.name || 'Individual students'}</span>
@@ -1006,6 +1012,7 @@ export function AssignmentDetail({ id }) {
                   </button>
                 </div>
               )}
+              {previewing && <React.Suspense fallback={<Spinner />}><AssignmentPreview a={a} onClose={closePreview} /></React.Suspense>}
               {analyzing && a.quizKey && (
                 <React.Suspense fallback={<Spinner />}><QuizAnalysis a={a} onClose={() => setAnalyzing(false)} /></React.Suspense>
               )}
@@ -1024,7 +1031,9 @@ export function AssignmentDetail({ id }) {
                   <div className="hub-list">
                     {rows.map(({ student, sub, attempts, status }) => {
                       const best = attempts.reduce((m, r) => Math.max(m, pct(r.correct, r.total)), 0);
-                      const canReview = sub && ['writing', 'custom', 'dictation', 'sentences', 'quiz'].includes(a.kind) && sub.status === 'submitted';
+                      const canReview = sub && ['writing', 'custom', 'dictation', 'sentences', 'quiz'].includes(a.kind)
+                        && (sub.status === 'submitted' || (a.kind === 'quiz' && sub.data?.attempts?.length > 0));
+                      const tries = a.kind === 'quiz' ? (sub?.data?.attempts?.length || 0) + (sub ? 1 : 0) : 0;
                       const isOpen = open === student.id;
                       return (
                         <div key={student.id} className="card hub-row hub-row--stack">
@@ -1036,6 +1045,7 @@ export function AssignmentDetail({ id }) {
                               <small>{usedCount(a.checks.filter((c) => c.student_id === student.id))}/{a.payload?.words?.length || 0} used</small>
                             )}
                             {a.kind === 'quiz' && (sub?.marking?.score || sub?.data?.score) && <small>{(sub.marking?.score || sub.data.score).percent}%</small>}
+                            {tries > 1 && <span className="pill">Attempt {tries}{a.payload?.max_attempts ? ` of ${a.payload.max_attempts}` : ''}</span>}
                             {a.kind === 'custom' && sub?.data?.files?.length > 0 && <small>{sub.data.files.length} file{sub.data.files.length === 1 ? '' : 's'}</small>}
                             {a.kind === 'dictation' && sub?.status === 'submitted' && a.key && <small>{dictationAccuracy(sub, a.key)}% accurate</small>}
                             {sub?.band != null && <span className="pill">Band {Number(sub.band).toFixed(1)}</span>}
