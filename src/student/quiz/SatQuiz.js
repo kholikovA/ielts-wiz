@@ -37,6 +37,8 @@ For student-produced response questions, solve each problem and enter your answe
 • If your answer is a mixed number (such as \(3\tfrac{1}{2}\)), enter it as an improper fraction (7/2) or its decimal equivalent (3.5).
 • Don't enter symbols such as a percent sign, comma, or dollar sign.`;
 
+const RW_DIRECTIONS = 'The questions in this section address a number of important reading and writing skills. Each question includes one or more passages, which may include a table or graph. Read each passage and question carefully, and then choose the best answer to the question based on the passage(s).\n\nAll questions in this section are multiple-choice with four answer choices. Each question has a single best answer.';
+
 const SPR_EXAMPLES = [
   ['3.5', '3.5\n3.50\n7/2', '31/2\n3 1/2'],
   [String.raw`\(\dfrac{2}{3}\)`, '2/3\n.6666\n.6667\n0.666\n0.667', '0.66\n.66\n0.67\n.67'],
@@ -144,6 +146,7 @@ function Question({ q, n, value, setValue, marked, onMark, review, elim, onElim,
             {review.state === 'is-ok' ? 'Correct' : review.state === 'is-omit' ? 'Omitted' : 'Incorrect'}
           </span>
         )}
+        {review && q.bank?.id && <span className="sat-qid">Question ID <code>{q.bank.id}</code></span>}
         {!spr && onToggleElim && (
           <button type="button" className={`sat-abc${eliminating ? ' is-on' : ''}`} onClick={onToggleElim} aria-pressed={eliminating}
             title="Cross out answer choices you think are wrong"><span>ABC</span></button>
@@ -164,6 +167,14 @@ function Question({ q, n, value, setValue, marked, onMark, review, elim, onElim,
       </div>
     </article>
   );
+  if (q.passage) {
+    return (
+      <div className="sat-rw">
+        <div className="sat-rw-passage"><MathText block text={q.passage} /></div>
+        <div className="sat-rw-q">{content}</div>
+      </div>
+    );
+  }
   if (!spr || review) return content;
   return <div className="sat-spr-layout"><SprDirections />{content}</div>;
 }
@@ -335,7 +346,8 @@ function Timer({ endsAt, onTimeUp }) {
   );
 }
 
-function Shell({ title, timer, extra, children, footer, keys }) {
+function Shell({ title, timer, extra, children, footer, keys, subject = 'math' }) {
+  const math = subject !== 'rw';
   const { profile } = useHub() || {};
   const [calc, setCalc] = useState(null); // null = never opened; then true/false
   const [refOpen, setRefOpen] = useState(false);
@@ -366,12 +378,14 @@ function Shell({ title, timer, extra, children, footer, keys }) {
   // Keyboard shortcuts (Alt + key), as listed under More.
   const keysRef = useRef(keys);
   keysRef.current = keys;
+  const mathRef = useRef(math);
+  mathRef.current = math;
   useEffect(() => {
     const onKey = (e) => {
       if (!e.altKey || e.metaKey || e.ctrlKey) return;
       const k = e.key.toLowerCase();
       const map = {
-        c: () => setCalc((c) => !c), r: () => setRefOpen((o) => !o), l: () => setReader((x) => !x),
+        c: () => mathRef.current && setCalc((c) => !c), r: () => mathRef.current && setRefOpen((o) => !o), l: () => setReader((x) => !x),
         arrowright: keysRef.current?.next, arrowleft: keysRef.current?.prev, m: keysRef.current?.mark, x: keysRef.current?.elim,
       };
       const fn = map[k] || map[e.code === 'KeyC' ? 'c' : e.code === 'KeyR' ? 'r' : e.code === 'KeyL' ? 'l' : e.code === 'KeyM' ? 'm' : e.code === 'KeyX' ? 'x' : ''];
@@ -385,20 +399,21 @@ function Shell({ title, timer, extra, children, footer, keys }) {
       <header className="sat-top">
         <div className="sat-title">
           <strong>{title}</strong>
+          <small className="sat-subject">{math ? 'Math' : 'Reading and Writing'}</small>
           <button type="button" className="sat-dir-btn" onClick={() => setDirOpen((o) => !o)} aria-expanded={dirOpen}>
             Directions <Icon name="chevronDown" size={14} className={dirOpen ? 'is-up' : ''} />
           </button>
           {dirOpen && (
             <div className="sat-dir" role="dialog" aria-label="Directions">
-              <MathText block text={DIRECTIONS} />
+              <MathText block text={math ? DIRECTIONS : RW_DIRECTIONS} />
               <div className="sat-dir-foot"><button type="button" className="sat-btn" onClick={() => setDirOpen(false)}>Close</button></div>
             </div>
           )}
         </div>
         <div className="sat-top-mid">{timer}</div>
         <div className="sat-top-right">
-          <ToolButton icon="calculator" label="Calculator" on={Boolean(calc)} onClick={() => setCalc((c) => !c)} />
-          <ToolButton icon="formula" label="Reference" on={refOpen} onClick={() => setRefOpen((o) => !o)} />
+          {math && <ToolButton icon="calculator" label="Calculator" on={Boolean(calc)} onClick={() => setCalc((c) => !c)} />}
+          {math && <ToolButton icon="formula" label="Reference" on={refOpen} onClick={() => setRefOpen((o) => !o)} />}
           <div className="sat-more-wrap">
             <ToolButton icon="moreVertical" label="More" on={moreOpen} onClick={() => setMoreOpen((o) => !o)} />
             {moreOpen && (
@@ -437,7 +452,7 @@ function Shell({ title, timer, extra, children, footer, keys }) {
           <table className="sat-keys">
             <tbody>
               {[['Alt + →', 'Next question'], ['Alt + ←', 'Previous question'], ['Alt + M', 'Mark for Review'], ['Alt + X', 'Answer eliminator (ABC)'],
-                ['Alt + C', 'Calculator'], ['Alt + R', 'Reference'], ['Alt + L', 'Line Reader']].map(([k, d]) => <tr key={k}><td><kbd>{k}</kbd></td><td>{d}</td></tr>)}
+                ...(math ? [['Alt + C', 'Calculator'], ['Alt + R', 'Reference']] : []), ['Alt + L', 'Line Reader']].map(([k, d]) => <tr key={k}><td><kbd>{k}</kbd></td><td>{d}</td></tr>)}
             </tbody>
           </table>
         </FloatPanel>
@@ -464,7 +479,8 @@ function useStoredSet(key) {
 // Time limit: payload.time_limit_min, or the SAT Math pace (35 minutes per 22 questions). 0 = untimed.
 export const satMinutes = (payload) => {
   const n = flat(payload).length;
-  return payload.time_limit_min != null ? Number(payload.time_limit_min) : Math.round((n * 35) / 22);
+  if (payload.time_limit_min != null) return Number(payload.time_limit_min);
+  return Math.round(payload.subject === 'rw' ? (n * 32) / 27 : (n * 35) / 22);
 };
 export const satStartKey = (id) => `iw.v1.hub.satstart.${id}`;
 
@@ -504,6 +520,7 @@ export function SatTake({ a, answers, setAnswer, onSubmit, onTimeUp, busy, warni
   return (
     <Shell
       title={a.title}
+      subject={a.payload.subject}
       timer={endsAt ? <Timer endsAt={endsAt} onTimeUp={timeUp} /> : null}
       extra={warning}
       keys={{ next: () => go(i + 1), prev: () => go(i - 1), mark: () => !checking && toggleMark(q.id), elim: () => setEliminating((x) => !x) }}
@@ -582,6 +599,7 @@ export function SatReview({ a, answers, keyData, marks, onClose, startAt = 0 }) 
     <div className="sat-overlay" role="dialog" aria-label={`Review: ${a.title}`}>
       <Shell
         title={`${a.title} · Review`}
+        subject={a.payload.subject}
         extra={<button type="button" className="sat-btn sat-btn--ghost sat-exit" onClick={onClose}>Exit review</button>}
         keys={{ next: () => go(Math.min(qs.length - 1, i + 1)), prev: () => go(Math.max(0, i - 1)) }}
         footer={(
@@ -610,19 +628,29 @@ export function SatReview({ a, answers, keyData, marks, onClose, startAt = 0 }) 
   );
 }
 
-export function SatResults({ a, sub, keyData, marks, submittedLabel }) {
+// attempts: { used, max, history: [{ score, submitted_at }], reviewOpened } (optional)
+export function SatResults({ a, sub, keyData, marks, submittedLabel, attempts, onRetry, onOpenReview }) {
   const qs = useMemo(() => flat(a.payload), [a.payload]);
   const [review, setReview] = useState(null);
+  const [busy, setBusy] = useState(false);
   const answers = sub?.data?.answers || {};
   const states = qs.map((x) => stateOf(x, answers[x.id], marks.items[x.id]));
   const correct = states.filter((s) => s === 'is-ok').length;
   const wrong = states.filter((s) => s === 'is-no').length;
   const omitted = states.filter((s) => s === 'is-omit').length;
+  const left = attempts ? Math.max(0, attempts.max - attempts.used) : 0;
+  const locked = left > 0 && !attempts?.reviewOpened;
+  const open = async (i) => {
+    if (locked) {
+      if (!await onOpenReview?.()) return;
+    }
+    setReview(i);
+  };
   return (
     <>
       <section className="card sat-result">
         <div className="sat-result-score">
-          <span className="eyebrow">Your score</span>
+          <span className="eyebrow">{attempts?.max > 1 ? `Attempt ${attempts.used} of ${attempts.max}` : 'Your score'}</span>
           <strong><span>{correct}</span> / {qs.length}</strong>
           <small>{Math.round((correct / (qs.length || 1)) * 100)}% correct{submittedLabel ? ` · ${submittedLabel}` : ''}</small>
         </div>
@@ -632,13 +660,31 @@ export function SatResults({ a, sub, keyData, marks, submittedLabel }) {
           <li className="is-omit"><strong>{omitted}</strong> omitted</li>
         </ul>
         <div className="sat-result-grid">
-          <Grid items={qs.map((x, i) => ({ id: x.id, cls: states[i] }))} current={-1} onGo={(i) => setReview(i)} />
+          <Grid items={qs.map((x, i) => ({ id: x.id, cls: states[i] }))} current={-1} onGo={open} />
           <div className="sat-legend"><span><i className="sat-sw is-ok" /> Correct</span><span><i className="sat-sw is-no" /> Incorrect</span><span><i className="sat-sw is-omit" /> Omitted</span></div>
         </div>
-        <button type="button" className="btn btn-primary sat-result-btn" onClick={() => setReview(0)}>
-          <Icon name="bookOpen" size={16} /> Review and analyze
-        </button>
-        <p className="form-help">Correct answers and explanations are in Review and analyze.</p>
+        {attempts?.history?.length > 0 && (
+          <ul className="sat-attempts">
+            {attempts.history.map((h, k) => (
+              <li key={k}><span>Attempt {k + 1}</span><strong>{h.score ? `${h.score.earned} / ${h.score.possible}` : '—'}</strong></li>
+            ))}
+            <li className="is-current"><span>Attempt {attempts.history.length + 1}</span><strong>{marks.earned} / {marks.possible}</strong></li>
+          </ul>
+        )}
+        <div className="sat-result-actions">
+          {left > 0 && !attempts?.reviewOpened && onRetry && (
+            <button type="button" className="btn btn-primary sat-result-btn" disabled={busy} onClick={async () => { setBusy(true); try { await onRetry(); } finally { setBusy(false); } }}>
+              <Icon name="refresh" size={16} /> Try again ({left} attempt{left === 1 ? '' : 's'} left)
+            </button>
+          )}
+          <button type="button" className={`btn ${locked ? 'btn-secondary' : 'btn-primary'} sat-result-btn`} onClick={() => open(0)}>
+            <Icon name="bookOpen" size={16} /> Review and analyze
+          </button>
+        </div>
+        <p className="form-help">
+          {locked ? 'Correct answers and explanations are in Review and analyze. Opening them ends your remaining attempts.'
+            : 'Correct answers and explanations are in Review and analyze.'}
+        </p>
       </section>
       {review != null && <SatReview a={a} answers={answers} keyData={keyData} marks={marks} startAt={review} onClose={() => setReview(null)} />}
     </>

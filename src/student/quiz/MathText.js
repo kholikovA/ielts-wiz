@@ -7,6 +7,9 @@ import 'katex/dist/katex.min.css';
 // block: paragraphs split on blank lines; single newlines become line breaks.
 
 const TOKEN = /(\\\[[\s\S]+?\\\]|\\\([\s\S]+?\\\)|!\[[^\]]*\]\([^)\s]+\))/g;
+// Images cut from a PDF carry their size in points: ![alt](url#w=420). Shown at a
+// fixed scale so text in every image matches in size.
+const PT = 1.7;
 
 function renderMath(src, display) {
   try {
@@ -29,7 +32,11 @@ function Parts({ text }) {
       return <span key={i} className={display ? 'mt-display' : 'mt-inline'} dangerouslySetInnerHTML={{ __html: html }} />;
     }
     const img = p.match(/^!\[([^\]]*)\]\(([^)\s]+)\)$/);
-    if (img) return <img key={i} className="mt-img" src={img[2]} alt={img[1]} />;
+    if (img) {
+      const [src, hash] = img[2].split('#');
+      const w = Number((hash || '').match(/w=([\d.]+)/)?.[1]) || null;
+      return <img key={i} className={`mt-img${w ? ' mt-img--pdf' : ''}`} src={src} alt={img[1]} style={w ? { width: `${Math.round(w * PT)}px` } : undefined} loading="lazy" />;
+    }
     const lines = p.split('\n');
     return <React.Fragment key={i}>{lines.map((l, k) => <React.Fragment key={k}>{k > 0 && <br />}{l}</React.Fragment>)}</React.Fragment>;
   });

@@ -1904,3 +1904,100 @@ body.is-resizing .sat-calc-frame { pointer-events: none; }
 }
 .sat-choice-row.has-elim .sat-strike, .sat-choice-row.has-elim .sat-undo { width: 44px; flex: 0 0 44px; }
 .sat-choice-row.has-elim .sat-strike { width: 28px; flex-basis: 28px; margin: 0 8px; }
+
+/* ── Images cut from PDFs (question bank) ─────────────────────────────── */
+.mt-img--pdf { max-width: 100%; height: auto; image-rendering: auto; }
+.sat .mt-img--pdf, .bank .mt-img--pdf { mix-blend-mode: multiply; }
+.sat-choice .mt-img--pdf { display: inline-block; vertical-align: middle; }
+
+/* ── SAT: Reading and Writing two-pane, subject, ids, attempts ─────────── */
+.sat-subject { font-size: 13px; color: #555; }
+.sat-rw { display: grid; grid-template-columns: 1fr; gap: 24px; max-width: 1240px; margin: 0 auto; }
+.sat-rw .sat-q { max-width: none; margin: 0; }
+.sat-rw-passage { font-size: 16.5px; line-height: 1.65; color: #1e1e1e; }
+.sat-rw-passage .mt-block p { margin-bottom: 12px; }
+@container (min-width: 900px) {
+  .sat-rw { grid-template-columns: 1fr 1fr; gap: 0; }
+  .sat-rw-passage { padding-right: 32px; border-right: 3px solid #e2e2e2; }
+  .sat-rw-q { padding-left: 32px; }
+}
+.sat-qid { margin-left: auto; font-size: 12.5px; color: #555; }
+.sat-qid code { font-size: 12.5px; background: #f1f1f1; padding: 1px 6px; border-radius: 4px; }
+.sat-abc ~ .sat-qid, .sat-qid ~ .sat-abc { margin-left: 8px; }
+.sat-result-actions { display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; }
+.sat-attempts { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.sat-attempts li { display: flex; flex-direction: column; align-items: center; padding: 8px 14px; border: 1px solid var(--h-border); border-radius: 10px; font-size: 12.5px; color: var(--h-text-2); }
+.sat-attempts li strong { font-size: 16px; color: var(--h-text); font-variant-numeric: tabular-nums; }
+.sat-attempts li.is-current { border-color: var(--h-accent); }
+.qz-attempt-tabs { margin-bottom: 12px; align-items: center; }
+.qz-qid { display: block; font-size: 12px; color: var(--h-text-3); }
+.qz-passage-text { padding: 12px 14px; border-radius: 10px; background: var(--h-surface-2); font-size: 15px; line-height: 1.6; }
+
+/* ── Teacher: assignment preview ──────────────────────────────────────── */
+.hw-preview { position: fixed; inset: 0; z-index: 75; display: flex; flex-direction: column; background: var(--h-bg); }
+.hw-preview-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 12px; padding: 10px 20px; background: var(--h-surface); border-bottom: 1px solid var(--h-border); }
+.hw-preview-bar strong { font-size: 15px; }
+.hw-preview-spacer { flex: 1; }
+.hw-preview-body { flex: 1; overflow-y: auto; width: 100%; max-width: 1240px; margin: 0 auto; padding: 20px 24px 64px; }
+.hw-preview .hw-focus { position: static; }
+.qp { display: flex; flex-direction: column; gap: 12px; }
+.qp-q { display: flex; flex-direction: column; gap: 10px; padding: 16px 18px; }
+.qp-head { display: flex; align-items: center; gap: 10px; }
+
+/* ── Question bank ────────────────────────────────────────────────────── */
+.bank { display: grid; grid-template-columns: 300px minmax(0, 1fr); gap: 16px; align-items: start; }
+.bank-filters { position: sticky; top: 64px; max-height: calc(100vh - 84px); overflow-y: auto; display: flex; flex-direction: column; gap: 14px; padding: 16px; }
+.bank-off { opacity: 0.4; pointer-events: none; }
+.bank-group { display: flex; flex-direction: column; gap: 8px; margin-top: 12px; }
+.bank-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+.bank-domain { display: flex; flex-direction: column; gap: 4px; }
+.bank-skills { display: flex; flex-direction: column; gap: 2px; padding-left: 22px; }
+.bank-check { display: flex; align-items: flex-start; gap: 8px; font-size: 13.5px; line-height: 1.35; cursor: pointer; }
+.bank-check input { margin-top: 2px; accent-color: var(--h-accent); }
+.bank-check small { margin-left: auto; color: var(--h-text-3); font-variant-numeric: tabular-nums; }
+.bank-results { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+.bank-bar { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+.bank-bar-spacer { flex: 1; }
+.bank-random { display: inline-flex; gap: 6px; align-items: center; }
+.bank-random .form-input { width: 70px; height: 32px; }
+.bank-list { display: flex; flex-direction: column; gap: 8px; }
+.bank-row { padding: 10px 14px; }
+.bank-row.is-selected { border-color: var(--h-accent); box-shadow: 0 0 0 1px var(--h-accent); }
+.bank-row-head { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+.bank-row-head input { accent-color: var(--h-accent); width: 16px; height: 16px; }
+.bank-id { font-size: 13px; font-weight: 600; background: var(--h-surface-2); padding: 2px 7px; border-radius: 6px; }
+.bank-skill { font-size: 13.5px; color: var(--h-text-2); flex: 1; min-width: 160px; }
+.bank-diff.is-easy { background: var(--h-success-soft); color: var(--h-success); }
+.bank-diff.is-medium { background: var(--h-warn-soft); color: var(--h-warn); }
+.bank-diff.is-hard { background: var(--h-danger-soft); color: var(--h-danger); }
+.bank-toggle { margin-left: auto; }
+.bank-q { display: flex; flex-direction: column; gap: 10px; margin-top: 12px; padding-top: 12px; border-top: 1px solid var(--h-border); }
+.bank-passage { padding: 12px 14px; border-radius: 10px; background: var(--h-surface-2); font-size: 15px; line-height: 1.6; }
+.bank-prompt { font-size: 15.5px; line-height: 1.6; }
+.bank-opts { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.bank-opts li { display: flex; gap: 10px; align-items: center; padding: 7px 12px; border: 1px solid var(--h-border); border-radius: 8px; }
+.bank-opts li b { width: 18px; color: var(--h-text-3); }
+.bank-opts li.is-key { border-color: var(--h-success); background: var(--h-success-soft); }
+.bank-opts li.is-key b { color: var(--h-success); }
+.bank-spr { margin: 0; }
+.bank-why summary { cursor: pointer; font-weight: 600; color: var(--h-accent-text); }
+.bank-why .mt-block { margin-top: 8px; font-size: 14.5px; line-height: 1.6; }
+.bank-used { margin: 0; font-size: 12.5px; color: var(--h-text-3); display: flex; gap: 6px; align-items: center; }
+.bank-dock {
+  position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); z-index: 30; display: flex; align-items: center; gap: 14px;
+  padding: 10px 12px 10px 18px; border-radius: 999px; background: var(--h-surface); border: 1px solid var(--h-border); box-shadow: var(--h-shadow-pop);
+}
+.bank-create, .bank-import { display: flex; flex-direction: column; gap: 12px; }
+.bank-form { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
+.bank-progress { display: flex; flex-direction: column; gap: 6px; }
+.bank-notice { display: flex; align-items: center; gap: 8px; color: var(--h-success); }
+@media (max-width: 900px) {
+  .bank { grid-template-columns: 1fr; }
+  .bank-filters { position: static; max-height: none; }
+}
+/* Question bank images are page-wide crops: give them room so the text stays readable. */
+.sat-q { max-width: 920px; }
+@container (min-width: 980px) {
+  .sat-spr-layout { grid-template-columns: 1fr 2fr; }
+}
+.sat-rw-passage .mt-img--pdf { display: block; margin: 0 auto 6px; }

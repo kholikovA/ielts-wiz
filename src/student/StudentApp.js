@@ -47,6 +47,7 @@ const AttendanceHome = pages(AttendancePages, 'AttendanceHome');
 const Register = pages(AttendancePages, 'Register');
 const CoinAdmin = pages(CoinAdminPages, 'CoinAdmin');
 const Profile = lazy(() => import('./Profile'));
+const SatBank = lazy(() => import('./SatBank'));
 
 const STUDY_NAV = [
   { path: '/',           label: 'Dashboard',  icon: 'home' },
@@ -58,6 +59,7 @@ const STUDY_NAV = [
 ];
 const TEACH_NAV = [
   { path: '/teach/assignments', label: 'Assignments', icon: 'checkCircle' },
+  { path: '/teach/bank',        label: 'Question bank', icon: 'layers' },
   { path: '/teach/attendance',  label: 'Attendance',  icon: 'clipboard' },
   { path: '/teach/classes',     label: 'Classes',     icon: 'users' },
   { path: '/teach/students',    label: 'Students',    icon: 'graduation' },
@@ -79,6 +81,7 @@ function teacherRoute(parts) {
   if (b === 'students') return c ? <StudentDetail id={c} /> : <Students />;
   if (b === 'attendance') return c ? <Register id={c} /> : <AttendanceHome />;
   if (b === 'coins') return <CoinAdmin />;
+  if (b === 'bank') return <SatBank />;
   if (c === 'new') return <NewAssignment />;
   return c ? <AssignmentDetail id={c} /> : <Assignments />;
 }
