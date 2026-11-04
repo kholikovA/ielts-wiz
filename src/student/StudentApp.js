@@ -48,12 +48,14 @@ const Register = pages(AttendancePages, 'Register');
 const CoinAdmin = pages(CoinAdminPages, 'CoinAdmin');
 const Profile = lazy(() => import('./Profile'));
 const SatBank = lazy(() => import('./SatBank'));
+const RevisionQuiz = lazy(() => import('./revision/RevisionQuiz'));
 
 const STUDY_NAV = [
   { path: '/',           label: 'Dashboard',  icon: 'home' },
   { path: '/homework',   label: 'Homework',   icon: 'edit' },
   { path: '/flashcards', label: 'Flashcards', icon: 'layers' },
   { path: '/games',      label: 'Word games', icon: 'gamepad' },
+  { path: '/revision',   label: 'Revision quiz', icon: 'clipboard' },
   { path: '/progress',   label: 'Progress',   icon: 'trending' },
   { path: '/coins',      label: 'Coins',      icon: 'coin' },
 ];
@@ -96,6 +98,7 @@ function studentRoute(parts, exitStudentView) {
   if (a === 'progress') return <Progress />;
   if (a === 'flashcards') return <Flashcards deckId={b} />;
   if (a === 'games') return <Games gameId={b} />;
+  if (a === 'revision') return <RevisionQuiz />;
   if (a === 'teach') {
     return exitStudentView
       ? (
