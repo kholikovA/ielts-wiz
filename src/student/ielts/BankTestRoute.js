@@ -1,7 +1,7 @@
 import React, { Suspense, lazy, useMemo } from 'react';
 import * as api from '../api';
 import { useAsync } from '../ui';
-import { bankKind, bankTestId, sanitizeSpec } from './ielts';
+import { bankKind, bankTestId, sanitizeSpec, tidySpec } from './ielts';
 
 const ReadingTestPlayer = lazy(() => import('../../features/test-player/ReadingTestPlayer'));
 const ListeningTestPlayer = lazy(() => import('../../features/test-player/ListeningTestPlayer'));
@@ -13,7 +13,7 @@ const Loading = () => <div className="hub-loading hub-loading--full"><div classN
 export function BankPlayer({ test, review = false, onExit, dryRun = false }) {
   const Player = test.skill === 'listening' ? ListeningTestPlayer : ReadingTestPlayer;
   // Checked again here: bank specs come from uploaded files.
-  const spec = useMemo(() => sanitizeSpec(test.spec), [test.spec]);
+  const spec = useMemo(() => tidySpec(sanitizeSpec(test.spec)), [test.spec]);
   const entry = { kind: bankKind(test.skill), id: bankTestId(test.id || 'preview'), spec };
   return (
     <Suspense fallback={<Loading />}>

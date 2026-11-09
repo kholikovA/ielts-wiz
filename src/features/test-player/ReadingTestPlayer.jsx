@@ -167,8 +167,10 @@ export default function ReadingTestPlayer({ test, review = false, onExit, dryRun
   const [theme, setTheme] = useState(() => (typeof document !== 'undefined' && document.documentElement.getAttribute('data-theme')) || 'light');
   const [textSize, setTextSize] = useState('default');
   const passageRef = useRef(null);
+  const questionsRef = useRef(null);
+  const hlPanes = useMemo(() => [passageRef, questionsRef], []);
   const [highlightOn, setHighlightOn] = useState(true);
-  const { tip: hlTip, apply: applyHighlight } = useHighlighter(passageRef, highlightOn);
+  const { tip: hlTip, apply: applyHighlight } = useHighlighter(hlPanes, highlightOn);
 
   // Draggable split divider — resizes the passage/questions panes. Listeners are
   // attached on mousedown and torn down on mouseup; preventDefault + user-select
@@ -245,9 +247,7 @@ export default function ReadingTestPlayer({ test, review = false, onExit, dryRun
     } catch { /* unsupported */ }
   };
   const clearHighlights = () => {
-    const pane = passageRef.current;
-    if (!pane) return;
-    pane.querySelectorAll('mark.iw-hl').forEach((m) => {
+    [passageRef.current, questionsRef.current].filter(Boolean).flatMap((pane) => [...pane.querySelectorAll('mark.iw-hl')]).forEach((m) => {
       const p = m.parentNode;
       while (m.firstChild) p.insertBefore(m.firstChild, m);
       p.removeChild(m);
@@ -314,7 +314,7 @@ export default function ReadingTestPlayer({ test, review = false, onExit, dryRun
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polyline points="7 8 3 12 7 16" /><polyline points="17 8 21 12 17 16" /><line x1="3" y1="12" x2="21" y2="12" /></svg>
         </div>
       </div>
-      <div className="pane questions-pane" id="questionsPane" onScroll={onPaneScroll} style={{ flex: '1 1 0%' }}>
+      <div className="pane questions-pane" id="questionsPane" ref={questionsRef} onScroll={onPaneScroll} style={{ flex: '1 1 0%' }}>
         {spec.parts.map((part) => (
           <div className={`questions-section${part.part_number === activePart ? ' active' : ''}`} data-part={part.part_number} key={part.part_number}>
             {part.question_groups.map((g) => (
