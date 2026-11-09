@@ -693,3 +693,7 @@ export async function recentManualAwards(limit = 20) {
     .order('created_at', { ascending: false })
     .limit(limit)) || [];
 }
+
+// Teaching → Stats: per-student activity for study days [from, to].
+export const teacherHubStats = async (from, to, classId = null) =>
+  unwrap(await supabase.rpc('teacher_hub_stats', { p_from: from, p_to: to, p_class: classId }));

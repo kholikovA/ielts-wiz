@@ -7,6 +7,7 @@ import { mainSiteUrl } from '../lib/host';
 import * as api from './api';
 import { HubContext, EmptyPanel, Avatar, Coin } from './ui';
 import { DialogHost } from './dialog';
+import { useHubTime } from './hubTime';
 import './hub.css';
 
 // Student Hub — served at student.ielts-wiz.com (see lib/host.js). Same Supabase
@@ -46,6 +47,7 @@ const AssignmentDetail = pages(TeacherPages, 'AssignmentDetail');
 const AttendanceHome = pages(AttendancePages, 'AttendanceHome');
 const Register = pages(AttendancePages, 'Register');
 const CoinAdmin = pages(CoinAdminPages, 'CoinAdmin');
+const HubStats = lazy(() => import('./Stats'));
 const Profile = lazy(() => import('./Profile'));
 const SatBank = lazy(() => import('./SatBank'));
 const IeltsBank = lazy(() => import('./ielts/IeltsBank'));
@@ -68,6 +70,7 @@ const TEACH_NAV = [
   { path: '/teach/attendance',  label: 'Attendance',  icon: 'clipboard' },
   { path: '/teach/classes',     label: 'Classes',     icon: 'users' },
   { path: '/teach/students',    label: 'Students',    icon: 'graduation' },
+  { path: '/teach/stats',       label: 'Stats',       icon: 'trending' },
   { path: '/teach/coins',       label: 'Coins',       icon: 'coin' },
 ];
 
@@ -86,6 +89,7 @@ function teacherRoute(parts) {
   if (b === 'students') return c ? <StudentDetail id={c} /> : <Students />;
   if (b === 'attendance') return c ? <Register id={c} /> : <AttendanceHome />;
   if (b === 'coins') return <CoinAdmin />;
+  if (b === 'stats') return <HubStats />;
   if (b === 'bank') return c === 'ielts' ? <IeltsBank /> : <SatBank />;
   if (c === 'new') return <NewAssignment key={window.location.search} />;
   return c ? <AssignmentDetail id={c} /> : <Assignments />;
@@ -279,6 +283,8 @@ export default function StudentApp() {
   const isTeacher = canTeach && !viewAs;
   // Set synchronously so the first render's reads already target the student.
   api.setPreview(viewAs ? { id: viewAs.id, teacherName: profile?.name } : null);
+  // Time on the hub is tracked for students only (not teachers, not previews).
+  useHubTime(Boolean(user && profile && !canTeach));
 
   useEffect(() => {
     document.title = 'Student Hub · IELTS Wiz';
