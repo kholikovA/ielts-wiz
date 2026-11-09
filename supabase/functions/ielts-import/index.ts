@@ -169,8 +169,10 @@ async function handle(req: Request): Promise<Response> {
   const { data: who } = await admin.auth.getUser(token);
   const user = who?.user;
   if (!user) return fail(401, "Sign in first.");
-  const { data: isAdmin } = await admin.rpc("is_admin_user", { uid: user.id });
-  if (!isAdmin) return fail(403, "Admins only.");
+  // Read the flag directly (the is_admin_user() helper's parameter name differs between environments).
+  const { data: profile, error: profileError } = await admin.from("profiles").select("is_admin").eq("id", user.id).maybeSingle();
+  if (profileError) return fail(500, "Couldn't check your account. Try again.", profileError.message);
+  if (!profile?.is_admin) return fail(403, "Admins only.");
 
   let body: { skill?: string; file_name?: string; pdf_path?: string; html?: string; part?: number };
   try { body = await req.json(); } catch { return fail(400, "Bad request."); }
