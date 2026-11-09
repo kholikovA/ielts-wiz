@@ -1,6 +1,6 @@
 import {
   normalizeSpec, validateSpec, setKey, keyText, withGroupImage, cleanHtml, compactRanges,
-  bankCatalogEntry, bankSlugId, allQuestionNumbers, sanitizeSpec, mergeParts, tidySpec,
+  bankCatalogEntry, bankSlugId, allQuestionNumbers, sanitizeSpec, mergeParts, tidySpec, proofreadSpec,
 } from './ielts';
 import { gradeTest } from '../../features/test-player/grading';
 
@@ -130,4 +130,22 @@ test('tidySpec drops a copied "Questions x–y" heading and evens out option pun
   expect(g3.instructions_html).toBe('Choose the correct letter, <strong>A</strong>, B, C or D.');
   expect(g3.questions[0].options[1].text).toBe('evidence was destroyed.');
   expect(g3.questions[1].options[0].text).toBe('apples,'); // no full stops at all: left as written
+});
+
+test('proofreadSpec flags copying typos and leaves clean text alone', () => {
+  const clean = { parts: [{ part_number: 1, passage_title: 'P', passage_paragraphs: [
+    'Thomas Gruter, Martina Gruter’s husband, is not convinced. ‘I don’t know,’ he says. The students’ results – and the ’80s data – agree.',
+  ], question_groups: [{ type: 'mcq', instructions_html: 'Choose <strong>A</strong>, <strong>B</strong>, C or D.', questions: [{ number: 1, prompt: 'Which one?', options: [{ letter: 'A', text: 'a box of pins' }] }] }] }] };
+  expect(proofreadSpec(clean)).toEqual([]);
+  const bad = { parts: [{ part_number: 1, passage_title: 'P', passage_paragraphs: [
+    'Thomas Gruter, Martina Gruter’s husband,, who works there, s not convinced it will work. I don’t know how you can have more training. he says. ‘Humans spend all day looking at faces',
+    'The food chain - micro-organisms , fish and otters.',
+  ], question_groups: [] }] };
+  const out = proofreadSpec(bad).join('\n');
+  expect(out).toMatch(/doubled punctuation/);
+  expect(out).toMatch(/stray letter/);
+  expect(out).toMatch(/lowercase after a full stop/);
+  expect(out).toMatch(/hyphen used as a dash/);
+  expect(out).toMatch(/space before punctuation/);
+  expect(out).toMatch(/never closed/);
 });

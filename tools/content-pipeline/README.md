@@ -77,3 +77,14 @@ reading test is in.
 3. `schema.mjs spec.json <skill>` → fix any ✗.
 4. `ingest.mjs spec.json … --write`.
 5. Reading only: run enrichment. Then open a PR.
+
+## Proofread — `proofread.py`
+Before handing over or ingesting converted tests, run the proofreader on the folder of
+spec JSONs and fix everything it flags, then still read every passage and question:
+
+```bash
+python3 tools/content-pipeline/proofread.py path/to/specs/
+```
+It flags PDF/OCR copying slips: doubled or misplaced punctuation, stray letters, words
+split in two, hyphens used as dashes, lowercase sentence starts and unpaired quotes.
+The hub's IELTS bank editor runs the same checks (`proofreadSpec`) as warnings.
