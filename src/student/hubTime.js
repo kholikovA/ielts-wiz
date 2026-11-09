@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { supabase } from '../supabaseClient';
+import * as telemetry from './telemetry';
 
 // Counts the time a student actually spends on the hub and reports it to
 // log_hub_time (supabase/migrations/20261110_hub_stats.sql).
@@ -27,10 +28,11 @@ export function useHubTime(enabled) {
     let lastInput = Date.now();
     let lastTick = Date.now();
 
-    const flush = () => {
+    const flush = (e) => {
       if (pending < 1) return;
       const seconds = Math.round(pending);
       pending = 0;
+      if (e?.type === 'pagehide' && telemetry.keepaliveRpc('log_hub_time', { p_seconds: seconds })) return;
       supabase.rpc('log_hub_time', { p_seconds: seconds }).then(({ error }) => {
         if (error) pending += seconds; // try again with the next flush
       }, () => { pending += seconds; });
@@ -48,10 +50,12 @@ export function useHubTime(enabled) {
         playing: mediaPlaying(),
       });
       if (counting) pending += step;
+      telemetry.tick(step, counting);
       if (pending >= FLUSH_EVERY_S) flush();
     };
     const onHide = () => { if (document.visibilityState === 'hidden') flush(); };
 
+    telemetry.start();
     const id = setInterval(tick, 1000);
     ACTIVITY.forEach((e) => window.addEventListener(e, onInput, { passive: true, capture: true }));
     document.addEventListener('visibilitychange', onHide);
@@ -64,6 +68,7 @@ export function useHubTime(enabled) {
       window.removeEventListener('blur', flush);
       window.removeEventListener('pagehide', flush);
       flush();
+      telemetry.stop();
     };
   }, [enabled]);
 }
