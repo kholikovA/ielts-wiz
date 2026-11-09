@@ -1065,6 +1065,68 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
 .result-detail .your-answer.wrong { color: var(--wrong); text-decoration: line-through; }
 .result-detail .correct-answer { color: var(--correct); font-weight: 600; }
 
+/* ---- Results v2: two-column layout + type breakdown + feedback + explanations ---- */
+.results-screen.results-v2.open { display: flex; flex-direction: column; }
+.results-v2-title {
+  font-family: var(--sans); font-size: 32px; font-weight: 800; line-height: 1.05;
+  letter-spacing: -0.6px; text-align: center; margin: 2px 0 22px;
+  background: linear-gradient(100deg, var(--text) 0%, var(--text) 30%, #9333ea 62%, #38bdf8 100%);
+  -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent;
+}
+.results-grid { display: grid; grid-template-columns: minmax(320px, 400px) 1fr; gap: 28px; align-items: start; max-width: 1240px; width: 100%; margin: 0 auto; }
+.results-left { display: flex; flex-direction: column; gap: 16px; }
+.results-right { display: flex; flex-direction: column; min-width: 0; }
+.results-v2 .results-stats { flex-direction: column; align-items: stretch; gap: 14px; margin-top: 0; }
+.results-v2 .overall-card { width: 100%; justify-content: space-between; }
+.results-v2 .passage-column { flex-direction: row; gap: 12px; }
+.results-v2 .passage-column .stat { flex: 1; min-width: 0; padding: 14px 8px; flex-direction: column; align-items: center; justify-content: center; gap: 2px; text-align: center; }
+.results-v2 .passage-column .stat .stat-value { font-size: 26px; }
+.results-v2 .passage-column .stat .stat-label { font-size: 11px; margin-top: 4px; }
+.results-v2 .results-list { display: none; }
+
+.type-breakdown { border: 1px solid var(--border); border-radius: 14px; padding: 16px 18px; background: var(--bg-elevated); }
+.type-breakdown-title { font-family: var(--sans); font-weight: 700; font-size: 14px; margin-bottom: 14px; }
+.type-row { display: grid; grid-template-columns: 140px 1fr auto; align-items: center; gap: 12px; margin-bottom: 11px; font-family: var(--sans); }
+.type-row:last-child { margin-bottom: 0; }
+.type-label { font-size: 12.5px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.type-bar { height: 10px; background: var(--bg-hover); border-radius: 5px; overflow: hidden; }
+.type-bar-fill { display: block; height: 100%; border-radius: 5px; }
+.type-bar-fill.green { background: var(--correct); }
+.type-bar-fill.yellow { background: #d97706; }
+.type-bar-fill.red { background: var(--wrong); }
+.type-score { font-size: 12.5px; font-weight: 700; color: var(--text); font-variant-numeric: tabular-nums; min-width: 40px; text-align: right; }
+
+.rsec { border: 1px solid var(--border); border-radius: 14px; margin-bottom: 16px; overflow: hidden; background: var(--bg); }
+.rsec-head { width: 100%; display: flex; align-items: center; gap: 10px; padding: 13px 16px; font-family: var(--sans); font-weight: 700; font-size: 15px; color: var(--text); background: var(--bg-elevated); border: none; cursor: pointer; }
+.rsec-head .qreview-chev { width: 17px; height: 17px; color: var(--text-muted); transition: transform .2s; }
+.rsec:not(.open) .rsec-head .qreview-chev { transform: rotate(-90deg); }
+.rsec-title { flex: 1; text-align: left; }
+.rsec-body { padding: 14px 16px; }
+.feedback-list { list-style: none; display: flex; flex-direction: column; gap: 11px; padding: 0; margin: 0; }
+.feedback-item { display: flex; gap: 11px; font-family: var(--sans); font-size: 13.5px; line-height: 1.55; color: var(--text-muted); align-items: flex-start; }
+.feedback-dot { width: 8px; height: 8px; border-radius: 50%; margin-top: 6px; flex-shrink: 0; background: var(--accent); }
+.feedback-item.good .feedback-dot { background: var(--correct); }
+.feedback-item.warn .feedback-dot { background: var(--wrong); }
+.feedback-item.tip .feedback-dot { background: #d97706; }
+.passage-tabs { display: flex; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+.passage-tab { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 9px; border: 1px solid var(--border-strong); background: var(--bg); color: var(--text-muted); font-family: var(--sans); font-weight: 600; font-size: 13px; cursor: pointer; transition: all .12s; }
+.passage-tab:hover { border-color: var(--accent); color: var(--text); }
+.passage-tab.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+.passage-tab-count { font-size: 11px; opacity: .8; font-variant-numeric: tabular-nums; }
+.passage-tab-body { display: flex; flex-direction: column; }
+
+/* Explanation (Explain More) */
+.explain { margin-top: 10px; }
+.explain-btn { display: inline-flex; align-items: center; gap: 6px; padding: 4px 0; background: none; border: none; cursor: pointer; font-family: var(--sans); font-size: 12.5px; font-weight: 700; color: var(--accent); }
+.explain-btn .qreview-chev { width: 15px; height: 15px; transition: transform .18s; }
+.explain.open .explain-btn .qreview-chev { transform: rotate(180deg); }
+.explain-panel { margin-top: 8px; padding: 10px 12px; border-left: 3px solid var(--accent); background: var(--bg-elevated); border-radius: 0 8px 8px 0; }
+.explain-ev-label, .explain-why-label { display: block; font-family: var(--sans); font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: .4px; color: var(--text-muted); margin-bottom: 4px; }
+.explain-panel blockquote { margin: 0 0 10px; font-style: italic; color: var(--text); line-height: 1.55; }
+.explain-why p { margin: 0; font-size: 13.5px; line-height: 1.55; color: var(--text-muted); }
+
+@media (max-width: 860px) { .results-grid { grid-template-columns: 1fr; } }
+
 /* Post-submit review state — applied to the test view after submission */
 .test-locked .options-list input,
 .test-locked .gap-input,
@@ -1185,7 +1247,7 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
   <div class="pane questions-pane" id="questionsPane">{{QUESTION_SECTIONS}}</div>
 </div>
 
-<div class="results-screen" id="resultsScreen">
+<div class="results-screen results-v2" id="resultsScreen">
   <div class="results-actions-top">
     <button class="results-action-btn" id="backToTestBtn">
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
@@ -1202,12 +1264,17 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
       </button>
     </div>
   </div>
-  <div class="results-header">
-    <h1>Test Complete</h1>
-    <div class="results-stats" id="resultsStats"></div>
-    <p class="results-message" id="resultsMessage"></p>
+  <h1 class="results-v2-title">Test Complete</h1>
+  <div class="results-grid">
+    <div class="results-left">
+      <div class="results-stats" id="resultsStats"></div>
+      <div id="typeBreakdown"></div>
+    </div>
+    <div class="results-right">
+      <div class="rsec" id="feedbackSection"></div>
+      <div class="rsec rsec-grow" id="passageBreakdown"></div>
+    </div>
   </div>
-  <div class="results-list" id="resultsList"></div>
 </div>
 
 <div class="footer" id="footer">
@@ -1299,12 +1366,14 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
 </div>
 
 <script id="answerKey" type="application/json">{{ANSWER_KEY_JSON}}</script>
+<script id="explanations" type="application/json">{{EXPLANATIONS_JSON}}</script>
 
 <script>
 (() => {
   "use strict";
 
   const ANSWER_KEY = JSON.parse(document.getElementById("answerKey").textContent);
+  const EXPLANATIONS = JSON.parse((document.getElementById("explanations") || {}).textContent || "{}");
   const TOTAL_QUESTIONS = {{TOTAL_QUESTIONS}};
   const IS_FULL_TEST = TOTAL_QUESTIONS === 40;
   // Identity for completion + activity tracking. Inserted by build_test.py.
@@ -2536,100 +2605,162 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
       stats.appendChild(col);
     }
 
-    // Warm, band-keyed coaching line — the human voice the exam surface lacks.
-    (function setResultsMessage() {
-      const msgEl = document.getElementById("resultsMessage");
-      if (!msgEl) return;
-      const pct = TOTAL_QUESTIONS ? correctCount / TOTAL_QUESTIONS : 0;
-      let line;
-      if (IS_FULL_TEST && band !== null) {
-        if (band >= 8) line = "<strong>Outstanding.</strong> Expert-level — you're exam-ready.";
-        else if (band >= 7) line = "<strong>Strong work.</strong> A Band 7+ is what most universities ask for.";
-        else if (band >= 6) line = "<strong>Solid.</strong> You're close — tightening a couple of question types lifts you to 7.";
-        else if (band >= 5) line = "<strong>Good progress.</strong> Aim your next sessions at the parts that cost you most.";
-        else line = "<strong>Every attempt builds the muscle.</strong> Review the misses below and go again.";
-      } else {
-        if (pct >= 0.9) line = "<strong>Sharp</strong> — nearly flawless. On to the next one.";
-        else if (pct >= 0.7) line = "<strong>Nice work.</strong> A few slips to clean up — see below.";
-        else if (pct >= 0.5) line = "<strong>Decent base.</strong> The review below shows exactly where to focus.";
-        else line = "<strong>Good for showing up.</strong> Work the misses, then retake — it climbs fast.";
-      }
-      // Point at the weakest passage when there's a clear one to target.
-      if (passageStats && passageStats.length) {
-        const worst = passageStats.slice().sort((a, b) => b.mistakes - a.mistakes)[0];
-        if (worst && worst.mistakes > 0) line += ` Passage ${worst.part} needs another pass.`;
-      }
-      const hat = "<svg viewBox='0 0 32 32' fill='currentColor' aria-hidden='true'><path d='M16 3 L25 24 H7 Z'/><rect x='5' y='24' width='22' height='3.4' rx='1.7'/><circle cx='16' cy='15' r='1.2'/><circle cx='13.5' cy='19' r='0.9'/><circle cx='19' cy='18' r='0.8'/></svg>";
-      msgEl.innerHTML = hat + "<span>" + line + "</span>";
+    // Shared CHEV + per-question-type rows (drive the breakdown bars + feedback).
+    const CHEV_SVG = "<svg class='qreview-chev' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>";
+    const TYPE_LABELS = { tfng:"True / False / Not Given", yng:"Yes / No / Not Given", mcq:"Multiple choice", mcq_multi:"Multiple choice", matching_headings:"Matching headings", matching_info:"Matching information", matching_features:"Matching features", sentence_endings:"Sentence endings", sentence_completion:"Sentence completion", summary_completion:"Summary completion", note_completion:"Note completion", table_completion:"Table completion", flowchart_completion:"Flowchart completion", diagram_completion:"Diagram completion", short_answer:"Short answer" };
+    const typeRows = Object.keys(typeStats).map(function (t) {
+      const s = typeStats[t];
+      return { label: TYPE_LABELS[t] || t, correct: s.correct, total: s.total, pct: s.total ? Math.round(100 * s.correct / s.total) : 0 };
+    }).filter(function (r) { return r.total > 0; });
+    function barColor(c, t) { const r = t ? c / t : 0; return r >= 0.7 ? "green" : r >= 0.5 ? "yellow" : "red"; }
+
+    // ----- By question type (left column) -----
+    (function renderTypeBreakdown() {
+      const host = document.getElementById("typeBreakdown");
+      if (!host) return;
+      if (!typeRows.length) { host.innerHTML = ""; host.className = ""; return; }
+      host.className = "type-breakdown";
+      host.innerHTML = '<div class="type-breakdown-title">By question type</div>' +
+        typeRows.map(function (r) {
+          return '<div class="type-row"><span class="type-label">' + escapeHtml(r.label) + '</span>' +
+            '<span class="type-bar"><span class="type-bar-fill ' + barColor(r.correct, r.total) + '" style="width:' + r.pct + '%"></span></span>' +
+            '<span class="type-score">' + r.correct + '/' + r.total + '</span></div>';
+        }).join("");
     })();
 
-    // Per-question review — grouped per passage, each group collapsed by default
-    const list = document.getElementById("resultsList");
-    list.innerHTML = "";
-    const CHEV_SVG = "<svg class='qreview-chev' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>";
+    // Build a collapsible right-column section (Feedback / Per-passage breakdown).
+    function makeSection(id, title, grow, openByDefault) {
+      const sec = document.getElementById(id);
+      sec.className = "rsec" + (grow ? " rsec-grow" : "") + (openByDefault ? " open" : "");
+      sec.innerHTML = "";
+      const head = document.createElement("button");
+      head.type = "button"; head.className = "rsec-head"; head.setAttribute("aria-expanded", String(!!openByDefault));
+      head.innerHTML = CHEV_SVG + '<span class="rsec-title">' + title + '</span>';
+      const body = document.createElement("div");
+      body.className = "rsec-body";
+      body.style.display = openByDefault ? "" : "none";
+      head.addEventListener("click", function () {
+        const willOpen = !sec.classList.contains("open");
+        sec.classList.toggle("open", willOpen);
+        head.setAttribute("aria-expanded", String(willOpen));
+        body.style.display = willOpen ? "" : "none";
+      });
+      sec.appendChild(head); sec.appendChild(body);
+      return body;
+    }
+
+    // ----- Feedback (right column) -----
+    (function renderFeedback() {
+      const out = [];
+      const pct = TOTAL_QUESTIONS ? correctCount / TOTAL_QUESTIONS : 0;
+      if (IS_FULL_TEST && band !== null) {
+        if (band >= 8) out.push(["good", "Band " + band.toFixed(1) + " — expert level. You're exam-ready."]);
+        else if (band >= 7) out.push(["good", "Band " + band.toFixed(1) + " — a 7 clears most university requirements; tighten a couple of types to push higher."]);
+        else if (band >= 6) out.push(["tip", "Band " + band.toFixed(1) + " — you're one band off a 7, and the gaps below are where it's hiding."]);
+        else if (band >= 5) out.push(["tip", "Band " + band.toFixed(1) + " — a solid base; targeted practice on your weak types moves this quickly."]);
+        else out.push(["warn", "Band " + band.toFixed(1) + " — early days. Work the misses below and the score climbs fast."]);
+      } else {
+        out.push([pct >= 0.7 ? "good" : "tip", correctCount + " of " + TOTAL_QUESTIONS + " correct (" + Math.round(pct * 100) + "%)."]);
+      }
+      const ranked = typeRows.map(function (t) { return { l: t.label, wrong: t.total - t.correct, correct: t.correct, total: t.total, pct: t.pct }; })
+        .filter(function (t) { return t.wrong > 0; })
+        .sort(function (a, b) { return b.wrong - a.wrong || a.pct - b.pct; });
+      if (ranked[0] && ranked[0].wrong >= 2) out.push(["warn", "Most marks to gain: " + ranked[0].l + " — " + ranked[0].wrong + " wrong (" + ranked[0].correct + "/" + ranked[0].total + "). Make this your next focus."]);
+      const strong = typeRows.find(function (t) { return t.total >= 3 && t.pct === 100; });
+      if (strong) out.push(["good", "Full marks on " + strong.label + " — a reliable strength to lean on."]);
+      if (unansweredCount >= 3) out.push(["tip", unansweredCount + " questions left blank — there's no penalty for a wrong answer in IELTS, so always put something."]);
+      const body = makeSection("feedbackSection", "Feedback", false, true);
+      body.innerHTML = '<ul class="feedback-list">' + out.slice(0, 4).map(function (f) {
+        return '<li class="feedback-item ' + f[0] + '"><span class="feedback-dot"></span>' + escapeHtml(f[1]) + '</li>';
+      }).join("") + '</ul>';
+    })();
+
+    // ----- Per-question review with passage tabs + Explain (right column) -----
+    function explainPanel(q) {
+      const ex = EXPLANATIONS[q] || EXPLANATIONS[String(q)];
+      if (!ex || (!ex.rationale && !ex.evidence)) return null;
+      const wrap = document.createElement("div");
+      wrap.className = "explain";
+      const btn = document.createElement("button");
+      btn.type = "button"; btn.className = "explain-btn";
+      btn.innerHTML = CHEV_SVG + "Explain";
+      const panel = document.createElement("div");
+      panel.className = "explain-panel"; panel.style.display = "none";
+      let html = "";
+      if (ex.evidence) html += '<div class="explain-ev"><span class="explain-ev-label">In the passage</span><blockquote>“' + escapeHtml(ex.evidence) + '”</blockquote></div>';
+      if (ex.rationale) html += '<div class="explain-why"><span class="explain-why-label">Why</span><p>' + escapeHtml(ex.rationale) + '</p></div>';
+      panel.innerHTML = html;
+      btn.addEventListener("click", function () {
+        const open = panel.style.display === "none";
+        panel.style.display = open ? "" : "none";
+        wrap.classList.toggle("open", open);
+      });
+      wrap.appendChild(btn); wrap.appendChild(panel);
+      return wrap;
+    }
     function buildResultItem(r) {
       if (r.skipDisplay) return null;
+      const div = document.createElement("div");
       if (r.multi) {
         const m = r.multi;
         const gcls = m.hits === m.size ? "correct" : "wrong";
-        const gdiv = document.createElement("div");
-        gdiv.className = `result-item ${gcls}`;
-        gdiv.innerHTML = `<div class="result-num ${gcls}">${m.range}</div>`
-          + `<div class="result-detail"><span class="label">Your answers:</span> ${m.userHtml}<br>`
-          + `<span class="label">Correct:</span> ${m.correctHtml} `
-          + `<span style="color:var(--text-muted)">(${m.hits}/${m.size})</span></div>`;
-        return gdiv;
+        div.className = "result-item " + gcls;
+        div.innerHTML = '<div class="result-num ' + gcls + '">' + m.range + '</div>'
+          + '<div class="result-detail"><span class="label">Your answers:</span> ' + m.userHtml + '<br>'
+          + '<span class="label">Correct:</span> ' + m.correctHtml + ' <span style="color:var(--text-muted)">(' + m.hits + '/' + m.size + ')</span></div>';
+        return div;
       }
-      const div = document.createElement("div");
       const cls = r.unanswered ? "unanswered" : (r.correct ? "correct" : "wrong");
-      div.className = `result-item ${cls}`;
+      div.className = "result-item " + cls;
       const numCls = r.unanswered ? "" : (r.correct ? "correct" : "wrong");
       const userTxt = r.unanswered ? null : displayAnswer(r.q, r.userAns);
       const correctTxt = displayAnswer(r.q, r.correctAns);
       const userPart = r.unanswered
-        ? `<span class="label">Your answer:</span> <em style="color:var(--text-muted)">No answer</em>`
-        : `<span class="label">Your answer:</span> <span class="your-answer ${r.correct ? "" : "wrong"}">${escapeHtml(userTxt)}</span>`;
-      const correctPart = `<span class="label">Correct:</span> <span class="correct-answer">${escapeHtml(correctTxt)}</span>`;
-      div.innerHTML = `<div class="result-num ${numCls}">${r.q}</div><div class="result-detail">${userPart}<br>${correctPart}</div>`;
+        ? '<span class="label">Your answer:</span> <em style="color:var(--text-muted)">No answer</em>'
+        : '<span class="label">Your answer:</span> <span class="your-answer ' + (r.correct ? "" : "wrong") + '">' + escapeHtml(userTxt) + '</span>';
+      const correctPart = '<span class="label">Correct:</span> <span class="correct-answer">' + escapeHtml(correctTxt) + '</span>';
+      const detail = document.createElement("div");
+      detail.className = "result-detail";
+      detail.innerHTML = userPart + '<br>' + correctPart;
+      div.innerHTML = '<div class="result-num ' + numCls + '">' + r.q + '</div>';
+      div.appendChild(detail);
+      const ep = explainPanel(r.q);
+      if (ep) detail.appendChild(ep);
       return div;
     }
-    document.querySelectorAll(".part-section").forEach(p => {
-      let qs;
-      try { qs = JSON.parse(p.dataset.questions || "[]"); } catch (e) { qs = []; }
-      if (!qs.length) return;
-      const part = parseInt(p.dataset.part, 10);
-      const correctInPart = qs.filter(q => results[q - 1] && results[q - 1].correct).length;
-
-      const group = document.createElement("div");
-      group.className = "qreview-group";
-
-      const body = document.createElement("div");
-      body.className = "qreview-body";
-      body.hidden = true;
-      body.style.setProperty("--results-rows", Math.ceil(qs.length / 2));
-      qs.forEach(qn => {
-        const r = results[qn - 1];
-        if (!r) return;
-        const item = buildResultItem(r);
-        if (item) body.appendChild(item);
+    (function renderBreakdown() {
+      const body = makeSection("passageBreakdown", "Per-passage breakdown", true, true);
+      const partsData = [];
+      document.querySelectorAll(".part-section").forEach(function (p) {
+        let qs; try { qs = JSON.parse(p.dataset.questions || "[]"); } catch (e) { qs = []; }
+        if (!qs.length) return;
+        const part = parseInt(p.dataset.part, 10);
+        const c = qs.filter(function (q) { return results[q - 1] && results[q - 1].correct; }).length;
+        partsData.push({ part: part, qs: qs, correct: c, total: qs.length });
       });
-
-      const toggle = document.createElement("button");
-      toggle.type = "button";
-      toggle.className = "qreview-toggle";
-      toggle.setAttribute("aria-expanded", "false");
-      toggle.innerHTML = `${CHEV_SVG}<span class="qreview-title">Passage ${part}</span><span class="qreview-count">${correctInPart} / ${qs.length} correct</span>`;
-      toggle.addEventListener("click", () => {
-        const willOpen = body.hidden;
-        body.hidden = !willOpen;
-        toggle.setAttribute("aria-expanded", String(willOpen));
-        group.classList.toggle("open", willOpen);
+      if (!partsData.length) return;
+      const tabs = document.createElement("div"); tabs.className = "passage-tabs";
+      const panel = document.createElement("div"); panel.className = "passage-tab-body";
+      function showPassage(i) {
+        Array.prototype.forEach.call(tabs.children, function (b, j) { b.classList.toggle("active", j === i); });
+        panel.innerHTML = "";
+        partsData[i].qs.forEach(function (qn) {
+          const r = results[qn - 1];
+          if (!r) return;
+          const item = buildResultItem(r);
+          if (item) panel.appendChild(item);
+        });
+      }
+      partsData.forEach(function (pd, i) {
+        const b = document.createElement("button");
+        b.className = "passage-tab";
+        b.innerHTML = "Passage " + pd.part + '<span class="passage-tab-count">' + pd.correct + "/" + pd.total + "</span>";
+        b.addEventListener("click", function () { showPassage(i); });
+        tabs.appendChild(b);
       });
-
-      group.appendChild(toggle);
-      group.appendChild(body);
-      list.appendChild(group);
-    });
+      body.appendChild(tabs); body.appendChild(panel);
+      showPassage(0);
+    })();
 
     // Inject inline result markers into the test view
     injectResultMarkers(results);
