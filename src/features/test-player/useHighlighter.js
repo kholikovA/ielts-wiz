@@ -1,23 +1,32 @@
 import { useEffect, useRef, useState } from 'react';
 
-// Passage highlighter. On a text selection inside the passage pane it surfaces a
+// Passage + questions highlighter. On a text selection inside one of the panes it surfaces a
 // floating "Highlight" button; applying wraps the selection in a <mark>. Clicking
 // an existing highlight removes it. Highlights are applied imperatively to the
 // DOM, so the prose paragraphs must be memoized (see PassagePane) to survive
 // React re-renders.
-export function useHighlighter(paneRef, enabled) {
+// `paneRefs` is one ref or a stable array of refs. Selections that touch answer
+// controls (inputs, choices, drag cards) are ignored so a highlight never wraps them.
+const CONTROLS = 'input, select, textarea, button, [draggable="true"], [contenteditable="true"]';
+const touchesControl = (range) => {
+  const host = range.commonAncestorContainer.nodeType === 1 ? range.commonAncestorContainer : range.commonAncestorContainer.parentElement;
+  if (host && host.closest && host.closest(CONTROLS)) return true;
+  return Boolean(range.cloneContents().querySelector(CONTROLS));
+};
+
+export function useHighlighter(paneRefs, enabled) {
   const [tip, setTip] = useState(null);
   const rangeRef = useRef(null);
 
   useEffect(() => {
-    const pane = paneRef.current;
-    if (!pane || !enabled) { setTip(null); return undefined; }
+    const panes = (Array.isArray(paneRefs) ? paneRefs : [paneRefs]).map((r) => r.current).filter(Boolean);
+    if (!panes.length || !enabled) { setTip(null); return undefined; }
 
     const onMouseUp = () => {
       const sel = window.getSelection();
       if (!sel || sel.isCollapsed || !sel.rangeCount) { setTip(null); return; }
       const range = sel.getRangeAt(0);
-      if (!pane.contains(range.commonAncestorContainer)) { setTip(null); return; }
+      if (!panes.some((pane) => pane.contains(range.commonAncestorContainer)) || touchesControl(range)) { setTip(null); return; }
       const rect = range.getBoundingClientRect();
       if (!rect.width) { setTip(null); return; }
       rangeRef.current = range.cloneRange();
@@ -33,9 +42,12 @@ export function useHighlighter(paneRef, enabled) {
       }
     };
     document.addEventListener('mouseup', onMouseUp);
-    pane.addEventListener('click', onClick);
-    return () => { document.removeEventListener('mouseup', onMouseUp); pane.removeEventListener('click', onClick); };
-  }, [paneRef, enabled]);
+    panes.forEach((pane) => pane.addEventListener('click', onClick));
+    return () => {
+      document.removeEventListener('mouseup', onMouseUp);
+      panes.forEach((pane) => pane.removeEventListener('click', onClick));
+    };
+  }, [paneRefs, enabled]);
 
   const apply = () => {
     const range = rangeRef.current;

@@ -70,7 +70,16 @@ function ImportPanel({ onConverted, onClose }) {
     try {
       const isPdf = /\.pdf$/i.test(file.name) || file.type === 'application/pdf';
       const isHtml = /\.html?$/i.test(file.name) || file.type === 'text/html';
-      if (!isPdf && !isHtml) throw new Error('Choose a PDF or an HTML file.');
+      // A test already converted (e.g. in Claude Code): no AI step, straight to checking.
+      if (/\.json$/i.test(file.name) || file.type === 'application/json') {
+        let spec;
+        try { spec = JSON.parse(await file.text()); } catch { throw new Error("That JSON file couldn't be read."); }
+        if (!spec || !Array.isArray(spec.parts)) throw new Error("That JSON file isn't a test (it has no parts).");
+        const asSkill = spec.skill === 'listening' || spec.skill === 'reading' ? spec.skill : skill;
+        onConverted({ skill: asSkill, spec: normalizeSpec(spec, asSkill), notes: [], source_name: file.name });
+        return;
+      }
+      if (!isPdf && !isHtml) throw new Error('Choose a PDF, an HTML or a converted .json file.');
       if (isPdf && file.size > 25 * 1024 * 1024) throw new Error('The PDF is too large (25 MB at most).');
       const settled = await api.importIeltsFile(isPdf ? { skill, file } : { skill, html: cleanHtml(await file.text()) });
       const { spec, notes } = mergeParts(skill, file.name, settled);
@@ -90,15 +99,16 @@ function ImportPanel({ onConverted, onClose }) {
       <p className="form-help" style={{ marginTop: 0 }}>
         A PDF of the test (with its answer key, and the audioscript for listening if you have it), or a test page saved as HTML.
         It is copied word for word into the site&apos;s test format. You check it before it&apos;s saved.
+        A <strong>.json</strong> test that is already converted opens straight away, with no AI cost.
       </p>
       <div className="ielts-import-row">
         <Seg label="Skill" value={skill} onChange={setSkill} options={SKILLS.map((s) => ({ ...s, icon: s.value === 'reading' ? 'bookOpen' : 'headphones' }))} />
         <label className="btn btn-sm ielts-file">
-          <Icon name="upload" size={14} /> {file ? file.name : 'Choose PDF or HTML'}
-          <input type="file" accept=".pdf,.html,.htm,application/pdf,text/html" onChange={(e) => setFile(e.target.files?.[0] || null)} disabled={busy} />
+          <Icon name="upload" size={14} /> {file ? file.name : 'Choose PDF, HTML or JSON'}
+          <input type="file" accept=".pdf,.html,.htm,.json,application/pdf,text/html,application/json" onChange={(e) => setFile(e.target.files?.[0] || null)} disabled={busy} />
         </label>
         <button type="button" className="btn btn-primary btn-sm" onClick={convert} disabled={!file || busy}>
-          <Icon name="sparkle" size={14} /> {busy ? `Converting… ${seconds}s` : 'Convert'}
+          <Icon name="sparkle" size={14} /> {busy ? `Converting… ${seconds}s` : (file && /\.json$/i.test(file.name) ? 'Open' : 'Convert')}
         </button>
       </div>
       {busy && <p className="form-help">A full test usually takes one to three minutes. Keep this tab open.</p>}

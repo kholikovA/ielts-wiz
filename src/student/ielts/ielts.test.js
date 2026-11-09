@@ -1,6 +1,6 @@
 import {
   normalizeSpec, validateSpec, setKey, keyText, withGroupImage, cleanHtml, compactRanges,
-  bankCatalogEntry, bankSlugId, allQuestionNumbers, sanitizeSpec, mergeParts,
+  bankCatalogEntry, bankSlugId, allQuestionNumbers, sanitizeSpec, mergeParts, tidySpec,
 } from './ielts';
 import { gradeTest } from '../../features/test-player/grading';
 
@@ -113,4 +113,21 @@ test('mergeParts joins parts in order, keeps notes and reports failed parts', ()
   expect(spec.duration_minutes).toBe(40);
   expect(notes).toEqual(['Passage 2: answer 14 unclear', 'Part 3: AI error (529). Try again.']);
   expect(() => mergeParts('reading', 'x.pdf', [{ status: 'fulfilled', value: { found: false } }])).toThrow(/No test/);
+});
+
+test('tidySpec drops a copied "Questions x–y" heading and evens out option punctuation', () => {
+  const t = tidySpec({ parts: [{ question_groups: [
+    { type: 'tfng', instructions_html: '<p><strong>Questions 1 - 6</strong></p><p>Do the following statements agree?</p>', questions: [{ number: 1 }] },
+    { type: 'note_completion', instructions_html: '<strong>Questions 7–13</strong><br>Complete the notes below.', questions: [{ number: 7 }] },
+    { type: 'mcq', instructions_html: 'Choose the correct letter, <strong>A</strong>, B, C or D.', questions: [
+      { number: 27, prompt: 'because', options: [{ letter: 'A', text: 'fossils are scarce.' }, { letter: 'B', text: 'evidence was destroyed,' }, { letter: 'C', text: 'it is contradictory.' }] },
+      { number: 28, prompt: 'x', options: [{ letter: 'A', text: 'apples,' }, { letter: 'B', text: 'pears' }] },
+    ] },
+  ] }] });
+  const [g1, g2, g3] = t.parts[0].question_groups;
+  expect(g1.instructions_html).toBe('<p>Do the following statements agree?</p>');
+  expect(g2.instructions_html).toBe('Complete the notes below.');
+  expect(g3.instructions_html).toBe('Choose the correct letter, <strong>A</strong>, B, C or D.');
+  expect(g3.questions[0].options[1].text).toBe('evidence was destroyed.');
+  expect(g3.questions[1].options[0].text).toBe('apples,'); // no full stops at all: left as written
 });

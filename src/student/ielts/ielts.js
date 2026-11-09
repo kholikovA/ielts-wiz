@@ -114,10 +114,39 @@ export function compactRanges(nums) {
   return out.join(', ');
 }
 
+// The player prints its own "Questions 1–6" heading, so a copied one is dropped.
+const QUESTIONS_HEADING = /^\s*(?:<(?:p|strong|b|h\d|div|span)\b[^>]*>\s*)*Questions?\s+\d+(?:\s*(?:-|–|—|to|and)\s*\d+)?\s*(?:<\/(?:p|strong|b|h\d|div|span)>\s*)*(?:<br\s*\/?>\s*)*/i;
+export const stripQuestionsHeading = (html) => (typeof html === 'string' ? html.replace(QUESTIONS_HEADING, '') : html);
+
+// Options that complete a sentence end the same way. When most end with "." a
+// stray "," or ";" (a common PDF copying slip) becomes "." too.
+function evenOptionPunctuation(options) {
+  if (!Array.isArray(options) || options.length < 2) return options;
+  const ends = options.map((o) => String(o?.text ?? '').trim().slice(-1));
+  if (!ends.includes('.')) return options;
+  return options.map((o) => (o && typeof o.text === 'string' ? { ...o, text: o.text.trim().replace(/[,;]$/, '.') } : o));
+}
+
+// Cosmetic clean-up, safe to run on saved tests at play time.
+export function tidySpec(spec) {
+  if (!spec || !Array.isArray(spec.parts)) return spec;
+  return {
+    ...spec,
+    parts: spec.parts.map((p) => ({
+      ...p,
+      question_groups: (p.question_groups || []).map((g) => ({
+        ...g,
+        instructions_html: stripQuestionsHeading(g.instructions_html),
+        questions: (g.questions || []).map((q) => (q.options ? { ...q, options: evenOptionPunctuation(q.options) } : q)),
+      })),
+    })),
+  };
+}
+
 // Tidy what the importer returns: numeric question numbers, string answer-key
 // keys, mcq_multi answers mirrored onto every number of the group.
 export function normalizeSpec(spec, skill) {
-  const s = sanitizeSpec(JSON.parse(JSON.stringify(spec || {})));
+  const s = tidySpec(sanitizeSpec(JSON.parse(JSON.stringify(spec || {}))));
   s.skill = skill;
   s.parts = (s.parts || []).map((p, i) => ({ ...p, part_number: Number(p.part_number) || i + 1, question_groups: p.question_groups || [] }));
   s.parts.forEach((p) => p.question_groups.forEach((g) => {

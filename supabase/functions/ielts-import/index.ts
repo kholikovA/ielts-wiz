@@ -49,6 +49,8 @@ Fidelity rules (most important):
 - HTML in *_html fields: only <strong>, <em>, <br>, <p>, <ul>, <li>, <table>, <thead>, <tbody>, <tr>, <th>, <td>. No classes, no scripts, no styles except on table cells as shown.
 - Every gap is written as exactly three underscores: ___ (one gap per question, in question-number order within the group).
 - Every group's "questions" array lists every question number in the group, even when the text lives in "layout".
+- Do not copy the "Questions 1–6" heading into instructions_html (the player prints it); start with the instruction itself.
+- Multiple-choice options: copy each option's ending punctuation exactly as printed. Options that complete the stem end with a full stop.
 `;
 
 const READING_FORMAT = `
