@@ -19,6 +19,9 @@ export default function MascotProgress({ done, total, compact = false }) {
   const [shown, setShown] = useState(0);
   useEffect(() => { const t = requestAnimationFrame(() => setShown(value)); return () => cancelAnimationFrame(t); }, [value]);
   const finished = total > 0 && done === total;
+  const size = compact ? 34 : 44;
+  // Keep the whole character on the track: at 0% its left edge sits at the start.
+  const runnerLeft = `calc(${size / 2}px + (100% - ${size}px) * ${shown})`;
   return (
     <div className={`mascot${compact ? ' mascot--compact' : ''}${finished ? ' is-done' : ''}`}>
       <div className="mascot-head">
@@ -27,8 +30,8 @@ export default function MascotProgress({ done, total, compact = false }) {
       </div>
       <div className="mascot-track" role="progressbar" aria-valuemin={0} aria-valuemax={total} aria-valuenow={done} aria-label="Today's homework">
         <div className="mascot-fill" style={{ width: `${shown * 100}%` }} />
-        <div className="mascot-runner" style={{ left: `${shown * 100}%` }}>
-          <Character id={id} size={compact ? 34 : 44} />
+        <div className="mascot-runner" style={{ left: runnerLeft }}>
+          <Character id={id} size={size} />
         </div>
         <span className="mascot-flag"><Icon name="flag" size={compact ? 14 : 16} /></span>
       </div>

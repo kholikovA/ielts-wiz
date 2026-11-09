@@ -191,6 +191,38 @@ export async function upsertSatQuestions(rows) {
   }
 }
 
+// ── IELTS question bank (admins add; everyone signed in can take one) ────────
+// Tests are stored in the main site's player spec format (see ielts/ielts.js).
+const IELTS_BUCKET = 'ielts-bank';
+
+export const ieltsTests = async () =>
+  unwrap(await supabase.from('ielts_tests')
+    .select('id, skill, title, question_count, source_name, created_at')
+    .order('created_at', { ascending: false })) || [];
+
+export const ieltsTest = async (id) =>
+  unwrap(await supabase.from('ielts_tests').select('id, skill, title, spec, question_count').eq('id', id).maybeSingle());
+
+export async function saveIeltsTest(row) {
+  const fields = { skill: row.skill, title: row.title, spec: row.spec, question_count: row.question_count, source_name: row.source_name || null };
+  if (row.id) return unwrap(await supabase.from('ielts_tests').update(fields).eq('id', row.id).select('id').single());
+  return unwrap(await supabase.from('ielts_tests').insert(fields).select('id').single());
+}
+
+export const deleteIeltsTest = async (id) => unwrap(await supabase.from('ielts_tests').delete().eq('id', id));
+
+export async function uploadIeltsMedia(file) {
+  const ext = (file.name.match(/\.[a-z0-9]+$/i)?.[0] || '').toLowerCase();
+  const path = `${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}${ext}`;
+  const { error } = await supabase.storage.from(IELTS_BUCKET)
+    .upload(path, file, { contentType: file.type || undefined, cacheControl: '31536000' });
+  if (error) throw new Error(error.message);
+  return supabase.storage.from(IELTS_BUCKET).getPublicUrl(path).data.publicUrl;
+}
+
+// PDF/HTML → spec via the ielts-import edge function (Claude). Takes a minute or two.
+export const importIeltsFile = (body) => callEdge('ielts-import', body);
+
 // Student: start another attempt at a quiz that allows several (keeps the previous one).
 export const startQuizAttempt = async (assignmentId) => {
   refuseInPreview();

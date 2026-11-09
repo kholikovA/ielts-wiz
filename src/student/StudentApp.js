@@ -48,6 +48,8 @@ const Register = pages(AttendancePages, 'Register');
 const CoinAdmin = pages(CoinAdminPages, 'CoinAdmin');
 const Profile = lazy(() => import('./Profile'));
 const SatBank = lazy(() => import('./SatBank'));
+const IeltsBank = lazy(() => import('./ielts/IeltsBank'));
+const BankTestRoute = lazy(() => import('./ielts/BankTestRoute'));
 const RevisionQuiz = lazy(() => import('./revision/RevisionQuiz'));
 
 const STUDY_NAV = [
@@ -60,6 +62,7 @@ const STUDY_NAV = [
   { path: '/coins',      label: 'Coins',      icon: 'coin' },
 ];
 const TEACH_NAV = [
+  { path: '/teach/assignments/new', label: 'New assignment', icon: 'plus' },
   { path: '/teach/assignments', label: 'Assignments', icon: 'checkCircle' },
   { path: '/teach/bank',        label: 'Question bank', icon: 'layers' },
   { path: '/teach/attendance',  label: 'Attendance',  icon: 'clipboard' },
@@ -83,8 +86,8 @@ function teacherRoute(parts) {
   if (b === 'students') return c ? <StudentDetail id={c} /> : <Students />;
   if (b === 'attendance') return c ? <Register id={c} /> : <AttendanceHome />;
   if (b === 'coins') return <CoinAdmin />;
-  if (b === 'bank') return <SatBank />;
-  if (c === 'new') return <NewAssignment />;
+  if (b === 'bank') return c === 'ielts' ? <IeltsBank /> : <SatBank />;
+  if (c === 'new') return <NewAssignment key={window.location.search} />;
   return c ? <AssignmentDetail id={c} /> : <Assignments />;
 }
 
@@ -371,16 +374,25 @@ export default function StudentApp() {
     }
     const Player = parts[0] === 'reading-test' ? ReadingTestRoute : ListeningTestRoute;
     const review = parts[2] === 'review';
+    // bank-<id>: a test from the IELTS question bank (stored in the database).
+    const bankId = parts[1]?.startsWith('bank-') ? parts[1].slice(5) : null;
+    const exit = () => go(isTeacher ? '/teach/bank/ielts' : '/homework');
     return (
       <main id="main">
         <Suspense fallback={<Spinner full />}>
-          <Player key={`${parts[1]}:${review}`} slug={parts[1]} review={review} onExit={() => go('/homework')} />
+          {bankId
+            ? <BankTestRoute key={`${bankId}:${review}`} id={bankId} review={review} onExit={exit} />
+            : <Player key={`${parts[1]}:${review}`} slug={parts[1]} review={review} onExit={() => go('/homework')} />}
         </Suspense>
       </main>
     );
   }
 
-  const isActive = (path) => (path === '/' ? here === '/' || parts[0] === 'dashboard' : here === path || here.startsWith(`${path}/`));
+  // The most specific nav item wins, so /teach/assignments/new lights up "New assignment" only.
+  const matches = (path) => (path === '/' ? here === '/' || parts[0] === 'dashboard' : here === path || here.startsWith(`${path}/`));
+  const navItems = isTeacher ? TEACH_NAV : STUDY_NAV;
+  const activePath = navItems.filter((n) => matches(n.path)).sort((a, b) => b.path.length - a.path.length)[0]?.path;
+  const isActive = (path) => path === activePath;
   const link = (n) => (
     <AppLink key={n.path} href={n.path} onNavigate={() => go(n.path)}
       aria-current={isActive(n.path) ? 'page' : undefined}

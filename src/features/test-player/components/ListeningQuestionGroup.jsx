@@ -161,6 +161,44 @@ export default function ListeningQuestionGroup({ group, answers, onChange, readO
           </fieldset>
         ));
 
+      // ---- multiple choice, choose TWO/THREE (shared options) ----
+      // Same storage as the reading player: the picks, comma-joined, on every number.
+      case 'mcq_multi': {
+        const first = g.questions.find((q) => q.options) || g.questions[0];
+        const sorted = [...qnums].sort((a, b) => a - b);
+        const current = String(answers[sorted[0]] || '').split(',').filter(Boolean);
+        const toggle = (letter) => {
+          const has = current.includes(letter);
+          if (!has && current.length >= sorted.length) return;
+          const next = has ? current.filter((l) => l !== letter) : [...current, letter];
+          sorted.forEach((n) => setA(n, next.join(',')));
+        };
+        const r0 = res(sorted[0]);
+        const keyLetters = r0 && Array.isArray(r0.correctAns) ? r0.correctAns : [];
+        return (
+          <fieldset className="lq-mcq" data-qnum={sorted[0]}>
+            <legend className="lq-mcq-stem">
+              <span className="lq-num">{sorted.length > 1 ? `${sorted[0]}–${sorted[sorted.length - 1]}` : sorted[0]}</span>
+              <HTML html={first.prompt} />
+            </legend>
+            {(first.options || []).map((o) => {
+              const chosen = current.includes(o.letter);
+              const blocked = readOnly || (!chosen && current.length >= sorted.length);
+              const cls = readOnly
+                ? (keyLetters.includes(o.letter) ? ' is-correct' : (chosen ? ' is-wrong' : ''))
+                : '';
+              return (
+                <label className={`lq-opt${chosen ? ' chosen' : ''}${cls}`} key={o.letter} style={blocked && !readOnly ? { opacity: 0.5 } : undefined}>
+                  <input type="checkbox" value={o.letter} checked={chosen} disabled={blocked} onChange={() => toggle(o.letter)} />
+                  <span className="lq-opt-letter">{o.letter}</span>
+                  <span className="lq-opt-text"><HTML html={o.text} /></span>
+                </label>
+              );
+            })}
+          </fieldset>
+        );
+      }
+
       // ---- matching (pick a letter from a small bank) ----
       case 'matching': {
         const opts = (g.bank || []).map((b) => ({ value: b.letter, label: `${b.letter} — ${b.text}` }));
