@@ -220,8 +220,36 @@ export async function uploadIeltsMedia(file) {
   return supabase.storage.from(IELTS_BUCKET).getPublicUrl(path).data.publicUrl;
 }
 
-// PDF/HTML → spec via the ielts-import edge function (Claude). Takes a minute or two.
-export const importIeltsFile = (body) => callEdge('ielts-import', body);
+// PDF/HTML → one converted part via the ielts-import edge function (Claude).
+// The function streams blank keep-alive lines and ends with { result } or { error }.
+async function importIeltsPart(body) {
+  const res = await edgeFetch('ielts-import', body);
+  const text = await res.text();
+  const last = text.trim().split('\n').filter(Boolean).pop() || '';
+  let json = null;
+  try { json = JSON.parse(last); } catch { /* not JSON */ }
+  if (!res.ok || !json || json.error) throw new Error(json?.error || `Part ${body.part}: the converter didn't answer (${res.status}). Try again.`);
+  return json.result;
+}
+
+// Convert a whole file: a PDF is uploaded once to ielts-bank/imports/, then every
+// part is converted in parallel (each request stays short). Returns the settled
+// result of each part; the temporary PDF is removed afterwards.
+export async function importIeltsFile({ skill, file, html }) {
+  const total = skill === 'listening' ? 4 : 3;
+  let pdfPath = null;
+  if (file) {
+    pdfPath = `imports/${Date.now().toString(36)}-${Math.random().toString(36).slice(2, 8)}.pdf`;
+    const { error } = await supabase.storage.from(IELTS_BUCKET).upload(pdfPath, file, { contentType: 'application/pdf' });
+    if (error) throw new Error(`Upload failed: ${error.message}`);
+  }
+  try {
+    const base = { skill, file_name: file?.name, ...(pdfPath ? { pdf_path: pdfPath } : { html }) };
+    return await Promise.allSettled(Array.from({ length: total }, (_, i) => importIeltsPart({ ...base, part: i + 1 })));
+  } finally {
+    if (pdfPath) supabase.storage.from(IELTS_BUCKET).remove([pdfPath]).catch(() => {});
+  }
+}
 
 // Student: start another attempt at a quiz that allows several (keeps the previous one).
 export const startQuizAttempt = async (assignmentId) => {

@@ -155,6 +155,37 @@ export function withGroupImage(spec, skill, pi, gi, url) {
   return s;
 }
 
+// Merge the per-part results of a conversion into one spec (+ notes for the admin).
+export function mergeParts(skill, fileName, settled) {
+  const notes = [];
+  const parts = [];
+  const key = {};
+  const explanations = {};
+  let title = '';
+  settled.forEach((r, i) => {
+    if (r.status === 'rejected') { notes.push(r.reason?.message || `Part ${i + 1} failed.`); return; }
+    const v = r.value || {};
+    if (!v.found || !v.part) return;
+    parts.push(v.part);
+    Object.assign(key, v.answer_key || {});
+    Object.assign(explanations, v.explanations || {});
+    if (!title && v.test_title) title = String(v.test_title);
+    (v.notes || []).forEach((n) => n && notes.push(`${skill === 'listening' ? 'Part' : 'Passage'} ${v.part.part_number ?? i + 1}: ${n}`));
+  });
+  if (!parts.length) throw new Error(notes[0] || 'No test was found in this file.');
+  parts.sort((a, b) => Number(a.part_number) - Number(b.part_number));
+  const spec = {
+    title: title || String(fileName || 'Imported test').replace(/\.(pdf|html?)$/i, ''),
+    skill,
+    duration_minutes: skill === 'reading' ? (parts.length === 3 ? 60 : 20 * parts.length) : 30,
+    answer_key: key,
+    parts,
+  };
+  if (skill === 'reading' && Object.keys(explanations).length) spec.explanations = explanations;
+  if (skill === 'listening') spec.audio_url = '';
+  return { spec, notes };
+}
+
 // Answer-key editor value: arrays show as "A, C".
 export const keyText = (v) => (Array.isArray(v) ? v.join(', ') : (v ?? ''));
 export function setKey(spec, n, text) {
@@ -237,13 +268,4 @@ export function cleanHtml(html) {
   const body = doc.body ? doc.body.innerHTML : doc.documentElement.outerHTML;
   const scripts = [...doc.head.querySelectorAll('script')].map((s) => s.outerHTML).join('\n');
   return `${scripts}\n${body}`.replace(/<!--[\s\S]*?-->/g, '').replace(/[ \t]+/g, ' ').replace(/\n\s*\n+/g, '\n').trim();
-}
-
-export function fileToBase64(file) {
-  return new Promise((resolve, reject) => {
-    const r = new FileReader();
-    r.onload = () => resolve(String(r.result).split(',')[1] || '');
-    r.onerror = () => reject(new Error('Could not read the file.'));
-    r.readAsDataURL(file);
-  });
 }

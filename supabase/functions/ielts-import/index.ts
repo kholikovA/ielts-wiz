@@ -2,14 +2,14 @@
 // ielts-import — turn an uploaded IELTS Reading/Listening test (PDF or HTML) into
 // the JSON spec the site's React test players use (admins only).
 //
-//   POST { skill: "reading" | "listening", file_name, pdf_base64? , html? }
-//     -> { spec, notes[], model }
+//   POST { skill: "reading" | "listening", part: 1-4, file_name, pdf_path? , html? }
+//     -> streamed: blank keep-alive lines, then one JSON line { result } | { error }
 //
-// The file goes to Claude once per part, in parallel (3 reading passages, 4
-// listening sections), so a full test converts in about the time of one part.
-// Each call transcribes ONE part verbatim plus its answer key. Nothing is saved
-// here: the admin previews the result in the real player, fixes anything, and
-// the hub saves it to ielts_tests.
+// The browser uploads a PDF to ielts-bank/imports/ once, then sends one request per
+// part in parallel (3 reading passages, 4 listening sections), so a full test
+// converts in about the time of one part. Each call transcribes ONE part verbatim
+// plus its answer key; the hub merges the parts. Nothing is saved here: the admin
+// previews the result in the real player, fixes anything, and saves it.
 //
 // Deploy with JWT verification on (the default):
 //   supabase functions deploy ielts-import
@@ -18,6 +18,7 @@
 
 import Anthropic from "npm:@anthropic-ai/sdk@1.6.0";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { encodeBase64 } from "jsr:@std/encoding@1/base64";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -122,7 +123,7 @@ async function extractPart(client: Anthropic, skill: string, source: Block, posi
     model: MODEL,
     max_tokens: 64000,
     thinking: { type: "adaptive" },
-    output_config: { effort: "medium" },
+    output_config: { effort: "low" }, // transcription, not reasoning: keeps each part well inside the time limit
     betas: ["server-side-fallback-2026-07-01"],
     // Server-side fallback: if a safety classifier declines, another model finishes the job.
     fallbacks: "default",
@@ -169,15 +170,22 @@ async function handle(req: Request): Promise<Response> {
   const { data: isAdmin } = await admin.rpc("is_admin_user", { uid: user.id });
   if (!isAdmin) return fail(403, "Admins only.");
 
-  let body: { skill?: string; file_name?: string; pdf_base64?: string; html?: string };
+  let body: { skill?: string; file_name?: string; pdf_path?: string; html?: string; part?: number };
   try { body = await req.json(); } catch { return fail(400, "Bad request."); }
   const skill = body.skill === "listening" ? "listening" : body.skill === "reading" ? "reading" : null;
   if (!skill) return fail(400, "Choose Reading or Listening.");
+  const total = skill === "reading" ? 3 : 4;
+  const part = Number(body.part);
+  if (!Number.isInteger(part) || part < 1 || part > total) return fail(400, "Bad part number.");
 
   let source: Block;
-  if (body.pdf_base64) {
-    if (body.pdf_base64.length * 0.75 > MAX_PDF_BYTES) return fail(413, "The PDF is too large (25 MB at most).");
-    source = { type: "document", source: { type: "base64", media_type: "application/pdf", data: body.pdf_base64 } } as Block;
+  if (body.pdf_path) {
+    // The browser uploads the PDF to storage once; each part's request reads it from there.
+    if (!/^imports\/[\w.-]+\.pdf$/.test(body.pdf_path)) return fail(400, "Bad file path.");
+    const { data: blob, error } = await admin.storage.from("ielts-bank").download(body.pdf_path);
+    if (error || !blob) return fail(404, "The uploaded PDF couldn't be read. Try again.", error?.message);
+    if (blob.size > MAX_PDF_BYTES) return fail(413, "The PDF is too large (25 MB at most).");
+    source = { type: "document", source: { type: "base64", media_type: "application/pdf", data: encodeBase64(new Uint8Array(await blob.arrayBuffer())) } } as Block;
   } else if (body.html) {
     if (body.html.length > MAX_HTML_CHARS) return fail(413, "The HTML file is too large. Save the page as 'HTML only' and try again.");
     source = { type: "text", text: `<document name="${String(body.file_name ?? "test.html").slice(0, 120)}">\n${body.html}\n</document>` };
@@ -185,43 +193,29 @@ async function handle(req: Request): Promise<Response> {
     return fail(400, "Attach a PDF or HTML file.");
   }
 
+  // Converting a part takes a minute or two. The platform drops a request that sends
+  // nothing for ~150s, so stream a blank line every few seconds and finish with one
+  // JSON line: { result } or { error }. The client reads the last line.
   const client = new Anthropic({ apiKey: ANTHROPIC_API_KEY, maxRetries: 2 });
-  const total = skill === "reading" ? 3 : 4;
-  const results = await Promise.allSettled(
-    Array.from({ length: total }, (_, i) => extractPart(client, skill, source, i + 1, total)),
-  );
-
-  const notes: string[] = [];
-  const parts: Record<string, unknown>[] = [];
-  const answerKey: Record<string, unknown> = {};
-  const explanations: Record<string, unknown> = {};
-  let title = "";
-  results.forEach((r, i) => {
-    if (r.status === "rejected") {
-      notes.push(r.reason instanceof Anthropic.APIError ? `Part ${i + 1}: AI error (${r.reason.status ?? "network"}).` : String(r.reason?.message ?? r.reason));
-      return;
-    }
-    const v = r.value ?? {};
-    if (!v.found || !v.part) return;
-    parts.push(v.part);
-    Object.assign(answerKey, v.answer_key ?? {});
-    Object.assign(explanations, v.explanations ?? {});
-    if (!title && v.test_title) title = String(v.test_title);
-    (v.notes ?? []).forEach((n: unknown) => n && notes.push(`Part ${v.part.part_number ?? i + 1}: ${String(n)}`));
+  const enc = new TextEncoder();
+  const stream = new ReadableStream({
+    async start(controller) {
+      controller.enqueue(enc.encode("\n"));
+      const beat = setInterval(() => { try { controller.enqueue(enc.encode("\n")); } catch { /* closed */ } }, 5000);
+      let line: unknown;
+      try {
+        line = { result: await extractPart(client, skill, source, part, total), model: MODEL };
+      } catch (e) {
+        console.warn("ielts-import part", part, e);
+        line = { error: e instanceof Anthropic.APIError ? `Part ${part}: AI error (${e.status ?? "network"}). Try again.` : String((e as Error)?.message ?? e) };
+      } finally {
+        clearInterval(beat);
+      }
+      controller.enqueue(enc.encode(JSON.stringify(line) + "\n"));
+      controller.close();
+    },
   });
-  if (!parts.length) return fail(422, notes[0] ?? "No test was found in this file.", notes);
-
-  parts.sort((a, b) => Number(a.part_number) - Number(b.part_number));
-  const spec: Record<string, unknown> = {
-    title: title || String(body.file_name ?? "Imported test").replace(/\.(pdf|html?)$/i, ""),
-    skill,
-    duration_minutes: skill === "reading" ? (parts.length === 3 ? 60 : 20 * parts.length) : 30,
-    answer_key: answerKey,
-    parts,
-  };
-  if (skill === "reading" && Object.keys(explanations).length) spec.explanations = explanations;
-  if (skill === "listening") spec.audio_url = "";
-  return ok({ spec, notes, model: MODEL });
+  return new Response(stream, { headers: { ...CORS, "content-type": "application/x-ndjson", "cache-control": "no-store" } });
 }
 
 Deno.serve((req) => handle(req).catch((e) => fail(500, "The import failed. Try again.", String(e?.stack ?? e))));
