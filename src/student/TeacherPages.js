@@ -5,6 +5,7 @@ import {
   KINDS, attemptsFor, statusOf, isComplete, isOverdue, dueLabel, formatDate, pct, parseCards, wordCount,
 } from './homework';
 import { TEST_GROUPS, ALL_TESTS, testKey, WRITING_PROMPTS } from './catalog';
+import { bankCatalogEntry } from './ielts/ielts';
 import {
   useHub, useAsync, Loaded, EmptyPanel, HubLink, BackLink, StatusPill, KindTag, PersonName, CopyButton, ErrorNote,
   PageTitle, Seg, Coin, toLocalInput, Spinner,
@@ -452,10 +453,11 @@ export function NewAssignment() {
   const presetClass = new URLSearchParams(window.location.search).get('class') || '';
   const roster = useAsync(() => api.teacherStudents(user.id), [user.id]);
 
+  const presetTest = new URLSearchParams(window.location.search).get('test') || '';
   const [kind, setKind] = useState('test');
   const [title, setTitle] = useState('');
   const [instructions, setInstructions] = useState('');
-  const [testKeyVal, setTestKeyVal] = useState('');
+  const [testKeyVal, setTestKeyVal] = useState(presetTest);
   const [promptId, setPromptId] = useState('');
   const [task, setTask] = useState('Task 2');
   const [prompt, setPrompt] = useState('');
@@ -529,13 +531,30 @@ export function NewAssignment() {
     () => (kind === 'sentences' ? api.teacherAssignments(user.id).then((l) => l.filter((x) => x.kind === 'flashcards')) : Promise.resolve([])),
     [kind, user.id],
   );
-  const test = ALL_TESTS.find((t) => testKey(t) === testKeyVal);
+  // Built-in tests plus the IELTS question bank.
+  const bank = useAsync(() => api.ieltsTests().catch(() => []), []);
+  const { testGroups, allTests } = useMemo(() => {
+    const rows = bank.data || [];
+    const bankGroups = [
+      { label: 'IELTS bank · Reading', tests: rows.filter((r) => r.skill === 'reading').map(bankCatalogEntry) },
+      { label: 'IELTS bank · Listening', tests: rows.filter((r) => r.skill === 'listening').map(bankCatalogEntry) },
+    ].filter((g) => g.tests.length);
+    const groups = [...bankGroups, ...TEST_GROUPS];
+    return { testGroups: groups, allTests: [...bankGroups.flatMap((g) => g.tests), ...ALL_TESTS] };
+  }, [bank.data]);
+  const test = allTests.find((t) => testKey(t) === testKeyVal);
 
   const pickTest = (key) => {
     setTestKeyVal(key);
-    const t = ALL_TESTS.find((x) => testKey(x) === key);
-    if (t && (!title || ALL_TESTS.some((x) => x.label === title))) setTitle(t.label);
+    const t = allTests.find((x) => testKey(x) === key);
+    if (t && (!title || allTests.some((x) => x.label === title))) setTitle(t.label);
   };
+  // Arriving from the bank's "Assign" button: fill in the title once the bank has loaded.
+  useEffect(() => {
+    if (!presetTest || title) return;
+    const t = allTests.find((x) => testKey(x) === presetTest);
+    if (t) setTitle(t.label);
+  }, [allTests]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const pickPrompt = (id) => {
     setPromptId(id);
@@ -619,7 +638,7 @@ export function NewAssignment() {
                 <label className="form-label" htmlFor="na-test">Test</label>
                 <select id="na-test" className="form-select" value={testKeyVal} onChange={(e) => pickTest(e.target.value)}>
                   <option value="">Choose a test…</option>
-                  {TEST_GROUPS.filter((g) => g.tests.length).map((g) => (
+                  {testGroups.filter((g) => g.tests.length).map((g) => (
                     <optgroup key={g.label} label={g.label}>
                       {g.tests.map((t) => <option key={testKey(t)} value={testKey(t)}>{t.label}</option>)}
                     </optgroup>

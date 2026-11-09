@@ -3,7 +3,7 @@ import Icon from '../components/ui/icons';
 import * as api from './api';
 import { confirmDialog } from './dialog';
 import {
-  useHub, useAsync, Loaded, BackLink, PageTitle, EmptyPanel, HubLink, PersonName, Seg, ErrorNote, toLocalInput,
+  useHub, useAsync, Loaded, BackLink, PageTitle, EmptyPanel, HubLink, PersonName, Seg, ErrorNote,
 } from './ui';
 
 const STATUSES = [
@@ -13,7 +13,17 @@ const STATUSES = [
   { value: 'excused', label: 'Excused', className: 'att-excused' },
 ];
 
-const when = (iso) => new Date(iso).toLocaleString(undefined, { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+// Sessions are recorded by day only.
+const when = (iso) => new Date(iso).toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'long', year: 'numeric' });
+const pad = (n) => String(n).padStart(2, '0');
+const toDateInput = (d) => `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`;
+// Today's session is stamped "now" so it counts towards streaks straight away;
+// another day is stamped at midday, which keeps it on that date in any time zone nearby.
+function sessionTime(dateStr) {
+  const [y, m, d] = dateStr.split('-').map(Number);
+  if (dateStr === toDateInput(new Date())) return new Date().toISOString();
+  return new Date(y, m - 1, d, 12, 0, 0).toISOString();
+}
 
 // /teach/attendance — pick a class, see its sessions, start a new one.
 export function AttendanceHome() {
@@ -24,7 +34,7 @@ export function AttendanceHome() {
     if (!classId && classes.data?.length) setClassId(classes.data[0].id);
   }, [classes.data, classId]);
   const sessions = useAsync(() => (classId ? api.classSessions(classId) : Promise.resolve([])), [classId]);
-  const [heldAt, setHeldAt] = useState(() => toLocalInput(new Date()));
+  const [heldOn, setHeldOn] = useState(() => toDateInput(new Date()));
   const [topic, setTopic] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
@@ -33,7 +43,7 @@ export function AttendanceHome() {
     e.preventDefault();
     setBusy(true); setError(null);
     try {
-      const s = await api.createSession(classId, new Date(heldAt).toISOString(), topic.trim());
+      const s = await api.createSession(classId, sessionTime(heldOn), topic.trim());
       go(`/teach/attendance/${s.id}`);
     } catch (err) { setError(err); setBusy(false); }
   };
@@ -57,8 +67,8 @@ export function AttendanceHome() {
                   </select>
                 </div>
                 <div className="form-field" style={{ margin: 0 }}>
-                  <label className="form-label" htmlFor="att-when">Session</label>
-                  <input id="att-when" type="datetime-local" className="form-input" value={heldAt} onChange={(e) => setHeldAt(e.target.value)} required />
+                  <label className="form-label" htmlFor="att-when">Date</label>
+                  <input id="att-when" type="date" className="form-input" value={heldOn} onChange={(e) => setHeldOn(e.target.value)} required />
                 </div>
                 <div className="form-field" style={{ margin: 0 }}>
                   <label className="form-label" htmlFor="att-topic">Topic (optional)</label>

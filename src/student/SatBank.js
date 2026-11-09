@@ -3,6 +3,7 @@ import Icon from '../components/ui/icons';
 import * as api from './api';
 import { useHub, useAsync, Loaded, PageTitle, Seg, ErrorNote, EmptyPanel, PersonName, toLocalInput, HubLink } from './ui';
 import { confirmDialog } from './dialog';
+import { BankTabs } from './ielts/IeltsBank';
 import MathText from './quiz/MathText';
 import { splitTest } from './quiz/quiz';
 import { SAT_TESTS, SAT_DOMAINS, DIFFICULTIES, bankToQuiz, usedBankIds, satPaceMinutes } from './quiz/satbank';
@@ -246,7 +247,10 @@ export default function SatBank() {
   return (
     <>
       <PageTitle eyebrow="Teaching" title="Question bank" lead="SAT questions from the College Board question bank. Filter, look up a Question ID, and assign them as SAT-style quizzes.">
-        <button type="button" className="btn btn-sm" onClick={() => setPanel(panel === 'import' ? null : 'import')}><Icon name="upload" size={14} /> Import</button>
+        <div className="hub-actions">
+          <BankTabs active="sat" />
+          <button type="button" className="btn btn-sm" onClick={() => setPanel(panel === 'import' ? null : 'import')}><Icon name="upload" size={14} /> Import</button>
+        </div>
       </PageTitle>
       {panel === 'import' && <ImportPanel onClose={() => setPanel(null)} onDone={() => data.reload()} />}
       <Loaded state={data}>

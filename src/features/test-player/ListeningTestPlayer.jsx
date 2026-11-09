@@ -22,7 +22,8 @@ const partQnums = (part) => {
 
 // `test` is a manifest entry { kind, id, spec }. Mirrors ReadingTestPlayer but with
 // an audio header in place of the passage, and a single scrolling question column.
-export default function ListeningTestPlayer({ test, review = false, onExit }) {
+// `dryRun` (teacher previews of bank tests) grades as normal but records nothing.
+export default function ListeningTestPlayer({ test, review = false, onExit, dryRun = false }) {
   const { spec, kind, id } = test;
   const { user } = useAuth();
   const solverName = (user && (user.user_metadata?.full_name || user.user_metadata?.name || user.email)) || '';
@@ -79,13 +80,13 @@ export default function ListeningTestPlayer({ test, review = false, onExit }) {
   const doSubmit = useCallback(() => {
     const g = gradeTest(spec, answers);
     const elapsed = (spec.duration_minutes || 30) * 60 - secondsLeft;
-    recordAttempt({ kind, id, answers, correct: g.correct, total: g.total, durationSec: elapsed, replaying: review });
+    recordAttempt({ kind, id, answers, correct: g.correct, total: g.total, durationSec: elapsed, replaying: review || dryRun });
     setGrade(g);
     setSubmittedAt(new Date());
     setElapsedSec(elapsed);
     setShowConfirm(false);
     try { window.scrollTo(0, 0); } catch { /* jsdom */ }
-  }, [spec, answers, kind, id, review, secondsLeft]);
+  }, [spec, answers, kind, id, review, dryRun, secondsLeft]);
 
   useEffect(() => {
     if (grade || review) return undefined;

@@ -402,6 +402,19 @@
   outline: none;
   transition: border-color 0.15s ease, box-shadow 0.15s ease;
 }
+.hub .form-select {
+  appearance: none;
+  -webkit-appearance: none;
+  padding-right: 34px;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2371717a' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+  background-size: 15px;
+  text-overflow: ellipsis;
+  cursor: pointer;
+}
+.hub .form-select[multiple] { background-image: none; padding-right: 10px; height: auto; }
+.hub .form-select:disabled { cursor: default; }
 .hub .form-textarea { height: auto; min-height: 96px; padding: 8px 10px; resize: vertical; line-height: 1.55; }
 .hub .form-input:focus, .hub .form-select:focus, .hub .form-textarea:focus { border-color: var(--h-accent); box-shadow: 0 0 0 3px var(--h-accent-soft); }
 .hub .form-help { font-size: 12px; color: var(--h-text-3); margin-top: 6px; }
@@ -710,7 +723,7 @@
   text-align: center;
   transition: border-color 0.2s ease, background 0.2s ease;
 }
-.dash-rank:hover { border-color: rgba(165, 180, 252, 0.4); background: rgba(255, 255, 255, 0.06); }
+.dash-rank:hover { border-color: rgba(165, 180, 252, 0.4); background-color: rgba(255, 255, 255, 0.06); }
 .dash-crest { color: #a5b4fc; margin-bottom: 6px; filter: drop-shadow(0 0 18px rgba(129, 140, 248, 0.35)); }
 .dash-rank-name { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; }
 .dash-rank-step { font-size: 11px; color: rgba(255, 255, 255, 0.45); text-transform: uppercase; letter-spacing: 0.08em; }
@@ -1249,7 +1262,7 @@ video.proof-thumb { object-fit: cover; background: #000; }
 .qz-gaptext { margin: 0; font-size: 15px; line-height: 2.4; white-space: pre-wrap; }
 .qz-gap { display: inline-flex; align-items: center; gap: 4px; margin: 0 2px; white-space: nowrap; }
 .hub .qz-gapinput { display: inline-block; height: 32px; min-width: 7ch; max-width: 26ch; padding: 0 8px; font-size: 14.5px; }
-.hub select.qz-gapinput { width: auto; }
+.hub select.qz-gapinput { width: auto; padding-right: 28px; background-position: right 8px center; }
 .hub .qz-gapinput.is-ok, .hub .qz-short .is-ok, .hub .qz-match .is-ok { border-color: var(--h-success); background: var(--h-success-soft); }
 .hub .qz-gapinput.is-no, .hub .qz-short .is-no, .hub .qz-match .is-no { border-color: var(--h-danger); background: var(--h-danger-soft); }
 .qz-fix { color: var(--h-success); font-weight: 600; font-size: 13px; }
@@ -1386,7 +1399,8 @@ video.proof-thumb { object-fit: cover; background: #000; }
   border: 1px solid rgba(255, 255, 255, 0.06);
   box-shadow: 0 20px 40px -24px rgba(15, 15, 40, 0.6);
 }
-.dash3-level:hover { border-color: rgba(165, 180, 252, 0.4); }
+/* Hover only lifts the border and shadow: the dark gradient must stay, or the white text disappears. */
+.dash3-level:hover { border-color: rgba(165, 180, 252, 0.4); box-shadow: 0 24px 44px -22px rgba(15, 15, 40, 0.7); }
 .dash3-level .dash-crest { width: 84px; height: 94px; }
 .dash3-level .dash-rank-name { font-size: 22px; }
 .dash3-level .dash-rank-next { max-width: 240px; }
@@ -2120,3 +2134,43 @@ body.is-resizing .sat-calc-frame { pointer-events: none; }
 }
 @media (max-width: 380px) { .rv-groups { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: reduce) { .rv-progress > span, .rv-passage .rv-chev { transition: none; } }
+
+/* ── IELTS question bank ───────────────────────────────────────────────── */
+.bank-tabs a {
+  display: inline-flex; align-items: center; height: 28px; padding: 0 14px; border-radius: 6px;
+  color: var(--h-text-2); font-size: 13px; font-weight: 500; text-decoration: none;
+}
+.bank-tabs a:hover { color: var(--h-text); }
+.bank-tabs a.is-selected { background: var(--h-surface); color: var(--h-text); box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08); }
+.ielts-import, .ielts-editor { margin-bottom: 20px; }
+.ielts-import-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+.ielts-file { position: relative; overflow: hidden; cursor: pointer; max-width: 100%; }
+.ielts-file input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.ielts-summary { font-size: 13px; margin: -4px 0 14px; }
+.ielts-warn { padding: 8px 12px; border-radius: var(--h-radius-sm); background: var(--h-warn-soft, rgba(245, 158, 11, 0.12)); color: var(--h-text); font-size: 13px; margin: 0 0 12px; }
+.ielts-warn ul, .hub .form-error ul, .ielts-notes ul { margin: 4px 0 0; padding-left: 18px; }
+.ielts-notes { margin: 0 0 12px; font-size: 13px; color: var(--h-text-2); }
+.ielts-notes summary { cursor: pointer; font-weight: 500; color: var(--h-text); }
+.ielts-block { border-top: 1px solid var(--h-border); padding-top: 14px; margin-top: 14px; }
+.ielts-h { font-size: 14px; font-weight: 600; margin: 0 0 8px; }
+.ielts-img-row { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; padding: 6px 0; font-size: 13px; }
+.ielts-img-row > span:first-child { flex: 1; min-width: 200px; }
+.ielts-key { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+.ielts-key-cell { display: flex; align-items: center; gap: 8px; }
+.ielts-key-cell b { width: 24px; text-align: right; font-size: 12.5px; color: var(--h-text-2); font-variant-numeric: tabular-nums; }
+.ielts-key-cell .form-input { height: 32px; }
+.hub textarea.ielts-json { min-height: 320px; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; margin: 8px 0; }
+.ielts-row .hub-actions { flex-shrink: 0; }
+@media (max-width: 700px) { .ielts-row { flex-wrap: wrap; } .ielts-row .hub-actions { width: 100%; } }
+.ielts-preview { position: fixed; inset: 0; z-index: 1000; display: flex; flex-direction: column; background: var(--bg-primary, #fff); }
+.ielts-preview-bar {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 16px;
+  background: #18181b; color: #fafafa; font: 500 13px/1.4 Inter, system-ui, sans-serif;
+}
+.ielts-preview-bar span { display: inline-flex; align-items: center; gap: 6px; }
+.ielts-preview-bar button {
+  display: inline-flex; align-items: center; gap: 6px; padding: 5px 10px; border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.25); background: transparent; color: inherit; font: inherit; cursor: pointer;
+}
+.ielts-preview-bar button:hover { background: rgba(255, 255, 255, 0.1); }
+.ielts-preview-body { flex: 1; overflow: auto; position: relative; transform: translateZ(0); /* keeps the player's fixed bars inside the preview */ }
