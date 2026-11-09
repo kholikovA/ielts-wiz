@@ -1,6 +1,6 @@
 import {
   normalizeSpec, validateSpec, setKey, keyText, withGroupImage, cleanHtml, compactRanges,
-  bankCatalogEntry, bankSlugId, allQuestionNumbers, sanitizeSpec,
+  bankCatalogEntry, bankSlugId, allQuestionNumbers, sanitizeSpec, mergeParts,
 } from './ielts';
 import { gradeTest } from '../../features/test-player/grading';
 
@@ -98,4 +98,19 @@ test('sanitizeSpec strips scripts, handlers and unsafe URLs but keeps formatting
   expect(s.image_url).toBe('');
   expect(s.audio_url).toBe('https://cdn.example.com/a.mp3');
   expect(s.questions[0].prompt).toBe('Plain & simple, a < b');
+});
+
+test('mergeParts joins parts in order, keeps notes and reports failed parts', () => {
+  const part = (n, q) => ({ found: true, test_title: 'Cam 18 Test 2', part: { part_number: n, passage_paragraphs: ['x'], question_groups: [{ type: 'tfng', questions: [{ number: q, prompt: 'p' }] }] }, answer_key: { [q]: 'TRUE' }, notes: n === 2 ? ['answer 14 unclear'] : [] });
+  const { spec, notes } = mergeParts('reading', 'cam.pdf', [
+    { status: 'fulfilled', value: part(2, 14) },
+    { status: 'fulfilled', value: part(1, 1) },
+    { status: 'rejected', reason: new Error('Part 3: AI error (529). Try again.') },
+  ]);
+  expect(spec.parts.map((p) => p.part_number)).toEqual([1, 2]);
+  expect(spec.title).toBe('Cam 18 Test 2');
+  expect(spec.answer_key).toEqual({ 1: 'TRUE', 14: 'TRUE' });
+  expect(spec.duration_minutes).toBe(40);
+  expect(notes).toEqual(['Passage 2: answer 14 unclear', 'Part 3: AI error (529). Try again.']);
+  expect(() => mergeParts('reading', 'x.pdf', [{ status: 'fulfilled', value: { found: false } }])).toThrow(/No test/);
 });

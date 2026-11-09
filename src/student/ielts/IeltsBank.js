@@ -7,7 +7,7 @@ import { confirmDialog } from '../dialog';
 import { BankPlayer } from './BankTestRoute';
 import {
   SKILLS, bankCatalogEntry, validateSpec, normalizeSpec, allQuestionNumbers, groupNeedsImage,
-  withGroupImage, keyText, setKey, cleanHtml, fileToBase64,
+  withGroupImage, keyText, setKey, cleanHtml, mergeParts,
 } from './ielts';
 
 // Teaching → Question bank → IELTS. Admins upload a test as a PDF or a saved web
@@ -72,11 +72,9 @@ function ImportPanel({ onConverted, onClose }) {
       const isHtml = /\.html?$/i.test(file.name) || file.type === 'text/html';
       if (!isPdf && !isHtml) throw new Error('Choose a PDF or an HTML file.');
       if (isPdf && file.size > 25 * 1024 * 1024) throw new Error('The PDF is too large (25 MB at most).');
-      const body = { skill, file_name: file.name };
-      if (isPdf) body.pdf_base64 = await fileToBase64(file);
-      else body.html = cleanHtml(await file.text());
-      const res = await api.importIeltsFile(body);
-      onConverted({ skill, spec: normalizeSpec(res.spec, skill), notes: res.notes || [], source_name: file.name });
+      const settled = await api.importIeltsFile(isPdf ? { skill, file } : { skill, html: cleanHtml(await file.text()) });
+      const { spec, notes } = mergeParts(skill, file.name, settled);
+      onConverted({ skill, spec: normalizeSpec(spec, skill), notes, source_name: file.name });
     } catch (e) {
       setError(e);
     } finally {
