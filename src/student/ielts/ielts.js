@@ -57,6 +57,75 @@ function gapsInGroup(g) {
   return n;
 }
 
+// Typos that PDF and OCR copying leave behind: doubled or misplaced punctuation,
+// stray letters, hyphens used as dashes, unbalanced quotes. Warnings only; each
+// message quotes the spot so it can be fixed in the JSON editor.
+const TYPO_RULES = [
+  ['doubled punctuation', /([,;:!?])\1|(?<!\.)\.\.(?!\.)|\.{4,}|[,;:]\s*[,;:]|[,;:]\s*\.(?!\.\.)|\.\s*,/g],
+  ['space before punctuation', /(?<=[A-Za-z0-9)’”])\s+[,;:!?]|(?<=[a-z])\s+\.(?!\.)/g],
+  ['no space after punctuation', /[a-z]{2}[,;:!?][A-Za-z]|[a-z]{3}\.[A-Z][a-z]/g],
+  ['lowercase after a full stop', /[a-z]{2}[.!?][’”]?\s+[a-z]/g],
+  ['repeated word', /\b(?!(?:had|that)\b)(\w+)\s+\1\b/gi],
+  ['stray letter', /(?<!\d )(?<![’'\w/-])(?![ai]\b|g\b)[b-hj-z](?![\w’'-])(?= [a-z])/g],
+  ['hyphen used as a dash', /\w - \w/g],
+  ['space inside quotation marks', /[‘“]\s|\s[’”](?=\s|$)/g],
+];
+const textOf = (h) => String(h || '').replace(/<br\s*\/?>|<\/?(?:p|li|td|th|tr|table|thead|tbody|ul|ol|div)\b[^>]*>/gi, ' | ').replace(/<[^>]+>/g, '')
+  .replace(/&amp;/g, '&').replace(/&nbsp;/g, ' ');
+
+// Do the single quotes in a passage pair up? Plural possessives (students’) and ’80s are allowed.
+function unpairedQuotes(t) {
+  const toks = [...t.matchAll(/‘|’(?![a-z])/g)].map((m) => {
+    const before = t[m.index - 1] || '';
+    const after = t[m.index + 1] || '';
+    if (m[0] === '‘') return { kind: 'open', i: m.index };
+    if (/\d/.test(after)) return { kind: 'skip', i: m.index };
+    return { kind: /[sz]/.test(before) ? 'maybe' : 'close', i: m.index };
+  });
+  let depth = 0;
+  const stray = [];
+  toks.forEach((tok, k) => {
+    if (tok.kind === 'open') { depth += 1; return; }
+    if (tok.kind === 'skip') return;
+    if (tok.kind === 'maybe') {
+      const next = toks.slice(k + 1).find((x) => x.kind !== 'skip');
+      if (depth === 0 || (next && next.kind !== 'open')) return; // possessive
+    }
+    if (depth) { depth -= 1; return; }
+    stray.push(tok.i);
+  });
+  return { stray, unclosed: depth };
+}
+
+export function proofreadSpec(spec, max = 40) {
+  const found = [];
+  const check = (where, raw) => {
+    const t = textOf(raw);
+    TYPO_RULES.forEach(([name, rx]) => {
+      for (const m of t.matchAll(rx)) {
+        found.push(`${where}: ${name} – “…${t.slice(Math.max(0, m.index - 30), m.index + m[0].length + 30).trim()}…”`);
+      }
+    });
+  };
+  (spec?.parts || []).forEach((p, pi) => {
+    const label = `${p.passage_title ? 'Passage' : 'Part'} ${p.part_number ?? pi + 1}`;
+    const paras = (p.passage_paragraphs || []).map((x) => (typeof x === 'string' ? x : x?.text || ''));
+    paras.forEach((x, i) => check(`${label}, paragraph ${i + 1}`, x));
+    const all = paras.join(' ');
+    const q = unpairedQuotes(all);
+    q.stray.forEach((i) => found.push(`${label}: closing quote with no opening – “…${all.slice(Math.max(0, i - 40), i + 10)}…”`));
+    if (q.unclosed) found.push(`${label}: ${q.unclosed} quotation mark(s) never closed`);
+    (p.question_groups || []).forEach((g) => {
+      const n = g.questions?.[0]?.number;
+      const strs = [g.instructions_html, g.layout?.title, g.layout?.body_html,
+        ...(g.layout?.sections || []).flatMap((s) => [s.heading, ...(s.items || []).map((it) => it.html)]),
+        ...(g.questions || []).flatMap((x) => [x.prompt, x.prompt_html, ...(x.options || []).map((o) => o.text)])];
+      strs.filter(Boolean).forEach((x) => check(`${label}, questions from ${n}`, x));
+    });
+  });
+  return found.length > max ? [...found.slice(0, max), `…and ${found.length - max} more possible typos`] : found;
+}
+
 // Will this spec render and grade? Mirrors tools/content-pipeline/schema.mjs.
 // errors block saving; warnings are shown to the admin.
 export function validateSpec(spec, skill) {
@@ -97,6 +166,7 @@ export function validateSpec(spec, skill) {
   });
   if (missing.length) warnings.push(`No answer for question${missing.length > 1 ? 's' : ''} ${compactRanges(missing)}. Students can take it, but those questions can't be marked.`);
   if (skill === 'listening' && !spec.audio_url) warnings.push('Add the audio.');
+  warnings.push(...proofreadSpec(spec));
   return { errors, warnings, questions: nums.length };
 }
 
