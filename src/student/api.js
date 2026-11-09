@@ -1,4 +1,5 @@
 import { supabase } from '../supabaseClient';
+import { trackOnce, trackApiError } from './telemetry';
 
 // Data layer for the Student Hub. Tables + RPCs come from
 // supabase/migrations/20261021_student_hub_homework.sql; RLS does the scoping,
@@ -6,7 +7,7 @@ import { supabase } from '../supabaseClient';
 // admin/teacher SELECT policies would otherwise widen the result set).
 
 const unwrap = ({ data, error }) => {
-  if (error) throw error;
+  if (error) { trackApiError(error); throw error; }
   return data;
 };
 
@@ -93,11 +94,21 @@ export async function assignmentForStudent(id, uid) {
     supabase.from('submissions').select('*').eq('assignment_id', id).eq('student_id', uid).maybeSingle(),
   ]);
   const assignment = unwrap(a);
-  return assignment && published(assignment) ? { ...assignment, submission: unwrap(s) } : null;
+  if (!assignment || !published(assignment)) return null;
+  const submission = unwrap(s);
+  if (!preview) trackOnce(`open:${id}`, 'hw_open', { assignment_id: id, kind: assignment.kind, status: submission?.status || 'new' });
+  return { ...assignment, submission };
+}
+
+// Homework funnel: first save of a page load = started, status submitted = submitted.
+function trackHomework(assignmentId, status) {
+  trackOnce(`start:${assignmentId}`, 'hw_start', { assignment_id: assignmentId });
+  if (status === 'submitted') trackOnce(`submit:${assignmentId}`, 'hw_submit', { assignment_id: assignmentId });
 }
 
 export async function saveSubmission(assignmentId, uid, fields) {
   refuseInPreview();
+  trackHomework(assignmentId, fields?.status);
   return unwrap(await supabase
     .from('submissions')
     .upsert({ assignment_id: assignmentId, student_id: uid, ...fields }, { onConflict: 'assignment_id,student_id' })
@@ -108,12 +119,14 @@ export async function saveSubmission(assignmentId, uid, fields) {
 // Change only `data` on a submission (e.g. a dictation score after submitting).
 export async function saveSubmissionData(assignmentId, uid, data) {
   refuseInPreview();
+  trackHomework(assignmentId);
   return unwrap(await supabase.from('submissions').update({ data }).eq('assignment_id', assignmentId).eq('student_id', uid));
 }
 
 // Merge keys into `data` (keeps answers etc. written by the work itself).
 export async function mergeSubmissionData(assignmentId, uid, patch) {
   refuseInPreview();
+  trackHomework(assignmentId);
   const { data: row } = await supabase.from('submissions').select('data').eq('assignment_id', assignmentId).eq('student_id', uid).maybeSingle();
   if (!row) return saveSubmission(assignmentId, uid, { status: 'in_progress', data: patch });
   return unwrap(await supabase.from('submissions').update({ data: { ...(row.data || {}), ...patch } }).eq('assignment_id', assignmentId).eq('student_id', uid));
