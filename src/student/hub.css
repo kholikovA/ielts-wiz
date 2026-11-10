@@ -1489,6 +1489,11 @@ video.proof-thumb { object-fit: cover; background: #000; }
   .hub.is-nav-collapsed .hub-user > span:last-child { display: none; }
   .hub.is-nav-collapsed .hub-nav-link { justify-content: center; padding: 0; }
   .hub.is-nav-collapsed .hub-user { justify-content: center; padding: 6px 0; }
+  /* Unread count stays visible on the icon rail. */
+  .hub.is-nav-collapsed .hub-nav-link { position: relative; }
+  .hub.is-nav-collapsed .hub-nav-link .hub-badge {
+    display: inline-grid; position: absolute; top: 1px; right: 4px; min-width: 16px; height: 16px; font-size: 10px; padding: 0 4px;
+  }
 }
 @media (max-width: 900px) { .hub-collapse-btn { display: none; } }
 @media (prefers-reduced-motion: reduce) { .hub-nav { transition: none; } }

@@ -12,7 +12,8 @@ import {
 } from './ui';
 import { ResultsSummary, RecentAttempts, SrsStatsBlock, AttendanceHistory } from './StudentPages';
 import { GiveCoins } from './CoinAdmin';
-import { confirmDialog, promptDialog } from './dialog';
+import { confirmDialog, promptDialog, alertDialog } from './dialog';
+import { messageUser } from './chat/store';
 import { ProofFiles } from './TaskProof';
 import CardEnricher, { withExtras, extraKey } from './vocab/CardEnricher';
 import { SentenceResults, usedCount } from './vocab/SentenceWork';
@@ -197,7 +198,8 @@ export function Students() {
 }
 
 export function StudentDetail({ id }) {
-  const { user, viewAsStudent } = useHub();
+  const { user, viewAsStudent, go } = useHub();
+  const message = () => messageUser(id, go).catch((e) => alertDialog({ title: 'Could not open the chat', body: e.message }));
   const state = useAsync(async () => {
     const [profile, results, homework, summary] = await Promise.all([
       api.studentProfile(id), api.testResults(id), api.homeworkForStudent(user.id, id), api.hubSummary(id).catch(() => null),
@@ -223,11 +225,16 @@ export function StudentDetail({ id }) {
                 {d.profile.target_score && <span className="pill">Target {d.profile.target_score}</span>}
                 {d.profile.last_sign_in_at && <span>Last seen {formatDate(d.profile.last_sign_in_at)}</span>}
               </div>
-              {viewAsStudent && (
-                <button type="button" className="btn btn-secondary btn-sm" style={{ alignSelf: 'flex-start' }} onClick={() => viewAsStudent(d.profile)}>
-                  <Icon name="eye" size={14} /> View as student
+              <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap', alignSelf: 'flex-start' }}>
+                <button type="button" className="btn btn-primary btn-sm" onClick={message}>
+                  <Icon name="message" size={14} /> Message
                 </button>
-              )}
+                {viewAsStudent && (
+                  <button type="button" className="btn btn-secondary btn-sm" onClick={() => viewAsStudent(d.profile)}>
+                    <Icon name="eye" size={14} /> View as student
+                  </button>
+                )}
+              </div>
             </div>
             {d.summary && (
               <div className="hub-stats" style={{ marginBottom: 12 }}>
