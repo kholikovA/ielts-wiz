@@ -27,7 +27,7 @@ const STALE_MS = 2 * 24 * 60 * 60 * 1000;
 interface Row {
   id: string;
   user_id: string;
-  kind: "homework" | "feedback" | "submission";
+  kind: "homework" | "feedback" | "submission" | "retake";
   title: string;
   body: string | null;
   link: string | null;

@@ -74,6 +74,8 @@ const TEACH_NAV = [
   { path: '/teach/coins',       label: 'Coins',       icon: 'coin' },
 ];
 
+const NOTIFICATION_ICON = { feedback: 'quote', submission: 'checkCircle', retake: 'refresh', homework: 'edit' };
+
 const segments = () => window.location.pathname.split('/').filter(Boolean);
 
 const Spinner = ({ full }) => (
@@ -167,7 +169,7 @@ function Bell({ uid, go, here }) {
           <div className="hub-pop-list">
             {items.length ? items.map((n) => (
               <button key={n.id} type="button" className={`hub-pop-item${n.read_at ? '' : ' is-unread'}`} onClick={() => open(n)}>
-                <Icon name={n.kind === 'feedback' ? 'quote' : n.kind === 'submission' ? 'checkCircle' : 'edit'} size={16} />
+                <Icon name={NOTIFICATION_ICON[n.kind] || 'edit'} size={16} />
                 <span>
                   {n.title}
                   <small>{[n.body, new Date(n.visible_at).toLocaleString(undefined, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })].filter(Boolean).join(' · ')}</small>
