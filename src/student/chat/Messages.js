@@ -343,7 +343,7 @@ export default function Messages({ chatId }) {
       </aside>
 
       {chat ? (
-        <Conversation key={chat.id} chat={chat} profile={profile} infoOpen={infoOpen}
+        <Conversation key={`thread:${chat.id}`} chat={chat} profile={profile} infoOpen={infoOpen}
           onBack={() => go('/messages')} onInfo={toggleInfo} onForward={(m) => setModal({ type: 'forward', msg: m })} toast={toast} />
       ) : (
         <div className="chat-placeholder">
@@ -357,7 +357,7 @@ export default function Messages({ chatId }) {
       )}
 
       {chat && infoOpen && (
-        <InfoPanel key={chat.id} chat={chat} onClose={toggleInfo} onMessage={openDirect} isTeacher={isTeacher} go={go} toast={toast}
+        <InfoPanel key={`info:${chat.id}`} chat={chat} onClose={toggleInfo} onMessage={openDirect} isTeacher={isTeacher} go={go} toast={toast}
           onAddMembers={() => setModal({ type: 'add' })} onLeft={() => go('/messages')} />
       )}
 
