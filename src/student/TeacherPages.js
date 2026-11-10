@@ -475,7 +475,7 @@ export function NewAssignment() {
   const [classId, setClassId] = useState(presetClass);
   const [picked, setPicked] = useState(new Set());
   const [due, setDue] = useState(() => {
-    const d = new Date(); d.setDate(d.getDate() + 7); d.setHours(23, 59, 0, 0); return toLocalInput(d);
+    const d = new Date(); d.setHours(23, 59, 0, 0); return toLocalInput(d);
   });
   const [publishMode, setPublishMode] = useState('now');
   const [publishAt, setPublishAt] = useState(() => {
