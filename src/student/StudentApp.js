@@ -74,7 +74,7 @@ const TEACH_NAV = [
   { path: '/teach/coins',       label: 'Coins',       icon: 'coin' },
 ];
 
-const NOTIFICATION_ICON = { feedback: 'quote', submission: 'checkCircle', retake: 'refresh', homework: 'edit' };
+const NOTIFICATION_ICON = { feedback: 'quote', submission: 'checkCircle', retake: 'refresh', coins: 'coin', homework: 'edit' };
 
 const segments = () => window.location.pathname.split('/').filter(Boolean);
 
