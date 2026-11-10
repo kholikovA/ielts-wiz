@@ -75,8 +75,12 @@ export function formatDate(iso, withTime = false) {
 
 export function dueLabel(iso) {
   if (!iso) return 'No due date';
-  const days = Math.ceil((new Date(iso) - new Date()) / 86400000);
-  if (days < 0) return `Was due ${formatDate(iso)}`;
+  const due = new Date(iso);
+  const now = new Date();
+  if (due < now) return `Was due ${formatDate(iso)}`;
+  // Compare calendar days, not elapsed hours, so 11:59 pm tonight reads "Due today".
+  const startOfDay = (d) => new Date(d.getFullYear(), d.getMonth(), d.getDate());
+  const days = Math.round((startOfDay(due) - startOfDay(now)) / 86400000);
   if (days === 0) return 'Due today';
   if (days === 1) return 'Due tomorrow';
   return `Due ${formatDate(iso)}`;

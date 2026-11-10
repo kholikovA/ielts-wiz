@@ -1,4 +1,4 @@
-import { parseCards, statusOf, attemptsFor, isOverdue, summarise, isComplete } from './homework';
+import { parseCards, statusOf, attemptsFor, isOverdue, summarise, isComplete, dueLabel } from './homework';
 
 test('parseCards accepts dash, equals, colon and tab separators', () => {
   expect(parseCards('mitigate - lessen\nubiquitous = everywhere\nfoo: bar\nx\ty\nno separator\n\n')).toEqual([
@@ -55,4 +55,13 @@ test('task verdicts: passed counts as complete, redo reopens', () => {
   expect(statusOf(t, { status: 'in_progress', reviewed_at: null, marking: { verdict: 'redo' } })).toBe('redo');
   expect(isComplete('redo')).toBe(false);
   expect(statusOf(t, { status: 'submitted', reviewed_at: null, marking: { verdict: 'redo' } })).toBe('submitted');
+});
+
+test('dueLabel uses calendar days', () => {
+  const at = (days, h, m) => { const d = new Date(); d.setDate(d.getDate() + days); d.setHours(h, m, 0, 0); return d.toISOString(); };
+  const tonight = new Date(); tonight.setHours(23, 59, 0, 0);
+  if (tonight > new Date()) expect(dueLabel(tonight.toISOString())).toBe('Due today');
+  expect(dueLabel(at(1, 0, 30))).toBe('Due tomorrow');
+  expect(dueLabel(at(1, 23, 59))).toBe('Due tomorrow');
+  expect(dueLabel(at(-1, 12, 0))).toMatch(/^Was due/);
 });
