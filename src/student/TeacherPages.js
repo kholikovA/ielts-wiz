@@ -1078,7 +1078,7 @@ export function AssignmentDetail({ id }) {
                               <button type="button" className="btn btn-ghost btn-sm" title="Let this student do it again" onClick={async () => {
                                 if (!await confirmDialog({
                                   title: `Let ${student.name || 'this student'} retake it?`,
-                                  body: 'Their answers, score and feedback for this assignment are deleted, and it opens again as To do. Coins they already earned stay.',
+                                  body: 'Their answers, score and feedback for this assignment are deleted, and it opens again as To do. Coins they already earned stay. They get a notification and an email.',
                                   confirmLabel: 'Allow retake',
                                   danger: true,
                                 })) return;
