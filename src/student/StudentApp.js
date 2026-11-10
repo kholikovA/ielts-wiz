@@ -8,6 +8,7 @@ import * as api from './api';
 import { HubContext, EmptyPanel, Avatar, Coin } from './ui';
 import { DialogHost } from './dialog';
 import { useHubTime } from './hubTime';
+import { useChatBootstrap } from './chat/bootstrap';
 import './hub.css';
 
 // Student Hub — served at student.ielts-wiz.com (see lib/host.js). Same Supabase
@@ -53,9 +54,11 @@ const SatBank = lazy(() => import('./SatBank'));
 const IeltsBank = lazy(() => import('./ielts/IeltsBank'));
 const BankTestRoute = lazy(() => import('./ielts/BankTestRoute'));
 const RevisionQuiz = lazy(() => import('./revision/RevisionQuiz'));
+const Messages = lazy(() => import('./chat/Messages'));
 
 const STUDY_NAV = [
   { path: '/',           label: 'Dashboard',  icon: 'home' },
+  { path: '/messages',   label: 'Messages',   icon: 'message' },
   { path: '/homework',   label: 'Homework',   icon: 'edit' },
   { path: '/flashcards', label: 'Flashcards', icon: 'layers' },
   { path: '/games',      label: 'Word games', icon: 'gamepad' },
@@ -65,6 +68,7 @@ const STUDY_NAV = [
 ];
 const TEACH_NAV = [
   { path: '/teach/assignments/new', label: 'New assignment', icon: 'plus' },
+  { path: '/messages',          label: 'Messages',    icon: 'message' },
   { path: '/teach/assignments', label: 'Assignments', icon: 'checkCircle' },
   { path: '/teach/bank',        label: 'Question bank', icon: 'layers' },
   { path: '/teach/attendance',  label: 'Attendance',  icon: 'clipboard' },
@@ -86,6 +90,7 @@ function teacherRoute(parts) {
   const [a, b, c] = parts;
   if (a === 'join' && b) return <JoinPage code={b} />;
   if (a === 'profile') return <Profile />;
+  if (a === 'messages') return <Messages chatId={b} />;
   if (a !== 'teach') return <Assignments />;
   if (b === 'classes') return c ? <ClassDetail id={c} /> : <Classes />;
   if (b === 'students') return c ? <StudentDetail id={c} /> : <Students />;
@@ -102,6 +107,7 @@ function studentRoute(parts, exitStudentView) {
   if (!a || a === 'dashboard') return <Dashboard />;
   if (a === 'profile') return <Profile />;
   if (a === 'coins') return <CoinsPage />;
+  if (a === 'messages') return <Messages chatId={b} />;
   if (a === 'join' && b) return <JoinPage code={b} />;
   if (a === 'homework') return b ? <HomeworkDetail id={b} /> : <HomeworkList />;
   if (a === 'progress') return <Progress />;
@@ -321,7 +327,7 @@ export default function StudentApp() {
 
   // Teacher view has no student pages: send those paths to Teaching.
   useEffect(() => {
-    if (isTeacher && !['teach', 'join', 'profile', 'reading-test', 'listening-test'].includes(parts[0])) {
+    if (isTeacher && !['teach', 'join', 'profile', 'messages', 'reading-test', 'listening-test'].includes(parts[0])) {
       window.history.replaceState({}, '', '/teach/assignments');
       setParts(segments());
     }
@@ -351,6 +357,9 @@ export default function StudentApp() {
     preview: Boolean(viewAs),
     viewAsStudent: canTeach ? viewAsStudent : null,
   }), [go, user, profile, viewAs, isTeacher, isAdmin, canTeach, viewAsStudent]);
+
+  // Chat runs in the background on every page (unread badge, alerts); not in student view.
+  const unreadChats = useChatBootstrap({ uid: user?.id, enabled: Boolean(user && profile && profile.onboarded !== false && !viewAs), go });
 
   if (loading) return <Spinner full />;
 
@@ -407,6 +416,7 @@ export default function StudentApp() {
       className={`hub-nav-link${isActive(n.path) ? ' is-active' : ''}`} title={navCollapsed ? n.label : undefined}>
       <Icon name={n.icon} size={17} />
       <span>{n.label}</span>
+      {n.path === '/messages' && unreadChats > 0 && <span className="hub-badge" aria-label={`${unreadChats} unread`}>{unreadChats > 99 ? '99+' : unreadChats}</span>}
     </AppLink>
   );
 
@@ -436,7 +446,7 @@ export default function StudentApp() {
         </aside>
         {navOpen && <div className="hub-backdrop" onClick={() => setNavOpen(false)} aria-hidden="true" />}
         <DialogHost />
-        <div className="hub-main">
+        <div className={`hub-main${parts[0] === 'messages' ? ' hub-main--fill' : ''}`}>
           {viewAs && (
             <div className="hub-viewbar" role="status">
               <Icon name="eye" size={14} />
@@ -460,7 +470,7 @@ export default function StudentApp() {
             )}
             {!viewAs && <Bell uid={user.id} go={go} here={here} />}
           </header>
-          <main id="main" className="hub-content">
+          <main id="main" className={`hub-content${parts[0] === 'messages' ? ' hub-content--chat' : ''}`}>
             <Suspense fallback={<Spinner />} key={viewAs?.id || 'self'}>
               {isTeacher ? teacherRoute(parts) : studentRoute(parts, viewAs ? exitStudentView : null)}
             </Suspense>
