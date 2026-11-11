@@ -1,9 +1,11 @@
 # Production image for the IELTS Wiz SPA (ielts-wiz.com + student.ielts-wiz.com).
 # Built by Coolify on the Contabo VPS; REACT_APP_* values arrive as build args.
-FROM node:20-alpine AS build
+FROM node:22-alpine AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
-RUN npm ci --no-audit --no-fund
+# `npm install`, not `npm ci`: the lockfile lags package.json slightly
+# (optional peers), and Vercel was building with `npm install` too.
+RUN npm install --no-audit --no-fund
 COPY . .
 ARG REACT_APP_SUPABASE_URL
 ARG REACT_APP_SUPABASE_ANON_KEY
