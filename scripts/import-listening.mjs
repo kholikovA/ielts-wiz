@@ -46,6 +46,9 @@ const REVIEW = path.join(PIPE, 'review'); // specs that failed validation
 const PROFILE = path.join(ROOT, '.ielts-import-profile'); // persistent login (gitignore this)
 const CHROME = process.env.PUPPETEER_EXECUTABLE_PATH
   || '/Applications/Google Chrome.app/Contents/MacOS/Google Chrome';
+// --connect mode: attach to a browser YOU launched + logged into (sidesteps the
+// "Sign in with Google" automation block). Works with Helium, Chrome, Brave, etc.
+const CDP_URL = process.env.CDP_URL || 'http://127.0.0.1:9222';
 
 // --- Two site-specific knobs. Calibrate these once against a real IELTSX page. ---
 // A selector that only exists once the questions have rendered:
@@ -103,7 +106,9 @@ else if (args.urls) {
 const source = (typeof args.source === 'string' && args.source) || 'iw_practice';
 let nextN = args['start-n'] ? Number(args['start-n']) : 1;
 
-const browser = await launch(true);
+const browser = args.connect
+  ? await puppeteer.connect({ browserURL: CDP_URL }) // attach to YOUR logged-in Helium/Chrome
+  : await launch(true);
 const results = [];
 
 for (const job of jobs) {
@@ -176,7 +181,7 @@ for (const job of jobs) {
   }
 }
 
-await browser.close();
+if (args.connect) browser.disconnect(); else await browser.close();
 
 console.log('\n──────── summary ────────');
 for (const r of results) console.log(`  ${r.status.padEnd(9)} ${r.id}${r.note ? '  — ' + r.note : ''}`);

@@ -1,0 +1,10 @@
+{
+  "title": "Test 2",
+  "skill": "listening",
+  "duration_minutes": 30,
+  "audio_url": "https://static-audio.ieltsx.com/real-vol-7/vol7-l-t10.mp3",
+  "audio_note": "Add the hosted audio URL (audio_url) — not present in the source HTML.",
+  "answer_key_status": "partial",
+  "answer_key": {},
+  "parts": []
+}
