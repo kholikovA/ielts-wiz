@@ -12,3 +12,8 @@ yarn-error.log*
 
 # Supabase CLI local state
 supabase/.temp/
+
+# Local tool output (never commit)
+.ielts-import-profile/
+supabase/.temp/
+tools/content-pipeline/.out/
