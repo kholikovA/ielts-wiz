@@ -1,6 +1,6 @@
 import { supabase } from '../../supabaseClient';
 
-// Data layer for the hub chat (migration 20261110_hub_chat.sql). Tables are
+// Data layer for the hub chat (migration 20261110080808_hub_chat.sql). Tables are
 // read-only to clients; every write is an RPC that checks permissions.
 
 const BUCKET = 'chat-media';

@@ -1,0 +1,7 @@
+# Used by the Supabase CLI in .github/workflows/supabase-deploy.yml.
+# Only settings that differ from the CLI defaults are listed.
+project_id = "ielts-wiz"
+
+# Called by a pg_cron job with an x-cron-secret header instead of a user token.
+[functions.notify-email]
+verify_jwt = false

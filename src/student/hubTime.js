@@ -3,7 +3,7 @@ import { supabase } from '../supabaseClient';
 import * as telemetry from './telemetry';
 
 // Counts the time a student actually spends on the hub and reports it to
-// log_hub_time (supabase/migrations/20261110_hub_stats.sql).
+// log_hub_time (supabase/migrations/20261109203040_hub_stats.sql).
 // A second counts only when all of these hold:
 //   - the tab is visible and the window has focus (not a background tab);
 //   - the student did something in the last IDLE_MS, or audio/video is playing
