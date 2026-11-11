@@ -10,6 +10,7 @@ on:
     paths:
       - 'supabase/migrations/**'
       - 'supabase/functions/**'
+      - '.github/workflows/supabase-deploy.yml'
   workflow_dispatch:
     inputs:
       all_functions:
@@ -63,7 +64,8 @@ jobs:
       - name: Check migration history is in sync
         # Stops a fresh database history from re-running every old migration.
         run: |
-          supabase migration list --password "$SUPABASE_DB_PASSWORD" | tee list.txt
+          set -o pipefail
+          supabase migration list --linked | tee list.txt
           if [ "$(grep 20261110080808 list.txt | grep -o 20261110080808 | wc -l)" -lt 2 ]; then
             echo "::error::The database's migration history doesn't list 20261110080808_hub_chat as applied. Sync it before deploying."
             exit 1
@@ -72,7 +74,7 @@ jobs:
       - name: Apply new migrations
         # --include-all also applies a migration older than the newest applied
         # one (a branch that was opened earlier but merged later).
-        run: supabase db push --include-all --password "$SUPABASE_DB_PASSWORD"
+        run: supabase db push --linked --include-all
 
       - name: Deploy changed edge functions
         run: |
