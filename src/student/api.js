@@ -2,7 +2,7 @@ import { supabase } from '../supabaseClient';
 import { trackOnce, trackApiError } from './telemetry';
 
 // Data layer for the Student Hub. Tables + RPCs come from
-// supabase/migrations/20261021_student_hub_homework.sql; RLS does the scoping,
+// supabase/migrations/20261021045926_student_hub_homework.sql; RLS does the scoping,
 // but every user_test_results query still filters by user_id explicitly (the
 // admin/teacher SELECT policies would otherwise widen the result set).
 

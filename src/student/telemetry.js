@@ -1,6 +1,6 @@
 import { supabase } from '../supabaseClient';
 
-// Student Hub activity log → hub_events (supabase/migrations/20261110_hub_events.sql).
+// Student Hub activity log → hub_events (supabase/migrations/20261109204146_hub_events.sql).
 // Runs for students only: StudentApp turns it on through useHubTime, so
 // teachers and student-view previews are never recorded. While off, every
 // call here is a no-op, so shared code (api.js, test players) can call it freely.

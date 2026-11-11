@@ -47,7 +47,7 @@ The code sends users back to `${window.location.origin}/dashboard` (or the
 - Profile rows are created automatically by the existing `handle_new_user`
   trigger from Google's `name` / `email`. No code change needed there.
 - First sign-in shows the onboarding questionnaire (target band, prep, goals),
-  gated on `profiles.onboarded` (migration `20260607_profiles_onboarded.sql`).
+  gated on `profiles.onboarded` (migration `20260606193434_profiles_onboarded.sql`).
 
 ## Consent-screen branding
 

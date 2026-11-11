@@ -5,7 +5,7 @@ import { useHub, useAsync, Loaded, PageTitle, EmptyPanel, PersonName, HubLink, C
 import { presetRange, rangeLabel, formatDuration, monthGrid, parseDay, PRESETS, TRACKING_SINCE } from './statsDates';
 
 // Teaching → Stats (/teach/stats): per-student activity over a date range.
-// Data: teacher_hub_stats (supabase/migrations/20261110_hub_stats.sql).
+// Data: teacher_hub_stats (supabase/migrations/20261109203040_hub_stats.sql).
 // Days are study days (4am rollover in each student's timezone), like coins.
 
 const pct = (n, d) => (d ? Math.round((n / d) * 100) : null);
