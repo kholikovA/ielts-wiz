@@ -3,6 +3,15 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = process.env.REACT_APP_SUPABASE_URL;
 const supabaseAnonKey = process.env.REACT_APP_SUPABASE_ANON_KEY;
 
+// The backend moved from hosted Supabase to api.ielts-wiz.com (Nov 2026).
+// Sessions from the old project can't be refreshed by the new one, and the
+// standalone test pages pick up any `sb-*-auth-token` key, so drop the stale one.
+try {
+  window.localStorage.removeItem('sb-jaucbfremtxmanciflab-auth-token');
+} catch (e) {
+  // storage blocked — nothing to clean up
+}
+
 // Stub used when env vars are missing or createClient throws. Lets the rest of
 // the app boot in a signed-out, read-only state instead of crashing white.
 // Every method returns the shape its real counterpart would, with `error` set.

@@ -2468,8 +2468,8 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
       outbox.push(row);
       writeJSON("iw.v1.outbox", outbox);
 
-      const SUPABASE_URL = "https://jaucbfremtxmanciflab.supabase.co";
-      const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImphdWNiZnJlbXR4bWFuY2lmbGFiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwODU2MTcsImV4cCI6MjA4NDY2MTYxN30.8unfikMze_UhgQL-ex5tutPTDgmQ0wP-tQBiCZATqTs";
+      const SUPABASE_URL = "https://api.ielts-wiz.com";
+      const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTc5NDQzMDc0MSwiZXhwIjoyMTA5NzkwNzQxLCJyb2xlIjoiYW5vbiJ9.zMW7gC7ELOdzYz7UuU6i9YLk5np7U2Ji8aRnObpkjQ4";
       const token = window.__iwAccessToken && window.__iwAccessToken();
       if (token) {
         fetch(SUPABASE_URL + "/rest/v1/user_test_results", {
@@ -2795,8 +2795,8 @@ html[data-theme="dark"] .stat.yellow .stat-value { color: #facc15; }
 // its answers, or there is none, a notice says so instead of opening a blank
 // live test.
 (function () {
-  var SUPABASE_URL = "https://jaucbfremtxmanciflab.supabase.co";
-  var SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImphdWNiZnJlbXR4bWFuY2lmbGFiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwODU2MTcsImV4cCI6MjA4NDY2MTYxN30.8unfikMze_UhgQL-ex5tutPTDgmQ0wP-tQBiCZATqTs";
+  var SUPABASE_URL = "https://api.ielts-wiz.com";
+  var SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTc5NDQzMDc0MSwiZXhwIjoyMTA5NzkwNzQxLCJyb2xlIjoiYW5vbiJ9.zMW7gC7ELOdzYz7UuU6i9YLk5np7U2Ji8aRnObpkjQ4";
 
   // The signed-in app session's access token, unless it has expired.
   window.__iwAccessToken = function () {
