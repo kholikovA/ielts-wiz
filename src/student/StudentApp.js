@@ -316,9 +316,10 @@ export default function StudentApp() {
   }, []);
 
   const here = `/${parts.join('/')}`;
-  // Coin balance in the top bar (students and student view); refreshed on every navigation.
+  // Coin balance in the top bar (students and student view); refreshed on every
+  // navigation. Only cleared when the viewer changes, so it doesn't blink on page changes.
+  useEffect(() => { setBalance(null); }, [user?.id, isTeacher, viewAs?.id]);
   useEffect(() => {
-    setBalance(null);
     if (!user || !profile || isTeacher) return undefined;
     let live = true; // a late answer must not show after switching to teacher view
     api.hubSummary().then((s) => live && setBalance(s.balance)).catch(() => {});
