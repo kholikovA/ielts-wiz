@@ -722,12 +722,12 @@ def build(spec_path: str, output_path: str, template_path: str = None):
     supabase_url = (
         spec.get("supabase_url")
         or os.environ.get("IELTSWIZ_SUPABASE_URL")
-        or "https://jaucbfremtxmanciflab.supabase.co"
+        or "https://api.ielts-wiz.com"
     )
     supabase_anon_key = (
         spec.get("supabase_anon_key")
         or os.environ.get("IELTSWIZ_SUPABASE_ANON_KEY")
-        or "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImphdWNiZnJlbXR4bWFuY2lmbGFiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjkwODU2MTcsImV4cCI6MjA4NDY2MTYxN30.8unfikMze_UhgQL-ex5tutPTDgmQ0wP-tQBiCZATqTs"
+        or "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsImlhdCI6MTc5NDQzMDc0MSwiZXhwIjoyMTA5NzkwNzQxLCJyb2xlIjoiYW5vbiJ9.zMW7gC7ELOdzYz7UuU6i9YLk5np7U2Ji8aRnObpkjQ4"
     )
 
     out = (template
