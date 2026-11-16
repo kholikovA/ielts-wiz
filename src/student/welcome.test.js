@@ -95,3 +95,37 @@ test('stackSize is capped', () => {
   expect(stackSize(1)).toBe(1);
   expect(stackSize(40)).toBe(12);
 });
+
+// ── Streak marks ──
+import { attendanceMarks, homeworkMarks, plainMarks, igniteIndex } from './welcome';
+
+test('attendanceMarks: last five in order, late counts, excused is left out', () => {
+  const row = (day, status) => ({ status, class_sessions: { held_at: at(day, 9).toISOString() } });
+  const marks = attendanceMarks([row(16, 'present'), row(10, 'absent'), row(12, 'excused'), row(13, 'late'), row(9, 'present'), row(8, 'present'), row(6, 'present')]);
+  expect(marks.map((m) => m.status)).toEqual(['present', 'present', 'absent', 'late', 'present']);
+  expect(marks.map((m) => m.lit)).toEqual([true, true, false, true, true]);
+  expect(igniteIndex(marks)).toBe(4);
+});
+
+test('homeworkMarks: one mark per due day, lit only when everything was on time', () => {
+  const hw = (day, status, doneDay) => ({
+    due_at: at(day, 23).toISOString(), status, attempts: [],
+    submission: doneDay ? { submitted_at: at(doneDay, 12).toISOString() } : null,
+  });
+  const marks = homeworkMarks([
+    hw(12, 'submitted', 12), hw(12, 'overdue'),      // one missed → the day is missed
+    hw(13, 'submitted', 14),                          // late
+    hw(14, 'reviewed', 14), hw(14, 'submitted', 13),  // all on time
+    hw(16, 'submitted', 16),                          // due later today, already done
+    hw(17, 'todo'),                                   // still open: not shown
+  ], at(16, 15));
+  expect(marks.map((m) => [m.at.getDate(), m.status, m.lit])).toEqual([
+    [12, 'absent', false], [13, 'late', false], [14, 'present', true], [16, 'present', true],
+  ]);
+});
+
+test('plainMarks stands in when there is no history', () => {
+  expect(plainMarks(9)).toHaveLength(5);
+  expect(plainMarks(2).every((m) => m.lit)).toBe(true);
+  expect(igniteIndex([{ lit: false }])).toBe(-1);
+});

@@ -1335,50 +1335,9 @@ video.proof-thumb { object-fit: cover; background: #000; }
 }
 .qz-image { display: block; width: 100%; max-width: 760px; height: auto; border: 1px solid var(--h-border); border-radius: 12px; background: #fff; }
 
-/* ── Dashboard v3: three columns, one screen, no scrolling ─────────────── */
-/* Desktop: the page is exactly one viewport tall (the main column doesn't scroll). */
-@media (min-width: 901px) and (min-height: 620px) {
-  .hub-main:has(.dash3) { height: 100vh; height: 100dvh; overflow: hidden; }
-  .hub-content:has(> .dash3) { flex: 1; min-height: 0; max-width: 1360px; padding-top: 20px; padding-bottom: 20px; display: flex; }
-  .dash3 { flex: 1; min-height: 0; }
-  .dash3-col { min-height: 0; overflow: hidden; }
-}
-.dash3 { display: grid; grid-template-columns: 1.2fr 1fr 1fr; gap: 16px; width: 100%; }
-.dash3-col { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
-.dash3-card { padding: 16px; display: flex; flex-direction: column; min-height: 0; }
-.dash3-card .hub-section-head { margin-bottom: 10px; }
-.dash3-card .h3 { margin: 0; }
-.dash3-hw { flex: 1; gap: 14px; }
-.dash3-hw .hub-section-head { margin-bottom: 0; }
-.dash3-list { display: flex; flex-direction: column; min-height: 0; overflow: hidden; margin: 0 -8px; }
-.dash3-list .dash-hw { padding: 10px 8px; border-radius: var(--h-radius-sm); border-bottom: 1px solid var(--h-border); }
-.dash3-list .dash-hw:last-child { border-bottom: 0; }
-.dash3-list .dash-hw:hover { background: var(--h-hover); }
-.dash3-more { padding: 8px; font-size: 13px; color: var(--h-accent-text); text-decoration: none; }
-.dash3-grow { flex: 1; }
+/* ── Dashboard: shared bits (layout is in dashboard.css) ──────────────── */
 .dash-empty { margin: 0; font-size: 13px; color: var(--h-text-3); }
 
-/* The dark showcase card (welcome + next session; see welcome.css) */
-.dash3-level {
-  flex: 1;
-  min-height: 0;
-  position: relative;
-  overflow: hidden;
-  color: #f4f4f5;
-  border-radius: 16px;
-  background:
-    radial-gradient(420px 260px at 100% 0%, rgba(99, 102, 241, 0.38), transparent 60%),
-    radial-gradient(300px 220px at 0% 100%, rgba(56, 189, 248, 0.12), transparent 60%),
-    linear-gradient(180deg, #111118 0%, #0b0b10 100%);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 20px 40px -24px rgba(15, 15, 40, 0.6);
-}
-.dash3-eyebrow { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255, 255, 255, 0.5); margin-bottom: 6px; }
-.dash3-streaks { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-.dash3-streaks .dash-signal { padding: 14px; gap: 8px; }
-.dash3-streaks .dash-signal-value strong { font-size: 30px; }
-.dash3-streaks .dash-next-row { gap: 6px; }
-.dash3 .dash-week { height: 96px; }
 
 /* Leaderboard */
 .dash-board-classes { margin-bottom: 8px; align-self: flex-start; }
@@ -1394,14 +1353,6 @@ video.proof-thumb { object-fit: cover; background: #000; }
 .dash-board-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .dash-board b { display: inline-flex; align-items: center; gap: 4px; font-weight: 600; }
 
-@media (max-width: 1100px) and (min-width: 901px) {
-  .dash3 { grid-template-columns: 1.1fr 1fr 1fr; gap: 12px; }
-  .dash3-streaks { grid-template-columns: 1fr; }
-}
-@media (max-width: 900px) {
-  .dash3 { grid-template-columns: 1fr; }
-  .dash3-col:nth-child(2) { order: -1; } /* the welcome comes first on a phone */
-}
 
 /* ── Mascot progress (today's homework) ─────────────────────────────────── */
 .mascot { display: flex; flex-direction: column; gap: 6px; }
@@ -1467,12 +1418,7 @@ video.proof-thumb { object-fit: cover; background: #000; }
 }
 @media (max-width: 900px) { .hub-collapse-btn { display: none; } }
 @media (prefers-reduced-motion: reduce) { .hub-nav { transition: none; } }
-.hub .dash3-level { color: #f4f4f5; }
 /* Rows that don't fit wrap into a hidden second column instead of being cut in half. */
-.dash3-list, .dash-board { flex: 1; flex-wrap: wrap; align-content: flex-start; }
-.dash3-list > *, .dash-board > li { width: 100%; }
-.dash3-streaks .dash-next-row { align-items: baseline; font-size: 11.5px; }
-.dash3-streaks .dash-next-row .hub-num { white-space: nowrap; display: inline-flex; align-items: center; gap: 3px; }
 
 /* ── Quiz analysis (teacher, screen share) ─────────────────────────────── */
 .qa-entry { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
