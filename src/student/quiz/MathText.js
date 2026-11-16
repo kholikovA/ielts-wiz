@@ -6,8 +6,10 @@ import 'katex/dist/katex.min.css';
 // Inline marks <i>, <u>, <b> (italic titles, underlined parts of a passage) may wrap any of these.
 // Dollar signs stay plain text, so prices like $14 need no escaping.
 // block: paragraphs split on blank lines; single newlines become line breaks.
+// Tables: [table] ... [/table], one row per line, cells split by " | ". A row starting
+// with "!" is a header row, "^" a caption; a cell ending in "*N" spans N columns.
 
-const TOKEN = /(<([iub])>[\s\S]*?<\/\2>|\\\[[\s\S]+?\\\]|\\\([\s\S]+?\\\)|!\[[^\]]*\]\([^)\s]+\))/g;
+const TOKEN = /(\[table\][\s\S]*?\[\/table\]|<([iub])>[\s\S]*?<\/\2>|\\\[[\s\S]+?\\\]|\\\([\s\S]+?\\\)|!\[[^\]]*\]\([^)\s]+\))/g;
 const MARK = /^<([iub])>([\s\S]*)<\/\1>$/;
 const TAGS = { i: 'em', u: 'u', b: 'strong' };
 // Images cut from a PDF carry their size in points: ![alt](url#w=420). Shown at a
@@ -23,11 +25,45 @@ function renderMath(src, display) {
   }
 }
 
+const TABLE = /^\[table\]([\s\S]*)\[\/table\]$/;
+
+function Table({ src }) {
+  const lines = src.split('\n').map((l) => l.trim()).filter(Boolean);
+  const caption = lines.filter((l) => l.startsWith('^')).map((l) => l.slice(1).trim());
+  const rows = lines.filter((l) => !l.startsWith('^')).map((l) => {
+    const head = l.startsWith('!');
+    const cells = (head ? l.slice(1) : l).split(' | ').map((c) => {
+      const m = c.trim().match(/^([\s\S]*?)\*(\d+)$/);
+      return m ? { text: m[1].trim(), span: Number(m[2]) } : { text: c.trim(), span: 1 };
+    });
+    return { head, cells };
+  });
+  return (
+    <span className="mt-table-wrap">
+      <table className="mt-table">
+        {caption.length > 0 && <caption>{caption.map((c, i) => <Parts key={i} text={c} />)}</caption>}
+        <tbody>
+          {rows.map((r, i) => (
+            <tr key={i}>
+              {r.cells.map((c, k) => {
+                const Cell = r.head ? 'th' : 'td';
+                return <Cell key={k} colSpan={c.span > 1 ? c.span : undefined}><Parts text={c.text} /></Cell>;
+              })}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </span>
+  );
+}
+
 function Parts({ text }) {
   // split() also returns the tag-letter capture group; drop those single letters.
   const parts = String(text).split(TOKEN).filter((p, i) => i % 3 !== 2);
   return parts.map((p, i) => {
     if (!p) return null;
+    const table = p.match(TABLE);
+    if (table) return <Table key={i} src={table[1]} />;
     const mark = p.match(MARK);
     if (mark) {
       const Tag = TAGS[mark[1]];
@@ -60,7 +96,9 @@ export default function MathText({ text, block = false, className = '' }) {
   if (!block) return <span className={`mt ${className}`.trim()}><Parts text={text} /></span>;
   return (
     <div className={`mt mt-block ${className}`.trim()}>
-      {paras.map((p, i) => <p key={i}><Parts text={p.trim()} /></p>)}
+      {paras.map((p, i) => (TABLE.test(p.trim())
+        ? <div key={i} className="mt-para"><Parts text={p.trim()} /></div>
+        : <p key={i}><Parts text={p.trim()} /></p>))}
     </div>
   );
 }

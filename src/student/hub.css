@@ -2155,3 +2155,11 @@ body.is-resizing .sat-calc-frame { pointer-events: none; }
 .sat-steps-count { font-size: 13px; color: #666; }
 .sat-pass { margin: 4px 0 0; padding: 10px 14px; border-radius: 8px; background: #fff6e5; color: #6b4a00; font-size: 14px; }
 .sat-pass.is-ok { background: #eef8f1; color: #0f6b38; }
+
+/* ── Text tables in question content ([table] … [/table]) ─────────────────── */
+.mt-table-wrap { display: block; max-width: 100%; overflow-x: auto; margin: 8px 0; }
+.mt-table { border-collapse: collapse; margin: 0 auto; font-size: 0.95em; }
+.mt-table caption { caption-side: top; font-weight: 600; padding-bottom: 6px; }
+.mt-table th, .mt-table td { border: 1px solid #3a3a3a; padding: 5px 12px; text-align: center; vertical-align: middle; }
+.mt-table th { font-weight: 600; background: rgba(0, 0, 0, 0.03); }
+.mt-para { margin: 0 0 10px; }
