@@ -145,3 +145,18 @@ describe('SAT: numeric answers, style and explanations', () => {
     expect(back.sections[0].questions[0].explanation).toBe('Because \\(2r=49\\).');
   });
 });
+
+test('short answers forgive capitals, punctuation spacing, full stops and contractions', () => {
+  const q = { id: 's', type: 'short', lead: 'If you don\'t' };
+  const ok = (k, a) => markQuestion(q, k, a).earned === 1;
+  expect(ok(["If you don't study hard, you won't pass."], "if you don't study hard,you won't pass")).toBe(true);
+  expect(ok(['If it is sunny, we\'ll have a picnic.'], 'IF IT IS SUNNY ,WE\'LL HAVE A PICNIC')).toBe(true);
+  expect(ok(["If I were you, I'd talk to your teacher."], 'if i were you,i would talk to your teacher')).toBe(true);
+  expect(ok(['If you heat ice, it melts.'], 'if you heat ice , it melts')).toBe(true);
+  expect(ok(['If you heat ice, it melts.'], 'if you heat ice it melts')).toBe(false);
+  expect(ok(["If I'd known, I'd have come."], 'if i had known, i would have come')).toBe(true);
+  expect(ok(['If it is sunny, we\'ll have a picnic.'], "if it is sunny ,we we'll have a picnic")).toBe(false);
+  expect(ok(['If I had a bike, I could ride to school.'], 'if i had a bike, i would ride to school')).toBe(false);
+  expect(ok(['3.5 kg'], '3.5kg')).toBe(false);
+  expect(ok(['3.5 kg'], '3.5 KG.')).toBe(true);
+});

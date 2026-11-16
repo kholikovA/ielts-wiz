@@ -37,13 +37,28 @@ export const VARIANTS = {
 
 const GAP_RE = /\{([^{}]+)\}/g;
 
+// Forgiving on what isn't being tested: capitals, spacing around punctuation
+// ("hard,you" = "hard , you" = "hard, you"), and the full stop at the end.
 export const normalize = (s) => String(s ?? '')
   .toLowerCase()
   .replace(/[‘’`´]/g, "'")
   .replace(/[“”]/g, '"')
   .replace(/\s+/g, ' ')
+  .replace(/\s*([,;:!?]|\.(?!\d))\s*/g, '$1 ')
   .replace(/^[\s"'.,;:!?]+|[\s"'.,;:!?]+$/g, '')
   .trim();
+
+// Contractions count the same as the full form (I'd = I would, won't = will not).
+// 'd can be would or had, so it matches either word by word; 's (is / has / possessive) is left alone.
+const CONTRACTIONS = [
+  [/\bwon't\b/g, 'will not'], [/\bcan't\b/g, 'cannot'], [/\bshan't\b/g, 'shall not'],
+  [/\bcan not\b/g, 'cannot'], [/n't\b/g, ' not'], [/'re\b/g, ' are'], [/'ve\b/g, ' have'],
+  [/'ll\b/g, ' will'], [/\bi'm\b/g, 'i am'], [/'d\b/g, ' _d'],
+];
+const expand = (text) => CONTRACTIONS.reduce((t, [re, full]) => t.replace(re, full), text).split(' ');
+const D = new Set(['_d', 'would', 'had']);
+const sameWords = (a, b) => a.length === b.length
+  && a.every((w, i) => w === b[i] || ((w === '_d' || b[i] === '_d') && D.has(w) && D.has(b[i])));
 
 // "{has lived|'s lived}" gaps -> [["has lived", "'s lived"], ...]
 export function parseGaps(text) {
@@ -170,7 +185,12 @@ export function joinTest(payload, key) {
 
 const matches = (given, accepted) => {
   const g = normalize(given);
-  return Boolean(g) && accepted.some((a) => normalize(a) === g);
+  if (!g) return false;
+  const words = expand(g);
+  return accepted.some((a) => {
+    const n = normalize(a);
+    return n === g || sameWords(expand(n), words);
+  });
 };
 
 // "24.5", ".25", "-3", "49/2" -> number; anything else -> null.
