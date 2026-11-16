@@ -55,11 +55,13 @@ const IeltsBank = lazy(() => import('./ielts/IeltsBank'));
 const BankTestRoute = lazy(() => import('./ielts/BankTestRoute'));
 const RevisionQuiz = lazy(() => import('./revision/RevisionQuiz'));
 const Messages = lazy(() => import('./chat/Messages'));
+const Schedule = lazy(() => import('./schedule/Schedule'));
 
 const STUDY_NAV = [
   { path: '/',           label: 'Dashboard',  icon: 'home' },
   { path: '/messages',   label: 'Messages',   icon: 'message' },
   { path: '/homework',   label: 'Homework',   icon: 'edit' },
+  { path: '/schedule',   label: 'Schedule',   icon: 'calendar' },
   { path: '/flashcards', label: 'Flashcards', icon: 'layers' },
   { path: '/games',      label: 'Word games', icon: 'gamepad' },
   { path: '/revision',   label: 'Revision quiz', icon: 'clipboard' },
@@ -71,6 +73,7 @@ const TEACH_NAV = [
   { path: '/messages',          label: 'Messages',    icon: 'message' },
   { path: '/teach/assignments', label: 'Assignments', icon: 'checkCircle' },
   { path: '/teach/bank',        label: 'Question bank', icon: 'layers' },
+  { path: '/teach/schedule',    label: 'Schedule',    icon: 'calendar' },
   { path: '/teach/attendance',  label: 'Attendance',  icon: 'clipboard' },
   { path: '/teach/classes',     label: 'Classes',     icon: 'users' },
   { path: '/teach/students',    label: 'Students',    icon: 'graduation' },
@@ -96,6 +99,7 @@ function teacherRoute(parts) {
   if (b === 'students') return c ? <StudentDetail id={c} /> : <Students />;
   if (b === 'attendance') return c ? <Register id={c} /> : <AttendanceHome />;
   if (b === 'coins') return <CoinAdmin />;
+  if (b === 'schedule') return <Schedule />;
   if (b === 'stats') return <HubStats />;
   if (b === 'bank') return c === 'ielts' ? <IeltsBank /> : <SatBank />;
   if (c === 'new') return <NewAssignment key={window.location.search} />;
@@ -111,6 +115,7 @@ function studentRoute(parts, exitStudentView) {
   if (a === 'join' && b) return <JoinPage code={b} />;
   if (a === 'homework') return b ? <HomeworkDetail id={b} /> : <HomeworkList />;
   if (a === 'progress') return <Progress />;
+  if (a === 'schedule') return <Schedule />;
   if (a === 'flashcards') return <Flashcards deckId={b} />;
   if (a === 'games') return <Games gameId={b} />;
   if (a === 'revision') return <RevisionQuiz />;
