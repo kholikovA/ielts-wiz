@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import Icon from '../components/ui/icons';
 import * as api from './api';
 import {
@@ -6,54 +6,14 @@ import {
 } from './homework';
 import { endOfStudyDay } from './fsrs';
 import {
-  useHub, useAsync, Loaded, HubLink, StatusPill, PageTitle, Coin, EmptyPanel, Avatar,
+  useHub, useAsync, useCountUp, Loaded, HubLink, StatusPill, PageTitle, Coin, EmptyPanel, Avatar,
 } from './ui';
-import { rankFor, RANKS } from './ranks';
+import DashboardHero from './DashboardHero';
 import MascotProgress from './MascotProgress';
 
 const WEEKDAY = (iso) => new Date(`${iso}T12:00:00`).toLocaleDateString(undefined, { weekday: 'short' });
-const reducedMotion = () => typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
-
-// Count up to `value` once on mount (and smoothly to later changes).
-function useCountUp(value, ms = 900) {
-  const [shown, setShown] = useState(reducedMotion() ? value : 0);
-  const from = useRef(shown);
-  useEffect(() => {
-    if (reducedMotion()) { setShown(value); return undefined; }
-    const start = performance.now();
-    const a = from.current;
-    let raf;
-    const tick = (t) => {
-      const k = Math.min(1, (t - start) / ms);
-      const eased = 1 - Math.pow(1 - k, 3);
-      const v = Math.round(a + (value - a) * eased);
-      setShown(v);
-      from.current = v;
-      if (k < 1) raf = requestAnimationFrame(tick);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, [value, ms]);
-  return shown;
-}
 
 const CountUp = ({ value }) => <>{useCountUp(value)}</>;
-
-// A small faceted crest; facets light up with rank.
-function Crest({ index }) {
-  const lit = (i) => (i <= index ? 'currentColor' : 'rgba(255,255,255,0.12)');
-  return (
-    <svg className="dash-crest" viewBox="0 0 64 72" width="64" height="72" aria-hidden="true">
-      <path d="M32 2 60 18v36L32 70 4 54V18Z" fill="none" stroke="rgba(255,255,255,0.18)" strokeWidth="1.5" />
-      <path d="M32 10 52 22 32 34 12 22Z" fill={lit(0)} opacity="0.9" />
-      <path d="M12 26 30 37v22L12 48Z" fill={lit(1)} opacity="0.75" />
-      <path d="M52 26 34 37v22l18-11Z" fill={lit(2)} opacity="0.75" />
-      <path d="M32 10 52 22v4L32 14 12 26v-4Z" fill={lit(3)} opacity="0.5" />
-      <path d="M12 48 30 59v4L12 52Z" fill={lit(4)} opacity="0.5" />
-      <path d="M52 48 34 59v4l18-11Z" fill={lit(5)} opacity="0.5" />
-    </svg>
-  );
-}
 
 // 0..1 progress for one homework item.
 function itemProgress(a, cards) {
@@ -168,9 +128,9 @@ function Leaderboard({ rows: all }) {
 }
 
 export function Dashboard() {
-  const { user } = useHub();
+  const { user, profile } = useHub();
   const data = useAsync(async () => {
-    const [summary, snap, items, results, recent, rules, attendance, board] = await Promise.all([
+    const [summary, snap, items, results, recent, rules, attendance, board, slots, session] = await Promise.all([
       api.hubSummary(),
       // Secondary panels degrade to empty instead of blanking the dashboard.
       api.srsSnapshot(user.id).catch(() => ({ cards: [], reviews: [] })),
@@ -180,6 +140,8 @@ export function Dashboard() {
       api.rewardRules().catch(() => []),
       api.studentAttendance(user.id).catch(() => []),
       api.classLeaderboard().catch(() => []),
+      api.classSchedule().catch(() => []),
+      api.nextSession().catch(() => null),
     ]);
     const rows = items.map((a) => {
       const attempts = attemptsFor(a, results);
@@ -187,12 +149,12 @@ export function Dashboard() {
       return { ...a, attempts, status: isOverdue(a, base) ? 'overdue' : base };
     });
     const coins = Object.fromEntries(rules.filter((r) => r.enabled).map((r) => [r.key, r.coins]));
-    return { summary, snap, rows, recent, coins, attendance, board };
+    return { summary, snap, rows, recent, coins, attendance, board, slots, session };
   }, [user.id]);
 
   return (
     <Loaded state={data}>
-      {({ summary, snap, rows, recent, coins, attendance, board }) => {
+      {({ summary, snap, rows, recent, coins, attendance, board, slots, session }) => {
         const today = todaysHomework(rows, endOfStudyDay());
         const doneToday = today.filter((a) => isComplete(a.status)).length;
         const weekStart = studyWeekStart();
@@ -218,7 +180,6 @@ export function Dashboard() {
             ? { text: `Missed ${missed} this week`, state: 'off', progress: 1, coins: coins.week_perfect_homework }
             : { text: `${doneWeek}/${weekDue.length} done this week`, state: 'on', progress: doneWeek / weekDue.length, coins: coins.week_perfect_homework };
 
-        const rank = rankFor(summary.balance);
         const attMarks = attendance.filter((r) => r.class_sessions)
           .sort((x, y) => y.class_sessions.held_at.localeCompare(x.class_sessions.held_at))
           .slice(0, 6).reverse().map((r) => r.status);
@@ -262,22 +223,9 @@ export function Dashboard() {
               </div>
             </section>
 
-            {/* ── Middle: level + streaks ── */}
+            {/* ── Middle: welcome + next session + streaks ── */}
             <section className="dash3-col">
-              <HubLink to="/coins" className="dash-rank dash3-level" aria-label={`Level ${rank.rank.name}, ${summary.balance} coins`}>
-                <span className="dash3-eyebrow">Your level</span>
-                <Crest index={rank.index} />
-                <span className="dash-rank-name">{rank.rank.name}</span>
-                <span className="dash-rank-step">Level {rank.index + 1} of {RANKS.length}</span>
-                <span className="dash-rank-coins"><Coin size={16} /> <CountUp value={summary.balance} /></span>
-                <span className="dash-rank-today">+{summary.today} today</span>
-                {rank.next && (
-                  <span className="dash-rank-next">
-                    <span className="dash-rank-bar"><span style={{ width: `${rank.progress * 100}%` }} /></span>
-                    <small>{rank.toNext} to {rank.next.name}</small>
-                  </span>
-                )}
-              </HubLink>
+              <DashboardHero name={profile?.name} slots={slots} session={session} homework={rows} />
               <div className="dash3-streaks">
                 <StreakCard icon="flame" label="Attendance streak" unit={summary.attendance_streak === 1 ? 'class' : 'classes'}
                   value={summary.attendance_streak} week={attWeek} marks={attMarks} />

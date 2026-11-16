@@ -56,6 +56,7 @@ const BankTestRoute = lazy(() => import('./ielts/BankTestRoute'));
 const RevisionQuiz = lazy(() => import('./revision/RevisionQuiz'));
 const Messages = lazy(() => import('./chat/Messages'));
 const Schedule = lazy(() => import('./schedule/Schedule'));
+const WelcomeBack = lazy(() => import('./WelcomeBack'));
 
 const STUDY_NAV = [
   { path: '/',           label: 'Dashboard',  icon: 'home' },
@@ -451,6 +452,7 @@ export default function StudentApp() {
         </aside>
         {navOpen && <div className="hub-backdrop" onClick={() => setNavOpen(false)} aria-hidden="true" />}
         <DialogHost />
+        {!isTeacher && <Suspense fallback={null}><WelcomeBack key={viewAs?.id || 'self'} /></Suspense>}
         <div className={`hub-main${parts[0] === 'messages' ? ' hub-main--fill' : ''}`}>
           {viewAs && (
             <div className="hub-viewbar" role="status">
