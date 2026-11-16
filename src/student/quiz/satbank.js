@@ -1,9 +1,12 @@
 // SAT question bank (College Board question bank exports) -> quiz questions.
 // A bank row: { id, test: 'math'|'rw', domain, skill, difficulty, type: 'mcq'|'spr', content, key }
-//   content.prompt     [paragraph | { img: [...] }] (text, with tables/graphs as images)
-//                      or content.prompt_img [{ src, w, h }] (the whole prompt cut from the PDF)
-//   content.options    [{ text } | { img: [...] }] (mcq)
-//   key.answer         0-3 (mcq) | key.accepted [strings] (spr); key.rationale [paragraphs] | key.rationale_img [...]; key.note
+//   content.prompt     [paragraph | { img: [...] } | { fig: { src, w } }] (text with \( \) math;
+//                      figures as images) or content.prompt_img [{ src, w, h }] (whole prompt cut from the PDF)
+//   content.options    [{ text } | { img: [...] } | { fig: { src, w } }] (mcq)
+//   key.answer         0-3 (mcq) | key.accepted [strings] (spr); key.note
+//   key.rationale      [steps] (each step may hold line breaks) | key.rationale_img [...]
+// Cleaned questions (content.clean) are fully text: math as LaTeX, only graphs/figures as images
+// ({ fig }: w = display width in CSS px).
 
 export const SAT_TESTS = { math: 'Math', rw: 'Reading and Writing' };
 export const SAT_DOMAINS = {
@@ -23,6 +26,8 @@ export const SAT_DOMAINS = {
 export const DIFFICULTIES = ['Easy', 'Medium', 'Hard'];
 
 const imgs = (list, url) => (list || []).map((i) => `![](${url(i.src)}#w=${i.w})`).join('\n\n');
+const fig = (f, url) => `![Figure](${url(f.src)}#fig=${f.w})`;
+const media = (p, url) => (p.fig ? fig(p.fig, url) : imgs(p.img, url));
 
 /** Bank row -> quiz question (for splitTest). url(src) gives an image's public URL. */
 export function bankToQuiz(row, url) {
@@ -31,7 +36,7 @@ export function bankToQuiz(row, url) {
   let prompt = '';
   let passage = '';
   if (c.prompt?.length) {
-    const part = (p) => (typeof p === 'string' ? p : imgs(p.img, url));
+    const part = (p) => (typeof p === 'string' ? p : media(p, url));
     const last = c.prompt[c.prompt.length - 1];
     // Reading and Writing: passage on the left, the question itself on the right (as in Bluebook).
     if (row.test === 'rw' && c.prompt.length > 1 && typeof last === 'string') {
@@ -45,7 +50,7 @@ export function bankToQuiz(row, url) {
   const bank = { id: row.id, test: row.test, domain: row.domain, skill: row.skill, difficulty: row.difficulty };
   const base = { id: `q${row.id}`, prompt, explanation, bank, ...(passage ? { passage } : {}) };
   if (row.type === 'mcq') {
-    return { ...base, type: 'mcq', options: (c.options || []).map((o) => (o.text != null ? o.text : imgs(o.img, url))), answer: [k.answer] };
+    return { ...base, type: 'mcq', options: (c.options || []).map((o) => (o.text != null ? o.text : media(o, url))), answer: [k.answer] };
   }
   return { ...base, type: 'short', numeric: true, accepted: (k.accepted || []).join('\n'), lead: '', keyword: '', limit: '' };
 }

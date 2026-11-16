@@ -48,3 +48,14 @@ test('used ids: assigned vs submitted', () => {
 });
 
 test('pace', () => { expect(satPaceMinutes(20, 'math')).toBe(32); expect(satPaceMinutes(27, 'rw')).toBe(32); });
+
+test('clean bank rows: text math, figures with a display width, explanation steps', () => {
+  const q = bankToQuiz({
+    id: '5f10c095', test: 'math', domain: 'Advanced Math', skill: 'Nonlinear', difficulty: 'Medium', type: 'mcq',
+    content: { clean: 1, prompt: [{ fig: { src: 'c/5f10c095-fig.png', w: 330 } }, 'A solution is \\((x,y)\\).'], options: [{ text: '\\(4\\)' }, { fig: { src: 'c/x.png', w: 240 } }, { text: '\\(7.2\\)' }, { text: '\\(8\\)' }] },
+    key: { answer: 0, rationale: ['Choice A is correct.', 'Step two.'] },
+  }, (src) => `https://x/${src}`);
+  expect(q.prompt).toBe('![Figure](https://x/c/5f10c095-fig.png#fig=330)\n\nA solution is \\((x,y)\\).');
+  expect(q.options[1]).toBe('![Figure](https://x/c/x.png#fig=240)');
+  expect(q.explanation).toBe('Choice A is correct.\n\nStep two.');
+});

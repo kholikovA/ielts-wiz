@@ -299,7 +299,13 @@ function QuizAttempt({ a, onSaved }) {
     return () => clearInterval(id);
   }, [a.id, user.id, locked, preview]);
 
-  const key = useAsync(() => (locked ? api.quizKey(a.id) : Promise.resolve(null)), [a.id, locked]);
+  // Attempts left: the key stays closed (server-side too) and the server's score shows.
+  // The answers, explanations and the question map open after the last attempt.
+  const maxAttempts = Number(a.payload?.max_attempts) || 1;
+  const history = sub?.data?.attempts || [];
+  const left = maxAttempts - (history.length + 1);
+  const reviewOpen = locked && (left <= 0 || Boolean(sub?.data?.review_opened));
+  const key = useAsync(() => (reviewOpen ? api.quizKey(a.id) : Promise.resolve(null)), [a.id, reviewOpen]);
   const marks = useMemo(() => (key.data ? markTest(a.payload, key.data.key, sub?.data?.answers || {}, sub?.marking?.manual) : null),
     [key.data, a.payload, sub]);
 
@@ -333,16 +339,12 @@ function QuizAttempt({ a, onSaved }) {
   guardRef.current = guard;
 
   const sat = a.payload?.style === 'sat';
-  const maxAttempts = Number(a.payload?.max_attempts) || 1;
-  const history = sub?.data?.attempts || [];
-  const attempts = { used: history.length + 1, max: maxAttempts, history, reviewOpened: Boolean(sub?.data?.review_opened) };
-  const left = maxAttempts - attempts.used;
-  const [shownAnswers, setShownAnswers] = useState(false);
+  const attempts = { used: history.length + 1, max: maxAttempts, history };
 
   const retry = async () => {
     if (!await confirmDialog({
       title: `Start attempt ${attempts.used + 1} of ${maxAttempts}?`,
-      body: 'Your answers start empty. This attempt\'s score stays in your results and your teacher sees every attempt.',
+      body: 'Your answers start empty. Your best score counts, and your teacher sees every attempt.',
       confirmLabel: 'Start',
     })) return;
     try {
@@ -351,41 +353,30 @@ function QuizAttempt({ a, onSaved }) {
       onSaved();
     } catch (err) { setError(err); }
   };
-  // Seeing the answers ends the remaining attempts.
-  const openReview = async () => {
-    if (left <= 0 || attempts.reviewOpened) return true;
-    if (!await confirmDialog({
-      title: 'See the answers now?',
-      body: `You have ${left} attempt${left === 1 ? '' : 's'} left. Opening the correct answers and explanations ends them.`,
-      confirmLabel: 'Show answers',
-    })) return false;
-    try { await api.mergeSubmissionData(a.id, user.id, { review_opened: true }); } catch { /* still show */ }
-    setShownAnswers(true);
-    return true;
-  };
 
   if (locked) {
     if (key.loading) return <Spinner />;
-    if (!marks) return <ErrorNote error={key.error || { message: "The answer key isn't available." }} />;
+    if (reviewOpen && !marks) return <ErrorNote error={key.error || { message: "The answer key isn't available." }} />;
+    const submittedLabel = `submitted ${formatDate(sub.submitted_at, true)}`;
     if (sat) {
       return (
         <>
-          <SatResults a={a} sub={sub} keyData={key.data.key} marks={marks} submittedLabel={`submitted ${formatDate(sub.submitted_at, true)}`}
-            attempts={{ ...attempts, reviewOpened: attempts.reviewOpened || shownAnswers }} onRetry={preview ? null : retry} onOpenReview={openReview} />
+          <SatResults a={a} sub={sub} keyData={key.data?.key} marks={marks} submittedLabel={submittedLabel}
+            attempts={attempts} locked={!reviewOpen} onRetry={preview ? null : retry} />
           {error && <ErrorNote error={error} />}
         </>
       );
     }
-    const hidden = left > 0 && !attempts.reviewOpened && !shownAnswers;
+    const score = marks || sub.data?.score;
     return (
       <>
-        <ScoreBar marks={marks} />
+        {score && <ScoreBar marks={{ pendingManual: 0, ...score }} />}
         {maxAttempts > 1 && <p className="form-help">Attempt {attempts.used} of {maxAttempts}{history.length ? ` · earlier: ${history.map((h) => (h.score ? `${h.score.percent}%` : '—')).join(', ')}` : ''}</p>}
-        {hidden ? (
-          <div className="hub-actions">
-            {!preview && <button type="button" className="btn btn-primary" onClick={retry}><Icon name="refresh" size={16} /> Try again ({left} left)</button>}
-            <button type="button" className="btn btn-secondary" onClick={openReview}>Show answers</button>
-          </div>
+        {!reviewOpen ? (
+          <>
+            <p className="form-help">The correct answers open after your last attempt.</p>
+            {!preview && <div className="hub-actions"><button type="button" className="btn btn-primary" onClick={retry}><Icon name="refresh" size={16} /> Try again ({left} left)</button></div>}
+          </>
         ) : (
           <>
             <p className="form-help">Submitted {formatDate(sub.submitted_at, true)}. Correct answers are shown in green.</p>

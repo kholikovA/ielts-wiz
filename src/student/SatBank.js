@@ -107,6 +107,7 @@ function CreatePanel({ rows, test, roster, recipients, setRecipients, onCreated,
   const [partSize, setPartSize] = useState(Math.min(20, rows.length));
   const [order, setOrder] = useState('difficulty');
   const [attempts, setAttempts] = useState(1);
+  const [pass, setPass] = useState(80);
   const [timing, setTiming] = useState('pace');
   const [minutes, setMinutes] = useState(30);
   const [due, setDue] = useState('');
@@ -133,13 +134,14 @@ function CreatePanel({ rows, test, roster, recipients, setRecipients, onCreated,
         const { payload, key } = splitTest({ style: 'sat', sections: [{ id: 'sat', title: '', instructions: '', questions: chunk.map((r) => bankToQuiz(r, api.satImageUrl)) }] });
         payload.subject = test;
         payload.max_attempts = Number(attempts) || 1;
+        if (Number(pass) > 0) payload.pass_percent = Number(pass);
         payload.time_limit_min = timing === 'none' ? 0 : timing === 'custom' ? Number(minutes) || 0 : satPaceMinutes(chunk.length, test);
         const name = parts > 1 ? `${title.trim()} [Part ${p + 1}]` : title.trim();
         const skills = [...new Set(chunk.map((r) => r.skill))];
         // eslint-disable-next-line no-await-in-loop
         await api.createAssignment({
           kind: 'quiz', title: name,
-          instructions: `SAT ${SAT_TESTS[test]} · ${skills.join('; ')}. ${chunk.length} questions${payload.time_limit_min ? `, ${payload.time_limit_min} minutes` : ''}${payload.max_attempts > 1 ? `, ${payload.max_attempts} attempts` : ''}. Correct answers and explanations open in Review and analyze on your results page.`,
+          instructions: `SAT ${SAT_TESTS[test]} · ${skills.join('; ')}. ${chunk.length} questions${payload.time_limit_min ? `, ${payload.time_limit_min} minutes` : ''}${payload.max_attempts > 1 ? `, ${payload.max_attempts} attempts` : ''}. ${payload.pass_percent ? `Coins need ${payload.pass_percent}% or more (best attempt counts). ` : ''}Correct answers and explanations open in Review and analyze${payload.max_attempts > 1 ? ' after your last attempt' : ''}.`,
           payload, class_id: target === 'class' ? classId : null,
           due_at: due ? new Date(due).toISOString() : null,
           publish_at: publishMode === 'later' ? new Date(publishAt).toISOString() : new Date().toISOString(),
@@ -166,7 +168,12 @@ function CreatePanel({ rows, test, roster, recipients, setRecipients, onCreated,
           <select className="form-select" value={attempts} onChange={(e) => setAttempts(e.target.value)}>
             {[1, 2, 3, 4, 5].map((n) => <option key={n} value={n}>{n}</option>)}
           </select>
-          {Number(attempts) > 1 && <small className="form-help">Answers and explanations open only after the last attempt (or if the student chooses to see them early, which ends their attempts).</small>}</label>
+          {Number(attempts) > 1 && <small className="form-help">Scores show after each attempt; answers and explanations open only after the last one.</small>}</label>
+        <label className="form-field"><span className="form-label">Coins need at least</span>
+          <select className="form-select" value={pass} onChange={(e) => setPass(e.target.value)}>
+            {[0, 50, 60, 70, 80, 90, 100].map((n) => <option key={n} value={n}>{n ? `${n}%` : 'Any score'}</option>)}
+          </select>
+          <small className="form-help">Below this, the quiz doesn't count towards homework coins. The best attempt counts.</small></label>
         <label className="form-field"><span className="form-label">Timer</span>
           <select className="form-select" value={timing} onChange={(e) => setTiming(e.target.value)}>
             <option value="pace">SAT pace ({satPaceMinutes(size, test)} min for {size})</option><option value="custom">Custom</option><option value="none">No timer</option>
