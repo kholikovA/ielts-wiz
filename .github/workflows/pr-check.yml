@@ -1,0 +1,44 @@
+# Required check for every PR into main: the site must build and tests must
+# pass. Claude sessions merge their own PRs with `gh pr merge --auto`, which
+# waits for this check, so a broken build can't reach the live site.
+name: PR check
+
+on:
+  pull_request:
+    branches: [main]
+
+concurrency:
+  group: pr-check-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # Same install as the production Dockerfile.
+      - run: npm install --no-audit --no-fund
+
+      - name: Tests
+        run: npx react-scripts test --watchAll=false
+        env:
+          CI: true
+
+      - name: Build
+        run: npm run build
+        env:
+          CI: true
+          GENERATE_SOURCEMAP: false
+
+      - name: Check migration file names
+        run: |
+          bad=$(ls supabase/migrations | grep -vE '^[0-9]{14}_[a-z0-9_]+\.sql$' || true)
+          [ -z "$bad" ] || { echo "::error::Migration files must be named YYYYMMDDHHMMSS_name.sql (UTC): $bad"; exit 1; }
+          dup=$(ls supabase/migrations | cut -c1-14 | sort | uniq -d)
+          [ -z "$dup" ] || { echo "::error::Two migrations share the version $dup"; exit 1; }
