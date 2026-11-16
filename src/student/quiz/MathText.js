@@ -3,10 +3,13 @@ import katex from 'katex';
 import 'katex/dist/katex.min.css';
 
 // Text with math: \( inline \), \[ display \] (LaTeX via KaTeX) and ![alt](url) images.
+// Inline marks <i>, <u>, <b> (italic titles, underlined parts of a passage) may wrap any of these.
 // Dollar signs stay plain text, so prices like $14 need no escaping.
 // block: paragraphs split on blank lines; single newlines become line breaks.
 
-const TOKEN = /(\\\[[\s\S]+?\\\]|\\\([\s\S]+?\\\)|!\[[^\]]*\]\([^)\s]+\))/g;
+const TOKEN = /(<([iub])>[\s\S]*?<\/\2>|\\\[[\s\S]+?\\\]|\\\([\s\S]+?\\\)|!\[[^\]]*\]\([^)\s]+\))/g;
+const MARK = /^<([iub])>([\s\S]*)<\/\1>$/;
+const TAGS = { i: 'em', u: 'u', b: 'strong' };
 // Images cut from a PDF carry their size in points: ![alt](url#w=420). Shown at a
 // fixed scale so text in every image matches in size.
 // Figures (graphs, diagrams) carry their display width in CSS px: ![Figure](url#fig=330).
@@ -21,9 +24,15 @@ function renderMath(src, display) {
 }
 
 function Parts({ text }) {
-  const parts = String(text).split(TOKEN);
+  // split() also returns the tag-letter capture group; drop those single letters.
+  const parts = String(text).split(TOKEN).filter((p, i) => i % 3 !== 2);
   return parts.map((p, i) => {
     if (!p) return null;
+    const mark = p.match(MARK);
+    if (mark) {
+      const Tag = TAGS[mark[1]];
+      return <Tag key={i}><Parts text={mark[2]} /></Tag>;
+    }
     if (p.startsWith('\\[') || p.startsWith('\\(')) {
       const display = p.startsWith('\\[');
       // Inline math at full size (fractions as on the SAT), not shrunk to text style.
