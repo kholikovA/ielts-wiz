@@ -126,22 +126,44 @@ function StreakCard({ icon, label, unit, value, marks, week }) {
 const MAX_TODAY = 6;
 const MAX_BOARD = 6;
 
-function Leaderboard({ rows }) {
-  if (!rows.length) return <p className="dash-empty">Join a class to see the leaderboard.</p>;
+// Rows come back one per (class, member); rank each class on its own.
+function Leaderboard({ rows: all }) {
+  const classes = [];
+  const byClass = new Map();
+  for (const r of all) {
+    if (!byClass.has(r.class_id)) { byClass.set(r.class_id, []); classes.push({ id: r.class_id, name: r.class_name }); }
+    byClass.get(r.class_id).push(r);
+  }
+  const [picked, setPicked] = useState(null);
+  const classId = byClass.has(picked) ? picked : classes[0]?.id;
+  if (!classes.length) return <p className="dash-empty">Join a class to see the leaderboard.</p>;
+  const rows = byClass.get(classId);
   const top = rows.slice(0, MAX_BOARD);
   const myIndex = rows.findIndex((r) => r.is_me);
   const list = myIndex >= MAX_BOARD ? [...top.slice(0, MAX_BOARD - 1), { ...rows[myIndex], place: myIndex + 1 }] : top;
   return (
-    <ol className="dash-board">
-      {list.map((r, i) => (
-        <li key={r.student_id} className={r.is_me ? 'is-me' : ''}>
-          <span className={`dash-board-place${(r.place || i + 1) <= 3 ? ` is-top is-${r.place || i + 1}` : ''}`}>{r.place || i + 1}</span>
-          <Avatar person={{ name: r.name, avatar_character: r.avatar_character }} size={26} />
-          <span className="dash-board-name">{r.is_me ? 'You' : r.name}</span>
-          <b className="hub-num"><Coin size={12} /> {r.week}</b>
-        </li>
-      ))}
-    </ol>
+    <>
+      {classes.length > 1 && (
+        <div className="hub-seg dash-board-classes" role="radiogroup" aria-label="Class">
+          {classes.map((c) => (
+            <button key={c.id} type="button" role="radio" aria-checked={c.id === classId}
+              className={c.id === classId ? 'is-selected' : ''} onClick={() => setPicked(c.id)}>
+              {c.name}
+            </button>
+          ))}
+        </div>
+      )}
+      <ol className="dash-board">
+        {list.map((r, i) => (
+          <li key={r.student_id} className={r.is_me ? 'is-me' : ''}>
+            <span className={`dash-board-place${(r.place || i + 1) <= 3 ? ` is-top is-${r.place || i + 1}` : ''}`}>{r.place || i + 1}</span>
+            <Avatar person={{ name: r.name, avatar_character: r.avatar_character }} size={26} />
+            <span className="dash-board-name">{r.is_me ? 'You' : r.name}</span>
+            <b className="hub-num"><Coin size={12} /> {r.week}</b>
+          </li>
+        ))}
+      </ol>
+    </>
   );
 }
 
