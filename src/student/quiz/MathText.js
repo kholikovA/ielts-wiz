@@ -9,6 +9,7 @@ import 'katex/dist/katex.min.css';
 const TOKEN = /(\\\[[\s\S]+?\\\]|\\\([\s\S]+?\\\)|!\[[^\]]*\]\([^)\s]+\))/g;
 // Images cut from a PDF carry their size in points: ![alt](url#w=420). Shown at a
 // fixed scale so text in every image matches in size.
+// Figures (graphs, diagrams) carry their display width in CSS px: ![Figure](url#fig=330).
 const PT = 1.7;
 
 function renderMath(src, display) {
@@ -34,6 +35,8 @@ function Parts({ text }) {
     const img = p.match(/^!\[([^\]]*)\]\(([^)\s]+)\)$/);
     if (img) {
       const [src, hash] = img[2].split('#');
+      const figW = Number((hash || '').match(/^fig=([\d.]+)/)?.[1]) || null;
+      if (figW) return <img key={i} className="mt-img mt-fig" src={src} alt={img[1] || 'Figure'} style={{ width: `${Math.round(figW)}px` }} loading="lazy" />;
       const w = Number((hash || '').match(/w=([\d.]+)/)?.[1]) || null;
       return <img key={i} className={`mt-img${w ? ' mt-img--pdf' : ''}`} src={src} alt={img[1]} style={w ? { width: `${Math.round(w * PT)}px` } : undefined} loading="lazy" />;
     }

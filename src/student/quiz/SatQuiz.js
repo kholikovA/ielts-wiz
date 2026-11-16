@@ -130,6 +130,33 @@ function Spr({ value, onChange, review }) {
   );
 }
 
+// Explanation one step at a time: steps are separated by blank lines (line breaks stay
+// inside a step). The first step shows; the rest open one by one or all at once.
+export function Steps({ text }) {
+  const steps = useMemo(() => String(text || '').split(/\n\s*\n/).map((x) => x.trim()).filter(Boolean), [text]);
+  const [shown, setShown] = useState(1);
+  if (!steps.length) return null;
+  return (
+    <div className="sat-steps">
+      <ol>
+        {steps.slice(0, shown).map((x, i) => (
+          <li key={i} className="sat-step">
+            {steps.length > 1 && <span className="sat-step-n" aria-hidden="true">{i + 1}</span>}
+            <MathText text={x} className="sat-step-text" />
+          </li>
+        ))}
+      </ol>
+      {shown < steps.length && (
+        <div className="sat-steps-more">
+          <button type="button" className="sat-btn" onClick={() => setShown((n) => n + 1)}>Show step {shown + 1}</button>
+          <button type="button" className="sat-btn sat-btn--ghost" onClick={() => setShown(steps.length)}>Show all {steps.length} steps</button>
+          <span className="sat-steps-count">{shown} of {steps.length}</span>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function Question({ q, n, value, setValue, marked, onMark, review, elim, onElim, eliminating, onToggleElim }) {
   const spr = q.type !== 'mcq';
   const content = (
@@ -161,7 +188,7 @@ function Question({ q, n, value, setValue, marked, onMark, review, elim, onElim,
         {review?.explanation && (
           <section className="sat-explain" aria-label="Explanation">
             <h3>Explanation</h3>
-            <MathText block text={review.explanation} />
+            <Steps text={review.explanation} />
           </section>
         )}
       </div>
@@ -628,65 +655,78 @@ export function SatReview({ a, answers, keyData, marks, onClose, startAt = 0 }) 
   );
 }
 
-// attempts: { used, max, history: [{ score, submitted_at }], reviewOpened } (optional)
-export function SatResults({ a, sub, keyData, marks, submittedLabel, attempts, onRetry, onOpenReview }) {
+// attempts: { used, max, history: [{ score, submitted_at }], pass } (optional)
+// locked: attempts are left, so only the score shows; the answers, the question map and
+// Review and analyze open after the last attempt. marks is null while locked.
+export function SatResults({ a, sub, keyData, marks, submittedLabel, attempts, locked = false, onRetry }) {
   const qs = useMemo(() => flat(a.payload), [a.payload]);
   const [review, setReview] = useState(null);
   const [busy, setBusy] = useState(false);
   const answers = sub?.data?.answers || {};
-  const states = qs.map((x) => stateOf(x, answers[x.id], marks.items[x.id]));
-  const correct = states.filter((s) => s === 'is-ok').length;
-  const wrong = states.filter((s) => s === 'is-no').length;
-  const omitted = states.filter((s) => s === 'is-omit').length;
+  const states = marks ? qs.map((x) => stateOf(x, answers[x.id], marks.items[x.id])) : [];
+  const correct = marks ? states.filter((x) => x === 'is-ok').length : null;
+  const score = marks ? { earned: marks.earned, possible: marks.possible, percent: marks.percent } : sub?.data?.score;
   const left = attempts ? Math.max(0, attempts.max - attempts.used) : 0;
-  const locked = left > 0 && !attempts?.reviewOpened;
-  const open = async (i) => {
-    if (locked) {
-      if (!await onOpenReview?.()) return;
-    }
-    setReview(i);
-  };
+  const pass = Number(a.payload?.pass_percent) || 0;
+  const best = Math.max(score?.percent ?? 0, ...(attempts?.history || []).map((h) => h.score?.percent ?? 0));
   return (
     <>
       <section className="card sat-result">
         <div className="sat-result-score">
           <span className="eyebrow">{attempts?.max > 1 ? `Attempt ${attempts.used} of ${attempts.max}` : 'Your score'}</span>
-          <strong><span>{correct}</span> / {qs.length}</strong>
-          <small>{Math.round((correct / (qs.length || 1)) * 100)}% correct{submittedLabel ? ` · ${submittedLabel}` : ''}</small>
+          {score ? (
+            <>
+              <strong><span>{correct ?? score.earned}</span> / {marks ? qs.length : score.possible}</strong>
+              <small>{score.percent}% correct{submittedLabel ? ` · ${submittedLabel}` : ''}</small>
+            </>
+          ) : <small>Scoring…</small>}
         </div>
-        <ul className="sat-result-stats">
-          <li className="is-ok"><strong>{correct}</strong> correct</li>
-          <li className="is-no"><strong>{wrong}</strong> incorrect</li>
-          <li className="is-omit"><strong>{omitted}</strong> omitted</li>
-        </ul>
-        <div className="sat-result-grid">
-          <Grid items={qs.map((x, i) => ({ id: x.id, cls: states[i] }))} current={-1} onGo={open} />
-          <div className="sat-legend"><span><i className="sat-sw is-ok" /> Correct</span><span><i className="sat-sw is-no" /> Incorrect</span><span><i className="sat-sw is-omit" /> Omitted</span></div>
-        </div>
+        {marks && (
+          <>
+            <ul className="sat-result-stats">
+              <li className="is-ok"><strong>{correct}</strong> correct</li>
+              <li className="is-no"><strong>{states.filter((x) => x === 'is-no').length}</strong> incorrect</li>
+              <li className="is-omit"><strong>{states.filter((x) => x === 'is-omit').length}</strong> omitted</li>
+            </ul>
+            <div className="sat-result-grid">
+              <Grid items={qs.map((x, i) => ({ id: x.id, cls: states[i] }))} current={-1} onGo={setReview} />
+              <div className="sat-legend"><span><i className="sat-sw is-ok" /> Correct</span><span><i className="sat-sw is-no" /> Incorrect</span><span><i className="sat-sw is-omit" /> Omitted</span></div>
+            </div>
+          </>
+        )}
         {attempts?.history?.length > 0 && (
           <ul className="sat-attempts">
             {attempts.history.map((h, k) => (
-              <li key={k}><span>Attempt {k + 1}</span><strong>{h.score ? `${h.score.earned} / ${h.score.possible}` : '—'}</strong></li>
+              <li key={k}><span>Attempt {k + 1}</span><strong>{h.score ? `${h.score.earned} / ${h.score.possible} · ${h.score.percent}%` : '—'}</strong></li>
             ))}
-            <li className="is-current"><span>Attempt {attempts.history.length + 1}</span><strong>{marks.earned} / {marks.possible}</strong></li>
+            <li className="is-current"><span>Attempt {attempts.history.length + 1}</span><strong>{score ? `${score.earned} / ${score.possible} · ${score.percent}%` : '—'}</strong></li>
           </ul>
         )}
+        {pass > 0 && (
+          <p className={`sat-pass${best >= pass ? ' is-ok' : ''}`}>
+            {best >= pass
+              ? `Best score ${best}%: this counts for coins (${pass}% or more needed).`
+              : `Coins need ${pass}% or more; your best attempt counts. Best so far: ${best}%.`}
+          </p>
+        )}
         <div className="sat-result-actions">
-          {left > 0 && !attempts?.reviewOpened && onRetry && (
+          {locked && onRetry && (
             <button type="button" className="btn btn-primary sat-result-btn" disabled={busy} onClick={async () => { setBusy(true); try { await onRetry(); } finally { setBusy(false); } }}>
               <Icon name="refresh" size={16} /> Try again ({left} attempt{left === 1 ? '' : 's'} left)
             </button>
           )}
-          <button type="button" className={`btn ${locked ? 'btn-secondary' : 'btn-primary'} sat-result-btn`} onClick={() => open(0)}>
-            <Icon name="bookOpen" size={16} /> Review and analyze
-          </button>
+          {marks && (
+            <button type="button" className="btn btn-primary sat-result-btn" onClick={() => setReview(0)}>
+              <Icon name="bookOpen" size={16} /> Review and analyze
+            </button>
+          )}
         </div>
         <p className="form-help">
-          {locked ? 'Correct answers and explanations are in Review and analyze. Opening them ends your remaining attempts.'
-            : 'Correct answers and explanations are in Review and analyze.'}
+          {locked ? 'Correct answers, explanations and Review and analyze open after your last attempt.'
+            : 'Correct answers and step-by-step explanations are in Review and analyze.'}
         </p>
       </section>
-      {review != null && <SatReview a={a} answers={answers} keyData={keyData} marks={marks} startAt={review} onClose={() => setReview(null)} />}
+      {review != null && marks && <SatReview a={a} answers={answers} keyData={keyData} marks={marks} startAt={review} onClose={() => setReview(null)} />}
     </>
   );
 }
