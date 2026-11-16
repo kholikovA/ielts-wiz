@@ -708,32 +708,6 @@
 .dash-plan-item:hover .dash-plan-go { color: #a5b4fc; }
 .dash-plan-more { font-size: 12px; color: rgba(255, 255, 255, 0.45); padding: 4px 10px; }
 
-.dash-rank {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  padding: 20px 16px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: #fff;
-  text-decoration: none;
-  text-align: center;
-  transition: border-color 0.2s ease, background 0.2s ease;
-}
-.dash-rank:hover { border-color: rgba(165, 180, 252, 0.4); background-color: rgba(255, 255, 255, 0.06); }
-.dash-crest { color: #a5b4fc; margin-bottom: 6px; filter: drop-shadow(0 0 18px rgba(129, 140, 248, 0.35)); }
-.dash-rank-name { font-size: 18px; font-weight: 600; letter-spacing: -0.01em; }
-.dash-rank-step { font-size: 11px; color: rgba(255, 255, 255, 0.45); text-transform: uppercase; letter-spacing: 0.08em; }
-.dash-rank-coins { margin-top: 10px; font-size: 22px; font-weight: 600; font-variant-numeric: tabular-nums; display: inline-flex; align-items: center; gap: 6px; }
-.dash-rank-coins .hub-coin { color: #facc15; }
-.dash-rank-today { font-size: 12px; color: #86efac; }
-.dash-rank-next { width: 100%; margin-top: 10px; display: flex; flex-direction: column; gap: 6px; }
-.dash-rank-bar { height: 4px; border-radius: 2px; background: rgba(255, 255, 255, 0.1); overflow: hidden; }
-.dash-rank-bar span { display: block; height: 100%; background: linear-gradient(90deg, #a5b4fc, #6366f1); border-radius: 2px; }
-.dash-rank-next small { font-size: 11px; color: rgba(255, 255, 255, 0.5); }
 
 .dash-signals { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 .dash-signal { display: flex; flex-direction: column; gap: 10px; padding: 18px; }
@@ -1384,7 +1358,7 @@ video.proof-thumb { object-fit: cover; background: #000; }
 .dash3-grow { flex: 1; }
 .dash-empty { margin: 0; font-size: 13px; color: var(--h-text-3); }
 
-/* Level: the dark showcase card */
+/* The dark showcase card (welcome + next session; see welcome.css) */
 .dash3-level {
   flex: 1;
   min-height: 0;
@@ -1399,11 +1373,6 @@ video.proof-thumb { object-fit: cover; background: #000; }
   border: 1px solid rgba(255, 255, 255, 0.06);
   box-shadow: 0 20px 40px -24px rgba(15, 15, 40, 0.6);
 }
-/* Hover only lifts the border and shadow: the dark gradient must stay, or the white text disappears. */
-.dash3-level:hover { border-color: rgba(165, 180, 252, 0.4); box-shadow: 0 24px 44px -22px rgba(15, 15, 40, 0.7); }
-.dash3-level .dash-crest { width: 84px; height: 94px; }
-.dash3-level .dash-rank-name { font-size: 22px; }
-.dash3-level .dash-rank-next { max-width: 240px; }
 .dash3-eyebrow { font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255, 255, 255, 0.5); margin-bottom: 6px; }
 .dash3-streaks { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
 .dash3-streaks .dash-signal { padding: 14px; gap: 8px; }
@@ -1431,7 +1400,7 @@ video.proof-thumb { object-fit: cover; background: #000; }
 }
 @media (max-width: 900px) {
   .dash3 { grid-template-columns: 1fr; }
-  .dash3-level { min-height: 280px; }
+  .dash3-col:nth-child(2) { order: -1; } /* the welcome comes first on a phone */
 }
 
 /* ── Mascot progress (today's homework) ─────────────────────────────────── */

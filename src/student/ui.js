@@ -151,6 +151,31 @@ export function Seg({ value, onChange, options, label }) {
   );
 }
 
+export const reducedMotion = () => typeof window !== 'undefined' && window.matchMedia?.('(prefers-reduced-motion: reduce)').matches;
+
+// Count up from `start` to `value` once on mount (and smoothly to later changes).
+export function useCountUp(value, ms = 900, start = 0) {
+  const [shown, setShown] = useState(reducedMotion() ? value : start);
+  const from = useRef(shown);
+  useEffect(() => {
+    if (reducedMotion()) { setShown(value); return undefined; }
+    const t0 = performance.now();
+    const a = from.current;
+    let raf;
+    const tick = (t) => {
+      const k = Math.min(1, (t - t0) / ms);
+      const eased = 1 - Math.pow(1 - k, 3);
+      const v = Math.round(a + (value - a) * eased);
+      setShown(v);
+      from.current = v;
+      if (k < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [value, ms]);
+  return shown;
+}
+
 export const Coin = ({ size = 14 }) => <Icon name="coin" size={size} className="hub-coin" />;
 
 // Format a timestamp for <input type="datetime-local">.
