@@ -710,3 +710,34 @@ export async function recentManualAwards(limit = 20) {
 // Teaching → Stats: per-student activity for study days [from, to].
 export const teacherHubStats = async (from, to, classId = null) =>
   unwrap(await supabase.rpc('teacher_hub_stats', { p_from: from, p_to: to, p_class: classId }));
+
+// ── Schedule (weekly timetable; migration 20261116140000_class_schedule.sql) ─
+const SLOT_COLS = 'id, class_id, kind, title, day, period, span, pending, note, classes(name)';
+const withClassName = (r) => ({ ...r, class_name: r.classes?.name || null, classes: undefined });
+
+export async function teacherSchedule(uid) {
+  const rows = unwrap(await supabase.from('schedule_slots').select(SLOT_COLS).eq('teacher_id', uid).order('day').order('period')) || [];
+  return rows.map(withClassName);
+}
+export async function saveScheduleSlot(slot) {
+  const row = {
+    class_id: slot.kind === 'blocked' ? null : slot.class_id,
+    kind: slot.kind,
+    title: slot.title?.trim() || null,
+    day: slot.day,
+    period: slot.period,
+    span: slot.span,
+    pending: Boolean(slot.pending),
+    note: slot.note?.trim() || null,
+  };
+  const q = slot.id
+    ? supabase.from('schedule_slots').update(row).eq('id', slot.id)
+    : supabase.from('schedule_slots').insert(row);
+  return withClassName(unwrap(await q.select(SLOT_COLS).single()));
+}
+export const deleteScheduleSlot = async (id) =>
+  unwrap(await supabase.from('schedule_slots').delete().eq('id', id));
+export const moveScheduleSlots = async (moves) =>
+  unwrap(await supabase.rpc('schedule_move', { p_moves: moves }));
+export const classSchedule = async () =>
+  unwrap(await supabase.rpc('class_schedule', { p_student: preview?.id || null })) || [];
