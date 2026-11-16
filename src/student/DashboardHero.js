@@ -70,16 +70,20 @@ export default function DashboardHero({ name, slots, session, homework }) {
   const soon = next && !next.live && next.start - now < HOUR;
 
   return (
-    <div className="dash3-level hero">
-      <span className="dash3-eyebrow">{now.toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' })}</span>
-      <Greeting name={name} />
+    <div className="hero">
+      <div className="hero-main">
+        <span className="hero-eyebrow">{now.toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' })}</span>
+        <Greeting name={name} />
+      </div>
       {next ? (
         <HubLink to="/schedule" className={`hero-session${next.live ? ' is-live' : ''}${soon ? ' is-soon' : ''}`}>
+          <span className="hero-session-info">
           <span className="hero-session-label">
             {next.live ? <><i className="hero-live-dot" /> Happening now</> : <><Icon name="calendar" size={13} /> Next session</>}
           </span>
           <strong className="hero-session-name">{next.name}</strong>
           <span className="hero-session-where">{next.where}{next.pending ? ' · to be confirmed' : ''}</span>
+          </span>
           <span className="hero-count" role="timer" aria-label={next.live ? 'Time left' : 'Time until it starts'}>
             <small>{next.live ? 'Ends in' : 'Starts in'}</small>
             <span className="hero-count-cells">

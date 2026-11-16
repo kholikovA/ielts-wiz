@@ -1,12 +1,17 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import * as api from './api';
 import { useHub, useCountUp } from './ui';
-import { celebration, localDay, stackSize, AWAY_MS } from './welcome';
+import { withStatus } from './homework';
+import Flame from './Flame';
+import {
+  celebration, localDay, stackSize, AWAY_MS, attendanceMarks, homeworkMarks, plainMarks, igniteIndex, markLabel,
+} from './welcome';
 import './welcome.css';
 
-// Shown over the hub when a student comes back: streaks catch fire, then the
-// coins paid since the last visit (the midnight payout, teacher awards…) drop
-// into a stack. What "last visit" means is remembered per device.
+// Shown over the hub when a student comes back: each streak gets its own
+// screen where the newest flame catches fire, then the coins paid since the
+// last visit (the midnight payout, teacher awards…) drop into a stack.
+// What "last visit" means is remembered per device.
 
 const key = (uid) => `iw.v1.hub.seen.${uid}`;
 const read = (uid) => { try { return JSON.parse(localStorage.getItem(key(uid))) || null; } catch { return null; } };
@@ -14,17 +19,22 @@ const write = (uid, value) => { try { localStorage.setItem(key(uid), JSON.string
 const touch = (uid) => { const seen = read(uid); if (seen) write(uid, { ...seen, at: new Date().toISOString() }); };
 
 // /?welcome=demo plays the animation with sample numbers (nothing is saved).
-const DEMO = {
-  streaks: [{ kind: 'attendance', from: 3, to: 4 }, { kind: 'homework', from: 5, to: 6 }],
+const ago = (days) => new Date(Date.now() - days * 86400000);
+const demoMarks = (list) => list.map(([days, status]) => ({ at: ago(days), status, lit: status !== 'absent' }));
+const demo = () => ({
+  streaks: [
+    { kind: 'attendance', from: 3, to: 4, marks: demoMarks([[5, 'absent'], [4, 'present'], [3, 'present'], [2, 'present'], [0, 'present']]) },
+    { kind: 'homework', from: 5, to: 6, marks: demoMarks([[4, 'present'], [3, 'present'], [2, 'present'], [1, 'present'], [0, 'present']]) },
+  ],
   coins: {
     total: 9,
     rows: [
-      { id: 1, label: 'All homework done · Mon 16 Nov', amount: 2 },
+      { id: 1, label: 'All homework done · yesterday', amount: 2 },
       { id: 2, label: 'Homework streak: 5 in a row', amount: 5 },
       { id: 3, label: 'Came to class', amount: 2 },
     ],
   },
-};
+});
 const isDemo = () => new URLSearchParams(window.location.search).get('welcome') === 'demo';
 
 const STREAK = {
@@ -33,34 +43,46 @@ const STREAK = {
 };
 
 const EMBERS = [
-  { x: -46, d: 0.0 }, { x: 30, d: 0.35 }, { x: -18, d: 0.7 }, { x: 52, d: 1.05 },
-  { x: -34, d: 1.4 }, { x: 12, d: 1.75 }, { x: 40, d: 2.1 }, { x: -6, d: 2.45 },
+  { x: -46, d: 0.0 }, { x: 30, d: 0.3 }, { x: -18, d: 0.6 }, { x: 52, d: 0.9 },
+  { x: -34, d: 1.2 }, { x: 12, d: 1.5 }, { x: 40, d: 1.8 }, { x: -6, d: 2.1 },
 ];
+const IGNITE_MS = 1100; // how long the newest flame stays an empty outline
 
-function Flame({ streak, order }) {
-  const delay = order * 350;
+// The recent run of a streak with its real history, or plain flames without it.
+function usable(marks, streak) {
+  return marks && igniteIndex(marks) >= 0 ? marks : plainMarks(streak);
+}
+
+// One streak: earlier flames are already burning, the newest one starts as an
+// empty outline and catches fire, and the count ticks up with it.
+function StreakStage({ streak }) {
+  const marks = usable(streak.marks, streak.to);
+  const hot = igniteIndex(marks);
   const [lit, setLit] = useState(false);
-  useEffect(() => { const t = setTimeout(() => setLit(true), delay + 450); return () => clearTimeout(t); }, [delay]);
-  const value = useCountUp(lit ? streak.to : streak.from, 700, streak.from);
+  useEffect(() => { const t = setTimeout(() => setLit(true), IGNITE_MS + 250); return () => clearTimeout(t); }, []);
+  const start = streak.to > streak.from ? streak.from : Math.max(0, streak.to - 1);
+  const value = useCountUp(lit ? streak.to : start, 500, start);
   const meta = STREAK[streak.kind];
-  const id = `wb-${streak.kind}`;
   return (
-    <div className="wb-streak" style={{ '--wb-delay': `${delay}ms` }}>
-      <div className="wb-fire">
-        <span className="wb-glow" />
-        {EMBERS.map((e, i) => <span key={i} className="wb-ember" style={{ '--x': `${e.x}px`, animationDelay: `${delay + 700 + e.d * 1000}ms` }} />)}
-        <svg className="wb-flame" viewBox="0 0 120 150" width="150" height="188" aria-hidden="true">
-          <defs>
-            <linearGradient id={`${id}-o`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#ffb020" /><stop offset="1" stopColor="#ff4d0d" /></linearGradient>
-            <linearGradient id={`${id}-i`} x1="0" y1="0" x2="0" y2="1"><stop offset="0" stopColor="#fff1a8" /><stop offset="1" stopColor="#ffc21a" /></linearGradient>
-          </defs>
-          <path className="wb-flame-outer" fill={`url(#${id}-o)`} d="M60 6C66 34 98 48 98 92a38 38 0 0 1-76 0c0-18 8-30 18-40 2 14 10 18 14 10 4-16-4-34 6-56Z" />
-          <path className="wb-flame-inner" fill={`url(#${id}-i)`} d="M60 62c4 16 20 22 20 42a20 20 0 0 1-40 0c0-12 8-18 12-26 2 6 6 4 8-16Z" />
-        </svg>
-      </div>
-      <strong className="wb-num">{value}</strong>
-      <span className="wb-title">{meta.title}</span>
+    <div className={`wb-streak wb-streak--${streak.kind}`} style={{ '--ignite': `${IGNITE_MS}ms` }}>
+      <h2 className="wb-head">{meta.title}</h2>
+      <strong className={`wb-num${lit ? ' is-bump' : ''}`}>{value}</strong>
       <span className="wb-unit">{meta.unit(streak.to)}</span>
+      <div className="wb-week">
+        {marks.map((m, i) => {
+          const state = i === hot ? 'ignite' : m.lit ? 'lit' : 'empty';
+          return (
+            <div key={i} className={`wb-day is-${state}`}>
+              {state === 'ignite' && <span className="wb-burst" />}
+              {state === 'ignite' && EMBERS.map((e, n) => (
+                <span key={n} className="wb-ember" style={{ '--x': `${e.x}px`, animationDelay: `${IGNITE_MS + 500 + e.d * 1000}ms` }} />
+              ))}
+              <Flame size={state === 'ignite' ? 96 : 72} tone={streak.kind} state={state} alive={state === 'lit'} phase={i} />
+              <small>{markLabel(m.at)}</small>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }
@@ -71,10 +93,9 @@ function Coins({ coins }) {
   const rows = coins.rows.slice(0, 4);
   return (
     <div className="wb-coins">
-      <div className="wb-stack" style={{ height: 44 + n * 11 }} aria-hidden="true">
-        <span className="wb-stack-glow" />
+      <div className="wb-stack" style={{ height: n * 16 }} aria-hidden="true">
         {Array.from({ length: n }, (_, i) => (
-          <span key={i} className="wb-coin" style={{ bottom: i * 11, '--shift': `${(i % 3 - 1) * 4}px`, animationDelay: `${200 + i * 110}ms` }} />
+          <span key={i} className="wb-coin" style={{ bottom: i * 16, '--shift': `${[0, 5, -4, 3, -6, 2][i % 6]}px`, animationDelay: `${200 + i * 110}ms` }} />
         ))}
       </div>
       <strong className="wb-num wb-num--coins">+{total}</strong>
@@ -96,7 +117,7 @@ export default function WelcomeBack() {
   const button = useRef(null);
 
   useEffect(() => {
-    if (isDemo()) { setStep(0); setShow(DEMO); return undefined; }
+    if (isDemo()) { setStep(0); setShow(demo()); return undefined; }
     if (preview) return undefined; // a teacher looking at a student's hub
     let live = true;
 
@@ -111,7 +132,23 @@ export default function WelcomeBack() {
         if (!live) return;
         const found = celebration(seen, summary, history, now);
         write(uid, { at: new Date().toISOString(), day: localDay(now), att: summary.attendance_streak || 0, hw: summary.homework_streak || 0 });
-        if (found) { setStep(0); setShow(found); }
+        if (!found) return;
+        if (found.streaks.length) {
+          // The recent history behind each streak; without it the flames are shown plain.
+          const [attendance, items, results] = await Promise.all([
+            api.studentAttendance(uid).catch(() => null),
+            api.studentHomework(uid).catch(() => null),
+            api.testResults(uid).catch(() => []),
+          ]);
+          if (!live) return;
+          const marks = {
+            attendance: attendance && attendanceMarks(attendance),
+            homework: items && homeworkMarks(withStatus(items, results), now),
+          };
+          found.streaks = found.streaks.map((s) => ({ ...s, marks: marks[s.kind] }));
+        }
+        setStep(0);
+        setShow(found);
       } catch { /* try again on the next visit */ } finally { busy.current = false; }
     };
 
@@ -129,7 +166,7 @@ export default function WelcomeBack() {
     };
   }, [uid, preview]);
 
-  const stages = show ? [show.streaks.length ? 'streaks' : null, show.coins ? 'coins' : null].filter(Boolean) : [];
+  const stages = show ? [...show.streaks.map((st) => ({ id: st.kind, streak: st })), ...(show.coins ? [{ id: 'coins' }] : [])] : [];
   const last = step >= stages.length - 1;
   const close = useCallback(() => setShow(null), []);
   const advance = useCallback(() => { if (last) close(); else setStep((s) => s + 1); }, [last, close]);
@@ -144,18 +181,10 @@ export default function WelcomeBack() {
 
   if (!show) return null;
   const stage = stages[step];
-  const grew = show.streaks.some((s) => s.to > s.from);
   return (
     <div className="wb" role="dialog" aria-modal="true" aria-label="Welcome back" onClick={advance}>
-      <div className="wb-stage" key={stage}>
-        {stage === 'streaks' ? (
-          <>
-            <h2 className="wb-head">{grew ? 'Your streak is growing' : 'Your streak is alive'}</h2>
-            <div className="wb-streaks">
-              {show.streaks.map((s, i) => <Flame key={s.kind} streak={s} order={i} />)}
-            </div>
-          </>
-        ) : (
+      <div className="wb-stage" key={stage.id}>
+        {stage.streak ? <StreakStage streak={stage.streak} /> : (
           <>
             <h2 className="wb-head">Welcome back</h2>
             <Coins coins={show.coins} />
@@ -166,7 +195,7 @@ export default function WelcomeBack() {
         {last ? 'Continue' : 'Next'}
       </button>
       {stages.length > 1 && (
-        <div className="wb-dots" aria-hidden="true">{stages.map((s, i) => <i key={s} className={i === step ? 'is-on' : ''} />)}</div>
+        <div className="wb-dots" aria-hidden="true">{stages.map((s, i) => <i key={s.id} className={i === step ? 'is-on' : ''} />)}</div>
       )}
     </div>
   );

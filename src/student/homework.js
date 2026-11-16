@@ -149,3 +149,12 @@ export function todaysHomework(rows, end) {
     return !isComplete(a.status) && due && due <= end;
   });
 }
+
+// Homework rows with their attempts and a status that includes "overdue".
+export function withStatus(items, results) {
+  return items.map((a) => {
+    const attempts = attemptsFor(a, results);
+    const base = statusOf(a, a.submission, attempts);
+    return { ...a, attempts, status: isOverdue(a, base) ? 'overdue' : base };
+  });
+}

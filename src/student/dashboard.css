@@ -1,0 +1,67 @@
+/* Student dashboard: hero banner on top, then homework · streaks · coins.
+   The hero and the flame are styled in welcome.css. */
+.hub-content:has(> .dash4) { max-width: 1240px; }
+.dash4 { display: flex; flex-direction: column; gap: 18px; width: 100%; }
+.dash4-grid { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr) minmax(0, 1fr); gap: 18px; align-items: stretch; }
+.d4-col { display: flex; flex-direction: column; gap: 18px; min-width: 0; }
+.hub .d4-card { padding: 20px; border-radius: 16px; display: flex; flex-direction: column; min-width: 0; }
+.d4-card .hub-section-head { margin-bottom: 14px; }
+.d4-card .h3 { margin: 0; }
+.d4-label { font-size: 12px; font-weight: 500; letter-spacing: 0.02em; color: var(--h-text-2); }
+
+/* Today's homework */
+.d4-hw { gap: 14px; }
+.d4-hw .hub-section-head { margin-bottom: 0; }
+.d4-list { display: flex; flex-direction: column; margin: 0 -8px; }
+.d4-list .dash-hw { padding: 11px 8px; border-radius: var(--h-radius-sm); border-bottom: 1px solid var(--h-border); }
+.d4-list .dash-hw:last-child { border-bottom: 0; }
+.d4-list .dash-hw:hover { background: var(--h-hover); }
+.d4-more { padding: 8px; font-size: 13px; color: var(--h-accent-text); text-decoration: none; }
+.d4-quiet { flex: 1; align-items: center; justify-content: center; padding: 28px 12px; text-align: left; font-size: 14px; }
+.d4-quiet svg { flex-shrink: 0; color: var(--h-success); }
+
+/* Streak cards */
+.d4-streak { flex: 1; gap: 16px; position: relative; overflow: hidden; --flame-empty: var(--h-surface-2); --flame-empty-line: var(--h-border-strong); }
+.d4-streak::before { content: ''; position: absolute; right: -60px; top: -70px; width: 200px; height: 200px; border-radius: 50%; pointer-events: none; opacity: 0.13; }
+.d4-streak--attendance::before { background: radial-gradient(circle, #f97316, transparent 70%); }
+.d4-streak--homework::before { background: radial-gradient(circle, #6366f1, transparent 70%); }
+.d4-streak-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; position: relative; }
+.d4-streak-value { display: flex; align-items: baseline; gap: 8px; margin-top: 6px; }
+.d4-streak-value strong { font-size: 40px; font-weight: 600; line-height: 1; letter-spacing: -0.035em; font-variant-numeric: tabular-nums; }
+.d4-streak-value span { font-size: 13px; color: var(--h-text-3); }
+.d4-streak-flame { display: grid; place-items: center; }
+.d4-marks { flex: 1; min-height: 86px; align-items: center; display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; padding: 12px 8px 10px; border-radius: 12px; background: var(--h-surface-2); position: relative; }
+[data-theme='dark'] .hub .d4-marks { background: rgba(255, 255, 255, 0.03); }
+.d4-streak .d4-marks { --flame-empty: transparent; }
+.d4-mark { display: flex; flex-direction: column; align-items: center; gap: 6px; }
+.d4-mark small { font-size: 11px; color: var(--h-text-3); white-space: nowrap; }
+.d4-mark.is-present small { color: var(--h-text-2); font-weight: 500; }
+.d4-mark.is-blank i { width: 6px; height: 6px; margin: 12px 0; border-radius: 50%; background: var(--h-border-strong); opacity: 0.6; }
+.d4-marks-empty { padding: 14px 0; }
+.d4-bonus { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; font-size: 12.5px; color: var(--h-text-2); }
+.d4-bonus .hub-num { display: inline-flex; align-items: center; gap: 3px; white-space: nowrap; font-weight: 600; color: var(--h-text); }
+.d4-bonus.is-on > span:first-child { color: var(--h-success); }
+.d4-bonus.is-off > span:first-child { color: var(--h-danger); }
+.d4-bonus.is-off .hub-num, .d4-bonus.is-none .hub-num { color: var(--h-text-3); font-weight: 500; }
+.d4-bonus.is-off .hub-num { text-decoration: line-through; }
+
+/* Coins */
+.d4-balance { display: flex; align-items: center; gap: 10px; }
+.d4-balance-coin { width: 38px; height: 38px; border-radius: 50%; display: grid; place-items: center; background: rgba(202, 138, 4, 0.12); }
+.d4-balance strong { font-size: 34px; font-weight: 600; line-height: 1; letter-spacing: -0.03em; font-variant-numeric: tabular-nums; }
+.d4-balance-side { margin-left: auto; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; font-size: 12px; }
+.d4-balance-side b { font-weight: 600; color: var(--h-success); }
+.d4-balance-side b.is-neg { color: var(--h-danger); }
+.d4-balance-side small { color: var(--h-text-3); font-size: 11.5px; }
+.dash4 .dash-week { height: 84px; margin: 16px 0 12px; }
+.d4-coins .dash-feed { border-top: 1px solid var(--h-border); padding-top: 4px; }
+.d4-board { flex: 1; }
+
+@media (max-width: 1100px) {
+  .dash4-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+  .d4-hw { grid-column: 1 / -1; }
+}
+@media (max-width: 700px) {
+  .dash4-grid { grid-template-columns: minmax(0, 1fr); }
+  .hub .d4-card { padding: 16px; }
+}

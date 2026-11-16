@@ -1,6 +1,7 @@
 // Dashboard greeting, next-session countdown and the "welcome back" celebration.
 // Pure functions only; the components are DashboardHero.js and WelcomeBack.js.
 import { PERIODS, PERIOD_MINUTES, KINDS, slotTitle } from './schedule/timetable';
+import { isComplete } from './homework';
 
 export const firstName = (name) => (name || '').trim().split(/\s+/)[0] || '';
 
@@ -155,6 +156,57 @@ export function celebration(seen, summary, transactions, now = new Date()) {
 
   if (!coins && !streaks.length) return null;
   return { streaks, coins };
+}
+
+// ── Streak marks: the recent run shown as a row of flames ───────────────────
+// Each mark is { at: Date, status: 'present' | 'late' | 'absent', lit }.
+
+export const MARKS = 5;
+
+// The last few classes. Late still counts as coming; excused classes are left out.
+export function attendanceMarks(attendance, count = MARKS) {
+  return attendance
+    .filter((r) => r.class_sessions && ['present', 'late', 'absent'].includes(r.status))
+    .map((r) => ({ at: new Date(r.class_sessions.held_at), status: r.status, lit: r.status !== 'absent' }))
+    .sort((a, b) => a.at - b.at)
+    .slice(-count);
+}
+
+// The last few days that had homework due. A day is lit only when everything
+// due on it was handed in on time. rows: homework with status and attempts.
+export function homeworkMarks(rows, now = new Date(), count = MARKS) {
+  const rank = { present: 0, late: 1, absent: 2 };
+  const days = new Map();
+  rows.forEach((a) => {
+    if (!a.due_at) return;
+    const due = new Date(a.due_at);
+    const done = isComplete(a.status);
+    if (due > now && !done) return; // still open: not decided yet
+    const at = a.submission?.submitted_at || a.attempts?.[0]?.completed_at;
+    const status = !done ? 'absent' : at && new Date(at) > due ? 'late' : 'present';
+    const key = localDay(due);
+    const day = days.get(key);
+    if (!day) days.set(key, { at: due, status });
+    else if (rank[status] > rank[day.status]) day.status = status;
+  });
+  return [...days.values()]
+    .sort((a, b) => a.at - b.at)
+    .slice(-count)
+    .map((d) => ({ ...d, lit: d.status === 'present' }));
+}
+
+// When the real history can't be read: one lit flame per step of the streak.
+export const plainMarks = (streak, count = MARKS) =>
+  Array.from({ length: Math.max(1, Math.min(count, streak)) }, () => ({ at: null, status: 'present', lit: true }));
+
+// The flame that catches fire in the celebration: the newest lit one.
+export const igniteIndex = (marks) => marks.map((m) => m.lit).lastIndexOf(true);
+
+// "Mon" for the last week, "9 Nov" before that.
+export function markLabel(at, now = new Date()) {
+  if (!at) return '';
+  const recent = now - at < 6.5 * 86400000 && at - now < 86400000;
+  return at.toLocaleDateString(undefined, recent ? { weekday: 'short' } : { day: 'numeric', month: 'short' });
 }
 
 // How many coins to draw in the stack for an amount.
