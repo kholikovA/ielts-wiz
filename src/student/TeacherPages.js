@@ -24,6 +24,7 @@ import { emptyTest, testProblems } from './quiz/QuizBuilder';
 import { DictationResult } from './dictation/Dictation';
 import { checkDictation } from './dictation/diff';
 import { IntegrityNote } from './guard';
+import { EduschoolClassPanel } from './Eduschool';
 
 const DictationSetup = React.lazy(() => import('./dictation/DictationSetup'));
 const WritingReview = React.lazy(() => import('./writing/WritingReview'));
@@ -149,6 +150,8 @@ export function ClassDetail({ id }) {
                 </div>
               ) : <p className="body">No students yet. Share the join link above.</p>}
             </section>
+
+            <EduschoolClassPanel classId={c.id} />
           </>
         ) : <EmptyPanel icon="xCircle" title="Class not found" />}
       </Loaded>

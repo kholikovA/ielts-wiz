@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Icon from '../components/ui/icons';
 import * as api from './api';
 import { confirmDialog } from './dialog';
+import { EduschoolSync } from './Eduschool';
 import {
   useHub, useAsync, Loaded, BackLink, PageTitle, EmptyPanel, HubLink, PersonName, Seg, ErrorNote,
 } from './ui';
@@ -111,13 +112,14 @@ export function Register({ id }) {
   const state = useAsync(() => api.sessionRegister(id), [id]);
   const [marks, setMarks] = useState(new Map());
   const [error, setError] = useState(null);
+  const [changes, setChanges] = useState(0);
   useEffect(() => { if (state.data) setMarks(new Map(state.data.marks)); }, [state.data]);
 
   const mark = async (studentId, status) => {
     const prev = marks.get(studentId);
     setMarks((m) => new Map(m).set(studentId, status));
     setError(null);
-    try { await api.markAttendance(id, studentId, status); }
+    try { await api.markAttendance(id, studentId, status); setChanges((n) => n + 1); }
     catch (err) {
       setMarks((m) => { const n = new Map(m); if (prev) n.set(studentId, prev); else n.delete(studentId); return n; });
       setError(err);
@@ -145,6 +147,7 @@ export function Register({ id }) {
               </div>
             </div>
             {error && <ErrorNote error={error} />}
+            <EduschoolSync sessionId={s.id} classId={s.class_id} changes={changes} />
             {s.members.length ? (
               <>
                 <div className="hub-actions" style={{ marginBottom: 12 }}>

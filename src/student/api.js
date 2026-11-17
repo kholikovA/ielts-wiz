@@ -655,6 +655,13 @@ export async function sessionRegister(sessionId) {
 export const markAttendance = async (sessionId, studentId, status) =>
   unwrap(await supabase.from('attendance').upsert({ session_id: sessionId, student_id: studentId, status, marked_at: new Date().toISOString() }));
 
+// EduSchool (the school's platform): registers are pushed by the `eduschool` edge function.
+export const eduschool = (action, body = {}) => callEdge('eduschool', { action, ...body });
+export const eduschoolLink = async (classId) =>
+  unwrap(await supabase.from('eduschool_class_links').select('*').eq('class_id', classId).maybeSingle());
+export const eduschoolSync = async (sessionId) =>
+  unwrap(await supabase.from('eduschool_session_sync').select('*').eq('session_id', sessionId).maybeSingle());
+
 export async function studentAttendance(uid, limit = 20) {
   return (unwrap(await supabase
     .from('attendance')
