@@ -629,7 +629,7 @@ export const assignmentById = async (id) =>
 export async function classSessions(classId) {
   return unwrap(await supabase
     .from('class_sessions')
-    .select('*, attendance(status)')
+    .select('*, attendance(status, student_id)')
     .eq('class_id', classId)
     .order('held_at', { ascending: false })) || [];
 }
