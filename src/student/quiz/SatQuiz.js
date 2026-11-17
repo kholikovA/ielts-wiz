@@ -4,6 +4,7 @@ import MathText from './MathText';
 import ReferenceSheet from './SatReference';
 import { numbering } from './quiz';
 import { useHub } from '../ui';
+import { passPercent } from '../homework';
 
 // SAT-style screens for quizzes with payload.style === 'sat', modelled on Bluebook:
 //   SatTake    one question at a time: timer, Directions, Calculator (Desmos), Reference,
@@ -667,7 +668,7 @@ export function SatResults({ a, sub, keyData, marks, submittedLabel, attempts, l
   const correct = marks ? states.filter((x) => x === 'is-ok').length : null;
   const score = marks ? { earned: marks.earned, possible: marks.possible, percent: marks.percent } : sub?.data?.score;
   const left = attempts ? Math.max(0, attempts.max - attempts.used) : 0;
-  const pass = Number(a.payload?.pass_percent) || 0;
+  const pass = passPercent(a);
   const best = Math.max(score?.percent ?? 0, ...(attempts?.history || []).map((h) => h.score?.percent ?? 0));
   return (
     <>

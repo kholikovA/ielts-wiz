@@ -3,8 +3,9 @@ import Icon from '../components/ui/icons';
 import * as api from './api';
 import {
   KINDS, attemptsFor, statusOf, isComplete, isOverdue, dueLabel, formatDate, pct, parseCards, wordCount,
- assignmentCounts,
+ assignmentCounts, DEFAULT_PASS, passPercent, isScored,
 } from './homework';
+import { CoinFields, coinsValue, useHomeworkRule } from './AssignmentCoins';
 import { TEST_GROUPS, ALL_TESTS, testKey, WRITING_PROMPTS } from './catalog';
 import { bankCatalogEntry } from './ielts/ielts';
 import {
@@ -480,6 +481,8 @@ export function NewAssignment() {
   const [publishAt, setPublishAt] = useState(() => {
     const d = new Date(); d.setDate(d.getDate() + 1); d.setHours(8, 0, 0, 0); return toLocalInput(d);
   });
+  const [coins, setCoins] = useState('');
+  const [pass, setPass] = useState(DEFAULT_PASS);
 
   // ?from=<id> duplicates an assignment, shifted one day later.
   const fromId = new URLSearchParams(window.location.search).get('from');
@@ -491,6 +494,8 @@ export function NewAssignment() {
     setKind(a.kind);
     setTitle(a.title);
     setInstructions(a.instructions || '');
+    if (a.coins != null) setCoins(String(a.coins));
+    setPass(isScored(a.kind) ? passPercent(a) : DEFAULT_PASS);
     const pl = a.payload || {};
     if (a.kind === 'test') setTestKeyVal(`${pl.kind}:${pl.test_id}`);
     if (a.kind === 'writing') { setPrompt(pl.prompt || ''); setTask(pl.task || 'Task 2'); setMinWords(pl.min_words || 250); setPromptId(pl.prompt_id || ''); }
@@ -566,14 +571,14 @@ export function NewAssignment() {
   };
 
   const buildPayload = () => {
-    if (kind === 'test') return test ? { kind: test.kind, test_id: test.test_id, href: test.href, label: test.label } : null;
+    if (kind === 'test') return test ? { kind: test.kind, test_id: test.test_id, href: test.href, label: test.label, pass_percent: Number(pass) } : null;
     if (kind === 'writing') {
       const p = WRITING_PROMPTS.find((x) => x.id === promptId);
       return prompt.trim() ? { task, prompt: prompt.trim(), min_words: Number(minWords) || 0, prompt_id: promptId || null, visual_url: p?.visualUrl || null } : null;
     }
     if (kind === 'flashcards') return cards.length ? { cards: cards.map((c) => withExtras(c, extras)) } : null;
     if (kind === 'sentences') return words.length ? { words, level } : null;
-    if (kind === 'quiz') return testProblems(quiz).length ? null : splitTest(quiz).payload;
+    if (kind === 'quiz') return testProblems(quiz).length ? null : { ...splitTest(quiz).payload, pass_percent: Number(pass) };
     if (kind === 'dictation') return dict ? dict.payload : null;
     return { link: link.trim() || null, uploads };
   };
@@ -599,7 +604,7 @@ export function NewAssignment() {
     setBusy(true);
     try {
       const a = await api.createAssignment({
-        kind, title: title.trim(), instructions: instructions.trim() || null, payload,
+        kind, title: title.trim(), instructions: instructions.trim() || null, payload, coins: coinsValue(coins),
         class_id: target === 'class' ? classId : null,
         due_at: due ? new Date(due).toISOString() : null,
         publish_at: publishMode === 'later' && publishAt ? new Date(publishAt).toISOString() : new Date().toISOString(),
@@ -793,6 +798,8 @@ export function NewAssignment() {
               )}
             </div>
 
+            <CoinFields kind={kind} coins={coins} setCoins={setCoins} pass={pass} setPass={setPass} idPrefix="na" />
+
             <div className="form-field">
               <label className="form-label" htmlFor="na-due">Due</label>
               <input id="na-due" type="datetime-local" className="form-input" value={due} onChange={(e) => setDue(e.target.value)} />
@@ -980,6 +987,7 @@ export function AssignmentDetail({ id }) {
   const [analyzing, setAnalyzing] = useState(false);
   const [previewing, setPreviewing] = useState(false);
   const closePreview = React.useCallback(() => setPreviewing(false), []);
+  const rule = useHomeworkRule();
 
   return (
     <>
@@ -1013,6 +1021,7 @@ export function AssignmentDetail({ id }) {
                     : <span>Posted {formatDate(a.publish_at)}</span>}
                   <span>{dueLabel(a.due_at)}</span>
                   <span>{done}/{rows.length} complete</span>
+                  <span className="hub-num"><Coin size={12} /> {a.coins ?? rule?.coins ?? '…'} on time{isScored(a.kind) ? ` · ${passPercent(a) ? `${passPercent(a)}%+ correct` : 'any score'}` : ''}</span>
                 </div>
               </div>
               <ScheduleEditor a={a} onSaved={state.reload} />
