@@ -566,6 +566,13 @@
 .hub-att-row { display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-bottom: 1px solid var(--h-border); }
 .hub-att-row:last-child { border-bottom: 0; }
 .hub-att-row .hub-person { flex: 1; }
+.hub-sync { display: flex; align-items: center; gap: 10px; padding: 10px 14px; margin-bottom: 12px; font-size: 13px; color: var(--h-text-2); }
+.hub-sync > span { flex: 1; min-width: 0; }
+.hub-sync a { color: inherit; text-decoration: underline; }
+.hub-sync.is-ok svg { color: var(--h-success); }
+.hub-sync.is-warn svg { color: var(--h-warn); }
+.hub-sync.is-bad svg { color: var(--h-danger); }
+@media (max-width: 560px) { .hub-att-row { flex-wrap: wrap; } .hub-att-row .form-select { max-width: none !important; width: 100%; } }
 .hub-seg button.att-present.is-selected { background: var(--h-success); color: #fff; }
 .hub-seg button.att-late.is-selected { background: var(--h-warn); color: #fff; }
 .hub-seg button.att-absent.is-selected { background: var(--h-danger); color: #fff; }
