@@ -183,3 +183,18 @@ export const toLocalInput = (d) => {
   const off = d.getTimezoneOffset();
   return new Date(d.getTime() - off * 60000).toISOString().slice(0, 16);
 };
+
+// Several classes at once (one copy of the assignment per class).
+export function ClassPicklist({ classes, value, onChange }) {
+  const toggle = (id) => onChange(value.includes(id) ? value.filter((x) => x !== id) : [...value, id]);
+  return (
+    <div className="hub-picklist">
+      {classes.map((c) => (
+        <label key={c.id} className="hub-pick">
+          <input type="checkbox" checked={value.includes(c.id)} onChange={() => toggle(c.id)} />
+          <span>{c.name}</span>
+        </label>
+      ))}
+    </div>
+  );
+}
