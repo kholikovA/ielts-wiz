@@ -3,6 +3,7 @@ import Icon from '../components/ui/icons';
 import * as api from './api';
 import {
   attemptsFor, statusOf, isComplete, isOverdue, dueLabel, formatDate, pct, summarise, wordCount, srsStats, todaysHomework,
+  passPercent, assignmentCoins,
 } from './homework';
 import {
   useHub, useAsync, Loaded, EmptyPanel, HubLink, BackLink, StatusPill, KindTag, Bar, ErrorNote, PageTitle, Coin, Spinner, NoPaste, HubContext, Seg,
@@ -16,6 +17,7 @@ import { MarkingView } from './writing/MarkedEssay';
 import { endOfStudyDay } from './fsrs';
 import { useHomeworkGuard, GuardFrame } from './guard';
 import MascotProgress from './MascotProgress';
+import { useHomeworkRule } from './AssignmentCoins';
 
 const QuizWork = React.lazy(() => import('./quiz/QuizWork'));
 
@@ -358,12 +360,22 @@ export function HomeworkDetail({ id }) {
 
 // The assignment as the student sees it (also used for the teacher's preview).
 export function HomeworkBody({ a, onSaved }) {
+  const rule = useHomeworkRule();
+  const coins = assignmentCoins(a, rule?.coins);
+  const pass = passPercent(a);
   return (
     <>
       <div className="hub-detail-head">
         <KindTag kind={a.kind} />
         <h1 className="h2">{a.title}</h1>
-        <div className="hub-detail-meta"><StatusPill status={a.status} /><span>{dueLabel(a.due_at)}</span></div>
+        <div className="hub-detail-meta">
+          <StatusPill status={a.status} /><span>{dueLabel(a.due_at)}</span>
+          {rule?.enabled && coins > 0 && (
+            <span className="pill" title={a.due_at ? 'Earned when it is done by the deadline' : 'Earned when it is done'}>
+              <Coin size={11} /> {coins} coin{coins === 1 ? '' : 's'}{a.due_at ? ' if done on time' : ''}{pass ? ` · needs ${pass}%` : ''}
+            </span>
+          )}
+        </div>
       </div>
       {a.instructions && <div className="card hub-instructions"><p className="hub-pre">{a.instructions}</p></div>}
       {a.kind === 'test' && <TestWork a={a} />}

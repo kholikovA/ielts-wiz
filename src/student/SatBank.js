@@ -134,7 +134,7 @@ function CreatePanel({ rows, test, roster, recipients, setRecipients, onCreated,
         const { payload, key } = splitTest({ style: 'sat', sections: [{ id: 'sat', title: '', instructions: '', questions: chunk.map((r) => bankToQuiz(r, api.satImageUrl)) }] });
         payload.subject = test;
         payload.max_attempts = Number(attempts) || 1;
-        if (Number(pass) > 0) payload.pass_percent = Number(pass);
+        payload.pass_percent = Number(pass) || 0;
         payload.time_limit_min = timing === 'none' ? 0 : timing === 'custom' ? Number(minutes) || 0 : satPaceMinutes(chunk.length, test);
         const name = parts > 1 ? `${title.trim()} [Part ${p + 1}]` : title.trim();
         const skills = [...new Set(chunk.map((r) => r.skill))];

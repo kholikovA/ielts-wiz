@@ -168,3 +168,15 @@ export function assignmentCounts(a, now = new Date()) {
   const pastDue = Boolean(a.due_at && new Date(a.due_at) < now);
   return { total, submitted, toReview, scheduled, pastDue };
 }
+
+// Coins: every assignment pays its own coins (assignments.coins, or the
+// homework_on_time rule's amount) when done by the deadline. Quizzes and
+// practice tests also need the pass mark: payload.pass_percent, 80 when unset.
+export const DEFAULT_PASS = 80;
+export const isScored = (kind) => kind === 'quiz' || kind === 'test';
+export function passPercent(a) {
+  if (!isScored(a?.kind)) return 0;
+  const v = a.payload?.pass_percent;
+  return v === undefined || v === null || v === '' || Number.isNaN(Number(v)) ? DEFAULT_PASS : Number(v);
+}
+export const assignmentCoins = (a, ruleCoins) => (a?.coins ?? ruleCoins ?? 0);

@@ -65,3 +65,19 @@ test('dueLabel uses calendar days', () => {
   expect(dueLabel(at(1, 23, 59))).toBe('Due tomorrow');
   expect(dueLabel(at(-1, 12, 0))).toMatch(/^Was due/);
 });
+
+describe('passPercent', () => {
+  const { passPercent, assignmentCoins } = require('./homework');
+  test('defaults scored work to 80%', () => {
+    expect(passPercent({ kind: 'quiz', payload: {} })).toBe(80);
+    expect(passPercent({ kind: 'test', payload: { pass_percent: '' } })).toBe(80);
+    expect(passPercent({ kind: 'quiz', payload: { pass_percent: 0 } })).toBe(0);
+    expect(passPercent({ kind: 'quiz', payload: { pass_percent: 60 } })).toBe(60);
+    expect(passPercent({ kind: 'writing', payload: {} })).toBe(0);
+  });
+  test('assignment coins fall back to the rule', () => {
+    expect(assignmentCoins({ coins: null }, 2)).toBe(2);
+    expect(assignmentCoins({ coins: 0 }, 2)).toBe(0);
+    expect(assignmentCoins({ coins: 7 }, 2)).toBe(7);
+  });
+});
