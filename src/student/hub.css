@@ -2156,3 +2156,30 @@ body.is-resizing .sat-calc-frame { pointer-events: none; }
 .mt-table th, .mt-table td { border: 1px solid #3a3a3a; padding: 5px 12px; text-align: center; vertical-align: middle; }
 .mt-table th { font-weight: 600; background: rgba(0, 0, 0, 0.03); }
 .mt-para { margin: 0 0 10px; }
+
+/* ── SAT highlighter (SatHighlighter.js) ─────────────────────────────────── */
+.sat-hl-root { display: contents; }
+::highlight(sat-hl-yellow) { background-color: #fde68a; color: inherit; }
+::highlight(sat-hl-blue) { background-color: #bfdbfe; color: inherit; }
+::highlight(sat-hl-pink) { background-color: #fbcfe8; color: inherit; }
+::highlight(sat-hl-underline) { text-decoration: underline; text-decoration-color: #324dc7; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.sat-hlbar {
+  position: fixed; z-index: 60; transform: translate(-50%, -100%);
+  display: flex; align-items: center; gap: 4px; padding: 6px;
+  background: #fff; border: 1px solid #d0d0d0; border-radius: 10px;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+  animation: sat-hl-in 0.12s ease-out both;
+}
+@keyframes sat-hl-in { from { opacity: 0; transform: translate(-50%, calc(-100% + 4px)); } }
+.sat-hl-btn {
+  width: 34px; height: 34px; display: grid; place-items: center; padding: 0;
+  border: 2px solid transparent; border-radius: 8px; background: none; color: #1e1e1e; cursor: pointer;
+}
+.sat-hl-btn:hover { background: #f2f2f2; }
+.sat-hl-btn.is-on { border-color: #324dc7; }
+.sat-hl-btn i { width: 20px; height: 20px; border-radius: 50%; border: 1px solid rgba(0, 0, 0, 0.12); }
+.sat-hl-btn.is-yellow i { background: #fde68a; }
+.sat-hl-btn.is-blue i { background: #bfdbfe; }
+.sat-hl-btn.is-pink i { background: #fbcfe8; }
+.sat-hl-u { font-size: 16px; font-weight: 600; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
+.sat-hl-btn.is-remove { margin-left: 2px; border-left: 1px solid #e2e2e2; border-radius: 0 8px 8px 0; color: #c62828; }
