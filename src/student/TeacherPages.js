@@ -448,7 +448,7 @@ export function Assignments() {
   );
 }
 
-export function NewAssignment() {
+export function NewAssignment({ editId = null }) {
   const { user, go } = useHub();
   const presetClass = new URLSearchParams(window.location.search).get('class') || '';
   const roster = useAsync(() => api.teacherStudents(user.id), [user.id]);
@@ -485,12 +485,16 @@ export function NewAssignment() {
   const [pass, setPass] = useState(DEFAULT_PASS);
 
   // ?from=<id> duplicates an assignment, shifted one day later.
+  // /teach/assignments/<id>/edit edits it in place.
   const fromId = new URLSearchParams(window.location.search).get('from');
-  const source = useAsync(() => (fromId ? api.assignmentDetail(fromId) : Promise.resolve(null)), [fromId]);
+  const srcId = editId || fromId;
+  const editing = Boolean(editId);
+  const source = useAsync(() => (srcId ? api.assignmentDetail(srcId) : Promise.resolve(null)), [srcId]);
+  const published = editing && source.data && new Date(source.data.publish_at) <= new Date();
   useEffect(() => {
     const a = source.data;
     if (!a) return;
-    const shift = (iso) => { const d = new Date(iso); d.setDate(d.getDate() + 1); return d; };
+    const shift = (iso) => { const d = new Date(iso); if (!editing) d.setDate(d.getDate() + 1); return d; };
     setKind(a.kind);
     setTitle(a.title);
     setInstructions(a.instructions || '');
@@ -506,11 +510,14 @@ export function NewAssignment() {
     }
     if (a.kind === 'quiz') {
       api.quizKey(a.id).then((k) => {
-        // Fresh ids so the copy's key can't collide with the original's.
         const t = joinTest(pl, k?.key || {});
-        setQuiz({ sections: t.sections.map((s) => ({ ...s, id: newId(), questions: s.questions.map((q) => ({ ...q, id: newId() })) })) });
+        // Editing keeps the ids so students' answers still line up; a copy gets fresh
+        // ids so its key can't collide with the original's.
+        setQuiz(editing ? { sections: t.sections }
+          : { sections: t.sections.map((s) => ({ ...s, id: newId(), questions: s.questions.map((q) => ({ ...q, id: newId() })) })) });
       }).catch(() => {});
     }
+    if (a.kind === 'flashcards' && editing) setExtras(Object.fromEntries((pl.cards || []).filter((c) => c.ex || c.gap || c.forms || c.coll).map((c) => [extraKey(c.f), c])));
     if (a.kind === 'sentences') {
       setWordsText((pl.words || []).map((w) => (w.m ? `${w.w} - ${w.m}` : w.w)).join('\n'));
       setLevel(pl.level === 'senior' ? 'senior' : 'junior');
@@ -521,7 +528,8 @@ export function NewAssignment() {
     const pub = shift(a.publish_at);
     if (pub > new Date()) { setPublishMode('later'); setPublishAt(toLocalInput(pub)); }
     if (a.due_at) setDue(toLocalInput(shift(a.due_at)));
-  }, [source.data]);
+    else if (editing) setDue('');
+  }, [source.data]); // eslint-disable-line react-hooks/exhaustive-deps
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
 
@@ -571,6 +579,11 @@ export function NewAssignment() {
   };
 
   const buildPayload = () => {
+    const built = buildOwnPayload();
+    const orig = source.data?.kind === kind ? source.data.payload : null;
+    return built && orig && (kind === 'quiz' || kind === 'test') ? { ...orig, ...built } : built;
+  };
+  const buildOwnPayload = () => {
     if (kind === 'test') return test ? { kind: test.kind, test_id: test.test_id, href: test.href, label: test.label, pass_percent: Number(pass) } : null;
     if (kind === 'writing') {
       const p = WRITING_PROMPTS.find((x) => x.id === promptId);
@@ -602,6 +615,25 @@ export function NewAssignment() {
     const ids = recipients(data);
     if (target === 'students' && !ids.length) { setError({ message: 'Pick at least one student.' }); return; }
     setBusy(true);
+    if (editing) {
+      try {
+        const a = source.data;
+        const fields = {
+          title: title.trim(), instructions: instructions.trim() || null, coins: coinsValue(coins),
+          class_id: target === 'class' ? classId : null,
+          due_at: due ? new Date(due).toISOString() : null,
+        };
+        if (kind !== 'flashcards') fields.payload = payload;
+        if (!published) fields.publish_at = publishMode === 'later' && publishAt ? new Date(publishAt).toISOString() : new Date().toISOString();
+        await api.updateAssignment(a.id, fields);
+        if (kind === 'flashcards') await api.updateDeck(a.id, payload.cards);
+        if (kind === 'quiz') await api.saveQuizKey(a.id, splitTest(quiz).key);
+        if (kind === 'dictation' && dict) await api.saveDictationKey(a.id, dict.key.transcript, dict.key.source);
+        await api.syncRecipients(a.id, a.recipients.map((r) => r.id), ids);
+        go(`/teach/assignments/${a.id}`);
+      } catch (err) { setError(err); setBusy(false); }
+      return;
+    }
     try {
       const a = await api.createAssignment({
         kind, title: title.trim(), instructions: instructions.trim() || null, payload, coins: coinsValue(coins),
@@ -617,9 +649,11 @@ export function NewAssignment() {
 
   return (
     <>
-      <BackLink to="/teach/assignments" label="Assignments" />
-      <PageTitle title={fromId ? 'Duplicate assignment' : 'New assignment'} lead={fromId ? 'Copied from an earlier assignment and moved one day later.' : null} />
-      <Loaded state={roster}>
+      {editing ? <BackLink to={`/teach/assignments/${editId}`} label="Assignment" /> : <BackLink to="/teach/assignments" label="Assignments" />}
+      <PageTitle title={editing ? 'Edit assignment' : fromId ? 'Duplicate assignment' : 'New assignment'}
+        lead={editing ? 'Changes apply for everyone it is assigned to. Work already submitted is kept.' : fromId ? 'Copied from an earlier assignment and moved one day later.' : null} />
+      {editing && source.data === null && !source.loading ? <EmptyPanel icon="xCircle" title="Assignment not found" /> : (
+      <Loaded state={editing && !source.data ? source : roster}>
         {(data) => data.classes.length === 0 ? (
           <EmptyPanel icon="users" title="Create a class first" lead="Homework goes to students in your classes.">
             <HubLink to="/teach/classes" className="btn btn-primary">Go to classes</HubLink>
@@ -630,7 +664,8 @@ export function NewAssignment() {
               <span className="form-label">Type</span>
               <div className="hub-tabs">
                 {Object.entries(KINDS).map(([k, v]) => (
-                  <button key={k} type="button" className={`chip${kind === k ? ' is-selected' : ''}`} onClick={() => setKind(k)}>
+                  <button key={k} type="button" className={`chip${kind === k ? ' is-selected' : ''}`} onClick={() => setKind(k)}
+                    disabled={editing && kind !== k} title={editing && kind !== k ? 'The type can\'t change. Duplicate it to make a different kind.' : undefined}>
                     <Icon name={v.icon} size={14} /> {v.label}
                   </button>
                 ))}
@@ -786,11 +821,12 @@ export function NewAssignment() {
 
             <div className="form-field">
               <span className="form-label">Publish</span>
+              {published ? <p className="form-help">Published {formatDate(source.data.publish_at, true)}.</p> : (
               <Seg label="Publish" value={publishMode} onChange={setPublishMode} options={[
                 { value: 'now', label: 'Now' },
                 { value: 'later', label: 'Schedule', icon: 'calendar' },
-              ]} />
-              {publishMode === 'later' && (
+              ]} />)}
+              {!published && publishMode === 'later' && (
                 <>
                   <input type="datetime-local" className="form-input" value={publishAt} onChange={(e) => setPublishAt(e.target.value)} aria-label="Publish at" style={{ marginTop: 8 }} />
                   <p className="form-help">Students won't see it, or get notified, until then. Flashcard words join their queue at that time.</p>
@@ -807,10 +843,11 @@ export function NewAssignment() {
             </div>
 
             {error && <ErrorNote error={error} />}
-            <button className="btn btn-primary" disabled={busy || !title.trim()}>{busy ? 'Saving…' : publishMode === 'later' ? 'Schedule homework' : 'Assign homework'}</button>
+            <button className="btn btn-primary" disabled={busy || !title.trim()}>{busy ? 'Saving…' : editing ? 'Save changes' : publishMode === 'later' ? 'Schedule homework' : 'Assign homework'}</button>
           </form>
         )}
       </Loaded>
+      )}
     </>
   );
 }
@@ -885,52 +922,6 @@ function ReviewPanel({ a, sub, onDone }) {
       ) : (
         <button type="button" className="btn btn-primary" disabled={busy} onClick={save}>{sub.reviewed_at ? 'Update review' : 'Send review'}</button>
       )}
-    </div>
-  );
-}
-
-function ScheduleEditor({ a, onSaved }) {
-  const [open, setOpen] = useState(false);
-  const [publishAt, setPublishAt] = useState(() => toLocalInput(new Date(a.publish_at)));
-  const [due, setDue] = useState(() => (a.due_at ? toLocalInput(new Date(a.due_at)) : ''));
-  const [busy, setBusy] = useState(false);
-  const [error, setError] = useState(null);
-  const published = new Date(a.publish_at) <= new Date();
-  if (!open) {
-    return (
-      <div style={{ marginBottom: 16 }}>
-        <button type="button" className="btn btn-ghost btn-sm" onClick={() => setOpen(true)}><Icon name="calendar" size={14} /> Edit dates</button>
-      </div>
-    );
-  }
-  const save = async () => {
-    setBusy(true); setError(null);
-    try {
-      const fields = { due_at: due ? new Date(due).toISOString() : null };
-      if (!published) fields.publish_at = new Date(publishAt).toISOString();
-      await api.updateAssignment(a.id, fields);
-      setOpen(false); onSaved();
-    } catch (err) { setError(err); }
-    setBusy(false);
-  };
-  return (
-    <div className="card" style={{ marginBottom: 16 }}>
-      <div className="hub-form-row">
-        <div className="form-field">
-          <label className="form-label" htmlFor="ed-pub">Publish</label>
-          <input id="ed-pub" type="datetime-local" className="form-input" value={publishAt} onChange={(e) => setPublishAt(e.target.value)} disabled={published} />
-          {published && <p className="form-help">Already published.</p>}
-        </div>
-        <div className="form-field">
-          <label className="form-label" htmlFor="ed-due">Due</label>
-          <input id="ed-due" type="datetime-local" className="form-input" value={due} onChange={(e) => setDue(e.target.value)} />
-        </div>
-      </div>
-      {error && <ErrorNote error={error} />}
-      <div className="hub-actions">
-        <button type="button" className="btn btn-primary btn-sm" disabled={busy} onClick={save}>Save</button>
-        <button type="button" className="btn btn-ghost btn-sm" onClick={() => setOpen(false)}>Cancel</button>
-      </div>
     </div>
   );
 }
@@ -1011,6 +1002,7 @@ export function AssignmentDetail({ id }) {
                   <h1>{a.title}</h1>
                   <span className="hub-actions" style={{ margin: 0 }}>
                     <button type="button" className="btn btn-sm" onClick={() => setPreviewing(true)}><Icon name="eye" size={14} /> Preview</button>
+                    <HubLink to={`/teach/assignments/${a.id}/edit`} className="btn btn-sm"><Icon name="edit" size={14} /> Edit</HubLink>
                     <HubLink to={`/teach/assignments/new?from=${a.id}`} className="btn btn-sm"><Icon name="copy" size={14} /> Duplicate</HubLink>
                   </span>
                 </div>
@@ -1024,7 +1016,6 @@ export function AssignmentDetail({ id }) {
                   <span className="hub-num"><Coin size={12} /> {a.coins ?? rule?.coins ?? '…'} on time{isScored(a.kind) ? ` · ${passPercent(a) ? `${passPercent(a)}%+ correct` : 'any score'}` : ''}</span>
                 </div>
               </div>
-              <ScheduleEditor a={a} onSaved={state.reload} />
               {a.instructions && <div className="card hub-instructions"><p className="hub-pre">{a.instructions}</p></div>}
               {a.kind === 'writing' && a.payload?.prompt && <div className="card hub-instructions"><span className="eyebrow">{a.payload.task}</span><p className="hub-pre">{a.payload.prompt}</p></div>}
               {a.kind === 'test' && <p className="body">Test: <strong>{a.payload?.label}</strong></p>}
