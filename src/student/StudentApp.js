@@ -5,7 +5,7 @@ import Icon from '../components/ui/icons';
 import AppLink from '../components/ui/AppLink';
 import { mainSiteUrl } from '../lib/host';
 import * as api from './api';
-import { HubContext, EmptyPanel, Avatar, Coin } from './ui';
+import { HubContext, EmptyPanel, Avatar } from './ui';
 import Brand, { LogoMark } from '../components/Brand';
 import { DialogHost } from './dialog';
 import { useHubTime } from './hubTime';
@@ -62,7 +62,8 @@ const Schedule = lazy(() => import('./schedule/Schedule'));
 const WelcomeBack = lazy(() => import('./WelcomeBack'));
 const TeacherDashboard = lazy(() => import('./TeacherDashboard'));
 
-// Sidebar groups. The first group has no heading.
+// Sidebar groups. The first group has no heading and stays pinned at the top
+// (with Notifications); the labelled groups below it scroll, as on claude.ai.
 const STUDY_NAV = [
   { items: [
     { path: '/',           label: 'Dashboard',  icon: 'home' },
@@ -84,11 +85,11 @@ const STUDY_NAV = [
 ];
 const TEACH_NAV = [
   { items: [
+    { path: '/teach/assignments/new', label: 'New assignment', icon: 'plus', primary: true },
     { path: '/teach',             label: 'Dashboard',   icon: 'home' },
     { path: '/messages',          label: 'Messages',    icon: 'message' },
   ] },
   { label: 'Homework', items: [
-    { path: '/teach/assignments/new', label: 'New assignment', icon: 'plus' },
     { path: '/teach/assignments', label: 'Assignments', icon: 'clipboard' },
     { path: '/teach/bank',        label: 'Question bank', icon: 'layers' },
   ] },
@@ -171,7 +172,7 @@ function usePopover() {
   return { open, setOpen, ref };
 }
 
-function Bell({ uid, go, here }) {
+function Bell({ uid, go, here, collapsed }) {
   const pop = usePopover();
   const [items, setItems] = useState([]);
   const load = useCallback(() => { api.notifications(uid).then(setItems).catch(() => {}); }, [uid]);
@@ -192,24 +193,28 @@ function Bell({ uid, go, here }) {
 
   return (
     <div className="hub-pop-wrap" ref={pop.ref}>
-      <button type="button" className="hub-icon-btn" title="Notifications" aria-label={`Notifications${unread ? ` (${unread} unread)` : ''}`} onClick={() => pop.setOpen((o) => !o)}>
-        <Icon name="bell" size={20} />
-        {unread > 0 && <span className="hub-dot">{unread > 9 ? '9+' : unread}</span>}
+      <button type="button" className={`hub-nav-link${pop.open ? ' is-open' : ''}`} title={collapsed ? 'Notifications' : undefined}
+        aria-label={`Notifications${unread ? ` (${unread} unread)` : ''}`} aria-expanded={pop.open} onClick={() => pop.setOpen((o) => !o)}>
+        <span className="hub-nav-ic"><Icon name="bell" size={18} strokeWidth={1.75} /></span>
+        <span className="hub-nav-text">Notifications</span>
+        {unread > 0 && <span className="hub-badge">{unread > 99 ? '99+' : unread}</span>}
       </button>
       {pop.open && (
-        <div className="hub-pop hub-pop--side" role="dialog" aria-label="Notifications">
+        <div className="hub-pop hub-pop--flyout" role="dialog" aria-label="Notifications">
           <div className="hub-pop-head">
             <span>Notifications</span>
             {unread > 0 && <button type="button" className="btn btn-ghost btn-sm" onClick={() => api.markNotificationsRead(null).then(load)}>Mark all read</button>}
           </div>
           <div className="hub-pop-list">
             {items.length ? items.map((n) => (
-              <button key={n.id} type="button" className={`hub-pop-item${n.read_at ? '' : ' is-unread'}`} onClick={() => open(n)}>
-                <Icon name={NOTIFICATION_ICON[n.kind] || 'edit'} size={16} />
-                <span>
-                  {n.title}
-                  <small>{[n.body, new Date(n.visible_at).toLocaleString(undefined, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })].filter(Boolean).join(' · ')}</small>
+              <button key={n.id} type="button" className={`hub-notif${n.read_at ? '' : ' is-unread'}`} onClick={() => open(n)}>
+                <span className={`hub-notif-ic hub-notif-ic--${n.kind || 'other'}`}><Icon name={NOTIFICATION_ICON[n.kind] || 'edit'} size={16} /></span>
+                <span className="hub-notif-text">
+                  <span className="hub-notif-title">{n.title}</span>
+                  {n.body && <span className="hub-notif-body">{n.body}</span>}
+                  <span className="hub-notif-time">{new Date(n.visible_at).toLocaleString(undefined, { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' })}</span>
                 </span>
+                {!n.read_at && <span className="hub-notif-dot" aria-label="Unread" />}
               </button>
             )) : <div className="hub-pop-empty">You're all caught up.</div>}
           </div>
@@ -254,15 +259,18 @@ function useAsyncList(uid) {
   return list;
 }
 
-function UserMenu({ user, profile, isDark, toggleTheme, signOut, go, canTeach, viewAs, onViewAs }) {
+function UserMenu({ user, profile, isDark, toggleTheme, signOut, go, canTeach, viewAs, onViewAs, collapsed }) {
   const pop = usePopover();
   const [picking, setPicking] = useState(false);
   useEffect(() => { if (!pop.open) setPicking(false); }, [pop.open]);
+  const role = viewAs ? 'Student view' : profile?.is_admin ? 'Admin' : profile?.is_teacher ? 'Teacher' : 'Student';
   return (
     <div className="hub-pop-wrap" ref={pop.ref}>
-      <button type="button" className="hub-user" onClick={() => pop.setOpen((o) => !o)} aria-haspopup="menu" aria-expanded={pop.open}>
-        <Avatar person={{ ...profile, email: user.email }} size={30} />
-        <span><strong>{profile?.name || 'Account'}</strong><small>{user.email}</small></span>
+      <button type="button" className={`hub-user${pop.open ? ' is-open' : ''}`} onClick={() => pop.setOpen((o) => !o)} aria-haspopup="menu" aria-expanded={pop.open}
+        title={collapsed ? (profile?.name || user.email) : undefined}>
+        <Avatar person={{ ...profile, email: user.email }} size={32} />
+        <span className="hub-user-text"><strong>{profile?.name || 'Account'}</strong><small>{role}</small></span>
+        <Icon name="chevronsUpDown" size={16} className="hub-user-chev" />
       </button>
       {pop.open && picking && (
         <div className="hub-pop hub-pop--up hub-pop--wide">
@@ -270,7 +278,8 @@ function UserMenu({ user, profile, isDark, toggleTheme, signOut, go, canTeach, v
         </div>
       )}
       {pop.open && !picking && (
-        <div className="hub-pop hub-pop--up" role="menu">
+        <div className="hub-pop hub-pop--up hub-pop--account" role="menu">
+          <div className="hub-menu-email">{user.email}</div>
           <button type="button" role="menuitem" className="hub-menu-item" onClick={() => { pop.setOpen(false); go('/profile'); }}>
             <Icon name="user" size={18} /> Profile
           </button>
@@ -287,6 +296,7 @@ function UserMenu({ user, profile, isDark, toggleTheme, signOut, go, canTeach, v
             <Icon name={isDark ? 'sun' : 'moon'} size={18} /> {isDark ? 'Light mode' : 'Dark mode'}
           </button>
           <a role="menuitem" className="hub-menu-item" href={mainSiteUrl('/')}><Icon name="target" size={18} /> Practice site</a>
+          <div className="hub-menu-sep" />
           <button type="button" role="menuitem" className="hub-menu-item" onClick={() => signOut().then(() => go('/'))}>
             <Icon name="logout" size={18} /> Log out
           </button>
@@ -368,7 +378,7 @@ export default function StudentApp() {
   }, []);
 
   const here = `/${parts.join('/')}`;
-  // Coin balance in the top bar (students and student view); refreshed on every navigation.
+  // Coin balance on the sidebar Coins row (students and student view); refreshed on every navigation.
   useEffect(() => {
     setBalance(null);
     if (!user || !profile || isTeacher) return undefined;
@@ -465,10 +475,11 @@ export default function StudentApp() {
   const link = (n) => (
     <AppLink key={n.path} href={n.path} onNavigate={() => go(n.path)}
       aria-current={isActive(n.path) ? 'page' : undefined}
-      className={`hub-nav-link${isActive(n.path) ? ' is-active' : ''}`} title={navCollapsed ? n.label : undefined}>
-      <Icon name={n.icon} size={20} strokeWidth={1.9} />
-      <span>{n.label}</span>
+      className={`hub-nav-link${n.primary ? ' hub-nav-link--primary' : ''}${isActive(n.path) ? ' is-active' : ''}`} title={navCollapsed ? n.label : undefined}>
+      <span className="hub-nav-ic"><Icon name={n.icon} size={n.primary ? 14 : 18} strokeWidth={n.primary ? 2.5 : 1.75} /></span>
+      <span className="hub-nav-text">{n.label}</span>
       {n.path === '/messages' && unreadChats > 0 && <span className="hub-badge" aria-label={`${unreadChats} unread`}>{unreadChats > 99 ? '99+' : unreadChats}</span>}
+      {n.path === '/coins' && balance != null && <span className="hub-nav-meta" aria-label={`${balance} coins`}>{balance}</span>}
     </AppLink>
   );
   const home = isTeacher ? '/teach' : '/';
@@ -483,33 +494,33 @@ export default function StudentApp() {
               <LogoMark size={32} className="hub-brand-mark" />
               <Brand size={32} tag={isTeacher ? 'Teaching' : 'Student Hub'} className="hub-brand-full" />
             </AppLink>
+            {/* Collapsed rail: the logo turns into the expand button on hover, as on claude.ai. */}
             <button type="button" className="hub-icon-btn hub-collapse-btn" onClick={toggleNav}
               aria-label={navCollapsed ? 'Expand sidebar' : 'Collapse sidebar'} aria-pressed={navCollapsed} title={navCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}>
-              <Icon name="panelLeft" size={20} />
+              <LogoMark size={28} className="hub-collapse-logo" />
+              <Icon name="panelLeft" size={18} strokeWidth={1.75} className="hub-collapse-icon" />
             </button>
             <button type="button" className="hub-icon-btn hub-nav-close" onClick={() => setNavOpen(false)} aria-label="Close navigation">
               <Icon name="close" size={20} />
             </button>
           </div>
-          <div className="hub-nav-status">
-            {balance != null && (
-              <AppLink href="/coins" onNavigate={() => go('/coins')} className="hub-coin-pill" aria-label={`${balance} coins`} title={`${balance} coins`}>
-                <Coin size={16} /> <span>{balance}</span>
-              </AppLink>
-            )}
-            {!viewAs && <Bell uid={user.id} go={go} here={here} />}
-          </div>
-          <nav>
-            {nav.map((g, i) => (
-              <div className="hub-nav-group" key={g.label || i}>
-                {g.label && <div className="hub-nav-label">{g.label}</div>}
-                {g.items.map(link)}
-              </div>
-            ))}
+          <nav className="hub-nav-body">
+            <div className="hub-nav-top">
+              {nav[0].items.map(link)}
+              {!viewAs && <Bell uid={user.id} go={go} here={here} collapsed={navCollapsed} />}
+            </div>
+            <div className="hub-nav-scroll">
+              {nav.slice(1).map((g) => (
+                <div className="hub-nav-group" key={g.label}>
+                  <div className="hub-nav-label">{g.label}</div>
+                  {g.items.map(link)}
+                </div>
+              ))}
+            </div>
           </nav>
           <div className="hub-nav-foot">
             <UserMenu user={user} profile={profile} isDark={isDark} toggleTheme={toggleTheme} signOut={signOut} go={go}
-              canTeach={canTeach} viewAs={viewAs} onViewAs={viewAsStudent} />
+              canTeach={canTeach} viewAs={viewAs} onViewAs={viewAsStudent} collapsed={navCollapsed} />
           </div>
         </aside>
         {navOpen && <div className="hub-backdrop" onClick={() => setNavOpen(false)} aria-hidden="true" />}
