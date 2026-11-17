@@ -99,7 +99,8 @@ function StreakCard({ tone, label, unit, value, marks, week, empty }) {
   );
 }
 
-const MAX_TODAY = 6;
+const MAX_TODAY = 8;
+const MAX_LATER = 6;
 const MAX_BOARD = 5;
 
 // Rows come back one per (class, member); rank each class on its own.
@@ -146,13 +147,12 @@ function Leaderboard({ rows: all }) {
 export function Dashboard() {
   const { user, profile } = useHub();
   const data = useAsync(async () => {
-    const [summary, snap, items, results, recent, rules, attendance, board, slots, session] = await Promise.all([
+    const [summary, snap, items, results, rules, attendance, board, slots, session] = await Promise.all([
       api.hubSummary(),
       // Secondary panels degrade to empty instead of blanking the dashboard.
       api.srsSnapshot(user.id).catch(() => ({ cards: [], reviews: [] })),
       api.studentHomework(user.id),
       api.testResults(user.id).catch(() => []),
-      api.coinHistory(user.id, 3).catch(() => []),
       api.rewardRules().catch(() => []),
       api.studentAttendance(user.id).catch(() => []),
       api.classLeaderboard().catch(() => []),
@@ -160,12 +160,13 @@ export function Dashboard() {
       api.nextSession().catch(() => null),
     ]);
     const coins = Object.fromEntries(rules.filter((r) => r.enabled).map((r) => [r.key, r.coins]));
-    return { summary, snap, rows: withStatus(items, results), recent, coins, attendance, board, slots, session };
+    return { summary, snap, rows: withStatus(items, results), coins, attendance, board, slots, session };
   }, [user.id]);
 
   return (
+    <div className="stage">
     <Loaded state={data}>
-      {({ summary, snap, rows, recent, coins, attendance, board, slots, session }) => {
+      {({ summary, snap, rows, coins, attendance, board, slots, session }) => {
         const today = todaysHomework(rows, endOfStudyDay());
         const doneToday = today.filter((a) => isComplete(a.status)).length;
         const weekStart = studyWeekStart();
@@ -192,6 +193,23 @@ export function Dashboard() {
             : { text: `${doneWeek}/${weekDue.length} done this week`, state: 'on', coins: coins.week_perfect_homework };
 
         const weekCoins = summary.week.reduce((t, d) => t + d.coins, 0);
+
+        // Still open and not part of today: what to get ahead on, soonest first.
+        const todayIds = new Set(today.map((a) => a.id));
+        const later = rows.filter((a) => !todayIds.has(a.id) && !isComplete(a.status) && a.due_at)
+          .sort((x, y) => x.due_at.localeCompare(y.due_at)).slice(0, MAX_LATER);
+        const comingUp = later.length > 0 && (
+          <>
+            <div className="d4-sub">Coming up</div>
+            {later.map((a) => (
+              <HubLink key={a.id} to={`/homework/${a.id}`} className="dash-hw d4-next">
+                <span className="hub-kind-icon"><Icon name={KINDS[a.kind]?.icon || 'edit'} size={14} /></span>
+                <strong>{a.title}</strong>
+                <small>{dueLabel(a.due_at)}</small>
+              </HubLink>
+            ))}
+          </>
+        );
 
         return (
           <div className="dash4">
@@ -220,7 +238,13 @@ export function Dashboard() {
                       );
                     })}
                     {today.length > MAX_TODAY && <HubLink to="/homework" className="d4-more">+{today.length - MAX_TODAY} more in Homework</HubLink>}
+                    {comingUp}
                   </div>
+                ) : later.length ? (
+                  <>
+                    <div className="dash-quiet"><Icon name="checkCircle" size={18} /><span>Nothing due today. Get ahead on what is coming.</span></div>
+                    <div className="d4-list">{comingUp}</div>
+                  </>
                 ) : (
                   <div className="dash-quiet d4-quiet"><Icon name="checkCircle" size={18} /><span>Nothing due today. A good day to get ahead with flashcards or a game.</span></div>
                 )}
@@ -250,13 +274,6 @@ export function Dashboard() {
                     </span>
                   </div>
                   <WeekChart week={summary.week} />
-                  {recent.length ? (
-                    <ul className="dash-feed">
-                      {recent.slice(0, 3).map((t) => (
-                        <li key={t.id}><span>{t.label}</span><b className={t.amount < 0 ? 'is-neg' : ''}>{t.amount > 0 ? '+' : ''}{t.amount}</b></li>
-                      ))}
-                    </ul>
-                  ) : <p className="dash-empty">Your first coins will show up here.</p>}
                 </section>
                 <section className="card d4-card d4-board">
                   <div className="hub-section-head"><h2 className="h3">Leaderboard</h2><small className="hub-muted">last 7 days</small></div>
@@ -268,6 +285,7 @@ export function Dashboard() {
         );
       }}
     </Loaded>
+    </div>
   );
 }
 

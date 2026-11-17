@@ -6,6 +6,7 @@ import AppLink from '../components/ui/AppLink';
 import { mainSiteUrl } from '../lib/host';
 import * as api from './api';
 import { HubContext, EmptyPanel, Avatar, Coin } from './ui';
+import Brand, { LogoMark } from '../components/Brand';
 import { DialogHost } from './dialog';
 import { useHubTime } from './hubTime';
 import { useChatBootstrap } from './chat/bootstrap';
@@ -57,30 +58,50 @@ const RevisionQuiz = lazy(() => import('./revision/RevisionQuiz'));
 const Messages = lazy(() => import('./chat/Messages'));
 const Schedule = lazy(() => import('./schedule/Schedule'));
 const WelcomeBack = lazy(() => import('./WelcomeBack'));
+const TeacherDashboard = lazy(() => import('./TeacherDashboard'));
 
+// Sidebar groups. The first group has no heading.
 const STUDY_NAV = [
-  { path: '/',           label: 'Dashboard',  icon: 'home' },
-  { path: '/messages',   label: 'Messages',   icon: 'message' },
-  { path: '/homework',   label: 'Homework',   icon: 'edit' },
-  { path: '/schedule',   label: 'Schedule',   icon: 'calendar' },
-  { path: '/flashcards', label: 'Flashcards', icon: 'layers' },
-  { path: '/games',      label: 'Word games', icon: 'gamepad' },
-  { path: '/revision',   label: 'Revision quiz', icon: 'clipboard' },
-  { path: '/progress',   label: 'Progress',   icon: 'trending' },
-  { path: '/coins',      label: 'Coins',      icon: 'coin' },
+  { items: [
+    { path: '/',           label: 'Dashboard',  icon: 'home' },
+    { path: '/messages',   label: 'Messages',   icon: 'message' },
+  ] },
+  { label: 'Classwork', items: [
+    { path: '/homework',   label: 'Homework',   icon: 'clipboard' },
+    { path: '/schedule',   label: 'Schedule',   icon: 'calendar' },
+  ] },
+  { label: 'Practice', items: [
+    { path: '/flashcards', label: 'Flashcards', icon: 'layers' },
+    { path: '/games',      label: 'Word games', icon: 'gamepad' },
+    { path: '/revision',   label: 'Revision quiz', icon: 'zap' },
+  ] },
+  { label: 'Progress', items: [
+    { path: '/progress',   label: 'Progress',   icon: 'trending' },
+    { path: '/coins',      label: 'Coins',      icon: 'coin' },
+  ] },
 ];
 const TEACH_NAV = [
-  { path: '/teach/assignments/new', label: 'New assignment', icon: 'plus' },
-  { path: '/messages',          label: 'Messages',    icon: 'message' },
-  { path: '/teach/assignments', label: 'Assignments', icon: 'checkCircle' },
-  { path: '/teach/bank',        label: 'Question bank', icon: 'layers' },
-  { path: '/teach/schedule',    label: 'Schedule',    icon: 'calendar' },
-  { path: '/teach/attendance',  label: 'Attendance',  icon: 'clipboard' },
-  { path: '/teach/classes',     label: 'Classes',     icon: 'users' },
-  { path: '/teach/students',    label: 'Students',    icon: 'graduation' },
-  { path: '/teach/stats',       label: 'Stats',       icon: 'trending' },
-  { path: '/teach/coins',       label: 'Coins',       icon: 'coin' },
+  { items: [
+    { path: '/teach',             label: 'Dashboard',   icon: 'home' },
+    { path: '/messages',          label: 'Messages',    icon: 'message' },
+  ] },
+  { label: 'Homework', items: [
+    { path: '/teach/assignments/new', label: 'New assignment', icon: 'plus' },
+    { path: '/teach/assignments', label: 'Assignments', icon: 'clipboard' },
+    { path: '/teach/bank',        label: 'Question bank', icon: 'layers' },
+  ] },
+  { label: 'Classes', items: [
+    { path: '/teach/schedule',    label: 'Schedule',    icon: 'calendar' },
+    { path: '/teach/attendance',  label: 'Attendance',  icon: 'checkCircle' },
+    { path: '/teach/classes',     label: 'Classes',     icon: 'users' },
+    { path: '/teach/students',    label: 'Students',    icon: 'graduation' },
+  ] },
+  { label: 'Insights', items: [
+    { path: '/teach/stats',       label: 'Stats',       icon: 'trending' },
+    { path: '/teach/coins',       label: 'Coins',       icon: 'coin' },
+  ] },
 ];
+const flat = (nav) => nav.flatMap((g) => g.items);
 
 const NOTIFICATION_ICON = { feedback: 'quote', submission: 'checkCircle', retake: 'refresh', coins: 'coin', homework: 'edit' };
 
@@ -95,7 +116,7 @@ function teacherRoute(parts) {
   if (a === 'join' && b) return <JoinPage code={b} />;
   if (a === 'profile') return <Profile />;
   if (a === 'messages') return <Messages chatId={b} />;
-  if (a !== 'teach') return <Assignments />;
+  if (a !== 'teach' || !b) return <TeacherDashboard />;
   if (b === 'classes') return c ? <ClassDetail id={c} /> : <Classes />;
   if (b === 'students') return c ? <StudentDetail id={c} /> : <Students />;
   if (b === 'attendance') return c ? <Register id={c} /> : <AttendanceHome />;
@@ -168,12 +189,12 @@ function Bell({ uid, go, here }) {
 
   return (
     <div className="hub-pop-wrap" ref={pop.ref}>
-      <button type="button" className="hub-icon-btn" aria-label={`Notifications${unread ? ` (${unread} unread)` : ''}`} onClick={() => pop.setOpen((o) => !o)}>
-        <Icon name="bell" size={18} />
+      <button type="button" className="hub-icon-btn" title="Notifications" aria-label={`Notifications${unread ? ` (${unread} unread)` : ''}`} onClick={() => pop.setOpen((o) => !o)}>
+        <Icon name="bell" size={20} />
         {unread > 0 && <span className="hub-dot">{unread > 9 ? '9+' : unread}</span>}
       </button>
       {pop.open && (
-        <div className="hub-pop" role="dialog" aria-label="Notifications">
+        <div className="hub-pop hub-pop--side" role="dialog" aria-label="Notifications">
           <div className="hub-pop-head">
             <span>Notifications</span>
             {unread > 0 && <button type="button" className="btn btn-ghost btn-sm" onClick={() => api.markNotificationsRead(null).then(load)}>Mark all read</button>}
@@ -237,7 +258,7 @@ function UserMenu({ user, profile, isDark, toggleTheme, signOut, go, canTeach, v
   return (
     <div className="hub-pop-wrap" ref={pop.ref}>
       <button type="button" className="hub-user" onClick={() => pop.setOpen((o) => !o)} aria-haspopup="menu" aria-expanded={pop.open}>
-        <Avatar person={{ ...profile, email: user.email }} size={28} />
+        <Avatar person={{ ...profile, email: user.email }} size={30} />
         <span><strong>{profile?.name || 'Account'}</strong><small>{user.email}</small></span>
       </button>
       {pop.open && picking && (
@@ -248,23 +269,23 @@ function UserMenu({ user, profile, isDark, toggleTheme, signOut, go, canTeach, v
       {pop.open && !picking && (
         <div className="hub-pop hub-pop--up" role="menu">
           <button type="button" role="menuitem" className="hub-menu-item" onClick={() => { pop.setOpen(false); go('/profile'); }}>
-            <Icon name="user" size={16} /> Profile
+            <Icon name="user" size={18} /> Profile
           </button>
           {canTeach && (viewAs ? (
             <button type="button" role="menuitem" className="hub-menu-item" onClick={() => { pop.setOpen(false); onViewAs(null); }}>
-              <Icon name="graduation" size={16} /> Back to teacher view
+              <Icon name="graduation" size={18} /> Back to teacher view
             </button>
           ) : (
             <button type="button" role="menuitem" className="hub-menu-item" onClick={() => setPicking(true)}>
-              <Icon name="eye" size={16} /> Switch to student view
+              <Icon name="eye" size={18} /> Switch to student view
             </button>
           ))}
           <button type="button" role="menuitem" className="hub-menu-item" onClick={toggleTheme}>
-            <Icon name={isDark ? 'sun' : 'moon'} size={16} /> {isDark ? 'Light mode' : 'Dark mode'}
+            <Icon name={isDark ? 'sun' : 'moon'} size={18} /> {isDark ? 'Light mode' : 'Dark mode'}
           </button>
-          <a role="menuitem" className="hub-menu-item" href={mainSiteUrl('/')}><Icon name="target" size={16} /> Practice site</a>
+          <a role="menuitem" className="hub-menu-item" href={mainSiteUrl('/')}><Icon name="target" size={18} /> Practice site</a>
           <button type="button" role="menuitem" className="hub-menu-item" onClick={() => signOut().then(() => go('/'))}>
-            <Icon name="logout" size={16} /> Log out
+            <Icon name="logout" size={18} /> Log out
           </button>
         </div>
       )}
@@ -334,7 +355,7 @@ export default function StudentApp() {
   // Teacher view has no student pages: send those paths to Teaching.
   useEffect(() => {
     if (isTeacher && !['teach', 'join', 'profile', 'messages', 'reading-test', 'listening-test'].includes(parts[0])) {
-      window.history.replaceState({}, '', '/teach/assignments');
+      window.history.replaceState({}, '', '/teach');
       setParts(segments());
     }
   }, [isTeacher, parts]);
@@ -349,7 +370,7 @@ export default function StudentApp() {
       else localStorage.removeItem('iw.v1.hub.viewAs');
     } catch { /* storage off */ }
     setViewAsRaw(next);
-    go(next ? '/' : '/teach/assignments');
+    go(next ? '/' : '/teach');
   }, [go]);
   const exitStudentView = useCallback(() => viewAsStudent(null), [viewAsStudent]);
 
@@ -413,37 +434,53 @@ export default function StudentApp() {
 
   // The most specific nav item wins, so /teach/assignments/new lights up "New assignment" only.
   const matches = (path) => (path === '/' ? here === '/' || parts[0] === 'dashboard' : here === path || here.startsWith(`${path}/`));
-  const navItems = isTeacher ? TEACH_NAV : STUDY_NAV;
-  const activePath = navItems.filter((n) => matches(n.path)).sort((a, b) => b.path.length - a.path.length)[0]?.path;
+  const nav = isTeacher ? TEACH_NAV : STUDY_NAV;
+  const activePath = flat(nav).filter((n) => matches(n.path)).sort((a, b) => b.path.length - a.path.length)[0]?.path;
   const isActive = (path) => path === activePath;
   const link = (n) => (
     <AppLink key={n.path} href={n.path} onNavigate={() => go(n.path)}
       aria-current={isActive(n.path) ? 'page' : undefined}
       className={`hub-nav-link${isActive(n.path) ? ' is-active' : ''}`} title={navCollapsed ? n.label : undefined}>
-      <Icon name={n.icon} size={17} />
+      <Icon name={n.icon} size={20} strokeWidth={1.9} />
       <span>{n.label}</span>
       {n.path === '/messages' && unreadChats > 0 && <span className="hub-badge" aria-label={`${unreadChats} unread`}>{unreadChats > 99 ? '99+' : unreadChats}</span>}
     </AppLink>
   );
+  const home = isTeacher ? '/teach' : '/';
 
   return (
     <HubContext.Provider value={ctx}>
       <div className={`hub${navOpen ? ' is-nav-open' : ''}${navCollapsed ? ' is-nav-collapsed' : ''}`}>
         <a href="#main" className="skip-link">Skip to main content</a>
         <aside className="hub-nav" aria-label="Student Hub navigation">
-          <AppLink href="/" onNavigate={() => go('/')} className="hub-brand">
-            <span className="hub-brand-mark"><Icon name="graduation" size={15} /></span>
-            <span>Student Hub<small>IELTS Wiz</small></span>
-          </AppLink>
-          <nav>
-            {isTeacher ? (
-              <div className="hub-nav-group">
-                <div className="hub-nav-label">Teaching</div>
-                {TEACH_NAV.map(link)}
-              </div>
-            ) : (
-              <div className="hub-nav-group">{STUDY_NAV.map(link)}</div>
+          <div className="hub-nav-head">
+            <AppLink href={home} onNavigate={() => go(home)} className="hub-brand" aria-label="IELTS Wiz Student Hub, home">
+              <LogoMark size={32} className="hub-brand-mark" />
+              <Brand size={32} tag={isTeacher ? 'Teaching' : 'Student Hub'} className="hub-brand-full" />
+            </AppLink>
+            <button type="button" className="hub-icon-btn hub-collapse-btn" onClick={toggleNav}
+              aria-label={navCollapsed ? 'Expand sidebar' : 'Collapse sidebar'} aria-pressed={navCollapsed} title={navCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}>
+              <Icon name="panelLeft" size={20} />
+            </button>
+            <button type="button" className="hub-icon-btn hub-nav-close" onClick={() => setNavOpen(false)} aria-label="Close navigation">
+              <Icon name="close" size={20} />
+            </button>
+          </div>
+          <div className="hub-nav-status">
+            {balance != null && (
+              <AppLink href="/coins" onNavigate={() => go('/coins')} className="hub-coin-pill" aria-label={`${balance} coins`} title={`${balance} coins`}>
+                <Coin size={16} /> <span>{balance}</span>
+              </AppLink>
             )}
+            {!viewAs && <Bell uid={user.id} go={go} here={here} />}
+          </div>
+          <nav>
+            {nav.map((g, i) => (
+              <div className="hub-nav-group" key={g.label || i}>
+                {g.label && <div className="hub-nav-label">{g.label}</div>}
+                {g.items.map(link)}
+              </div>
+            ))}
           </nav>
           <div className="hub-nav-foot">
             <UserMenu user={user} profile={profile} isDark={isDark} toggleTheme={toggleTheme} signOut={signOut} go={go}
@@ -461,22 +498,13 @@ export default function StudentApp() {
               <button type="button" className="hub-viewbar-btn" onClick={exitStudentView}>Back to teacher view</button>
             </div>
           )}
-          <header className="hub-top">
-            <button type="button" className="hub-icon-btn hub-menu-btn" onClick={() => setNavOpen(true)} aria-label="Open navigation">
-              <Icon name="menu" size={18} />
+          {/* Phones only: the sidebar is a drawer, so something has to open it. */}
+          <div className="hub-mobilebar">
+            <button type="button" className="hub-icon-btn" onClick={() => setNavOpen(true)} aria-label="Open navigation">
+              <Icon name="menu" size={22} />
             </button>
-            <button type="button" className="hub-icon-btn hub-collapse-btn" onClick={toggleNav}
-              aria-label={navCollapsed ? 'Expand sidebar' : 'Collapse sidebar'} aria-pressed={navCollapsed} title={navCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}>
-              <Icon name="panelLeft" size={18} />
-            </button>
-            <div className="hub-top-spacer" />
-            {balance != null && (
-              <AppLink href="/coins" onNavigate={() => go('/coins')} className="hub-coin-pill" aria-label={`${balance} coins`}>
-                <Coin /> {balance}
-              </AppLink>
-            )}
-            {!viewAs && <Bell uid={user.id} go={go} here={here} />}
-          </header>
+            <Brand size={26} />
+          </div>
           <main id="main" className={`hub-content${parts[0] === 'messages' ? ' hub-content--chat' : ''}`}>
             <Suspense fallback={<Spinner />} key={viewAs?.id || 'self'}>
               {isTeacher ? teacherRoute(parts) : studentRoute(parts, viewAs ? exitStudentView : null)}

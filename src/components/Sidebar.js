@@ -70,10 +70,10 @@ export default function Sidebar({ currentPage, navigate, collapsed, onToggleColl
           <Logo onNavigate={() => go('home')} />
         </span>
         <button type="button" className="nav-icon-btn sidebar-collapse" onClick={onToggleCollapse} aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}>
-          <Icon name="panelLeft" size={18} />
+          <Icon name="panelLeft" size={20} />
         </button>
         <button type="button" className="nav-icon-btn sidebar-close" onClick={onCloseMobile} aria-label="Close navigation">
-          <Icon name="close" size={18} />
+          <Icon name="close" size={20} />
         </button>
       </div>
 
@@ -94,7 +94,7 @@ export default function Sidebar({ currentPage, navigate, collapsed, onToggleColl
             className="sidebar-resume"
             title={`Continue: ${resume.label}`}
           >
-            <Icon name="play" size={18} className="sidebar-link-icon" />
+            <Icon name="play" size={20} className="sidebar-link-icon" />
             <span className="sidebar-link-label">
               <strong>Continue</strong>
               <small>{resume.label}</small>

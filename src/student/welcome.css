@@ -2,21 +2,14 @@
 
 /* ── Hero banner: greeting on the left, next session on the right ────────── */
 .hero {
-  position: relative; overflow: hidden;
+  flex-shrink: 0;
   display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); gap: 28px; align-items: center;
-  padding: 26px 28px;
-  border-radius: 20px;
+  padding: 4px 4px 2px;
   color: #f4f4f5;
-  background:
-    radial-gradient(520px 300px at 0% 0%, rgba(99, 102, 241, 0.42), transparent 62%),
-    radial-gradient(420px 280px at 100% 100%, rgba(249, 115, 22, 0.16), transparent 60%),
-    linear-gradient(180deg, #13131c 0%, #0b0b10 100%);
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  box-shadow: 0 24px 48px -28px rgba(15, 15, 40, 0.65);
 }
 .hero-main { display: flex; flex-direction: column; min-width: 0; }
 .hero-eyebrow { font-size: 11px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255, 255, 255, 0.5); margin-bottom: 12px; }
-.hero-greet { min-height: 96px; }
+.hero-greet { min-height: 92px; }
 .hero-greet-turn { animation: hero-turn 0.6s cubic-bezier(0.22, 1, 0.36, 1) both; }
 .hub .hero-greet h1 { margin: 0; font-size: clamp(26px, 2.6vw, 36px); line-height: 1.12; font-weight: 600; letter-spacing: -0.03em; color: #fff; text-wrap: balance; }
 .hero-greet p { margin: 10px 0 0; max-width: 44ch; font-size: 15px; line-height: 1.5; color: rgba(255, 255, 255, 0.66); text-wrap: pretty; }
@@ -26,8 +19,9 @@
   display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 14px 18px; align-items: center;
   padding: 18px 20px;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.055);
-  border: 1px solid rgba(255, 255, 255, 0.09);
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  box-shadow: 0 18px 40px -26px rgba(0, 0, 0, 0.9);
   -webkit-backdrop-filter: blur(8px); backdrop-filter: blur(8px);
   color: #f4f4f5;
   text-decoration: none;
@@ -64,11 +58,11 @@ a.hero-session:hover { border-color: rgba(165, 180, 252, 0.45); background-color
 .hero-tip svg { flex-shrink: 0; margin-top: 2px; color: #fcd34d; }
 
 @media (max-width: 1000px) {
-  .hero { grid-template-columns: 1fr; gap: 18px; padding: 22px 20px; }
+  .hero { grid-template-columns: minmax(0, 1fr); gap: 18px; }
   .hero-greet { min-height: 0; }
 }
 @media (max-width: 520px) {
-  .hero-session { grid-template-columns: 1fr; }
+  .hero-session { grid-template-columns: minmax(0, 1fr); }
   .hero-count { align-items: flex-start; }
   .hero-cell { flex: 1; width: auto; }
   .hero-count-cells { align-self: stretch; }
