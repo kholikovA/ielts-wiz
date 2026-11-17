@@ -169,7 +169,8 @@ export function Dashboard() {
     <div className="stage">
     <Loaded state={data}>
       {({ summary, snap, rows, coins, attendance, board, slots, session }) => {
-        const today = todaysHomework(rows, endOfStudyDay());
+        // Overdue work drops off the dashboard; it stays listed under Homework.
+        const today = todaysHomework(rows, endOfStudyDay()).filter((a) => a.status !== 'overdue');
         const doneToday = today.filter((a) => isComplete(a.status)).length;
         const weekStart = studyWeekStart();
         const weekEnd = new Date(weekStart.getTime() + 7 * 86400000);
@@ -198,7 +199,7 @@ export function Dashboard() {
 
         // Still open and not part of today: what to get ahead on, soonest first.
         const todayIds = new Set(today.map((a) => a.id));
-        const later = rows.filter((a) => !todayIds.has(a.id) && !isComplete(a.status) && a.due_at)
+        const later = rows.filter((a) => !todayIds.has(a.id) && !isComplete(a.status) && a.status !== 'overdue' && a.due_at)
           .sort((x, y) => x.due_at.localeCompare(y.due_at)).slice(0, MAX_LATER);
         const comingUp = later.length > 0 && (
           <>
