@@ -10,7 +10,7 @@ import { TEST_GROUPS, ALL_TESTS, testKey, WRITING_PROMPTS } from './catalog';
 import { bankCatalogEntry } from './ielts/ielts';
 import {
   useHub, useAsync, Loaded, EmptyPanel, HubLink, BackLink, StatusPill, KindTag, PersonName, CopyButton, ErrorNote,
-  PageTitle, Seg, Coin, toLocalInput, Spinner,
+  PageTitle, Seg, Coin, toLocalInput, Spinner, ClassPicklist,
 } from './ui';
 import { ResultsSummary, RecentAttempts, SrsStatsBlock, AttendanceHistory } from './StudentPages';
 import { GiveCoins } from './CoinAdmin';
@@ -472,7 +472,9 @@ export function NewAssignment({ editId = null }) {
   const [dict, setDict] = useState(null); // { payload, key } from DictationSetup
   const [dictInitial, setDictInitial] = useState(null);
   const [target, setTarget] = useState('class');
-  const [classId, setClassId] = useState(presetClass);
+  const [classIds, setClassIds] = useState(presetClass ? [presetClass] : []);
+  const classId = classIds[0] || '';
+  const setClassId = (id) => setClassIds(id ? [id] : []);
   const [picked, setPicked] = useState(new Set());
   const [due, setDue] = useState(() => {
     const d = new Date(); d.setHours(23, 59, 0, 0); return toLocalInput(d);
@@ -596,8 +598,8 @@ export function NewAssignment({ editId = null }) {
     return { link: link.trim() || null, uploads };
   };
 
-  const recipients = (data) => {
-    if (target === 'class') return data.students.filter((s) => s.classIds.includes(classId)).map((s) => s.id);
+  const recipients = (data, cid = classId) => {
+    if (target === 'class') return data.students.filter((s) => s.classIds.includes(cid)).map((s) => s.id);
     return [...picked];
   };
 
@@ -610,7 +612,7 @@ export function NewAssignment({ editId = null }) {
       setError({ message: { test: 'Pick a test.', writing: 'Add a writing prompt.', dictation: 'Prepare the audio first.', sentences: 'Add at least one word.' }[kind] || 'Add at least one card (front - back).' });
       return;
     }
-    if (target === 'class' && !classId) { setError({ message: 'Pick a class.' }); return; }
+    if (target === 'class' && !classIds.length) { setError({ message: 'Pick a class.' }); return; }
     if (publishMode === 'later' && due && new Date(due) <= new Date(publishAt)) { setError({ message: 'The due date must be after the publish time.' }); return; }
     const ids = recipients(data);
     if (target === 'students' && !ids.length) { setError({ message: 'Pick at least one student.' }); return; }
@@ -635,15 +637,20 @@ export function NewAssignment({ editId = null }) {
       return;
     }
     try {
-      const a = await api.createAssignment({
+      const targets = target === 'class' ? classIds : [null];
+      let a = null;
+      for (const cid of targets) {
+      // eslint-disable-next-line no-await-in-loop
+      a = await api.createAssignment({
         kind, title: title.trim(), instructions: instructions.trim() || null, payload, coins: coinsValue(coins),
-        class_id: target === 'class' ? classId : null,
+        class_id: cid,
         due_at: due ? new Date(due).toISOString() : null,
         publish_at: publishMode === 'later' && publishAt ? new Date(publishAt).toISOString() : new Date().toISOString(),
-      }, ids, kind === 'dictation' ? (created) => api.saveDictationKey(created.id, dict.key.transcript, dict.key.source)
+      }, cid ? recipients(data, cid) : ids, kind === 'dictation' ? (created) => api.saveDictationKey(created.id, dict.key.transcript, dict.key.source)
         : kind === 'quiz' ? (created) => api.saveQuizKey(created.id, splitTest(quiz).key)
           : null);
-      go(`/teach/assignments/${a.id}`);
+      }
+      go(targets.length > 1 ? '/teach/assignments' : `/teach/assignments/${a.id}`);
     } catch (err) { setError(err); setBusy(false); }
   };
 
@@ -796,16 +803,18 @@ export function NewAssignment({ editId = null }) {
             <div className="form-field">
               <span className="form-label">Assign to</span>
               <div className="hub-tabs">
-                <button type="button" className={`chip${target === 'class' ? ' is-selected' : ''}`} onClick={() => setTarget('class')}>A class</button>
+                <button type="button" className={`chip${target === 'class' ? ' is-selected' : ''}`} onClick={() => setTarget('class')}>{editing ? 'A class' : 'Classes'}</button>
                 <button type="button" className={`chip${target === 'students' ? ' is-selected' : ''}`} onClick={() => setTarget('students')}>Specific students</button>
               </div>
               {target === 'class' ? (
                 <>
-                  <select className="form-select" value={classId} onChange={(e) => setClassId(e.target.value)} aria-label="Class" style={{ marginTop: 'var(--space-3)' }}>
-                    <option value="">Choose a class…</option>
-                    {data.classes.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
-                  </select>
-                  <p className="form-help">Students who join the class later also get it while it's still open.</p>
+                  {editing ? (
+                    <select className="form-select" value={classId} onChange={(e) => setClassId(e.target.value)} aria-label="Class" style={{ marginTop: 'var(--space-3)' }}>
+                      <option value="">Choose a class…</option>
+                      {data.classes.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+                    </select>
+                  ) : <div style={{ marginTop: 'var(--space-3)' }}><ClassPicklist classes={data.classes} value={classIds} onChange={setClassIds} /></div>}
+                  <p className="form-help">{!editing && classIds.length > 1 ? `Creates ${classIds.length} copies, one per class, so each class's results stay separate. ` : ''}Students who join the class later also get it while it's still open.</p>
                 </>
               ) : (
                 <div className="hub-picklist">

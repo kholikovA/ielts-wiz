@@ -1,7 +1,7 @@
 import React, { useMemo, useRef, useState } from 'react';
 import Icon from '../components/ui/icons';
 import * as api from './api';
-import { useHub, useAsync, Loaded, PageTitle, Seg, ErrorNote, EmptyPanel, PersonName, toLocalInput, HubLink } from './ui';
+import { useHub, useAsync, Loaded, PageTitle, Seg, ErrorNote, EmptyPanel, PersonName, toLocalInput, HubLink, ClassPicklist } from './ui';
 import { confirmDialog } from './dialog';
 import { BankTabs } from './ielts/IeltsBank';
 import MathText from './quiz/MathText';
@@ -117,19 +117,22 @@ function CreatePanel({ rows, test, roster, recipients, setRecipients, onCreated,
   const [error, setError] = useState(null);
   const size = Math.max(1, Math.min(rows.length, Number(partSize) || rows.length));
   const parts = Math.ceil(rows.length / size);
-  const { target, classId, picked } = recipients;
-  const ids = target === 'class' ? roster.students.filter((s) => s.classIds.includes(classId)).map((s) => s.id) : [...picked];
+  const { target, classIds, picked } = recipients;
+  const inClass = (cid) => roster.students.filter((s) => s.classIds.includes(cid)).map((s) => s.id);
+  const ids = target === 'class' ? [] : [...picked];
+  // One copy per class; individual students get one copy between them.
+  const groups = target === 'class' ? classIds.map((cid) => ({ classId: cid, ids: inClass(cid) })) : [{ classId: null, ids }];
 
   const create = async () => {
     setError(null);
     if (!title.trim()) { setError({ message: 'Add a title.' }); return; }
-    if (target === 'class' && !classId) { setError({ message: 'Pick a class.' }); return; }
+    if (target === 'class' && !classIds.length) { setError({ message: 'Pick at least one class.' }); return; }
     if (!ids.length && target !== 'class') { setError({ message: 'Pick at least one student.' }); return; }
     const rank = { Easy: 0, Medium: 1, Hard: 2 };
     const ordered = order === 'difficulty' ? [...rows].sort((a, b) => rank[a.difficulty] - rank[b.difficulty]) : order === 'random' ? shuffled(rows) : rows;
     setBusy(true);
     try {
-      for (let p = 0; p < parts; p += 1) {
+      for (const g of groups) for (let p = 0; p < parts; p += 1) {
         const chunk = ordered.slice(p * size, (p + 1) * size);
         const { payload, key } = splitTest({ style: 'sat', sections: [{ id: 'sat', title: '', instructions: '', questions: chunk.map((r) => bankToQuiz(r, api.satImageUrl)) }] });
         payload.subject = test;
@@ -142,12 +145,12 @@ function CreatePanel({ rows, test, roster, recipients, setRecipients, onCreated,
         await api.createAssignment({
           kind: 'quiz', title: name,
           instructions: `SAT ${SAT_TESTS[test]} · ${skills.join('; ')}. ${chunk.length} questions${payload.time_limit_min ? `, ${payload.time_limit_min} minutes` : ''}${payload.max_attempts > 1 ? `, ${payload.max_attempts} attempts` : ''}. ${payload.pass_percent ? `Coins need ${payload.pass_percent}% or more (best attempt counts). ` : ''}Correct answers and explanations open in Review and analyze${payload.max_attempts > 1 ? ' after your last attempt' : ''}.`,
-          payload, class_id: target === 'class' ? classId : null,
+          payload, class_id: g.classId,
           due_at: due ? new Date(due).toISOString() : null,
           publish_at: publishMode === 'later' ? new Date(publishAt).toISOString() : new Date().toISOString(),
-        }, ids, (created) => api.saveQuizKey(created.id, key));
+        }, g.ids, (created) => api.saveQuizKey(created.id, key));
       }
-      onCreated(parts);
+      onCreated(parts * groups.length);
     } catch (e) { setError(e); setBusy(false); }
   };
 
@@ -197,19 +200,16 @@ function CreatePanel({ rows, test, roster, recipients, setRecipients, onCreated,
 }
 
 function RecipientPicker({ roster, value, onChange }) {
-  const { target, classId, picked } = value;
+  const { target, classIds, picked } = value;
   return (
     <div className="form-field">
       <span className="form-label">Assign to</span>
       <div className="hub-tabs">
-        <button type="button" className={`chip${target === 'class' ? ' is-selected' : ''}`} onClick={() => onChange({ ...value, target: 'class' })}>A class</button>
+        <button type="button" className={`chip${target === 'class' ? ' is-selected' : ''}`} onClick={() => onChange({ ...value, target: 'class' })}>Classes</button>
         <button type="button" className={`chip${target === 'students' ? ' is-selected' : ''}`} onClick={() => onChange({ ...value, target: 'students' })}>Specific students</button>
       </div>
       {target === 'class' ? (
-        <select className="form-select" value={classId} onChange={(e) => onChange({ ...value, classId: e.target.value })} aria-label="Class">
-          <option value="">Choose a class…</option>
-          {roster.classes.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
-        </select>
+        <ClassPicklist classes={roster.classes} value={classIds} onChange={(next) => onChange({ ...value, classIds: next })} />
       ) : (
         <div className="hub-picklist">
           {roster.students.map((s) => (
@@ -239,7 +239,7 @@ export default function SatBank() {
   const [diffs, setDiffs] = useState(new Set());
   const [type, setType] = useState('all');
   const [idQuery, setIdQuery] = useState('');
-  const [recipients, setRecipients] = useState({ target: 'class', classId: '', picked: new Set() });
+  const [recipients, setRecipients] = useState({ target: 'class', classIds: [], picked: new Set() });
   const [exclude, setExclude] = useState('assigned');
   const [selected, setSelected] = useState(new Set());
   const [open, setOpen] = useState(new Set());
@@ -267,7 +267,7 @@ export default function SatBank() {
           }
           const ids = parseIds(idQuery);
           const studentIds = recipients.target === 'class'
-            ? roster.students.filter((s) => s.classIds.includes(recipients.classId)).map((s) => s.id)
+            ? roster.students.filter((s) => s.classIds.some((c) => recipients.classIds.includes(c))).map((s) => s.id)
             : [...recipients.picked];
           const used = exclude !== 'none' && studentIds.length ? usedBankIds(assignments, studentIds, exclude) : new Set();
           const usedIn = (id) => assignments.filter((a) => a.kind === 'quiz' && (a.payload?.sections || []).some((s) => s.questions.some((q) => q.bank?.id === id || q.id === `q${id}`))).map((a) => a.title);
