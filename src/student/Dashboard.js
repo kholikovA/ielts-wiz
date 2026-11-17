@@ -111,6 +111,8 @@ function Leaderboard({ rows: all }) {
     if (!byClass.has(r.class_id)) { byClass.set(r.class_id, []); classes.push({ id: r.class_id, name: r.class_name }); }
     byClass.get(r.class_id).push(r);
   }
+  // Ranked by the same balance the Coins card shows.
+  for (const list of byClass.values()) list.sort((x, y) => Number(y.balance) - Number(x.balance) || Number(y.week) - Number(x.week) || String(x.name).localeCompare(String(y.name)));
   const [picked, setPicked] = useState(null);
   const classId = byClass.has(picked) ? picked : classes[0]?.id;
   if (!classes.length) return <p className="dash-empty">Join a class to see the leaderboard.</p>;
@@ -136,7 +138,7 @@ function Leaderboard({ rows: all }) {
             <span className={`dash-board-place${(r.place || i + 1) <= 3 ? ` is-top is-${r.place || i + 1}` : ''}`}>{r.place || i + 1}</span>
             <Avatar person={{ name: r.name, avatar_character: r.avatar_character }} size={26} />
             <span className="dash-board-name">{r.is_me ? 'You' : r.name}</span>
-            <b className="hub-num"><Coin size={12} /> {r.week}</b>
+            <b className="hub-num"><Coin size={12} /> {r.balance}</b>
           </li>
         ))}
       </ol>
@@ -276,7 +278,7 @@ export function Dashboard() {
                   <WeekChart week={summary.week} />
                 </section>
                 <section className="card d4-card d4-board">
-                  <div className="hub-section-head"><h2 className="h3">Leaderboard</h2><small className="hub-muted">last 7 days</small></div>
+                  <div className="hub-section-head"><h2 className="h3">Leaderboard</h2><small className="hub-muted">total coins</small></div>
                   <Leaderboard rows={board} />
                 </section>
               </div>
