@@ -158,3 +158,13 @@ export function withStatus(items, results) {
     return { ...a, attempts, status: isOverdue(a, base) ? 'overdue' : base };
   });
 }
+
+// Teacher view of one assignment: who has handed in, what still needs marking.
+export function assignmentCounts(a, now = new Date()) {
+  const total = a.assignment_recipients.length;
+  const submitted = a.submissions.filter((x) => x.status === 'submitted').length;
+  const toReview = a.kind === 'flashcards' ? 0 : a.submissions.filter((x) => x.status === 'submitted' && !x.reviewed_at).length;
+  const scheduled = new Date(a.publish_at) > now;
+  const pastDue = Boolean(a.due_at && new Date(a.due_at) < now);
+  return { total, submitted, toReview, scheduled, pastDue };
+}

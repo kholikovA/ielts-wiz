@@ -3,6 +3,7 @@ import Icon from '../components/ui/icons';
 import * as api from './api';
 import {
   KINDS, attemptsFor, statusOf, isComplete, isOverdue, dueLabel, formatDate, pct, parseCards, wordCount,
+ assignmentCounts,
 } from './homework';
 import { TEST_GROUPS, ALL_TESTS, testKey, WRITING_PROMPTS } from './catalog';
 import { bankCatalogEntry } from './ielts/ielts';
@@ -279,15 +280,6 @@ export function StudentDetail({ id }) {
 
 // ── Assignments ──────────────────────────────────────────────────────────────
 const whenShort = (iso) => new Date(iso).toLocaleString(undefined, { weekday: 'short', day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
-
-function assignmentCounts(a, now) {
-  const total = a.assignment_recipients.length;
-  const submitted = a.submissions.filter((x) => x.status === 'submitted').length;
-  const toReview = a.kind === 'flashcards' ? 0 : a.submissions.filter((x) => x.status === 'submitted' && !x.reviewed_at).length;
-  const scheduled = new Date(a.publish_at) > now;
-  const pastDue = Boolean(a.due_at && new Date(a.due_at) < now);
-  return { total, submitted, toReview, scheduled, pastDue };
-}
 
 function AssignmentRow({ a, now }) {
   const { total, submitted, toReview, scheduled } = assignmentCounts(a, now);

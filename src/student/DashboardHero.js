@@ -42,14 +42,14 @@ function upcoming(slots, session, now) {
   };
 }
 
-function Greeting({ name }) {
+function Greeting({ name, lines }) {
   const [turn, setTurn] = useState(0);
   useEffect(() => {
     const id = setInterval(() => setTurn((t) => t + 1), ROTATE_MS);
     return () => clearInterval(id);
   }, []);
   const heads = greetings(name);
-  const line = MOTIVATION[(dailyIndex() + turn) % MOTIVATION.length];
+  const line = lines ? lines[turn % lines.length] : MOTIVATION[(dailyIndex() + turn) % MOTIVATION.length];
   return (
     <div className="hero-greet">
       {/* Re-keyed each turn so the text fades in again. */}
@@ -61,7 +61,9 @@ function Greeting({ name }) {
   );
 }
 
-export default function DashboardHero({ name, slots, session, homework }) {
+// lines: sentences to cycle under the greeting (default: the motivation set).
+// tip(next): the reminder under the countdown (default: the student one).
+export default function DashboardHero({ name, slots, session = null, homework = [], lines, tip, scheduleTo = '/schedule', emptyText, children }) {
   const now = useNow(1000);
   const next = upcoming(slots, session, now);
   const dueBefore = next
@@ -73,10 +75,11 @@ export default function DashboardHero({ name, slots, session, homework }) {
     <div className="hero">
       <div className="hero-main">
         <span className="hero-eyebrow">{now.toLocaleDateString(undefined, { weekday: 'long', day: 'numeric', month: 'long' })}</span>
-        <Greeting name={name} />
+        <Greeting name={name} lines={lines} />
+        {children}
       </div>
       {next ? (
-        <HubLink to="/schedule" className={`hero-session${next.live ? ' is-live' : ''}${soon ? ' is-soon' : ''}`}>
+        <HubLink to={scheduleTo} className={`hero-session${next.live ? ' is-live' : ''}${soon ? ' is-soon' : ''}`}>
           <span className="hero-session-info">
           <span className="hero-session-label">
             {next.live ? <><i className="hero-live-dot" /> Happening now</> : <><Icon name="calendar" size={13} /> Next session</>}
@@ -92,12 +95,12 @@ export default function DashboardHero({ name, slots, session, homework }) {
               ))}
             </span>
           </span>
-          <span className="hero-tip"><Icon name="lightbulb" size={14} /><span>{sessionTip(next.slot, { dueBefore, live: next.live })}</span></span>
+          <span className="hero-tip"><Icon name="lightbulb" size={14} /><span>{tip ? tip(next) : sessionTip(next.slot, { dueBefore, live: next.live })}</span></span>
         </HubLink>
       ) : (
         <div className="hero-session hero-session--none">
           <span className="hero-session-label"><Icon name="calendar" size={13} /> Next session</span>
-          <span className="hero-session-where">Nothing on your timetable yet. Use the time to get ahead on homework.</span>
+          <span className="hero-session-where">{emptyText || 'Nothing on your timetable yet. Use the time to get ahead on homework.'}</span>
         </div>
       )}
     </div>
