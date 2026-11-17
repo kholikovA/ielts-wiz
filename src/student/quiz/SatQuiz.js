@@ -4,6 +4,7 @@ import MathText from './MathText';
 import ReferenceSheet from './SatReference';
 import { numbering } from './quiz';
 import { useHub } from '../ui';
+import SatHighlighter, { useStoredHighlights } from './SatHighlighter';
 
 // SAT-style screens for quizzes with payload.style === 'sat', modelled on Bluebook:
 //   SatTake    one question at a time: timer, Directions, Calculator (Desmos), Reference,
@@ -181,7 +182,7 @@ function Question({ q, n, value, setValue, marked, onMark, review, elim, onElim,
       </div>
       <div className="sat-qbody">
         {q.image && <img className="sat-figure" src={q.image} alt="Figure for this question" />}
-        <MathText block text={q.prompt} className="sat-prompt" />
+        <div data-hl="prompt"><MathText block text={q.prompt} className="sat-prompt" /></div>
         {!spr
           ? <Choices q={q} value={value} onPick={setValue} review={review && { key: review.key }} elim={elim} onElim={onElim} eliminating={eliminating} />
           : <Spr value={value} onChange={setValue} review={review && { key: review.key, ok: review.state === 'is-ok' }} />}
@@ -197,7 +198,7 @@ function Question({ q, n, value, setValue, marked, onMark, review, elim, onElim,
   if (q.passage) {
     return (
       <div className="sat-rw">
-        <div className="sat-rw-passage"><MathText block text={q.passage} /></div>
+        <div className="sat-rw-passage" data-hl="passage"><MathText block text={q.passage} /></div>
         <div className="sat-rw-q">{content}</div>
       </div>
     );
@@ -520,6 +521,8 @@ export function SatTake({ a, answers, setAnswer, onSubmit, onTimeUp, busy, warni
   const [elim, setElim] = useState(() => { try { return JSON.parse(localStorage.getItem(elimKey)) || {}; } catch { return {}; } });
   useEffect(() => { try { localStorage.setItem(elimKey, JSON.stringify(elim)); } catch { /* storage off */ } }, [elim, elimKey]);
   const [eliminating, setEliminating] = useState(false);
+  const [highlights, setHighlights] = useStoredHighlights(`iw.v1.hub.sathl.${a.id}`);
+  const qRoot = useRef(null);
   useEffect(() => { document.querySelector('.sat-main')?.scrollTo?.(0, 0); }, [i]);
 
   const minutes = satMinutes(a.payload);
@@ -591,9 +594,13 @@ export function SatTake({ a, answers, setAnswer, onSubmit, onTimeUp, busy, warni
           </div>
         </div>
       ) : (
-        <Question key={q.id} q={q} n={i + 1} value={answers[q.id]} setValue={(v) => setAnswer(q.id, v)}
-          marked={marked.has(q.id)} onMark={() => toggleMark(q.id)}
-          elim={elim[q.id]} onElim={(idx, on) => setOneElim(q.id, idx, on)} eliminating={eliminating} onToggleElim={() => setEliminating((x) => !x)} />
+        <div ref={qRoot} className="sat-hl-root">
+          <Question key={q.id} q={q} n={i + 1} value={answers[q.id]} setValue={(v) => setAnswer(q.id, v)}
+            marked={marked.has(q.id)} onMark={() => toggleMark(q.id)}
+            elim={elim[q.id]} onElim={(idx, on) => setOneElim(q.id, idx, on)} eliminating={eliminating} onToggleElim={() => setEliminating((x) => !x)} />
+          <SatHighlighter key={q.id} rootRef={qRoot} list={highlights[q.id] || []}
+            onChange={(next) => setHighlights((h) => ({ ...h, [q.id]: next }))} />
+        </div>
       )}
     </Shell>
   );
