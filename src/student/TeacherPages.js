@@ -25,6 +25,7 @@ import { DictationResult } from './dictation/Dictation';
 import { checkDictation } from './dictation/diff';
 import { IntegrityNote } from './guard';
 import { EduschoolClassPanel } from './Eduschool';
+import './teach.css';
 
 const DictationSetup = React.lazy(() => import('./dictation/DictationSetup'));
 const WritingReview = React.lazy(() => import('./writing/WritingReview'));
@@ -37,42 +38,112 @@ const dictationAccuracy = (sub, key) => sub.data?.score?.accuracy ?? checkDictat
 const joinUrl = (code) => `${window.location.origin}/join/${code}`;
 
 // ── Classes ──────────────────────────────────────────────────────────────────
-export function Classes() {
-  const { user, go } = useHub();
-  const state = useAsync(() => api.teacherClasses(user.id), [user.id]);
+const plural = (n, one, many = `${one}s`) => `${n} ${n === 1 ? one : many}`;
+
+function NewClassForm({ onCancel }) {
+  const { go } = useHub();
   const [name, setName] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
-
   const create = async (e) => {
     e.preventDefault();
     setBusy(true); setError(null);
     try { const c = await api.createClass(name.trim()); go(`/teach/classes/${c.id}`); }
     catch (err) { setError(err); setBusy(false); }
   };
+  return (
+    <form className="card tp-newclass" onSubmit={create}>
+      <label className="form-label" htmlFor="new-class">Class name</label>
+      <div className="hub-inline-form">
+        <input id="new-class" className="form-input" autoFocus value={name} onChange={(e) => setName(e.target.value)} placeholder="e.g. Evening B2" maxLength={80} />
+        <button className="btn btn-primary" disabled={busy || !name.trim()}>{busy ? 'Creating…' : 'Create class'}</button>
+        {onCancel && <button type="button" className="btn btn-ghost" onClick={onCancel}>Cancel</button>}
+      </div>
+      <p className="form-help">You get a join link to share. Students who join see the class's homework.</p>
+      {error && <ErrorNote error={error} />}
+    </form>
+  );
+}
+
+// Join-code cell on a class card: click copies the invite link.
+function CopyCode({ code, link }) {
+  const [done, setDone] = useState(false);
+  const copy = async () => {
+    try { await navigator.clipboard.writeText(link); setDone(true); setTimeout(() => setDone(false), 1500); } catch { /* clipboard blocked */ }
+  };
+  return (
+    <button type="button" className="tp-copycode" onClick={copy} title="Copy the invite link">
+      <span>{done ? 'Link copied' : 'Join code'}</span>
+      <strong><code>{code}</code><Icon name={done ? 'check' : 'copy'} size={13} /></strong>
+    </button>
+  );
+}
+
+export function Classes() {
+  const { user } = useHub();
+  const state = useAsync(async () => {
+    const [classes, assignments] = await Promise.all([
+      api.teacherClasses(user.id), api.teacherAssignments(user.id).catch(() => []),
+    ]);
+    return { classes, assignments };
+  }, [user.id]);
+  const [creating, setCreating] = useState(false);
 
   return (
     <>
-      <PageTitle eyebrow="Teaching" title="Classes" lead="Create a class and share its join link. Students who join get the class's homework." />
-      <form className="hub-inline-form" onSubmit={create}>
-        <input className="form-input" value={name} onChange={(e) => setName(e.target.value)} placeholder="New class name, e.g. Evening B2" maxLength={80} aria-label="Class name" />
-        <button className="btn btn-primary" disabled={busy || !name.trim()}><Icon name="plus" size={16} /> Create class</button>
-      </form>
-      {error && <ErrorNote error={error} />}
+      <PageTitle eyebrow="Teaching" title="Classes" lead="Share a class's join link to add students. Open a class to manage its roster.">
+        {!creating && <button type="button" className="btn btn-primary btn-sm" onClick={() => setCreating(true)}><Icon name="plus" size={14} /> New class</button>}
+      </PageTitle>
       <Loaded state={state}>
-        {(classes) => classes.length ? (
-          <div className="hub-list" style={{ marginTop: '24px' }}>
-            {classes.map((c) => (
-              <HubLink key={c.id} to={`/teach/classes/${c.id}`} className="card card-interactive hub-row">
-                <div className="hub-row-main">
-                  <strong>{c.name}</strong>
-                  <small>{c.class_members?.[0]?.count ?? 0} students · code <code>{c.join_code}</code></small>
+        {({ classes, assignments }) => {
+          const now = new Date();
+          const work = new Map(classes.map((c) => [c.id, { open: 0, toReview: 0 }]));
+          assignments.forEach((a) => {
+            const w = work.get(a.class_id);
+            if (!w) return;
+            const n = assignmentCounts(a, now);
+            if (!n.scheduled && !n.pastDue) w.open += 1;
+            w.toReview += n.toReview;
+          });
+          return (
+            <>
+              {(creating || !classes.length) && <NewClassForm onCancel={classes.length ? () => setCreating(false) : null} />}
+              {classes.length ? (
+                <div className="tp-classes">
+                  {classes.map((c) => {
+                    const count = c.class_members?.[0]?.count ?? 0;
+                    const w = work.get(c.id);
+                    return (
+                      <article key={c.id} className="card tp-class">
+                        <HubLink to={`/teach/classes/${c.id}`} className="tp-class-head hub-plain">
+                          <span className="tp-class-mark" aria-hidden="true">{c.name.trim().charAt(0).toUpperCase()}</span>
+                          <span className="tp-class-name">
+                            <strong>{c.name}</strong>
+                            <small>{plural(count, 'student')}</small>
+                          </span>
+                          <Icon name="chevronRight" size={16} />
+                        </HubLink>
+                        <div className="tp-class-facts">
+                          <HubLink to="/teach/assignments" className="hub-plain">
+                            <span>Open homework</span><strong className="hub-num">{w.open}</strong>
+                          </HubLink>
+                          <HubLink to="/teach/assignments" className={`hub-plain${w.toReview ? ' is-warn' : ''}`}>
+                            <span>To review</span><strong className="hub-num">{w.toReview}</strong>
+                          </HubLink>
+                          <CopyCode code={c.join_code} link={joinUrl(c.join_code)} />
+                        </div>
+                        <div className="tp-class-actions">
+                          <HubLink to={`/teach/assignments/new?class=${c.id}`} className="btn btn-sm"><Icon name="plus" size={14} /> Homework</HubLink>
+                          <HubLink to={`/teach/attendance?class=${c.id}`} className="btn btn-sm"><Icon name="clipboard" size={14} /> Register</HubLink>
+                        </div>
+                      </article>
+                    );
+                  })}
                 </div>
-                <Icon name="chevronRight" size={18} />
-              </HubLink>
-            ))}
-          </div>
-        ) : <EmptyPanel icon="users" title="No classes yet" lead="Create your first class above." />}
+              ) : null}
+            </>
+          );
+        }}
       </Loaded>
     </>
   );
@@ -167,32 +238,70 @@ export function Students() {
     return { ...roster, sums };
   }, [user.id]);
   const [q, setQ] = useState('');
+  const [cls, setCls] = useState('');
+  const [sort, setSort] = useState({ key: 'name', dir: 1 });
+  const sortBy = (key) => setSort((s) => (s.key === key ? { key, dir: -s.dir } : { key, dir: key === 'name' ? 1 : -1 }));
+  const Head = ({ k, children, title }) => (
+    <button type="button" className={`tp-th${sort.key === k ? ' is-sorted' : ''}`} onClick={() => sortBy(k)} title={title}>
+      {children}{sort.key === k && <Icon name="chevronDown" size={12} className={sort.dir > 0 ? 'tp-up' : ''} />}
+    </button>
+  );
   return (
     <>
-      <PageTitle eyebrow="Teaching" title="Students" lead="Everyone in your classes. Open a student to see their scores and homework." />
+      <PageTitle eyebrow="Teaching" title="Students" lead="Everyone in your classes. Click a column to sort; open a student for their scores and homework." />
       <Loaded state={state}>
-        {({ students, sums }) => {
+        {({ students, classes, sums }) => {
           if (!students.length) return <EmptyPanel icon="users" title="No students yet" lead="Create a class and share its join link." />;
           const needle = q.trim().toLowerCase();
-          const shown = needle ? students.filter((s) => `${s.name} ${s.email}`.toLowerCase().includes(needle)) : students;
+          const val = (s) => {
+            const m = sums.get(s.id) || {};
+            if (sort.key === 'name') return (s.name || s.email || '').toLowerCase();
+            return Number(m[sort.key] ?? -Infinity);
+          };
+          const shown = students
+            .filter((s) => (!cls || s.classIds.includes(cls)) && (!needle || `${s.name} ${s.email}`.toLowerCase().includes(needle)))
+            .sort((a, b) => {
+              const x = val(a); const y = val(b);
+              return (x < y ? -1 : x > y ? 1 : 0) * sort.dir || (a.name || '').localeCompare(b.name || '');
+            });
           return (
             <>
-              <input className="form-input hub-search" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search by name or email" aria-label="Search students" />
-              <div className="hub-list">
-                {shown.map((s) => (
-                  <HubLink key={s.id} to={`/teach/students/${s.id}`} className="card card-interactive hub-row">
-                    <div className="hub-row-main"><PersonName person={s} /></div>
-                    <small>{s.classNames.join(', ')}</small>
-                    {sums.get(s.id) && (
-                      <>
-                        <small title="Coins this week" className="hub-num"><Coin size={12} /> {sums.get(s.id).week}/wk</small>
-                        <small title="Attendance streak" className="hub-num">Att. {sums.get(s.id).attendance_streak}</small>
-                        <small title="Homework streak" className="hub-num">HW {sums.get(s.id).homework_streak}</small>
-                      </>
-                    )}
-                    <Icon name="chevronRight" size={18} />
-                  </HubLink>
-                ))}
+              <div className="tp-toolbar">
+                <div className="tp-search">
+                  <Icon name="search" size={15} />
+                  <input className="form-input" value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search by name or email" aria-label="Search students" />
+                </div>
+                <select className="form-select tp-select" value={cls} onChange={(e) => setCls(e.target.value)} aria-label="Class">
+                  <option value="">All classes</option>
+                  {classes.map((c) => <option key={c.id} value={c.id}>{c.name}</option>)}
+                </select>
+                <span className="hub-muted tp-count">{shown.length === students.length ? plural(students.length, 'student') : `${shown.length} of ${students.length}`}</span>
+              </div>
+              <div className="hub-list tp-table tp-students" role="table" aria-label="Students">
+                <div className="tp-tr tp-thead" role="row">
+                  <Head k="name">Student</Head>
+                  <span className="tp-th tp-col-classes">Classes</span>
+                  <Head k="balance" title="Coin balance">Coins</Head>
+                  <Head k="week" title="Coins earned in the last 7 days">This week</Head>
+                  <Head k="attendance_streak" title="Classes attended in a row">Attendance</Head>
+                  <Head k="homework_streak" title="Homework done on time in a row">Homework</Head>
+                  <span />
+                </div>
+                {shown.map((s) => {
+                  const m = sums.get(s.id);
+                  return (
+                    <HubLink key={s.id} to={`/teach/students/${s.id}`} className="card card-interactive tp-tr" role="row">
+                      <span className="tp-td-main"><PersonName person={s} /></span>
+                      <span className="tp-col-classes tp-chips">{s.classNames.map((n) => <span key={n} className="tp-chip">{n}</span>)}</span>
+                      <span className="hub-num tp-td"><Coin size={12} /> {m ? m.balance : '–'}</span>
+                      <span className={`hub-num tp-td${m && m.week < 0 ? ' is-neg' : m && m.week > 0 ? ' is-pos' : ''}`}>{m ? `${m.week > 0 ? '+' : ''}${m.week}` : '–'}</span>
+                      <span className="hub-num tp-td"><Streak n={m?.attendance_streak} /></span>
+                      <span className="hub-num tp-td"><Streak n={m?.homework_streak} /></span>
+                      <Icon name="chevronRight" size={16} className="tp-chev" />
+                    </HubLink>
+                  );
+                })}
+                {!shown.length && <p className="tp-none">No students match.</p>}
               </div>
             </>
           );
@@ -201,6 +310,10 @@ export function Students() {
     </>
   );
 }
+
+const Streak = ({ n }) => (n == null ? '–' : (
+  <span className={`tp-streak${n >= 3 ? ' is-hot' : n === 0 ? ' is-zero' : ''}`}>{n >= 3 && <Icon name="flame" size={12} />}{n}</span>
+));
 
 export function StudentDetail({ id }) {
   const { user, viewAsStudent, go } = useHub();
@@ -976,6 +1089,35 @@ function DeckEnrich({ a, onSaved }) {
   );
 }
 
+const REVIEWABLE = ['writing', 'custom', 'dictation', 'sentences', 'quiz'];
+// Order on the students list: what needs the teacher first, finished work last.
+const ROW_ORDER = { review: 0, overdue: 1, redo: 2, started: 3, todo: 4, done: 5 };
+
+// Score for one student's row: { pct } for percentages, { band } for writing.
+function rowScore(a, { sub, attempts }, studentId) {
+  if (a.kind === 'test') return attempts.length ? { pct: attempts.reduce((m, r) => Math.max(m, pct(r.correct, r.total)), 0) } : null;
+  if (a.kind === 'quiz') { const s = sub?.marking?.score || sub?.data?.score; return s ? { pct: s.percent } : null; }
+  if (a.kind === 'dictation') return sub?.status === 'submitted' && a.key ? { pct: dictationAccuracy(sub, a.key) } : null;
+  if (a.kind === 'writing') return sub?.band != null ? { band: Number(sub.band) } : null;
+  if (a.kind === 'flashcards') { const d = a.deck?.[studentId]; return d?.total ? { pct: pct(d.learned, d.total), note: `${d.learned}/${d.total} learned` } : null; }
+  if (a.kind === 'sentences') {
+    const mine = (a.checks || []).filter((c) => c.student_id === studentId);
+    const n = a.payload?.words?.length || 0;
+    return mine.length && n ? { pct: pct(usedCount(mine), n), note: `${usedCount(mine)}/${n} used` } : null;
+  }
+  return null;
+}
+
+function rowNote(a, { sub, attempts }) {
+  if (a.kind === 'test' && attempts.length) return plural(attempts.length, 'attempt');
+  if (a.kind === 'quiz') { const tries = (sub?.data?.attempts?.length || 0) + (sub ? 1 : 0); return tries > 1 ? `Attempt ${tries}${a.payload?.max_attempts ? ` of ${a.payload.max_attempts}` : ''}` : null; }
+  if (a.kind === 'custom' && sub?.data?.files?.length) return plural(sub.data.files.length, 'file');
+  if (a.kind === 'writing' && sub?.body) return `${wordCount(sub.body)} words`;
+  return null;
+}
+
+const scoreTone = (p, pass) => (p >= (pass || 80) ? 'tp-good' : p >= 50 ? 'tp-mid' : 'tp-low');
+
 export function AssignmentDetail({ id }) {
   const { go } = useHub();
   const state = useAsync(async () => {
@@ -987,10 +1129,12 @@ export function AssignmentDetail({ id }) {
     return a;
   }, [id]);
   const [open, setOpen] = useState(null);
+  const [filter, setFilter] = useState('all');
   const [analyzing, setAnalyzing] = useState(false);
   const [previewing, setPreviewing] = useState(false);
   const closePreview = React.useCallback(() => setPreviewing(false), []);
   const rule = useHomeworkRule();
+  const message = (sid) => messageUser(sid, go).catch((e) => alertDialog({ title: 'Could not open the chat', body: e.message }));
 
   return (
     <>
@@ -999,35 +1143,88 @@ export function AssignmentDetail({ id }) {
         {(a) => {
           if (!a) return <EmptyPanel icon="xCircle" title="Assignment not found" />;
           const subs = new Map(a.submissions.map((s) => [s.student_id, s]));
+          const pass = passPercent(a);
           const rows = a.recipients.map((r) => {
             const attempts = attemptsFor(a, a.results.map((x) => ({ ...x, kind: a.payload.kind, test_id: a.payload.test_id })).filter((x) => x.user_id === r.id));
             const sub = subs.get(r.id) || null;
             const base = statusOf(a, sub, attempts);
-            return { student: r, sub, attempts, status: isOverdue(a, base) ? 'overdue' : base };
-          });
+            const status = isOverdue(a, base) ? 'overdue' : base;
+            const canReview = Boolean(sub) && REVIEWABLE.includes(a.kind)
+              && (sub.status === 'submitted' || (a.kind === 'quiz' && sub.data?.attempts?.length > 0));
+            const needsReview = canReview && !sub.reviewed_at && sub.status === 'submitted';
+            const row = { student: r, sub, attempts, status, canReview, needsReview };
+            row.group = needsReview ? 'review' : isComplete(status) ? 'done' : 'missing';
+            row.order = needsReview ? ROW_ORDER.review : ROW_ORDER[status] ?? ROW_ORDER.done;
+            row.score = rowScore(a, row, r.id);
+            row.note = row.score?.note || rowNote(a, row);
+            return row;
+          }).sort((x, y) => x.order - y.order || (x.student.name || '').localeCompare(y.student.name || ''));
+
+          const count = (g) => rows.filter((r) => r.group === g).length;
           const done = rows.filter((r) => isComplete(r.status)).length;
+          const overdue = rows.filter((r) => r.status === 'overdue').length;
+          const scored = rows.filter((r) => r.score?.pct != null);
+          const banded = rows.filter((r) => r.score?.band != null);
+          const avg = scored.length ? Math.round(scored.reduce((t, r) => t + r.score.pct, 0) / scored.length) : null;
+          const avgBand = banded.length ? (Math.round((banded.reduce((t, r) => t + r.score.band, 0) / banded.length) * 2) / 2).toFixed(1) : null;
+          const passed = isScored(a.kind) && pass ? scored.filter((r) => r.score.pct >= pass).length : null;
+          const shown = filter === 'all' ? rows : rows.filter((r) => r.group === filter);
+          const scheduled = new Date(a.publish_at) > new Date();
+          const pastDue = a.due_at && new Date(a.due_at) < new Date();
+
           return (
             <>
-              <div className="hub-detail-head">
+              <header className="tp-ahead">
                 <KindTag kind={a.kind} />
-                <div className="hub-section-head" style={{ marginBottom: 0 }}>
+                <div className="tp-ahead-row">
                   <h1>{a.title}</h1>
                   <span className="hub-actions" style={{ margin: 0 }}>
                     <button type="button" className="btn btn-sm" onClick={() => setPreviewing(true)}><Icon name="eye" size={14} /> Preview</button>
                     <HubLink to={`/teach/assignments/${a.id}/edit`} className="btn btn-sm"><Icon name="edit" size={14} /> Edit</HubLink>
                     <HubLink to={`/teach/assignments/new?from=${a.id}`} className="btn btn-sm"><Icon name="copy" size={14} /> Duplicate</HubLink>
+                    <button type="button" className="hub-icon-btn tp-danger-icon" title="Delete assignment" aria-label="Delete assignment" onClick={() => {
+                      confirmDialog({ title: 'Delete this assignment?', body: 'All of its submissions are deleted too. This can’t be undone.', confirmLabel: 'Delete', danger: true })
+                        .then((yes) => yes && api.deleteAssignment(a.id).then(() => go('/teach/assignments')));
+                    }}><Icon name="trash" size={16} /></button>
                   </span>
                 </div>
-                <div className="hub-detail-meta">
-                  <span>{a.classes?.name || 'Individual students'}</span>
-                  {new Date(a.publish_at) > new Date()
+                <div className="tp-meta">
+                  <span><Icon name="users" size={13} /> {a.classes?.name || 'Individual students'}</span>
+                  {scheduled
                     ? <span className="pill pill-accent"><Icon name="calendar" size={12} /> Publishes {whenShort(a.publish_at)}</span>
-                    : <span>Posted {formatDate(a.publish_at)}</span>}
-                  <span>{dueLabel(a.due_at)}</span>
-                  <span>{done}/{rows.length} complete</span>
-                  <span className="hub-num"><Coin size={12} /> {a.coins ?? rule?.coins ?? '…'} on time{isScored(a.kind) ? ` · ${passPercent(a) ? `${passPercent(a)}%+ correct` : 'any score'}` : ''}</span>
+                    : <span><Icon name="calendar" size={13} /> Posted {formatDate(a.publish_at)}</span>}
+                  <span className={pastDue ? 'tp-meta-past' : ''}><Icon name="clock" size={13} /> {a.due_at ? `${pastDue ? 'Was due' : 'Due'} ${formatDate(a.due_at, true)}` : 'No due date'}</span>
+                  <span className="hub-num"><Coin size={13} /> {a.coins ?? rule?.coins ?? '…'} coins on time{isScored(a.kind) ? ` · ${pass ? `${pass}%+ to earn` : 'any score'}` : ''}</span>
                 </div>
-              </div>
+              </header>
+
+              {rows.length > 0 && (
+                <div className="tp-kpis">
+                  <div className="card tp-kpi">
+                    <small>Completed</small>
+                    <strong className="hub-num">{done}<span>/{rows.length}</span></strong>
+                    <span className="hub-bar hub-bar--wide"><span style={{ width: `${(done / rows.length) * 100}%` }} /></span>
+                  </div>
+                  <button type="button" className={`card tp-kpi${count('review') ? ' is-warn' : ''}`} onClick={() => setFilter('review')} disabled={!count('review')}>
+                    <small>To review</small>
+                    <strong className="hub-num">{count('review')}</strong>
+                    <span>{count('review') ? 'Waiting for you' : 'All caught up'}</span>
+                  </button>
+                  <button type="button" className={`card tp-kpi${overdue ? ' is-danger' : ''}`} onClick={() => setFilter('missing')} disabled={!count('missing')}>
+                    <small>Not done</small>
+                    <strong className="hub-num">{count('missing')}</strong>
+                    <span>{overdue ? `${overdue} overdue` : count('missing') ? 'Still open' : 'Everyone handed in'}</span>
+                  </button>
+                  {(avg != null || avgBand != null) && (
+                    <div className="card tp-kpi">
+                      <small>{avgBand != null ? 'Average band' : 'Average score'}</small>
+                      <strong className="hub-num">{avgBand != null ? avgBand : `${avg}%`}</strong>
+                      <span>{passed != null ? `${passed}/${scored.length} reached ${pass}%` : `from ${plural(avgBand != null ? banded.length : scored.length, 'student')}`}</span>
+                    </div>
+                  )}
+                </div>
+              )}
+
               {a.instructions && <div className="card hub-instructions"><p className="hub-pre">{a.instructions}</p></div>}
               {a.kind === 'writing' && a.payload?.prompt && <div className="card hub-instructions"><span className="eyebrow">{a.payload.task}</span><p className="hub-pre">{a.payload.prompt}</p></div>}
               {a.kind === 'test' && <p className="body">Test: <strong>{a.payload?.label}</strong></p>}
@@ -1037,7 +1234,7 @@ export function AssignmentDetail({ id }) {
                     {a.payload?.sections?.reduce((n, s) => n + s.questions.length, 0) || 0} questions
                     {' · '}{a.payload?.sections?.reduce((n, s) => n + s.questions.reduce((m, q) => m + (q.points || 1), 0), 0) || 0} points
                   </p>
-                  <button type="button" className="btn btn-primary btn-sm" disabled={!a.quizKey} onClick={() => setAnalyzing(true)}>
+                  <button type="button" className="btn btn-secondary btn-sm" disabled={!a.quizKey} onClick={() => setAnalyzing(true)}>
                     <Icon name="trending" size={14} /> Analyze with the class
                   </button>
                 </div>
@@ -1056,67 +1253,77 @@ export function AssignmentDetail({ id }) {
               )}
 
               <section className="hub-section">
-                <h2 className="h3">Students</h2>
+                <div className="tp-section-head">
+                  <h2 className="h3">Students</h2>
+                  {rows.length > 0 && (
+                    <Seg label="Show students" value={filter} onChange={setFilter} options={[
+                      { value: 'all', label: `All ${rows.length}` },
+                      { value: 'review', label: `To review ${count('review')}` },
+                      { value: 'missing', label: `Not done ${count('missing')}` },
+                      { value: 'done', label: `Done ${count('done')}` },
+                    ]} />
+                  )}
+                </div>
                 {rows.length ? (
-                  <div className="hub-list">
-                    {rows.map(({ student, sub, attempts, status }) => {
-                      const best = attempts.reduce((m, r) => Math.max(m, pct(r.correct, r.total)), 0);
-                      const canReview = sub && ['writing', 'custom', 'dictation', 'sentences', 'quiz'].includes(a.kind)
-                        && (sub.status === 'submitted' || (a.kind === 'quiz' && sub.data?.attempts?.length > 0));
-                      const tries = a.kind === 'quiz' ? (sub?.data?.attempts?.length || 0) + (sub ? 1 : 0) : 0;
+                  <div className="hub-list tp-subs">
+                    {shown.map((row) => {
+                      const { student, sub, status, canReview, needsReview, score, note } = row;
                       const isOpen = open === student.id;
+                      const close = () => { setOpen(null); state.reload(); };
                       return (
-                        <div key={student.id} className="card hub-row hub-row--stack">
-                          <div className="hub-row-top">
-                            <HubLink to={`/teach/students/${student.id}`} className="hub-row-main hub-plain"><PersonName person={student} /></HubLink>
-                            {a.kind === 'test' && attempts.length > 0 && <small>Best {best}% · {attempts.length} attempt{attempts.length > 1 ? 's' : ''}</small>}
-                            {a.kind === 'flashcards' && a.deck?.[student.id] && <small>{a.deck[student.id].learned}/{a.deck[student.id].total} learned</small>}
-                            {a.kind === 'sentences' && a.checks && (a.checks.some((c) => c.student_id === student.id)) && (
-                              <small>{usedCount(a.checks.filter((c) => c.student_id === student.id))}/{a.payload?.words?.length || 0} used</small>
-                            )}
-                            {a.kind === 'quiz' && (sub?.marking?.score || sub?.data?.score) && <small>{(sub.marking?.score || sub.data.score).percent}%</small>}
-                            {tries > 1 && <span className="pill">Attempt {tries}{a.payload?.max_attempts ? ` of ${a.payload.max_attempts}` : ''}</span>}
-                            {a.kind === 'custom' && sub?.data?.files?.length > 0 && <small>{sub.data.files.length} file{sub.data.files.length === 1 ? '' : 's'}</small>}
-                            {a.kind === 'dictation' && sub?.status === 'submitted' && a.key && <small>{dictationAccuracy(sub, a.key)}% accurate</small>}
-                            {sub?.band != null && <span className="pill">Band {Number(sub.band).toFixed(1)}</span>}
-                            <StatusPill status={status} />
-                            {canReview && (
-                              <button type="button" className="btn btn-secondary btn-sm" onClick={() => setOpen(isOpen ? null : student.id)}>
-                                {isOpen ? 'Close' : sub.reviewed_at ? 'View' : 'Review'}
-                              </button>
-                            )}
-                            {sub && a.kind !== 'flashcards' && (
-                              <button type="button" className="btn btn-ghost btn-sm" title="Let this student do it again" onClick={async () => {
-                                if (!await confirmDialog({
-                                  title: `Let ${student.name || 'this student'} retake it?`,
-                                  body: 'Their answers, score and feedback for this assignment are deleted, and it opens again as To do. Coins they already earned stay. They get a notification and an email.',
-                                  confirmLabel: 'Allow retake',
-                                  danger: true,
-                                })) return;
-                                try { await api.allowRetake(a.id, student.id); setOpen(null); state.reload(); }
-                                catch (err) { await confirmDialog({ title: "Couldn't reset it", body: err.message, confirmLabel: 'OK' }); }
-                              }}>
-                                <Icon name="refresh" size={14} /> Retake
-                              </button>
-                            )}
+                        <div key={student.id} className={`card tp-sub${isOpen ? ' is-open' : ''}`}>
+                          <div className="tp-sub-row">
+                            <HubLink to={`/teach/students/${student.id}`} className="tp-sub-who hub-plain"><PersonName person={student} /></HubLink>
+                            <span className="tp-sub-note">{note}</span>
+                            <span className="tp-sub-score hub-num">
+                              {score?.band != null && <span className="pill">Band {score.band.toFixed(1)}</span>}
+                              {score?.pct != null && (
+                                <span className={`tp-score ${scoreTone(score.pct, pass)}`}>
+                                  <span className="hub-bar"><span style={{ width: `${score.pct}%` }} /></span>{score.pct}%
+                                </span>
+                              )}
+                            </span>
+                            <span className="tp-sub-status"><StatusPill status={needsReview ? 'submitted' : status} /></span>
+                            <span className="tp-sub-actions">
+                              {canReview && (
+                                <button type="button" className={`btn btn-sm ${needsReview && !isOpen ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setOpen(isOpen ? null : student.id)}>
+                                  {isOpen ? 'Close' : needsReview ? 'Review' : 'View'}
+                                </button>
+                              )}
+                              {!isComplete(status) && (
+                                <button type="button" className="hub-icon-btn" title={`Message ${student.name || 'student'}`} aria-label={`Message ${student.name || 'student'}`} onClick={() => message(student.id)}>
+                                  <Icon name="message" size={16} />
+                                </button>
+                              )}
+                              {sub && a.kind !== 'flashcards' && (
+                                <button type="button" className="hub-icon-btn" title="Let this student do it again" aria-label={`Allow ${student.name || 'student'} to retake`} onClick={async () => {
+                                  if (!await confirmDialog({
+                                    title: `Let ${student.name || 'this student'} retake it?`,
+                                    body: 'Their answers, score and feedback for this assignment are deleted, and it opens again as To do. Coins they already earned stay. They get a notification and an email.',
+                                    confirmLabel: 'Allow retake',
+                                    danger: true,
+                                  })) return;
+                                  try { await api.allowRetake(a.id, student.id); setOpen(null); state.reload(); }
+                                  catch (err) { await confirmDialog({ title: "Couldn't reset it", body: err.message, confirmLabel: 'OK' }); }
+                                }}>
+                                  <Icon name="refresh" size={16} />
+                                </button>
+                              )}
+                            </span>
                           </div>
                           {isOpen && canReview && a.kind === 'quiz' && (
-                            <React.Suspense fallback={<Spinner />}><QuizReview a={a} sub={sub} onDone={() => { setOpen(null); state.reload(); }} /></React.Suspense>
+                            <React.Suspense fallback={<Spinner />}><QuizReview a={a} sub={sub} onDone={close} /></React.Suspense>
                           )}
                           {isOpen && canReview && a.kind !== 'quiz' && (a.kind === 'writing'
-                            ? <React.Suspense fallback={<Spinner />}><WritingReview a={a} sub={sub} onDone={() => { setOpen(null); state.reload(); }} /></React.Suspense>
-                            : <ReviewPanel a={a} sub={sub} onDone={() => { setOpen(null); state.reload(); }} />)}
+                            ? <React.Suspense fallback={<Spinner />}><WritingReview a={a} sub={sub} onDone={close} /></React.Suspense>
+                            : <ReviewPanel a={a} sub={sub} onDone={close} />)}
                         </div>
                       );
                     })}
+                    {!shown.length && <p className="tp-none">Nobody here.</p>}
                   </div>
                 ) : <p className="body">Nobody is assigned yet. Students who join the class while it's open will get it.</p>}
               </section>
-
-              <button type="button" className="btn btn-ghost btn-sm hub-danger" onClick={() => {
-                confirmDialog({ title: 'Delete this assignment?', body: 'All of its submissions are deleted too. This can’t be undone.', confirmLabel: 'Delete', danger: true })
-                  .then((yes) => yes && api.deleteAssignment(a.id).then(() => go('/teach/assignments')));
-              }}>Delete assignment</button>
             </>
           );
         }}
