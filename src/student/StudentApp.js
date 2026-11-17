@@ -10,6 +10,8 @@ import Brand, { LogoMark } from '../components/Brand';
 import { DialogHost } from './dialog';
 import { useHubTime } from './hubTime';
 import { useChatBootstrap } from './chat/bootstrap';
+import { reloadChats } from './chat/store';
+import { setGroupScope } from './groupScope';
 import './hub.css';
 
 // Student Hub — served at student.ielts-wiz.com (see lib/host.js). Same Supabase
@@ -319,6 +321,28 @@ export default function StudentApp() {
   const isTeacher = canTeach && !viewAs;
   // Set synchronously so the first render's reads already target the student.
   api.setPreview(viewAs ? { id: viewAs.id, teacherName: profile?.name } : null);
+  // Test accounts (profiles.is_test) see one class at a time, with a switcher.
+  // Set synchronously (like the preview) so pages only ever load that class.
+  const isTestView = Boolean(profile?.is_test) && !isTeacher && !viewAs;
+  const [testGroups, setTestGroups] = useState(null);
+  const [testGroupRaw, setTestGroupRaw] = useState(() => {
+    try { return localStorage.getItem('iw.v1.hub.testGroup') || null; } catch { return null; }
+  });
+  const testGroup = isTestView && testGroups
+    ? (testGroups.some((g) => g.id === testGroupRaw) ? testGroupRaw : testGroups[0]?.id || null)
+    : null;
+  setGroupScope(testGroup);
+  useEffect(() => {
+    if (!isTestView) { setTestGroups(null); return undefined; }
+    let live = true;
+    api.allMyClasses().then((rows) => live && setTestGroups(rows)).catch(() => live && setTestGroups([]));
+    return () => { live = false; };
+  }, [isTestView, user?.id]);
+  const pickTestGroup = useCallback((id) => {
+    try { localStorage.setItem('iw.v1.hub.testGroup', id); } catch { /* storage off */ }
+    setTestGroupRaw(id);
+  }, []);
+  useEffect(() => { if (isTestView && testGroups) reloadChats(); }, [isTestView, testGroups, testGroup]);
   // Time on the hub is tracked for students only (not teachers, not previews).
   useHubTime(Boolean(user && profile && !canTeach));
 
@@ -389,7 +413,7 @@ export default function StudentApp() {
   // Chat runs in the background on every page (unread badge, alerts); not in student view.
   const unreadChats = useChatBootstrap({ uid: user?.id, enabled: Boolean(user && profile && profile.onboarded !== false && !viewAs), go });
 
-  if (loading) return <Spinner full />;
+  if (loading || (isTestView && !testGroups)) return <Spinner full />;
 
   if (!user) {
     // OAuth returns to `next` on this origin, so /join/<code> survives sign-in.
@@ -490,13 +514,22 @@ export default function StudentApp() {
         </aside>
         {navOpen && <div className="hub-backdrop" onClick={() => setNavOpen(false)} aria-hidden="true" />}
         <DialogHost />
-        {!isTeacher && <Suspense fallback={null}><WelcomeBack key={viewAs?.id || 'self'} /></Suspense>}
+        {!isTeacher && <Suspense fallback={null}><WelcomeBack key={`${viewAs?.id || 'self'}:${testGroup || ''}`} /></Suspense>}
         <div className={`hub-main${parts[0] === 'messages' ? ' hub-main--fill' : ''}`}>
           {viewAs && (
             <div className="hub-viewbar" role="status">
               <Icon name="eye" size={14} />
               <span>Viewing as <strong>{viewAs.name || viewAs.email}</strong>. Read-only: nothing you do here is saved.</span>
               <button type="button" className="hub-viewbar-btn" onClick={exitStudentView}>Back to teacher view</button>
+            </div>
+          )}
+          {isTestView && testGroups.length > 0 && (
+            <div className="hub-viewbar" role="status">
+              <Icon name="eye" size={14} />
+              <span>Test account. Viewing as a student of</span>
+              <select className="hub-viewbar-select" aria-label="Group" value={testGroup || ''} onChange={(e) => pickTestGroup(e.target.value)}>
+                {testGroups.map((g) => <option key={g.id} value={g.id}>{g.name}</option>)}
+              </select>
             </div>
           )}
           {/* Phones only: the sidebar is a drawer, so something has to open it. */}
@@ -507,7 +540,7 @@ export default function StudentApp() {
             <Brand size={26} />
           </div>
           <main id="main" className={`hub-content${parts[0] === 'messages' ? ' hub-content--chat' : ''}`}>
-            <Suspense fallback={<Spinner />} key={viewAs?.id || 'self'}>
+            <Suspense fallback={<Spinner />} key={`${viewAs?.id || 'self'}:${testGroup || ''}`}>
               {isTeacher ? teacherRoute(parts) : studentRoute(parts, viewAs ? exitStudentView : null)}
             </Suspense>
           </main>

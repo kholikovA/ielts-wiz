@@ -798,6 +798,18 @@
 }
 .hub-viewbar-btn:hover { background: color-mix(in srgb, var(--h-bg) 15%, transparent); }
 @media (max-width: 640px) { .hub-viewbar span { display: none; } }
+.hub-viewbar-select {
+  height: 24px;
+  padding: 0 8px;
+  border: 1px solid color-mix(in srgb, var(--h-bg) 35%, transparent);
+  border-radius: 999px;
+  background: var(--h-text);
+  color: inherit;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+}
 .hub-pop--wide { width: 280px; }
 .hub-picker-search { margin: 8px 10px; width: calc(100% - 20px); }
 .hub-picker-item { align-items: center; }

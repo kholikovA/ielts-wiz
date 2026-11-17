@@ -1,4 +1,5 @@
 import { supabase } from '../../supabaseClient';
+import { inGroupScope } from '../groupScope';
 
 // Data layer for the hub chat (migration 20261110080808_hub_chat.sql). Tables are
 // read-only to clients; every write is an RPC that checks permissions.
@@ -13,7 +14,7 @@ const unwrap = ({ data, error }) => {
 const rpc = async (fn, args) => unwrap(await supabase.rpc(fn, args));
 
 // ── Chats ────────────────────────────────────────────────────────────────────
-export const listChats = () => rpc('chat_list');
+export const listChats = async () => ((await rpc('chat_list')) || []).filter((c) => inGroupScope(c.class_id));
 export const chatMembers = (chatId) => rpc('chat_member_list', { p_chat: chatId });
 export const contacts = () => rpc('chat_contacts');
 export const openDirect = (otherId) => rpc('open_direct_chat', { p_other: otherId });

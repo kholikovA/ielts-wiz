@@ -1,6 +1,7 @@
 import { supabase } from '../supabaseClient';
 import { trackOnce, trackApiError } from './telemetry';
 import { evidenceSkill } from './quiz/satbank';
+import { groupScope, inGroupScope } from './groupScope';
 
 // Data layer for the Student Hub. Tables + RPCs come from
 // supabase/migrations/20261021045926_student_hub_homework.sql; RLS does the scoping,
@@ -40,7 +41,7 @@ async function previewClassIds() {
 
 // ── Student ──────────────────────────────────────────────────────────────────
 export async function myClasses() {
-  if (!preview) return unwrap(await supabase.rpc('my_classes')) || [];
+  if (!preview) return (unwrap(await supabase.rpc('my_classes')) || []).filter((c) => inGroupScope(c.id));
   // my_classes() reads auth.uid(); in a preview the teacher only sees their own classes.
   const rows = unwrap(await supabase
     .from('class_members')
@@ -51,6 +52,8 @@ export async function myClasses() {
     .filter((r) => r.classes && !r.classes.archived)
     .map((r) => ({ id: r.classes.id, name: r.classes.name, teacher_name: preview.teacherName || null, joined_at: r.joined_at }));
 }
+// Every class, ignoring the test-account group scope (for the group switcher).
+export const allMyClasses = async () => unwrap(await supabase.rpc('my_classes')) || [];
 export const previewClass = async (code) => unwrap(await supabase.rpc('class_by_code', { code }));
 export const joinClass = async (code) => { refuseInPreview(); return unwrap(await supabase.rpc('join_class', { code })); };
 export const leaveClass = async (classId, uid) => {
@@ -66,7 +69,7 @@ export async function studentHomework(uid) {
   ]);
   const byAssignment = new Map((unwrap(subs) || []).map((s) => [s.assignment_id, s]));
   const items = (unwrap(rec) || [])
-    .filter((r) => r.assignments && published(r.assignments))
+    .filter((r) => r.assignments && published(r.assignments) && inGroupScope(r.assignments.class_id))
     .map((r) => ({ ...r.assignments, assigned_at: r.assigned_at, submission: byAssignment.get(r.assignments.id) || null }));
   return healDecks(items, uid);
 }
@@ -565,7 +568,7 @@ export const hubSummary = async (studentId = null) =>
   unwrap(await supabase.rpc('hub_summary', { p_student: studentId || preview?.id || null }));
 
 export const classLeaderboard = async () =>
-  unwrap(await supabase.rpc('class_leaderboard', { p_student: preview?.id || null })) || [];
+  (unwrap(await supabase.rpc('class_leaderboard', { p_student: preview?.id || null })) || []).filter((r) => inGroupScope(r.class_id));
 
 export async function coinHistory(uid, limit = 300) {
   return unwrap(await supabase
@@ -653,11 +656,11 @@ export const markAttendance = async (sessionId, studentId, status) =>
   unwrap(await supabase.from('attendance').upsert({ session_id: sessionId, student_id: studentId, status, marked_at: new Date().toISOString() }));
 
 export async function studentAttendance(uid, limit = 20) {
-  return unwrap(await supabase
+  return (unwrap(await supabase
     .from('attendance')
-    .select('status, class_sessions(held_at, topic, classes(name))')
+    .select('status, class_sessions(class_id, held_at, topic, classes(name))')
     .eq('student_id', uid)
-    .limit(200)) || [];
+    .limit(200)) || []).filter((r) => inGroupScope(r.class_sessions?.class_id));
 }
 
 // ── Word games ───────────────────────────────────────────────────────────────
@@ -696,6 +699,7 @@ export async function nextSession() {
     .from('class_sessions')
     .select('id, held_at, topic, classes(name)')
     .gt('held_at', nowIso());
+  if (groupScope()) q = q.eq('class_id', groupScope());
   if (preview) {
     const ids = await previewClassIds();
     if (!ids.length) return null;
@@ -754,4 +758,4 @@ export const deleteScheduleSlot = async (id) =>
 export const moveScheduleSlots = async (moves) =>
   unwrap(await supabase.rpc('schedule_move', { p_moves: moves }));
 export const classSchedule = async () =>
-  unwrap(await supabase.rpc('class_schedule', { p_student: preview?.id || null })) || [];
+  (unwrap(await supabase.rpc('class_schedule', { p_student: preview?.id || null })) || []).filter((r) => inGroupScope(r.class_id));
