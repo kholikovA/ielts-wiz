@@ -59,3 +59,14 @@ test('clean bank rows: text math, figures with a display width, explanation step
   expect(q.options[1]).toBe('![Figure](https://x/c/x.png#fig=240)');
   expect(q.explanation).toBe('Choice A is correct.\n\nStep two.');
 });
+
+describe('evidenceSkill', () => {
+  const { evidenceSkill } = require('./satbank');
+  const row = (content) => ({ skill: 'Command of Evidence', content });
+  test('splits Command of Evidence into textual and quantitative', () => {
+    expect(evidenceSkill(row({ prompt: ['A poem.', 'Which quotation most effectively illustrates the claim?'], options: [{ text: 'x' }] }))).toBe('Command of Evidence: Textual');
+    expect(evidenceSkill(row({ prompt: [{ img: [{ src: 'a.png' }] }, 'Which choice most effectively uses data from the graph?'] }))).toBe('Command of Evidence: Quantitative');
+    expect(evidenceSkill(row({ prompt: ['[table]\n!a | b\n1 | 2\n[/table]', 'Which choice best describes data from the table?'] }))).toBe('Command of Evidence: Quantitative');
+    expect(evidenceSkill({ skill: 'Inferences', content: {} })).toBe('Inferences');
+  });
+});
