@@ -605,6 +605,19 @@ export const markNotificationsRead = async (ids = null) =>
 export const updateAssignment = async (id, fields) =>
   unwrap(await supabase.from('assignments').update(fields).eq('id', id));
 
+export const updateDeck = async (assignmentId, cards) =>
+  unwrap(await supabase.rpc('update_deck', { p_assignment: assignmentId, p_cards: cards }));
+
+// Make an assignment's recipients exactly `ids` (new ones get notified by the trigger).
+export async function syncRecipients(assignmentId, currentIds, ids) {
+  const want = new Set(ids);
+  const have = new Set(currentIds);
+  const drop = [...have].filter((x) => !want.has(x));
+  const add = [...want].filter((x) => !have.has(x));
+  if (drop.length) unwrap(await supabase.from('assignment_recipients').delete().eq('assignment_id', assignmentId).in('student_id', drop));
+  if (add.length) unwrap(await supabase.from('assignment_recipients').insert(add.map((student_id) => ({ assignment_id: assignmentId, student_id }))));
+}
+
 export const assignmentById = async (id) =>
   unwrap(await supabase.from('assignments').select('*').eq('id', id).maybeSingle());
 

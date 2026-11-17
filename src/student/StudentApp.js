@@ -112,7 +112,7 @@ const Spinner = ({ full }) => (
 );
 
 function teacherRoute(parts) {
-  const [a, b, c] = parts;
+  const [a, b, c, d] = parts;
   if (a === 'join' && b) return <JoinPage code={b} />;
   if (a === 'profile') return <Profile />;
   if (a === 'messages') return <Messages chatId={b} />;
@@ -125,6 +125,7 @@ function teacherRoute(parts) {
   if (b === 'stats') return <HubStats />;
   if (b === 'bank') return c === 'ielts' ? <IeltsBank /> : <SatBank />;
   if (c === 'new') return <NewAssignment key={window.location.search} />;
+  if (c && d === 'edit') return <NewAssignment key={`edit-${c}`} editId={c} />;
   return c ? <AssignmentDetail id={c} /> : <Assignments />;
 }
 
