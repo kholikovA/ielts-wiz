@@ -17,13 +17,23 @@ export const SAT_DOMAINS = {
     'Geometry and Trigonometry': ['Area and volume', 'Lines, angles, and triangles', 'Right triangles and trigonometry', 'Circles'],
   },
   rw: {
-    'Information and Ideas': ['Central Ideas and Details', 'Inferences', 'Command of Evidence'],
+    'Information and Ideas': ['Central Ideas and Details', 'Inferences', 'Command of Evidence: Textual', 'Command of Evidence: Quantitative'],
     'Craft and Structure': ['Words in Context', 'Text Structure and Purpose', 'Cross-Text Connections'],
     'Expression of Ideas': ['Rhetorical Synthesis', 'Transitions'],
     'Standard English Conventions': ['Boundaries', 'Form, Structure, and Sense'],
   },
 };
 export const DIFFICULTIES = ['Easy', 'Medium', 'Hard'];
+
+// College Board exports call both kinds "Command of Evidence". Quantitative ones come
+// with a graph or table (an image, a figure or a [table]) or ask about data in one.
+const QUANT = /data (?:from|in) the (?:graph|table|chart)|the (?:graph|table|chart) (?:shows|presents)|\[table\]/i;
+export function evidenceSkill(row) {
+  if (row.skill !== 'Command of Evidence') return row.skill;
+  const c = row.content || {};
+  const hasFigure = [...(c.prompt || []), ...(c.options || [])].some((p) => p && typeof p === 'object' && (p.img || p.fig));
+  return hasFigure || QUANT.test(JSON.stringify(c)) ? 'Command of Evidence: Quantitative' : 'Command of Evidence: Textual';
+}
 
 const imgs = (list, url) => (list || []).map((i) => `![](${url(i.src)}#w=${i.w})`).join('\n\n');
 const fig = (f, url) => `![Figure](${url(f.src)}#fig=${f.w})`;

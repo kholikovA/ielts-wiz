@@ -1,5 +1,6 @@
 import { supabase } from '../supabaseClient';
 import { trackOnce, trackApiError } from './telemetry';
+import { evidenceSkill } from './quiz/satbank';
 
 // Data layer for the Student Hub. Tables + RPCs come from
 // supabase/migrations/20261021045926_student_hub_homework.sql; RLS does the scoping,
@@ -200,7 +201,7 @@ export async function uploadSatImage(name, file) {
 
 export async function upsertSatQuestions(rows) {
   for (let i = 0; i < rows.length; i += 200) {
-    unwrap(await supabase.from('sat_questions').upsert(rows.slice(i, i + 200).map((r) => ({ ...r, updated_at: new Date().toISOString() })), { onConflict: 'id' }));
+    unwrap(await supabase.from('sat_questions').upsert(rows.slice(i, i + 200).map((r) => ({ ...r, skill: evidenceSkill(r), updated_at: new Date().toISOString() })), { onConflict: 'id' }));
   }
 }
 
