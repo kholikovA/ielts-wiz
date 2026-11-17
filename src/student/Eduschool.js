@@ -40,8 +40,8 @@ export function EduschoolClassPanel({ classId }) {
         ) : (
           <>
             <p className="form-help" style={{ marginTop: 0, marginBottom: 12 }}>
-              Registers for this class go to <strong>{d.link.es_class_label}</strong> · {d.link.es_subject_name} in EduSchool,
-              on every {d.link.es_subject_name} lesson that day. Late counts as attended there.
+              Registers for this class go to <strong>{d.link.es_class_label}</strong>{d.link.es_subject_name ? ` · ${d.link.es_subject_name}` : ''} in EduSchool,
+              on every {d.link.es_subject_name ? `${d.link.es_subject_name} ` : ''}lesson that day. Late counts as attended there.
             </p>
             <div className="card">
               {d.students.map((s) => (
@@ -72,7 +72,9 @@ export function EduschoolClassPanel({ classId }) {
 function LinkForm({ current, onSave, onCancel }) {
   const classes = useAsync(() => api.eduschool('classes'), []);
   const [esClass, setEsClass] = useState(current?.es_class_id || '');
-  const subjects = useAsync(() => (esClass ? api.eduschool('subjects', { es_class_id: esClass }) : Promise.resolve([])), [esClass]);
+  // A group has one subject, so only a class needs one picked.
+  const isGroup = classes.data?.find((x) => x.id === esClass)?.type === 'group';
+  const subjects = useAsync(() => (esClass && !isGroup ? api.eduschool('subjects', { es_class_id: esClass }) : Promise.resolve([])), [esClass, isGroup]);
   const [subject, setSubject] = useState(current?.es_subject_id || '');
   const [busy, setBusy] = useState(false);
 
@@ -84,10 +86,10 @@ function LinkForm({ current, onSave, onCancel }) {
   const submit = async (e) => {
     e.preventDefault();
     const c = classes.data.find((x) => x.id === esClass);
-    const s = subjects.data.find((x) => x.id === subject);
-    if (!c || !s) return;
+    const s = isGroup ? null : subjects.data.find((x) => x.id === subject);
+    if (!c || (!isGroup && !s)) return;
     setBusy(true);
-    await onSave({ es_class_id: c.id, es_class_label: c.label, es_subject_id: s.id, es_subject_name: s.name });
+    await onSave({ es_class_id: c.id, es_class_label: c.label, es_subject_id: s?.id || null, es_subject_name: s?.name || null });
     setBusy(false);
   };
 
@@ -104,14 +106,15 @@ function LinkForm({ current, onSave, onCancel }) {
                 {list.map((c) => <option key={c.id} value={c.id}>{c.label} ({c.students})</option>)}
               </select>
             </div>
-            <div className="form-field" style={{ margin: 0 }}>
+            {!isGroup && <div className="form-field" style={{ margin: 0 }}>
               <label className="form-label" htmlFor="es-subject">Subject</label>
               <select id="es-subject" className="form-select" value={subject} onChange={(e) => setSubject(e.target.value)} required disabled={!esClass || subjects.loading}>
                 <option value="">{subjects.loading ? 'Loading…' : 'Choose…'}</option>
                 {(subjects.data || []).map((s) => <option key={s.id} value={s.id}>{s.name}{s.teacher ? ` · ${s.teacher}` : ''}</option>)}
               </select>
-            </div>
-            <button className="btn btn-primary" disabled={busy || !esClass || !subject}><Icon name="link" size={14} /> {current ? 'Save' : 'Link'}</button>
+              {!subjects.loading && esClass && !subjects.data?.length && <p className="form-help">EduSchool lists no subjects for this class.</p>}
+            </div>}
+            <button className="btn btn-primary" disabled={busy || !esClass || (!isGroup && !subject)}><Icon name="link" size={14} /> {current ? 'Save' : 'Link'}</button>
             {onCancel && <button type="button" className="btn btn-ghost" onClick={onCancel}>Cancel</button>}
           </form>
         )}
@@ -168,7 +171,7 @@ export function EduschoolSync({ sessionId, classId, changes }) {
 
   const r = result || last.data;
   let icon = 'refresh';
-  let text = `Changes are sent to EduSchool (${link.data.es_class_label} · ${link.data.es_subject_name}).`;
+  let text = `Changes are sent to EduSchool (${[link.data.es_class_label, link.data.es_subject_name].filter(Boolean).join(' · ')}).`;
   let tone = '';
   if (busy) { text = 'Sending to EduSchool…'; }
   else if (error) { icon = 'xCircle'; tone = 'is-bad'; text = error.message; }

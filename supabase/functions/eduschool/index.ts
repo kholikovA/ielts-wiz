@@ -14,7 +14,8 @@
 //
 // Mapping: present/late → attended, absent → notAttended, excused → reasonable
 // (EduSchool has no "late"). A hub session is a day; it is written to every
-// EduSchool lesson of the linked class + subject on that day (Tashkent time).
+// EduSchool lesson of the linked class + subject on that day (Tashkent time);
+// a linked group has no subject and gets every one of its lessons that day.
 // Marks already in EduSchool for students the hub doesn't send are re-sent
 // unchanged, so a push never clears someone else's mark.
 //
@@ -212,10 +213,10 @@ async function push(uid: string, sessionId: string) {
     const lessons = days
       .filter((d) => d.class?._id === link.es_class_id && d.date === day)
       .flatMap((d) => d.classLessons || [])
-      .filter((l) => l.subject?._id === link.es_subject_id)
+      .filter((l) => !link.es_subject_id || l.subject?._id === link.es_subject_id)
       .sort((a, b) => (a.period?.lessonHour ?? 0) - (b.period?.lessonHour ?? 0));
     if (!lessons.length) {
-      return save({ status: "no_lessons", message: `No ${link.es_subject_name} lesson for ${link.es_class_label} on ${day} in EduSchool.` });
+      return save({ status: "no_lessons", message: `No ${link.es_subject_name ? `${link.es_subject_name} ` : ""}lesson for ${link.es_class_label} on ${day} in EduSchool.` });
     }
 
     const [members, marksRes, roster] = await Promise.all([
@@ -305,11 +306,12 @@ async function handle(uid: string, body: any) {
     }
     case "link": {
       await requireClass(uid, body.class_id);
-      const f = ["es_class_id", "es_class_label", "es_subject_id", "es_subject_name"];
-      if (f.some((k) => typeof body[k] !== "string" || !body[k])) throw new HttpError(400, "Pick a class and a subject.");
+      if (!body.es_class_id || !body.es_class_label) throw new HttpError(400, "Pick a class or group.");
+      // Groups have one subject, so the subject is optional (null = every lesson that day).
+      if (!!body.es_subject_id !== !!body.es_subject_name) throw new HttpError(400, "Pick a subject.");
       must(await db.from("eduschool_class_links").upsert({
         class_id: body.class_id, es_class_id: body.es_class_id, es_class_label: body.es_class_label,
-        es_subject_id: body.es_subject_id, es_subject_name: body.es_subject_name, updated_at: new Date().toISOString(),
+        es_subject_id: body.es_subject_id || null, es_subject_name: body.es_subject_name || null, updated_at: new Date().toISOString(),
       }));
       return { ok: true };
     }
