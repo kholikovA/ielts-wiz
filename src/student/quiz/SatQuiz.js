@@ -599,7 +599,7 @@ export function SatTake({ a, answers, setAnswer, onSubmit, onTimeUp, busy, warni
           <Question key={q.id} q={q} n={i + 1} value={answers[q.id]} setValue={(v) => setAnswer(q.id, v)}
             marked={marked.has(q.id)} onMark={() => toggleMark(q.id)}
             elim={elim[q.id]} onElim={(idx, on) => setOneElim(q.id, idx, on)} eliminating={eliminating} onToggleElim={() => setEliminating((x) => !x)} />
-          <SatHighlighter key={q.id} rootRef={qRoot} list={highlights[q.id] || []}
+          <SatHighlighter key={`hl-${q.id}`} rootRef={qRoot} list={highlights[q.id] || []}
             onChange={(next) => setHighlights((h) => ({ ...h, [q.id]: next }))} />
         </div>
       )}
