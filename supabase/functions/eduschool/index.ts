@@ -262,9 +262,15 @@ async function push(uid: string, sessionId: string) {
         // Marks already in EduSchool stay; unmarked students who never joined
         // the hub class become "notAttended" (sababsiz).
         const isSet = (x: any) => x.state && !["unchecked", "created"].includes(x.state);
+        // A lesson only lists students that already have a record, so the
+        // never-joined ones come from the roster.
         const students = existing
-          .filter((x) => !send.has(x.studentId) && (isSet(x) || notJoined.has(x.studentId)))
-          .map((x) => ({ studentId: x.studentId, state: isSet(x) ? x.state : "notAttended", ...(x.mark != null ? { mark: x.mark } : {}) }));
+          .filter((x) => !send.has(x.studentId) && isSet(x))
+          .map((x) => ({ studentId: x.studentId, state: x.state, ...(x.mark != null ? { mark: x.mark } : {}) }));
+        const kept = new Set(students.map((x) => x.studentId));
+        for (const id of notJoined) {
+          if (!send.has(id) && !kept.has(id)) students.push({ studentId: id, state: "notAttended" });
+        }
         const markOf = new Map(existing.map((x) => [x.studentId, x.mark]));
         for (const [studentId, state] of send) {
           const mark = markOf.get(studentId);
