@@ -11,6 +11,8 @@
 //     map      { class_id, student_id, es_student_id | null }
 //     push     { session_id }         → sends the register, verifies it, stores
 //                                       the result in eduschool_session_sync
+//     retry_due                        → (pg_cron, x-cron-secret) re-sends registers
+//                                       whose later lesson has now begun
 //
 // Mapping: present/late → attended, absent → notAttended, excused → reasonable
 // (EduSchool has no "late"). A hub session is a day; it is written to every
@@ -19,6 +21,9 @@
 // Marks already in EduSchool for students the hub doesn't send are re-sent
 // unchanged, so a push never clears someone else's mark. Unmarked EduSchool
 // students with no hub account in the class are sent as notAttended (sababsiz).
+// EduSchool refuses lessons that haven't started; for those the push stores
+// retry_at (the lesson's start) and the cron job re-sends the register then,
+// so back-to-back lessons get the first lesson's register automatically.
 //
 // Credentials: Vault secret 'eduschool' = {host, apiKey, login, password, branch},
 // read via public.eduschool_secret() (service role only).
@@ -191,6 +196,12 @@ function dayWindow(iso: string) {
   return { day, from: z(start), to: z(end) };
 }
 
+// "09:25" on a Tashkent day → UTC ms.
+const lessonStart = (day: string, hhmm: string) => {
+  const t = Date.parse(`${day}T${hhmm.padStart(5, "0")}:00Z`);
+  return Number.isNaN(t) ? null : t - TZ_OFFSET_MIN * 60e3;
+};
+
 const STATE: Record<string, string> = { present: "attended", late: "attended", absent: "notAttended", excused: "reasonable" };
 
 // ── Actions ──────────────────────────────────────────────────────────────────
@@ -200,7 +211,7 @@ async function push(uid: string, sessionId: string) {
   await requireClass(uid, s.class_id);
 
   const save = async (r: Record<string, unknown>) => {
-    const row = { session_id: sessionId, lessons: [], sent: 0, unlinked: [], message: null, ...r, synced_at: new Date().toISOString() };
+    const row = { session_id: sessionId, lessons: [], sent: 0, unlinked: [], message: null, retry_at: null, ...r, synced_at: new Date().toISOString() };
     must(await db.from("eduschool_session_sync").upsert(row));
     return row;
   };
@@ -250,6 +261,8 @@ async function push(uid: string, sessionId: string) {
 
     const done: any[] = [];
     const problems: string[] = [];
+    const waiting: string[] = [];
+    let retryAt: number | null = null;
     if (send.size) {
       for (const l of lessons) {
         const label = `${l.period?.lessonHour ?? "?"}-para${l.period?.startHour ? ` (${l.period.startHour})` : ""}`;
@@ -279,7 +292,16 @@ async function push(uid: string, sessionId: string) {
         try {
           await es("POST", "/attendances", { lessonId: l.lessonId, classId: link.es_class_id, students });
         } catch (e) {
-          problems.push(`${label}: ${(e as Error).message}`);
+          const msg = (e as Error).message;
+          const start = l.period?.startHour ? lessonStart(day, l.period.startHour) : null;
+          // Not started yet: send it again once it has (gives up 30 min in).
+          if (/not started/i.test(msg) && Date.now() < (start == null ? Date.parse(to) : start + 30 * 60e3)) {
+            const at = Math.max(start ?? 0, Date.now()) + 60e3;
+            retryAt = retryAt == null ? at : Math.min(retryAt, at);
+            waiting.push(label);
+          } else {
+            problems.push(`${label}: ${msg}`);
+          }
           continue;
         }
         let verified: boolean | null = null;
@@ -293,16 +315,42 @@ async function push(uid: string, sessionId: string) {
       }
     }
 
-    const status = problems.length ? (done.some((d) => d.verified !== false) ? "partial" : "error")
+    if (waiting.length) {
+      problems.push(`${waiting.join(", ")} will get the same register when ${waiting.length > 1 ? "they start" : "it starts"}`);
+    }
+    const status = problems.length ? (waiting.length || done.some((d) => d.verified !== false) ? "partial" : "error")
       : unlinked.length ? "partial" : "ok";
     return save({
       status, lessons: done, sent: send.size, unlinked,
+      retry_at: retryAt == null ? null : new Date(retryAt).toISOString(),
       message: problems.join("; ") || (send.size ? null : "No marked students are linked to EduSchool yet."),
     });
   } catch (e) {
     console.error("eduschool push", sessionId, e);
     return save({ status: "error", message: (e as Error).message });
   }
+}
+
+// pg_cron: re-send registers whose waiting lesson has begun, as the class teacher.
+async function retryDue() {
+  const due = must(await db.from("eduschool_session_sync").select("session_id")
+    .lte("retry_at", new Date().toISOString()).order("retry_at").limit(20)) as any[];
+  const out = [];
+  for (const { session_id } of due) {
+    const s = must(await db.from("class_sessions").select("class_id, classes(teacher_id)").eq("id", session_id).maybeSingle()) as any;
+    if (!s?.classes?.teacher_id) {
+      must(await db.from("eduschool_session_sync").update({ retry_at: null }).eq("session_id", session_id));
+      continue;
+    }
+    try {
+      const r = await push(s.classes.teacher_id, session_id);
+      out.push({ session_id, status: r.status, retry_at: r.retry_at });
+    } catch (e) {
+      console.error("eduschool retry", session_id, e);
+      must(await db.from("eduschool_session_sync").update({ retry_at: null }).eq("session_id", session_id));
+    }
+  }
+  return out;
 }
 
 async function handle(uid: string, body: any) {
@@ -393,6 +441,15 @@ async function handle(uid: string, body: any) {
 Deno.serve(async (req) => {
   if (req.method === "OPTIONS") return new Response("ok", { headers: CORS });
   if (req.method !== "POST") return json({ error: "Method not allowed." }, 405);
+  const cron = req.headers.get("x-cron-secret");
+  if (cron) {
+    const { data: ok } = await db.rpc("verify_cron_secret", { s: cron });
+    if (!ok) return json({ error: "forbidden" }, 403);
+    try { return json(await retryDue()); } catch (e) {
+      console.error("eduschool retry", e);
+      return json({ error: (e as Error).message }, 500);
+    }
+  }
   const uid = userIdFrom(req);
   if (!uid) return json({ error: "Sign in again." }, 401);
   try {
