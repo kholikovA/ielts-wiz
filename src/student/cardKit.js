@@ -49,7 +49,7 @@ export function Pronounce({ word, compact = false }) {
   return (
     <div className={`fcx-pron${compact ? ' fcx-pron--compact' : ''}`} onPointerDown={(e) => e.stopPropagation()} onClick={(e) => e.stopPropagation()}>
       {accents.map((acc) => {
-        const { audio, ipa } = data[acc];
+        const { audio, ipa, ai } = data[acc];
         const label = <span className="fcx-pron-acc">{acc.toUpperCase()}</span>;
         const ipaText = !compact && ipa && <span className="fcx-pron-ipa">{ipa}</span>;
         return audio ? (
@@ -57,6 +57,7 @@ export function Pronounce({ word, compact = false }) {
             onClick={(e) => say(e, acc)} aria-label={`Listen: ${acc === 'uk' ? 'British' : 'American'} pronunciation of ${word}`}>
             <span className="fcx-pron-icon"><Icon name="volume" size={compact ? 15 : 17} /></span>
             {label}{ipaText}
+            {ai && <span className="fcx-pron-ai" title="AI voice: no human recording of this accent yet">AI</span>}
           </button>
         ) : (
           <span key={acc} className="fcx-pron-btn fcx-pron-btn--static" title="No recording yet">{label}{ipaText}</span>
