@@ -341,6 +341,12 @@ export async function classWithMembers(id) {
 export const removeMember = async (classId, studentId) =>
   unwrap(await supabase.from('class_members').delete().eq('class_id', classId).eq('student_id', studentId));
 
+// Moves a student between two of the teacher's classes in one transaction:
+// leaves the old class (keeping homework already assigned) and joins the new
+// one (picking up its still-open homework).
+export const moveMember = async (fromClassId, toClassId, studentId) =>
+  unwrap(await supabase.rpc('move_class_member', { from_class: fromClassId, to_class: toClassId, student: studentId }));
+
 // Every student across the teacher's classes, deduped, with the classes they're in.
 export async function teacherStudents(uid) {
   const classes = await teacherClasses(uid);

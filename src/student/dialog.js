@@ -20,6 +20,8 @@ function open(spec) {
 export const confirmDialog = (spec) => open({ kind: 'confirm', ...spec });
 export const promptDialog = (spec) => open({ kind: 'prompt', ...spec });
 export const alertDialog = (spec) => open({ kind: 'confirm', alert: true, ...spec });
+// const id = await chooseDialog({ title, label, options: [{ value, label }] });  // null if cancelled
+export const chooseDialog = (spec) => open({ kind: 'choose', ...spec, value: spec.value ?? spec.options?.[0]?.value ?? '' });
 
 function Dialog({ item, onClose }) {
   const [value, setValue] = useState(item.value || '');
@@ -30,14 +32,17 @@ function Dialog({ item, onClose }) {
     if (item.kind === 'prompt') {
       if (!value.trim()) return;
       done(value.trim());
+    } else if (item.kind === 'choose') {
+      if (!value) return;
+      done(value);
     } else done(true);
   };
-  const cancel = () => done(item.kind === 'prompt' ? null : false);
+  const cancel = () => done(item.kind === 'confirm' ? false : null);
 
   useEffect(() => {
     const prev = document.activeElement;
     (inputRef.current || boxRef.current?.querySelector('[data-autofocus]'))?.focus();
-    if (inputRef.current) inputRef.current.select();
+    if (inputRef.current?.tagName === 'INPUT') inputRef.current.select();
     return () => prev?.focus?.();
   }, []);
 
@@ -45,7 +50,7 @@ function Dialog({ item, onClose }) {
     if (e.key === 'Escape') { e.preventDefault(); if (item.alert) accept(); else cancel(); }
     if (e.key === 'Enter' && item.kind === 'prompt') { e.preventDefault(); accept(); }
     if (e.key === 'Tab') { // keep focus inside
-      const f = boxRef.current.querySelectorAll('button, input');
+      const f = boxRef.current.querySelectorAll('button, input, select');
       if (!f.length) return;
       const first = f[0]; const last = f[f.length - 1];
       if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
@@ -62,10 +67,16 @@ function Dialog({ item, onClose }) {
           <input ref={inputRef} className="form-input" value={value} maxLength={item.maxLength || 200}
             aria-label={item.label || item.title} onChange={(e) => setValue(e.target.value)} />
         )}
+        {item.kind === 'choose' && (
+          <select ref={inputRef} className="form-input" value={value} aria-label={item.label || item.title}
+            onChange={(e) => setValue(e.target.value)}>
+            {item.options.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+          </select>
+        )}
         <div className="hub-dialog-actions">
           {!item.alert && <button type="button" className="btn btn-ghost" onClick={cancel} data-autofocus={item.danger ? true : undefined}>{item.cancelLabel || 'Cancel'}</button>}
           <button type="button" className={`btn ${item.danger ? 'hub-btn-danger' : 'btn-primary'}`} onClick={accept}
-            data-autofocus={item.danger ? undefined : true} disabled={item.kind === 'prompt' && !value.trim()}>
+            data-autofocus={item.danger ? undefined : true} disabled={(item.kind === 'prompt' && !value.trim()) || (item.kind === 'choose' && !value)}>
             {item.confirmLabel || (item.kind === 'prompt' ? 'Save' : 'OK')}
           </button>
         </div>
