@@ -131,3 +131,5 @@
 .google-gis-btn[hidden] {
   display: none;
 }
+
+.telegram-btn { margin-top: 10px; }

@@ -4,6 +4,7 @@ import { reconcile, flushToCloud } from '../lib/cloudSync';
 import { flush as flushOutbox, holdForUser, HELD_PREFIX } from '../lib/syncQueue';
 import { pullVocabList } from '../lib/vocabList';
 import { snapshotAcquisition, readAcquisition, deviceClass } from '../lib/marketing';
+import { callTelegramAuth } from '../lib/telegramLogin';
 
 const AuthContext = createContext({});
 
@@ -173,6 +174,16 @@ export const AuthProvider = ({ children }) => {
   const signInWithGoogleIdToken = (token, nonce) =>
     supabase.auth.signInWithIdToken({ provider: 'google', token, nonce });
 
+  // Telegram path (accounts that linked Telegram on their Profile): the edge
+  // function verifies Telegram's signature and returns a one-time magic-link
+  // token for the linked account; verifyOtp turns it into a normal session.
+  const signInWithTelegram = async (telegramAuth) => {
+    const { data, error } = await callTelegramAuth({ action: 'signin', auth: telegramAuth });
+    if (error) return { error };
+    const { error: otpError } = await supabase.auth.verifyOtp({ token_hash: data.token_hash, type: 'magiclink' });
+    return { error: otpError || null };
+  };
+
   const signOut = async () => {
     // Flush everything to the cloud BEFORE we drop the session and wipe local
     // storage — signing out must never destroy un-synced progress. Drain the
@@ -202,7 +213,7 @@ export const AuthProvider = ({ children }) => {
   const isAdmin = Boolean(profile?.is_admin);
 
   return (
-    <AuthContext.Provider value={{ user, profile, isAdmin, loading, signInWithGoogle, signInWithGoogleIdToken, signOut, updateProfile, fetchProfile }}>
+    <AuthContext.Provider value={{ user, profile, isAdmin, loading, signInWithGoogle, signInWithGoogleIdToken, signInWithTelegram, signOut, updateProfile, fetchProfile }}>
       {children}
     </AuthContext.Provider>
   );
