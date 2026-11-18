@@ -8,6 +8,7 @@ import { useHomeworkGuard, GuardFrame, IntegrityNote } from '../guard';
 import { VARIANTS, markTest, numbering } from './quiz';
 import MathText from './MathText';
 import { SatTake, SatResults, satStartKey } from './SatQuiz';
+import { reportError, useOnline } from '../connection';
 
 // Student side of a custom test, and the same view (read-only, marked) for
 // results and the teacher's review.
@@ -294,7 +295,7 @@ function QuizAttempt({ a, onSaved }) {
       if (s === lastSaved.current) return;
       const integrity = guardRef.current?.integrity;
       api.saveSubmission(a.id, user.id, { status: 'in_progress', data: { answers: ref.current, ...(integrity?.leaves ? { integrity } : {}) } })
-        .then(() => { lastSaved.current = s; }).catch(() => {});
+        .then(() => { lastSaved.current = s; }).catch(reportError);
     }, SAVE_EVERY_MS);
     return () => clearInterval(id);
   }, [a.id, user.id, locked, preview]);
@@ -323,9 +324,18 @@ function QuizAttempt({ a, onSaved }) {
         data: { answers: ref.current, ...(integrity?.leaves ? { integrity } : {}) },
       });
       try { localStorage.removeItem(draftKey); localStorage.removeItem(satStartKey(a.id)); } catch { /* ignore */ }
+      timeUpPending.current = false;
       onSaved();
-    } catch (err) { setError(err); setBusy(false); }
+      return true;
+    } catch (err) { reportError(err); setError(err); setBusy(false); return false; }
   };
+  // Time ran out but the submit failed (connection): submit as soon as it's back.
+  const timeUpPending = useRef(false);
+  const online = useOnline();
+  const timeUp = () => { timeUpPending.current = true; send(); };
+  useEffect(() => {
+    if (online && timeUpPending.current && !locked) send();
+  }, [online]); // eslint-disable-line react-hooks/exhaustive-deps
   const submit = async () => {
     const left = total - answered;
     if (!await confirmDialog({
@@ -390,7 +400,7 @@ function QuizAttempt({ a, onSaved }) {
 
   if (sat) {
     const view = (
-      <SatTake a={a} answers={answers} setAnswer={(id, v) => setAnswers((x) => ({ ...x, [id]: v }))} busy={busy || preview} onSubmit={submit} onTimeUp={preview ? undefined : () => send()}
+      <SatTake a={a} answers={answers} setAnswer={(id, v) => setAnswers((x) => ({ ...x, [id]: v }))} busy={busy || preview} onSubmit={submit} onTimeUp={preview ? undefined : timeUp}
         warning={guard.integrity?.leaves ? <span className="pill pill-amber">Warning used: next leave submits</span> : null} />
     );
     return (

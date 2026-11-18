@@ -7,6 +7,7 @@ import { checkDictation } from './diff';
 import DictationPlayer from './DictationPlayer';
 import { confirmDialog } from '../dialog';
 import { useHomeworkGuard, GuardFrame } from '../guard';
+import { reportError } from '../connection';
 
 // Colour-coded check of a dictation against its transcript:
 // extra words struck in red, misspellings corrected in yellow, missing words in green.
@@ -81,7 +82,7 @@ export function DictationWork({ a, onSaved }) {
       if (t === lastSaved.current || !t.trim()) return;
       api.saveSubmission(a.id, user.id, { status: 'in_progress', body: t })
         .then(() => { lastSaved.current = t; setSavedAt(new Date()); })
-        .catch(() => {});
+        .catch(reportError);
     }, SAVE_EVERY_MS);
     return () => clearInterval(id);
   }, [a.id, user.id, locked, preview]);
@@ -101,7 +102,8 @@ export function DictationWork({ a, onSaved }) {
       await api.saveSubmission(a.id, user.id, { status: 'submitted', body: textRef.current, submitted_at: new Date().toISOString() });
       try { localStorage.removeItem(draftKey); } catch { /* ignore */ }
       onSaved();
-    } catch (err) { setError(err); setBusy(false); }
+      return true;
+    } catch (err) { reportError(err); setError(err); setBusy(false); return false; }
   };
   const submit = async () => {
     if (!await confirmDialog({

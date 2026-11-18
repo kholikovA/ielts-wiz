@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import Icon from '../../components/ui/icons';
 import * as api from '../api';
 import { useHub, useAsync, ErrorNote, Spinner } from '../ui';
@@ -6,6 +6,7 @@ import { checkDictation } from '../dictation/diff';
 import { confirmDialog } from '../dialog';
 import { useHomeworkGuard, GuardFrame } from '../guard';
 import { copiesDefinition } from './copycheck';
+import { reportError } from '../connection';
 
 // "Use it in a sentence": one sentence per target word, each checked by Claude
 // (correct / almost / wrong + a corrected version and a tip). Up to 3 checks
@@ -69,8 +70,22 @@ export function CheckResult({ check }) {
   );
 }
 
+const draftKeyOf = (id, i) => `iw.v1.hub.uwdraft.${id}.${i}`;
+
 function WordRow({ a, i, word, check, count, locked, onChecked, min }) {
-  const [text, setText] = useState(check?.sentence || '');
+  const draftKey = draftKeyOf(a.id, i);
+  // An unchecked sentence is kept on this device (reload / lost connection).
+  const [text, setText] = useState(() => {
+    if (!locked) { try { const d = localStorage.getItem(draftKey); if (d != null) return d; } catch { /* storage off */ } }
+    return check?.sentence || '';
+  });
+  useEffect(() => {
+    if (locked) return;
+    try {
+      if (text === (check?.sentence || '')) localStorage.removeItem(draftKey);
+      else localStorage.setItem(draftKey, text);
+    } catch { /* storage off */ }
+  }, [text, locked, check, draftKey]);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
   const left = MAX_CHECKS - (count || 0);
@@ -82,7 +97,7 @@ function WordRow({ a, i, word, check, count, locked, onChecked, min }) {
       const sentence = text.replace(/\s+/g, ' ').trim();
       const r = await api.checkSentence(a.id, i, sentence);
       if (!r.cached) onChecked({ word_index: i, word: word.w, sentence, verdict: r.verdict, corrected: r.corrected, tip: r.tip, created_at: new Date().toISOString() });
-    } catch (err) { setError(err); }
+    } catch (err) { reportError(err); setError(err); }
     setBusy(false);
   };
   const changed = text.trim() && text.replace(/\s+/g, ' ').trim() !== (check?.sentence || '');
@@ -140,8 +155,10 @@ export default function SentenceWork({ a, onSaved }) {
         body: words.map((w, i) => `${w.w}: ${l[i]?.sentence || ''}`).join('\n'),
         data: { used: u, total: words.length, ...(integrity?.leaves ? { integrity } : {}) },
       });
+      try { words.forEach((_, i) => localStorage.removeItem(draftKeyOf(a.id, i))); } catch { /* storage off */ }
       onSaved();
-    } catch (err) { setError(err); setBusy(false); }
+      return true;
+    } catch (err) { reportError(err); setError(err); setBusy(false); return false; }
   };
   const submit = async () => {
     if (!await confirmDialog({

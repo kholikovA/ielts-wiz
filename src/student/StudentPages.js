@@ -16,6 +16,7 @@ import SentenceWork from './vocab/SentenceWork';
 import { MarkingView } from './writing/MarkedEssay';
 import { endOfStudyDay } from './fsrs';
 import { useHomeworkGuard, GuardFrame } from './guard';
+import { reportError } from './connection';
 import MascotProgress from './MascotProgress';
 import { useHomeworkRule } from './AssignmentCoins';
 
@@ -197,8 +198,9 @@ function WritingWork({ a, onSaved }) {
       try { localStorage.removeItem(draftKey); } catch { /* ignore */ }
       setEditing(false);
       onSaved();
-    } catch (err) { setError(err); }
-    setBusy(false);
+      setBusy(false);
+      return true;
+    } catch (err) { reportError(err); setError(err); setBusy(false); return false; }
   };
   const autoSubmitted = Boolean(sub?.data?.integrity?.auto_submitted);
   const guard = useHomeworkGuard(a, { active: editing && !locked, onAutoSubmit: submit });
