@@ -5,13 +5,20 @@
 //          -uk / -us clips (its own media URLs can't be played in browsers), and
 //          Commons is asked directly for the conventional En-uk / En-gb / En-us
 //          file names. Commons serves an MP3 transcode, so Safari plays it too.
-// No synthetic voice: an accent without a recording shows its IPA only.
-// Content is CC BY-SA (credited on the Flashcards page). Cached per browser.
+// When an accent has no human recording, an AI clip fills the gap: generated
+// once per word + accent on our server (word-audio edge function, OpenAI
+// gpt-4o-mini-tts), stored in the word-audio bucket and shared by everyone.
+// Never the browser's built-in voice. Commons content is CC BY-SA (credited on
+// the Flashcards page). Cached per browser.
+
+import { supabase } from '../supabaseClient';
+import { edgeFetch } from './api';
 
 const FDA = 'https://freedictionaryapi.com/api/v1/entries/en/';
 const DEV = 'https://api.dictionaryapi.dev/api/v2/entries/en/';
 const COMMONS = 'https://commons.wikimedia.org/w/api.php';
-const STORE = 'iw-pron-v2:';
+const STORE = 'iw-pron-v3:';
+const RETRY = 60 * 60000; // re-check after an hour when AI audio couldn't be made yet
 const TTL = 30 * 86400000;
 const EMPTY = { uk: {}, us: {} };
 
@@ -100,13 +107,40 @@ function commons(lookup) {
 function readStore(k) {
   try {
     const v = JSON.parse(window.localStorage.getItem(STORE + k));
-    return v && Date.now() - v.at < TTL ? v.data : null;
+    return v && Date.now() - v.at < (v.ttl || TTL) ? v.data : null;
   } catch (e) {
     return null;
   }
 }
-function writeStore(k, data) {
-  try { window.localStorage.setItem(STORE + k, JSON.stringify({ at: Date.now(), data })); } catch (e) { /* storage full or blocked */ }
+function writeStore(k, data, ttl = TTL) {
+  try { window.localStorage.setItem(STORE + k, JSON.stringify({ at: Date.now(), ttl, data })); } catch (e) { /* storage full or blocked */ }
+}
+
+const publicUrl = (path) => supabase.storage.from('word-audio').getPublicUrl(path).data?.publicUrl || null;
+
+/**
+ * AI clips for the accents in `missing`: stored ones first, then ask the
+ * word-audio function to make the rest. Returns { clips: { uk?, us? }, retry }
+ * where retry means generation failed for a reason that may clear up.
+ */
+async function aiClips(k, missing, ipa) {
+  const clips = {};
+  let retry = false;
+  try {
+    const { data } = await supabase.from('word_audio').select('accent, path').eq('word', k);
+    (data || []).forEach((r) => { if (missing.includes(r.accent)) clips[r.accent] = publicUrl(r.path); });
+  } catch (e) { /* fall through to generation */ }
+  await Promise.all(missing.filter((acc) => !clips[acc]).map(async (acc) => {
+    try {
+      const res = await edgeFetch('word-audio', { word: k, accent: acc, ipa: ipa[acc] || undefined });
+      const body = await res.json().catch(() => null);
+      if (res.ok && body?.path) clips[acc] = publicUrl(body.path);
+      else if (res.status !== 400 && res.status !== 404) retry = true;
+    } catch (e) {
+      retry = true;
+    }
+  }));
+  return { clips, retry };
 }
 
 async function load(k) {
@@ -122,14 +156,21 @@ async function load(k) {
   const a = audioFromCommons(byTitle.status === 'fulfilled' ? byTitle.value : null);
   const b = audioFromCommons(byId.status === 'fulfilled' ? byId.value : null, src.ids);
   const data = {
-    uk: { ipa: ipa.uk || src.ukText, audio: a.uk || b.uk || null },
-    us: { ipa: ipa.us || src.usText, audio: a.us || b.us || null },
+    uk: { ipa: ipa.uk || src.ukText, audio: a.uk || b.uk || null, ai: false },
+    us: { ipa: ipa.us || src.usText, audio: a.us || b.us || null, ai: false },
   };
   // Cache only a complete answer: if Commons (or the dictionary) failed, try again next time
   // rather than remembering "no recording" for a month.
   const ok = (r) => r.status === 'fulfilled' && r.value;
   const answered = ok(byTitle) && ok(byId) && (ok(fda) || ok(dev));
-  return { data, answered };
+  let retry = false;
+  const missing = ['uk', 'us'].filter((acc) => !data[acc].audio);
+  if (answered && missing.length) {
+    const ai = await aiClips(k, missing, { uk: data.uk.ipa, us: data.us.ipa });
+    Object.entries(ai.clips).forEach(([acc, url]) => { if (url) data[acc] = { ...data[acc], audio: url, ai: true }; });
+    retry = ai.retry;
+  }
+  return { data, answered, retry };
 }
 
 /** { uk: { ipa?, audio? }, us: { ipa?, audio? } } — never throws. */
@@ -144,10 +185,10 @@ export function pronunciation(word) {
     return p;
   }
   const p = load(k)
-    .then(({ data, answered }) => {
+    .then(({ data, answered, retry }) => {
       // Only cache when the services answered, so a network blip is retried later.
-      if (answered) writeStore(k, data);
-      else mem.delete(k);
+      if (answered) writeStore(k, data, retry ? RETRY : TTL);
+      if (!answered || retry) mem.delete(k);
       return data;
     })
     .catch(() => { mem.delete(k); return EMPTY; });
