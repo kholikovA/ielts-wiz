@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { GOOGLE_CLIENT_ID, loadGoogleIdentity, makeNonce } from '../lib/googleIdentity';
-import { getTelegramBotId, startTelegramAuth, takeTelegramResult } from '../lib/telegramLogin';
+import { useTelegramLogin } from '../lib/telegramLogin';
 import './AuthPage.css';
 
 // Official Google "G" mark (multi-colour), per Google's branding guidelines.
@@ -90,35 +90,23 @@ const AuthPage = () => {
     return () => { cancelled = true; };
   }, [isDark]);
 
-  // Telegram button appears once the bot is configured. Telegram's login runs
-  // in this tab and comes back here with the signed result in the URL hash.
-  const [tgBotId, setTgBotId] = useState(null);
-  const [tgLoading, setTgLoading] = useState(false);
-  const telegramSignIn = useRef(signInWithTelegram);
-  telegramSignIn.current = signInWithTelegram;
-  useEffect(() => {
-    let cancelled = false;
-    getTelegramBotId().then((id) => { if (!cancelled) setTgBotId(id); }).catch(() => {});
-    const result = takeTelegramResult();
-    if (result) {
-      setTgLoading(true);
-      telegramSignIn.current(result).then(({ error: tgError }) => {
-        if (!tgError) { window.location.assign(nextPath()); return; }
-        if (cancelled) return;
+  // Telegram: the button opens the IELTS Wiz bot in the Telegram app; once the
+  // student confirms there, this page signs them in by itself.
+  const [tgFinishing, setTgFinishing] = useState(false);
+  const tg = useTelegramLogin('signin', {
+    onDone: async ({ token_hash: tokenHash }) => {
+      setTgFinishing(true);
+      const { error: tgError } = await signInWithTelegram(tokenHash);
+      if (tgError) {
         setError(tgError.message || 'Could not sign in with Telegram. Please try again.');
-        setTgLoading(false);
-      });
-    } else if (result === null) {
-      setError('Telegram sign-in was cancelled. Please try again.');
-    }
-    return () => { cancelled = true; };
-  }, []);
-
-  const handleTelegram = () => {
-    setError('');
-    setTgLoading(true);
-    startTelegramAuth(tgBotId);
-  };
+        setTgFinishing(false);
+        return;
+      }
+      window.location.assign(nextPath());
+    },
+  });
+  const tgError = tg.error?.message;
+  const tgBusy = tg.waiting || tgFinishing;
 
   const handleGoogle = async () => {
     setError('');
@@ -151,7 +139,7 @@ const AuthPage = () => {
             on any device.
           </p>
 
-          {error && <div className="auth-error" role="alert">{error}</div>}
+          {(error || tgError) && <div className="auth-error" role="alert">{error || tgError}</div>}
 
           {GOOGLE_CLIENT_ID && (
             <div
@@ -173,20 +161,27 @@ const AuthPage = () => {
             </button>
           )}
 
-          {tgBotId && (
-            <button
-              type="button"
+          {tg.ready && (
+            <a
               className="google-btn telegram-btn"
-              onClick={handleTelegram}
-              disabled={tgLoading || loading}
+              href={tg.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={tg.onOpen}
+              aria-busy={tgBusy}
             >
-              {tgLoading ? <ButtonSpinner /> : <TelegramMark />}
-              <span>{tgLoading ? 'Connecting…' : 'Continue with Telegram'}</span>
-            </button>
+              {tgBusy ? <ButtonSpinner /> : <TelegramMark />}
+              <span>{tgFinishing ? 'Signing you in…' : tg.waiting ? 'Waiting for Telegram…' : 'Continue with Telegram'}</span>
+            </a>
+          )}
+          {tg.waiting && (
+            <p className="auth-tg-hint" role="status">
+              In Telegram, tap <strong>Start</strong>, then <strong>Sign in</strong>. This page continues by itself.
+            </p>
           )}
 
           <p className="auth-reassure">
-            {tgBotId
+            {tg.ready
               ? 'No extra passwords to remember. Telegram works once you\'ve linked it on your Profile page.'
               : 'No extra passwords to remember — your Google account keeps you secure.'}
           </p>

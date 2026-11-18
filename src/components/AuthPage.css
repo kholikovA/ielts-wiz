@@ -133,3 +133,5 @@
 }
 
 .telegram-btn { margin-top: 10px; }
+a.telegram-btn { text-decoration: none; box-sizing: border-box; }
+.auth-tg-hint { margin: 10px 0 0; font-size: 13.5px; text-align: center; opacity: 0.8; }

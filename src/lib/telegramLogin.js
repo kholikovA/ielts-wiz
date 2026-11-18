@@ -1,13 +1,14 @@
-// Telegram Login, as a same-tab redirect. Telegram allows one exact domain per
-// bot (ielts-wiz.com), but the site runs on www. and student., so Telegram
-// returns to ielts-wiz.com/telegram-login.html, which forwards the signed
-// result to the page that started the login (#tgAuthResult=...). The
-// telegram-auth edge function checks Telegram's signature with the bot token;
-// the bot id comes from that function, so the bot is configured in one place.
+// Telegram login through the IELTS Wiz bot. The site asks telegram-auth for a
+// one-time code, the button opens t.me/<bot>?start=<code> in the Telegram app,
+// the student taps Start → Confirm, and the telegram-bot webhook marks the
+// request done. Meanwhile this page polls telegram-auth and finishes by itself:
+// linking the account (Profile) or signing in (sign-in page).
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { supabase } from '../supabaseClient';
 
-const TELEGRAM_ORIGIN = 'https://ielts-wiz.com';
-let configPromise = null;
+const POLL_MS = 2000;
+// Codes live 15 minutes on the server; fetch a fresh one well before that.
+const REFRESH_MS = 10 * 60 * 1000;
 
 // Pull the error message out of a functions.invoke failure.
 export const functionError = async (error, fallback) => {
@@ -24,40 +25,75 @@ export const callTelegramAuth = async (body) => {
   return { data, error: null };
 };
 
-// Resolves with the bot id, or null when Telegram login isn't configured.
-export const getTelegramBotId = () => {
-  if (!configPromise) {
-    configPromise = callTelegramAuth({ action: 'config' })
-      .then(({ data }) => data?.bot_id || null)
-      .catch(() => null)
-      .then((id) => { if (!id) configPromise = null; return id; });
-  }
-  return configPromise;
+const MESSAGES = {
+  not_linked: "This Telegram isn't linked to IELTS Wiz yet. Continue with Google, then tap Link Telegram on your Profile page.",
+  taken: 'This Telegram is already linked to another IELTS Wiz account.',
+  expired: 'That Telegram link expired. Tap the button again.',
 };
 
-// Leave for Telegram's login page; it comes back to this same page.
-export const startTelegramAuth = (botId) => {
-  const back = `${window.location.origin}${window.location.pathname}${window.location.search}`;
-  const returnTo = `${TELEGRAM_ORIGIN}/telegram-login.html?to=${encodeURIComponent(back)}`;
-  const params = new URLSearchParams({
-    bot_id: String(botId), origin: TELEGRAM_ORIGIN, request_access: 'write', return_to: returnTo,
-  });
-  window.location.assign(`https://oauth.telegram.org/auth?${params}`);
-};
+// kind: 'link' | 'signin'. onDone(data) runs once the student confirms in
+// Telegram (for sign-in, data.token_hash). Returns what the button needs.
+export function useTelegramLogin(kind, { enabled = true, onDone } = {}) {
+  const [request, setRequest] = useState(null); // { code, url }
+  const [waiting, setWaiting] = useState(false);
+  const [error, setError] = useState(null);
+  const doneRef = useRef(onDone);
+  doneRef.current = onDone;
+  const polling = useRef(false);
 
-// After returning: the signed payload, null if cancelled/unreadable, or
-// undefined if this page load isn't a Telegram return. Clears the hash.
-export const takeTelegramResult = () => {
-  const m = /[#&]tgAuthResult=([^&]*)/.exec(window.location.hash || '');
-  if (!m) return undefined;
-  window.history.replaceState(window.history.state, '', `${window.location.pathname}${window.location.search}`);
-  try {
-    let b64 = decodeURIComponent(m[1]).replace(/-/g, '+').replace(/_/g, '/');
-    b64 += '='.repeat((4 - (b64.length % 4)) % 4);
-    const bytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
-    const data = JSON.parse(new TextDecoder().decode(bytes));
-    return data && typeof data === 'object' && data.hash ? data : null;
-  } catch {
-    return null;
-  }
-};
+  const fetchCode = useCallback(async () => {
+    const { data, error: err } = await callTelegramAuth({ action: 'start', kind });
+    if (err || !data?.url) { setRequest(null); return; }
+    setRequest({ code: data.code, url: data.url });
+  }, [kind]);
+
+  // Have a link ready before the click, so the button opens Telegram directly.
+  useEffect(() => {
+    if (!enabled || waiting) return undefined;
+    fetchCode();
+    const t = setInterval(fetchCode, REFRESH_MS);
+    return () => clearInterval(t);
+  }, [enabled, waiting, fetchCode]);
+
+  const poll = useCallback(async () => {
+    if (polling.current || !request) return;
+    polling.current = true;
+    try {
+      const { data } = await callTelegramAuth({ action: 'poll', code: request.code });
+      const status = data?.status;
+      if (status === 'done') {
+        setWaiting(false);
+        await doneRef.current?.(data);
+      } else if (MESSAGES[status]) {
+        setWaiting(false);
+        setError({ message: MESSAGES[status] });
+        fetchCode();
+      }
+    } finally {
+      polling.current = false;
+    }
+  }, [request, fetchCode]);
+
+  useEffect(() => {
+    if (!waiting) return undefined;
+    const t = setInterval(poll, POLL_MS);
+    // Coming back from the Telegram app: check straight away.
+    const onBack = () => { if (document.visibilityState === 'visible') poll(); };
+    document.addEventListener('visibilitychange', onBack);
+    window.addEventListener('focus', onBack);
+    return () => {
+      clearInterval(t);
+      document.removeEventListener('visibilitychange', onBack);
+      window.removeEventListener('focus', onBack);
+    };
+  }, [waiting, poll]);
+
+  // Click handler for the <a href={url} target="_blank"> button.
+  const onOpen = useCallback(() => {
+    setError(null);
+    setWaiting(true);
+  }, []);
+  const cancel = useCallback(() => setWaiting(false), []);
+
+  return { ready: Boolean(request), url: request?.url, waiting, error, onOpen, cancel };
+}

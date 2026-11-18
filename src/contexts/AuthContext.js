@@ -4,7 +4,6 @@ import { reconcile, flushToCloud } from '../lib/cloudSync';
 import { flush as flushOutbox, holdForUser, HELD_PREFIX } from '../lib/syncQueue';
 import { pullVocabList } from '../lib/vocabList';
 import { snapshotAcquisition, readAcquisition, deviceClass } from '../lib/marketing';
-import { callTelegramAuth } from '../lib/telegramLogin';
 
 const AuthContext = createContext({});
 
@@ -174,14 +173,12 @@ export const AuthProvider = ({ children }) => {
   const signInWithGoogleIdToken = (token, nonce) =>
     supabase.auth.signInWithIdToken({ provider: 'google', token, nonce });
 
-  // Telegram path (accounts that linked Telegram on their Profile): the edge
-  // function verifies Telegram's signature and returns a one-time magic-link
+  // Telegram path (accounts that linked Telegram on their Profile): once the
+  // student confirms in the bot, telegram-auth hands back a one-time magic-link
   // token for the linked account; verifyOtp turns it into a normal session.
-  const signInWithTelegram = async (telegramAuth) => {
-    const { data, error } = await callTelegramAuth({ action: 'signin', auth: telegramAuth });
-    if (error) return { error };
-    const { error: otpError } = await supabase.auth.verifyOtp({ token_hash: data.token_hash, type: 'magiclink' });
-    return { error: otpError || null };
+  const signInWithTelegram = async (tokenHash) => {
+    const { error } = await supabase.auth.verifyOtp({ token_hash: tokenHash, type: 'magiclink' });
+    return { error: error || null };
   };
 
   const signOut = async () => {

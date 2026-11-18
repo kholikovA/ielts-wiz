@@ -1,19 +1,18 @@
 // =============================================================================
-// telegram-auth — link a Telegram account to a profile, and sign in with it.
+// telegram-auth — the site's side of Telegram login through @<bot>.
 //
-//   POST { action: "config" }                 -> { bot_id }  (null if not set up)
-//   POST { action: "link",   auth }  (user JWT) -> { telegram_id, telegram_username }
-//   POST { action: "unlink" }        (user JWT) -> { ok: true }
-//   POST { action: "signin", auth }  (anon key) -> { token_hash }
+//   POST { action: "config" }                       -> { bot_username }  (null if not set up)
+//   POST { action: "start", kind: "link" } (user JWT) -> { code, url }
+//   POST { action: "start", kind: "signin" }         -> { code, url }
+//   POST { action: "poll", code }                    -> { status, token_hash? }
+//   POST { action: "unlink" }              (user JWT) -> { ok: true }
 //
-// `auth` is the object Telegram's login widget returns (id, first_name,
-// username, photo_url, auth_date, hash). Its hash is an HMAC signed with the
-// bot token, so only a real Telegram login for our bot passes.
-//
-// Sign-in works only for a Telegram already linked to an account (students
-// sign in with Google first). It returns a one-time magic-link token hash for
-// that account; the browser exchanges it with supabase.auth.verifyOtp for a
-// normal session. No email is sent.
+// The student opens `url` (t.me/<bot>?start=<code>) and confirms in Telegram;
+// the telegram-bot webhook marks the request done. Polling then reports
+// "done" — for sign-in it also returns a one-time magic-link token hash for
+// the linked account, which the browser exchanges with verifyOtp for a normal
+// session (no email is sent). Codes are random, single-use and expire after
+// 15 minutes. Sign-in only works for a Telegram already linked to an account.
 //
 // verify_jwt stays on: signed-out callers send the anon key, which passes.
 // Secret: TELEGRAM_BOT_TOKEN.
@@ -24,9 +23,6 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
 const BOT_TOKEN = Deno.env.get("TELEGRAM_BOT_TOKEN") ?? "";
-// Telegram's widget data stays valid for as long as we accept it; keep the
-// window short so a leaked payload can't be replayed later.
-const MAX_AGE_SECONDS = 3600;
 
 const admin = createClient(SUPABASE_URL, SERVICE_ROLE, { auth: { persistSession: false } });
 
@@ -51,36 +47,21 @@ function userIdFrom(req: Request): string | null {
   }
 }
 
-const enc = new TextEncoder();
-const hex = (buf: ArrayBuffer) => Array.from(new Uint8Array(buf)).map((b) => b.toString(16).padStart(2, "0")).join("");
+let botUsername: string | null = null;
+async function getBotUsername(): Promise<string | null> {
+  if (botUsername || !BOT_TOKEN) return botUsername;
+  try {
+    const res = await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/getMe`);
+    const body = await res.json();
+    botUsername = body?.result?.username ?? null;
+  } catch { /* Telegram unreachable — try again next call */ }
+  return botUsername;
+}
 
-// https://core.telegram.org/widgets/login#checking-authorization
-async function verifyTelegram(auth: unknown): Promise<{ id: number; username: string | null } | null> {
-  if (!auth || typeof auth !== "object") return null;
-  const data = auth as Record<string, unknown>;
-  const hash = typeof data.hash === "string" ? data.hash.toLowerCase() : "";
-  if (!/^[0-9a-f]{64}$/.test(hash)) return null;
-
-  const checkString = Object.keys(data)
-    .filter((k) => k !== "hash" && data[k] !== undefined && data[k] !== null)
-    .sort()
-    .map((k) => `${k}=${data[k]}`)
-    .join("\n");
-  const secret = await crypto.subtle.digest("SHA-256", enc.encode(BOT_TOKEN));
-  const key = await crypto.subtle.importKey("raw", secret, { name: "HMAC", hash: "SHA-256" }, false, ["sign"]);
-  const expected = hex(await crypto.subtle.sign("HMAC", key, enc.encode(checkString)));
-  let diff = 0;
-  for (let i = 0; i < 64; i++) diff |= expected.charCodeAt(i) ^ hash.charCodeAt(i);
-  if (diff !== 0) return null;
-
-  const authDate = Number(data.auth_date);
-  const age = Date.now() / 1000 - authDate;
-  if (!Number.isFinite(authDate) || age > MAX_AGE_SECONDS || age < -300) return null;
-
-  const id = Number(data.id);
-  if (!Number.isSafeInteger(id) || id <= 0) return null;
-  const username = typeof data.username === "string" && data.username ? data.username : null;
-  return { id, username };
+// 24 random bytes, base64url: 32 chars, fits Telegram's 64-char start payload.
+function newCode(): string {
+  const bytes = crypto.getRandomValues(new Uint8Array(24));
+  return btoa(String.fromCharCode(...bytes)).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/, "");
 }
 
 Deno.serve(async (req) => {
@@ -95,12 +76,10 @@ Deno.serve(async (req) => {
   }
   const action = body.action;
 
-  if (action === "config") {
-    // The bot id is the public part of the token (before the colon).
-    const botId = BOT_TOKEN.includes(":") ? Number(BOT_TOKEN.split(":")[0]) : null;
-    return json(200, { bot_id: botId || null });
-  }
-  if (!BOT_TOKEN) return fail(503, "not_configured", "Telegram login isn't set up yet.");
+  if (action === "config") return json(200, { bot_username: await getBotUsername() });
+
+  const bot = await getBotUsername();
+  if (!bot) return fail(503, "not_configured", "Telegram login isn't available right now.");
 
   if (action === "unlink") {
     const uid = userIdFrom(req);
@@ -112,46 +91,49 @@ Deno.serve(async (req) => {
     return json(200, { ok: true });
   }
 
-  if (action !== "link" && action !== "signin") return fail(400, "bad_request", "Unknown action.");
-
-  const tg = await verifyTelegram(body.auth);
-  if (!tg) return fail(401, "bad_signature", "Telegram login expired or couldn't be verified. Please try again.");
-
-  if (action === "link") {
-    const uid = userIdFrom(req);
-    if (!uid) return fail(401, "auth", "Sign in first.");
-    const { data: owner } = await admin.from("profiles").select("id").eq("telegram_id", tg.id).maybeSingle();
-    if (owner && owner.id !== uid) {
-      return fail(409, "taken", "This Telegram account is already linked to another IELTS Wiz account.");
-    }
-    const { error } = await admin.from("profiles")
-      .update({ telegram_id: tg.id, telegram_username: tg.username, telegram_linked_at: new Date().toISOString() })
-      .eq("id", uid);
+  if (action === "start") {
+    const kind = body.kind === "link" ? "link" : body.kind === "signin" ? "signin" : null;
+    if (!kind) return fail(400, "bad_request", "Unknown request.");
+    const uid = kind === "link" ? userIdFrom(req) : null;
+    if (kind === "link" && !uid) return fail(401, "auth", "Sign in first.");
+    // Housekeeping: drop requests older than a day.
+    admin.from("telegram_login_requests").delete()
+      .lt("created_at", new Date(Date.now() - 86400_000).toISOString()).then(() => {});
+    const code = newCode();
+    const { error } = await admin.from("telegram_login_requests").insert({ code, kind, user_id: uid });
     if (error) {
-      if (error.code === "23505") return fail(409, "taken", "This Telegram account is already linked to another IELTS Wiz account.");
-      console.warn("telegram-auth link", error);
-      return fail(500, "db", "Could not link Telegram. Please try again.");
+      console.warn("telegram-auth start", error);
+      return fail(500, "db", "Could not start Telegram login. Please try again.");
     }
-    return json(200, { telegram_id: tg.id, telegram_username: tg.username });
+    return json(200, { code, url: `https://t.me/${bot}?start=${code}` });
   }
 
-  // signin
-  const { data: profile } = await admin.from("profiles").select("id").eq("telegram_id", tg.id).maybeSingle();
-  if (!profile) {
-    return fail(404, "not_linked",
-      "This Telegram account isn't linked to IELTS Wiz yet. Continue with Google, then link Telegram on your Profile page.");
-  }
-  const { data: userRes, error: userErr } = await admin.auth.admin.getUserById(profile.id);
-  const email = userRes?.user?.email;
-  if (userErr || !email) return fail(500, "no_user", "Could not sign you in. Please continue with Google.");
+  if (action === "poll") {
+    const code = typeof body.code === "string" ? body.code : "";
+    if (!/^[A-Za-z0-9_-]{32}$/.test(code)) return fail(400, "bad_request", "Invalid code.");
+    const { data: row } = await admin.from("telegram_login_requests")
+      .select("kind, user_id, status, expires_at").eq("code", code).maybeSingle();
+    if (!row) return json(200, { status: "expired" });
+    if (row.status === "pending") {
+      return json(200, { status: new Date(row.expires_at) < new Date() ? "expired" : "pending" });
+    }
+    if (row.kind === "link" || row.status !== "done") return json(200, { status: row.status });
 
-  const { data: link, error: linkErr } = await admin.auth.admin.generateLink({ type: "magiclink", email });
-  const tokenHash = link?.properties?.hashed_token;
-  if (linkErr || !tokenHash) {
-    console.warn("telegram-auth generateLink", linkErr);
-    return fail(500, "link", "Could not sign you in. Please try again.");
+    // Sign-in confirmed in Telegram: redeem once.
+    const { data: claimed } = await admin.from("telegram_login_requests")
+      .update({ status: "used" }).eq("code", code).eq("status", "done").select("user_id").maybeSingle();
+    if (!claimed?.user_id) return json(200, { status: "used" });
+    const { data: userRes } = await admin.auth.admin.getUserById(claimed.user_id);
+    const email = userRes?.user?.email;
+    if (!email) return fail(500, "no_user", "Could not sign you in. Please continue with Google.");
+    const { data: link, error: linkErr } = await admin.auth.admin.generateLink({ type: "magiclink", email });
+    const tokenHash = link?.properties?.hashed_token;
+    if (linkErr || !tokenHash) {
+      console.warn("telegram-auth generateLink", linkErr);
+      return fail(500, "link", "Could not sign you in. Please try again.");
+    }
+    return json(200, { status: "done", token_hash: tokenHash });
   }
-  // Keep the stored username current.
-  admin.from("profiles").update({ telegram_username: tg.username }).eq("id", profile.id).then(() => {});
-  return json(200, { token_hash: tokenHash });
+
+  return fail(400, "bad_request", "Unknown action.");
 });
