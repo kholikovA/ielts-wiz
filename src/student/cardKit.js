@@ -1,29 +1,52 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Icon from '../components/ui/icons';
+import { pronunciation, play, canPlay } from './pronounce';
 
 // Shared building blocks for the flashcard study screens (SrsSession,
-// FlashcardStudy). Styles live under "Flashcards" in hub.css (.fcx-*).
+// FlashcardStudy) and word games. Styles live under "Flashcards" in hub.css (.fcx-*).
 
-const canSpeak = typeof window !== 'undefined' && 'speechSynthesis' in window;
-
-/** Read a word or phrase aloud with the browser's built-in voice. */
-export function speak(text) {
-  if (!canSpeak || !text) return;
-  const u = new window.SpeechSynthesisUtterance(text);
-  u.lang = 'en-GB';
-  u.rate = 0.9;
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(u);
-}
+/** Read a word aloud (UK): the real recording when there is one, else a device voice. */
+export const speak = (text) => play(text, 'uk');
 
 export function SpeakButton({ text, size = 'md' }) {
-  if (!canSpeak || !text) return null;
+  if (!canPlay || !text) return null;
   return (
     <button type="button" className={`fcx-speak fcx-speak--${size}`} aria-label={`Listen: ${text}`} title="Listen"
       onClick={(e) => { e.stopPropagation(); speak(text); }}
       onPointerDown={(e) => e.stopPropagation()}>
       <Icon name="volume" size={size === 'sm' ? 16 : 20} />
     </button>
+  );
+}
+
+/** UK and US pronunciation buttons with IPA, Cambridge-style. */
+export function Pronounce({ word, compact = false }) {
+  const [data, setData] = useState(null);
+  const [playing, setPlaying] = useState(null);
+  useEffect(() => {
+    let live = true;
+    setData(null);
+    if (word) pronunciation(word).then((d) => live && setData(d));
+    return () => { live = false; };
+  }, [word]);
+  if (!canPlay || !word) return null;
+  const say = (e, acc) => {
+    e.stopPropagation();
+    setPlaying(acc);
+    play(word, acc).finally(() => setTimeout(() => setPlaying((p) => (p === acc ? null : p)), 700));
+  };
+  return (
+    <div className={`fcx-pron${compact ? ' fcx-pron--compact' : ''}`} onPointerDown={(e) => e.stopPropagation()} onClick={(e) => e.stopPropagation()}>
+      {['uk', 'us'].map((acc) => (
+        <button key={acc} type="button" className={`fcx-pron-btn${playing === acc ? ' is-playing' : ''}`}
+          onClick={(e) => say(e, acc)} aria-label={`Listen: ${acc === 'uk' ? 'British' : 'American'} pronunciation of ${word}`}
+          title={data?.[acc]?.audio ? 'Recorded pronunciation' : 'Device voice'}>
+          <span className="fcx-pron-icon"><Icon name="volume" size={compact ? 15 : 17} /></span>
+          <span className="fcx-pron-acc">{acc.toUpperCase()}</span>
+          {!compact && data?.[acc]?.ipa && <span className="fcx-pron-ipa">{data[acc].ipa}</span>}
+        </button>
+      ))}
+    </div>
   );
 }
 

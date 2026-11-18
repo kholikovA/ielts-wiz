@@ -659,6 +659,10 @@ export function Flashcards({ deckId }) {
           </Loaded>
         </div>
       </section>
+      <p className="fcx-credit">
+        Pronunciations and IPA from <a href="https://en.wiktionary.org" target="_blank" rel="noreferrer">Wiktionary</a>
+        {' '}(via freedictionaryapi.com and dictionaryapi.dev), licensed <a href="https://creativecommons.org/licenses/by-sa/4.0/" target="_blank" rel="noreferrer">CC BY-SA 4.0</a>.
+      </p>
     </>
   );
 }

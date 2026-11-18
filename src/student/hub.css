@@ -670,6 +670,27 @@
 .hub .fcx-speak:hover { transform: scale(1.06); background: color-mix(in srgb, var(--h-accent) 18%, transparent); }
 .hub .fcx-speak:active { transform: scale(.95); }
 
+/* UK / US pronunciation (cardKit Pronounce) */
+.fcx-pron { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; }
+.hub .fcx-pron-btn {
+  display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 14px 0 6px; border-radius: 999px;
+  border: 1px solid var(--h-border); background: var(--h-surface); color: var(--h-text); cursor: pointer;
+  font: 500 16px var(--h-font); transition: border-color .15s, background .15s, transform .1s;
+}
+.hub .fcx-pron-btn:hover { border-color: var(--h-accent); background: var(--h-accent-soft); }
+.hub .fcx-pron-btn:active { transform: scale(.96); }
+.fcx-pron-icon { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; color: #fff; background: var(--h-accent); }
+.fcx-pron-btn:nth-child(2) .fcx-pron-icon { background: var(--h-danger); }
+.fcx-pron-acc { font-size: 13px; font-weight: 800; letter-spacing: .05em; color: var(--h-text-2); }
+.fcx-pron-ipa { font-family: 'Lucida Sans Unicode', 'Arial Unicode MS', var(--h-font); color: var(--h-text-2); }
+.hub .fcx-pron-btn.is-playing { border-color: var(--h-accent); background: var(--h-accent-soft); }
+.hub .fcx-pron-btn.is-playing .fcx-pron-icon { animation: fcx-pulse .7s ease-in-out infinite; }
+@keyframes fcx-pulse { 50% { transform: scale(1.12); } }
+.fcx-pron--compact .fcx-pron-btn { height: 34px; padding-right: 12px; }
+.fcx-pron--compact .fcx-pron-icon { width: 24px; height: 24px; }
+.fcx-feedback .fcx-pron { justify-content: flex-start; }
+.fcx-feedback .fcx-pron-btn { background: var(--h-surface); }
+
 /* Typed answer */
 .hub .fcx-input {
   width: 100%; max-width: 440px; height: 64px; padding: 0 20px;
@@ -682,6 +703,19 @@
 .hub .fcx-input.is-almost { border-color: var(--h-warn); color: var(--h-warn); box-shadow: none; }
 .hub .fcx-input.is-wrong { border-color: var(--h-danger); color: var(--h-danger); box-shadow: none; text-decoration: line-through; text-decoration-thickness: 2px; }
 .hub .fcx-input:placeholder-shown { text-decoration: none; }
+/* Answer box inside the sentence's blank */
+.hub .fcx-input--inline {
+  display: inline-block; width: 10ch; max-width: 100%; min-width: 6ch; height: 1.6em; padding: 0 .3em; margin: 0 .2em;
+  vertical-align: baseline; font: 700 1em var(--h-font); text-align: center; color: var(--h-accent-text);
+  border: 0; border-bottom: 3px solid var(--h-accent); border-radius: 8px 8px 0 0; background: var(--h-accent-soft);
+  box-shadow: none !important; transition: width .12s;
+}
+.hub .fcx-input--inline::placeholder { font-weight: 500; font-size: .8em; color: var(--h-text-3); }
+.hub .fcx-input--inline:focus, .hub .fcx-input--inline:focus-visible { border-color: var(--h-accent) !important; border-bottom-width: 3px; }
+.hub .fcx-input--inline.is-correct, .hub .fcx-input--inline.is-correct:focus { border-color: var(--h-success) !important; background: var(--h-success-soft); color: var(--h-success); }
+.hub .fcx-input--inline.is-almost, .hub .fcx-input--inline.is-almost:focus { border-color: var(--h-warn) !important; background: var(--h-warn-soft); color: var(--h-warn); }
+.hub .fcx-input--inline.is-wrong, .hub .fcx-input--inline.is-wrong:focus { border-color: var(--h-danger) !important; background: var(--h-danger-soft); color: var(--h-danger); }
+.fcx-mark--fix { margin-left: .25em; background: var(--h-success-soft); color: var(--h-success); }
 /* index.css forces a purple focus border with !important; keep the Hub accent and result colours. */
 .hub .fcx-input:focus, .hub .fcx-input:focus-visible { outline: none; border-color: var(--h-accent) !important; }
 .hub .fcx-input.is-correct:focus { border-color: var(--h-success) !important; }
@@ -823,6 +857,8 @@
 .fcx-done-actions { display: flex; flex-direction: column; align-items: stretch; gap: 10px; width: 100%; max-width: 360px; margin-top: 16px; }
 
 /* Flashcards page */
+.hub .fcx-credit { margin-top: 32px; font-size: 13px; color: var(--h-text-3); }
+.hub .fcx-credit a { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
 .fcx-hero {
   display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap;
   padding: 28px 32px; border-radius: var(--fcx-radius); border: 1px solid var(--h-border);
