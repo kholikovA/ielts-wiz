@@ -25,6 +25,7 @@ import { DictationResult } from './dictation/Dictation';
 import { checkDictation } from './dictation/diff';
 import { IntegrityNote } from './guard';
 import { EduschoolClassPanel } from './Eduschool';
+import ClassAvatar from './ClassAvatar';
 import './teach.css';
 
 const DictationSetup = React.lazy(() => import('./dictation/DictationSetup'));
@@ -116,7 +117,7 @@ export function Classes() {
                     return (
                       <article key={c.id} className="card tp-class">
                         <HubLink to={`/teach/classes/${c.id}`} className="tp-class-head hub-plain">
-                          <span className="tp-class-mark" aria-hidden="true">{c.name.trim().charAt(0).toUpperCase()}</span>
+                          <ClassAvatar name={c.name} size={42} className="tp-class-mark" />
                           <span className="tp-class-name">
                             <strong>{c.name}</strong>
                             <small>{plural(count, 'student')}</small>
@@ -124,8 +125,8 @@ export function Classes() {
                           <Icon name="chevronRight" size={16} />
                         </HubLink>
                         <div className="tp-class-facts">
-                          <HubLink to="/teach/assignments" className="hub-plain">
-                            <span>Open homework</span><strong className="hub-num">{w.open}</strong>
+                          <HubLink to="/teach/assignments" className="hub-plain" title="Open homework">
+                            <span>Homework</span><strong className="hub-num">{w.open}</strong>
                           </HubLink>
                           <HubLink to="/teach/assignments" className={`hub-plain${w.toReview ? ' is-warn' : ''}`}>
                             <span>To review</span><strong className="hub-num">{w.toReview}</strong>
