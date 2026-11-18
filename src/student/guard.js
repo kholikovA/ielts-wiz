@@ -11,7 +11,7 @@ import Icon from '../components/ui/icons';
 import * as api from './api';
 import { useHub } from './ui';
 import { alertDialog } from './dialog';
-import { useOnline, isOnline, checkConnection } from './connection';
+import { useOnline, isOnline, checkConnection, useHeartbeat } from './connection';
 
 export const MAX_LEAVES = 2;
 
@@ -91,6 +91,7 @@ export function useHomeworkGuard(a, { active, onAutoSubmit }) {
     return ok;
   }, []);
   const online = useOnline();
+  useHeartbeat(on && started);
   useEffect(() => {
     if (online && on && pendingAuto.current) autoSubmit(pendingAuto.current);
   }, [online, on, autoSubmit]);

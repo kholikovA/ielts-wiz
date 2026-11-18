@@ -4,7 +4,7 @@ import MathText from './MathText';
 import ReferenceSheet from './SatReference';
 import { numbering } from './quiz';
 import { useHub } from '../ui';
-import { useOnline } from '../connection';
+import { useOnline, offlineSince } from '../connection';
 import { passPercent } from '../homework';
 import SatHighlighter, { useStoredHighlights } from './SatHighlighter';
 
@@ -354,7 +354,8 @@ function LineReader() {
   );
 }
 
-function Timer({ endsAt, onTimeUp, paused = false }) {
+function Timer({ endsAt, onTimeUp, pausedAt = null }) {
+  const paused = pausedAt != null;
   const [now, setNow] = useState(() => Date.now());
   const [hidden, setHidden] = useState(false);
   const [alert5, setAlert5] = useState(false);
@@ -362,11 +363,11 @@ function Timer({ endsAt, onTimeUp, paused = false }) {
   const warned = useRef(false);
   // Paused (offline): the clock stands still; endsAt moves on by the pause when it resumes.
   useEffect(() => {
-    if (paused) return undefined;
+    if (paused) { setNow(pausedAt); fired.current = false; return undefined; } // shows the time left when contact was lost
     setNow(Date.now());
     const t = setInterval(() => setNow(Date.now()), 500);
     return () => clearInterval(t);
-  }, [paused]);
+  }, [paused, pausedAt]);
   const left = Math.max(0, Math.ceil((endsAt - now) / 1000));
   useEffect(() => {
     if (paused) return;
@@ -544,14 +545,15 @@ export function SatTake({ a, answers, setAnswer, onSubmit, onTimeUp, busy, warni
     return started + minutes * 60000;
   });
   // Offline pauses the clock: the start moves on by however long the connection was gone.
+  // The pause counts from the last answer the server gave, not from when it was noticed.
   const online = useOnline();
-  const pausedAt = useRef(null);
+  const [pausedAt, setPausedAt] = useState(null);
   useEffect(() => {
     if (!endsAt) return;
-    if (!online) { if (!pausedAt.current) pausedAt.current = Date.now(); return; }
-    if (!pausedAt.current) return;
-    const d = Date.now() - pausedAt.current;
-    pausedAt.current = null;
+    if (!online) { if (pausedAt == null) setPausedAt(Math.min(Date.now(), offlineSince() || Date.now())); return; }
+    if (pausedAt == null) return;
+    const d = Math.max(0, Date.now() - pausedAt);
+    setPausedAt(null);
     try {
       const key = satStartKey(a.id);
       const started = Number(localStorage.getItem(key));
@@ -576,7 +578,7 @@ export function SatTake({ a, answers, setAnswer, onSubmit, onTimeUp, busy, warni
     <Shell
       title={a.title}
       subject={a.payload.subject}
-      timer={endsAt ? <Timer endsAt={endsAt} onTimeUp={timeUp} paused={!online} /> : null}
+      timer={endsAt ? <Timer endsAt={endsAt} onTimeUp={timeUp} pausedAt={pausedAt} /> : null}
       extra={warning}
       keys={{ next: () => go(i + 1), prev: () => go(i - 1), mark: () => !checking && toggleMark(q.id), elim: () => setEliminating((x) => !x) }}
       footer={(
