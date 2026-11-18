@@ -41,7 +41,7 @@ export function EduschoolClassPanel({ classId }) {
           <>
             <p className="form-help" style={{ marginTop: 0, marginBottom: 12 }}>
               Registers for this class go to <strong>{d.link.es_class_label}</strong>{d.link.es_subject_name ? ` · ${d.link.es_subject_name}` : ''} in EduSchool,
-              on every {d.link.es_subject_name ? `${d.link.es_subject_name} ` : ''}lesson that day. Late counts as attended there.
+              on every {d.link.es_subject_name ? `${d.link.es_subject_name} ` : ''}lesson that day. Late is sent as "Kech keldi".
             </p>
             <div className="card">
               {d.students.map((s) => (

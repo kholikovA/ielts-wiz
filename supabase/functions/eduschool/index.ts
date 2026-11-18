@@ -14,8 +14,9 @@
 //     retry_due                        → (pg_cron, x-cron-secret) re-sends registers
 //                                       whose later lesson has now begun
 //
-// Mapping: present/late → attended, absent → notAttended, excused → reasonable
-// (EduSchool has no "late"). A hub session is a day; it is written to every
+// Mapping: present → attended, absent → notAttended, excused → reasonable,
+// late → attended + comment "Kech keldi" (EduSchool's own "Kech keldi" button
+// sends exactly that: there is no separate late state). A hub session is a day; it is written to every
 // EduSchool lesson of the linked class + subject on that day (Tashkent time);
 // a linked group has no subject and gets every one of its lessons that day.
 // Marks already in EduSchool for students the hub doesn't send are re-sent
@@ -203,6 +204,8 @@ const lessonStart = (day: string, hhmm: string) => {
 };
 
 const STATE: Record<string, string> = { present: "attended", late: "attended", absent: "notAttended", excused: "reasonable" };
+const LATE = "Kech keldi";
+type Mark = { state: string; late: boolean };
 
 // ── Actions ──────────────────────────────────────────────────────────────────
 async function push(uid: string, sessionId: string) {
@@ -241,13 +244,13 @@ async function push(uid: string, sessionId: string) {
     const onRoster = new Set(roster.map((p) => p.id));
     const names = new Map(members.map((m) => [m.id, m.name || m.email || "Unnamed"]));
 
-    const send = new Map<string, string>(); // es student id → state
+    const send = new Map<string, Mark>(); // es student id → mark
     const unlinked: string[] = [];
     for (const m of marks) {
       if (!names.has(m.student_id)) continue; // test accounts / left the class
       const l = links.get(m.student_id);
       if (!l || !onRoster.has(l.es_student_id)) { unlinked.push(names.get(m.student_id)!); continue; }
-      send.set(l.es_student_id, STATE[m.status]);
+      send.set(l.es_student_id, { state: STATE[m.status], late: m.status === "late" });
     }
 
     // EduSchool students with no hub account in this class (haven't joined yet)
@@ -279,15 +282,18 @@ async function push(uid: string, sessionId: string) {
         // never-joined ones come from the roster.
         const students = existing
           .filter((x) => !send.has(x.studentId) && isSet(x))
-          .map((x) => ({ studentId: x.studentId, state: x.state, ...(x.mark != null ? { mark: x.mark } : {}) }));
+          .map((x) => ({ studentId: x.studentId, state: x.state, ...(x.mark != null ? { mark: x.mark } : {}), ...(x.comment ? { comment: x.comment } : {}) }));
         const kept = new Set(students.map((x) => x.studentId));
         for (const id of notJoined) {
           if (!send.has(id) && !kept.has(id)) students.push({ studentId: id, state: "notAttended" });
         }
-        const markOf = new Map(existing.map((x) => [x.studentId, x.mark]));
-        for (const [studentId, state] of send) {
-          const mark = markOf.get(studentId);
-          students.push({ studentId, state, ...(mark != null ? { mark } : {}) });
+        const prev = new Map(existing.map((x) => [x.studentId, x]));
+        for (const [studentId, { state, late }] of send) {
+          const p = prev.get(studentId);
+          // Late → "Kech keldi"; otherwise keep a teacher's own comment but drop
+          // a "Kech keldi" left from an earlier push.
+          const comment = late ? LATE : p?.comment && p.comment !== LATE ? p.comment : null;
+          students.push({ studentId, state, ...(p?.mark != null ? { mark: p.mark } : {}), comment });
         }
         try {
           await es("POST", "/attendances", { lessonId: l.lessonId, classId: link.es_class_id, students });
@@ -307,8 +313,8 @@ async function push(uid: string, sessionId: string) {
         let verified: boolean | null = null;
         if (canRead) {
           const after = (await es("GET", `/teacher-app/lessons/${l.lessonId}/attendance`))?.students || [];
-          const got = new Map(after.map((x: any) => [x.studentId, x.state]));
-          verified = [...send].every(([id, st]) => got.get(id) === st);
+          const got = new Map(after.map((x: any) => [x.studentId, x]));
+          verified = [...send].every(([id, m]) => got.get(id)?.state === m.state && (!m.late || got.get(id)?.comment === LATE));
           if (!verified) problems.push(`${label}: EduSchool didn't keep every mark`);
         }
         done.push({ id: l.lessonId, label, verified });
