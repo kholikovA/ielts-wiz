@@ -1360,6 +1360,9 @@ video.proof-thumb { object-fit: cover; background: #000; }
 .hw-focus-block { position: fixed; inset: 0; z-index: 70; display: grid; place-items: center; padding: 16px; background: var(--h-bg); }
 .hw-focus-block .card { max-width: 420px; text-align: center; display: flex; flex-direction: column; gap: 12px; align-items: center; }
 .hw-focus-block .h3, .hw-focus-block .body { margin: 0; }
+.hw-offline { z-index: 1100; }
+.hw-offline svg { color: var(--h-text-2); }
+.hw-offline .form-help { margin: 0; }
 .hw-integrity { display: flex; gap: 6px; align-items: center; margin: 0 0 8px; font-size: 13px; font-weight: 600; color: var(--h-text-2); }
 .hw-integrity.is-auto { color: var(--h-danger, #b91c1c); }
 @media (max-width: 560px) {

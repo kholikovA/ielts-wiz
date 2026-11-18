@@ -4,6 +4,7 @@ import MathText from './MathText';
 import ReferenceSheet from './SatReference';
 import { numbering } from './quiz';
 import { useHub } from '../ui';
+import { useOnline } from '../connection';
 import { passPercent } from '../homework';
 import SatHighlighter, { useStoredHighlights } from './SatHighlighter';
 
@@ -353,18 +354,25 @@ function LineReader() {
   );
 }
 
-function Timer({ endsAt, onTimeUp }) {
+function Timer({ endsAt, onTimeUp, paused = false }) {
   const [now, setNow] = useState(() => Date.now());
   const [hidden, setHidden] = useState(false);
   const [alert5, setAlert5] = useState(false);
   const fired = useRef(false);
   const warned = useRef(false);
-  useEffect(() => { const t = setInterval(() => setNow(Date.now()), 500); return () => clearInterval(t); }, []);
+  // Paused (offline): the clock stands still; endsAt moves on by the pause when it resumes.
+  useEffect(() => {
+    if (paused) return undefined;
+    setNow(Date.now());
+    const t = setInterval(() => setNow(Date.now()), 500);
+    return () => clearInterval(t);
+  }, [paused]);
   const left = Math.max(0, Math.ceil((endsAt - now) / 1000));
   useEffect(() => {
+    if (paused) return;
     if (left <= 300 && left > 0 && !warned.current) { warned.current = true; setAlert5(true); setHidden(false); setTimeout(() => setAlert5(false), 8000); }
     if (left === 0 && !fired.current) { fired.current = true; onTimeUp?.(); }
-  }, [left, onTimeUp]);
+  }, [left, onTimeUp, paused]);
   const mm = Math.floor(left / 60); const ss = String(left % 60).padStart(2, '0');
   return (
     <div className={`sat-timer${left <= 300 ? ' is-low' : ''}`}>
@@ -527,7 +535,7 @@ export function SatTake({ a, answers, setAnswer, onSubmit, onTimeUp, busy, warni
   useEffect(() => { document.querySelector('.sat-main')?.scrollTo?.(0, 0); }, [i]);
 
   const minutes = satMinutes(a.payload);
-  const [endsAt] = useState(() => {
+  const [endsAt, setEndsAt] = useState(() => {
     if (!minutes) return null;
     const key = satStartKey(a.id);
     let started = null;
@@ -535,6 +543,22 @@ export function SatTake({ a, answers, setAnswer, onSubmit, onTimeUp, busy, warni
     if (!started) { started = Date.now(); try { localStorage.setItem(key, String(started)); } catch { /* storage off */ } }
     return started + minutes * 60000;
   });
+  // Offline pauses the clock: the start moves on by however long the connection was gone.
+  const online = useOnline();
+  const pausedAt = useRef(null);
+  useEffect(() => {
+    if (!endsAt) return;
+    if (!online) { if (!pausedAt.current) pausedAt.current = Date.now(); return; }
+    if (!pausedAt.current) return;
+    const d = Date.now() - pausedAt.current;
+    pausedAt.current = null;
+    try {
+      const key = satStartKey(a.id);
+      const started = Number(localStorage.getItem(key));
+      if (started) localStorage.setItem(key, String(started + d));
+    } catch { /* storage off */ }
+    setEndsAt((e) => e + d);
+  }, [online]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const checking = i >= qs.length;
   const q = qs[Math.min(i, qs.length - 1)];
@@ -552,7 +576,7 @@ export function SatTake({ a, answers, setAnswer, onSubmit, onTimeUp, busy, warni
     <Shell
       title={a.title}
       subject={a.payload.subject}
-      timer={endsAt ? <Timer endsAt={endsAt} onTimeUp={timeUp} /> : null}
+      timer={endsAt ? <Timer endsAt={endsAt} onTimeUp={timeUp} paused={!online} /> : null}
       extra={warning}
       keys={{ next: () => go(i + 1), prev: () => go(i - 1), mark: () => !checking && toggleMark(q.id), elim: () => setEliminating((x) => !x) }}
       footer={(

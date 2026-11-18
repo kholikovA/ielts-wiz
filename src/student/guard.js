@@ -4,11 +4,14 @@
 //     the first time is a warning, the second submits the homework as it is.
 // Counts are kept in localStorage and in submissions.data.integrity (shown to the teacher).
 // This is a deterrent, not proof: it runs in the student's browser.
+// Offline: the work is paused behind a screen (and the SAT timer stops) until the
+// connection is back; leaving the page while offline isn't counted.
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Icon from '../components/ui/icons';
 import * as api from './api';
 import { useHub } from './ui';
 import { alertDialog } from './dialog';
+import { useOnline, isOnline, checkConnection } from './connection';
 
 export const MAX_LEAVES = 2;
 
@@ -49,6 +52,7 @@ function readLocal(key) {
 /**
  * active: the student is doing (not reviewing) the homework.
  * onAutoSubmit(integrity): submits the current work; must include `integrity` if it writes `data`.
+ *   Returns false when the submit failed (it is retried when the connection is back).
  */
 export function useHomeworkGuard(a, { active, onAutoSubmit }) {
   const { user, preview } = useHub();
@@ -75,15 +79,21 @@ export function useHomeworkGuard(a, { active, onAutoSubmit }) {
     return api.mergeSubmissionData(a.id, user.id, { integrity: next }).catch(() => {});
   }, [a.id, user.id, storeKey]);
 
+  const pendingAuto = useRef(null);
+  // Resolves true once the work is submitted.
   const autoSubmit = useCallback(async (next) => {
-    if (autoRan.current) return;
+    if (autoRan.current) return false;
     autoRan.current = true;
-    try {
-      await latest.current.onAutoSubmit(next);
-    } catch {
-      autoRan.current = false; // try again on the next visit
-    }
+    let ok = false;
+    try { ok = (await latest.current.onAutoSubmit(next)) !== false; } catch { ok = false; }
+    if (!ok) { autoRan.current = false; pendingAuto.current = next; } // retried when back online / next visit
+    else pendingAuto.current = null;
+    return ok;
   }, []);
+  const online = useOnline();
+  useEffect(() => {
+    if (online && on && pendingAuto.current) autoSubmit(pendingAuto.current);
+  }, [online, on, autoSubmit]);
 
   // Out of chances already (e.g. the page was closed on the second leave): submit now.
   useEffect(() => {
@@ -112,13 +122,14 @@ export function useHomeworkGuard(a, { active, onAutoSubmit }) {
     if (!on || !started) return undefined;
     const onVisibility = () => {
       if (document.visibilityState === 'hidden') {
+        if (!isOnline()) return; // paused: they may be switching to fix the connection
         const cur = latest.current.integrity;
         const at = new Date().toISOString();
         const next = { ...cur, leaves: (cur.leaves || 0) + 1, events: [...(cur.events || []), at].slice(-20) };
         if (next.leaves >= MAX_LEAVES) {
           next.auto_submitted = at;
           persist(next);
-          autoSubmit(next).then(() => alertDialog({
+          autoSubmit(next).then((ok) => ok && alertDialog({
             title: 'Your homework was submitted',
             body: 'You left the page a second time, so your homework was submitted automatically as it was.',
             confirmLabel: 'OK',
@@ -157,7 +168,7 @@ export function useHomeworkGuard(a, { active, onAutoSubmit }) {
     try { await enterFullscreen(); entered.current = true; } catch { /* stays blocked */ }
   };
 
-  return { on, preview, started, start, resume, integrity, needsFullscreen: fsEnabled() && !fullscreen };
+  return { on, preview, started, start, resume, integrity, needsFullscreen: fsEnabled() && !fullscreen, offline: !online };
 }
 
 /** Wraps the homework: a start screen, then the work in a focus layer. */
@@ -195,7 +206,7 @@ export function GuardFrame({ g, title, children, bare = false }) {
           <div className="hw-focus-body">{children}</div>
         </>
       )}
-      {g.needsFullscreen && (
+      {g.offline ? <OfflinePause /> : g.needsFullscreen && (
         <div className="hw-focus-block">
           <div className="card">
             <h2 className="h3">Full screen is required</h2>
@@ -204,6 +215,32 @@ export function GuardFrame({ g, title, children, bare = false }) {
           </div>
         </div>
       )}
+    </div>
+  );
+}
+
+/** Covers the work while offline; the attempt (and any timer) waits. */
+export function OfflinePause() {
+  const [busy, setBusy] = useState(false);
+  const [still, setStill] = useState(false);
+  const check = async () => {
+    setBusy(true); setStill(false);
+    const ok = await checkConnection();
+    setBusy(false);
+    if (!ok) setStill(true);
+  };
+  return (
+    <div className="hw-focus-block hw-offline" role="alertdialog" aria-modal="true" aria-labelledby="hw-offline-title">
+      <div className="card">
+        <Icon name="wifiOff" size={32} />
+        <h2 className="h3" id="hw-offline-title">You're offline</h2>
+        <p className="body">Get online to continue. Your homework is paused: your answers are saved on this device{' '}
+          and the timer (if there is one) has stopped.</p>
+        <button type="button" className="btn btn-primary" disabled={busy} onClick={check}>
+          <Icon name="refresh" size={16} /> {busy ? 'Checking…' : 'Check connection'}
+        </button>
+        {still && <p className="form-help" role="status">Still offline. Check your Wi-Fi or mobile data and try again.</p>}
+      </div>
     </div>
   );
 }

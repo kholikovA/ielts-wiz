@@ -3,6 +3,7 @@ import Icon from '../components/ui/icons';
 import AppLink from '../components/ui/AppLink';
 import { STATUS_LABEL, statusPillClass, KINDS } from './homework';
 import { Character, characterById } from './characters';
+import { isNetworkError, OFFLINE_MESSAGE } from './connection';
 
 // Hub-wide context: navigation + who's signed in.
 export const HubContext = createContext(null);
@@ -55,7 +56,7 @@ export function NoPaste({ children }) {
 export const Spinner = () => <div className="hub-loading"><div className="hub-spinner" /></div>;
 
 export const ErrorNote = ({ error }) => (
-  <div className="form-error">{error?.message || 'Something went wrong. Please try again.'}</div>
+  <div className="form-error">{isNetworkError(error) ? OFFLINE_MESSAGE : error?.message || 'Something went wrong. Please try again.'}</div>
 );
 
 // Standard loading / error wrapper for a useAsync result.
