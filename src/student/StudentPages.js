@@ -572,10 +572,8 @@ function SavedWordsStudy() {
   const words = useAsync(() => api.savedWords(user.id), [user.id]);
   return (
     <>
-      <BackLink to="/flashcards" label="Flashcards" />
-      <h1 className="h2" style={{ marginBottom: 'var(--space-6)' }}>My saved words</h1>
       <Loaded state={words}>
-        {(list) => <FlashcardStudy cards={list.map((w) => ({ f: w.word, b: [w.definition, w.example && `“${w.example}”`].filter(Boolean).join('\n\n') }))} onExit={() => go('/flashcards')} />}
+        {(list) => <FlashcardStudy cards={list.map((w) => ({ f: w.word, b: w.definition, ex: w.example }))} onExit={() => go('/flashcards')} />}
       </Loaded>
     </>
   );
@@ -591,10 +589,7 @@ export function Flashcards({ deckId }) {
   if (deckId === 'study') {
     const deck = new URLSearchParams(window.location.search).get('deck');
     return (
-      <>
-        <BackLink to="/flashcards" label="Flashcards" />
-        <SrsSession deck={deck} onExit={() => go('/flashcards')} />
-      </>
+      <SrsSession deck={deck} onExit={() => go('/flashcards')} />
     );
   }
 
@@ -606,14 +601,21 @@ export function Flashcards({ deckId }) {
         {(data) => {
           const s = srsStats(data, new Date(), endOfStudyDay());
           return (
-            <div className="card fc-today">
-              <div className="fc-today-counts">
-                <span><strong className="fc-count fc-count--new">{s.fresh}</strong> new</span>
-                <span><strong className="fc-count fc-count--review">{s.due}</strong> to review</span>
+            <div className={`fcx-hero${s.fresh + s.due > 0 ? '' : ' is-clear'}`}>
+              <div className="fcx-hero-main">
+                <span className="fcx-hero-eyebrow">Today</span>
+                {s.fresh + s.due > 0 ? (
+                  <div className="fcx-hero-counts">
+                    <span className="fcx-hero-count fcx-hero-count--new"><strong>{s.fresh}</strong>new words</span>
+                    <span className="fcx-hero-count fcx-hero-count--review"><strong>{s.due}</strong>to review</span>
+                  </div>
+                ) : (
+                  <p className="fcx-hero-clear"><Icon name="checkCircle" size={24} /> {s.total ? 'All done for today. See you tomorrow!' : 'No words assigned yet.'}</p>
+                )}
               </div>
-              {s.fresh + s.due > 0
-                ? <HubLink to="/flashcards/study" className="btn btn-primary"><Icon name="play" size={16} /> Study now</HubLink>
-                : <span className="body">{s.total ? 'All done for today.' : 'No words assigned yet.'}</span>}
+              {s.fresh + s.due > 0 && (
+                <HubLink to="/flashcards/study" className="fcx-btn fcx-btn--primary fcx-hero-cta"><Icon name="play" size={18} /> Study now</HubLink>
+              )}
             </div>
           );
         }}
@@ -633,11 +635,14 @@ export function Flashcards({ deckId }) {
               return rows.filter((a) => a.kind === 'flashcards').map((a) => {
                 const mine = cards.filter((c) => c.assignment_id === a.id);
                 const learned = mine.filter((c) => c.state !== 0).length;
+                const total = mine.length || (a.payload?.cards || []).length;
                 return (
-                  <HubLink key={a.id} to={`/flashcards/study?deck=${a.id}`} className="card card-interactive hub-deck">
-                    <Icon name="layers" size={22} />
+                  <HubLink key={a.id} to={`/flashcards/study?deck=${a.id}`} className="fcx-deck">
+                    <span className="fcx-deck-icon"><Icon name="layers" size={22} /></span>
                     <strong>{a.title}</strong>
-                    <small>{learned}/{mine.length || (a.payload?.cards || []).length} learned · assigned {formatDate(a.assigned_at || a.created_at)}</small>
+                    <small>{total} card{total === 1 ? '' : 's'} · assigned {formatDate(a.assigned_at || a.created_at)}</small>
+                    <span className="fcx-deck-bar"><span style={{ width: `${total ? (learned / total) * 100 : 0}%` }} /></span>
+                    <small className="fcx-deck-learned">{learned}/{total} learned</small>
                   </HubLink>
                 );
               });
@@ -645,8 +650,8 @@ export function Flashcards({ deckId }) {
           </Loaded>
           <Loaded state={words} fallback={null}>
             {(list) => (
-              <HubLink to="/flashcards/saved" className="card card-interactive hub-deck">
-                <Icon name="bookOpen" size={22} />
+              <HubLink to="/flashcards/saved" className="fcx-deck fcx-deck--saved">
+                <span className="fcx-deck-icon"><Icon name="bookOpen" size={22} /></span>
                 <strong>My saved words</strong>
                 <small>{list.length} word{list.length === 1 ? '' : 's'} from Articles · free practice</small>
               </HubLink>
