@@ -682,6 +682,11 @@
 .hub .fcx-input.is-almost { border-color: var(--h-warn); color: var(--h-warn); box-shadow: none; }
 .hub .fcx-input.is-wrong { border-color: var(--h-danger); color: var(--h-danger); box-shadow: none; text-decoration: line-through; text-decoration-thickness: 2px; }
 .hub .fcx-input:placeholder-shown { text-decoration: none; }
+/* index.css forces a purple focus border with !important; keep the Hub accent and result colours. */
+.hub .fcx-input:focus, .hub .fcx-input:focus-visible { outline: none; border-color: var(--h-accent) !important; }
+.hub .fcx-input.is-correct:focus { border-color: var(--h-success) !important; }
+.hub .fcx-input.is-almost:focus { border-color: var(--h-warn) !important; }
+.hub .fcx-input.is-wrong:focus { border-color: var(--h-danger) !important; }
 
 /* 3D flip */
 .fcx-flip-wrap { position: relative; perspective: 1600px; cursor: pointer; transition: transform .25s; touch-action: pan-y; user-select: none; -webkit-user-select: none; }
@@ -871,48 +876,107 @@
   .fcx-progress > span { transition: none; }
 }
 
-/* ── Games ──────────────────────────────────────────────────────────────── */
-.game { max-width: 600px; margin: 0 auto; display: flex; flex-direction: column; gap: 16px; }
-.game-top { display: flex; align-items: center; gap: 12px; font-size: 13px; color: var(--h-text-2); }
-.game-top .hub-bar { flex: 1; }
-.game-prompt { padding: 28px 20px; text-align: center; }
-.game-prompt small { display: block; color: var(--h-text-3); font-size: 12px; margin-bottom: 8px; }
-.game-prompt strong { font-size: 24px; font-weight: 600; letter-spacing: -0.02em; }
-.game-prompt p { color: var(--h-text); font-size: 16px; }
-.game-options { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-@media (max-width: 560px) { .game-options { grid-template-columns: 1fr; } }
-.game-opt {
-  min-height: 52px;
-  padding: 10px 14px;
-  border: 1px solid var(--h-border);
-  border-radius: var(--h-radius);
-  background: var(--h-surface);
-  color: var(--h-text);
-  font: inherit;
-  text-align: left;
-  cursor: pointer;
-  transition: border-color 0.15s ease, background 0.15s ease;
+/* ── Games ──────────────────────────────────────────────────────────────
+   Built on the flashcard pieces (.fcx-*): same top bar, cards, chunky buttons
+   and feedback panel. Game-only parts below. */
+.gm-prompt { min-height: clamp(240px, 34vh, 340px); }
+.gm-prompt-text { max-width: 34ch; }
+.gm-type { display: flex; flex-direction: column; gap: 20px; }
+.gm-streak {
+  display: inline-flex; align-items: center; gap: 4px; height: 30px; padding: 0 10px; border-radius: 999px;
+  font: 800 15px var(--h-font); color: var(--fcx-learn); background: var(--fcx-learn-soft);
+  animation: fcx-pop .3s cubic-bezier(.2, .9, .3, 1.4);
 }
-.game-opt:hover:not(:disabled) { border-color: var(--h-border-strong); background: var(--h-hover); }
-.game-opt:disabled { cursor: default; }
-.game-opt.is-right { border-color: var(--h-success); background: var(--h-success-soft); }
-.game-opt.is-wrong { border-color: var(--h-danger); background: var(--h-danger-soft); }
-.game-opt.is-picked { border-color: var(--h-accent); background: var(--h-accent-soft); }
-.game-opt.is-gone { opacity: 0.35; }
-.game-opt kbd { font-family: var(--h-mono); font-size: 11px; color: var(--h-text-3); margin-right: 8px; }
-.game-pairs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-.game-type { display: flex; gap: 8px; }
-.game-type .form-input { height: 44px; font-size: 16px; }
-.game-feedback { text-align: center; font-size: 13px; min-height: 20px; }
-.game-feedback.is-right { color: var(--h-success); }
-.game-feedback.is-wrong { color: var(--h-danger); }
-.game-letters { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
-.game-letters span { width: 32px; height: 36px; display: grid; place-items: center; border: 1px solid var(--h-border); border-radius: 6px; font-family: var(--h-mono); font-weight: 600; text-transform: uppercase; background: var(--h-surface-2); }
-.game-card { display: flex; flex-direction: column; gap: 10px; }
-.game-card .hub-kind-icon { width: 36px; height: 36px; }
-.game-card strong { font-weight: 600; }
-.game-card p { font-size: 13px; }
-.game-card.is-disabled { opacity: 0.5; pointer-events: none; }
+
+/* Answer tiles */
+.gm-options { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.gm-options--list { grid-template-columns: 1fr; }
+.hub .gm-opt {
+  --c: var(--h-border);
+  display: flex; align-items: center; gap: 14px; min-height: 64px; padding: 14px 18px;
+  border-radius: 16px; border: 2px solid var(--c); background: var(--h-surface); color: var(--h-text);
+  font: 600 18px/1.4 var(--h-font); text-align: left; cursor: pointer;
+  box-shadow: 0 4px 0 var(--c); margin-bottom: 4px;
+  transition: transform .08s, box-shadow .08s, background .15s, border-color .15s, opacity .2s;
+}
+.hub .gm-options--list .gm-opt { font-size: 17px; font-weight: 500; }
+.hub .gm-opt:hover:not(:disabled) { --c: var(--h-border-strong); background: var(--h-hover); }
+.hub .gm-opt:active:not(:disabled) { transform: translateY(4px); box-shadow: 0 0 0 var(--c); }
+.hub .gm-opt:disabled { cursor: default; }
+.hub .gm-opt kbd {
+  flex: none; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 8px;
+  border: 2px solid var(--h-border); font: 700 14px var(--h-font); color: var(--h-text-3);
+}
+.hub .gm-opt.is-right { --c: var(--h-success); background: var(--h-success-soft); color: var(--h-text); animation: gm-bump .35s; }
+.hub .gm-opt.is-right kbd { border-color: var(--h-success); background: var(--h-success); color: #fff; }
+.hub .gm-opt.is-wrong { --c: var(--h-danger); background: var(--h-danger-soft); animation: gm-shake .4s; }
+.hub .gm-opt.is-wrong kbd { border-color: var(--h-danger); background: var(--h-danger); color: #fff; }
+.hub .gm-opt.is-dim { opacity: .45; }
+@keyframes gm-shake { 20%, 60% { transform: translateX(-6px); } 40%, 80% { transform: translateX(6px); } }
+@keyframes gm-bump { 50% { transform: scale(1.03); } }
+
+/* Letter tiles (unscramble) */
+.gm-letters { display: flex; justify-content: center; flex-wrap: wrap; gap: 8px; }
+.hub .gm-letter {
+  width: 48px; height: 54px; display: grid; place-items: center; border-radius: 12px; cursor: pointer;
+  border: 2px solid var(--h-border); background: var(--h-surface); color: var(--h-text);
+  font: 700 22px var(--h-font); text-transform: uppercase; box-shadow: 0 4px 0 var(--h-border); margin-bottom: 4px;
+  transition: transform .08s, box-shadow .08s, opacity .15s;
+}
+.hub .gm-letter:hover:not(:disabled) { border-color: var(--h-accent); }
+.hub .gm-letter:active:not(:disabled) { transform: translateY(4px); box-shadow: 0 0 0 var(--h-border); }
+.hub .gm-letter.is-used { opacity: .25; transform: translateY(4px); box-shadow: none; cursor: default; }
+
+/* Match pairs */
+.gm-pairs-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+.gm-pairs-head strong { font-size: clamp(22px, 3vw, 26px); font-weight: 800; letter-spacing: -0.015em; }
+.gm-pairs-head span { font-size: 15px; font-weight: 600; color: var(--h-text-3); }
+.gm-pairs { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 3fr); gap: 12px; }
+.gm-col { display: flex; flex-direction: column; gap: 12px; }
+.hub .gm-tile {
+  --c: var(--h-border);
+  flex: 1 0 auto; min-height: 68px; padding: 12px 16px; border-radius: 16px; cursor: pointer;
+  border: 2px solid var(--c); background: var(--h-surface); color: var(--h-text);
+  font: 500 16px/1.4 var(--h-font); text-align: left; box-shadow: 0 4px 0 var(--c); margin-bottom: 4px;
+  transition: transform .08s, box-shadow .08s, background .15s, border-color .15s, opacity .3s;
+}
+.hub .gm-tile--term { font-size: 19px; font-weight: 700; text-align: center; }
+.hub .gm-tile:hover:not(:disabled) { --c: var(--h-border-strong); background: var(--h-hover); }
+.hub .gm-tile:active:not(:disabled) { transform: translateY(4px); box-shadow: 0 0 0 var(--c); }
+.hub .gm-tile.is-picked { --c: var(--h-accent); background: var(--h-accent-soft); color: var(--h-accent-text); }
+.hub .gm-tile.is-right { --c: var(--h-success); background: var(--h-success-soft); color: var(--h-success); animation: gm-bump .35s; }
+.hub .gm-tile.is-wrong { --c: var(--h-danger); background: var(--h-danger-soft); color: var(--h-danger); animation: gm-shake .4s; }
+.hub .gm-tile.is-gone { opacity: .3; box-shadow: none; transform: translateY(4px); cursor: default; background: var(--h-surface-2); color: var(--h-text-3); }
+
+/* Games page */
+.gm-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 16px; }
+.hub .gm-card { font: inherit; text-align: left; cursor: pointer; }
+.hub .gm-card small { font-size: 15px; line-height: 1.5; color: var(--h-text-2); }
+.gm-card-play { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; font-size: 15px; font-weight: 700; color: var(--gm-c); }
+.gm-card .fcx-deck-icon { color: var(--gm-c); background: color-mix(in srgb, var(--gm-c) 13%, transparent); }
+.gm-card--blue { --gm-c: var(--h-blue); }
+.gm-card--accent { --gm-c: var(--h-accent-text); }
+.gm-card--success { --gm-c: var(--h-success); }
+.gm-card--warn { --gm-c: var(--h-warn); }
+.gm-card--pink { --gm-c: #db2777; }
+.gm-card--teal { --gm-c: #0d9488; }
+[data-theme='dark'] .gm-card--pink { --gm-c: #f472b6; }
+[data-theme='dark'] .gm-card--teal { --gm-c: #2dd4bf; }
+.hub .gm-card.is-disabled { opacity: .5; cursor: not-allowed; transform: none; }
+.hub .gm-pool { display: flex; align-items: center; gap: 8px; margin-top: 20px; font-size: 15px; color: var(--h-text-3); }
+
+@media (max-width: 560px) {
+  .gm-options { grid-template-columns: 1fr; gap: 10px; }
+  .hub .gm-opt { min-height: 58px; font-size: 17px; }
+  .gm-pairs { gap: 8px; }
+  .gm-col { gap: 8px; }
+  .hub .gm-tile { padding: 10px; font-size: 14px; min-height: 60px; }
+  .hub .gm-tile--term { font-size: 16px; }
+  .hub .gm-letter { width: 42px; height: 48px; font-size: 20px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .hub .gm-opt, .hub .gm-tile, .gm-streak { animation: none !important; }
+}
 
 /* ── Dashboard v2 ───────────────────────────────────────────────────────── */
 .dash { display: flex; flex-direction: column; gap: 16px; }
