@@ -17,7 +17,8 @@
 // EduSchool lesson of the linked class + subject on that day (Tashkent time);
 // a linked group has no subject and gets every one of its lessons that day.
 // Marks already in EduSchool for students the hub doesn't send are re-sent
-// unchanged, so a push never clears someone else's mark.
+// unchanged, so a push never clears someone else's mark. Unmarked EduSchool
+// students with no hub account in the class are sent as notAttended (sababsiz).
 //
 // Credentials: Vault secret 'eduschool' = {host, apiKey, login, password, branch},
 // read via public.eduschool_secret() (service role only).
@@ -25,7 +26,7 @@
 // =============================================================================
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
-import { matchAll, type EsPerson } from "./match.ts";
+import { matchAll, score, type EsPerson } from "./match.ts";
 
 const SUPABASE_URL = Deno.env.get("SUPABASE_URL")!;
 const SERVICE_ROLE = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY")!;
@@ -238,6 +239,15 @@ async function push(uid: string, sessionId: string) {
       send.set(l.es_student_id, STATE[m.status]);
     }
 
+    // EduSchool students with no hub account in this class (haven't joined yet)
+    // are absent without reason. Anyone who could be an unlinked hub member is
+    // left alone, so a missing match never marks a present student absent.
+    const linkedEs = new Set(members.map((m) => links.get(m.id)?.es_student_id).filter(Boolean));
+    const unlinkedHub = members.filter((m) => !links.get(m.id));
+    const notJoined = new Set(roster
+      .filter((p) => !linkedEs.has(p.id) && !unlinkedHub.some((m) => score(m, p) >= 0.6))
+      .map((p) => p.id));
+
     const done: any[] = [];
     const problems: string[] = [];
     if (send.size) {
@@ -249,9 +259,12 @@ async function push(uid: string, sessionId: string) {
         try {
           existing = (await es("GET", `/teacher-app/lessons/${l.lessonId}/attendance`))?.students || [];
         } catch { canRead = false; }
+        // Marks already in EduSchool stay; unmarked students who never joined
+        // the hub class become "notAttended" (sababsiz).
+        const isSet = (x: any) => x.state && !["unchecked", "created"].includes(x.state);
         const students = existing
-          .filter((x) => !send.has(x.studentId) && x.state && !["unchecked", "created"].includes(x.state))
-          .map((x) => ({ studentId: x.studentId, state: x.state, ...(x.mark != null ? { mark: x.mark } : {}) }));
+          .filter((x) => !send.has(x.studentId) && (isSet(x) || notJoined.has(x.studentId)))
+          .map((x) => ({ studentId: x.studentId, state: isSet(x) ? x.state : "notAttended", ...(x.mark != null ? { mark: x.mark } : {}) }));
         const markOf = new Map(existing.map((x) => [x.studentId, x.mark]));
         for (const [studentId, state] of send) {
           const mark = markOf.get(studentId);
