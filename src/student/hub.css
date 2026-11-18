@@ -680,7 +680,10 @@
 .hub .fcx-pron-btn:hover { border-color: var(--h-accent); background: var(--h-accent-soft); }
 .hub .fcx-pron-btn:active { transform: scale(.96); }
 .fcx-pron-icon { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; color: #fff; background: var(--h-accent); }
-.fcx-pron-btn:nth-child(2) .fcx-pron-icon { background: var(--h-danger); }
+.fcx-pron-btn--us .fcx-pron-icon { background: var(--h-danger); }
+.hub .fcx-pron-btn--static { cursor: default; padding-left: 14px; border-style: dashed; background: transparent; }
+.hub .fcx-pron-btn--static:hover { border-color: var(--h-border); background: transparent; }
+.hub .fcx-pron-btn--static:active { transform: none; }
 .fcx-pron-acc { font-size: 13px; font-weight: 800; letter-spacing: .05em; color: var(--h-text-2); }
 .fcx-pron-ipa { font-family: 'Lucida Sans Unicode', 'Arial Unicode MS', var(--h-font); color: var(--h-text-2); }
 .hub .fcx-pron-btn.is-playing { border-color: var(--h-accent); background: var(--h-accent-soft); }

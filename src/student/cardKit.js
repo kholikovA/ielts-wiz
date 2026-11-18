@@ -1,35 +1,46 @@
 import React, { useState, useEffect } from 'react';
 import Icon from '../components/ui/icons';
-import { pronunciation, play, canPlay } from './pronounce';
+import { pronunciation, play, firstAccent } from './pronounce';
 
 // Shared building blocks for the flashcard study screens (SrsSession,
 // FlashcardStudy) and word games. Styles live under "Flashcards" in hub.css (.fcx-*).
 
-/** Read a word aloud (UK): the real recording when there is one, else a device voice. */
-export const speak = (text) => play(text, 'uk');
-
-export function SpeakButton({ text, size = 'md' }) {
-  if (!canPlay || !text) return null;
-  return (
-    <button type="button" className={`fcx-speak fcx-speak--${size}`} aria-label={`Listen: ${text}`} title="Listen"
-      onClick={(e) => { e.stopPropagation(); speak(text); }}
-      onPointerDown={(e) => e.stopPropagation()}>
-      <Icon name="volume" size={size === 'sm' ? 16 : 20} />
-    </button>
-  );
-}
-
-/** UK and US pronunciation buttons with IPA, Cambridge-style. */
-export function Pronounce({ word, compact = false }) {
+/** The word's recordings/IPA, or null while loading. */
+function usePron(word) {
   const [data, setData] = useState(null);
-  const [playing, setPlaying] = useState(null);
   useEffect(() => {
     let live = true;
     setData(null);
     if (word) pronunciation(word).then((d) => live && setData(d));
     return () => { live = false; };
   }, [word]);
-  if (!canPlay || !word) return null;
+  return data;
+}
+
+/** One speaker button: plays the UK recording (or US if that's all there is). Hidden when there's none. */
+export function SpeakButton({ text, size = 'md' }) {
+  const data = usePron(text);
+  const acc = firstAccent(data);
+  if (!acc) return null;
+  return (
+    <button type="button" className={`fcx-speak fcx-speak--${size}`} aria-label={`Listen: ${text}`} title="Listen"
+      onClick={(e) => { e.stopPropagation(); play(text, acc); }}
+      onPointerDown={(e) => e.stopPropagation()}>
+      <Icon name="volume" size={size === 'sm' ? 16 : 20} />
+    </button>
+  );
+}
+
+/**
+ * UK and US pronunciation, Cambridge-style: a play button with IPA for each
+ * accent that has a human recording, IPA alone for one that doesn't.
+ */
+export function Pronounce({ word, compact = false }) {
+  const data = usePron(word);
+  const [playing, setPlaying] = useState(null);
+  if (!word || !data) return null;
+  const accents = ['uk', 'us'].filter((acc) => data[acc]?.audio || (!compact && data[acc]?.ipa));
+  if (!accents.length) return null;
   const say = (e, acc) => {
     e.stopPropagation();
     setPlaying(acc);
@@ -37,15 +48,20 @@ export function Pronounce({ word, compact = false }) {
   };
   return (
     <div className={`fcx-pron${compact ? ' fcx-pron--compact' : ''}`} onPointerDown={(e) => e.stopPropagation()} onClick={(e) => e.stopPropagation()}>
-      {['uk', 'us'].map((acc) => (
-        <button key={acc} type="button" className={`fcx-pron-btn${playing === acc ? ' is-playing' : ''}`}
-          onClick={(e) => say(e, acc)} aria-label={`Listen: ${acc === 'uk' ? 'British' : 'American'} pronunciation of ${word}`}
-          title={data?.[acc]?.audio ? 'Recorded pronunciation' : 'Device voice'}>
-          <span className="fcx-pron-icon"><Icon name="volume" size={compact ? 15 : 17} /></span>
-          <span className="fcx-pron-acc">{acc.toUpperCase()}</span>
-          {!compact && data?.[acc]?.ipa && <span className="fcx-pron-ipa">{data[acc].ipa}</span>}
-        </button>
-      ))}
+      {accents.map((acc) => {
+        const { audio, ipa } = data[acc];
+        const label = <span className="fcx-pron-acc">{acc.toUpperCase()}</span>;
+        const ipaText = !compact && ipa && <span className="fcx-pron-ipa">{ipa}</span>;
+        return audio ? (
+          <button key={acc} type="button" className={`fcx-pron-btn fcx-pron-btn--${acc}${playing === acc ? ' is-playing' : ''}`}
+            onClick={(e) => say(e, acc)} aria-label={`Listen: ${acc === 'uk' ? 'British' : 'American'} pronunciation of ${word}`}>
+            <span className="fcx-pron-icon"><Icon name="volume" size={compact ? 15 : 17} /></span>
+            {label}{ipaText}
+          </button>
+        ) : (
+          <span key={acc} className="fcx-pron-btn fcx-pron-btn--static" title="No recording yet">{label}{ipaText}</span>
+        );
+      })}
     </div>
   );
 }
