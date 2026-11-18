@@ -2239,3 +2239,14 @@ body.is-resizing .sat-calc-frame { pointer-events: none; }
 .sat-hl-btn.is-pink i { background: #fbcfe8; }
 .sat-hl-u { font-size: 16px; font-weight: 600; text-decoration: underline; text-decoration-thickness: 2px; text-underline-offset: 3px; }
 .sat-hl-btn.is-remove { margin-left: 2px; border-left: 1px solid #e2e2e2; border-radius: 0 8px 8px 0; color: #c62828; }
+
+/* Viewer Overview (Overview.js) and the class page's Viewers panel. */
+.hub-ov-link { color: inherit; text-decoration: none; display: inline-flex; flex-direction: column; gap: 2px; }
+.hub-ov-link:hover strong { text-decoration: underline; }
+.hub-ov-sub { display: flex; align-items: center; gap: 4px; color: var(--h-text-3); font-size: 12px; font-weight: 400; }
+.hub-ov-sub .hub-kind { font-size: 12px; }
+.hub-stats-table td > strong + .hub-ov-sub { margin-top: 2px; }
+.hub-ov-person { display: flex; align-items: center; gap: 14px; }
+.hub-ov-person h1 { margin: 0; }
+.hub-viewer-add { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+.hub-viewer-add .form-input { flex: 1 1 240px; max-width: 360px; height: 32px; }

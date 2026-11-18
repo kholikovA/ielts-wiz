@@ -61,6 +61,10 @@ const Messages = lazy(() => import('./chat/Messages'));
 const Schedule = lazy(() => import('./schedule/Schedule'));
 const WelcomeBack = lazy(() => import('./WelcomeBack'));
 const TeacherDashboard = lazy(() => import('./TeacherDashboard'));
+const OverviewPages = () => import('./Overview');
+const Overview = pages(OverviewPages, 'default');
+const OverviewHomework = pages(OverviewPages, 'OverviewHomework');
+const OverviewStudent = pages(OverviewPages, 'OverviewStudent');
 
 // Sidebar groups. The first group has no heading and stays pinned at the top
 // (with Notifications); the labelled groups below it scroll, as on claude.ai.
@@ -104,6 +108,12 @@ const TEACH_NAV = [
     { path: '/teach/coins',       label: 'Coins',       icon: 'coin' },
   ] },
 ];
+// Viewers (class_viewers, e.g. a Head Teacher): read-only stats for shared groups.
+const VIEW_NAV = [
+  { items: [
+    { path: '/overview', label: 'Overview', icon: 'trending' },
+  ] },
+];
 const flat = (nav) => nav.flatMap((g) => g.items);
 
 const NOTIFICATION_ICON = { feedback: 'quote', submission: 'checkCircle', retake: 'refresh', coins: 'coin', homework: 'edit' };
@@ -130,6 +140,14 @@ function teacherRoute(parts) {
   if (c === 'new') return <NewAssignment key={window.location.search} />;
   if (c && d === 'edit') return <NewAssignment key={`edit-${c}`} editId={c} />;
   return c ? <AssignmentDetail id={c} /> : <Assignments />;
+}
+
+function viewerRoute(parts) {
+  const [a, b, c] = parts;
+  if (a === 'profile') return <Profile />;
+  if (a === 'overview' && b === 'homework' && c) return <OverviewHomework id={c} />;
+  if (a === 'overview' && b === 'students' && c) return <OverviewStudent id={c} />;
+  return <Overview />;
 }
 
 function studentRoute(parts, exitStudentView) {
@@ -259,11 +277,11 @@ function useAsyncList(uid) {
   return list;
 }
 
-function UserMenu({ user, profile, isDark, toggleTheme, signOut, go, canTeach, viewAs, onViewAs, collapsed }) {
+function UserMenu({ user, profile, isDark, toggleTheme, signOut, go, canTeach, isViewer, viewAs, onViewAs, collapsed }) {
   const pop = usePopover();
   const [picking, setPicking] = useState(false);
   useEffect(() => { if (!pop.open) setPicking(false); }, [pop.open]);
-  const role = viewAs ? 'Student view' : profile?.is_admin ? 'Admin' : profile?.is_teacher ? 'Teacher' : 'Student';
+  const role = viewAs ? 'Student view' : profile?.is_admin ? 'Admin' : profile?.is_teacher ? 'Teacher' : isViewer ? 'Viewer' : 'Student';
   return (
     <div className="hub-pop-wrap" ref={pop.ref}>
       <button type="button" className={`hub-user${pop.open ? ' is-open' : ''}`} onClick={() => pop.setOpen((o) => !o)} aria-haspopup="menu" aria-expanded={pop.open}
@@ -329,11 +347,21 @@ export default function StudentApp() {
   const viewAs = canTeach ? viewAsRaw : null;
   const isAdmin = Boolean(profile?.is_admin) && !viewAs;
   const isTeacher = canTeach && !viewAs;
+  // Viewers see only the read-only Overview. null while we check.
+  const [viewerOf, setViewerOf] = useState(null); // { uid, on }
+  useEffect(() => {
+    if (!user || !profile || canTeach) return undefined;
+    let live = true;
+    api.isViewer(user.id).then((on) => live && setViewerOf({ uid: user.id, on }));
+    return () => { live = false; };
+  }, [user, profile, canTeach]);
+  const viewerKnown = canTeach || !user || !profile || viewerOf?.uid === user.id;
+  const isViewer = !canTeach && viewerOf?.uid === user?.id && Boolean(viewerOf?.on);
   // Set synchronously so the first render's reads already target the student.
   api.setPreview(viewAs ? { id: viewAs.id, teacherName: profile?.name } : null);
   // Test accounts (profiles.is_test) see one class at a time, with a switcher.
   // Set synchronously (like the preview) so pages only ever load that class.
-  const isTestView = Boolean(profile?.is_test) && !isTeacher && !viewAs;
+  const isTestView = Boolean(profile?.is_test) && !isTeacher && !viewAs && !isViewer;
   const [testGroups, setTestGroups] = useState(null);
   const [testGroupRaw, setTestGroupRaw] = useState(() => {
     try { return localStorage.getItem('iw.v1.hub.testGroup') || null; } catch { return null; }
@@ -354,7 +382,7 @@ export default function StudentApp() {
   }, []);
   useEffect(() => { if (isTestView && testGroups) reloadChats(); }, [isTestView, testGroups, testGroup]);
   // Time on the hub is tracked for students only (not teachers, not previews).
-  useHubTime(Boolean(user && profile && !canTeach));
+  useHubTime(Boolean(user && profile && !canTeach && viewerKnown && !isViewer));
 
   useEffect(() => {
     document.title = 'Student Hub · IELTS Wiz';
@@ -381,11 +409,19 @@ export default function StudentApp() {
   // Coin balance on the sidebar Coins row (students and student view); refreshed on every navigation.
   useEffect(() => {
     setBalance(null);
-    if (!user || !profile || isTeacher) return undefined;
+    if (!user || !profile || isTeacher || !viewerKnown || isViewer) return undefined;
     let live = true; // a late answer must not show after switching to teacher view
     api.hubSummary().then((s) => live && setBalance(s.balance)).catch(() => {});
     return () => { live = false; };
-  }, [user, profile, here, isTeacher, viewAs?.id]);
+  }, [user, profile, here, isTeacher, viewAs?.id, viewerKnown, isViewer]);
+
+  // Viewers have the Overview and their Profile only.
+  useEffect(() => {
+    if (isViewer && !['overview', 'profile'].includes(parts[0])) {
+      window.history.replaceState({}, '', '/overview');
+      setParts(segments());
+    }
+  }, [isViewer, parts]);
 
   // Teacher view has no student pages: send those paths to Teaching.
   useEffect(() => {
@@ -416,14 +452,15 @@ export default function StudentApp() {
     profile: viewAs || profile,
     isTeacher,
     isAdmin,
+    isViewer,
     preview: Boolean(viewAs),
     viewAsStudent: canTeach ? viewAsStudent : null,
-  }), [go, user, profile, viewAs, isTeacher, isAdmin, canTeach, viewAsStudent]);
+  }), [go, user, profile, viewAs, isTeacher, isAdmin, isViewer, canTeach, viewAsStudent]);
 
   // Chat runs in the background on every page (unread badge, alerts); not in student view.
-  const unreadChats = useChatBootstrap({ uid: user?.id, enabled: Boolean(user && profile && profile.onboarded !== false && !viewAs), go });
+  const unreadChats = useChatBootstrap({ uid: user?.id, enabled: Boolean(user && profile && profile.onboarded !== false && !viewAs && viewerKnown && !isViewer), go });
 
-  if (loading || (isTestView && !testGroups)) return <Spinner full />;
+  if (loading || (isTestView && !testGroups) || !viewerKnown) return <Spinner full />;
 
   if (!user) {
     // OAuth returns to `next` on this origin, so /join/<code> survives sign-in.
@@ -434,12 +471,12 @@ export default function StudentApp() {
     return <Suspense fallback={<Spinner full />}><AuthPage type="login" setCurrentPage={() => {}} /></Suspense>;
   }
 
-  if (profile && profile.onboarded === false) {
+  if (profile && profile.onboarded === false && !isViewer) {
     return <Suspense fallback={<Spinner full />}><Onboarding /></Suspense>;
   }
 
   // Assigned tests open full-screen on this origin so the hub session records them.
-  if (parts[0] === 'reading-test' || parts[0] === 'listening-test') {
+  if (!isViewer && (parts[0] === 'reading-test' || parts[0] === 'listening-test')) {
     if (viewAs) {
       return (
         <HubContext.Provider value={ctx}>
@@ -469,7 +506,7 @@ export default function StudentApp() {
 
   // The most specific nav item wins, so /teach/assignments/new lights up "New assignment" only.
   const matches = (path) => (path === '/' ? here === '/' || parts[0] === 'dashboard' : here === path || here.startsWith(`${path}/`));
-  const nav = isTeacher ? TEACH_NAV : STUDY_NAV;
+  const nav = isTeacher ? TEACH_NAV : isViewer ? VIEW_NAV : STUDY_NAV;
   const activePath = flat(nav).filter((n) => matches(n.path)).sort((a, b) => b.path.length - a.path.length)[0]?.path;
   const isActive = (path) => path === activePath;
   const link = (n) => (
@@ -482,7 +519,7 @@ export default function StudentApp() {
       {n.path === '/coins' && balance != null && <span className="hub-nav-meta" aria-label={`${balance} coins`}>{balance}</span>}
     </AppLink>
   );
-  const home = isTeacher ? '/teach' : '/';
+  const home = isTeacher ? '/teach' : isViewer ? '/overview' : '/';
 
   return (
     <HubContext.Provider value={ctx}>
@@ -492,7 +529,7 @@ export default function StudentApp() {
           <div className="hub-nav-head">
             <AppLink href={home} onNavigate={() => go(home)} className="hub-brand" aria-label="IELTS Wiz Student Hub, home">
               <LogoMark size={32} className="hub-brand-mark" />
-              <Brand size={32} tag={isTeacher ? 'Teaching' : 'Student Hub'} className="hub-brand-full" />
+              <Brand size={32} tag={isTeacher ? 'Teaching' : isViewer ? 'Overview' : 'Student Hub'} className="hub-brand-full" />
             </AppLink>
             {/* Collapsed rail: the logo turns into the expand button on hover, as on claude.ai. */}
             <button type="button" className="hub-icon-btn hub-collapse-btn" onClick={toggleNav}
@@ -507,7 +544,7 @@ export default function StudentApp() {
           <nav className="hub-nav-body">
             <div className="hub-nav-top">
               {nav[0].items.map(link)}
-              {!viewAs && <Bell uid={user.id} go={go} here={here} collapsed={navCollapsed} />}
+              {!viewAs && !isViewer && <Bell uid={user.id} go={go} here={here} collapsed={navCollapsed} />}
             </div>
             <div className="hub-nav-scroll">
               {nav.slice(1).map((g) => (
@@ -520,12 +557,12 @@ export default function StudentApp() {
           </nav>
           <div className="hub-nav-foot">
             <UserMenu user={user} profile={profile} isDark={isDark} toggleTheme={toggleTheme} signOut={signOut} go={go}
-              canTeach={canTeach} viewAs={viewAs} onViewAs={viewAsStudent} collapsed={navCollapsed} />
+              canTeach={canTeach} isViewer={isViewer} viewAs={viewAs} onViewAs={viewAsStudent} collapsed={navCollapsed} />
           </div>
         </aside>
         {navOpen && <div className="hub-backdrop" onClick={() => setNavOpen(false)} aria-hidden="true" />}
         <DialogHost />
-        {!isTeacher && <Suspense fallback={null}><WelcomeBack key={`${viewAs?.id || 'self'}:${testGroup || ''}`} /></Suspense>}
+        {!isTeacher && !isViewer && <Suspense fallback={null}><WelcomeBack key={`${viewAs?.id || 'self'}:${testGroup || ''}`} /></Suspense>}
         <div className={`hub-main${parts[0] === 'messages' ? ' hub-main--fill' : ''}`}>
           {viewAs && (
             <div className="hub-viewbar" role="status">
@@ -552,7 +589,7 @@ export default function StudentApp() {
           </div>
           <main id="main" className={`hub-content${parts[0] === 'messages' ? ' hub-content--chat' : ''}`}>
             <Suspense fallback={<Spinner />} key={`${viewAs?.id || 'self'}:${testGroup || ''}`}>
-              {isTeacher ? teacherRoute(parts) : studentRoute(parts, viewAs ? exitStudentView : null)}
+              {isTeacher ? teacherRoute(parts) : isViewer ? viewerRoute(parts) : studentRoute(parts, viewAs ? exitStudentView : null)}
             </Suspense>
           </main>
         </div>

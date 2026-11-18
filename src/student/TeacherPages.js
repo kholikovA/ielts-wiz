@@ -236,11 +236,65 @@ export function ClassDetail({ id }) {
               ) : <p className="body">No students yet. Share the join link above.</p>}
             </section>
 
+            <ViewersPanel classId={c.id} className={c.name} />
             <EduschoolClassPanel classId={c.id} />
           </>
         ) : <EmptyPanel icon="xCircle" title="Class not found" />}
       </Loaded>
     </>
+  );
+}
+
+// Viewers: read-only accounts (e.g. a Head Teacher) who see this group's homework,
+// scores, attendance and coins on their own Overview page. They can't change anything.
+function ViewersPanel({ classId, className }) {
+  const state = useAsync(() => api.classViewers(classId), [classId]);
+  const [email, setEmail] = useState('');
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState(null);
+
+  const add = async (e) => {
+    e.preventDefault();
+    if (!email.trim()) return;
+    setBusy(true); setError(null);
+    try { await api.addClassViewer(classId, email.trim()); setEmail(''); state.reload(); } catch (err) { setError(err); }
+    setBusy(false);
+  };
+  const remove = async (v) => {
+    if (!(await confirmDialog({ title: `Remove ${v.name || v.email}?`, body: `They'll stop seeing ${className}.`, confirmLabel: 'Remove', danger: true }))) return;
+    setError(null);
+    try { await api.removeClassViewer(classId, v.viewer_id); state.reload(); } catch (err) { setError(err); }
+  };
+
+  return (
+    <section className="hub-section">
+      <div className="hub-section-head"><h2 className="h3">Viewers</h2></div>
+      <p className="form-help">
+        Viewers see this group's homework completion, scores, attendance and coins. They can't change anything,
+        and they don't see essays, feedback or messages. They sign up on the Student Hub first, then you add their email here.
+      </p>
+      <form className="hub-viewer-add" onSubmit={add}>
+        <input className="form-input" type="email" placeholder="Their account email" value={email}
+          onChange={(e) => setEmail(e.target.value)} aria-label="Viewer email" />
+        <button type="submit" className="btn btn-primary btn-sm" disabled={busy || !email.trim()}>
+          <Icon name="eye" size={14} /> Add viewer
+        </button>
+      </form>
+      {error && <ErrorNote error={error} />}
+      <Loaded state={state}>
+        {(rows) => rows.length ? (
+          <div className="hub-list">
+            {rows.map((v) => (
+              <div key={v.viewer_id} className="card hub-row">
+                <span className="hub-row-main"><PersonName person={{ name: v.name, email: v.email }} /></span>
+                <small>Added {formatDate(v.granted_at)}</small>
+                <button type="button" className="btn btn-ghost btn-sm" onClick={() => remove(v)}>Remove</button>
+              </div>
+            ))}
+          </div>
+        ) : null}
+      </Loaded>
+    </section>
   );
 }
 

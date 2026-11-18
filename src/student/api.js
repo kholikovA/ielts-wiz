@@ -772,3 +772,19 @@ export const moveScheduleSlots = async (moves) =>
   unwrap(await supabase.rpc('schedule_move', { p_moves: moves }));
 export const classSchedule = async () =>
   (unwrap(await supabase.rpc('class_schedule', { p_student: preview?.id || null })) || []).filter((r) => inGroupScope(r.class_id));
+
+// ── Viewers (read-only accounts, e.g. a Head Teacher; 20261118150000_class_viewers.sql) ──
+// True when this account may view at least one class.
+export async function isViewer(uid) {
+  const { data, error } = await supabase.from('class_viewers').select('class_id').eq('viewer_id', uid).limit(1);
+  if (error) return false; // table missing / offline: fall back to the normal hub
+  return Boolean(data?.length);
+}
+export const viewerOverview = async (from = null) =>
+  unwrap(await supabase.rpc('viewer_overview', { p_from: from }));
+export const classViewers = async (classId) =>
+  unwrap(await supabase.rpc('class_viewer_list', { p_class: classId })) || [];
+export const addClassViewer = async (classId, email) =>
+  unwrap(await supabase.rpc('add_class_viewer', { p_class: classId, p_email: email }));
+export const removeClassViewer = async (classId, viewerId) =>
+  unwrap(await supabase.rpc('remove_class_viewer', { p_class: classId, p_viewer: viewerId }));
