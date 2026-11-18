@@ -1,13 +1,17 @@
-// UK + US pronunciations for flashcard words.
+// UK + US pronunciations for flashcard words: real human recordings only.
 //   IPA:   freedictionaryapi.com (Wiktionary, tagged by accent)
-//   Audio: dictionaryapi.dev (Wiktionary / Wikimedia Commons recordings, -uk / -us)
-// Where a recording is missing, the device's British / American voice reads the
-// word instead, so both accents always work. Content is CC BY-SA 4.0 (credited
-// on the Flashcards page). Results are cached in memory and localStorage.
+//   Audio: Wikimedia Commons recordings (the files Wiktionary uses). We find them
+//          two ways: dictionaryapi.dev lists the Commons file behind each of its
+//          -uk / -us clips (its own media URLs can't be played in browsers), and
+//          Commons is asked directly for the conventional En-uk / En-gb / En-us
+//          file names. Commons serves an MP3 transcode, so Safari plays it too.
+// No synthetic voice: an accent without a recording shows its IPA only.
+// Content is CC BY-SA (credited on the Flashcards page). Cached per browser.
 
 const FDA = 'https://freedictionaryapi.com/api/v1/entries/en/';
 const DEV = 'https://api.dictionaryapi.dev/api/v2/entries/en/';
-const STORE = 'iw-pron-v1:';
+const COMMONS = 'https://commons.wikimedia.org/w/api.php';
+const STORE = 'iw-pron-v2:';
 const TTL = 30 * 86400000;
 const EMPTY = { uk: {}, us: {} };
 
@@ -20,18 +24,18 @@ const keyOf = (word) => (word || '').trim().toLowerCase();
 // Only look up dictionary headwords: 1–3 plain words.
 const lookupable = (k) => /^[a-z][a-z' -]*$/.test(k) && k.split(/\s+/).length <= 3;
 
-async function getJson(url, ms = 6000) {
+async function getJson(url, ms = 7000, headers) {
   const ctrl = new AbortController();
   const t = setTimeout(() => ctrl.abort(), ms);
   try {
-    const res = await fetch(url, { signal: ctrl.signal });
+    const res = await fetch(url, { signal: ctrl.signal, headers });
     return res.ok ? await res.json() : null;
   } finally {
     clearTimeout(t);
   }
 }
 
-/** Pick UK / US IPA from freedictionaryapi.com entries. Exported for tests. */
+/** Pick UK / US IPA from freedictionaryapi.com entries. */
 export function ipaFrom(fda) {
   const all = (fda?.entries || []).flatMap((e) => e.pronunciations || []).filter((p) => p.type === 'ipa' && p.text);
   // Prefer phonemic /…/ over phonetic […], and full forms over fragments like /hə-/.
@@ -43,13 +47,54 @@ export function ipaFrom(fda) {
   return { uk: uk || (!us ? any : undefined), us: us || (!uk ? any : undefined) };
 }
 
-/** Pick -uk / -us recordings (and fallback IPA) from dictionaryapi.dev. Exported for tests. */
-export function audioFrom(dev) {
+/** Commons page ids (and accents) of the recordings dictionaryapi.dev knows about, plus fallback IPA. */
+export function devSources(dev) {
   const phon = (Array.isArray(dev) ? dev : []).flatMap((e) => e.phonetics || []);
-  const find = (acc) => phon.find((p) => p.audio && new RegExp(`-${acc}\\.mp3$`, 'i').test(p.audio));
-  const uk = find('uk');
-  const us = find('us');
-  return { uk: uk?.audio || null, us: us?.audio || null, ukText: uk?.text, usText: us?.text };
+  const out = { ids: {}, ukText: undefined, usText: undefined };
+  phon.forEach((p) => {
+    const acc = /-(uk|us)\.mp3$/i.exec(p.audio || '')?.[1]?.toLowerCase();
+    const id = /[?&]curid=(\d+)/.exec(p.sourceUrl || '')?.[1];
+    if (!acc) return;
+    if (id && !out.ids[id]) out.ids[id] = acc;
+    if (p.text && !out[`${acc}Text`]) out[`${acc}Text`] = p.text;
+  });
+  return out;
+}
+
+/** A URL every browser can play: Commons' MP3 transcode for .ogg / .wav / .flac originals. */
+export function playableUrl(url) {
+  if (!url) return null;
+  const clean = url.split('?')[0];
+  if (/\.mp3$/i.test(clean)) return clean;
+  const m = /^(https:\/\/upload\.wikimedia\.org\/wikipedia\/commons)\/([0-9a-f])\/([0-9a-f]{2})\/([^/]+)$/.exec(clean);
+  return m ? `${m[1]}/transcoded/${m[2]}/${m[3]}/${m[4]}/${m[4]}.mp3` : null;
+}
+
+const accentOfTitle = (title) => {
+  const m = /^File:En-(uk|gb|us)-/i.exec(title || '');
+  if (!m) return null;
+  return m[1].toLowerCase() === 'us' ? 'us' : 'uk';
+};
+
+/** { uk, us } MP3 URLs from a Commons imageinfo response. */
+export function audioFromCommons(commons, idAccents = {}) {
+  const out = { uk: null, us: null };
+  // Conventionally named files (En-uk-…) first, then ones labelled by dictionaryapi.dev.
+  const pages = (commons?.query?.pages || []).filter((p) => !p.missing && p.imageinfo?.[0]?.url);
+  const ordered = [...pages].sort((a, b) => (accentOfTitle(b.title) ? 1 : 0) - (accentOfTitle(a.title) ? 1 : 0));
+  ordered.forEach((p) => {
+    const acc = accentOfTitle(p.title) || idAccents[p.pageid];
+    const url = playableUrl(p.imageinfo[0].url);
+    if (acc && url && !out[acc]) out[acc] = url;
+  });
+  return out;
+}
+
+// Commons can't take titles and pageids in one query, so it's asked by one or the other.
+// Wikimedia asks browser clients to identify themselves with Api-User-Agent.
+function commons(lookup) {
+  const q = new URLSearchParams({ action: 'query', prop: 'imageinfo', iiprop: 'url', format: 'json', formatversion: '2', origin: '*', ...lookup });
+  return getJson(`${COMMONS}?${q}`, 7000, { 'Api-User-Agent': 'IELTS-Wiz/1.0 (https://www.ielts-wiz.com)' });
 }
 
 function readStore(k) {
@@ -64,6 +109,29 @@ function writeStore(k, data) {
   try { window.localStorage.setItem(STORE + k, JSON.stringify({ at: Date.now(), data })); } catch (e) { /* storage full or blocked */ }
 }
 
+async function load(k) {
+  const [fda, dev] = await Promise.allSettled([getJson(FDA + encodeURIComponent(k)), getJson(DEV + encodeURIComponent(k))]);
+  const ipa = ipaFrom(fda.status === 'fulfilled' ? fda.value : null);
+  const src = devSources(dev.status === 'fulfilled' ? dev.value : null);
+  const word = k.replace(/\s+/g, '_');
+  const ids = Object.keys(src.ids);
+  const [byTitle, byId] = await Promise.allSettled([
+    commons({ titles: ['uk', 'gb', 'us'].map((p) => `File:En-${p}-${word}.ogg`).join('|') }),
+    ids.length ? commons({ pageids: ids.join('|') }) : Promise.resolve({}),
+  ]);
+  const a = audioFromCommons(byTitle.status === 'fulfilled' ? byTitle.value : null);
+  const b = audioFromCommons(byId.status === 'fulfilled' ? byId.value : null, src.ids);
+  const data = {
+    uk: { ipa: ipa.uk || src.ukText, audio: a.uk || b.uk || null },
+    us: { ipa: ipa.us || src.usText, audio: a.us || b.us || null },
+  };
+  // Cache only a complete answer: if Commons (or the dictionary) failed, try again next time
+  // rather than remembering "no recording" for a month.
+  const ok = (r) => r.status === 'fulfilled' && r.value;
+  const answered = ok(byTitle) && ok(byId) && (ok(fda) || ok(dev));
+  return { data, answered };
+}
+
 /** { uk: { ipa?, audio? }, us: { ipa?, audio? } } — never throws. */
 export function pronunciation(word) {
   const k = keyOf(word);
@@ -75,61 +143,37 @@ export function pronunciation(word) {
     mem.set(k, p);
     return p;
   }
-  const p = Promise.allSettled([getJson(FDA + encodeURIComponent(k)), getJson(DEV + encodeURIComponent(k))])
-    .then(([fda, dev]) => {
-      const ipa = ipaFrom(fda.status === 'fulfilled' ? fda.value : null);
-      const audio = audioFrom(dev.status === 'fulfilled' ? dev.value : null);
-      const data = {
-        uk: { ipa: ipa.uk || audio.ukText, audio: audio.uk },
-        us: { ipa: ipa.us || audio.usText, audio: audio.us },
-      };
-      // Only cache when at least one source answered, so a network blip is retried later.
-      if (fda.status === 'fulfilled' || dev.status === 'fulfilled') writeStore(k, data);
+  const p = load(k)
+    .then(({ data, answered }) => {
+      // Only cache when the services answered, so a network blip is retried later.
+      if (answered) writeStore(k, data);
+      else mem.delete(k);
       return data;
     })
-    .catch(() => EMPTY);
+    .catch(() => { mem.delete(k); return EMPTY; });
   mem.set(k, p);
   return p;
 }
 
 // ── Playback ────────────────────────────────────────────────────────────────
 
-const canSpeak = typeof window !== 'undefined' && 'speechSynthesis' in window;
 let current = null;
 
-function voiceFor(lang) {
-  const voices = window.speechSynthesis.getVoices().filter((v) => v.lang.replace('_', '-').toLowerCase() === lang.toLowerCase());
-  const good = /natural|neural|premium|enhanced|google|siri|daniel|samantha|serena|kate|aaron/i;
-  return voices.find((v) => good.test(v.name)) || voices[0] || null;
-}
-
-function speakWith(text, accent) {
-  if (!canSpeak || !text) return;
-  const lang = accent === 'us' ? 'en-US' : 'en-GB';
-  const u = new window.SpeechSynthesisUtterance(text);
-  u.lang = lang;
-  u.rate = 0.9;
-  const v = voiceFor(lang);
-  if (v) u.voice = v;
-  window.speechSynthesis.cancel();
-  window.speechSynthesis.speak(u);
-}
-
-/** Play a word in 'uk' or 'us': the real recording if there is one, else a device voice. */
+/** Play the recording for 'uk' or 'us'. Resolves true if something played. */
 export async function play(word, accent = 'uk') {
   if (current) { current.pause(); current = null; }
   const data = await pronunciation(word);
-  const url = data[accent]?.audio;
-  if (url) {
-    try {
-      current = new Audio(url);
-      await current.play();
-      return;
-    } catch (e) {
-      current = null; // blocked or failed: fall through to the device voice
-    }
+  const url = data[accent]?.audio || null;
+  if (!url) return false;
+  try {
+    current = new Audio(url);
+    await current.play();
+    return true;
+  } catch (e) {
+    current = null;
+    return false;
   }
-  speakWith(word, accent);
 }
 
-export const canPlay = canSpeak || typeof Audio !== 'undefined';
+/** The accent to use when only one button is shown (UK first). */
+export const firstAccent = (data) => (data?.uk?.audio ? 'uk' : data?.us?.audio ? 'us' : null);

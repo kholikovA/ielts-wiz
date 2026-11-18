@@ -1,4 +1,4 @@
-import { ipaFrom, audioFrom } from './pronounce';
+import { ipaFrom, devSources, playableUrl, audioFromCommons } from './pronounce';
 
 const ipa = (text, tags = []) => ({ type: 'ipa', text, tags });
 
@@ -34,15 +34,35 @@ test('ipaFrom handles missing data', () => {
   expect(ipaFrom(null)).toEqual({ uk: undefined, us: undefined });
 });
 
-test('audioFrom finds -uk and -us recordings', () => {
+test('devSources maps Commons page ids to accents', () => {
   const dev = [{ phonetics: [
-    { text: '/təˈmɑːtəʊ/', audio: 'https://x/tomato-uk.mp3' },
-    { text: '/təˈmeɪtoʊ/', audio: 'https://x/tomato-us.mp3' },
-    { audio: 'https://x/tomato-au.mp3' },
+    { text: '/təˈmɑːtəʊ/', audio: 'https://x/tomato-uk.mp3', sourceUrl: 'https://commons.wikimedia.org/w/index.php?curid=873382' },
+    { text: '/təˈmeɪtoʊ/', audio: 'https://x/tomato-us.mp3', sourceUrl: 'https://commons.wikimedia.org/w/index.php?curid=873531' },
+    { audio: 'https://x/tomato-au.mp3', sourceUrl: 'https://commons.wikimedia.org/w/index.php?curid=1505555' },
   ] }];
-  expect(audioFrom(dev)).toEqual({ uk: 'https://x/tomato-uk.mp3', us: 'https://x/tomato-us.mp3', ukText: '/təˈmɑːtəʊ/', usText: '/təˈmeɪtoʊ/' });
+  expect(devSources(dev)).toEqual({ ids: { 873382: 'uk', 873531: 'us' }, ukText: '/təˈmɑːtəʊ/', usText: '/təˈmeɪtoʊ/' });
 });
 
-test('audioFrom tolerates "not found" responses', () => {
-  expect(audioFrom({ title: 'No Definitions Found' })).toEqual({ uk: null, us: null, ukText: undefined, usText: undefined });
+test('devSources tolerates "not found" responses', () => {
+  expect(devSources({ title: 'No Definitions Found' })).toEqual({ ids: {}, ukText: undefined, usText: undefined });
+});
+
+test('playableUrl uses the Commons MP3 transcode for ogg files', () => {
+  expect(playableUrl('https://upload.wikimedia.org/wikipedia/commons/4/44/En-us-mitigate.ogg?utm_source=x'))
+    .toBe('https://upload.wikimedia.org/wikipedia/commons/transcoded/4/44/En-us-mitigate.ogg/En-us-mitigate.ogg.mp3');
+  expect(playableUrl('https://upload.wikimedia.org/wikipedia/commons/a/ab/Word.mp3?x=1')).toBe('https://upload.wikimedia.org/wikipedia/commons/a/ab/Word.mp3');
+  expect(playableUrl('https://example.com/other.ogg')).toBeNull();
+});
+
+test('audioFromCommons reads accents from file names, then from dictionaryapi.dev labels', () => {
+  const commons = { query: { pages: [
+    { pageid: 1, title: 'File:Tomato pronunciation.ogg', imageinfo: [{ url: 'https://upload.wikimedia.org/wikipedia/commons/1/11/T.ogg' }] },
+    { pageid: 2, title: 'File:En-us-tomato.ogg', imageinfo: [{ url: 'https://upload.wikimedia.org/wikipedia/commons/7/78/En-us-tomato.ogg' }] },
+    { title: 'File:En-uk-tomato.ogg', missing: true },
+  ] } };
+  expect(audioFromCommons(commons, { 1: 'uk', 2: 'uk' })).toEqual({
+    uk: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/1/11/T.ogg/T.ogg.mp3',
+    us: 'https://upload.wikimedia.org/wikipedia/commons/transcoded/7/78/En-us-tomato.ogg/En-us-tomato.ogg.mp3',
+  });
+  expect(audioFromCommons(null)).toEqual({ uk: null, us: null });
 });
