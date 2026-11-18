@@ -301,11 +301,13 @@ function QuizAttempt({ a, onSaved }) {
   }, [a.id, user.id, locked, preview]);
 
   // Attempts left: the key stays closed (server-side too) and the server's score shows.
-  // The answers, explanations and the question map open after the last attempt.
+  // The answers, explanations and the question map open after the last attempt,
+  // or after a perfect score (another attempt can't improve it).
   const maxAttempts = Number(a.payload?.max_attempts) || 1;
   const history = sub?.data?.attempts || [];
   const left = maxAttempts - (history.length + 1);
-  const reviewOpen = locked && (left <= 0 || Boolean(sub?.data?.review_opened));
+  const perfect = Number(sub?.data?.score?.percent) >= 100;
+  const reviewOpen = locked && (left <= 0 || perfect || Boolean(sub?.data?.review_opened));
   const key = useAsync(() => (reviewOpen ? api.quizKey(a.id) : Promise.resolve(null)), [a.id, reviewOpen]);
   const marks = useMemo(() => (key.data ? markTest(a.payload, key.data.key, sub?.data?.answers || {}, sub?.marking?.manual) : null),
     [key.data, a.payload, sub]);
