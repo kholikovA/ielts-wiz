@@ -3,7 +3,8 @@ import Icon from '../components/ui/icons';
 import * as api from './api';
 import { preview, formatInterval, buildQueue, nextCard, endOfStudyDay, STATE } from './fsrs';
 import { useHub, Spinner, ErrorNote, NoPaste } from './ui';
-import { SessionTop, FlipCard, SpeakButton, KeyHints, DoneScreen } from './cardKit';
+import { SessionTop, FlipCard, Pronounce, KeyHints, DoneScreen } from './cardKit';
+import { pronunciation } from './pronounce';
 import { taskFor, markAnswer, ratingFor, BLANK } from './recall';
 
 const RATINGS = [
@@ -24,14 +25,14 @@ const isLearning = (c) => c.state === STATE.LEARNING || c.state === STATE.RELEAR
 const RESULT_TEXT = { correct: 'Correct!', almost: 'Almost — mind the spelling', wrong: 'Not quite' };
 const RESULT_TONE = { correct: 'success', almost: 'warn', wrong: 'danger' };
 
-// Show a sentence with the blank as a styled gap (or the answer filled in).
-function Sentence({ text, fill }) {
+// A sentence whose blank holds the answer box itself (or a styled gap).
+function Sentence({ text, children }) {
   if (!text) return null;
   const [before, after] = text.split(BLANK);
   return (
     <p className="fcx-sentence">
       {before}
-      {after !== undefined && (fill ? <mark className="fcx-mark">{fill}</mark> : <span className="fcx-blank" aria-label="blank">&nbsp;</span>)}
+      {after !== undefined && (children || <span className="fcx-blank" aria-label="blank">&nbsp;</span>)}
       {after}
     </p>
   );
@@ -84,6 +85,7 @@ export default function SrsSession({ deck, onExit }) {
   const options = useMemo(() => (card ? preview(card, new Date()) : null), [card]);
 
   const task = useMemo(() => (card ? taskFor(card) : null), [card]);
+  useEffect(() => { if (card?.front) pronunciation(card.front); }, [card?.front]);
   useEffect(() => {
     shownAt.current = Date.now();
     setFlipped(false); setTyped(''); setResult(null);
@@ -183,6 +185,21 @@ export default function SrsSession({ deck, onExit }) {
   }
 
   const tone = result ? RESULT_TONE[result.result] : 'primary';
+  // The answer box sits inside the sentence's blank when there is one, and
+  // grows with what's typed. After a miss, the right answer appears beside it.
+  const inline = Boolean(typedMode && task.sentence);
+  const missed = result && result.result !== 'correct';
+  const answerBox = typedMode && (
+    <>
+      {!(inline && missed && !typed.trim()) && (
+        <input ref={inputRef} className={`fcx-input${inline ? ' fcx-input--inline' : ''}${result ? ` is-${result.result}` : ''}`} value={typed}
+          style={inline ? { width: `${Math.max(typed.length, 8) + 1.5}ch` } : undefined}
+          onChange={(e) => setTyped(e.target.value)} readOnly={Boolean(result)} placeholder={inline ? 'type here' : 'Type your answer'}
+          aria-label="Your answer" autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck={false} />
+      )}
+      {inline && missed && <mark className="fcx-mark fcx-mark--fix">{task.answers[0]}</mark>}
+    </>
+  );
   const stageKey = `${card.id}-${card.reps}-${card.state}`;
 
   return (
@@ -202,10 +219,10 @@ export default function SrsSession({ deck, onExit }) {
           <div className="fcx-card">
             <div className="fcx-card-head">
               <span className="fcx-badge fcx-badge--new"><Icon name="sparkle" size={14} /> New word</span>
-              <SpeakButton text={card.front} />
             </div>
             <div className="fcx-card-body">
               <span className="fcx-word">{card.front}</span>
+              <Pronounce word={card.front} />
               <span className="fcx-meaning">{card.back}</span>
               {task.reveal.sentence && <div className="fcx-example"><Highlight text={task.reveal.sentence} word={card.front} /></div>}
             </div>
@@ -223,14 +240,10 @@ export default function SrsSession({ deck, onExit }) {
           <div className={`fcx-card${result ? ` is-${result.result}` : ''}`}>
             <div className="fcx-card-head">
               <span className="fcx-badge">{task.label}</span>
-              {result && <SpeakButton text={task.reveal.word || card.front} />}
             </div>
             <div className="fcx-card-body">
               {task.prompt && <span className="fcx-prompt">{task.prompt}</span>}
-              {result ? <Sentence text={task.sentence} fill={task.answers[0]} /> : <Sentence text={task.sentence} />}
-              <input ref={inputRef} className={`fcx-input${result ? ` is-${result.result}` : ''}`} value={typed}
-                onChange={(e) => setTyped(e.target.value)} readOnly={Boolean(result)} placeholder="Type your answer"
-                aria-label="Your answer" autoComplete="off" autoCorrect="off" autoCapitalize="off" spellCheck={false} />
+              {task.sentence ? <Sentence text={task.sentence}>{answerBox}</Sentence> : answerBox}
             </div>
           </div>
           {!result ? (
@@ -256,6 +269,7 @@ export default function SrsSession({ deck, onExit }) {
                 </div>
               </div>
               <p className="fcx-feedback-meaning"><b>{card.front}</b> — {card.back}</p>
+              <Pronounce word={task.reveal.word || card.front} />
               {task.mode === 'recall' && task.reveal.sentence && !task.sentence && (
                 <div className="fcx-feedback-example"><Highlight text={task.reveal.sentence} word={card.front} /></div>
               )}
@@ -278,18 +292,20 @@ export default function SrsSession({ deck, onExit }) {
             <FlipCard flipped={flipped} label={flipped ? 'Answer shown' : 'Show answer'}
               front={(
                 <>
-                  <div className="fcx-card-head"><span className="fcx-badge">Review</span><SpeakButton text={card.front} /></div>
+                  <div className="fcx-card-head"><span className="fcx-badge">Review</span></div>
                   <div className="fcx-card-body">
                     <span className="fcx-word">{card.front}</span>
+                    <Pronounce word={card.front} compact />
                     <span className="fcx-tap"><Icon name="refresh" size={14} /> Tap to reveal</span>
                   </div>
                 </>
               )}
               back={(
                 <>
-                  <div className="fcx-card-head"><span className="fcx-badge">Answer</span><SpeakButton text={card.front} /></div>
+                  <div className="fcx-card-head"><span className="fcx-badge">Answer</span></div>
                   <div className="fcx-card-body">
                     <span className="fcx-word fcx-word--sm">{card.front}</span>
+                    <Pronounce word={card.front} />
                     <span className="fcx-rule" />
                     <span className="fcx-meaning fcx-meaning--lg">{card.back}</span>
                     {task.reveal.sentence && <div className="fcx-example"><Highlight text={task.reveal.sentence} word={card.front} /></div>}

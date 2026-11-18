@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Icon from '../components/ui/icons';
-import { SessionTop, FlipCard, SpeakButton, KeyHints, DoneScreen } from './cardKit';
+import { SessionTop, FlipCard, Pronounce, KeyHints, DoneScreen } from './cardKit';
 
 // Flip-card study session. "Still learning" sends a card to the back of the
 // queue; the session ends once every card has been marked "Know it".
@@ -140,18 +140,20 @@ export default function FlashcardStudy({ cards, onFinish, onExit }) {
           <FlipCard flipped={flipped}
             front={(
               <>
-                <div className="fcx-card-head"><span className="fcx-badge">Term</span><SpeakButton text={card.f} /></div>
+                <div className="fcx-card-head"><span className="fcx-badge">Term</span></div>
                 <div className="fcx-card-body">
                   <span className="fcx-word">{card.f}</span>
+                  <Pronounce word={card.f} compact />
                   <span className="fcx-tap"><Icon name="refresh" size={14} /> Tap to flip</span>
                 </div>
               </>
             )}
             back={(
               <>
-                <div className="fcx-card-head"><span className="fcx-badge">Definition</span><SpeakButton text={card.f} /></div>
+                <div className="fcx-card-head"><span className="fcx-badge">Definition</span></div>
                 <div className="fcx-card-body">
                   <span className="fcx-word fcx-word--sm">{card.f}</span>
+                  <Pronounce word={card.f} />
                   <span className="fcx-rule" />
                   <span className="fcx-meaning fcx-meaning--lg">{card.b || '—'}</span>
                   {card.ex && <div className="fcx-example"><Highlight text={card.ex} word={card.f} /></div>}
