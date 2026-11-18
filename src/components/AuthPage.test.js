@@ -4,18 +4,13 @@ import { act } from 'react-dom/test-utils';
 
 const mockSignInWithGoogle = jest.fn();
 const mockSignInWithTelegram = jest.fn();
-const mockGetBotId = jest.fn();
-const mockStartTelegramAuth = jest.fn();
-const mockTakeTelegramResult = jest.fn();
+let mockTg;
 jest.mock('../contexts/AuthContext', () => ({
   useAuth: () => ({ signInWithGoogle: mockSignInWithGoogle, signInWithTelegram: mockSignInWithTelegram }),
 }));
 jest.mock('../lib/telegramLogin', () => ({
-  getTelegramBotId: (...a) => mockGetBotId(...a),
-  startTelegramAuth: (...a) => mockStartTelegramAuth(...a),
-  takeTelegramResult: (...a) => mockTakeTelegramResult(...a),
+  useTelegramLogin: (kind, opts) => { mockTg.kind = kind; mockTg.opts = opts; return mockTg; },
 }));
-jest.mock('../contexts/ThemeContext', () => ({ useTheme: () => ({ isDark: false }) }));
 
 // eslint-disable-next-line global-require
 const AuthPage = require('./AuthPage').default;
@@ -24,9 +19,7 @@ let container; let root;
 beforeEach(() => {
   mockSignInWithGoogle.mockReset();
   mockSignInWithGoogle.mockResolvedValue({ error: null });
-  mockGetBotId.mockReset().mockResolvedValue(null);
-  mockStartTelegramAuth.mockReset();
-  mockTakeTelegramResult.mockReset().mockReturnValue(undefined);
+  mockTg = { ready: false, url: undefined, waiting: false, error: null, onOpen: jest.fn() };
   mockSignInWithTelegram.mockReset();
   window.history.replaceState({}, '', '/');
   container = document.createElement('div');
@@ -63,20 +56,23 @@ test('no Telegram button when Telegram login is not configured', async () => {
   expect(container.querySelector('.telegram-btn')).toBeNull();
 });
 
-test('Telegram button sends the student to Telegram for this bot', async () => {
-  mockGetBotId.mockResolvedValue(123);
+test('Telegram button links to the bot and waits for confirmation', async () => {
+  mockTg = { ...mockTg, ready: true, url: 'https://t.me/ieltswizbot?start=abc' };
   await act(async () => { root.render(<AuthPage />); });
   const btn = container.querySelector('.telegram-btn');
+  expect(mockTg.kind).toBe('signin');
+  expect(btn.getAttribute('href')).toBe('https://t.me/ieltswizbot?start=abc');
   expect(btn.textContent).toMatch(/Continue with Telegram/i);
-  await act(async () => { btn.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
-  expect(mockStartTelegramAuth).toHaveBeenCalledWith(123);
+  mockTg = { ...mockTg, waiting: true };
+  await act(async () => { root.render(<AuthPage />); });
+  expect(container.querySelector('.auth-tg-hint').textContent).toMatch(/tap Start/i);
 });
 
-test('back from Telegram: signs in with the signed payload and shows errors', async () => {
-  mockGetBotId.mockResolvedValue(123);
-  mockTakeTelegramResult.mockReturnValue({ id: 1, hash: 'x' });
-  mockSignInWithTelegram.mockResolvedValue({ error: { message: 'not linked yet' } });
+test('confirmed in Telegram: signs in with the token hash, shows errors', async () => {
+  mockTg = { ...mockTg, ready: true, url: 'https://t.me/x?start=abc' };
+  mockSignInWithTelegram.mockResolvedValue({ error: { message: 'link expired' } });
   await act(async () => { root.render(<AuthPage />); });
-  expect(mockSignInWithTelegram).toHaveBeenCalledWith({ id: 1, hash: 'x' });
-  expect(container.querySelector('.auth-error').textContent).toMatch(/not linked yet/i);
+  await act(async () => { await mockTg.opts.onDone({ status: 'done', token_hash: 'th' }); });
+  expect(mockSignInWithTelegram).toHaveBeenCalledWith('th');
+  expect(container.querySelector('.auth-error').textContent).toMatch(/link expired/i);
 });

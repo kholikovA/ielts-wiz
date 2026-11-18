@@ -1,42 +1,20 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import Icon from '../components/ui/icons';
 import { useAuth } from '../contexts/AuthContext';
 import { useHub, PageTitle, ErrorNote, Avatar } from './ui';
 import { CHARACTERS, Character } from './characters';
-import { getTelegramBotId, startTelegramAuth, takeTelegramResult, callTelegramAuth } from '../lib/telegramLogin';
+import { useTelegramLogin, callTelegramAuth } from '../lib/telegramLogin';
 
-// Link / unlink Telegram so the student can sign in with it. The edge function
-// checks Telegram's signature and writes the link (students can't set it).
+// Link / unlink Telegram so the student can sign in with it. "Link Telegram"
+// opens the IELTS Wiz bot; once they confirm there, this updates by itself.
 function TelegramLink({ profile, userId, onChanged }) {
-  const [botId, setBotId] = useState(null);
+  const linked = Boolean(profile?.telegram_id);
+  const tg = useTelegramLogin('link', { enabled: !linked, onDone: () => onChanged(userId) });
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
-  useEffect(() => {
-    let cancelled = false;
-    getTelegramBotId().then((id) => { if (!cancelled) setBotId(id); }).catch(() => {});
-    // Back from Telegram's login page: finish linking.
-    const result = takeTelegramResult();
-    if (result === null) setError({ message: 'Telegram linking was cancelled. Please try again.' });
-    if (result) {
-      setBusy(true);
-      callTelegramAuth({ action: 'link', auth: result }).then(async ({ error: err }) => {
-        if (err) setError(err); else await onChanged(userId);
-        if (!cancelled) setBusy(false);
-      });
-    }
-    return () => { cancelled = true; };
-    // Mount-only: a Telegram return is handled once.
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
-  const linked = Boolean(profile?.telegram_id);
-  if (!botId && !linked && !busy && !error) return null;
+  if (!linked && !tg.ready) return null;
 
-  const link = () => {
-    setError(null);
-    setBusy(true);
-    startTelegramAuth(botId);
-  };
   const unlink = async () => {
     if (!window.confirm('Unlink Telegram? You will need Google to sign in.')) return;
     setError(null); setBusy(true);
@@ -45,6 +23,7 @@ function TelegramLink({ profile, userId, onChanged }) {
     setBusy(false);
   };
 
+  const shownError = error || tg.error;
   return (
     <div className="form-field">
       <span className="form-label">Telegram</span>
@@ -54,14 +33,19 @@ function TelegramLink({ profile, userId, onChanged }) {
           <button type="button" className="btn btn-ghost btn-sm" onClick={unlink} disabled={busy}>{busy ? 'Unlinking…' : 'Unlink'}</button>
         </div>
       ) : (
-        <button type="button" className="btn btn-secondary btn-sm" onClick={link} disabled={busy || !botId}>
-          {busy ? 'Linking…' : 'Link Telegram'}
-        </button>
+        <div className="hub-actions">
+          <a className="btn btn-secondary btn-sm" href={tg.url} target="_blank" rel="noopener noreferrer" onClick={tg.onOpen}>
+            {tg.waiting ? 'Waiting for Telegram…' : 'Link Telegram'}
+          </a>
+          {tg.waiting && <button type="button" className="btn btn-ghost btn-sm" onClick={tg.cancel}>Cancel</button>}
+        </div>
       )}
       <p className="form-help">
-        {linked ? 'You can sign in with Telegram or Google.' : 'Link your Telegram to sign in with it next time.'}
+        {linked ? 'You can sign in with Telegram or Google.'
+          : tg.waiting ? 'In Telegram, tap Start, then Link account. This page updates by itself.'
+            : 'Link your Telegram to sign in with it next time.'}
       </p>
-      {error && <ErrorNote error={error} />}
+      {shownError && <ErrorNote error={shownError} />}
     </div>
   );
 }
