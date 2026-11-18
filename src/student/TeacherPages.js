@@ -14,7 +14,7 @@ import {
 } from './ui';
 import { ResultsSummary, RecentAttempts, SrsStatsBlock, AttendanceHistory } from './StudentPages';
 import { GiveCoins } from './CoinAdmin';
-import { confirmDialog, promptDialog, alertDialog } from './dialog';
+import { confirmDialog, promptDialog, alertDialog, chooseDialog } from './dialog';
 import { messageUser } from './chat/store';
 import { ProofFiles } from './TaskProof';
 import CardEnricher, { withExtras, extraKey } from './vocab/CardEnricher';
@@ -150,7 +150,7 @@ export function Classes() {
 }
 
 export function ClassDetail({ id }) {
-  const { go } = useHub();
+  const { go, user } = useHub();
   const state = useAsync(() => api.classWithMembers(id), [id]);
   const [error, setError] = useState(null);
 
@@ -211,6 +211,19 @@ export function ClassDetail({ id }) {
                     <div key={m.id} className="card hub-row">
                       <HubLink to={`/teach/students/${m.id}`} className="hub-row-main hub-plain"><PersonName person={m} /></HubLink>
                       <small>Joined {formatDate(m.joined_at)}</small>
+                      <button type="button" className="btn btn-ghost btn-sm" onClick={async () => {
+                        let others;
+                        try { others = (await api.teacherClasses(user.id)).filter((o) => o.id !== c.id); } catch (err) { setError(err); return; }
+                        if (!others.length) { await alertDialog({ title: 'No other class', body: 'Create another class first, then move students into it.' }); return; }
+                        const to = await chooseDialog({
+                          title: `Move ${m.name || m.email}`,
+                          body: `They'll leave ${c.name} and join the class you pick. Homework already assigned to them stays; the new class's open homework is added.`,
+                          label: 'New class',
+                          options: others.map((o) => ({ value: o.id, label: o.name })),
+                          confirmLabel: 'Move',
+                        });
+                        if (to) act(() => api.moveMember(c.id, to, m.id));
+                      }}>Move</button>
                       <button type="button" className="btn btn-ghost btn-sm" onClick={async () => {
                         if (await confirmDialog({ title: `Remove ${m.name || m.email}?`, body: `They'll leave ${c.name}. Their past homework stays.`, confirmLabel: 'Remove', danger: true })) {
                           act(() => api.removeMember(c.id, m.id));
