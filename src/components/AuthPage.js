@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { GOOGLE_CLIENT_ID, loadGoogleIdentity, makeNonce } from '../lib/googleIdentity';
+import { prepareTelegram, requestTelegramAuth } from '../lib/telegramLogin';
 import './AuthPage.css';
 
 // Official Google "G" mark (multi-colour), per Google's branding guidelines.
@@ -11,6 +12,14 @@ const GoogleMark = () => (
     <path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z" />
     <path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34A21.99 21.99 0 0 0 2 24c0 3.55.85 6.91 2.34 9.88l7.35-5.7z" />
     <path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z" />
+  </svg>
+);
+
+// Telegram paper-plane mark.
+const TelegramMark = () => (
+  <svg className="auth-g" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+    <circle cx="12" cy="12" r="12" fill="#27A7E7" />
+    <path fill="#fff" d="M5.4 11.8l11.1-4.3c.5-.2 1 .1.8.9l-1.9 8.9c-.1.6-.5.8-1 .5l-2.9-2.1-1.4 1.3c-.2.2-.3.3-.6.3l.2-2.9 5.3-4.8c.2-.2 0-.3-.3-.1l-6.6 4.1-2.8-.9c-.6-.2-.6-.6.1-.9z" />
   </svg>
 );
 
@@ -26,7 +35,7 @@ const nextPath = () => {
 };
 
 const AuthPage = () => {
-  const { signInWithGoogle, signInWithGoogleIdToken } = useAuth();
+  const { signInWithGoogle, signInWithGoogleIdToken, signInWithTelegram } = useAuth();
   const { isDark } = useTheme();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -81,6 +90,31 @@ const AuthPage = () => {
     return () => { cancelled = true; };
   }, [isDark]);
 
+  // Telegram button appears only once the bot is configured and the widget
+  // script has loaded, so the popup can open straight from the click.
+  const [tgBotId, setTgBotId] = useState(null);
+  const [tgLoading, setTgLoading] = useState(false);
+  useEffect(() => {
+    let cancelled = false;
+    prepareTelegram().then((id) => { if (!cancelled) setTgBotId(id); }).catch(() => {});
+    return () => { cancelled = true; };
+  }, []);
+
+  const handleTelegram = async () => {
+    setError('');
+    const pending = requestTelegramAuth(tgBotId);
+    setTgLoading(true);
+    const data = await pending;
+    if (!data) { setTgLoading(false); return; }
+    const { error: tgError } = await signInWithTelegram(data);
+    if (tgError) {
+      setError(tgError.message || 'Could not sign in with Telegram. Please try again.');
+      setTgLoading(false);
+      return;
+    }
+    window.location.assign(nextPath());
+  };
+
   const handleGoogle = async () => {
     setError('');
     setLoading(true);
@@ -134,8 +168,22 @@ const AuthPage = () => {
             </button>
           )}
 
+          {tgBotId && (
+            <button
+              type="button"
+              className="google-btn telegram-btn"
+              onClick={handleTelegram}
+              disabled={tgLoading || loading}
+            >
+              {tgLoading ? <ButtonSpinner /> : <TelegramMark />}
+              <span>{tgLoading ? 'Connecting…' : 'Continue with Telegram'}</span>
+            </button>
+          )}
+
           <p className="auth-reassure">
-            No extra passwords to remember — your Google account keeps you secure.
+            {tgBotId
+              ? 'No extra passwords to remember. Telegram works once you\'ve linked it on your Profile page.'
+              : 'No extra passwords to remember — your Google account keeps you secure.'}
           </p>
 
           <p className="auth-legal">

@@ -1,8 +1,64 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Icon from '../components/ui/icons';
 import { useAuth } from '../contexts/AuthContext';
 import { useHub, PageTitle, ErrorNote, Avatar } from './ui';
 import { CHARACTERS, Character } from './characters';
+import { prepareTelegram, requestTelegramAuth, callTelegramAuth } from '../lib/telegramLogin';
+
+// Link / unlink Telegram so the student can sign in with it. The edge function
+// checks Telegram's signature and writes the link (students can't set it).
+function TelegramLink({ profile, userId, onChanged }) {
+  const [botId, setBotId] = useState(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState(null);
+  useEffect(() => {
+    let cancelled = false;
+    prepareTelegram().then((id) => { if (!cancelled) setBotId(id); }).catch(() => {});
+    return () => { cancelled = true; };
+  }, []);
+
+  const linked = Boolean(profile?.telegram_id);
+  if (!botId && !linked) return null;
+
+  const link = async () => {
+    setError(null);
+    const pending = requestTelegramAuth(botId);
+    setBusy(true);
+    const data = await pending;
+    if (data) {
+      const { error: err } = await callTelegramAuth({ action: 'link', auth: data });
+      if (err) setError(err); else await onChanged(userId);
+    }
+    setBusy(false);
+  };
+  const unlink = async () => {
+    if (!window.confirm('Unlink Telegram? You will need Google to sign in.')) return;
+    setError(null); setBusy(true);
+    const { error: err } = await callTelegramAuth({ action: 'unlink' });
+    if (err) setError(err); else await onChanged(userId);
+    setBusy(false);
+  };
+
+  return (
+    <div className="form-field">
+      <span className="form-label">Telegram</span>
+      {linked ? (
+        <div className="hub-actions">
+          <span>Linked{profile.telegram_username ? ` as @${profile.telegram_username}` : ''}</span>
+          <button type="button" className="btn btn-ghost btn-sm" onClick={unlink} disabled={busy}>{busy ? 'Unlinking…' : 'Unlink'}</button>
+        </div>
+      ) : (
+        <button type="button" className="btn btn-secondary btn-sm" onClick={link} disabled={busy || !botId}>
+          {busy ? 'Linking…' : 'Link Telegram'}
+        </button>
+      )}
+      <p className="form-help">
+        {linked ? 'You can sign in with Telegram or Google.' : 'Link your Telegram to sign in with it next time.'}
+      </p>
+      {error && <ErrorNote error={error} />}
+    </div>
+  );
+}
 
 const todayIso = () => new Date().toISOString().slice(0, 10);
 
@@ -23,7 +79,7 @@ function age(iso) {
 
 export default function Profile() {
   const { user, preview } = useHub();
-  const { profile, updateProfile } = useAuth();
+  const { profile, updateProfile, fetchProfile } = useAuth();
   const [fallbackFirst, fallbackLast] = useMemo(() => splitName(profile?.name), [profile?.name]);
   const [first, setFirst] = useState(profile?.first_name ?? fallbackFirst);
   const [last, setLast] = useState(profile?.last_name ?? fallbackLast);
@@ -109,6 +165,8 @@ export default function Profile() {
           <input id="pf-email" className="form-input" value={user.email || ''} readOnly disabled />
           <p className="form-help">Your Google account's email. It can't be changed here.</p>
         </div>
+
+        <TelegramLink profile={profile} userId={user.id} onChanged={fetchProfile} />
 
         {error && <ErrorNote error={error} />}
         <div className="hub-actions">
