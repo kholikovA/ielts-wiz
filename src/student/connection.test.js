@@ -1,4 +1,4 @@
-import { isNetworkError, reportError, isOnline, checkConnection, __setOnline } from './connection';
+import { isNetworkError, reportError, isOnline, checkConnection, offlineSince, __setOnline } from './connection';
 
 afterEach(() => { __setOnline(true); delete global.fetch; });
 
@@ -23,4 +23,15 @@ test('checkConnection: any answer is online, a thrown fetch is offline', async (
   expect(await checkConnection()).toBe(false);
   global.fetch = jest.fn().mockResolvedValue({ ok: false, status: 401 });
   expect(await checkConnection()).toBe(true);
+});
+
+test('offlineSince is the last time the server answered', async () => {
+  global.fetch = jest.fn().mockResolvedValue({ ok: true });
+  await checkConnection();
+  const okAt = Date.now();
+  expect(offlineSince()).toBe(null);
+  await new Promise((r) => setTimeout(r, 30));
+  reportError(new TypeError('Failed to fetch'));
+  expect(offlineSince()).toBeLessThanOrEqual(okAt);
+  expect(Date.now() - offlineSince()).toBeGreaterThanOrEqual(25);
 });
