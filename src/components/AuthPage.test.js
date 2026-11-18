@@ -4,14 +4,16 @@ import { act } from 'react-dom/test-utils';
 
 const mockSignInWithGoogle = jest.fn();
 const mockSignInWithTelegram = jest.fn();
-const mockPrepareTelegram = jest.fn();
-const mockRequestTelegramAuth = jest.fn();
+const mockGetBotId = jest.fn();
+const mockStartTelegramAuth = jest.fn();
+const mockTakeTelegramResult = jest.fn();
 jest.mock('../contexts/AuthContext', () => ({
   useAuth: () => ({ signInWithGoogle: mockSignInWithGoogle, signInWithTelegram: mockSignInWithTelegram }),
 }));
 jest.mock('../lib/telegramLogin', () => ({
-  prepareTelegram: (...a) => mockPrepareTelegram(...a),
-  requestTelegramAuth: (...a) => mockRequestTelegramAuth(...a),
+  getTelegramBotId: (...a) => mockGetBotId(...a),
+  startTelegramAuth: (...a) => mockStartTelegramAuth(...a),
+  takeTelegramResult: (...a) => mockTakeTelegramResult(...a),
 }));
 jest.mock('../contexts/ThemeContext', () => ({ useTheme: () => ({ isDark: false }) }));
 
@@ -22,8 +24,9 @@ let container; let root;
 beforeEach(() => {
   mockSignInWithGoogle.mockReset();
   mockSignInWithGoogle.mockResolvedValue({ error: null });
-  mockPrepareTelegram.mockReset().mockResolvedValue(null);
-  mockRequestTelegramAuth.mockReset();
+  mockGetBotId.mockReset().mockResolvedValue(null);
+  mockStartTelegramAuth.mockReset();
+  mockTakeTelegramResult.mockReset().mockReturnValue(undefined);
   mockSignInWithTelegram.mockReset();
   window.history.replaceState({}, '', '/');
   container = document.createElement('div');
@@ -60,15 +63,20 @@ test('no Telegram button when Telegram login is not configured', async () => {
   expect(container.querySelector('.telegram-btn')).toBeNull();
 });
 
-test('Telegram button signs in with the signed widget payload', async () => {
-  mockPrepareTelegram.mockResolvedValue(123);
-  mockRequestTelegramAuth.mockResolvedValue({ id: 1, hash: 'x' });
-  mockSignInWithTelegram.mockResolvedValue({ error: { message: 'not linked yet' } });
+test('Telegram button sends the student to Telegram for this bot', async () => {
+  mockGetBotId.mockResolvedValue(123);
   await act(async () => { root.render(<AuthPage />); });
   const btn = container.querySelector('.telegram-btn');
   expect(btn.textContent).toMatch(/Continue with Telegram/i);
   await act(async () => { btn.dispatchEvent(new MouseEvent('click', { bubbles: true })); });
-  expect(mockRequestTelegramAuth).toHaveBeenCalledWith(123);
+  expect(mockStartTelegramAuth).toHaveBeenCalledWith(123);
+});
+
+test('back from Telegram: signs in with the signed payload and shows errors', async () => {
+  mockGetBotId.mockResolvedValue(123);
+  mockTakeTelegramResult.mockReturnValue({ id: 1, hash: 'x' });
+  mockSignInWithTelegram.mockResolvedValue({ error: { message: 'not linked yet' } });
+  await act(async () => { root.render(<AuthPage />); });
   expect(mockSignInWithTelegram).toHaveBeenCalledWith({ id: 1, hash: 'x' });
   expect(container.querySelector('.auth-error').textContent).toMatch(/not linked yet/i);
 });
