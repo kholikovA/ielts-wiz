@@ -3,7 +3,7 @@ import Icon from '../components/ui/icons';
 import { useAuth } from '../contexts/AuthContext';
 import { useHub, PageTitle, ErrorNote, Avatar } from './ui';
 import { CHARACTERS, Character } from './characters';
-import { prepareTelegram, requestTelegramAuth, callTelegramAuth } from '../lib/telegramLogin';
+import { getTelegramBotId, startTelegramAuth, takeTelegramResult, callTelegramAuth } from '../lib/telegramLogin';
 
 // Link / unlink Telegram so the student can sign in with it. The edge function
 // checks Telegram's signature and writes the link (students can't set it).
@@ -13,23 +13,29 @@ function TelegramLink({ profile, userId, onChanged }) {
   const [error, setError] = useState(null);
   useEffect(() => {
     let cancelled = false;
-    prepareTelegram().then((id) => { if (!cancelled) setBotId(id); }).catch(() => {});
+    getTelegramBotId().then((id) => { if (!cancelled) setBotId(id); }).catch(() => {});
+    // Back from Telegram's login page: finish linking.
+    const result = takeTelegramResult();
+    if (result === null) setError({ message: 'Telegram linking was cancelled. Please try again.' });
+    if (result) {
+      setBusy(true);
+      callTelegramAuth({ action: 'link', auth: result }).then(async ({ error: err }) => {
+        if (err) setError(err); else await onChanged(userId);
+        if (!cancelled) setBusy(false);
+      });
+    }
     return () => { cancelled = true; };
+    // Mount-only: a Telegram return is handled once.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const linked = Boolean(profile?.telegram_id);
-  if (!botId && !linked) return null;
+  if (!botId && !linked && !busy && !error) return null;
 
-  const link = async () => {
+  const link = () => {
     setError(null);
-    const pending = requestTelegramAuth(botId);
     setBusy(true);
-    const data = await pending;
-    if (data) {
-      const { error: err } = await callTelegramAuth({ action: 'link', auth: data });
-      if (err) setError(err); else await onChanged(userId);
-    }
-    setBusy(false);
+    startTelegramAuth(botId);
   };
   const unlink = async () => {
     if (!window.confirm('Unlink Telegram? You will need Google to sign in.')) return;

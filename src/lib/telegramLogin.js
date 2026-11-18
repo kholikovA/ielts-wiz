@@ -1,32 +1,13 @@
-// Telegram Login — the widget script opens Telegram's own popup
-// (oauth.telegram.org) and hands back a signed payload; the telegram-auth edge
-// function checks the signature with the bot token. The bot id comes from that
-// function, so the bot is configured in one place (TELEGRAM_BOT_TOKEN).
+// Telegram Login, as a same-tab redirect. Telegram allows one exact domain per
+// bot (ielts-wiz.com), but the site runs on www. and student., so Telegram
+// returns to ielts-wiz.com/telegram-login.html, which forwards the signed
+// result to the page that started the login (#tgAuthResult=...). The
+// telegram-auth edge function checks Telegram's signature with the bot token;
+// the bot id comes from that function, so the bot is configured in one place.
 import { supabase } from '../supabaseClient';
 
-const WIDGET_SRC = 'https://telegram.org/js/telegram-widget.js?22';
-let widgetPromise = null;
+const TELEGRAM_ORIGIN = 'https://ielts-wiz.com';
 let configPromise = null;
-
-export const loadTelegramWidget = () => {
-  if (window.Telegram?.Login?.auth) return Promise.resolve(window.Telegram.Login);
-  if (widgetPromise) return widgetPromise;
-  widgetPromise = new Promise((resolve, reject) => {
-    const script = document.createElement('script');
-    script.src = WIDGET_SRC;
-    script.async = true;
-    script.onload = () => (window.Telegram?.Login?.auth
-      ? resolve(window.Telegram.Login)
-      : reject(new Error('Telegram login failed to load.')));
-    script.onerror = () => {
-      widgetPromise = null;
-      script.remove();
-      reject(new Error('Telegram login failed to load.'));
-    };
-    document.head.appendChild(script);
-  });
-  return widgetPromise;
-};
 
 // Pull the error message out of a functions.invoke failure.
 export const functionError = async (error, fallback) => {
@@ -54,17 +35,29 @@ export const getTelegramBotId = () => {
   return configPromise;
 };
 
-// Preload both so the popup opens straight from the click (browsers block
-// popups that open after an await).
-export const prepareTelegram = async () => {
-  const botId = await getTelegramBotId();
-  if (!botId) return null;
-  await loadTelegramWidget();
-  return botId;
+// Leave for Telegram's login page; it comes back to this same page.
+export const startTelegramAuth = (botId) => {
+  const back = `${window.location.origin}${window.location.pathname}${window.location.search}`;
+  const returnTo = `${TELEGRAM_ORIGIN}/telegram-login.html?to=${encodeURIComponent(back)}`;
+  const params = new URLSearchParams({
+    bot_id: String(botId), origin: TELEGRAM_ORIGIN, request_access: 'write', return_to: returnTo,
+  });
+  window.location.assign(`https://oauth.telegram.org/auth?${params}`);
 };
 
-// Must be called synchronously inside a click handler. Resolves with the
-// signed payload, or null if the person closed the popup.
-export const requestTelegramAuth = (botId) => new Promise((resolve) => {
-  window.Telegram.Login.auth({ bot_id: botId, request_access: 'write' }, (data) => resolve(data || null));
-});
+// After returning: the signed payload, null if cancelled/unreadable, or
+// undefined if this page load isn't a Telegram return. Clears the hash.
+export const takeTelegramResult = () => {
+  const m = /[#&]tgAuthResult=([^&]*)/.exec(window.location.hash || '');
+  if (!m) return undefined;
+  window.history.replaceState(window.history.state, '', `${window.location.pathname}${window.location.search}`);
+  try {
+    let b64 = decodeURIComponent(m[1]).replace(/-/g, '+').replace(/_/g, '/');
+    b64 += '='.repeat((4 - (b64.length % 4)) % 4);
+    const bytes = Uint8Array.from(atob(b64), (c) => c.charCodeAt(0));
+    const data = JSON.parse(new TextDecoder().decode(bytes));
+    return data && typeof data === 'object' && data.hash ? data : null;
+  } catch {
+    return null;
+  }
+};

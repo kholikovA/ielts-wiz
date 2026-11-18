@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useTheme } from '../contexts/ThemeContext';
 import { GOOGLE_CLIENT_ID, loadGoogleIdentity, makeNonce } from '../lib/googleIdentity';
-import { prepareTelegram, requestTelegramAuth } from '../lib/telegramLogin';
+import { getTelegramBotId, startTelegramAuth, takeTelegramResult } from '../lib/telegramLogin';
 import './AuthPage.css';
 
 // Official Google "G" mark (multi-colour), per Google's branding guidelines.
@@ -90,29 +90,34 @@ const AuthPage = () => {
     return () => { cancelled = true; };
   }, [isDark]);
 
-  // Telegram button appears only once the bot is configured and the widget
-  // script has loaded, so the popup can open straight from the click.
+  // Telegram button appears once the bot is configured. Telegram's login runs
+  // in this tab and comes back here with the signed result in the URL hash.
   const [tgBotId, setTgBotId] = useState(null);
   const [tgLoading, setTgLoading] = useState(false);
+  const telegramSignIn = useRef(signInWithTelegram);
+  telegramSignIn.current = signInWithTelegram;
   useEffect(() => {
     let cancelled = false;
-    prepareTelegram().then((id) => { if (!cancelled) setTgBotId(id); }).catch(() => {});
+    getTelegramBotId().then((id) => { if (!cancelled) setTgBotId(id); }).catch(() => {});
+    const result = takeTelegramResult();
+    if (result) {
+      setTgLoading(true);
+      telegramSignIn.current(result).then(({ error: tgError }) => {
+        if (!tgError) { window.location.assign(nextPath()); return; }
+        if (cancelled) return;
+        setError(tgError.message || 'Could not sign in with Telegram. Please try again.');
+        setTgLoading(false);
+      });
+    } else if (result === null) {
+      setError('Telegram sign-in was cancelled. Please try again.');
+    }
     return () => { cancelled = true; };
   }, []);
 
-  const handleTelegram = async () => {
+  const handleTelegram = () => {
     setError('');
-    const pending = requestTelegramAuth(tgBotId);
     setTgLoading(true);
-    const data = await pending;
-    if (!data) { setTgLoading(false); return; }
-    const { error: tgError } = await signInWithTelegram(data);
-    if (tgError) {
-      setError(tgError.message || 'Could not sign in with Telegram. Please try again.');
-      setTgLoading(false);
-      return;
-    }
-    window.location.assign(nextPath());
+    startTelegramAuth(tgBotId);
   };
 
   const handleGoogle = async () => {
