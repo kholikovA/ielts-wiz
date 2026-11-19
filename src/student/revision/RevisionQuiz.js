@@ -240,6 +240,21 @@ function Run({ settings, run, onFinish, onQuit }) {
     return () => window.removeEventListener('keydown', onKey);
   }, [q.type, item.options, choose]);
 
+  // ← / → switch questions (not while typing).
+  const moveRef = useRef(null);
+  moveRef.current = (d) => { const n = idx + d; if (n >= 0 && n < run.length) move(n); };
+  useEffect(() => {
+    const onKey = (e) => {
+      if (e.key !== 'ArrowLeft' && e.key !== 'ArrowRight') return;
+      if (e.defaultPrevented || e.metaKey || e.ctrlKey || e.altKey || e.shiftKey) return;
+      if (e.target.closest?.('input, textarea, select, [contenteditable=""], [contenteditable="true"]')) return;
+      e.preventDefault();
+      moveRef.current(e.key === 'ArrowRight' ? 1 : -1);
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
   const submit = async () => {
     const missing = run.length - answeredCount;
     if (!practice && missing > 0) {
