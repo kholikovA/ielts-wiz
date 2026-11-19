@@ -7,6 +7,7 @@ import { useHub } from '../ui';
 import { useOnline, offlineSince } from '../connection';
 import { passPercent } from '../homework';
 import SatHighlighter, { useStoredHighlights } from './SatHighlighter';
+import { SatSkillReport } from './SatReport';
 
 // SAT-style screens for quizzes with payload.style === 'sat', modelled on Bluebook:
 //   SatTake    one question at a time: timer, Directions, Calculator (Desmos), Reference,
@@ -760,6 +761,7 @@ export function SatResults({ a, sub, keyData, marks, submittedLabel, attempts, l
             : 'Correct answers and step-by-step explanations are in Review and analyze.'}
         </p>
       </section>
+      {a.payload?.diagnostic && marks && !locked && <SatSkillReport payload={a.payload} marks={marks} />}
       {review != null && marks && <SatReview a={a} answers={answers} keyData={keyData} marks={marks} startAt={review} onClose={() => setReview(null)} />}
     </>
   );
