@@ -2583,3 +2583,47 @@ body.is-resizing .sat-calc-frame { pointer-events: none; }
 .hub-ov-person h1 { margin: 0; }
 .hub-viewer-add { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
 .hub-viewer-add .form-input { flex: 1 1 240px; max-width: 360px; height: 32px; }
+
+/* SAT diagnostic report (payload.diagnostic): student result + teacher class view */
+.sdx { display: flex; flex-direction: column; gap: 18px; padding: 24px 22px; margin-top: 16px; text-align: left; }
+.sdx-head { display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap; }
+.sdx-head h2 { margin: 2px 0 0; }
+.sdx-est { display: flex; flex-direction: column; align-items: flex-end; }
+.sdx-est strong { font-size: 30px; font-weight: 700; letter-spacing: -0.01em; color: var(--h-accent-text); }
+.sdx-est small, .sdx-muted, .sdx-sub small { color: var(--h-text-2); font-size: 13px; font-weight: 400; }
+.sdx-focus { padding: 12px 14px; border-radius: var(--h-radius-sm); background: var(--h-danger-soft); color: var(--h-text); font-size: 14px; }
+.sdx-focus ul { margin: 6px 0 0; padding-left: 18px; columns: 2; column-gap: 24px; }
+.sdx-focus li { break-inside: avoid; margin-bottom: 2px; }
+.sdx-focus.is-ok { background: var(--h-success-soft); }
+.sdx-domains { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 18px 28px; }
+.sdx-domain-head { display: flex; justify-content: space-between; align-items: baseline; gap: 8px; }
+.sdx-domain-head h3 { font-size: 15px; font-weight: 600; margin: 0; }
+.sdx-domain-head span { color: var(--h-text-2); font-size: 14px; }
+.sdx-bar { display: block; height: 6px; border-radius: 3px; background: var(--h-border); overflow: hidden; margin: 6px 0 8px; }
+.sdx-bar > span { display: block; height: 100%; border-radius: 3px; }
+.sdx-bar .is-strong { background: var(--h-success); }
+.sdx-bar .is-developing { background: var(--h-warn); }
+.sdx-bar .is-priority { background: var(--h-danger); }
+.sdx-skills { width: 100%; border-collapse: collapse; font-size: 14px; }
+.sdx-skills td { padding: 6px 0; border-bottom: 1px solid var(--h-border); vertical-align: middle; }
+.sdx-skills td:nth-child(2) { text-align: right; padding: 0 10px; color: var(--h-text-2); white-space: nowrap; }
+.sdx-skills td:last-child { text-align: right; width: 1%; }
+.sdx-chip { display: inline-block; font-size: 12px; font-weight: 600; border-radius: 999px; padding: 2px 9px; white-space: nowrap; }
+.sdx-chip.is-strong { background: var(--h-success-soft); color: var(--h-success); }
+.sdx-chip.is-developing { background: var(--h-warn-soft); color: var(--h-warn); }
+.sdx-chip.is-priority { background: var(--h-danger-soft); color: var(--h-danger); }
+.sdx-tag { margin: 0 4px 4px 0; white-space: normal; }
+.sdx-note { margin: 0; }
+.sdx-table-wrap { overflow-x: auto; }
+.sdx-class { width: 100%; min-width: 560px; border-collapse: collapse; font-size: 14px; }
+.sdx-class th { text-align: left; font-size: 12px; text-transform: uppercase; letter-spacing: .05em; color: var(--h-text-2); font-weight: 600; padding: 8px 10px; border-bottom: 1px solid var(--h-border); }
+.sdx-class td { padding: 10px; border-bottom: 1px solid var(--h-border); vertical-align: top; }
+.sdx-sub { font-size: 15px; margin: 4px 0 0; }
+.sdx-avg { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 4px 28px; }
+.sdx-avg-row { display: grid; grid-template-columns: minmax(0, 1fr) auto; column-gap: 10px; font-size: 14px; }
+.sdx-avg-row .sdx-bar { grid-column: 1 / -1; margin: 4px 0 8px; }
+@media (max-width: 720px) {
+  .sdx-domains, .sdx-avg { grid-template-columns: 1fr; }
+  .sdx-est { align-items: flex-start; }
+  .sdx-focus ul { columns: 1; }
+}

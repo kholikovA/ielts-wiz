@@ -22,6 +22,7 @@ import { SentenceResults, usedCount } from './vocab/SentenceWork';
 import { splitTest, joinTest, newId } from './quiz/quiz';
 import { emptyTest, testProblems } from './quiz/QuizBuilder';
 import { DictationResult } from './dictation/Dictation';
+import { SatClassReport } from './quiz/SatReport';
 import { checkDictation } from './dictation/diff';
 import { IntegrityNote } from './guard';
 import { EduschoolClassPanel } from './Eduschool';
@@ -1307,6 +1308,7 @@ export function AssignmentDetail({ id }) {
                   </button>
                 </div>
               )}
+              {a.kind === 'quiz' && a.payload?.diagnostic && <SatClassReport a={a} />}
               {previewing && <React.Suspense fallback={<Spinner />}><AssignmentPreview a={a} onClose={closePreview} /></React.Suspense>}
               {analyzing && a.quizKey && (
                 <React.Suspense fallback={<Spinner />}><QuizAnalysis a={a} onClose={() => setAnalyzing(false)} /></React.Suspense>
