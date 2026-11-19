@@ -1,13 +1,42 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import Icon from '../components/ui/icons';
 import { useAuth } from '../contexts/AuthContext';
 import { useHub, PageTitle, ErrorNote, Avatar } from './ui';
 import { CHARACTERS, Character } from './characters';
 import { useTelegramLogin, callTelegramAuth } from '../lib/telegramLogin';
 
+// Turns Student Hub notifications from @ieltswizbot on or off
+// (profiles.telegram_notify, also switchable with /notifications in the bot).
+// Saves right away, separately from the profile form.
+function TelegramNotifySwitch({ profile, updateProfile }) {
+  const [on, setOn] = useState(profile?.telegram_notify !== false);
+  const [error, setError] = useState(null);
+  useEffect(() => { setOn(profile?.telegram_notify !== false); }, [profile?.telegram_notify]);
+
+  const change = async (next) => {
+    setOn(next); setError(null);
+    const { error: err } = await updateProfile({ telegram_notify: next });
+    if (err) { setOn(!next); setError(err); }
+  };
+
+  return (
+    <>
+      <label className="hub-switch">
+        <input type="checkbox" role="switch" checked={on} onChange={(e) => change(e.target.checked)} />
+        <span className="hub-switch-track" aria-hidden="true"><span /></span>
+        <span>
+          <strong>Telegram notifications</strong>
+          <small>New homework, teacher feedback, retakes and coins, sent by the IELTS Wiz bot.</small>
+        </span>
+      </label>
+      {error && <ErrorNote error={error} />}
+    </>
+  );
+}
+
 // Link / unlink Telegram so the student can sign in with it. "Link Telegram"
 // opens the IELTS Wiz bot; once they confirm there, this updates by itself.
-function TelegramLink({ profile, userId, onChanged }) {
+function TelegramLink({ profile, userId, onChanged, updateProfile }) {
   const linked = Boolean(profile?.telegram_id);
   const tg = useTelegramLogin('link', { enabled: !linked, onDone: () => onChanged(userId) });
   const [busy, setBusy] = useState(false);
@@ -46,6 +75,7 @@ function TelegramLink({ profile, userId, onChanged }) {
             : 'Link your Telegram to sign in with it next time.'}
       </p>
       {shownError && <ErrorNote error={shownError} />}
+      {linked && <TelegramNotifySwitch profile={profile} updateProfile={updateProfile} />}
     </div>
   );
 }
@@ -156,7 +186,7 @@ export default function Profile() {
           <p className="form-help">Your Google account's email. It can't be changed here.</p>
         </div>
 
-        <TelegramLink profile={profile} userId={user.id} onChanged={fetchProfile} />
+        <TelegramLink profile={profile} userId={user.id} onChanged={fetchProfile} updateProfile={updateProfile} />
 
         {error && <ErrorNote error={error} />}
         <div className="hub-actions">
