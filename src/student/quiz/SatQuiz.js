@@ -385,6 +385,9 @@ function Timer({ endsAt, onTimeUp, pausedAt = null }) {
   );
 }
 
+// Elements that use the arrow keys themselves (typing, sliders, the Desmos calculator).
+const ARROW_OWNERS = 'input, textarea, select, [contenteditable=""], [contenteditable="true"], [role="separator"], [role="slider"], .dcg-container';
+
 function Shell({ title, timer, extra, children, footer, keys, subject = 'math' }) {
   const math = subject !== 'rw';
   const { profile } = useHub() || {};
@@ -421,6 +424,13 @@ function Shell({ title, timer, extra, children, footer, keys, subject = 'math' }
   mathRef.current = math;
   useEffect(() => {
     const onKey = (e) => {
+      // Plain ← / → also switch questions, unless the key belongs to a field, the calculator or the divider.
+      if (!e.altKey && !e.metaKey && !e.ctrlKey && !e.shiftKey && (e.key === 'ArrowLeft' || e.key === 'ArrowRight')) {
+        if (e.defaultPrevented || e.target.closest?.(ARROW_OWNERS)) return;
+        const fn = e.key === 'ArrowRight' ? keysRef.current?.next : keysRef.current?.prev;
+        if (fn) { e.preventDefault(); fn(); }
+        return;
+      }
       if (!e.altKey || e.metaKey || e.ctrlKey) return;
       const k = e.key.toLowerCase();
       const map = {
@@ -490,7 +500,7 @@ function Shell({ title, timer, extra, children, footer, keys, subject = 'math' }
         <FloatPanel title="Keyboard Shortcuts" className="sat-keys-panel" start={{ x: null, y: 120 }} onClose={() => setShortcuts(false)}>
           <table className="sat-keys">
             <tbody>
-              {[['Alt + →', 'Next question'], ['Alt + ←', 'Previous question'], ['Alt + M', 'Mark for Review'], ['Alt + X', 'Answer eliminator (ABC)'],
+              {[['→ or Alt + →', 'Next question'], ['← or Alt + ←', 'Previous question'], ['Alt + M', 'Mark for Review'], ['Alt + X', 'Answer eliminator (ABC)'],
                 ...(math ? [['Alt + C', 'Calculator'], ['Alt + R', 'Reference']] : []), ['Alt + L', 'Line Reader']].map(([k, d]) => <tr key={k}><td><kbd>{k}</kbd></td><td>{d}</td></tr>)}
             </tbody>
           </table>
