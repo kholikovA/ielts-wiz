@@ -155,3 +155,29 @@ export function nowMarker(date = new Date()) {
   const current = PERIODS.find((p) => min >= toMin(p.start) && min < toMin(p.start) + PERIOD_MINUTES);
   return { day: dow, period: current ? current.period : null };
 }
+
+// ── Registers ────────────────────────────────────────────────────────────────
+// Office hours are a lesson of their own with their own register
+// (class_sessions.kind = 'office'); every other block uses the class register.
+export const REGISTER_KINDS = { lesson: 'Lesson', office: 'Office hours' };
+export const registerKind = (slot) => (slot?.kind === 'office' ? 'office' : 'lesson');
+
+// Register types a class takes: office hours only if it has them on the schedule.
+export function registerKindsFor(slots, classId) {
+  const mine = slots.filter((s) => s.class_id === classId && s.kind !== 'blocked');
+  return mine.some((s) => s.kind === 'office') ? ['lesson', 'office'] : ['lesson'];
+}
+
+// Which of `open` (register types not yet taken today) to offer first: the
+// class's block that is on now, else the next one today, else the last one.
+export function defaultRegisterKind(slots, classId, open, date = new Date()) {
+  if (!open.length) return null;
+  const min = date.getHours() * 60 + date.getMinutes();
+  const today = slots
+    .filter((s) => s.class_id === classId && s.kind !== 'blocked' && s.day === date.getDay())
+    .sort((a, b) => a.period - b.period);
+  const endOf = (s) => toMin(periodEnd(s.period + s.span - 1));
+  const block = today.find((s) => endOf(s) > min) || today[today.length - 1];
+  const kind = block && registerKind(block);
+  return open.includes(kind) ? kind : open[0];
+}

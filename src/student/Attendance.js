@@ -3,6 +3,7 @@ import Icon from '../components/ui/icons';
 import * as api from './api';
 import { confirmDialog } from './dialog';
 import { EduschoolSync } from './Eduschool';
+import { REGISTER_KINDS, registerKindsFor, defaultRegisterKind } from './schedule/timetable';
 import './teach.css';
 import {
   useHub, useAsync, Loaded, BackLink, PageTitle, EmptyPanel, HubLink, PersonName, Seg, ErrorNote,
@@ -39,6 +40,8 @@ function rate(marks) {
   const counted = marks.filter((m) => m && m !== 'excused');
   return counted.length ? Math.round((counted.filter((m) => ATTENDED.has(m)).length / counted.length) * 100) : null;
 }
+const kindOf = (s) => s.kind || 'lesson';
+const isOffice = (s) => kindOf(s) === 'office';
 const rateTone = (r) => (r == null ? '' : r >= 90 ? 'tp-good' : r >= 75 ? 'tp-mid' : 'tp-low');
 
 // /teach/attendance — pick a class, take today's register, see who comes.
@@ -53,29 +56,39 @@ export function AttendanceHome() {
   useEffect(() => {
     if (classes.data?.length && !classes.data.some((c) => c.id === classId)) setClassIdState(classes.data[0].id);
   }, [classes.data, classId]);
+  const slots = useAsync(() => api.teacherSchedule(user.id).catch(() => []), [user.id]);
   const data = useAsync(async () => {
     if (!classId) return null;
     const [sessions, cls] = await Promise.all([api.classSessions(classId), api.classWithMembers(classId)]);
     return { sessions, members: cls?.members || [] };
   }, [classId]);
+  // Lesson or office hours: classes with office hours on the schedule take both.
+  const kinds = registerKindsFor(slots.data || [], classId);
+  const [kindChoice, setKind] = useState(null);
   const [heldOn, setHeldOn] = useState(() => toDateInput(new Date()));
   const [otherDay, setOtherDay] = useState(false);
   const [topic, setTopic] = useState('');
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
+  const takenToday = new Set((data.data?.sessions || []).filter((s) => sameDay(s.held_at)).map(kindOf));
+  const openToday = kinds.filter((k) => !takenToday.has(k));
+  const offered = otherDay ? kinds : openToday;
+  const formKind = offered.includes(kindChoice) ? kindChoice
+    : (otherDay ? kinds[0] : defaultRegisterKind(slots.data || [], classId, openToday)) || 'lesson';
 
   const start = async (e) => {
     e.preventDefault();
     const day = otherDay ? heldOn : toDateInput(new Date());
-    const existing = data.data?.sessions.find((s) => toDateInput(new Date(s.held_at)) === day);
+    const kind = formKind;
+    const existing = data.data?.sessions.find((s) => toDateInput(new Date(s.held_at)) === day && kindOf(s) === kind);
     if (existing && !await confirmDialog({
-      title: `There is already a register for ${when(existing.held_at)}`,
+      title: `There is already ${kind === 'office' ? 'an office hours register' : 'a register'} for ${when(existing.held_at)}`,
       body: 'Open that one, or start a second session for the same day?',
       confirmLabel: 'Start another',
     })) { go(`/teach/attendance/${existing.id}`); return; }
     setBusy(true); setError(null);
     try {
-      const s = await api.createSession(classId, sessionTime(day), topic.trim());
+      const s = await api.createSession(classId, sessionTime(day), topic.trim(), kind);
       go(`/teach/attendance/${s.id}`);
     } catch (err) { setError(err); setBusy(false); }
   };
@@ -104,7 +117,7 @@ export function AttendanceHome() {
               {(d) => {
                 if (!d) return null;
                 const { sessions, members } = d;
-                const today = sessions.find((s) => sameDay(s.held_at));
+                const todays = sessions.filter((s) => sameDay(s.held_at)).reverse();
                 const past = sessions.filter((s) => new Date(s.held_at) <= new Date());
                 const marksIn = (s) => new Map((s.attendance || []).map((m) => [m.student_id, m.status]));
                 const allMarks = past.flatMap((s) => (s.attendance || []).map((m) => m.status));
@@ -117,16 +130,17 @@ export function AttendanceHome() {
                 const flagged = students.filter((x) => x.rate != null && x.rate < 75).length;
                 return (
                   <>
-                    {today ? (
-                      <HubLink to={`/teach/attendance/${today.id}`} className="card card-interactive at-today is-done">
+                    {todays.map((today) => (
+                      <HubLink key={today.id} to={`/teach/attendance/${today.id}`} className="card card-interactive at-today is-done">
                         <span className="at-today-icon"><Icon name="checkCircle" size={20} /></span>
                         <span className="at-today-text">
-                          <strong>Today's register</strong>
+                          <strong>{isOffice(today) ? "Today's office hours" : "Today's register"}</strong>
                           <small>{(today.attendance || []).length}/{members.length} marked · {(today.attendance || []).filter((m) => ATTENDED.has(m.status)).length} present{today.topic ? ` · ${today.topic}` : ''}</small>
                         </span>
                         <span className="btn btn-secondary btn-sm">Open register <Icon name="arrowRight" size={14} /></span>
                       </HubLink>
-                    ) : (
+                    ))}
+                    {(otherDay || openToday.length > 0) && (
                       <form className="card at-today" onSubmit={start}>
                         <span className="at-today-icon"><Icon name="clipboard" size={20} /></span>
                         <span className="at-today-text">
@@ -134,9 +148,13 @@ export function AttendanceHome() {
                           <small>{plural(members.length, 'student')} in this class</small>
                         </span>
                         <div className="at-today-form">
+                          {offered.length > 1 && (
+                            <Seg label="Register for" value={formKind} onChange={setKind}
+                              options={offered.map((k) => ({ value: k, label: REGISTER_KINDS[k] }))} />
+                          )}
                           {otherDay && <input type="date" className="form-input" value={heldOn} max={toDateInput(new Date())} onChange={(e) => setHeldOn(e.target.value)} required aria-label="Date" />}
                           <input className="form-input" value={topic} onChange={(e) => setTopic(e.target.value)} placeholder="Topic (optional)" aria-label="Topic" maxLength={120} />
-                          <button className="btn btn-primary" disabled={busy || !classId}>{busy ? 'Starting…' : 'Take register'}</button>
+                          <button className="btn btn-primary" disabled={busy || !classId}>{busy ? 'Starting…' : formKind === 'office' && offered.length < 2 ? 'Take office hours register' : 'Take register'}</button>
                         </div>
                         <button type="button" className="at-today-alt" onClick={() => setOtherDay((v) => !v)}>
                           {otherDay ? 'Back to today' : 'Different date'}
@@ -168,8 +186,8 @@ export function AttendanceHome() {
                                 <th className="at-grid-name" scope="col">Student</th>
                                 {grid.map(({ s }) => (
                                   <th key={s.id} scope="col">
-                                    <HubLink to={`/teach/attendance/${s.id}`} className="hub-plain" title={`${when(s.held_at)}${s.topic ? ` · ${s.topic}` : ''}`}>
-                                      <small>{weekday(s.held_at)}</small>{shortDay(s.held_at)}
+                                    <HubLink to={`/teach/attendance/${s.id}`} className="hub-plain" title={`${isOffice(s) ? 'Office hours · ' : ''}${when(s.held_at)}${s.topic ? ` · ${s.topic}` : ''}`}>
+                                      <small>{weekday(s.held_at)}{isOffice(s) ? ' · OH' : ''}</small>{shortDay(s.held_at)}
                                     </HubLink>
                                   </th>
                                 ))}
@@ -208,7 +226,7 @@ export function AttendanceHome() {
                               <HubLink key={s.id} to={`/teach/attendance/${s.id}`} className="card card-interactive hub-row at-session">
                                 <span className="at-date"><small>{weekday(s.held_at)}</small><strong>{new Date(s.held_at).getDate()}</strong><small>{new Date(s.held_at).toLocaleDateString(undefined, { month: 'short' })}</small></span>
                                 <div className="hub-row-main">
-                                  <strong>{s.topic || <span className="hub-muted">No topic</span>}</strong>
+                                  <strong>{isOffice(s) && <span className="pill at-office-pill">Office hours</span>}{s.topic || (isOffice(s) ? null : <span className="hub-muted">No topic</span>)}</strong>
                                   <small>{when(s.held_at)}{marks.length < members.length ? ` · ${members.length - marks.length} not marked` : ''}</small>
                                 </div>
                                 <span className="at-session-count hub-num">
@@ -266,7 +284,7 @@ export function Register({ id }) {
         {(s) => s ? (
           <>
             <div className="hub-detail-head">
-              <span className="eyebrow">{s.classes?.name}</span>
+              <span className="eyebrow">{s.classes?.name}{isOffice(s) ? ' · Office hours' : ''}</span>
               <h1>{when(s.held_at)}</h1>
               <div className="hub-detail-meta">
                 <span>{s.topic || 'No topic'}</span>
@@ -274,7 +292,7 @@ export function Register({ id }) {
               </div>
             </div>
             {error && <ErrorNote error={error} />}
-            <EduschoolSync sessionId={s.id} classId={s.class_id} changes={changes} />
+            <EduschoolSync sessionId={s.id} classId={s.class_id} kind={kindOf(s)} changes={changes} />
             {s.members.length ? (
               <>
                 <div className="hub-actions" style={{ marginBottom: 12 }}>

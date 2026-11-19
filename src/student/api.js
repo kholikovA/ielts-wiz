@@ -640,8 +640,9 @@ export async function classSessions(classId) {
     .order('held_at', { ascending: false })) || [];
 }
 
-export const createSession = async (classId, heldAt, topic) =>
-  unwrap(await supabase.from('class_sessions').insert({ class_id: classId, held_at: heldAt, topic: topic || null }).select().single());
+// kind: 'lesson' or 'office' (office hours have a register of their own).
+export const createSession = async (classId, heldAt, topic, kind = 'lesson') =>
+  unwrap(await supabase.from('class_sessions').insert({ class_id: classId, held_at: heldAt, topic: topic || null, kind }).select().single());
 
 export const updateSession = async (id, fields) =>
   unwrap(await supabase.from('class_sessions').update(fields).eq('id', id));
@@ -671,7 +672,7 @@ export const eduschoolSync = async (sessionId) =>
 export async function studentAttendance(uid, limit = 20) {
   return (unwrap(await supabase
     .from('attendance')
-    .select('status, class_sessions(class_id, held_at, topic, classes(name))')
+    .select('status, class_sessions(class_id, held_at, topic, kind, classes(name))')
     .eq('student_id', uid)
     .limit(200)) || []).filter((r) => inGroupScope(r.class_sessions?.class_id));
 }

@@ -2,13 +2,13 @@
 .hub {
   --sch-sat-bg: #eef0ff;   --sch-sat-fg: #312e81;   --sch-sat-sub: #4f46e5;
   --sch-ielts-bg: #e5f4ee; --sch-ielts-fg: #14532d; --sch-ielts-sub: #2f7a5c;
-  --sch-office-bg: #f0efeb; --sch-office-fg: #3f3f46; --sch-office-sub: #71717a;
+  --sch-office-bg: #e6f1fb; --sch-office-fg: #0c3a66; --sch-office-sub: #1f6fb8;
   --sch-other-bg: #fdf3e2; --sch-other-fg: #78350f; --sch-other-sub: #b45309;
 }
 [data-theme='dark'] .hub {
   --sch-sat-bg: rgba(99, 102, 241, 0.16);   --sch-sat-fg: #e0e7ff;   --sch-sat-sub: #a5b4fc;
   --sch-ielts-bg: rgba(16, 185, 129, 0.13); --sch-ielts-fg: #d1fae5; --sch-ielts-sub: #6ee7b7;
-  --sch-office-bg: rgba(161, 161, 170, 0.13); --sch-office-fg: #f4f4f5; --sch-office-sub: #a1a1aa;
+  --sch-office-bg: rgba(56, 152, 236, 0.15); --sch-office-fg: #dbeafe; --sch-office-sub: #93c5fd;
   --sch-other-bg: rgba(245, 158, 11, 0.13); --sch-other-fg: #fef3c7; --sch-other-sub: #fcd34d;
 }
 
