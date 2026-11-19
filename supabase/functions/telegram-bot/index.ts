@@ -4,6 +4,7 @@
 // The site sends students to t.me/<bot>?start=<code> (see telegram-auth).
 // Telegram delivers "/start <code>"; we show what will happen with a Confirm
 // button, and the button press links the account or approves the sign-in.
+// Also: /notifications (on/off for notify-telegram) and /help.
 // The confirm step stops someone from logging a student in by just getting
 // them to open a link.
 //
@@ -80,9 +81,72 @@ async function pendingRequest(code: string): Promise<Req | null> {
 const EXPIRED = "This link has expired or was already used. Go back to IELTS Wiz and tap the Telegram button again.";
 const NOT_LINKED = `This Telegram isn't linked to an IELTS Wiz account yet.\n\nSign in at ${SITE} with Google, open <b>Profile</b> and tap <b>Link Telegram</b>. After that you can sign in with Telegram.`;
 
+const HUB_BUTTON = { inline_keyboard: [[{ text: "Open Student Hub", url: SITE }]] };
+
+const HELP = `<b>IELTS Wiz bot</b>\n\n` +
+  `• Sign in to the Student Hub with Telegram — no password.\n` +
+  `• Get new homework, teacher feedback, retakes and coins here as they happen.\n\n` +
+  `/notifications — turn notifications on or off\n` +
+  `/help — this message\n\n` +
+  `Not linked yet? Sign in at ${SITE}, open <b>Profile</b> and tap <b>Link Telegram</b>.`;
+
+type Linked = { id: string; name: string | null; telegram_notify: boolean };
+
+async function linkedProfile(fromId: number): Promise<Linked | null> {
+  const { data } = await admin.from("profiles").select("id, name, telegram_notify").eq("telegram_id", fromId).maybeSingle();
+  return (data as Linked) ?? null;
+}
+
+function notifyMessage(on: boolean) {
+  return {
+    text: on
+      ? "🔔 Notifications are <b>on</b>. You'll get new homework, feedback, retakes and coins here."
+      : "🔕 Notifications are <b>off</b>. You won't get IELTS Wiz updates here.",
+    reply_markup: { inline_keyboard: [[on
+      ? { text: "🔕 Turn off", callback_data: "notify:off" }
+      : { text: "🔔 Turn on", callback_data: "notify:on" }]] },
+  };
+}
+
+async function onNotifications(chatId: number, fromId: number) {
+  const p = await linkedProfile(fromId);
+  if (!p) { await say(chatId, NOT_LINKED); return; }
+  const m = notifyMessage(p.telegram_notify);
+  await say(chatId, m.text, { reply_markup: m.reply_markup });
+}
+
+async function onNotifyToggle(cb: Record<string, any>) {
+  const on = cb.data === "notify:on";
+  const p = await linkedProfile(cb.from?.id);
+  if (!p) {
+    await tg("answerCallbackQuery", { callback_query_id: cb.id, text: "Link Telegram on your IELTS Wiz profile first." });
+    return;
+  }
+  await admin.from("profiles").update({ telegram_notify: on }).eq("id", p.id);
+  await tg("answerCallbackQuery", { callback_query_id: cb.id, text: on ? "Notifications on" : "Notifications off" });
+  const m = notifyMessage(on);
+  if (cb.message) {
+    await tg("editMessageText", {
+      chat_id: cb.message.chat.id, message_id: cb.message.message_id,
+      text: m.text, parse_mode: "HTML", reply_markup: m.reply_markup,
+    });
+  }
+}
+
 async function onStart(chatId: number, fromId: number, code: string) {
   if (!code) {
-    await say(chatId, `Hi! This is the IELTS Wiz bot.\n\nTo sign in with Telegram, open ${SITE}, go to <b>Profile</b> and tap <b>Link Telegram</b>.`);
+    const p = await linkedProfile(fromId);
+    if (p) {
+      const first = esc((p.name || "there").split(" ")[0]);
+      await say(chatId, `Hi ${first}! 👋 Your Telegram is linked to IELTS Wiz.\n\n` +
+        (p.telegram_notify
+          ? "You'll get new homework, feedback, retakes and coins here. /notifications to turn them off."
+          : "Notifications are off. /notifications to turn them on."),
+        { reply_markup: HUB_BUTTON });
+    } else {
+      await say(chatId, `Hi! This is the IELTS Wiz bot. 🧙\n\nTo sign in with Telegram and get homework alerts here, open ${SITE}, go to <b>Profile</b> and tap <b>Link Telegram</b>.`,
+        { reply_markup: HUB_BUTTON });
+    }
     return;
   }
   const req = await pendingRequest(code);
@@ -169,12 +233,19 @@ Deno.serve(async (req) => {
 
   try {
     const msg = update.message;
-    if (msg?.chat?.type === "private" && typeof msg.text === "string" && msg.text.startsWith("/start")) {
-      await onStart(msg.chat.id, msg.from.id, msg.text.split(/\s+/)[1] ?? "");
+    const text = typeof msg?.text === "string" ? msg.text.trim() : "";
+    const command = text.startsWith("/") ? text.split(/\s+/)[0].split("@")[0].toLowerCase() : "";
+    const data = String(update.callback_query?.data ?? "");
+    if (msg?.chat?.type === "private" && command === "/start") {
+      await onStart(msg.chat.id, msg.from.id, text.split(/\s+/)[1] ?? "");
+    } else if (msg?.chat?.type === "private" && command === "/notifications") {
+      await onNotifications(msg.chat.id, msg.from.id);
     } else if (msg?.chat?.type === "private") {
-      await say(msg.chat.id, `This bot only handles IELTS Wiz sign-in. Open ${SITE} to continue.`);
-    } else if (update.callback_query && String(update.callback_query.data ?? "").startsWith("ok:")) {
+      await say(msg.chat.id, HELP, { reply_markup: HUB_BUTTON });
+    } else if (update.callback_query && data.startsWith("ok:")) {
       await onConfirm(update.callback_query);
+    } else if (update.callback_query && data.startsWith("notify:")) {
+      await onNotifyToggle(update.callback_query);
     }
   } catch (e) {
     console.warn("telegram-bot", e);
