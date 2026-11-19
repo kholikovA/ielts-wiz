@@ -186,3 +186,6 @@ button.tp-th:hover, .tp-th.is-sorted { color: var(--h-text); }
 .at-date small { font-size: 10px; text-transform: uppercase; letter-spacing: 0.04em; }
 .at-session-count { display: flex; flex-direction: column; align-items: flex-end; gap: 4px; }
 @media (max-width: 560px) { .at-session-count .hub-bar { display: none; } }
+/* Office hours registers sit beside the lesson register. */
+.hub .at-today.is-done + .at-today { margin-top: -8px; }
+.hub .at-office-pill { margin-right: 8px; vertical-align: 1px; background: var(--sch-office-bg, var(--h-hover)); color: var(--sch-office-fg, var(--h-text)); }

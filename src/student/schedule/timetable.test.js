@@ -1,6 +1,6 @@
 import {
   planMove, planResize, layoutDay, summarize, describeBlocks, freePeriods,
-  periodColumn, periodEnd, slotTime, nowMarker,
+  periodColumn, periodEnd, slotTime, nowMarker, registerKindsFor, defaultRegisterKind,
 } from './timetable';
 
 const s = (id, day, period, span = 1, extra = {}) => ({ id, day, period, span, kind: 'sat', class_id: 'c1', class_name: '11 SAT', ...extra });
@@ -116,5 +116,27 @@ describe('nowMarker', () => {
     expect(nowMarker(new Date(2026, 10, 16, 12, 30))).toEqual({ day: 1, period: 4 });
     expect(nowMarker(new Date(2026, 10, 16, 11, 30))).toEqual({ day: 1, period: null });
     expect(nowMarker(new Date(2026, 10, 15, 9, 0))).toBeNull();
+  });
+});
+
+describe('registers', () => {
+  // Thursday (day 4) for 11 SAT: SAT 1-2, office hours 3 and 7.
+  const week = [
+    s('sat', 4, 1, 2), s('oh1', 4, 3, 1, { kind: 'office' }), s('oh2', 4, 7, 1, { kind: 'office' }),
+    s('ielts', 4, 4, 2, { kind: 'ielts', class_id: 'c2' }),
+  ];
+  const thu = (h, m) => new Date(2026, 10, 19, h, m);
+
+  it('offers office hours only to classes that have them', () => {
+    expect(registerKindsFor(week, 'c1')).toEqual(['lesson', 'office']);
+    expect(registerKindsFor(week, 'c2')).toEqual(['lesson']);
+  });
+
+  it('starts with the block that is on now or next', () => {
+    expect(defaultRegisterKind(week, 'c1', ['lesson', 'office'], thu(8, 40))).toBe('lesson');
+    expect(defaultRegisterKind(week, 'c1', ['lesson', 'office'], thu(10, 15))).toBe('office');
+    expect(defaultRegisterKind(week, 'c1', ['lesson', 'office'], thu(13, 0))).toBe('office');
+    expect(defaultRegisterKind(week, 'c1', ['lesson'], thu(10, 30))).toBe('lesson');
+    expect(defaultRegisterKind(week, 'c1', [], thu(10, 30))).toBe(null);
   });
 });

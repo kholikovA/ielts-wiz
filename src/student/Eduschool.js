@@ -42,6 +42,9 @@ export function EduschoolClassPanel({ classId }) {
             <p className="form-help" style={{ marginTop: 0, marginBottom: 12 }}>
               Registers for this class go to <strong>{d.link.es_class_label}</strong>{d.link.es_subject_name ? ` · ${d.link.es_subject_name}` : ''} in EduSchool,
               on every {d.link.es_subject_name ? `${d.link.es_subject_name} ` : ''}lesson that day. Late is sent as "Kech keldi".
+              {d.link.es_office_subject_name
+                ? <> Office hours registers go to its <strong>{d.link.es_office_subject_name}</strong> lessons.</>
+                : d.link.es_subject_id ? <> Office hours aren't linked yet: choose their subject under <em>Change</em>.</> : null}
             </p>
             <div className="card">
               {d.students.map((s) => (
@@ -76,20 +79,27 @@ function LinkForm({ current, onSave, onCancel }) {
   const isGroup = classes.data?.find((x) => x.id === esClass)?.type === 'group';
   const subjects = useAsync(() => (esClass && !isGroup ? api.eduschool('subjects', { es_class_id: esClass }) : Promise.resolve([])), [esClass, isGroup]);
   const [subject, setSubject] = useState(current?.es_subject_id || '');
+  const [office, setOffice] = useState(current?.es_office_subject_id || '');
   const [busy, setBusy] = useState(false);
 
   useEffect(() => {
     const list = subjects.data || [];
     if (list.length && !list.some((s) => s.id === subject)) setSubject(list.length === 1 ? list[0].id : '');
+    // Office hours: keep the current choice, else a subject called "office hours".
+    if (list.length && !list.some((s) => s.id === office)) setOffice(list.find((s) => /office/i.test(s.name))?.id || '');
   }, [subjects.data]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const submit = async (e) => {
     e.preventDefault();
     const c = classes.data.find((x) => x.id === esClass);
     const s = isGroup ? null : subjects.data.find((x) => x.id === subject);
+    const o = isGroup || office === subject ? null : subjects.data.find((x) => x.id === office);
     if (!c || (!isGroup && !s)) return;
     setBusy(true);
-    await onSave({ es_class_id: c.id, es_class_label: c.label, es_subject_id: s?.id || null, es_subject_name: s?.name || null });
+    await onSave({
+      es_class_id: c.id, es_class_label: c.label, es_subject_id: s?.id || null, es_subject_name: s?.name || null,
+      es_office_subject_id: o?.id || null, es_office_subject_name: o?.name || null,
+    });
     setBusy(false);
   };
 
@@ -114,6 +124,13 @@ function LinkForm({ current, onSave, onCancel }) {
               </select>
               {!subjects.loading && esClass && !subjects.data?.length && <p className="form-help">EduSchool lists no subjects for this class.</p>}
             </div>}
+            {!isGroup && <div className="form-field" style={{ margin: 0 }}>
+              <label className="form-label" htmlFor="es-office">Office hours subject</label>
+              <select id="es-office" className="form-select" value={office} onChange={(e) => setOffice(e.target.value)} disabled={!esClass || subjects.loading}>
+                <option value="">None</option>
+                {(subjects.data || []).filter((s) => s.id !== subject).map((s) => <option key={s.id} value={s.id}>{s.name}{s.teacher ? ` · ${s.teacher}` : ''}</option>)}
+              </select>
+            </div>}
             <button className="btn btn-primary" disabled={busy || !esClass || (!isGroup && !subject)}><Icon name="link" size={14} /> {current ? 'Save' : 'Link'}</button>
             {onCancel && <button type="button" className="btn btn-ghost" onClick={onCancel}>Cancel</button>}
           </form>
@@ -128,7 +145,7 @@ const ago = (iso) => new Date(iso).toLocaleTimeString(undefined, { hour: '2-digi
 
 // Register page: sends the register a moment after the last change (and when
 // leaving the page), and shows what EduSchool has.
-export function EduschoolSync({ sessionId, classId, changes }) {
+export function EduschoolSync({ sessionId, classId, kind = 'lesson', changes }) {
   const link = useAsync(() => api.eduschoolLink(classId), [classId]);
   const last = useAsync(() => api.eduschoolSync(sessionId), [sessionId]);
   const [result, setResult] = useState(null);
@@ -171,7 +188,16 @@ export function EduschoolSync({ sessionId, classId, changes }) {
 
   const r = result || last.data;
   let icon = 'refresh';
-  let text = `Changes are sent to EduSchool (${[link.data.es_class_label, link.data.es_subject_name].filter(Boolean).join(' · ')}).`;
+  const subjectName = kind === 'office' ? link.data.es_office_subject_name : link.data.es_subject_name;
+  if (kind === 'office' && !link.data.es_office_subject_id) {
+    return (
+      <div className="card hub-sync is-warn">
+        <Icon name="link" size={16} />
+        <span>Office hours aren't linked to an EduSchool subject. <HubLink to={`/teach/classes/${classId}`}>Choose it on the class page</HubLink> to send this register.</span>
+      </div>
+    );
+  }
+  let text = `Changes are sent to EduSchool (${[link.data.es_class_label, subjectName].filter(Boolean).join(' · ')}).`;
   let tone = '';
   if (busy) { text = 'Sending to EduSchool…'; }
   else if (error) { icon = 'xCircle'; tone = 'is-bad'; text = error.message; }

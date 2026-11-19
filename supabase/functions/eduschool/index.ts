@@ -4,7 +4,8 @@
 //   POST { action, ... }   (teachers only; the gateway verifies the JWT)
 //     classes                         → EduSchool classes/groups the staff account teaches
 //     subjects { es_class_id }        → subjects of one EduSchool class/group
-//     link     { class_id, es_class_id, es_class_label, es_subject_id, es_subject_name }
+//     link     { class_id, es_class_id, es_class_label, es_subject_id, es_subject_name,
+//                es_office_subject_id?, es_office_subject_name? }
 //     unlink   { class_id }
 //     roster   { class_id }           → hub students + EduSchool roster + links
 //                                       (auto-links confident name matches)
@@ -19,6 +20,10 @@
 // sends exactly that: there is no separate late state). A hub session is a day; it is written to every
 // EduSchool lesson of the linked class + subject on that day (Tashkent time);
 // a linked group has no subject and gets every one of its lessons that day.
+// An office-hours register (session kind 'office') goes only to the lessons of
+// the link's office-hours subject. Matching is by subject, never by period, so
+// days where EduSchool orders lessons differently from the hub (Thursday:
+// office hours and IELTS swapped) still land on the right lessons.
 // Marks already in EduSchool for students the hub doesn't send are re-sent
 // unchanged, so a push never clears someone else's mark. Unmarked EduSchool
 // students with no hub account in the class are sent as notAttended (sababsiz).
@@ -209,7 +214,7 @@ type Mark = { state: string; late: boolean };
 
 // ── Actions ──────────────────────────────────────────────────────────────────
 async function push(uid: string, sessionId: string) {
-  const s = must(await db.from("class_sessions").select("id, class_id, held_at").eq("id", sessionId).maybeSingle()) as any;
+  const s = must(await db.from("class_sessions").select("id, class_id, held_at, kind").eq("id", sessionId).maybeSingle()) as any;
   if (!s) throw new HttpError(404, "Session not found.");
   await requireClass(uid, s.class_id);
 
@@ -221,6 +226,13 @@ async function push(uid: string, sessionId: string) {
 
   const link = await linkOf(s.class_id);
   if (!link) return save({ status: "not_linked", message: "This class isn't linked to EduSchool." });
+  const office = s.kind === "office";
+  if (office && !link.es_office_subject_id) {
+    return save({ status: "not_linked", message: "Office hours aren't linked to an EduSchool subject yet." });
+  }
+  // Office hours → their own subject; lessons → the class subject (a group: every lesson).
+  const subjectId: string | null = office ? link.es_office_subject_id : link.es_subject_id;
+  const subjectName: string | null = office ? link.es_office_subject_name : link.es_subject_name;
 
   try {
     const { day, from, to } = dayWindow(s.held_at);
@@ -228,10 +240,10 @@ async function push(uid: string, sessionId: string) {
     const lessons = days
       .filter((d) => d.class?._id === link.es_class_id && d.date === day)
       .flatMap((d) => d.classLessons || [])
-      .filter((l) => !link.es_subject_id || l.subject?._id === link.es_subject_id)
+      .filter((l) => !subjectId || l.subject?._id === subjectId)
       .sort((a, b) => (a.period?.lessonHour ?? 0) - (b.period?.lessonHour ?? 0));
     if (!lessons.length) {
-      return save({ status: "no_lessons", message: `No ${link.es_subject_name ? `${link.es_subject_name} ` : ""}lesson for ${link.es_class_label} on ${day} in EduSchool.` });
+      return save({ status: "no_lessons", message: `No ${subjectName ? `${subjectName} ` : ""}lesson for ${link.es_class_label} on ${day} in EduSchool.` });
     }
 
     const [members, marksRes, roster] = await Promise.all([
@@ -382,9 +394,15 @@ async function handle(uid: string, body: any) {
       if (!body.es_class_id || !body.es_class_label) throw new HttpError(400, "Pick a class or group.");
       // Groups have one subject, so the subject is optional (null = every lesson that day).
       if (!!body.es_subject_id !== !!body.es_subject_name) throw new HttpError(400, "Pick a subject.");
+      if (!!body.es_office_subject_id !== !!body.es_office_subject_name) throw new HttpError(400, "Pick the office hours subject.");
+      if (body.es_office_subject_id && body.es_office_subject_id === body.es_subject_id) {
+        throw new HttpError(400, "Office hours need a different subject from the lessons.");
+      }
       must(await db.from("eduschool_class_links").upsert({
         class_id: body.class_id, es_class_id: body.es_class_id, es_class_label: body.es_class_label,
-        es_subject_id: body.es_subject_id || null, es_subject_name: body.es_subject_name || null, updated_at: new Date().toISOString(),
+        es_subject_id: body.es_subject_id || null, es_subject_name: body.es_subject_name || null,
+        es_office_subject_id: body.es_office_subject_id || null, es_office_subject_name: body.es_office_subject_name || null,
+        updated_at: new Date().toISOString(),
       }));
       return { ok: true };
     }
