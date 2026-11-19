@@ -185,6 +185,25 @@ export async function satQuestions() {
   }
 }
 
+// ── Question bank → Words (teachers) ─────────────────────────────────────────
+export async function bankWords() {
+  const out = [];
+  for (let from = 0; ; from += 1000) {
+    const rows = unwrap(await supabase.from('bank_words')
+      .select('word, kind, level, pos, freq, sources, forms, examples, card, hidden')
+      .gt('freq', 0)
+      .order('freq', { ascending: false }).order('word').range(from, from + 999)) || [];
+    out.push(...rows);
+    if (rows.length < 1000) return out;
+  }
+}
+
+export const saveBankCard = async (word, card) =>
+  unwrap(await supabase.from('bank_words').update({ card, updated_at: new Date().toISOString() }).eq('word', word));
+
+export const hideBankWord = async (word, hidden) =>
+  unwrap(await supabase.from('bank_words').update({ hidden, updated_at: new Date().toISOString() }).eq('word', word));
+
 // Names of images already in the bucket (so an import can resume or skip them).
 export async function satImageNames() {
   const names = new Set();

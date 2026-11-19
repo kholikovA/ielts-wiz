@@ -88,6 +88,9 @@ export function dueLabel(iso) {
 
 // One card per line: "front - back", "front = back", "front: back" or tab-separated
 // (pasting two spreadsheet columns works).
+// Question bank → Words hands its enriched cards to the assignment form through sessionStorage.
+export const WORDBANK_PREFILL_KEY = 'iw.wordbank.prefill';
+
 export function parseCards(text) {
   return text
     .split('\n')

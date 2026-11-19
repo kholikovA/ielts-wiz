@@ -3,7 +3,7 @@ import Icon from '../components/ui/icons';
 import * as api from './api';
 import {
   KINDS, attemptsFor, statusOf, isComplete, isOverdue, dueLabel, formatDate, pct, parseCards, wordCount,
- assignmentCounts, DEFAULT_PASS, passPercent, isScored,
+ assignmentCounts, DEFAULT_PASS, passPercent, isScored, WORDBANK_PREFILL_KEY,
 } from './homework';
 import { CoinFields, coinsValue, useHomeworkRule } from './AssignmentCoins';
 import { TEST_GROUPS, ALL_TESTS, testKey, WRITING_PROMPTS } from './catalog';
@@ -633,6 +633,8 @@ export function Assignments() {
   );
 }
 
+const USE_IT_MAX = 20;
+
 export function NewAssignment({ editId = null }) {
   const { user, go } = useHub();
   const presetClass = new URLSearchParams(window.location.search).get('class') || '';
@@ -653,6 +655,8 @@ export function NewAssignment({ editId = null }) {
   const [extras, setExtras] = useState({}); // AI study material per card front
   const [wordsText, setWordsText] = useState('');
   const [level, setLevel] = useState('junior');
+  const [useIt, setUseIt] = useState(false); // flashcards: also assign "Use it" with the same words
+  const [fromBank, setFromBank] = useState(null); // { missing } when opened from Question bank → Words
   const [quiz, setQuiz] = useState(emptyTest);
   const [dict, setDict] = useState(null); // { payload, key } from DictationSetup
   const [dictInitial, setDictInitial] = useState(null);
@@ -719,6 +723,21 @@ export function NewAssignment({ editId = null }) {
   }, [source.data]); // eslint-disable-line react-hooks/exhaustive-deps
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState(null);
+
+  // Opened from Question bank → Words: flashcards (already AI-enriched) + "Use it".
+  useEffect(() => {
+    if (editing || !new URLSearchParams(window.location.search).get('words')) return;
+    let p = null;
+    try { p = JSON.parse(sessionStorage.getItem(WORDBANK_PREFILL_KEY) || 'null'); } catch { p = null; }
+    if (!p?.cards?.length) return;
+    setKind('flashcards');
+    setCardsText(p.cards.map((c) => `${c.f} - ${c.b}`).join('\n'));
+    setExtras(Object.fromEntries(p.cards.map((c) => [extraKey(c.f), c])));
+    if (p.title) setTitle(p.title);
+    if (p.classIds?.length) { setTarget('class'); setClassIds(p.classIds); }
+    setUseIt(true);
+    setFromBank({ missing: p.missing || 0 });
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
   const cards = useMemo(() => parseCards(cardsText), [cardsText]);
   // "word" or "word - meaning", one per line (max 20).
@@ -823,6 +842,12 @@ export function NewAssignment({ editId = null }) {
     }
     try {
       const targets = target === 'class' ? classIds : [null];
+      // "Use it" with the deck's words, in parts of at most 20 words.
+      const useItParts = [];
+      if (kind === 'flashcards' && useIt) {
+        const ws = payload.cards.map((c) => ({ w: c.f, m: c.b }));
+        for (let i = 0; i < ws.length; i += USE_IT_MAX) useItParts.push(ws.slice(i, i + USE_IT_MAX));
+      }
       let a = null;
       for (const cid of targets) {
       // eslint-disable-next-line no-await-in-loop
@@ -834,8 +859,19 @@ export function NewAssignment({ editId = null }) {
       }, cid ? recipients(data, cid) : ids, kind === 'dictation' ? (created) => api.saveDictationKey(created.id, dict.key.transcript, dict.key.source)
         : kind === 'quiz' ? (created) => api.saveQuizKey(created.id, splitTest(quiz).key)
           : null);
+      for (let p = 0; p < useItParts.length; p += 1) {
+        // eslint-disable-next-line no-await-in-loop
+        await api.createAssignment({
+          kind: 'sentences', title: `Use it: ${title.trim()}${useItParts.length > 1 ? ` (${p + 1}/${useItParts.length})` : ''}`.slice(0, 200),
+          instructions: 'Write one sentence with each word. You get instant feedback.',
+          payload: { words: useItParts[p], level }, coins: coinsValue(coins),
+          class_id: cid,
+          due_at: due ? new Date(due).toISOString() : null,
+          publish_at: publishMode === 'later' && publishAt ? new Date(publishAt).toISOString() : new Date().toISOString(),
+        }, cid ? recipients(data, cid) : ids);
       }
-      go(targets.length > 1 ? '/teach/assignments' : `/teach/assignments/${a.id}`);
+      }
+      go(targets.length > 1 || useItParts.length ? '/teach/assignments' : `/teach/assignments/${a.id}`);
     } catch (err) { setError(err); setBusy(false); }
   };
 
@@ -936,7 +972,26 @@ export function NewAssignment({ editId = null }) {
                 <textarea id="na-cards" className="form-textarea" rows={8} value={cardsText} onChange={(e) => setCardsText(e.target.value)}
                   placeholder={'mitigate - to make something less severe\nubiquitous - found everywhere'} />
                 <p className="form-help">{cards.length} card{cards.length === 1 ? '' : 's'} detected. Pasting two columns from a spreadsheet works too. Words go to the front of each student's daily queue, then repeat on a spaced-repetition schedule.</p>
+                {fromBank?.missing > 0 && <p className="form-help hub-warn">{fromBank.missing} word{fromBank.missing === 1 ? '' : 's'} could not be enriched and {fromBank.missing === 1 ? 'was' : 'were'} left out.</p>}
                 <CardEnricher cards={cards} extras={extras} onChange={setExtras} />
+                {!editing && (
+                  <>
+                    <label className="hub-switch" style={{ marginTop: 14 }}>
+                      <input type="checkbox" role="switch" checked={useIt} onChange={(e) => setUseIt(e.target.checked)} />
+                      <span className="hub-switch-track" aria-hidden="true"><span /></span>
+                      <span>
+                        <strong>Also assign "Use it" with these words</strong>
+                        <small>Students write a sentence with each word and get instant AI feedback, so the words become active vocabulary. Same class, dates and coins{cards.length > USE_IT_MAX ? `; split into ${Math.ceil(cards.length / USE_IT_MAX)} parts of up to ${USE_IT_MAX} words` : ''}.</small>
+                      </span>
+                    </label>
+                    {useIt && (
+                      <Seg label="Use it level" value={level} onChange={setLevel} options={[
+                        { value: 'junior', label: 'Junior (band 5-6)' },
+                        { value: 'senior', label: 'Senior (band 6.5+)' },
+                      ]} />
+                    )}
+                  </>
+                )}
               </div>
             )}
 
