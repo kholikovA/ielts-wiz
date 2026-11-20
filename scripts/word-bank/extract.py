@@ -221,6 +221,13 @@ def main(sat_path, ielts_path, list_dir, out_path):
                     first = i == 0 or sent[i - 1].text in {'“', '"', '‘', "'", '(', '—', '-', ':'}
                     if not lower and first:
                         lower = None  # sentence-initial: tells us nothing about proper nouns
+                    # Phrasal verbs first: their verb is usually easy (carry out, rule out, set off).
+                    if tok.pos_ == 'VERB':
+                        prts = [c for c in tok.children if c.dep_ == 'prt' and c.text.lower() in PARTICLES]
+                        if prts:
+                            phrase = f'{tok.lemma_.lower()} {prts[0].text.lower()}'
+                            if phrase in PHRASAL:
+                                note('~' + phrase, f'{tok.text} {prts[0].text}', 'PHRASAL', source, unit, sent, True)
                     if tok.pos_ in {'NOUN', 'VERB', 'ADJ', 'ADV', 'PROPN', 'ADP', 'SCONJ', 'CCONJ'}:
                         lemma = canonical(tok, levels)
                         if lemma is None:
@@ -230,13 +237,6 @@ def main(sat_path, ielts_path, list_dir, out_path):
                         else:
                             note(lemma, tok.text, tok.pos_, source, unit, sent, True)
                             stats[lemma]['lower'] -= 1  # neutral
-                    # Phrasal verbs: verb + particle (carry out, rule out, set off).
-                    if tok.pos_ == 'VERB':
-                        prts = [c for c in tok.children if c.dep_ == 'prt' and c.text.lower() in PARTICLES]
-                        if prts:
-                            phrase = f'{tok.lemma_.lower()} {prts[0].text.lower()}'
-                            if phrase in PHRASAL:
-                                note('~' + phrase, f'{tok.text} {prts[0].text}', 'PHRASAL', source, unit, sent, True)
 
     rows = []
     dropped = []
