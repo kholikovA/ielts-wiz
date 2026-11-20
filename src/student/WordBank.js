@@ -143,14 +143,19 @@ export default function WordBank() {
           const sumFreq = (l) => l.reduce((n, r) => n + r.freq, 0);
           const weighted = sumFreq(visible) ? Math.round((sumFreq(coverGiven) / sumFreq(visible)) * 100) : 0;
           const q = norm(query);
+          // With sources ticked, counts, the minimum and sorting use only those sources:
+          // "cubic" is in 31 Math questions but only 1 Reading & Writing question.
+          const freqIn = (r) => (sources.size ? Object.entries(r.sources || {}).reduce((n, [k, v]) => n + (sources.has(k) ? v : 0), 0) : r.freq);
+          const exampleOf = (r) => (sources.size && r.examples?.find((e) => sources.has(e.k))) || (sources.size ? null : r.examples?.[0]);
           let list = (showHidden ? words.filter(isHidden) : visible).filter((r) => (!levels.size || levels.has(r.level))
-            && (!sources.size || Object.keys(r.sources || {}).some((s) => sources.has(s)))
+            && freqIn(r) > 0
             && (kind === 'all' || r.kind === kind)
-            && r.freq >= minFreq
+            && freqIn(r) >= minFreq
             && (!q || r.word.includes(q) || (r.forms || []).some((f) => f.includes(q)) || norm(cardOf(r)?.b).includes(q))
             && (showHidden || !hideGiven || !isGiven(r)));
+          if (sources.size && sort === 'freq') list = [...list].sort((a, b) => freqIn(b) - freqIn(a) || a.word.localeCompare(b.word));
           if (sort === 'az') list = [...list].sort((a, b) => a.word.localeCompare(b.word));
-          if (sort === 'level') list = [...list].sort((a, b) => LEVELS.indexOf(a.level) - LEVELS.indexOf(b.level) || b.freq - a.freq);
+          if (sort === 'level') list = [...list].sort((a, b) => LEVELS.indexOf(a.level) - LEVELS.indexOf(b.level) || freqIn(b) - freqIn(a));
           const byWord = new Map(words.map((r) => [r.word, r]));
           const chosen = selected.map((w) => byWord.get(w)).filter(Boolean);
           const className = classId === '*' ? 'any of your classes' : roster.classes.find((c) => c.id === classId)?.name;
@@ -184,7 +189,7 @@ export default function WordBank() {
                 <div className="bank-group">
                   <span className="form-label">Found in</span>
                   {SOURCES.map((s) => {
-                    const n = visible.filter((r) => r.sources?.[s.key]).length;
+                    const n = visible.filter((r) => (r.sources?.[s.key] || 0) >= minFreq).length;
                     return n ? (
                       <label key={s.key} className="bank-check"><input type="checkbox" checked={sources.has(s.key)} onChange={() => toggleIn(sources, setSources, s.key)} /> {s.label} <small>{n}</small></label>
                     ) : null;
@@ -237,7 +242,7 @@ export default function WordBank() {
                           <span className={`pill wb-level is-${r.level.toLowerCase()}`}>{r.level}</span>
                           {isGiven(r) && <span className="pill pill-success">Given</span>}
                           <span className="wb-freq" title={Object.entries(r.sources || {}).map(([k, n]) => `${SOURCE_SHORT[k] || k}: ${n}`).join(' · ')}>
-                            in {r.freq} {r.freq === 1 ? 'question' : 'questions'}
+                            in {freqIn(r)} {sources.size === 1 ? `${SOURCE_SHORT[[...sources][0]]} ` : ''}{freqIn(r) === 1 ? 'question' : 'questions'}
                           </span>
                           <button type="button" className="btn btn-ghost btn-sm wb-hide" onClick={() => setHidden(r, !isHidden(r))}
                             title={isHidden(r) ? 'Show this word again' : 'Hide this word for all teachers (e.g. a name or a word students know)'}>
@@ -245,7 +250,7 @@ export default function WordBank() {
                           </button>
                         </div>
                         {card?.b && <p className="wb-meaning">{card.b}</p>}
-                        <Example ex={r.examples?.[0]} />
+                        <Example ex={exampleOf(r)} />
                       </article>
                     );
                   })}

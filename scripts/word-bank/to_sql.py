@@ -18,7 +18,7 @@ def main(path):
     print('begin;')
     print('create temp table _bw (like public.bank_words including defaults) on commit drop;')
     for r in rows:
-        examples = [{'s': e['s'], 'src': e['src'], 'w': e['w']} for e in r['examples']]
+        examples = [{'s': e['s'], 'src': e['src'], 'w': e['w'], 'k': e['k']} for e in r['examples']]
         forms = 'array[' + ','.join(q(f) for f in r['forms']) + ']::text[]' if r['forms'] else "'{}'::text[]"
         print('insert into _bw (word, kind, level, pos, freq, sources, forms, examples, zipf) values ('
               f"{q(r['word'])}, {q(r['kind'])}, {q(r['level'])}, {q(r['pos'])}, {int(r['freq'])}, "
