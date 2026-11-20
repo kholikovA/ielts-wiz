@@ -1256,7 +1256,32 @@ export function AssignmentDetail({ id }) {
   const [filter, setFilter] = useState('all');
   const [analyzing, setAnalyzing] = useState(false);
   const [previewing, setPreviewing] = useState(false);
+  const [bulkBusy, setBulkBusy] = useState(false);
   const closePreview = React.useCallback(() => setPreviewing(false), []);
+
+  // Mark every waiting submission reviewed. review_submission overwrites band,
+  // feedback and marking, so each one is sent back with what it already has
+  // (quiz scores live in marking); tasks are marked passed.
+  const reviewAll = async (a, waiting) => {
+    if (!await confirmDialog({
+      title: `Mark ${plural(waiting.length, 'submission')} as reviewed?`,
+      body: a.kind === 'custom'
+        ? 'Each task is marked as passed with no feedback. Students are notified.'
+        : 'Each one is marked reviewed as it is, with no new feedback. Students are notified.',
+      confirmLabel: 'Mark all reviewed',
+    })) return;
+    setBulkBusy(true);
+    const results = await Promise.allSettled(waiting.map(({ sub }) => api.reviewSubmission(
+      sub.id,
+      sub.band ?? null,
+      sub.feedback || '',
+      a.kind === 'custom' ? { ...(sub.marking || {}), verdict: 'passed' } : sub.marking ?? null,
+    )));
+    setBulkBusy(false);
+    const failed = results.filter((r) => r.status === 'rejected').length;
+    if (failed) alertDialog({ title: 'Some reviews were not saved', body: `${failed} of ${waiting.length} failed. Try again.` });
+    state.reload();
+  };
   const rule = useHomeworkRule();
   const message = (sid) => messageUser(sid, go).catch((e) => alertDialog({ title: 'Could not open the chat', body: e.message }));
 
@@ -1380,6 +1405,11 @@ export function AssignmentDetail({ id }) {
               <section className="hub-section">
                 <div className="tp-section-head">
                   <h2 className="h3">Students</h2>
+                  {count('review') > 0 && (
+                    <button type="button" className="btn btn-sm btn-secondary" style={{ marginLeft: 'auto' }} disabled={bulkBusy} onClick={() => reviewAll(a, rows.filter((r) => r.needsReview))}>
+                      <Icon name="check" size={14} /> {bulkBusy ? 'Saving…' : `Mark all reviewed (${count('review')})`}
+                    </button>
+                  )}
                   {rows.length > 0 && (
                     <Seg label="Show students" value={filter} onChange={setFilter} options={[
                       { value: 'all', label: `All ${rows.length}` },
