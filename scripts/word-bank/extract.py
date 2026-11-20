@@ -209,7 +209,7 @@ def main(sat_path, ielts_path, list_dir, out_path):
         text = sent.text.strip()
         n = len(text.split())
         if 6 <= n <= 45 and all(e['s'] != text for e in s['examples']):
-            s['examples'].append({'s': text, 'src': unit, 'w': tok_text})
+            s['examples'].append({'s': text, 'src': unit, 'w': tok_text, 'k': source})
 
     for source, unit, texts in units:
         for doc in nlp.pipe([t for t in texts if t]):
@@ -274,7 +274,15 @@ def main(sat_path, ielts_path, list_dir, out_path):
 
 
 def build(word, kind, level, how, pos, s, z=None):
-    ex = sorted(s['examples'], key=lambda e: abs(len(e['s'].split()) - 18))[:MAX_EXAMPLES]
+    # The best example from each source first (so a filter on SAT R&W can show an
+    # R&W sentence even when most uses are in Math), then the next best overall.
+    ranked = sorted(s['examples'], key=lambda e: abs(len(e['s'].split()) - 18))
+    ex = []
+    for k in s['sources']:
+        best = next((e for e in ranked if e['k'] == k), None)
+        if best:
+            ex.append(best)
+    ex += [e for e in ranked if e not in ex][:max(0, MAX_EXAMPLES - len(ex))]
     return {
         'word': word, 'kind': kind, 'level': level, 'how': how,
         'pos': {'NOUN': 'noun', 'VERB': 'verb', 'ADJ': 'adjective', 'ADV': 'adverb', 'PROPN': 'noun', 'PHRASAL': 'phrasal verb'}.get(pos, pos.lower()),
