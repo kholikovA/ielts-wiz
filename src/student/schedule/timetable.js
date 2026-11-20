@@ -157,27 +157,33 @@ export function nowMarker(date = new Date()) {
 }
 
 // ── Registers ────────────────────────────────────────────────────────────────
-// Office hours are a lesson of their own with their own register
-// (class_sessions.kind = 'office'); every other block uses the class register.
+// One register per para, like the EduSchool journal. Office hours are a lesson
+// of their own (class_sessions.kind = 'office'); every other block is 'lesson'.
 export const REGISTER_KINDS = { lesson: 'Lesson', office: 'Office hours' };
 export const registerKind = (slot) => (slot?.kind === 'office' ? 'office' : 'lesson');
+export const paraLabel = (p) => `${p}-para`;
 
-// Register types a class takes: office hours only if it has them on the schedule.
-export function registerKindsFor(slots, classId) {
-  const mine = slots.filter((s) => s.class_id === classId && s.kind !== 'blocked');
-  return mine.some((s) => s.kind === 'office') ? ['lesson', 'office'] : ['lesson'];
+// Every para of a weekday (1-5), split out of the blocks: a SAT double is two paras.
+export function dayParas(slots, weekday) {
+  return slots
+    .filter((s) => s.kind !== 'blocked' && s.class_id && s.day === weekday)
+    .flatMap((s) => Array.from({ length: s.span }, (_, i) => {
+      const period = s.period + i;
+      return {
+        key: `${s.class_id}:${registerKind(s)}:${period}`,
+        class_id: s.class_id,
+        class_name: s.class_name || '',
+        kind: registerKind(s),
+        label: slotTitle(s),
+        period,
+        start: periodStart(period),
+        end: periodEnd(period),
+        part: s.span > 1 ? i + 1 : null,
+        span: s.span,
+      };
+    }))
+    .sort((a, b) => a.period - b.period || a.class_name.localeCompare(b.class_name));
 }
 
-// Which of `open` (register types not yet taken today) to offer first: the
-// class's block that is on now, else the next one today, else the last one.
-export function defaultRegisterKind(slots, classId, open, date = new Date()) {
-  if (!open.length) return null;
-  const min = date.getHours() * 60 + date.getMinutes();
-  const today = slots
-    .filter((s) => s.class_id === classId && s.kind !== 'blocked' && s.day === date.getDay())
-    .sort((a, b) => a.period - b.period);
-  const endOf = (s) => toMin(periodEnd(s.period + s.span - 1));
-  const block = today.find((s) => endOf(s) > min) || today[today.length - 1];
-  const kind = block && registerKind(block);
-  return open.includes(kind) ? kind : open[0];
-}
+// Later paras of the same class and register type that day: where a register can be copied to.
+export const laterParas = (paras, para) => paras.filter((p) => p.class_id === para.class_id && p.kind === para.kind && p.period > para.period);

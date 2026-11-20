@@ -678,6 +678,39 @@ export async function sessionRegister(sessionId) {
   return { ...session, members: members?.members || [], marks: new Map((unwrap(marks) || []).map((m) => [m.student_id, m.status])) };
 }
 
+// The teacher's registers held on one local day (yyyy-mm-dd), with marks and EduSchool status.
+export async function registersOn(uid, day) {
+  const [y, m, d] = day.split('-').map(Number);
+  const from = new Date(y, m - 1, d);
+  const to = new Date(y, m - 1, d + 1);
+  const rows = unwrap(await supabase
+    .from('class_sessions')
+    .select('id, class_id, held_at, kind, period, topic, attendance(status), eduschool_session_sync(status, retry_at), classes!inner(name, teacher_id)')
+    .eq('classes.teacher_id', uid)
+    .gte('held_at', from.toISOString())
+    .lt('held_at', to.toISOString())) || [];
+  return rows.map((r) => ({ ...r, sync: Array.isArray(r.eduschool_session_sync) ? r.eduschool_session_sync[0] || null : r.eduschool_session_sync }));
+}
+
+// Open (or create) the register of one para; heldAt = when the para starts.
+export const lessonRegister = async (classId, heldAt, period, kind = 'lesson') =>
+  unwrap(await supabase.rpc('lesson_register', { p_class: classId, p_held_at: heldAt, p_period: period, p_kind: kind }));
+
+export const copyRegister = async (fromId, toId) =>
+  unwrap(await supabase.rpc('copy_register', { p_from: fromId, p_to: toId }));
+
+export const registerMarkCount = async (sessionId) => {
+  const { count, error } = await supabase.from('attendance').select('student_id', { count: 'exact', head: true }).eq('session_id', sessionId);
+  if (error) throw error;
+  return count || 0;
+};
+
+export const markMany = async (sessionId, studentIds, status) => {
+  if (!studentIds.length) return;
+  const at = new Date().toISOString();
+  unwrap(await supabase.from('attendance').upsert(studentIds.map((student_id) => ({ session_id: sessionId, student_id, status, marked_at: at }))));
+};
+
 export const markAttendance = async (sessionId, studentId, status) =>
   unwrap(await supabase.from('attendance').upsert({ session_id: sessionId, student_id: studentId, status, marked_at: new Date().toISOString() }));
 

@@ -24,6 +24,10 @@
 // the link's office-hours subject. Matching is by subject, never by period, so
 // days where EduSchool orders lessons differently from the hub (Thursday:
 // office hours and IELTS swapped) still land on the right lessons.
+// A register of one para (class_sessions.period) goes to one EduSchool lesson:
+// the class's paras of that type on the hub schedule are paired in order with
+// EduSchool's lessons of that subject that day (Thursday: hub IELTS 4,5 ↔
+// EduSchool 3,5). If the counts differ it falls back to the same para number.
 // Marks already in EduSchool for students the hub doesn't send are re-sent
 // unchanged, so a push never clears someone else's mark. Unmarked EduSchool
 // students with no hub account in the class are sent as notAttended (sababsiz).
@@ -214,7 +218,7 @@ type Mark = { state: string; late: boolean };
 
 // ── Actions ──────────────────────────────────────────────────────────────────
 async function push(uid: string, sessionId: string) {
-  const s = must(await db.from("class_sessions").select("id, class_id, held_at, kind").eq("id", sessionId).maybeSingle()) as any;
+  const s = must(await db.from("class_sessions").select("id, class_id, held_at, kind, period").eq("id", sessionId).maybeSingle()) as any;
   if (!s) throw new HttpError(404, "Session not found.");
   await requireClass(uid, s.class_id);
 
@@ -237,13 +241,29 @@ async function push(uid: string, sessionId: string) {
   try {
     const { day, from, to } = dayWindow(s.held_at);
     const days = await es("GET", `/lessons?fromDate=${from}&toDate=${to}`) as any[];
-    const lessons = days
+    const allLessons = days
       .filter((d) => d.class?._id === link.es_class_id && d.date === day)
       .flatMap((d) => d.classLessons || [])
       .filter((l) => !subjectId || l.subject?._id === subjectId)
       .sort((a, b) => (a.period?.lessonHour ?? 0) - (b.period?.lessonHour ?? 0));
-    if (!lessons.length) {
+    if (!allLessons.length) {
       return save({ status: "no_lessons", message: `No ${subjectName ? `${subjectName} ` : ""}lesson for ${link.es_class_label} on ${day} in EduSchool.` });
+    }
+    let lessons = allLessons;
+    if (s.period != null) {
+      const weekday = new Date(`${day}T00:00:00Z`).getUTCDay();
+      const slots = must(await db.from("schedule_slots").select("kind, period, span").eq("class_id", s.class_id).eq("day", weekday)) as any[];
+      const hubParas = slots
+        .filter((x) => x.kind !== "blocked" && (x.kind === "office") === office)
+        .flatMap((x) => Array.from({ length: x.span }, (_, i) => x.period + i))
+        .sort((a, b) => a - b);
+      const i = hubParas.indexOf(s.period);
+      lessons = i >= 0 && hubParas.length === allLessons.length
+        ? [allLessons[i]]
+        : allLessons.filter((l) => l.period?.lessonHour === s.period);
+      if (!lessons.length) {
+        return save({ status: "no_lessons", message: `No ${subjectName ? `${subjectName} ` : ""}lesson for ${link.es_class_label} matches ${s.period}-para on ${day} in EduSchool.` });
+      }
     }
 
     const [members, marksRes, roster] = await Promise.all([
