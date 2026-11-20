@@ -1,6 +1,6 @@
 import {
   planMove, planResize, layoutDay, summarize, describeBlocks, freePeriods,
-  periodColumn, periodEnd, slotTime, nowMarker, registerKindsFor, defaultRegisterKind,
+  periodColumn, periodEnd, slotTime, nowMarker, dayParas, laterParas,
 } from './timetable';
 
 const s = (id, day, period, span = 1, extra = {}) => ({ id, day, period, span, kind: 'sat', class_id: 'c1', class_name: '11 SAT', ...extra });
@@ -120,23 +120,23 @@ describe('nowMarker', () => {
 });
 
 describe('registers', () => {
-  // Thursday (day 4) for 11 SAT: SAT 1-2, office hours 3 and 7.
+  // Thursday (day 4): 11 SAT double, office hours 3 and 7; IELTS double in another class.
   const week = [
     s('sat', 4, 1, 2), s('oh1', 4, 3, 1, { kind: 'office' }), s('oh2', 4, 7, 1, { kind: 'office' }),
-    s('ielts', 4, 4, 2, { kind: 'ielts', class_id: 'c2' }),
+    s('ielts', 4, 4, 2, { kind: 'ielts', class_id: 'c2', class_name: 'IELTS group' }),
+    s('pray', 4, 6, 1, { kind: 'blocked', class_id: null }), s('mon', 1, 1),
   ];
-  const thu = (h, m) => new Date(2026, 10, 19, h, m);
 
-  it('offers office hours only to classes that have them', () => {
-    expect(registerKindsFor(week, 'c1')).toEqual(['lesson', 'office']);
-    expect(registerKindsFor(week, 'c2')).toEqual(['lesson']);
+  it('splits blocks into paras', () => {
+    const paras = dayParas(week, 4);
+    expect(paras.map((p) => `${p.period}${p.kind[0]}`)).toEqual(['1l', '2l', '3o', '4l', '5l', '7o']);
+    expect(paras[1]).toMatchObject({ class_id: 'c1', label: 'SAT', start: '9:25', part: 2, span: 2 });
   });
 
-  it('starts with the block that is on now or next', () => {
-    expect(defaultRegisterKind(week, 'c1', ['lesson', 'office'], thu(8, 40))).toBe('lesson');
-    expect(defaultRegisterKind(week, 'c1', ['lesson', 'office'], thu(10, 15))).toBe('office');
-    expect(defaultRegisterKind(week, 'c1', ['lesson', 'office'], thu(13, 0))).toBe('office');
-    expect(defaultRegisterKind(week, 'c1', ['lesson'], thu(10, 30))).toBe('lesson');
-    expect(defaultRegisterKind(week, 'c1', [], thu(10, 30))).toBe(null);
+  it('copies only to later paras of the same class and type', () => {
+    const paras = dayParas(week, 4);
+    expect(laterParas(paras, paras[0]).map((p) => p.period)).toEqual([2]);
+    expect(laterParas(paras, paras[2]).map((p) => p.period)).toEqual([7]);
+    expect(laterParas(paras, paras[4])).toEqual([]);
   });
 });
