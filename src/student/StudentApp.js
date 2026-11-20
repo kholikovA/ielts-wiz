@@ -55,6 +55,7 @@ const HubStats = lazy(() => import('./Stats'));
 const Profile = lazy(() => import('./Profile'));
 const SatBank = lazy(() => import('./SatBank'));
 const IeltsBank = lazy(() => import('./ielts/IeltsBank'));
+const WordBank = lazy(() => import('./WordBank'));
 const BankTestRoute = lazy(() => import('./ielts/BankTestRoute'));
 const RevisionQuiz = lazy(() => import('./revision/RevisionQuiz'));
 const Messages = lazy(() => import('./chat/Messages'));
@@ -136,7 +137,7 @@ function teacherRoute(parts) {
   if (b === 'coins') return <CoinAdmin />;
   if (b === 'schedule') return <Schedule />;
   if (b === 'stats') return <HubStats />;
-  if (b === 'bank') return c === 'ielts' ? <IeltsBank /> : <SatBank />;
+  if (b === 'bank') return c === 'ielts' ? <IeltsBank /> : c === 'words' ? <WordBank /> : <SatBank />;
   if (c === 'new') return <NewAssignment key={window.location.search} />;
   if (c && d === 'edit') return <NewAssignment key={`edit-${c}`} editId={c} />;
   return c ? <AssignmentDetail id={c} /> : <Assignments />;

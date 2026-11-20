@@ -1,7 +1,9 @@
 // =============================================================================
 // vocab-enrich — Claude drafts study material for flashcards (teachers only).
 //
-//   POST { items: [{ f, b? }] }   (at most 30 per call)
+//   POST { items: [{ f, b?, ctx? }] }   (at most 30 per call)
+//   ctx    optional sentence where students meet the item (Question bank → Words):
+//          the meaning and examples then follow that sense
 //   -> { items: [{ f, b, ex, gap, ans, forms, coll }] } in the same order
 //
 //   b      learner-friendly meaning (the teacher's own meaning is kept)
@@ -42,6 +44,7 @@ const SYSTEM = `You write vocabulary study material for IELTS learners (B1-C1) w
 
 For each item (a word or a multi-word chunk such as "pose a threat") return:
 - "f": the item exactly as given.
+If an item has "ctx" (a sentence from a test where students meet it), "b" must be the meaning the item has in that sentence, and "ex", "gap" and "forms" must use that same sense (still a new sentence, not ctx itself).
 - "b": a short, learner-friendly meaning (max 12 words). If the teacher gave a meaning, keep it unless it is wrong.
 - "ex": one natural example sentence (12-22 words) on an IELTS-type topic (education, environment, technology, health, work, society...), using the item in its most useful sense.
 - "gap": the same sentence with the item (in the exact form used) replaced by ${BLANK}. "ans": the exact text you removed.
@@ -95,9 +98,13 @@ async function handle(req: Request): Promise<Response> {
   const { data: isTeacher } = await admin.rpc("is_teacher_user", { uid: user.id });
   if (!isTeacher) return fail(403, "Teachers only.");
 
-  let body: { items?: { f: string; b?: string }[] };
+  let body: { items?: { f: string; b?: string; ctx?: string }[] };
   try { body = await req.json(); } catch { return fail(400, "Bad request."); }
-  const items = (body.items ?? []).filter((x) => x && typeof x.f === "string" && x.f.trim()).map((x) => ({ f: x.f.trim().slice(0, 80), b: (x.b ?? "").trim().slice(0, 200) }));
+  const items = (body.items ?? []).filter((x) => x && typeof x.f === "string" && x.f.trim()).map((x) => {
+    const it: { f: string; b: string; ctx?: string } = { f: x.f.trim().slice(0, 80), b: (x.b ?? "").trim().slice(0, 200) };
+    if (typeof x.ctx === "string" && x.ctx.trim()) it.ctx = x.ctx.trim().slice(0, 400);
+    return it;
+  });
   if (!items.length) return fail(400, "No words to work on.");
   if (items.length > MAX_ITEMS) return fail(400, `At most ${MAX_ITEMS} words at a time.`);
 

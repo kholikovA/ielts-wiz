@@ -17,7 +17,7 @@ import {
 
 // SAT / IELTS switch shown at the top of both question bank pages.
 export function BankTabs({ active }) {
-  const tabs = [{ key: 'sat', label: 'SAT', to: '/teach/bank' }, { key: 'ielts', label: 'IELTS', to: '/teach/bank/ielts' }];
+  const tabs = [{ key: 'sat', label: 'SAT', to: '/teach/bank' }, { key: 'ielts', label: 'IELTS', to: '/teach/bank/ielts' }, { key: 'words', label: 'Words', to: '/teach/bank/words' }];
   return (
     <nav className="hub-seg bank-tabs" aria-label="Question bank">
       {tabs.map((t) => (
