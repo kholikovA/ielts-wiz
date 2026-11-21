@@ -14,6 +14,7 @@ import {
 } from './ui';
 import { ResultsSummary, RecentAttempts, SrsStatsBlock, AttendanceHistory } from './StudentPages';
 import { GiveCoins } from './CoinAdmin';
+import { CoinHistory } from './Dashboard';
 import { confirmDialog, promptDialog, alertDialog, chooseDialog } from './dialog';
 import { messageUser } from './chat/store';
 import { ProofFiles } from './TaskProof';
@@ -386,6 +387,7 @@ const Streak = ({ n }) => (n == null ? '–' : (
 
 export function StudentDetail({ id }) {
   const { user, viewAsStudent, go } = useHub();
+  const [coinsVersion, setCoinsVersion] = useState(0);
   const message = () => messageUser(id, go).catch((e) => alertDialog({ title: 'Could not open the chat', body: e.message }));
   const state = useAsync(async () => {
     const [profile, results, homework, summary] = await Promise.all([
@@ -425,7 +427,7 @@ export function StudentDetail({ id }) {
             </div>
             {d.summary && (
               <div className="hub-stats" style={{ marginBottom: 12 }}>
-                <div className="card hub-stat"><small><Coin /> Coins</small><strong>{d.summary.balance}</strong><span>{d.summary.week.reduce((t, x) => t + x.coins, 0)} this week</span></div>
+                <a href="#coin-history" className="card card-interactive hub-stat" onClick={(e) => { e.preventDefault(); document.getElementById('coin-history')?.scrollIntoView({ behavior: 'smooth' }); }}><small><Coin /> Coins</small><strong>{d.summary.balance}</strong><span>{d.summary.week.reduce((t, x) => t + x.coins, 0)} this week</span></a>
                 <div className="card hub-stat"><small>Attendance streak</small><strong>{d.summary.attendance_streak}</strong><span>{d.summary.attendance?.attended || 0}/{d.summary.attendance?.sessions || 0} classes</span></div>
                 <div className="card hub-stat"><small>Homework streak</small><strong>{d.summary.homework_streak}</strong><span>on time in a row</span></div>
               </div>
@@ -451,7 +453,11 @@ export function StudentDetail({ id }) {
             </section>
             <section className="hub-section">
               <h2 className="h3">Give or take coins</h2>
-              <GiveCoins students={[d.profile]} fixed={[d.profile]} onDone={state.reload} />
+              <GiveCoins students={[d.profile]} fixed={[d.profile]} onDone={() => { state.reload(); setCoinsVersion((v) => v + 1); }} />
+            </section>
+            <section className="hub-section" id="coin-history">
+              <h2 className="h3">Coin history</h2>
+              <CoinHistory uid={id} version={coinsVersion} empty={<p className="body">No coins yet.</p>} />
             </section>
             <section className="hub-section"><h2 className="h3">Attendance</h2><AttendanceHistory uid={id} /></section>
             <section className="hub-section"><h2 className="h3">Flashcards</h2><SrsStatsBlock uid={id} /></section>
