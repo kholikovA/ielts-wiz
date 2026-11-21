@@ -113,8 +113,8 @@ button.tp-th:hover, .tp-th.is-sorted { color: var(--h-text); }
   gap: 12px;
   padding: 10px 16px;
 }
-.tp-sub.is-open .tp-sub-row { border-bottom: 1px solid var(--h-border); background: var(--h-surface-2); }
-.tp-sub > :not(.tp-sub-row) { padding: 16px; }
+.tp-sub.is-open { border-color: var(--h-accent); box-shadow: 0 0 0 1px var(--h-accent); }
+.tp-sub.is-open .tp-sub-row { background: var(--h-surface-2); }
 .tp-sub-who { min-width: 0; }
 .tp-sub-note { font-size: 12px; color: var(--h-text-3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .tp-sub-score { display: flex; align-items: center; font-size: 13px; }
@@ -128,12 +128,35 @@ button.tp-th:hover, .tp-th.is-sorted { color: var(--h-text); }
 .tp-sub-actions .btn { margin-right: 4px; min-width: 64px; justify-content: center; }
 .tp-sub-actions .hub-icon-btn { width: 30px; height: 30px; }
 
-@media (max-width: 760px) {
+/* Rows follow the list's own width, which shrinks while the review pane is open. */
+.tp-subs { container-type: inline-size; }
+@container (max-width: 700px) {
   .tp-sub-row { grid-template-columns: minmax(0, 1fr) auto; row-gap: 6px; }
   .tp-sub-note { display: none; }
   .tp-sub-score { grid-column: 1; }
   .tp-sub-status { grid-column: 2; grid-row: 1; justify-content: flex-end; }
   .tp-sub-actions { grid-column: 2; grid-row: 2; }
+}
+
+/* Review pane: the window splits, list on the left, submission on the right. */
+.hub { --tp-pane-w: clamp(440px, 50vw, 960px); }
+.tp-pane {
+  position: fixed; top: 0; right: 0; bottom: 0; z-index: 35; width: var(--tp-pane-w);
+  display: flex; flex-direction: column; background: var(--h-bg);
+  border-left: 1px solid var(--h-border); box-shadow: -12px 0 32px -24px rgba(0, 0, 0, 0.35);
+}
+.tp-pane-head {
+  flex: none; display: flex; align-items: center; gap: 10px; min-height: 56px; padding: 8px 12px 8px 20px;
+  border-bottom: 1px solid var(--h-border); background: var(--h-surface);
+}
+.tp-pane-who { min-width: 0; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tp-pane-body { flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain; padding: 20px; }
+@media (min-width: 901px) {
+  .hub:has(.tp-pane) .hub-main { margin-right: var(--tp-pane-w); }
+}
+@media (max-width: 900px) {
+  .tp-pane { left: 0; width: auto; border-left: 0; box-shadow: none; }
+  .tp-pane-body { padding: 16px; }
 }
 
 /* ── Attendance ─────────────────────────────────────────────────────────── */

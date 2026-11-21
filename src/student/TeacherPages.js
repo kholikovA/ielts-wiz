@@ -1240,6 +1240,26 @@ function rowNote(a, { sub, attempts }) {
   return null;
 }
 
+// A student's submission opens in a pane on the right half of the window; the
+// students list stays usable on the left (full-screen sheet on phones).
+function ReviewPane({ student, status, onClose, children }) {
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape' && !document.querySelector('[role="dialog"], [role="alertdialog"]')) onClose(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
+  return (
+    <aside className="tp-pane" aria-label={`${student.name || 'Student'}'s submission`}>
+      <header className="tp-pane-head">
+        <HubLink to={`/teach/students/${student.id}`} className="tp-pane-who hub-plain"><PersonName person={student} /></HubLink>
+        <StatusPill status={status} />
+        <button type="button" className="hub-icon-btn" style={{ marginLeft: 'auto' }} title="Close (Esc)" aria-label="Close" onClick={onClose}><Icon name="close" size={18} /></button>
+      </header>
+      <div className="tp-pane-body">{children}</div>
+    </aside>
+  );
+}
+
 const scoreTone = (p, pass) => (p >= (pass || 80) ? 'tp-good' : p >= 50 ? 'tp-mid' : 'tp-low');
 
 export function AssignmentDetail({ id }) {
@@ -1424,7 +1444,6 @@ export function AssignmentDetail({ id }) {
                     {shown.map((row) => {
                       const { student, sub, status, canReview, needsReview, score, note } = row;
                       const isOpen = open === student.id;
-                      const close = () => { setOpen(null); state.reload(); };
                       return (
                         <div key={student.id} className={`card tp-sub${isOpen ? ' is-open' : ''}`}>
                           <div className="tp-sub-row">
@@ -1466,18 +1485,26 @@ export function AssignmentDetail({ id }) {
                               )}
                             </span>
                           </div>
-                          {isOpen && canReview && a.kind === 'quiz' && (
-                            <React.Suspense fallback={<Spinner />}><QuizReview a={a} sub={sub} onDone={close} /></React.Suspense>
-                          )}
-                          {isOpen && canReview && a.kind !== 'quiz' && (a.kind === 'writing'
-                            ? <React.Suspense fallback={<Spinner />}><WritingReview a={a} sub={sub} onDone={close} /></React.Suspense>
-                            : <ReviewPanel a={a} sub={sub} onDone={close} />)}
                         </div>
                       );
                     })}
                     {!shown.length && <p className="tp-none">Nobody here.</p>}
                   </div>
                 ) : <p className="body">Nobody is assigned yet. Students who join the class while it's open will get it.</p>}
+                {(() => {
+                  const row = rows.find((r) => r.student.id === open && r.canReview);
+                  if (!row) return null;
+                  const done = () => { setOpen(null); state.reload(); };
+                  return (
+                    <ReviewPane key={row.student.id} student={row.student} status={row.needsReview ? 'submitted' : row.status} onClose={() => setOpen(null)}>
+                      {a.kind === 'quiz'
+                        ? <React.Suspense fallback={<Spinner />}><QuizReview a={a} sub={row.sub} onDone={done} /></React.Suspense>
+                        : a.kind === 'writing'
+                          ? <React.Suspense fallback={<Spinner />}><WritingReview a={a} sub={row.sub} onDone={done} /></React.Suspense>
+                          : <ReviewPanel a={a} sub={row.sub} onDone={done} />}
+                    </ReviewPane>
+                  );
+                })()}
               </section>
             </>
           );
