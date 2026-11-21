@@ -385,9 +385,29 @@ const Streak = ({ n }) => (n == null ? '–' : (
   <span className={`tp-streak${n >= 3 ? ' is-hot' : n === 0 ? ' is-zero' : ''}`}>{n >= 3 && <Icon name="flame" size={12} />}{n}</span>
 ));
 
+// A student's coin history in the right-hand pane (full-screen sheet on phones).
+function CoinsPane({ student, balance, onClose, children }) {
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape' && !document.querySelector('[role="dialog"], [role="alertdialog"]')) onClose(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
+  return (
+    <aside className="tp-pane tp-pane--narrow" aria-label={`${student.name || 'Student'}'s coin history`}>
+      <header className="tp-pane-head">
+        <strong className="tp-pane-who" style={{ display: 'flex', alignItems: 'center', gap: 8 }}><Coin /> Coin history</strong>
+        {balance != null && <span className="pill">{balance} coins</span>}
+        <button type="button" className="hub-icon-btn" style={{ marginLeft: 'auto' }} title="Close (Esc)" aria-label="Close" onClick={onClose}><Icon name="close" size={18} /></button>
+      </header>
+      <div className="tp-pane-body">{children}</div>
+    </aside>
+  );
+}
+
 export function StudentDetail({ id }) {
   const { user, viewAsStudent, go } = useHub();
   const [coinsVersion, setCoinsVersion] = useState(0);
+  const [coinsOpen, setCoinsOpen] = useState(false);
   const message = () => messageUser(id, go).catch((e) => alertDialog({ title: 'Could not open the chat', body: e.message }));
   const state = useAsync(async () => {
     const [profile, results, homework, summary] = await Promise.all([
@@ -427,7 +447,7 @@ export function StudentDetail({ id }) {
             </div>
             {d.summary && (
               <div className="hub-stats" style={{ marginBottom: 12 }}>
-                <a href="#coin-history" className="card card-interactive hub-stat" onClick={(e) => { e.preventDefault(); document.getElementById('coin-history')?.scrollIntoView({ behavior: 'smooth' }); }}><small><Coin /> Coins</small><strong>{d.summary.balance}</strong><span>{d.summary.week.reduce((t, x) => t + x.coins, 0)} this week</span></a>
+                <button type="button" className="card card-interactive hub-stat tp-stat-btn" aria-expanded={coinsOpen} onClick={() => setCoinsOpen(true)}><small><Coin /> Coins <Icon name="chevronRight" size={12} /></small><strong>{d.summary.balance}</strong><span>{d.summary.week.reduce((t, x) => t + x.coins, 0)} this week · see history</span></button>
                 <div className="card hub-stat"><small>Attendance streak</small><strong>{d.summary.attendance_streak}</strong><span>{d.summary.attendance?.attended || 0}/{d.summary.attendance?.sessions || 0} classes</span></div>
                 <div className="card hub-stat"><small>Homework streak</small><strong>{d.summary.homework_streak}</strong><span>on time in a row</span></div>
               </div>
@@ -455,14 +475,15 @@ export function StudentDetail({ id }) {
               <h2 className="h3">Give or take coins</h2>
               <GiveCoins students={[d.profile]} fixed={[d.profile]} onDone={() => { state.reload(); setCoinsVersion((v) => v + 1); }} />
             </section>
-            <section className="hub-section" id="coin-history">
-              <h2 className="h3">Coin history</h2>
-              <CoinHistory uid={id} version={coinsVersion} empty={<p className="body">No coins yet.</p>} />
-            </section>
             <section className="hub-section"><h2 className="h3">Attendance</h2><AttendanceHistory uid={id} /></section>
             <section className="hub-section"><h2 className="h3">Flashcards</h2><SrsStatsBlock uid={id} /></section>
             <section className="hub-section"><h2 className="h3">Scores by section</h2><ResultsSummary results={d.results} /></section>
             <section className="hub-section"><h2 className="h3">Recent attempts</h2><RecentAttempts results={d.results} limit={15} /></section>
+            {coinsOpen && (
+              <CoinsPane student={d.profile} balance={d.summary?.balance} onClose={() => setCoinsOpen(false)}>
+                <CoinHistory uid={id} version={coinsVersion} empty={<p className="body">No coins yet.</p>} />
+              </CoinsPane>
+            )}
           </>
         ) : <EmptyPanel icon="xCircle" title="Student not found" lead="They may have left your classes." />}
       </Loaded>

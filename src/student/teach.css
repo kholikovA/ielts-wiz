@@ -140,6 +140,8 @@ button.tp-th:hover, .tp-th.is-sorted { color: var(--h-text); }
 
 /* Review pane: the window splits, list on the left, submission on the right. */
 .hub { --tp-pane-w: clamp(440px, 50vw, 960px); }
+.hub:has(.tp-pane--narrow) { --tp-pane-w: clamp(360px, 32vw, 520px); }
+.tp-stat-btn { font: inherit; text-align: left; cursor: pointer; }
 .tp-pane {
   position: fixed; top: 0; right: 0; bottom: 0; z-index: 35; width: var(--tp-pane-w);
   display: flex; flex-direction: column; background: var(--h-bg);
