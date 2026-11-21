@@ -320,11 +320,54 @@ export function EarnTable({ rules }) {
   );
 }
 
+// A student's coin history grouped by day. Used on the student's Coins page and
+// on the teacher's student page. `version` lets a parent force a reload.
+export function CoinHistory({ uid, version = 0, empty }) {
+  const history = useAsync(() => api.coinHistory(uid), [uid, version]);
+  return (
+    <Loaded state={history}>
+      {(rows) => {
+        if (!rows.length) return empty || <EmptyPanel icon="coin" title="No coins yet" lead="Finish today's homework or play a word game to earn your first coins." />;
+        const days = [];
+        rows.forEach((t) => {
+          const last = days[days.length - 1];
+          if (last && last.day === t.day) last.rows.push(t);
+          else days.push({ day: t.day, rows: [t] });
+        });
+        return (
+          <div className="hub-list">
+            {days.map((d) => {
+              const total = d.rows.reduce((sum, r) => sum + r.amount, 0);
+              return (
+                <React.Fragment key={d.day}>
+                  <div className="hub-day-label">
+                    {new Date(`${d.day}T12:00:00`).toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })}
+                    <span style={{ float: 'right' }} className="hub-num">{total >= 0 ? '+' : ''}{total}</span>
+                  </div>
+                  {d.rows.map((t) => (
+                    <div key={t.id} className="hub-row" style={{ borderBottom: '1px solid var(--h-border)' }}>
+                      <div className="hub-row-main">
+                        <span>{t.label}</span>
+                        <small>{new Date(t.created_at).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })}</small>
+                      </div>
+                      <SourceTag source={t.source} />
+                      <span className={`hub-amount${t.amount < 0 ? ' is-neg' : ''}`}>{t.amount > 0 ? '+' : ''}{t.amount}</span>
+                    </div>
+                  ))}
+                </React.Fragment>
+              );
+            })}
+          </div>
+        );
+      }}
+    </Loaded>
+  );
+}
+
 export function CoinsPage({ studentId }) {
   const { user } = useHub();
   const uid = studentId || user.id;
   const summary = useAsync(() => api.hubSummary(studentId || null), [uid]);
-  const history = useAsync(() => api.coinHistory(uid), [uid]);
   const rules = useAsync(api.rewardRules, []);
 
   return (
@@ -339,42 +382,7 @@ export function CoinsPage({ studentId }) {
               </div>
             )}
           </Loaded>
-          <Loaded state={history}>
-            {(rows) => {
-              if (!rows.length) return <EmptyPanel icon="coin" title="No coins yet" lead="Finish today's homework or play a word game to earn your first coins." />;
-              const days = [];
-              rows.forEach((t) => {
-                const last = days[days.length - 1];
-                if (last && last.day === t.day) last.rows.push(t);
-                else days.push({ day: t.day, rows: [t] });
-              });
-              return (
-                <div className="hub-list">
-                  {days.map((d) => {
-                    const total = d.rows.reduce((sum, r) => sum + r.amount, 0);
-                    return (
-                      <React.Fragment key={d.day}>
-                        <div className="hub-day-label">
-                          {new Date(`${d.day}T12:00:00`).toLocaleDateString(undefined, { weekday: 'short', day: 'numeric', month: 'short' })}
-                          <span style={{ float: 'right' }} className="hub-num">{total >= 0 ? '+' : ''}{total}</span>
-                        </div>
-                        {d.rows.map((t) => (
-                          <div key={t.id} className="hub-row" style={{ borderBottom: '1px solid var(--h-border)' }}>
-                            <div className="hub-row-main">
-                              <span>{t.label}</span>
-                              <small>{new Date(t.created_at).toLocaleTimeString(undefined, { hour: '2-digit', minute: '2-digit' })}</small>
-                            </div>
-                            <SourceTag source={t.source} />
-                            <span className={`hub-amount${t.amount < 0 ? ' is-neg' : ''}`}>{t.amount > 0 ? '+' : ''}{t.amount}</span>
-                          </div>
-                        ))}
-                      </React.Fragment>
-                    );
-                  })}
-                </div>
-              );
-            }}
-          </Loaded>
+          <CoinHistory uid={uid} />
         </section>
         <aside>
           <h2 className="h3" style={{ marginBottom: 12 }}>How coins work</h2>
